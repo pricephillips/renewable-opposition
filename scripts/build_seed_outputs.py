@@ -1,130 +1,70 @@
-"""build_seed_outputs.py
-
-Reads data/seed/sabin_seed_examples.csv, splits by entity_type,
-normalizes each subset, and writes CSV + JSON to data/processed/.
-
-Usage:
-    python scripts/build_seed_outputs.py
-
-Outputs:
-    data/processed/restrictions.csv / restrictions.json
-    data/processed/contested_projects.csv / contested_projects.json
-    data/processed/cases.csv / cases.json
-"""
-
-import json
-import sys
+from __future__ import annotations
+import csv, json
 from pathlib import Path
 
-import pandas as pd
-from dateutil.parser import parse as parse_date
+ROOT = Path('.')
+SEED = ROOT / 'data' / 'seed'
+PROCESSED = ROOT / 'data' / 'processed'
+PROCESSED.mkdir(parents=True, exist_ok=True)
 
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
-ROOT = Path(__file__).resolve().parent.parent
-SEED = ROOT / "data" / "seed" / "sabin_seed_examples.csv"
-OUT  = ROOT / "data" / "processed"
-OUT.mkdir(parents=True, exist_ok=True)
-
-# ---------------------------------------------------------------------------
-# Column subsets per entity type (stable order, no extras)
-# ---------------------------------------------------------------------------
-COLS = {
-    "restriction": [
-        "state", "county", "municipality", "jurisdiction_type",
-        "technology", "restriction_type",
-        "severity_score", "adopted_date", "effective_date",
-        "description", "source_url",
-    ],
-    "contested_project": [
-        "state", "county", "municipality", "jurisdiction_type",
-        "project_name", "developer", "technology", "capacity_mw",
-        "severity_score", "first_event_date", "opposition_type",
-        "description", "source_url",
-    ],
-    "case": [
-        "state", "county", "municipality", "jurisdiction_type",
-        "project_name", "technology", "court_level",
-        "severity_score", "filing_date",
-        "description", "source_url",
-    ],
+FILES = {
+    'restrictions_seed.csv': 'restrictions.json',
+    'contested_projects_seed.csv': 'contested_projects.json',
+    'cases_seed.csv': 'cases.json',
 }
 
-DATE_COLS = {
-    "restriction":        ["adopted_date", "effective_date"],
-    "contested_project":  ["first_event_date"],
-    "case":               ["filing_date"],
+REQUIRED = {
+    'restrictions_seed.csv': ['state','technology','restriction_type','severity_score','description'],
+    'contested_projects_seed.csv': ['state','project_name','technology','severity_score','description'],
+    'cases_seed.csv': ['state','project_name','technology','court_level','severity_score','description'],
 }
 
-OUT_NAME = {
-    "restriction":       "restrictions",
-    "contested_project": "contested_projects",
-    "case":              "cases",
-}
+INT_FIELDS = {'severity_score'}
 
 
-def normalize_date(val: str) -> str:
-    """Return ISO YYYY-MM-DD string or empty string."""
-    if not val or str(val).strip() == "":
-        return ""
-    try:
-        return parse_date(str(val).strip()).strftime("%Y-%m-%d")
-    except Exception:
-        return ""
+def clean(v: str):
+    v = (v or '').strip()
+    return v if v else None
 
 
-def normalize(df: pd.DataFrame, entity: str) -> pd.DataFrame:
-    # Strip whitespace from all string columns
-    str_cols = df.select_dtypes(include="object").columns
-    df[str_cols] = df[str_cols].apply(lambda c: c.str.strip())
-
-    # Parse dates
-    for col in DATE_COLS[entity]:
-        if col in df.columns:
-            df[col] = df[col].apply(normalize_date)
-
-    # Select and reorder columns; add missing ones as empty string
-    cols = COLS[entity]
-    for c in cols:
-        if c not in df.columns:
-            df[c] = ""
-    return df[cols].copy()
+def normalize_row(row: dict[str, str]) -> dict:
+    out = {}
+    for k, v in row.items():
+        key = k.strip()
+        val = clean(v)
+        if key in INT_FIELDS and val is not None:
+            try:
+                val = int(val)
+            except ValueError:
+                pass
+        out[key] = val
+    return out
 
 
-def write(df: pd.DataFrame, stem: str) -> None:
-    csv_path  = OUT / f"{stem}.csv"
-    json_path = OUT / f"{stem}.json"
-
-    df.to_csv(csv_path, index=False)
-
-    # Replace NaN with empty string so JSON is clean
-    records = df.fillna("").to_dict(orient="records")
-    json_path.write_text(json.dumps(records, indent=2))
-
-    print(f"  {stem}: {len(df)} rows → {csv_path.name}, {json_path.name}")
+def validate(rows: list[dict], required: list[str], filename: str):
+    errors = []
+    for i, row in enumerate(rows, start=2):
+        missing = [f for f in required if row.get(f) in (None, '')]
+        if missing:
+            errors.append(f'{filename}: row {i} missing required fields: {", ".join(missing)}')
+    if errors:
+        raise SystemExit('\n'.join(errors))
 
 
-def main() -> None:
-    if not SEED.exists():
-        print(f"ERROR: seed file not found: {SEED}", file=sys.stderr)
-        sys.exit(1)
-
-    raw = pd.read_csv(SEED, dtype=str).fillna("")
-    raw.columns = raw.columns.str.strip()
-
-    print(f"Loaded {len(raw)} seed rows from {SEED.name}")
-
-    for entity, stem in OUT_NAME.items():
-        subset = raw[raw["entity_type"].str.strip() == entity].copy()
-        if subset.empty:
-            print(f"  {stem}: 0 rows (skipped)")
-            continue
-        normalized = normalize(subset.reset_index(drop=True), entity)
-        write(normalized, stem)
-
-    print("Done.")
+def convert(seed_name: str, out_name: str):
+    src = SEED / seed_name
+    dst = PROCESSED / out_name
+    if not src.exists():
+        print(f'Skipping missing {src}')
+        return
+    with src.open(newline='', encoding='utf-8-sig') as f:
+        rows = [normalize_row(r) for r in csv.DictReader(f)]
+    validate(rows, REQUIRED[seed_name], seed_name)
+    with dst.open('w', encoding='utf-8') as f:
+        json.dump(rows, f, ensure_ascii=False, indent=2)
+    print(f'Wrote {dst} ({len(rows)} records)')
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    for seed_name, out_name in FILES.items():
+        convert(seed_name, out_name)
