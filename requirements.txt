@@ -1,15 +1,2 @@
-# Core data processing
 pandas>=2.0
 python-dateutil>=2.8
-
-# Crawler layer
-requests>=2.31
-PyYAML>=6.0
-
-# Future layers (uncomment when needed):
-# playwright>=1.40      # js_render sources
-# beautifulsoup4>=4.12  # HTML parsing
-# lxml>=5.0             # fast HTML/XML parser
-# pdfplumber>=0.10      # PDF table extraction
-# pypdf>=4.0            # PDF text extraction (lighter alternative)
-# tqdm>=4.66            # progress bars for batch fetches
