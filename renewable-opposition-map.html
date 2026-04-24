@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Renewable Opposition Dashboard</title>
+  <meta name="description" content="Prototype dashboard for local opposition to renewable energy facilities in the United States." />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2rem);
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --color-bg: #f7f6f2;
+      --color-surface: #f9f8f5;
+      --color-surface-2: #fbfbf9;
+      --color-surface-offset: #edeae5;
+      --color-border: #d4d1ca;
+      --color-divider: #dcd9d5;
+      --color-text: #28251d;
+      --color-text-muted: #6f6c66;
+      --color-text-faint: #9b9892;
+      --color-text-inverse: #f9f8f4;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-warning: #964219;
+      --color-blue: #006494;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --shadow-sm: 0 1px 2px rgba(40,37,29,0.06);
+      --shadow-md: 0 8px 24px rgba(40,37,29,0.08);
+      --font-body: 'Satoshi', Inter, system-ui, sans-serif;
+      --font-display: 'Satoshi', Inter, system-ui, sans-serif;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --color-bg: #171614;
+      --color-surface: #1c1b19;
+      --color-surface-2: #201f1d;
+      --color-surface-offset: #2a2825;
+      --color-border: #393836;
+      --color-divider: #2a2927;
+      --color-text: #e4e1db;
+      --color-text-muted: #aaa69f;
+      --color-text-faint: #7c7973;
+      --color-text-inverse: #171614;
+      --color-primary: #4f98a3;
+      --color-primary-hover: #68aab4;
+      --color-warning: #d58a67;
+      --color-blue: #76abd0;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-md: 0 12px 32px rgba(0,0,0,0.32);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --color-bg: #171614;
+        --color-surface: #1c1b19;
+        --color-surface-2: #201f1d;
+        --color-surface-offset: #2a2825;
+        --color-border: #393836;
+        --color-divider: #2a2927;
+        --color-text: #e4e1db;
+        --color-text-muted: #aaa69f;
+        --color-text-faint: #7c7973;
+        --color-text-inverse: #171614;
+        --color-primary: #4f98a3;
+        --color-primary-hover: #68aab4;
+        --color-warning: #d58a67;
+        --color-blue: #76abd0;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+        --shadow-md: 0 12px 32px rgba(0,0,0,0.32);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: none;
+      text-size-adjust: none;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.55;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+
+    button, select, input {
+      font: inherit;
+      color: inherit;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-2);
+      border-radius: var(--radius-md);
+      transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+    }
+
+    button {
+      cursor: pointer;
+      min-height: 44px;
+      padding: 0.65rem 0.9rem;
+    }
+
+    select, input {
+      min-height: 44px;
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+    }
+
+    button:hover, select:hover, input:hover { border-color: var(--color-text-faint); }
+
+    button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    .topbar-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: var(--space-4);
+    }
+
+    .brand {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      padding: 7px;
+      border-radius: 10px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      color: var(--color-primary);
+      flex: 0 0 auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0.3rem 0 0;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      max-width: 72ch;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .theme-toggle, .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      background: var(--color-surface);
+    }
+
+    .app-shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: var(--space-4);
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+
+    .metric-card, .panel, .detail-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metric-card {
+      padding: var(--space-4);
+      min-height: 120px;
+    }
+
+    .metric-label {
+      margin: 0 0 var(--space-2);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .metric-value {
+      margin: 0;
+      font-size: clamp(2rem, 1.6rem + 1vw, 2.8rem);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-context {
+      margin: var(--space-2) 0 0;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .filters-panel {
+      padding: var(--space-4);
+    }
+
+    .section-title {
+      margin: 0 0 var(--space-3);
+      font-size: var(--text-lg);
+      line-height: 1.2;
+    }
+
+    .switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .switch-btn {
+      background: var(--color-surface-2);
+      color: var(--color-text);
+    }
+
+    .switch-btn.active {
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      border-color: var(--color-primary);
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-3);
+      align-items: end;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.9fr);
+      gap: var(--space-4);
+      align-items: start;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    .panel-title-wrap h2, .panel-title-wrap h3 {
+      margin: 0;
+      font-size: var(--text-lg);
+      line-height: 1.15;
+    }
+
+    .panel-subtitle {
+      margin: 0.35rem 0 0;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0.12rem 0.55rem;
+      border-radius: 999px;
+      background: var(--color-surface-offset);
+      border: 1px solid var(--color-border);
+      font-size: var(--text-xs);
+      white-space: nowrap;
+    }
+
+    .record-list {
+      display: grid;
+      gap: var(--space-2);
+      padding: var(--space-4);
+    }
+
+    .record-item {
+      width: 100%;
+      text-align: left;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-divider);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3);
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .record-item:hover {
+      border-color: var(--color-text-faint);
+      background: color-mix(in srgb, var(--color-primary) 3%, var(--color-surface-2));
+    }
+
+    .record-item.active {
+      border-color: var(--color-primary);
+      background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface-2));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 28%, transparent);
+    }
+
+    .record-title {
+      margin: 0;
+      font-size: var(--text-base);
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .record-meta {
+      margin: 0;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .record-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .record-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      background: var(--color-surface-offset);
+      border: 1px solid var(--color-border);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    .empty-state, .detail-empty {
+      padding: var(--space-4);
+      color: var(--color-text-muted);
+    }
+
+    .detail-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .detail-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--color-divider);
+      background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+    }
+
+    .detail-header h3 {
+      margin: 0;
+      font-size: var(--text-lg);
+      line-height: 1.15;
+    }
+
+    .detail-kicker {
+      margin: 0 0 0.45rem;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .detail-body {
+      padding: var(--space-4);
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .kv {
+      padding: var(--space-3);
+      border: 1px solid var(--color-divider);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-2);
+    }
+
+    .kv-label {
+      margin: 0 0 0.25rem;
+      font-size: var(--text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+    }
+
+    .kv-value {
+      margin: 0;
+      font-size: var(--text-sm);
+    }
+
+    .detail-text-block {
+      padding: var(--space-3);
+      border: 1px solid var(--color-divider);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface-2);
+    }
+
+    .detail-text-block h4 {
+      margin: 0 0 0.5rem;
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .detail-text-block p {
+      margin: 0;
+    }
+
+    .sources-list {
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .source-item {
+      padding: var(--space-3);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-divider);
+      background: var(--color-surface-2);
+    }
+
+    .source-title {
+      margin: 0 0 0.25rem;
+      font-weight: 600;
+      font-size: var(--text-sm);
+    }
+
+    .source-meta {
+      margin: 0 0 0.35rem;
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+    }
+
+    .source-link {
+      word-break: break-word;
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+    }
+
+    @media (max-width: 1120px) {
+      .filters-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .main-grid { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner, .brand, .top-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filters-grid, .detail-grid, .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .app-shell {
+        padding: var(--space-3);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="Renewable Opposition dashboard logo">
+          <path d="M12 48V16h12v32" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M30 48V8h12v40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M48 48V24h4" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 48h48" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1>Renewable Opposition Dashboard</h1>
+          <p class="subtitle">Standalone dashboard for restrictions, contested projects, and cases. Filter records, review the current result set, and inspect source-linked detail.</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="refresh-btn" id="refreshBtn" type="button">Refresh data</button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">
+          <span id="themeIcon" aria-hidden="true">◐</span>
+          <span class="sr-only">Toggle color theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="metrics" aria-label="Dashboard summary metrics">
+      <article class="metric-card">
+        <p class="metric-label">Visible records</p>
+        <p class="metric-value" id="metricVisible">0</p>
+        <p class="metric-context">Current filtered result set.</p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Records with sources</p>
+        <p class="metric-value" id="metricCoords">0</p>
+        <p class="metric-context">Records with at least one source URL.</p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">Scored records</p>
+        <p class="metric-value" id="metricCentroids">0</p>
+        <p class="metric-context">Records with a severity score.</p>
+      </article>
+      <article class="metric-card">
+        <p class="metric-label">States shown</p>
+        <p class="metric-value" id="metricStates">0</p>
+        <p class="metric-context">Distinct states in the current view.</p>
+      </article>
+    </section>
+
+    <section class="panel filters-panel">
+      <h2 class="section-title">Dashboard controls</h2>
+      <div class="switcher" aria-label="Entity type switcher">
+        <button class="switch-btn active" type="button" data-view="restrictions">Restrictions</button>
+        <button class="switch-btn" type="button" data-view="contested_projects">Contested projects</button>
+        <button class="switch-btn" type="button" data-view="cases">Cases</button>
+      </div>
+      <div class="filters-grid">
+        <div class="field">
+          <label for="stateFilter">State</label>
+          <select id="stateFilter"><option value="">All states</option></select>
+        </div>
+        <div class="field" id="technologyField">
+          <label for="technologyFilter">Technology</label>
+          <select id="technologyFilter"><option value="">All technologies</option></select>
+        </div>
+        <div class="field" id="typeField">
+          <label for="typeFilter">Type</label>
+          <select id="typeFilter"><option value="">All types</option></select>
+        </div>
+        <div class="field" id="severityField">
+          <label for="severityFilter">Severity</label>
+          <select id="severityFilter">
+            <option value="">All severities</option>
+            <option value="1">Severity 1</option>
+            <option value="2">Severity 2</option>
+            <option value="3">Severity 3</option>
+            <option value="4">Severity 4</option>
+            <option value="3-4">Severity 3–4</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="searchFilter">Search</label>
+          <input id="searchFilter" type="text" placeholder="Project, county, keyword…" />
+        </div>
+      </div>
+    </section>
+
+    <section class="main-grid">
+      <section class="panel" aria-labelledby="listHeading">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <h2 id="listHeading">Restrictions</h2>
+            <p class="panel-subtitle" id="listSubtitle">Filtered records in the current view.</p>
+          </div>
+          <div class="badge" id="resultCountBadge">0 records</div>
+        </div>
+        <div class="record-list" id="recordList">
+          <div class="empty-state">No records loaded yet.</div>
+        </div>
+      </section>
+
+      <section class="detail-card" aria-labelledby="detailHeading">
+        <div class="detail-header">
+          <p class="detail-kicker">Selection</p>
+          <h3 id="detailHeading">Selected record</h3>
+        </div>
+        <div class="detail-body" id="detailBody">
+          <div class="detail-empty">Select a record to inspect fields and sources.</div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const STATE_ABBREV = {
+        ALABAMA:"AL", ALASKA:"AK", ARIZONA:"AZ", ARKANSAS:"AR", CALIFORNIA:"CA", COLORADO:"CO", CONNECTICUT:"CT",
+        DELAWARE:"DE", FLORIDA:"FL", GEORGIA:"GA", HAWAII:"HI", IDAHO:"ID", ILLINOIS:"IL", INDIANA:"IN", IOWA:"IA",
+        KANSAS:"KS", KENTUCKY:"KY", LOUISIANA:"LA", MAINE:"ME", MARYLAND:"MD", MASSACHUSETTS:"MA", MICHIGAN:"MI",
+        MINNESOTA:"MN", MISSISSIPPI:"MS", MISSOURI:"MO", MONTANA:"MT", NEBRASKA:"NE", NEVADA:"NV", "NEW HAMPSHIRE":"NH",
+        "NEW JERSEY":"NJ", "NEW MEXICO":"NM", "NEW YORK":"NY", "NORTH CAROLINA":"NC", "NORTH DAKOTA":"ND", OHIO:"OH",
+        OKLAHOMA:"OK", OREGON:"OR", PENNSYLVANIA:"PA", RHODE_ISLAND:"RI", "RHODE ISLAND":"RI", "SOUTH CAROLINA":"SC",
+        "SOUTH DAKOTA":"SD", TENNESSEE:"TN", TEXAS:"TX", UTAH:"UT", VERMONT:"VT", VIRGINIA:"VA", WASHINGTON:"WA",
+        "WEST VIRGINIA":"WV", WISCONSIN:"WI", WYOMING:"WY", "DISTRICT OF COLUMBIA":"DC", DC:"DC"
+      };
+
+      const ENTITY_CONFIG = {
+        restrictions: { label: "Restrictions", listTitle: "Restrictions", typeField: "restriction_type", typeLabel: "Restriction type" },
+        contested_projects: { label: "Contested projects", listTitle: "Contested projects", typeField: "opposition_type", typeLabel: "Opposition type" },
+        cases: { label: "Cases", listTitle: "Cases", typeField: "court_level", typeLabel: "Court level" }
+      };
+
+      const state = {
+        view: 'restrictions',
+        datasets: { restrictions: [], contested_projects: [], cases: [] },
+        filtered: [],
+        selectedId: null,
+        theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      };
+
+      const els = {
+        stateFilter: document.getElementById('stateFilter'),
+        technologyFilter: document.getElementById('technologyFilter'),
+        typeFilter: document.getElementById('typeFilter'),
+        severityFilter: document.getElementById('severityFilter'),
+        searchFilter: document.getElementById('searchFilter'),
+        technologyField: document.getElementById('technologyField'),
+        severityField: document.getElementById('severityField'),
+        typeField: document.getElementById('typeField'),
+        detailBody: document.getElementById('detailBody'),
+        detailHeading: document.getElementById('detailHeading'),
+        recordList: document.getElementById('recordList'),
+        resultCountBadge: document.getElementById('resultCountBadge'),
+        listHeading: document.getElementById('listHeading'),
+        listSubtitle: document.getElementById('listSubtitle'),
+        metricVisible: document.getElementById('metricVisible'),
+        metricCoords: document.getElementById('metricCoords'),
+        metricCentroids: document.getElementById('metricCentroids'),
+        metricStates: document.getElementById('metricStates'),
+        refreshBtn: document.getElementById('refreshBtn'),
+        themeToggle: document.getElementById('themeToggle'),
+        themeIcon: document.getElementById('themeIcon'),
+        switchBtns: [...document.querySelectorAll('.switch-btn')]
+      };
+
+      document.documentElement.setAttribute('data-theme', state.theme);
+      renderThemeIcon();
+
+      els.themeToggle.addEventListener('click', () => {
+        state.theme = state.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', state.theme);
+        renderThemeIcon();
+      });
+
+      els.refreshBtn.addEventListener('click', () => init(true));
+      els.switchBtns.forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.view)));
+      [els.stateFilter, els.technologyFilter, els.typeFilter, els.severityFilter].forEach(el => el.addEventListener('change', applyFiltersAndRender));
+      els.searchFilter.addEventListener('input', applyFiltersAndRender);
+
+      function renderThemeIcon() {
+        els.themeIcon.textContent = state.theme === 'dark' ? '☾' : '◐';
+      }
+
+      function setView(view) {
+        state.view = view;
+        state.selectedId = null;
+
+        els.switchBtns.forEach(btn => {
+          const active = btn.dataset.view === view;
+          btn.classList.toggle('active', active);
+          btn.setAttribute('aria-pressed', String(active));
+        });
+
+        const cfg = ENTITY_CONFIG[view];
+        els.listHeading.textContent = cfg.listTitle;
+        els.listSubtitle.textContent =
+          view === 'restrictions'
+            ? 'Restriction records in the current filtered view.'
+            : view === 'contested_projects'
+            ? 'Contested project records in the current filtered view.'
+            : 'Case records in the current filtered view.';
+
+        populateFilters();
+        applyFiltersAndRender();
+      }
+
+      async function init(force = false) {
+        if (force) state.datasets = { restrictions: [], contested_projects: [], cases: [] };
+
+        const results = await Promise.all([
+          loadDataset('restrictions'),
+          loadDataset('contested_projects'),
+          loadDataset('cases')
+        ]);
+
+        state.datasets.restrictions = results[0];
+        state.datasets.contested_projects = results[1];
+        state.datasets.cases = results[2];
+
+        populateFilters();
+        applyFiltersAndRender();
+      }
+
+      async function loadDataset(name) {
+        const jsonPath = `data/processed/${name}.json`;
+        const csvPath = `data/processed/${name}.csv`;
+
+        try {
+          const res = await fetch(jsonPath, { cache: 'no-store' });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) return data.map((row, idx) => normalizeRecord(name, row, idx));
+            if (data && Array.isArray(data.records)) return data.records.map((row, idx) => normalizeRecord(name, row, idx));
+          }
+        } catch (_) {}
+
+        try {
+          const res = await fetch(csvPath, { cache: 'no-store' });
+          if (res.ok) return parseCSV(await res.text()).map((row, idx) => normalizeRecord(name, row, idx));
+        } catch (_) {}
+
+        return [];
+      }
+
+      function parseCSV(text) {
+        const rows = [];
+        let current = '';
+        let row = [];
+        let inQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+          const char = text[i];
+          const next = text[i + 1];
+
+          if (char === '"' && inQuotes && next === '"') {
+            current += '"';
+            i++;
+          } else if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            row.push(current);
+            current = '';
+          } else if ((char === '\n' || char === '\r') && !inQuotes) {
+            if (char === '\r' && next === '\n') i++;
+            row.push(current);
+            if (row.some(cell => cell !== '')) rows.push(row);
+            row = [];
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+
+        if (current.length || row.length) {
+          row.push(current);
+          if (row.some(cell => cell !== '')) rows.push(row);
+        }
+
+        if (!rows.length) return [];
+
+        const headers = rows[0].map(h => h.trim());
+        return rows.slice(1).map(cols =>
+          Object.fromEntries(headers.map((h, i) => [h, (cols[i] ?? '').trim()]))
+        );
+      }
+
+      function normalizeRecord(entityType, raw, idx) {
+        const obj = {};
+
+        Object.entries(raw || {}).forEach(([key, value]) => {
+          obj[normalizeKey(key)] = typeof value === 'string' ? value.trim() : value;
+        });
+
+        obj.entity_type = entityType;
+        obj.id = String(obj.id || obj.record_id || obj.entity_id || `${entityType}-${idx + 1}`);
+        obj.state = normalizeState(obj.state || obj.jurisdiction_state || obj.project_state || obj.state_name || '');
+        obj.county = obj.county || obj.jurisdiction_county || '';
+        obj.municipality = obj.municipality || obj.city || obj.town || obj.jurisdiction_municipality || '';
+        obj.technology = normalizeValue(obj.technology);
+        obj.severity_score = normalizeSeverity(obj.severity_score || obj.severity);
+        obj.latitude = toNumber(obj.latitude || obj.lat);
+        obj.longitude = toNumber(obj.longitude || obj.lon || obj.lng || obj.long);
+        obj.description = obj.description || obj.summary || '';
+        obj.status = obj.status || '';
+        obj.project_name = obj.project_name || obj.project || '';
+        obj.source_url = obj.source_url || obj.url || '';
+        obj.source_title = obj.source_title || obj.title || '';
+        obj.source_publisher = obj.source_publisher || obj.publisher || '';
+        obj.source_document_type = obj.source_document_type || obj.document_type || '';
+        obj.sources = buildSources(obj);
+        obj.display_title = getDisplayTitle(entityType, obj);
+        obj.display_category = getDisplayCategory(entityType, obj);
+        obj.display_status = getDisplayStatus(entityType, obj);
+        obj.display_location = getDisplayLocation(obj);
+
+        return obj;
+      }
+
+      function normalizeKey(key) {
+        return String(key || '')
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+      }
+
+      function normalizeValue(v) {
+        return v == null || v === '' ? '' : String(v).trim();
+      }
+
+      function normalizeState(v) {
+        const raw = normalizeValue(v);
+        if (!raw) return '';
+        const up = raw.toUpperCase().replace(/\./g, '');
+        if (up.length === 2) return up;
+        return STATE_ABBREV[up] || raw;
+      }
+
+      function normalizeSeverity(v) {
+        const n = Number(v);
+        return Number.isFinite(n) && n >= 1 && n <= 4 ? n : null;
+      }
+
+      function toNumber(v) {
+        if (v === null || v === undefined || v === '') return null;
+        const n = Number(v);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function getDisplayTitle(entityType, rec) {
+        if (entityType === 'restrictions') return rec.description || rec.restriction_type || rec.display_location || rec.id;
+        if (entityType === 'contested_projects') return rec.project_name || rec.description || rec.opposition_type || rec.id;
+        return rec.project_name || rec.description || rec.court_level || rec.id;
+      }
+
+      function getDisplayCategory(entityType, rec) {
+        if (entityType === 'restrictions') return rec.restriction_type || 'restriction';
+        if (entityType === 'contested_projects') return rec.opposition_type || 'opposition';
+        return rec.court_level || 'case';
+      }
+
+      function getDisplayStatus(entityType, rec) {
+        if (entityType === 'cases') return rec.status || 'status unavailable';
+        if (rec.severity_score) return `Severity ${rec.severity_score}`;
+        return 'Unscored';
+      }
+
+      function getDisplayLocation(rec) {
+        const parts = [rec.municipality, rec.county, rec.state].filter(Boolean);
+        return parts.length ? parts.join(', ') : 'Location unavailable';
+      }
+
+      function buildSources(rec) {
+        if (rec.source_url) {
+          return [{
+            title: rec.source_title || 'Source',
+            url: rec.source_url,
+            publisher: rec.source_publisher || '',
+            document_type: rec.source_document_type || ''
+          }];
+        }
+        return [];
+      }
+
+      function populateFilters() {
+        const data = state.datasets[state.view];
+        const cfg = ENTITY_CONFIG[state.view];
+
+        populateSelect(els.stateFilter, uniqueValues(data.map(d => d.state)), 'All states');
+        populateSelect(els.technologyFilter, uniqueValues(data.map(d => d.technology)), 'All technologies');
+        populateSelect(els.typeFilter, uniqueValues(data.map(d => d[cfg.typeField])), `All ${cfg.typeLabel.toLowerCase()}s`);
+
+        const showTechnology = state.view !== 'cases';
+        const showSeverity = state.view !== 'cases';
+
+        els.technologyField.hidden = !showTechnology;
+        els.severityField.hidden = !showSeverity;
+        els.typeField.querySelector('label').textContent = cfg.typeLabel;
+      }
+
+      function populateSelect(selectEl, values, defaultLabel) {
+        const current = selectEl.value;
+        selectEl.innerHTML = '';
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = defaultLabel;
+        selectEl.appendChild(defaultOption);
+
+        values.forEach(value => {
+          const opt = document.createElement('option');
+          opt.value = value;
+          opt.textContent = value;
+          selectEl.appendChild(opt);
+        });
+
+        if ([...selectEl.options].some(opt => opt.value === current)) {
+          selectEl.value = current;
+        }
+      }
+
+      function uniqueValues(values) {
+        return [...new Set(values.filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b)));
+      }
+
+      function applyFiltersAndRender() {
+        const cfg = ENTITY_CONFIG[state.view];
+        let rows = [...state.datasets[state.view]];
+
+        const stateVal = els.stateFilter.value;
+        const techVal = els.technologyFilter.value;
+        const typeVal = els.typeFilter.value;
+        const severityVal = els.severityFilter.value;
+        const searchVal = els.searchFilter.value.trim().toLowerCase();
+
+        if (stateVal) rows = rows.filter(r => r.state === stateVal);
+        if (techVal && state.view !== 'cases') rows = rows.filter(r => r.technology === techVal || (r.technology || '').includes(techVal));
+        if (typeVal) rows = rows.filter(r => (r[cfg.typeField] || '') === typeVal);
+
+        if (state.view !== 'cases' && severityVal) {
+          if (severityVal === '3-4') rows = rows.filter(r => [3, 4].includes(r.severity_score));
+          else rows = rows.filter(r => String(r.severity_score || '') === severityVal);
+        }
+
+        if (searchVal) {
+          rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(searchVal));
+        }
+
+        rows.sort((a, b) => String(a.display_title).localeCompare(String(b.display_title)));
+        state.filtered = rows;
+
+        if (rows.length && !rows.some(r => r.id === state.selectedId)) state.selectedId = rows[0].id;
+        if (!rows.length) state.selectedId = null;
+
+        renderMetrics();
+        renderList();
+        renderDetail();
+        renderResultCount();
+      }
+
+      function renderMetrics() {
+        const rows = state.filtered;
+        els.metricVisible.textContent = formatInt(rows.length);
+        els.metricCoords.textContent = formatInt(rows.filter(r => (r.sources || []).length > 0).length);
+        els.metricCentroids.textContent = formatInt(rows.filter(r => r.severity_score != null).length);
+        els.metricStates.textContent = formatInt(new Set(rows.map(r => r.state).filter(Boolean)).size);
+      }
+
+      function renderResultCount() {
+        const count = state.filtered.length;
+        els.resultCountBadge.textContent = `${formatInt(count)} ${count === 1 ? 'record' : 'records'}`;
+      }
+
+      function renderList() {
+        const records = state.filtered;
+        els.recordList.innerHTML = '';
+
+        if (!records.length) {
+          els.recordList.innerHTML = '<div class="empty-state">No records match the current filters.</div>';
+          return;
+        }
+
+        records.forEach(rec => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `record-item${rec.id === state.selectedId ? ' active' : ''}`;
+          btn.innerHTML = `
+            <p class="record-title">${escapeHtml(rec.display_title)}</p>
+            <p class="record-meta">${escapeHtml(rec.display_location)}</p>
+            <div class="record-chip-row">
+              <span class="record-chip">${escapeHtml(ENTITY_CONFIG[rec.entity_type].label)}</span>
+              <span class="record-chip">${escapeHtml(rec.display_category || '—')}</span>
+              <span class="record-chip">${escapeHtml(rec.display_status || '—')}</span>
+            </div>
+          `;
+          btn.addEventListener('click', () => {
+            state.selectedId = rec.id;
+            renderList();
+            renderDetail();
+          });
+          els.recordList.appendChild(btn);
+        });
+      }
+
+      function renderDetail() {
+        const rec = state.filtered.find(r => r.id === state.selectedId);
+
+        if (!rec) {
+          els.detailHeading.textContent = 'Selected record';
+          els.detailBody.innerHTML = '<div class="detail-empty">No selected record.</div>';
+          return;
+        }
+
+        els.detailHeading.textContent = rec.display_title || 'Selected record';
+
+        els.detailBody.innerHTML = `
+          <div class="detail-grid">
+            ${detailKV('Entity type', ENTITY_CONFIG[rec.entity_type].label)}
+            ${detailKV('Location', rec.display_location)}
+            ${state.view !== 'cases' ? detailKV('Technology', rec.technology || '—') : detailKV('Court level', rec.court_level || '—')}
+            ${state.view === 'cases' ? detailKV('Status', rec.status || '—') : detailKV('Severity', rec.severity_score ? `Severity ${rec.severity_score}` : '—')}
+            ${detailKV('Category', rec.display_category || '—')}
+            ${detailKV('Source count', String((rec.sources || []).length))}
+          </div>
+          <section class="detail-text-block">
+            <h4>Description</h4>
+            <p>${escapeHtml(rec.description || 'No description available.')}</p>
+          </section>
+          <section class="detail-text-block">
+            <h4>Sources</h4>
+            ${(rec.sources && rec.sources.length)
+              ? `<div class="sources-list">${rec.sources.map(sourceMarkup).join('')}</div>`
+              : '<p>No source links found in the processed record.</p>'}
+          </section>
+        `;
+      }
+
+      function detailKV(label, value) {
+        return `<div class="kv"><p class="kv-label">${escapeHtml(label)}</p><p class="kv-value">${escapeHtml(value || '—')}</p></div>`;
+      }
+
+      function sourceMarkup(source, i) {
+        const title = source.title || `Source ${i + 1}`;
+        const metaParts = [source.publisher, source.document_type].filter(Boolean);
+
+        return `<article class="source-item">
+          <p class="source-title">${escapeHtml(title)}</p>
+          ${metaParts.length ? `<p class="source-meta">${escapeHtml(metaParts.join(' · '))}</p>` : ''}
+          <a class="source-link" href="${escapeAttr(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.url)}</a>
+        </article>`;
+      }
+
+      function formatInt(n) {
+        return new Intl.NumberFormat('en-US').format(n || 0);
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function escapeAttr(str) {
+        return escapeHtml(str);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
