@@ -1,0 +1,11 @@
+# Core data processing
+pandas>=2.0
+python-dateutil>=2.8
+
+# Future scraping/crawling layers (add when needed):
+# requests
+# beautifulsoup4
+# lxml
+# playwright
+# pypdf
+# tqdm

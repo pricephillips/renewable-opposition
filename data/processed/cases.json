@@ -1,0 +1,30 @@
+[
+  {
+    "state": "MI",
+    "county": "Mason",
+    "municipality": "",
+    "jurisdiction_type": "county",
+    "project_name": "Mason County Wind (Consumers Energy)",
+    "technology": "wind",
+    "severity_score": 3,
+    "filing_date": "2023-01-15",
+    "court_level": "state_trial",
+    "status": "pending",
+    "description": "Local residents filed suit in Mason County Circuit Court challenging the Michigan Public Service Commission's approval of a Consumers Energy wind project, alleging inadequate environmental review and setback violations.",
+    "source_url": "https://courts.michigan.gov/"
+  },
+  {
+    "state": "VA",
+    "county": "",
+    "municipality": "",
+    "jurisdiction_type": "state",
+    "project_name": "Coastal Virginia Offshore Wind (CVOW)",
+    "technology": "offshore_wind",
+    "severity_score": 1,
+    "filing_date": "2023-09-05",
+    "court_level": "state_appellate",
+    "status": "decided",
+    "description": "Coalition of commercial fishing interests appealed Virginia State Corporation Commission approval of Dominion Energy's CVOW project. Virginia Court of Appeals upheld the SCC order in 2024.",
+    "source_url": "https://scc.virginia.gov/"
+  }
+]
