@@ -1,0 +1,212 @@
+# sources.yaml
+# Source registry for the renewable-opposition crawler.
+# Each entry describes one source to fetch periodically.
+#
+# Fields:
+#   source_id     : stable internal key (snake_case, never reuse)
+#   url           : canonical entry-point URL to fetch
+#   publisher     : human-readable name of the publishing org
+#   document_type : ordinance | code_section | meeting_minutes | news |
+#                   docket | tracker | siting_board | report
+#   jurisdiction_type : state | county | municipality | national
+#   state         : two-letter FIPS code, or "US" for national
+#   fetch_method  : static | js_render (static = requests; js_render = playwright, later)
+#   schedule      : how often to re-fetch (daily | weekly | monthly)
+#   parser_hint   : free-text note for the extraction layer
+#   active        : true/false — set false to disable without removing the entry
+#   notes         : optional context
+
+sources:
+
+  # ── Sabin Center / Columbia ──────────────────────────────────────────────
+  - source_id: sabin_opposition_report_2025
+    url: https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-june-2025-edition
+    publisher: Columbia Sabin Center for Climate Change Law
+    document_type: report
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      HTML page with summary statistics and embedded tables of local
+      restrictions and contested projects. Also links to PDF full report.
+      Extract jurisdiction, technology, restriction_type, and severity signals.
+    active: true
+    notes: Primary reference document. Re-issued roughly annually.
+
+  - source_id: sabin_blog_2025
+    url: https://blogs.law.columbia.edu/climatechange/2025/06/30/local-laws-and-lawsuits-targeting-renewables-becoming-more-prevalent-in-the-us/
+    publisher: Columbia Sabin Center for Climate Change Law
+    document_type: news
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      Blog post summarizing June 2025 edition findings. Useful for
+      extracting headline counts and state-level breakdowns mentioned
+      in prose (e.g. "X counties enacted bans in Y").
+    active: true
+    notes: Companion to the main report; often contains synthesis not in the PDF.
+
+  - source_id: sabin_opposition_report_pdf_2025
+    url: https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf
+    publisher: Columbia Sabin Center for Climate Change Law
+    document_type: report
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      Full PDF report. Store raw copy; parse with pypdf or pdfplumber
+      (later). Tables in appendix are primary structured data source.
+    active: true
+    notes: PDF URL pattern changes per edition; update source_id and url each release.
+
+  # ── State Siting Boards ──────────────────────────────────────────────────
+  - source_id: ohio_opsb_cases
+    url: https://opsb.ohio.gov/cases/
+    publisher: Ohio Power Siting Board
+    document_type: siting_board
+    jurisdiction_type: state
+    state: OH
+    fetch_method: static
+    schedule: weekly
+    parser_hint: >
+      Case list table with project name, technology, county, status,
+      filing date. Filter for wind and solar. Each row links to a
+      case detail page with hearing dates and orders.
+    active: true
+    notes: >
+      Ohio SB 52 (2021) gave county commissioners veto power; OPSB cases
+      are the upstream record for what gets vetoed downstream.
+
+  - source_id: ny_ocs_article10
+    url: https://www.dps.ny.gov/OCS/ArticleXHomeFrame.htm
+    publisher: New York Office of Clean Energy Siting
+    document_type: siting_board
+    jurisdiction_type: state
+    state: NY
+    fetch_method: static
+    schedule: weekly
+    parser_hint: >
+      Article 10 / Article 94-c case list. Contains project name,
+      developer, capacity, county, status. Intervenor filings indicate
+      contested projects.
+    active: true
+    notes: NY consolidated siting under OCS; Article 94-c applies to large renewables.
+
+  - source_id: mi_egle_wind_solar
+    url: https://www.michigan.gov/egle/about/organization/Materials-Management/renewable-energy
+    publisher: Michigan EGLE
+    document_type: siting_board
+    jurisdiction_type: state
+    state: MI
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      Project lists and permit decisions for wind and solar. Look for
+      contested permit decisions and local ordinance preemption cases.
+    active: true
+    notes: Michigan PA 233 (2023) preempts some local restrictions; track
+      conflicts between state approvals and local bans.
+
+  # ── County / Municipal Code & Agendas ───────────────────────────────────
+  - source_id: municode_national
+    url: https://library.municode.com/
+    publisher: Municode Library
+    document_type: code_section
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      Search interface for municipal codes nationwide. Targeted searches
+      for terms: "solar", "wind energy", "moratorium", "setback",
+      "prohibited". Results link to specific code sections.
+      Use search API or structured URL patterns per jurisdiction.
+    active: true
+    notes: >
+      Not a single page to fetch — use as a search endpoint.
+      Future: build targeted queries per jurisdiction of interest.
+
+  - source_id: cooke_county_tx_commissioners
+    url: https://www.cookecounty.net/commissioners-court
+    publisher: Cooke County Texas Commissioners Court
+    document_type: meeting_minutes
+    jurisdiction_type: county
+    state: TX
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      Agenda and minutes archive for commissioners court. Look for
+      resolutions referencing wind energy, solar, or renewable facilities.
+    active: true
+    notes: Cooke County enacted a wind ban in 2022 via commissioners resolution.
+
+  # ── Court Dockets ────────────────────────────────────────────────────────
+  - source_id: pacer_federal
+    url: https://pacer.uscourts.gov/
+    publisher: PACER (federal courts)
+    document_type: docket
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: weekly
+    parser_hint: >
+      Search PACER for cases with keywords: "wind farm", "solar farm",
+      "renewable energy", "siting", "NEPA", "viewshed". Requires
+      PACER credentials. Use case search API when available.
+    active: false
+    notes: >
+      Marked inactive until PACER credentials are configured.
+      Consider courtlistener.com (free) as an alternative first pass.
+
+  - source_id: courtlistener_renewables
+    url: https://www.courtlistener.com/?q=%22renewable+energy%22+%22wind+farm%22+%22solar+farm%22&type=o&order_by=score+desc
+    publisher: CourtListener (Free Law Project)
+    document_type: docket
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: weekly
+    parser_hint: >
+      Free full-text search of federal and state court opinions.
+      Filter by: filed_after, jurisdiction, keyword clusters
+      (moratorium, setback, siting, ordinance). JSON API available
+      at courtlistener.com/api/rest/v3/.
+    active: true
+    notes: >
+      Best free-tier court data source. Covers opinions but not all
+      docket entries. Supplement with PACER for full dockets later.
+
+  # ── NGO / Advocacy Trackers ──────────────────────────────────────────────
+  - source_id: clean_grid_alliance_tracker
+    url: https://www.cleangridalliance.org/resources
+    publisher: Clean Grid Alliance
+    document_type: tracker
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: monthly
+    parser_hint: >
+      Policy and legislative tracker for Midwest states. Look for
+      state-level preemption bills, county ordinance databases,
+      and project opposition summaries.
+    active: true
+    notes: Midwest-focused; good complement to Sabin for MN, WI, IA, IL.
+
+  - source_id: seia_state_policy
+    url: https://www.seia.org/states-map
+    publisher: Solar Energy Industries Association
+    document_type: tracker
+    jurisdiction_type: national
+    state: US
+    fetch_method: js_render
+    schedule: monthly
+    parser_hint: >
+      State-by-state policy map. Fetch each state detail page for
+      legislative and regulatory activity. JS-rendered; requires
+      playwright. Lower priority until playwright layer is added.
+    active: false
+    notes: Marked inactive until js_render support is implemented.
