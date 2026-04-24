@@ -1,0 +1,37 @@
+[
+  {
+    "entity_type": "restriction",
+    "entity_local_id": 0,
+    "source_id": "SRC002"
+  },
+  {
+    "entity_type": "restriction",
+    "entity_local_id": 1,
+    "source_id": "SRC005"
+  },
+  {
+    "entity_type": "restriction",
+    "entity_local_id": 2,
+    "source_id": "SRC001"
+  },
+  {
+    "entity_type": "contested_project",
+    "entity_local_id": 0,
+    "source_id": "SRC006"
+  },
+  {
+    "entity_type": "contested_project",
+    "entity_local_id": 1,
+    "source_id": "SRC007"
+  },
+  {
+    "entity_type": "case",
+    "entity_local_id": 0,
+    "source_id": "SRC003"
+  },
+  {
+    "entity_type": "case",
+    "entity_local_id": 1,
+    "source_id": "SRC004"
+  }
+]

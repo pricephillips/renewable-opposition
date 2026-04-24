@@ -1,0 +1,65 @@
+[
+  {
+    "source_id": "SRC001",
+    "url": "https://apps.legislature.ky.gov/record/24rs/sb4.html",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  },
+  {
+    "source_id": "SRC002",
+    "url": "https://codes.ohio.gov/ohio-revised-code/section-4906.20",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  },
+  {
+    "source_id": "SRC003",
+    "url": "https://courts.michigan.gov/",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  },
+  {
+    "source_id": "SRC004",
+    "url": "https://scc.virginia.gov/",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  },
+  {
+    "source_id": "SRC005",
+    "url": "https://www.cookecounty.net/commissioners-court",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  },
+  {
+    "source_id": "SRC006",
+    "url": "https://www.herkimercounty.org/",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  },
+  {
+    "source_id": "SRC007",
+    "url": "https://www.in.gov/iurc/",
+    "publisher": "",
+    "document_type": "",
+    "crawl_date": "",
+    "content_hash": "",
+    "title": ""
+  }
+]

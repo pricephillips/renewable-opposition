@@ -1,0 +1,8 @@
+entity_type,entity_local_id,source_id
+restriction,0,SRC002
+restriction,1,SRC005
+restriction,2,SRC001
+contested_project,0,SRC006
+contested_project,1,SRC007
+case,0,SRC003
+case,1,SRC004
