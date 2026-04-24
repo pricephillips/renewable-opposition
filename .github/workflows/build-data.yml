@@ -1,0 +1,36 @@
+name: Build dashboard data
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'data/seed/*.csv'
+      - 'scripts/build_seed_outputs.py'
+      - '.github/workflows/build-data.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run build script
+        run: python scripts/build_seed_outputs.py
+
+      - name: Commit processed data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed/*.json
+          git diff --cached --quiet || git commit -m "Build processed dashboard data"
+          git push
