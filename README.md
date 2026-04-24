@@ -91,3 +91,5 @@ Outputs will be written to `data/processed/`.
 ## Relation to pricephillips/data-center-map
 
 This repo is fully independent. It reuses the same pipeline pattern (CSV-first, static dashboards) but the domains are separate: data centers vs. renewable energy facilities. No code sharing is assumed.
+
+
