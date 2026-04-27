@@ -442,6 +442,7 @@ async function initDashboard() {
     $('load-status').textContent = 'Loaded';
     $('last-updated').textContent = new Date().toLocaleString();
     populateFilters();
+    applyHashFilters();
     render();
   } catch (err) {
     $('load-status').textContent = 'Error';
@@ -456,6 +457,18 @@ function populateSelect(id, values, label) {
   const el = $(id);
   el.innerHTML = `<option value="">${label}</option>`;
   values.forEach(v => el.insertAdjacentHTML('beforeend', `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`));
+}
+
+function applyHashFilters() {
+  const hash = window.location.hash.replace(/^#/, '');
+  if (!hash) return;
+  const params = new URLSearchParams(hash);
+  const stateVal = params.get('state');
+  const techVal = params.get('tech');
+  const searchVal = params.get('search');
+  if (stateVal && $('filter-state')) { $('filter-state').value = stateVal; filters.state = stateVal; }
+  if (techVal && $('filter-tech')) { $('filter-tech').value = techVal; filters.tech = techVal; }
+  if (searchVal && $('search')) { $('search').value = searchVal; filters.search = searchVal; }
 }
 
 function populateFilters() {
