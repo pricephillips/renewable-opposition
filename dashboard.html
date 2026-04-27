@@ -568,7 +568,7 @@ function render() {
   renderStats(fr, fc, fk);
   renderMiniList('top-tech', countBy(allFiltered, r => r._tech_list));
   renderQA(allFiltered);
-  renderBars('mechanism-bars', countBy(allFiltered, r => r._mechanisms.length ? r._mechanisms : ['(none)']));
+  renderBars('mechanism-bars', countBy(allFiltered, r => r._mechanisms.length ? r._mechanisms : ['(Unspecified / Not applicable)']));
   renderBars('status-bars', countBy(allFiltered, r => r.status || '(blank)'));
 
   const rows = activeTab === 'restrictions' ? fr : activeTab === 'contested' ? fc : fk;
