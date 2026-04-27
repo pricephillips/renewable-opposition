@@ -259,7 +259,7 @@
       </div>
       <div>
         <div class="site-title">Renewable Opposition Dashboard</div>
-        <div class="site-subtitle">Enhanced single-file dashboard wired to <code>data/renewable_opposition_records.csv</code></div>
+        <div class="site-subtitle">Interactive dashboard for renewable opposition records.</div>
       </div>
     </div>
     <div class="header-actions">
@@ -309,7 +309,7 @@
           <div id="top-tech" class="list-compact"></div>
         </div>
         <div class="mini-card">
-          <div class="mini-title">QA snapshot</div>
+          <div class="mini-title">Data snapshot</div>
           <div id="qa-list" class="list-compact"></div>
         </div>
       </div>
@@ -445,7 +445,7 @@ async function initDashboard() {
     render();
   } catch (err) {
     $('load-status').textContent = 'Error';
-    $('table-container').innerHTML = `<div class="empty-state">Unable to load <code>${escapeHtml(CSV_URL)}</code>. Make sure the CSV exists in the repo data folder.</div>`;
+    $('table-container').innerHTML = '<div class="empty-state">Data could not be loaded. Check that the published CSV is available.</div>';
     $('stats-row').innerHTML = '';
     $('table-summary').textContent = '0 records';
     console.error(err);
@@ -568,7 +568,7 @@ function render() {
   renderStats(fr, fc, fk);
   renderMiniList('top-tech', countBy(allFiltered, r => r._tech_list));
   renderQA(allFiltered);
-  renderBars('mechanism-bars', countBy(allFiltered, r => r._mechanisms.length ? r._mechanisms : ['(Unspecified / Not applicable)']));
+  renderBars('mechanism-bars', countBy(allFiltered, r => r._mechanisms.length ? r._mechanisms : ['(none)']));
   renderBars('status-bars', countBy(allFiltered, r => r.status || '(blank)'));
 
   const rows = activeTab === 'restrictions' ? fr : activeTab === 'contested' ? fc : fk;

@@ -59,7 +59,7 @@
     .section-title { margin: 0 0 var(--space-3); font-size: var(--text-lg); line-height: 1.15; }
     .switcher { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
     .switch-btn.active, .mode-btn.active { background: var(--color-primary); color: var(--color-text-inverse); border-color: var(--color-primary); }
-    .filters-grid { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: var(--space-3); align-items: end; }
+    .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: var(--space-3); align-items: end; }
     .field { display: grid; gap: 0.35rem; }
     .field label { font-size: var(--text-sm); color: var(--color-text-muted); }
     .main-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.72fr); gap: var(--space-4); align-items: start; }
@@ -82,7 +82,7 @@
     .marker-cluster div { width: 44px; height: 44px; margin-left: 0; margin-top: 0; border-radius: 999px; display: grid; place-items: center; font: 700 0.9rem var(--font-body); color: var(--color-text-inverse); border: 2px solid rgba(255,255,255,0.92); background: var(--cluster-color, var(--color-primary)); box-shadow: 0 0 0 8px color-mix(in srgb, var(--cluster-color, var(--color-primary)) 15%, transparent), 0 4px 16px rgba(0,0,0,0.16); }
     .marker-cluster span { line-height: 1; }
     .map-status { position: absolute; left: var(--space-4); bottom: var(--space-4); z-index: 600; max-width: min(460px, calc(100% - 2rem)); padding: 0.75rem 0.9rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-surface) 92%, transparent); color: var(--color-text-muted); box-shadow: var(--shadow-md); }
-    .legend { display: flex; flex-wrap: wrap; gap: var(--space-3); padding-top: var(--space-3); color: var(--color-text-muted); font-size: var(--text-sm); }
+    .legend { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; margin-bottom: var(--space-3); padding: 0 0 var(--space-3); border-bottom: 1px solid var(--color-divider); color: var(--color-text-muted); font-size: var(--text-sm); }
     .legend-item { display: inline-flex; gap: 0.5rem; align-items: center; }
     .legend-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--legend-color, var(--color-primary)); }
     .legend-chip { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.55rem; border-radius: 999px; border: 1px solid var(--color-border); background: var(--color-surface-2); }
@@ -127,7 +127,7 @@
         </svg>
         <div>
           <h1>Renewable Opposition Map</h1>
-          <p class="subtitle">Standalone map embed for the unified renewable opposition CSV, with clustered points, county-centroid-backed state shading, coordinate-versus-centroid styling, and a detail panel for parsed PDF records.</p>
+          <p class="subtitle">Interactive map of renewable opposition records across the United States.</p>
         </div>
       </div>
       <div class="top-actions">
@@ -141,10 +141,9 @@
 
     <section class="card filters">
       <h2 class="section-title">Map controls</h2>
-      <p class="panel-subtitle">Expected CSV: <code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace;">./data/renewable_opposition_records.csv</code></p>
-      <div class="switcher" role="tablist" aria-label="Dataset switcher">
-                <button class="mode-btn active" type="button" id="fitModeBtn">Fit filtered points</button>
-        <button class="mode-btn" type="button" id="nationModeBtn">National view</button>
+            <div class="switcher" role="tablist" aria-label="Dataset switcher">
+                <button class="mode-btn active" type="button" id="fitModeBtn">Fit results</button>
+        <button class="mode-btn" type="button" id="nationModeBtn">U.S. view</button>
       </div>
       <div class="filters-grid">
         <div class="field"><label for="stateFilter">State</label><select id="stateFilter"><option value="">All states</option></select></div>
@@ -165,17 +164,16 @@
         <div class="panel-header">
           <div class="panel-title-wrap">
             <h2 id="mapTitle">Renewable opposition map</h2>
-            <p class="panel-subtitle" id="mapSubtitle">Unified record map with clustered points and state choropleth shading derived from the filtered CSV.</p>
+            <p class="panel-subtitle" id="mapSubtitle">Filtered points and state shading for renewable opposition records.</p>
           </div>
           <div class="badge" id="resultBadge">0 records</div>
         </div>
         <div class="map-wrap">
-          <div class="badge" style="margin-bottom:0.75rem;">Expected repo path: <code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace;">./data/</code></div>
+          <div class="legend" id="legend"></div>
           <div class="map-frame">
             <div id="leafletMap" role="img" aria-label="United States renewable opposition map"></div>
             <div class="map-status" id="mapStatus" hidden></div>
           </div>
-          <div class="legend" id="legend"></div>
         </div>
       </section>
 
@@ -468,7 +466,7 @@
         return [...new Set(values.filter(v => Number.isFinite(v)).sort((a, b) => a - b))];
       }
 
-      function renderLegend() { ui.legend.innerHTML = ''; const items = [{ label: 'State restriction', color: '#964219' }, { label: 'Local restriction', color: '#01696f' }, { label: 'Contested project', color: '#006494' }]; items.forEach(item => { const el = document.createElement('div'); el.className = 'legend-item'; el.innerHTML = `<span class="legend-dot" style="--legend-color:${item.color}"></span><span>${escapeHtml(item.label)}</span>`; ui.legend.appendChild(el); }); const centroidChip = document.createElement('div'); centroidChip.className = 'legend-chip'; centroidChip.textContent = 'Dashed marker ring = county county centroid fallback'; ui.legend.appendChild(centroidChip); const modeChip = document.createElement('div'); modeChip.className = 'legend-chip'; modeChip.textContent = `Layers: ${state.layerMode === 'both' ? 'points + county-centroid-backed state shading' : state.layerMode === 'points' ? 'points only' : 'county-centroid-backed state shading only'}`; ui.legend.appendChild(modeChip); const breakChip = document.createElement('div'); breakChip.className = 'legend-chip'; breakChip.textContent = `Choropleth: ${state.choroplethMetric === 'count' ? 'record count' : 'weighted intensity'} · ${state.classificationMode}`; ui.legend.appendChild(breakChip); }
+      function renderLegend() { ui.legend.innerHTML = ''; const items = [{ label: 'State restriction', color: '#964219' }, { label: 'Local restriction', color: '#01696f' }, { label: 'Contested project', color: '#006494' }]; items.forEach(item => { const el = document.createElement('div'); el.className = 'legend-item'; el.innerHTML = `<span class="legend-dot" style="--legend-color:${item.color}"></span><span>${escapeHtml(item.label)}</span>`; ui.legend.appendChild(el); }); const centroidChip = document.createElement('div'); centroidChip.className = 'legend-chip'; centroidChip.textContent = 'Dashed marker ring = county centroid fallback'; ui.legend.appendChild(centroidChip); }
       function stateValueMap() { const totals = {}; state.filtered.forEach(row => { if (!row.state) return; const weight = state.choroplethMetric === 'weighted' ? recordWeight(row) : 1; totals[row.state] = (totals[row.state] || 0) + weight; }); return totals; }
       function recordWeight(row) { let weight = 1; if (row.record_type === 'contested_project') weight += 0.75; if ((row.has_litigation || '') === 'yes') weight += 0.5; if (row.project_capacity_mw) weight += Math.min(2, row.project_capacity_mw / 500); return weight; }
       function choroplethStops(values) { return getStateBreaks(values); }
