@@ -84,7 +84,7 @@
     .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large, .marker-cluster { background: transparent; }
     .marker-cluster div { width: 44px; height: 44px; margin-left: 0; margin-top: 0; border-radius: 999px; display: grid; place-items: center; font: 700 0.9rem var(--font-body); color: var(--color-text-inverse); border: 2px solid rgba(255,255,255,0.92); background: var(--cluster-color, var(--color-primary)); box-shadow: 0 0 0 8px color-mix(in oklab, var(--cluster-color, var(--color-primary)) 15%, transparent), 0 4px 16px rgba(0,0,0,0.16); }
     .marker-cluster span { line-height: 1; }
-    .map-status { position: absolute; left: var(--space-4); bottom: var(--space-4); z-index: 600; max-width: min(460px, calc(100% - 2rem)); padding: 0.75rem 0.9rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: color-mix(in oklab, var(--color-surface) 92%, transparent); color: var(--color-text-muted); box-shadow: var(--shadow-md); }
+    .map-status { margin-top: var(--space-3); padding: 0.65rem 0.9rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface-2); color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.5; }
     .legend { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; margin-bottom: var(--space-3); padding: 0 0 var(--space-3); border-bottom: 1px solid var(--color-divider); color: var(--color-text-muted); font-size: var(--text-sm); }
     .legend-item { display: inline-flex; gap: 0.5rem; align-items: center; }
     .legend-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--legend-color, var(--color-primary)); }
@@ -181,8 +181,8 @@
           <div class="legend" id="legend"></div>
           <div class="map-frame">
             <div id="leafletMap" role="img" aria-label="United States renewable opposition map"></div>
-            <div class="map-status" id="mapStatus" hidden></div>
           </div>
+          <div class="map-status" id="mapStatus" hidden></div>
         </div>
       </section>
 
