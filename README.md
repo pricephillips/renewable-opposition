@@ -32,6 +32,17 @@ The ontology explicitly separates three types of opposition:
 
 For map layers and headline stats, default to severity ≥ 3.
 
+### Contested projects: outcome and severity
+
+`contested_projects` rows carry an `outcome` from a four-tier vocabulary — `blocked_confirmed`, `restricted_conditional`, `advanced_confirmed`, `pending` — plus `needs_review` when the source status can't be mapped. Their `severity_score` measures how hard opposition hit the project:
+
+- **4** – Project blocked (cancelled or permit denied)
+- **3** – Litigation filed, project not (yet) blocked
+- **2** – Resident or organized opposition, no litigation, not yet approved
+- **1** – Project advanced despite opposition, no litigation
+
+`scripts/build_contested_projects_seed.py` documents the exact status → outcome mapping.
+
 ---
 
 ## Outputs
@@ -55,13 +66,22 @@ Both formats are required. JSON is used by downstream apps and dashboards; CSV i
 renewable-opposition/
 ├── README.md
 ├── requirements.txt
+├── config/
+│   ├── sources.yaml                        ← crawler source registry
+│   └── source_registry.csv                 ← dataset/tracker registry
 ├── data/
+│   ├── renewable_opposition_records.csv    ← Sabin report extraction (feeds the map/dashboard)
 │   ├── seed/
-│   │   └── sabin_seed_examples.csv   ← manually curated seed records
-│   ├── raw/                          ← fetched HTML/PDFs (empty initially)
-│   └── processed/                    ← canonical CSV + JSON outputs
+│   │   ├── restrictions_seed.csv           ← from Moratorium Nation
+│   │   └── contested_projects_seed.csv     ← from the Sabin contested-projects section
+│   ├── review/
+│   │   └── cases_candidates.csv            ← litigated projects awaiting docket research
+│   ├── raw/                                ← fetched HTML/PDFs (empty initially)
+│   └── processed/                          ← canonical CSV + JSON outputs
 └── scripts/
-    └── build_seed_outputs.py         ← reads seed, writes processed/
+    ├── build_seed_outputs.py               ← reads seed, writes processed/
+    ├── fetch_moratorium_nation.py          ← refreshes restrictions_seed.csv
+    └── build_contested_projects_seed.py    ← writes contested_projects_seed.csv + cases_candidates.csv
 ```
 
 ---
@@ -70,8 +90,12 @@ renewable-opposition/
 
 ```bash
 pip install -r requirements.txt
+python scripts/fetch_moratorium_nation.py          # optional: refresh restrictions seed
+python scripts/build_contested_projects_seed.py    # optional: rebuild contested projects seed
 python scripts/build_seed_outputs.py
 ```
+
+`cases_seed.csv` is intentionally absent: a case row needs a verified court, docket and source URL. Candidates are queued in `data/review/cases_candidates.csv` until someone confirms them against a primary source.
 
 Outputs will be written to `data/processed/`.
 
