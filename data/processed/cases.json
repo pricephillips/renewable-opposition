@@ -1,0 +1,731 @@
+[
+  {
+    "state": "AZ",
+    "project_name": "SunZia Transmission Line",
+    "technology": "transmission",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Tohono O'odham Nation v. U.S. Department of the Interior (U.S. District Court for the District of Arizona) - litigation over SunZia Transmission Line",
+    "case_name": "Tohono O'odham Nation v. U.S. Department of the Interior",
+    "court": "U.S. District Court for the District of Arizona",
+    "docket_number": "4:24-cv-00034",
+    "case_status": "pending",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0013",
+    "case_id": "case_36584c3665",
+    "source": "Reviewed case record",
+    "source_url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631",
+    "case_source_url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia dockets / govinfo result names this case, court and docket; opinion text not read. Dismissed 2024-06-06; the Ninth Circuit revived the claims in 2025 and remanded.",
+    "id": "cas_88caa9f9ce",
+    "source_id": "src_733480173ca9",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631"
+      }
+    ]
+  },
+  {
+    "state": "CA",
+    "project_name": "Altamont Pass Wind Resource Area First-Generation Wind Farms",
+    "technology": "wind",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "Center for Biological Diversity, Inc. v. FPL Group, Inc. (California Court of Appeal, First Appellate District) - litigation over Altamont Pass Wind Resource Area First-Generation Wind Farms",
+    "case_name": "Center for Biological Diversity, Inc. v. FPL Group, Inc.",
+    "court": "California Court of Appeal, First Appellate District",
+    "docket_number": null,
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0023",
+    "case_id": "case_a216359f5a",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc/",
+    "case_source_url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / FindLaw result names this case, court; opinion text not read. Decided 2008-09-18 (166 Cal.App.4th 1349): dismissal affirmed.",
+    "id": "cas_59b3fe6203",
+    "source_id": "src_6c9ba082386e",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc/"
+      }
+    ]
+  },
+  {
+    "state": "CA",
+    "project_name": "Boulder Brush Project",
+    "technology": "wind;transmission",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Backcountry Against Dumps v. Bureau of Indian Affairs (U.S. District Court for the Southern District of California) - litigation over Boulder Brush Project",
+    "case_name": "Backcountry Against Dumps v. Bureau of Indian Affairs",
+    "court": "U.S. District Court for the Southern District of California",
+    "docket_number": "3:20-cv-02343",
+    "case_status": "dismissed",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0027",
+    "case_id": "case_745ea6e9b2",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74/",
+    "case_source_url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Dismissed under Rule 19 (tribe a required party); affirmed by the Ninth Circuit.",
+    "id": "cas_0824601d36",
+    "source_id": "src_95e68a6de863",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74/"
+      }
+    ]
+  },
+  {
+    "state": "DE",
+    "project_name": "Cedar Creek Solar",
+    "technology": "solar",
+    "court_level": "state_trial",
+    "severity_score": 3,
+    "description": "Citizens Against Solar Pollution v. Kent County (Delaware Court of Chancery) - litigation over Cedar Creek Solar",
+    "case_name": "Citizens Against Solar Pollution v. Kent County",
+    "court": "Delaware Court of Chancery",
+    "docket_number": "2022-0287-NAC",
+    "case_status": "dismissed",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0044",
+    "case_id": "case_de5d5a5743",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html",
+    "case_source_url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2023: dismissed for lack of jurisdiction with leave to transfer to Superior Court.",
+    "id": "cas_3ced317c10",
+    "source_id": "src_5321434aa4c7",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html"
+      }
+    ]
+  },
+  {
+    "state": "DE",
+    "project_name": "Cedar Creek Solar",
+    "technology": "solar",
+    "court_level": "state_trial",
+    "severity_score": 3,
+    "description": "Citizens Against Solar Pollution v. Kent County (Delaware Superior Court) - litigation over Cedar Creek Solar",
+    "case_name": "Citizens Against Solar Pollution v. Kent County",
+    "court": "Delaware Superior Court",
+    "docket_number": "N23C-03-196 VLM",
+    "case_status": null,
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0044",
+    "case_id": "case_58fe8f2527",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
+    "case_source_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Transferred case; 2023 and 2024 decisions; later appealed to the Delaware Supreme Court (Kent County v. Citizens Against Solar Pollution). Outcome not captured.",
+    "id": "cas_f6bc1ddf0a",
+    "source_id": "src_429df504cd5f",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html"
+      }
+    ]
+  },
+  {
+    "state": "HI",
+    "project_name": "Kahuku Na Pua Makani Wind Project",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Keep the North Shore Country v. Board of Land and Natural Resources (Supreme Court of Hawai'i) - litigation over Kahuku Na Pua Makani Wind Project",
+    "case_name": "Keep the North Shore Country v. Board of Land and Natural Resources",
+    "court": "Supreme Court of Hawai'i",
+    "docket_number": "SCAP-19-0000449",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0067",
+    "case_id": "case_ee372892b0",
+    "source": "Reviewed case record",
+    "source_url": "https://case-law.vlex.com/vid/keep-the-n-shore-907372581",
+    "case_source_url": "https://case-law.vlex.com/vid/keep-the-n-shore-907372581",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a vLex / DLNR result names this case, court and docket; opinion text not read. Decided 2022-02-22: habitat conservation plan approval upheld.",
+    "id": "cas_95690123f7",
+    "source_id": "src_d00ef4f51f19",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://case-law.vlex.com/vid/keep-the-n-shore-907372581"
+      }
+    ]
+  },
+  {
+    "state": "IL",
+    "project_name": "Alta Wind Farm",
+    "technology": "wind",
+    "court_level": "state_trial",
+    "severity_score": 3,
+    "description": "Alta Farms Wind Project II v. DeWitt County (Illinois Circuit Court, Sixth Judicial Circuit (DeWitt County)) - litigation over Alta Wind Farm",
+    "case_name": "Alta Farms Wind Project II v. DeWitt County",
+    "court": "Illinois Circuit Court, Sixth Judicial Circuit (DeWitt County)",
+    "docket_number": null,
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0085",
+    "case_id": "case_c1f72eeee2",
+    "source": "Reviewed case record",
+    "source_url": "https://pantagraph.com/alta-farms-wind-project-ii-v-dewitt-county-et-al/pdf_503e14df-53ac-584d-90e6-e79a9a01622c.html",
+    "case_source_url": "https://pantagraph.com/alta-farms-wind-project-ii-v-dewitt-county-et-al/pdf_503e14df-53ac-584d-90e6-e79a9a01622c.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Pantagraph (complaint PDF) / news result names this case, court; opinion text not read. 2021: board lacked authority to suspend the project's building permits. Residents' and the Village of Wapella's suits against the approval are not recorded here.",
+    "id": "cas_168e9c80f4",
+    "source_id": "src_6e54ad817125",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://pantagraph.com/alta-farms-wind-project-ii-v-dewitt-county-et-al/pdf_503e14df-53ac-584d-90e6-e79a9a01622c.html"
+      }
+    ]
+  },
+  {
+    "state": "MA",
+    "project_name": "454-MW offshore wind farm",
+    "technology": "wind",
+    "court_level": "federal_appellate",
+    "severity_score": 3,
+    "description": "Public Employees for Environmental Responsibility v. Hopper (U.S. Court of Appeals for the D.C. Circuit) - litigation over 454-MW offshore wind farm",
+    "case_name": "Public Employees for Environmental Responsibility v. Hopper",
+    "court": "U.S. Court of Appeals for the D.C. Circuit",
+    "docket_number": "14-5301",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0193",
+    "case_id": "case_b20d5aafe4",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper/",
+    "case_source_url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / govinfo result names this case, court and docket; opinion text not read. Decided 2016-07-05: Cape Wind EIS held inadequate (geological surveys).",
+    "id": "cas_eb7ae28c2d",
+    "source_id": "src_22f8ac453ce3",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper/"
+      }
+    ]
+  },
+  {
+    "state": "NC",
+    "project_name": "Coastal Pine Solar Farm",
+    "technology": "solar",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "Coastal Pine Solar, LLC v. Pender County (North Carolina Court of Appeals) - litigation over Coastal Pine Solar Farm",
+    "case_name": "Coastal Pine Solar, LLC v. Pender County",
+    "court": "North Carolina Court of Appeals",
+    "docket_number": "COA24-108",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0319",
+    "case_id": "case_deb7e3e90a",
+    "source": "Reviewed case record",
+    "source_url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
+    "case_source_url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a FindLaw / vLex result names this case, court and docket; opinion text not read. Decided 2026-06-17: county's permit denial upheld.",
+    "id": "cas_90da8d11c7",
+    "source_id": "src_f7075eca4512",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html"
+      }
+    ]
+  },
+  {
+    "state": "NH",
+    "project_name": "Antrim Wind Project",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "In re Allen (Antrim Wind Energy) (Supreme Court of New Hampshire) - litigation over Antrim Wind Project",
+    "case_name": "In re Allen (Antrim Wind Energy)",
+    "court": "Supreme Court of New Hampshire",
+    "docket_number": null,
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0268",
+    "case_id": "case_c0daa618a6",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/7923542/in-re-allen/",
+    "case_source_url": "https://www.courtlistener.com/opinion/7923542/in-re-allen/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court; opinion text not read. May 2018 (per NHPR): Site Evaluation Committee approval upheld.",
+    "id": "cas_d4603d92ed",
+    "source_id": "src_ed3cc583909b",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/7923542/in-re-allen/"
+      }
+    ]
+  },
+  {
+    "state": "NH",
+    "project_name": "Franklin Solar Project",
+    "technology": "solar",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Mojalaki Holdings, LLC v. City of Franklin (Supreme Court of New Hampshire) - litigation over Franklin Solar Project",
+    "case_name": "Mojalaki Holdings, LLC v. City of Franklin",
+    "court": "Supreme Court of New Hampshire",
+    "docket_number": "2022-0122",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0269",
+    "case_id": "case_654d463e55",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html",
+    "case_source_url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Decided 2024-04-09: planning board denial reversed; builder's remedy granted.",
+    "id": "cas_e3b7b34361",
+    "source_id": "src_fe3ec1e3efaa",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html"
+      }
+    ]
+  },
+  {
+    "state": "NJ",
+    "project_name": "Atlantic Shores South Project",
+    "technology": "wind",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Save Long Beach Island v. Atlantic Shores Offshore Wind, LLC (U.S. District Court for the District of New Jersey) - litigation over Atlantic Shores South Project",
+    "case_name": "Save Long Beach Island v. Atlantic Shores Offshore Wind, LLC",
+    "court": "U.S. District Court for the District of New Jersey",
+    "docket_number": "3:24-cv-09377",
+    "case_status": "pending",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0276",
+    "case_id": "case_c0443f5960",
+    "source": "Reviewed case record",
+    "source_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377",
+    "case_source_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a govinfo result names this case, court and docket; opinion text not read. Appeal docketed in the Third Circuit as 26-2186. The municipalities' separate 2023 state suit was dismissed for lack of standing in April 2024 (not recorded here).",
+    "id": "cas_6e1193c644",
+    "source_id": "src_8eef61cb2896",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"
+      }
+    ]
+  },
+  {
+    "state": "NJ",
+    "project_name": "New York Bight Offshore Wind Area",
+    "technology": "wind",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Save Long Beach Island v. U.S. Department of the Interior (U.S. District Court for the District of Columbia) - litigation over New York Bight Offshore Wind Area",
+    "case_name": "Save Long Beach Island v. U.S. Department of the Interior",
+    "court": "U.S. District Court for the District of Columbia",
+    "docket_number": "22-cv-55 (DLF)",
+    "case_status": "dismissed",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0279",
+    "case_id": "case_6b27c909ba",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/",
+    "case_source_url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court and docket; opinion text not read. Dismissed for lack of jurisdiction.",
+    "id": "cas_858866bcc6",
+    "source_id": "src_8f917ca74c3a",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/"
+      }
+    ]
+  },
+  {
+    "state": "NJ",
+    "project_name": "Ocean Wind 1",
+    "technology": "wind",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "County of Cape May v. United States (U.S. District Court for the District of New Jersey) - litigation over Ocean Wind 1",
+    "case_name": "County of Cape May v. United States",
+    "court": "U.S. District Court for the District of New Jersey",
+    "docket_number": "1:23-cv-21201",
+    "case_status": "dismissed",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0281",
+    "case_id": "case_5c2b2e80a1",
+    "source": "Reviewed case record",
+    "source_url": "https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5",
+    "case_source_url": "https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Sabin Center climate litigation database result names this case, court and docket; opinion text not read. Dismissed as moot after the developer cancelled Ocean Wind 1.",
+    "id": "cas_1acdb4ab13",
+    "source_id": "src_9381c0e8d347",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5"
+      }
+    ]
+  },
+  {
+    "state": "NV",
+    "project_name": "Clark County Solar Development",
+    "technology": "solar",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Western Watersheds Project v. Haaland (U.S. District Court for the District of Columbia) - litigation over Clark County Solar Development",
+    "case_name": "Western Watersheds Project v. Haaland",
+    "court": "U.S. District Court for the District of Columbia",
+    "docket_number": null,
+    "case_status": null,
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0259",
+    "case_id": "case_d1ea6bd67c",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland/",
+    "case_source_url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court; opinion text not read. Filed September 2023 over desert tortoise protections under the Clark County MSHCP; outcome not captured.",
+    "id": "cas_ddfd44db13",
+    "source_id": "src_de7702189893",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland/"
+      }
+    ]
+  },
+  {
+    "state": "NV",
+    "project_name": "Forest Hills Subdivision Wind Turbine",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Sowers v. Forest Hills Subdivision (Supreme Court of Nevada) - litigation over Forest Hills Subdivision Wind Turbine",
+    "case_name": "Sowers v. Forest Hills Subdivision",
+    "court": "Supreme Court of Nevada",
+    "docket_number": "58609",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0263",
+    "case_id": "case_cbdfe80fe9",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
+    "case_source_url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia / Casemine result names this case, court and docket; opinion text not read. Decided 2013-02-14: permanent injunction against the turbine affirmed.",
+    "id": "cas_77f6b901f6",
+    "source_id": "src_c9ce988b661a",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html"
+      }
+    ]
+  },
+  {
+    "state": "OK",
+    "project_name": "Osage Wind",
+    "technology": "wind",
+    "court_level": "federal_appellate",
+    "severity_score": 3,
+    "description": "United States v. Osage Wind, LLC (U.S. Court of Appeals for the Tenth Circuit) - litigation over Osage Wind",
+    "case_name": "United States v. Osage Wind, LLC",
+    "court": "U.S. Court of Appeals for the Tenth Circuit",
+    "docket_number": "15-5121",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0363",
+    "case_id": "case_aa6cf531ba",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html",
+    "case_source_url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Decided 2017-09-18: excavation was mineral development requiring an approved lease.",
+    "id": "cas_4632b72354",
+    "source_id": "src_d60b4b8819b7",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html"
+      }
+    ]
+  },
+  {
+    "state": "OR",
+    "project_name": "Boardman-to-Hemingway Transmission Line",
+    "technology": "transmission",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Stop B2H Coalition v. Oregon Department of Energy (Supreme Court of Oregon) - litigation over Boardman-to-Hemingway Transmission Line",
+    "case_name": "Stop B2H Coalition v. Oregon Department of Energy",
+    "court": "Supreme Court of Oregon",
+    "docket_number": "S069919",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0368",
+    "case_id": "case_7a2b1317ae",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html",
+    "case_source_url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2023 (370 Or 792): site certificate affirmed.",
+    "id": "cas_38648029ab",
+    "source_id": "src_91330a731be3",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html"
+      }
+    ]
+  },
+  {
+    "state": "OR",
+    "project_name": "Echanis Wind Farm",
+    "technology": "wind",
+    "court_level": "federal_appellate",
+    "severity_score": 3,
+    "description": "Oregon Natural Desert Association v. Jewell (U.S. Court of Appeals for the Ninth Circuit) - litigation over Echanis Wind Farm",
+    "case_name": "Oregon Natural Desert Association v. Jewell",
+    "court": "U.S. Court of Appeals for the Ninth Circuit",
+    "docket_number": "13-36078",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0369",
+    "case_id": "case_31209f3282",
+    "source": "Reviewed case record",
+    "source_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
+    "case_source_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a ca9.uscourts.gov result names this case, court and docket; opinion text not read. Same case as REC-0375 (Echanis project on Steens Mountain).",
+    "id": "cas_f6479ea3e0",
+    "source_id": "src_b8ae2b2663d6",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf"
+      }
+    ]
+  },
+  {
+    "state": "OR",
+    "project_name": "Origis Energy Solar Project",
+    "technology": "solar",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "1000 Friends of Oregon v. Jackson County (Oregon Court of Appeals) - litigation over Origis Energy Solar Project",
+    "case_name": "1000 Friends of Oregon v. Jackson County",
+    "court": "Oregon Court of Appeals",
+    "docket_number": null,
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0374",
+    "case_id": "case_bc4a549741",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty/",
+    "case_source_url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court; opinion text not read. Held the 80-acre solar facility was not 'industrial development'; LUBA's reversal of the county approval stood.",
+    "id": "cas_7a41442e3b",
+    "source_id": "src_5dd93a66684f",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty/"
+      }
+    ]
+  },
+  {
+    "state": "OR",
+    "project_name": "Steens Wind",
+    "technology": "wind",
+    "court_level": "federal_appellate",
+    "severity_score": 3,
+    "description": "Oregon Natural Desert Association v. Jewell (U.S. Court of Appeals for the Ninth Circuit) - litigation over Steens Wind",
+    "case_name": "Oregon Natural Desert Association v. Jewell",
+    "court": "U.S. Court of Appeals for the Ninth Circuit",
+    "docket_number": "13-36078",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0375",
+    "case_id": "case_31209f3282",
+    "source": "Reviewed case record",
+    "source_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
+    "case_source_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a ca9.uscourts.gov result names this case, court and docket; opinion text not read. Decided 2016-05-26: BLM environmental review of the Echanis project held inadequate.",
+    "id": "cas_45b49734fd",
+    "source_id": "src_b8ae2b2663d6",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf"
+      }
+    ]
+  },
+  {
+    "state": "SD",
+    "project_name": "Crowned Ridge Wind Project",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Christenson v. Crowned Ridge Wind, LLC (Supreme Court of South Dakota) - litigation over Crowned Ridge Wind Project",
+    "case_name": "Christenson v. Crowned Ridge Wind, LLC",
+    "court": "Supreme Court of South Dakota",
+    "docket_number": "29334",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0404",
+    "case_id": "case_13ef67832d",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html",
+    "case_source_url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2022: PUC permit affirmed.",
+    "id": "cas_279324fd24",
+    "source_id": "src_66830ece2339",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html"
+      }
+    ]
+  },
+  {
+    "state": "TX",
+    "project_name": "Horse Hollow Wind Energy Center",
+    "technology": "wind",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "Rankin v. FPL Energy, LLC (Texas Court of Appeals, Eleventh District (Eastland)) - litigation over Horse Hollow Wind Energy Center",
+    "case_name": "Rankin v. FPL Energy, LLC",
+    "court": "Texas Court of Appeals, Eleventh District (Eastland)",
+    "docket_number": null,
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0435",
+    "case_id": "case_11d388cd77",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc/",
+    "case_source_url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / Justia result names this case, court; opinion text not read. Decided 2008-08-21: no Texas nuisance claim for aesthetic impact; take-nothing judgment affirmed.",
+    "id": "cas_f8bcca7748",
+    "source_id": "src_213e809d32a2",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc/"
+      }
+    ]
+  },
+  {
+    "state": "VT",
+    "project_name": "Apple Hill Solar and Willow Road Solar (f/k/a Chelsea Solar)",
+    "technology": "solar",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "In re Petition of Apple Hill Solar LLC (Vermont Supreme Court) - litigation over Apple Hill Solar and Willow Road Solar (f/k/a Chelsea Solar)",
+    "case_name": "In re Petition of Apple Hill Solar LLC",
+    "court": "Vermont Supreme Court",
+    "docket_number": "22-AP-286",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0440",
+    "case_id": "case_7097903c21",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html",
+    "case_source_url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2023: denial of certificate of public good affirmed.",
+    "id": "cas_b1ecb7a2be",
+    "source_id": "src_911d8cdd66f1",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html"
+      }
+    ]
+  },
+  {
+    "state": "WV",
+    "project_name": "Beech Ridge Wind Farm",
+    "technology": "wind",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Animal Welfare Institute v. Beech Ridge Energy LLC (U.S. District Court for the District of Maryland) - litigation over Beech Ridge Wind Farm",
+    "case_name": "Animal Welfare Institute v. Beech Ridge Energy LLC",
+    "court": "U.S. District Court for the District of Maryland",
+    "docket_number": "8:09-cv-01519",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0473",
+    "case_id": "case_9ab92e0161",
+    "source": "Reviewed case record",
+    "source_url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229",
+    "case_source_url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia dockets result names this case, court and docket; opinion text not read. Decided 2009-12-08: ESA injunction limiting turbine operation absent an incidental take permit.",
+    "id": "cas_da338d9586",
+    "source_id": "src_e6e6bdc1db81",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229"
+      }
+    ]
+  },
+  {
+    "state": "WV",
+    "project_name": "Mount Storm Wind Project",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Burch v. NedPower Mount Storm, LLC (Supreme Court of Appeals of West Virginia) - litigation over Mount Storm Wind Project",
+    "case_name": "Burch v. NedPower Mount Storm, LLC",
+    "court": "Supreme Court of Appeals of West Virginia",
+    "docket_number": "33201",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0474",
+    "case_id": "case_c8486f4e8a",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc/",
+    "case_source_url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc/",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / courtswv.gov result names this case, court and docket; opinion text not read. Decided 2007-06-08: reversed dismissal of neighbors' nuisance claim and remanded.",
+    "id": "cas_00e0edbb76",
+    "source_id": "src_258ce97a7ac3",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc/"
+      }
+    ]
+  },
+  {
+    "state": "WY",
+    "project_name": "Pioneer Wind Parks I and II",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Northern Laramie Range Foundation v. Converse County Board of County Commissioners (Supreme Court of Wyoming) - litigation over Pioneer Wind Parks I and II",
+    "case_name": "Northern Laramie Range Foundation v. Converse County Board of County Commissioners",
+    "court": "Supreme Court of Wyoming",
+    "docket_number": "S-12-0060",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0493",
+    "case_id": "case_e0f194ba78",
+    "source": "Reviewed case record",
+    "source_url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html",
+    "case_source_url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html",
+    "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Decided 2012-12-14: WECS permit upheld.",
+    "id": "cas_f65e74e4cf",
+    "source_id": "src_292cabf0aa2e",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html"
+      }
+    ]
+  }
+]

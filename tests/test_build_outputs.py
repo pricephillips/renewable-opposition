@@ -37,3 +37,10 @@ def test_full_build_writes_csv_json_and_sources(monkeypatch, tmp_path):
     sources = read_csv(tmp_path / "sources.csv")
     assert {s["source_id"] for s in sources} >= {r["source_id"] for r in restrictions}
     assert sum(int(s["record_count"]) for s in sources) >= len(restrictions)
+
+
+def test_one_case_linked_to_two_projects_gets_two_ids():
+    base = {"source_url": "https://court.example/op", "case_id": "case_1", "technology": "wind"}
+    a = bso.record_id("cases", {**base, "source_record_id": "REC-0369"})
+    b = bso.record_id("cases", {**base, "source_record_id": "REC-0375"})
+    assert a != b

@@ -50,6 +50,21 @@ For map layers and headline stats, default to severity ≥ 3.
 
 `scripts/build_sabin_seeds.py` documents the exact status → outcome mapping.
 
+### Cases: status and verification
+
+Each case row links to the project (or restriction) it concerns through `source_record_id`. One case can therefore appear twice if it concerns two records. `case_status` uses one of:
+
+- `pending`
+- `dismissed`
+- `ruled_for_developer`
+- `ruled_for_opposition`, meaning the ruling favored the project's opponents
+- `settled`
+- `withdrawn`
+
+`severity_score` defaults to 3, the contested-projects score for "litigation filed".
+
+A case is promoted into `cases_seed.csv` only after it is confirmed. Confirmed means a court record names the case and its court: an opinion, a docket, or a court's own page, found on CourtListener, Justia, govinfo, a court website or an equivalent case-law host. The row's `reviewer_notes` say how and when it was verified. Partial finds stay in `data/review/cases_candidates.csv` as `review_status=lead`, with what is known so far.
+
 ---
 
 ## Outputs
@@ -83,7 +98,8 @@ renewable-opposition/
 │   ├── renewable_opposition_records.csv    ← Sabin report extraction (feeds the map/dashboard)
 │   ├── seed/
 │   │   ├── restrictions_seed.csv           ← Moratorium Nation + Sabin local restrictions
-│   │   └── contested_projects_seed.csv     ← Sabin contested-projects section
+│   │   ├── contested_projects_seed.csv     ← Sabin contested-projects section
+│   │   └── cases_seed.csv                  ← confirmed cases (via promote_reviewed.py)
 │   ├── review/
 │   │   ├── cases_candidates.csv            ← litigated projects/restrictions awaiting docket research
 │   │   ├── sabin_restrictions_review.csv   ← Sabin restriction rows held back, with reasons

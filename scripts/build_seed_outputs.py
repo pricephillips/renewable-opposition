@@ -54,8 +54,10 @@ def clean(v):
 
 def record_id(entity: str, row: dict) -> str:
     """Stable id: entity prefix + hash of the row's key within its source and
-    its technology. Re-running the build never renumbers records."""
-    key = next((row[f] for f in ROW_KEY_FIELDS if row.get(f)), None)
+    its technology. Re-running the build never renumbers records. A case row's
+    key includes both its case_id and the project record it is linked to, since
+    one case can concern two source records."""
+    key = "|".join(row[f] for f in ROW_KEY_FIELDS if row.get(f)) or None
     if key is None:
         key = "|".join(str(row.get(f) or "") for f in ("state", "project_name", "jurisdiction", "description"))
     raw = f"{entity}|{row.get('source_url')}|{key}|{row.get('technology')}"

@@ -1237,7 +1237,7 @@
         if (entityType === "contested_projects") {
           return rec.project_name || rec.description || rec.opposition_type || rec.id;
         }
-        return rec.project_name || rec.description || rec.court_level || rec.id;
+        return rec.case_name || rec.project_name || rec.description || rec.court_level || rec.id;
       }
 
       function getDisplayCategory(entityType, rec) {
@@ -1510,7 +1510,7 @@
           </td>
           <td>${escapeHtml(rec.state || "—")}</td>
           <td>${escapeHtml(rec.court_level || "—")}</td>
-          <td><span class="badge">${escapeHtml(rec.status || "—")}</span></td>
+          <td><span class="badge">${escapeHtml(rec.case_status || rec.status || "—")}</span></td>
           <td>${escapeHtml(rec.filing_date || "—")}</td>
         `;
       }
@@ -1701,7 +1701,7 @@
             ${detailKV("Location", rec.display_location)}
             ${state.view !== "cases" ? detailKV("Technology", rec.technology || "—") : detailKV("Court level", rec.court_level || "—")}
             ${state.view === "cases"
-              ? detailKV("Status", rec.status || "—")
+              ? detailKV("Status", rec.case_status || rec.status || "—")
               : detailKV("Severity", rec.severity_score ? `Severity ${rec.severity_score}` : "—")}
             ${state.view === "restrictions" ? detailKV("Restriction type", rec.restriction_type || "—") : ""}
             ${state.view === "contested_projects" ? detailKV("Opposition type", rec.opposition_type || "—") : ""}
