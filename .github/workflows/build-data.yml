@@ -6,6 +6,7 @@ on:
     paths:
       - 'data/seed/*.csv'
       - 'scripts/build_seed_outputs.py'
+      - 'scripts/common.py'
       - '.github/workflows/build-data.yml'
 
 permissions:
@@ -31,6 +32,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/*.json
+          git add data/processed/
           git diff --cached --quiet || git commit -m "Build processed dashboard data"
           git push

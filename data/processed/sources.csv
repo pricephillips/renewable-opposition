@@ -1,0 +1,3 @@
+source_id,url,normalized_url,title,record_count,entities
+src_90d5b39d9a09,https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf,https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf,"Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",488,contested_projects;restrictions
+src_8a40f21d6fd9,https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv,https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv,"Moratorium Nation (mjbommar/moratorium-data-2026), CC-BY-4.0",295,restrictions

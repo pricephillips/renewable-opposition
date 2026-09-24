@@ -18,7 +18,9 @@ What this does:
                                  ban under this repo's own scale definition)
        pending            -> 2  (proposed, not yet constraining -- early
                                  signal, not a material burden yet)
-  6. Writes data/seed/restrictions_seed.csv, overwriting any prior run's
+  6. Normalizes state to its two-letter code and carries the instrument's
+     end date and coordinates.
+  7. Writes data/seed/restrictions_seed.csv, overwriting any prior run's
      Moratorium-Nation-sourced rows (identified by the `source` column) while
      leaving any hand-added rows from other sources untouched.
 
@@ -45,6 +47,9 @@ import json
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from common import read_csv, state_code, write_csv  # noqa: E402
+
 SOURCE_CSV_URL = (
     "https://raw.githubusercontent.com/mjbommar/moratorium-data-2026"
     "/main/data/moratorium_inventory.csv"
@@ -69,6 +74,10 @@ FIELDNAMES = [
     "jurisdiction",
     "jurisdiction_type",
     "date_enacted_iso",
+    "current_end_date_iso",
+    "latitude",
+    "longitude",
+    "needs_verification",
     "moratorium_id",
     "source",
     "source_url",
@@ -128,7 +137,7 @@ def transform(csv_text: str) -> tuple[list[dict], list[tuple[str, str, list[str]
         for tech in hit:
             out_rows.append(
                 {
-                    "state": row.get("state", ""),
+                    "state": state_code(row.get("state_abbrev") or row.get("state", "")),
                     "technology": tech,
                     "restriction_type": "moratorium",
                     "severity_score": SEVERITY_BY_STATUS[status],
@@ -137,6 +146,12 @@ def transform(csv_text: str) -> tuple[list[dict], list[tuple[str, str, list[str]
                     "jurisdiction": row.get("jurisdiction", ""),
                     "jurisdiction_type": row.get("jurisdiction_type", ""),
                     "date_enacted_iso": row.get("date_enacted_iso", ""),
+                    "current_end_date_iso": row.get("current_end_date_iso", ""),
+                    "latitude": row.get("latitude", ""),
+                    "longitude": row.get("longitude", ""),
+                    # Moratorium Nation marks facts it has not yet confirmed
+                    # with [VERIFY] tags; carry that flag instead of dropping rows.
+                    "needs_verification": "yes" if row.get("has_verify_tags", "").lower() == "true" else "",
                     "moratorium_id": row.get("moratorium_id", ""),
                     "source": SOURCE_LABEL,
                     "source_url": SOURCE_URL,
@@ -147,11 +162,7 @@ def transform(csv_text: str) -> tuple[list[dict], list[tuple[str, str, list[str]
 
 def load_existing_non_moratorium_nation_rows() -> list[dict]:
     """Preserve any rows in restrictions_seed.csv that came from elsewhere."""
-    if not SEED_PATH.exists():
-        return []
-    with SEED_PATH.open(newline="", encoding="utf-8-sig") as f:
-        rows = list(csv.DictReader(f))
-    return [r for r in rows if r.get("source") != SOURCE_LABEL]
+    return [r for r in read_csv(SEED_PATH) if r.get("source") != SOURCE_LABEL]
 
 
 def main() -> int:
@@ -159,12 +170,19 @@ def main() -> int:
     parser.add_argument(
         "--dry-run", action="store_true", help="Print a summary; do not write the CSV."
     )
+    parser.add_argument(
+        "--source-file", type=Path,
+        help="Read a local copy of moratorium_inventory.csv instead of downloading it.",
+    )
     args = parser.parse_args()
 
-    csv_text = fetch_source_csv()
+    if args.source_file:
+        csv_text = args.source_file.read_text(encoding="utf-8-sig")
+    else:
+        csv_text = fetch_source_csv()
     new_rows, excluded = transform(csv_text)
     kept_rows = load_existing_non_moratorium_nation_rows()
-    all_rows = kept_rows + new_rows
+    all_rows = new_rows + kept_rows
 
     print(f"Moratorium Nation: {len(new_rows)} renewables rows kept "
           f"(active/extended/pending), {len(excluded)} excluded "
@@ -178,12 +196,9 @@ def main() -> int:
         print(f"[dry-run] Would write {len(all_rows)} total rows to {SEED_PATH}")
         return 0
 
-    SEED_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with SEED_PATH.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
-        writer.writeheader()
-        for row in all_rows:
-            writer.writerow(row)
+    # Moratorium Nation rows first, then rows from other sources, which may
+    # carry extra columns (write_csv keeps them).
+    write_csv(SEED_PATH, new_rows + kept_rows, FIELDNAMES)
     print(f"Wrote {len(all_rows)} total rows to {SEED_PATH}")
     return 0
 
