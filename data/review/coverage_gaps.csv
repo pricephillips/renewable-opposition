@@ -1,0 +1,178 @@
+missing_from,state,jurisdiction,technologies,status,date,id,description
+moratorium_nation,AR,Madison County,wind,in_force,December 2024,REC-0014,Madison County Quorum Court passed a one-year moratorium on wind development within the county in December 2024.
+moratorium_nation,AZ,Mohave County,solar,lifted,"October 2023, June 2024",REC-0010,"Mohave County Board of Supervisors established a 240-day moratorium on energy overlay re-zoning for renewable projects, which was later lifted."
+moratorium_nation,CA,Escondido,battery_storage,in_force,"October 9, 2024",REC-0018,City of Escondido implemented a 45-day moratorium on battery energy storage sites to update regulations.
+moratorium_nation,CO,Delta County,solar;wind,in_force,September 2022,REC-0030,"Delta County imposed a 6-month moratorium on applications for commercial-scale renewable energy facilities, extended as of December 2023."
+moratorium_nation,CO,Mesa County,solar,lifted,January 2024,REC-0031,"Mesa County approved a six-month moratorium on commercial solar projects, which ended after new regulations were adopted in April 2024."
+moratorium_nation,CO,Montrose County,solar,in_force,October 2022,REC-0032,"Montrose County imposed a 6-month moratorium on processing applications for power generation facilities, extended in April and December 2023."
+moratorium_nation,CO,Rio Blanco County,solar;wind,in_force,August 2023,REC-0033,Rio Blanco County adopted a moratorium on wind and solar projects to determine how to incorporate such projects into the county’s land use plan.
+moratorium_nation,CO,San Miguel County,solar,lifted,May 2023,REC-0034,"San Miguel County enacted a 6-month moratorium on applications for commercial energy projects, including solar, which was extended and ended after new zoning regulations were adopted in September 2024."
+moratorium_nation,CO,Washington County,solar;wind,lifted,"March 24, 2020",REC-0035,"Washington County imposed a temporary moratorium on accepting, processing, and approving wind and solar farm permits in unincorporated parts of the county."
+moratorium_nation,DE,Kent County,solar,in_force,"March 2022, September 2022, December 2022",REC-0042,Kent County imposed a moratorium and later prohibited new solar farms larger than 50 acres on agricultural land.
+moratorium_nation,GA,Grady County,solar,lifted,February 2017,REC-0056,Grady County imposed a 60-day moratorium on solar farm applications.
+moratorium_nation,GA,Lee County,solar,lifted,"May 2019, January 2021",REC-0059,Lee County placed a moratorium on solar farm construction in response to increased interest from developers.
+moratorium_nation,GA,Oglethorpe County,solar,in_force,"March 2023, September 2023",REC-0060,"Oglethorpe County adopted a 6-month moratorium on new solar projects, followed by an amendment to its Zoning Ordinance."
+moratorium_nation,GA,Thomas County,solar,in_force,"October 2016, October 2018",REC-0061,Thomas County implemented an indefinite moratorium on solar energy facility construction.
+moratorium_nation,IA,Cerro Gordo County,battery_storage;solar;wind,in_force,"May 2023, December 2024",REC-0105,"Cerro Gordo County passed a moratorium on utility-scale solar, wind and storage systems."
+moratorium_nation,IA,Clinton County,wind,in_force,"September 24, 2024, December 2024",REC-0107,Clinton County issued a three-month moratorium on commercial wind farm applications and extended it to June 2025.
+moratorium_nation,IA,Greene County,solar,lifted,"March 2022, June 2022",REC-0111,Greene County implemented a moratorium on utility-scale solar farms.
+moratorium_nation,IA,Grundy County,wind,in_force,"May 2021, 2023",REC-0112,Grundy County passed an indefinite moratorium on wind farm construction and new regulations with setback requirements.
+moratorium_nation,IA,Henry County,wind,in_force,April 2024,REC-0114,Henry County approved a one-year moratorium on rezoning for commercial wind energy.
+moratorium_nation,IA,Humboldt County,solar;wind,in_force,January 2024,REC-0115,Humboldt County adopted a one-year moratorium on new energy systems.
+moratorium_nation,IA,Johnson County,solar,lifted,"December 2021, June 2022",REC-0116,Johnson County approved a temporary moratorium on utility-scale solar energy farms.
+moratorium_nation,IA,Kossuth County,solar,in_force,October 2024,REC-0117,Kossuth County adopted a nine-month ban on large-scale solar farm applications.
+moratorium_nation,IA,Linn County,solar,lifted,"October 2022, September 30, 2023",REC-0118,Linn County adopted a moratorium on utility-scale solar installations.
+moratorium_nation,ID,Bannock County,battery_storage;solar;wind,in_force,"October 2023, March 2024",REC-0070,Bannock County enacted a moratorium and ordinance banning large-scale solar farms and limiting wind turbines.
+moratorium_nation,ID,Twin Falls County,solar;wind,in_force,"August 2023, March 2024",REC-0073,Twin Falls County instituted a moratorium on large-scale energy projects and passed zoning regulations to regulate wind and solar projects.
+moratorium_nation,IL,Ford County,wind,lifted,,REC-0078,Ford County imposed a moratorium on wind projects and later increased setback requirements.
+moratorium_nation,IL,Piatt County,wind,lifted,,REC-0081,Piatt County imposed a moratorium on wind energy project applications.
+moratorium_nation,IL,Tazewell County,wind,in_force,,REC-0082,Tazewell County approved a six-month moratorium on new wind energy projects.
+moratorium_nation,IN,Clinton,wind,in_force,September 2019,REC-0089,"Clinton County, Indiana, upheld a moratorium on wind farms."
+moratorium_nation,IN,Delaware,solar,in_force,February 2022,REC-0090,"Delaware County, Indiana, adopted a moratorium and increased setbacks for solar projects."
+moratorium_nation,IN,Kosciusko,solar,in_force,January 2019,REC-0096,"Kosciusko County, Indiana, adopted a moratorium on large-scale solar projects."
+moratorium_nation,IN,Madison,solar;wind,in_force,March 2024,REC-0098,"Madison County, Indiana, imposed a moratorium on new wind and solar projects."
+moratorium_nation,KS,Barton,solar,in_force,"May 2023, April 2024",REC-0120,Barton County adopted a temporary moratorium on commercial solar projects and updated zoning regulations to include a 'no build' zone around Cheyenne Bottoms.
+moratorium_nation,KS,Brown,wind,in_force,July 2022,REC-0121,Brown County adopted a moratorium on wind energy facility permitting to work on zoning regulations.
+moratorium_nation,KS,Douglas,solar;wind,in_force,"December 2013, May 2024",REC-0123,Douglas County adopted a wind energy moratorium and increased setbacks for solar projects.
+moratorium_nation,KS,Franklin,wind,in_force,May 2023,REC-0124,Franklin County adopted a moratorium on wind farm development in unincorporated areas.
+moratorium_nation,KS,Harvey,solar;wind,in_force,"February 2023, November 2023",REC-0125,Harvey County established a moratorium on commercial wind and solar projects and updated zoning regulations.
+moratorium_nation,KS,McPherson,solar;wind,in_force,"November 2018, August 2023",REC-0131,McPherson County indefinitely banned wind turbines and extended a moratorium on commercial solar projects.
+moratorium_nation,KS,Nemaha,wind,in_force,"May 2019, October 2023",REC-0132,Nemaha County extended its wind energy moratorium for an additional year.
+moratorium_nation,KS,Pawnee,solar,in_force,"Fall 2022, November 2023",REC-0134,Pawnee County extended its moratorium on utility-scale commercial solar projects for three years.
+moratorium_nation,LA,St. James Parish,solar,pending,"August 17, 2022",REC-0152,A moratorium on commercial solar farms was approved in August 2022 by the St. James Parish Council.
+moratorium_nation,MA,Town of Northfield,battery_storage;solar,in_force,May 2024,REC-0187,Residents of Northfield voted for a one-year moratorium on utility-scale solar projects and battery storage facilities.
+moratorium_nation,MD,Carroll,solar,in_force,2023-2024,REC-0174,Carroll County adopted a 6-month moratorium on community solar farm applications and amended its land use ordinance to increase restrictions on commercial solar projects.
+moratorium_nation,ME,Albion,solar,in_force,"March 2023, August 2023",REC-0161,Residents voted to adopt a new ordinance requiring solar projects to be set back 300 feet and impose a moratorium on utility lines.
+moratorium_nation,ME,Athens,solar,in_force,March 2024,REC-0162,Town passed a 180-day moratorium on large-scale solar facilities due to water contamination and wildlife concerns.
+moratorium_nation,ME,Augusta,solar,in_force,August 2021,REC-0158,City Council imposed a moratorium for up to 180 days on solar projects due to aesthetic concerns.
+moratorium_nation,ME,Belgrade,solar;wind,in_force,August 2020 (extended multiple times),REC-0163,Town extended a moratorium on wind and solar projects to draft new ordinances.
+moratorium_nation,ME,Brewer,solar,in_force,August 2023,REC-0159,City Council adopted a 6-month moratorium on large-scale solar projects.
+moratorium_nation,ME,Corinth,solar,in_force,March 2022,REC-0164,Town imposed a 180-day moratorium on commercial solar projects.
+moratorium_nation,ME,Cutler,solar,in_force,February 2024 (extended until August 2025),REC-0165,Town imposed a moratorium on solar facilities to draft amendments to its Land Use Ordinance.
+moratorium_nation,ME,Dexter,solar,in_force,May 2024,REC-0166,Town Council passed a 180-day moratorium on commercial solar arrays.
+moratorium_nation,ME,Ellsworth,solar,in_force,"October 18, 2021",REC-0160,City Council enacted a 6-month moratorium on solar development due to concerns about overdevelopment.
+moratorium_nation,ME,Glenburn,solar,in_force,April 2021 (extended in March 2022),REC-0169,Town imposed a moratorium on commercial solar facilities and banned larger projects.
+moratorium_nation,MI,Adams Township,solar;wind,in_force,August 2021,REC-0196,Adams Township imposed a 6-month moratorium on commercial wind and solar projects.
+moratorium_nation,MI,Augusta Township,solar,in_force,March 2022,REC-0199,Augusta Township adopted a 6-month moratorium on large solar energy systems.
+moratorium_nation,MI,Bridgehampton Township,wind,lifted,,REC-0204,Bridgehampton Township initially proposed a wind moratorium but eventually rejected it.
+moratorium_nation,MI,Clinton County,solar;wind,in_force,"May 2023, April 2024",REC-0207,Clinton County established a moratorium on utility-scale wind and solar projects.
+moratorium_nation,MI,Cohoctah Township,solar,in_force,"December 2021, February 2023",REC-0208,Cohoctah Township adopted a moratorium on utility-scale solar projects.
+moratorium_nation,MI,Conway Township,solar;wind,in_force,April 2023,REC-0209,Conway Township adopted a moratorium on commercial wind and solar projects.
+moratorium_nation,MN,Chippewa,solar;wind,in_force,February 2024,REC-0213,Chippewa County adopted a 1-year moratorium on wind and solar projects to study possible ordinance reforms.
+moratorium_nation,MN,Meeker,solar;wind,in_force,February 2024,REC-0216,Meeker County approved a 1-year moratorium on solar and wind projects to consider updates to zoning ordinances.
+moratorium_nation,MN,Minnetrista,solar,lifted,October 2020,REC-0214,"Minnetrista implemented a moratorium on solar projects in agricultural areas, which was later lifted."
+moratorium_nation,MN,Scandia,solar,in_force,April 2022,REC-0215,Scandia approved a 1-year moratorium on solar projects due to visual impacts from an existing farm.
+moratorium_nation,MN,Traverse,wind,extended,2023,REC-0217,"Traverse County passed an interim ordinance temporarily prohibiting wind projects for 12 months, extended by another 12 months."
+moratorium_nation,MN,Wright,solar,in_force,2021,REC-0218,Wright County implemented a 1-year moratorium on community solar gardens in agricultural areas.
+moratorium_nation,MO,Clinton County,wind,in_force,"2016, amended July 19, 2019",REC-0229,Clinton County passed a moratorium on wind development.
+moratorium_nation,MO,Monroe County,wind,in_force,August 2019,REC-0230,Monroe County implemented an 18-month moratorium on wind energy development.
+moratorium_nation,NC,Currituck,solar,lifted,January 2017 - January 2019,REC-0310,"Currituck County adopted a moratorium on new solar farms in January 2017, which remained in place until January 2019."
+moratorium_nation,NC,Herndon,solar,in_force,October 2020,REC-0311,Herndon County Commissioners approved a temporary solar moratorium in October 2020.
+moratorium_nation,NC,Rowan,solar,lifted,October 2019 - April 2021,REC-0313,"Rowan County instituted a moratorium on large solar farms, which was extended twice."
+moratorium_nation,NC,Woodland,solar,in_force,2015,REC-0314,Woodland Town Council approved a moratorium on all future solar projects in 2015.
+moratorium_nation,ND,Grand Forks County,wind,in_force,"April 25, 2023 (initial), August 15, 2023 (extension)",REC-0323,"Grand Forks County adopted a 90-day moratorium on new wind farms, later extended by 60 days."
+moratorium_nation,ND,McLean County,solar,in_force,"August 17, 2020",REC-0325,McLean County introduced a 2-year moratorium on solar development.
+moratorium_nation,ND,Mercer County,wind,lifted,May 2020,REC-0327,"Mercer County adopted a 2-year moratorium on wind energy applications, blocking the Garrison Buje Wind Farm."
+moratorium_nation,ND,Stark County,wind,lifted,"September 13, 2021 (initial), July 8, 2021 (revised)",REC-0328,Stark County approved a 9-month moratorium on wind energy development.
+moratorium_nation,NE,Dawson County,wind,in_force,November 2022; May 2023,REC-0246,Dawson County adopted a 1-year moratorium on wind farm applications and amended its regulations to impose new setbacks.
+moratorium_nation,NE,Gage County,solar;wind,in_force,July 2020; March 2023,REC-0248,Gage County adopted a moratorium on new permits for wind farms and banned commercial wind turbines within 1 mile of property lines.
+moratorium_nation,NE,Greeley County,solar;wind,in_force,April 2024,REC-0249,Greeley County adopted a 3-year moratorium on renewable energy applications.
+moratorium_nation,NE,Gretna,solar,lifted,July 2020,REC-0244,Gretna City Council approved a temporary moratorium on solar plants and associated facilities.
+moratorium_nation,NJ,Atlantic County,wind,in_force,"February 21, 2023",REC-0274,Atlantic County Board of County Commissioners approved a nonbinding resolution calling for a moratorium on offshore wind development.
+moratorium_nation,NJ,Middletown Township,wind,in_force,"March 6, 2023",REC-0275,Middletown Township passed a nonbinding resolution calling for a moratorium on offshore wind projects.
+moratorium_nation,NY,Cattaraugus,solar;wind,in_force,"May 2022, July 2022, July 2023",REC-0292,Cattaraugus County IDA implements a moratorium on new solar and wind projects.
+moratorium_nation,NY,Clifton Park,solar,in_force,January 2021,REC-0297,Clifton Park Town Board approves a 6-month moratorium on ground-mounted solar facilities.
+moratorium_nation,NY,Dryden,solar;wind,in_force,July 2016,REC-0300,"Dryden Town implements a moratorium on certain public utility installations, including solar facilities."
+moratorium_nation,NY,Duanesburg,solar,in_force,January 2020,REC-0301,Duanesburg Town adopts a solar moratorium to consider changes to the 2016 solar law.
+moratorium_nation,NY,Enfield,solar;wind,in_force,"2017, August 2019",REC-0302,Enfield Town imposes a moratorium on commercial wind and solar projects.
+moratorium_nation,NY,Olean,solar,in_force,May 2023,REC-0295,Olean Common Council approves a 1-year moratorium on large-scale solar projects.
+moratorium_nation,RI,North Kingstown,wind,in_force,"2011-01 (moratorium), 2011-11 (ban)",REC-0393,"North Kingstown, Rhode Island placed a moratorium on wind turbines and later banned them."
+moratorium_nation,RI,Warwick,solar,in_force,"2021-11 (moratorium), 2022-03 (ordinance)",REC-0390,"Warwick, Rhode Island adopted a 6-month moratorium on ground-mounted solar projects and later prohibited large-scale solar energy projects."
+moratorium_nation,SC,Calhoun County,solar,in_force,March 2023,REC-0394,Calhoun County adopted a 6-month moratorium on solar farms outside industrial areas in unincorporated areas.
+moratorium_nation,SD,Hughes County,wind,in_force,May 2017,REC-0398,Hughes County approved a 6-month moratorium on wind energy development to review setback requirements.
+moratorium_nation,VA,Charloje County,solar,lifted,"August 2022, April 2023",REC-0452,"Moratorium on solar project applications until January 1, 2024 or until zoning recommendations are made."
+moratorium_nation,WA,Grant County,solar,in_force,"August 3, 2021",REC-0462,Grant County adopted a moratorium on new commercial or industrial wind or solar projects.
+moratorium_nation,WA,Kittitas,solar,in_force,"January 10, 2017",REC-0463,Kittitas County Commissioners established a temporary moratorium on major solar energy projects.
+moratorium_nation,WA,Klickitat,solar,in_force,"January 10, 2023",REC-0464,Klickitat County adopted a 6-month moratorium on solar projects greater than 1 acre.
+moratorium_nation,WA,Yakima,solar,in_force,"July 26, 2022",REC-0465,Yakima County adopted a temporary moratorium on mid- and large-scale solar projects.
+moratorium_nation,WI,Lincoln,wind,lifted,2021-05-10,REC-0485,Lincoln passed a 6-month moratorium on wind energy development in response to RWE Renewables America’s interest in building a wind farm.
+sabin,CA,Morro Bay,battery_storage,extended,2025-01-28,ca-morro-bay-2025,Public safety concerns after Moss Landing battery fires; prior Vistra 600 MW BESS proposal on the former power plant site (application withdrawn 2025).
+sabin,CA,Orange County,battery_storage,replaced,2025-01-28,ca-orange-county-2025,Board directed staff on 2024-10-08 to draft BESS development standards.
+sabin,CA,Solano County,battery_storage,replaced,2024-01-23,ca-solano-county-2024,Safety concerns near the Vaca-Dixon substation in Vacaville; farmland protection.
+sabin,CA,Vacaville,battery_storage,replaced,2024-05-14,ca-vacaville-2024,Council concern about BESS development without adequate land-use policies/standards; ongoing L&T feasibility study on energy hubs.
+sabin,CO,Fremont County (Unincorporated),battery_storage;solar,expired,2024-06-11,co-fremont-county-unincorporated-2024,Inquiries about commercial battery storage/solar and inadequate zoning regulations
+sabin,CO,Washington County,battery_storage,active,2023,co-washington-county-2023,County developing battery energy storage system regulations
+sabin,IA,Emmet County,battery_storage;solar,extended,2025-01-28,ia-emmet-county-2025,"Board wants ordinances regulating construction, operation and decommissioning of utility-scale solar and battery storage (safety, neighbouring property, county roads) before any are built."
+sabin,IA,Jackson County,battery_storage,extended,2024-01-02,ia-jackson-county-2024-2,County lacks a Utility-Scale Battery Energy Storage Systems ordinance; Planning and Zoning Commission needs time to draft one
+sabin,IA,Jones County,battery_storage,replaced,2024-10-15,ia-jones-county-2024,Board cited no current county data mining ordinance and need for planning/zoning work on setbacks and standards (resolution text).
+sabin,KS,Allen County,battery_storage,replaced,2025-01,ks-allen-county-2025,Mission Clean Energy proposal for a 300 MW BESS facility near Savonburg and Elsmore; no BESS-specific zoning standards existed.
+sabin,MD,Caroline County,battery_storage,expired,2023-06-13,md-caroline-county-2023,Time needed for careful study of proposed BESS legislative changes and local siting standards
+sabin,ME,Albion,battery_storage;wind,extended,2024-11-25,me-albion-2024,Developer inquiries about grid-scale BESS/substation/wind projects; town wants time to adopt standards
+sabin,ME,Durham,battery_storage,expired,2024-09,me-durham-2024,Inquiries about large-scale BESS; concerns over fire risk given volunteer fire department and no public water system
+sabin,MI,Riley Township,battery_storage,expired,2024-01-09,mi-riley-township-2024,Developer interest in constructing BESS in the Township; need for regulations
+sabin,ND,Oliver County (Phase 1),solar,rescinded,2024-12-12,nd-oliver-county-2024-p1,County findings said data center and cryptocurrency mining uses were nascent locally and lacked established siting and performance standards.
+sabin,NE,Seward County,battery_storage;solar;wind,extended,2023-08-01,ne-seward-county-2023,regulatory_gap: the county's zoning regulations do not yet address commercial-scale renewable energy systems; the moratorium is intended to remain in place only until new zoning regulations governing such systems are formally adopted and become legally binding.
+sabin,NV,Lander County,battery_storage;solar;wind,expired,2024,nv-lander-county-2024,"Time to study standards for renewable energy generation facility siting (solar, wind, storage)"
+sabin,NY,Angelica,battery_storage;solar;wind,expired,2024-10-31,ny-angelica-2024,"Desire to regulate future community/commercial-scale solar, energy storage, and wind generation to protect agricultural character"
+sabin,NY,Babylon,battery_storage,extended,2024-06-05,ny-babylon-2024,"BESS fires elsewhere in New York; Fire Marshal and Department of Environmental Control concerns about environmentally sensitive watersheds, the Great South Bay, and Special Groundwater Protection Areas"
+sabin,NY,Bedford,battery_storage,extended,2024-08-13,ny-bedford-2024,BESS fires elsewhere in New York; a Bedford advisory committee developing a model ordinance with NYSERDA and Westchester Business Council input
+sabin,NY,Boston (Erie County),battery_storage,extended,2024,ny-boston-erie-county-2024,BESS fires elsewhere in New York; residents' concerns the draft definition was overly broad and could cover household backup batteries
+sabin,NY,Brasher,battery_storage,extended,2024,ny-brasher-2024,"The July 2024 Chaumont, NY solar-farm battery fire in Jefferson County (multi-day burn, evacuations, air-quality alerts)"
+sabin,NY,Busti,battery_storage,active,2024,ny-busti-2024,Awaiting NYSERDA BESS safety working group final report; town amending land use regulations
+sabin,NY,Cameron,battery_storage;solar,active,2024-10,ny-cameron-2024,
+sabin,NY,Carmel,battery_storage;solar,replaced,2024,ny-carmel-2024,East Point Energy's proposed 116 MW Union Energy Center BESS on a 94-acre Mahopac parcel near the Westchester County line
+sabin,NY,Chester (Orange County),battery_storage,extended,2025,ny-chester-orange-county-2025,
+sabin,NY,Claverack,battery_storage,extended,2024,ny-claverack-2024,Town reviewing possible BESS zoning regulations
+sabin,NY,Clymer,battery_storage,extended,2024,ny-clymer-2024,Awaiting New York State guidance on BESS safety hazards
+sabin,NY,Concord,battery_storage,extended,2024-07-22,ny-concord-2024,
+sabin,NY,Concord,solar,extended,2024,ny-concord-2024-2,
+sabin,NY,Cortlandt,battery_storage,extended,2024,ny-cortlandt-2024,Significant developer interest in siting BESS in Cortlandt; the town code lacks BESS-specific provisions
+sabin,NY,Eden,battery_storage,extended,2025,ny-eden-2025,BESS fires elsewhere in New York in 2023; concerns about proximity to residential properties
+sabin,NY,Gardiner,battery_storage,extended,2025,ny-gardiner-2025,"The town's 2008 zoning law does not address utility-scale BESS siting, noise, or screening"
+sabin,NY,German Flatts,solar;wind,active,2025,ny-german-flatts-2025,
+sabin,NY,Islip,battery_storage,extended,2024-03-19,ny-islip-2024,Statewide BESS fires in 2023 and the resulting NYS Inter-Agency Fire Safety Working Group review
+sabin,NY,Johnstown,battery_storage;wind,expired,2024,ny-johnstown-2024,Nexamp BESS project proposal; need to complete Comprehensive Plan update
+sabin,NY,Kent (Putnam County),battery_storage,extended,2024-07-09,ny-kent-putnam-county-2024,A lithium battery storage facility proposal near the Mahopac-Baldwin Place border prompted the moratorium
+sabin,NY,Leyden (Lewis County),battery_storage;solar,replaced,2024-05-14,ny-leyden-lewis-county-2024,Town-wide pause pending adoption of permanent BESS/solar siting regulations
+sabin,NY,Livingston (Columbia County),battery_storage,extended,2024,ny-livingston-columbia-county-2024,Town Board sought additional time before adopting a revised BESS law
+sabin,NY,Long Lake,battery_storage,replaced,2023,ny-long-lake-2023,Proposed Adirondack Central Microgrid BESS project at Raquette Lake
+sabin,NY,Lysander (Onondaga County),battery_storage,extended,2023-09-21,ny-lysander-onondaga-county-2023,"Town-wide pause on Tier 2 (utility-scale) battery energy storage system applications pending regulatory review, running in parallel with a now-rescinded solar farm moratorium"
+sabin,NY,Mamaroneck Village,battery_storage,expired,2024-10-31,ny-mamaroneck-village-2024,Consultant study of BESS zoning constraints
+sabin,NY,Milton (Saratoga County),battery_storage;solar,extended,2024-12,ny-milton-saratoga-county-2024,Town-wide pause on large/commercial-scale solar and battery storage facility applications pending regulatory review
+sabin,NY,Montgomery,battery_storage,replaced,2025,ny-montgomery-2025,
+sabin,NY,Mount Kisco,battery_storage,replaced,2024-08,ny-mount-kisco-undated,
+sabin,NY,Newstead,battery_storage;solar,expired,2024-07-08,ny-newstead-2024,Increased developer interest in standalone BESS and solar-plus-storage
+sabin,NY,North Harmony,battery_storage;solar,extended,2025,ny-north-harmony-2025,"Town-wide pause on commercial solar and BESS applications pending adoption of local siting rules (NFPA 855 fire code compliance, battery chemistry limits, setbacks, water supply, alarm/green-space requirements, noise mitigation) while the Town retains a consultant"
+sabin,NY,North Hempstead,battery_storage,extended,2024-12-03,ny-north-hempstead-2024,Pause on approvals for BESS facilities pending state codification of building/fire prevention regulations and first-responder training
+sabin,NY,Oswegatchie,battery_storage,extended,2023,ny-oswegatchie-2023,Town-wide pause on new BESS permitting
+sabin,NY,Oyster Bay,battery_storage,extended,2024-04,ny-oyster-bay-2024,Jupiter Power's previously proposed 275 MW lithium battery storage facility in Glenwood Landing near Glen Head and Glenwood Landing elementary schools
+sabin,NY,Perth (Fulton County),battery_storage;solar;wind,active,2024,ny-perth-fulton-county-2024,"Town-wide pause on new commercial solar, battery storage, and wind installations to allow the Town Board to update and revise siting regulations"
+sabin,NY,Port Chester,battery_storage,expired,2023-10,ny-port-chester-undated,
+sabin,NY,Pound Ridge,battery_storage,replaced,2025,ny-pound-ridge-2025,"Prevent BESS siting near schools, parks, and watersheds"
+sabin,NY,Prattsburgh,battery_storage;solar,active,2024,ny-prattsburgh-2024,Town-wide pause on industrial solar and BESS facility applications
+sabin,NY,Putnam Valley,battery_storage;solar;wind,expired,2024-07-26,ny-putnam-valley-2024,"A proposed 116-megawatt battery storage farm near the Putnam-Westchester county line, opposed by residents of southern Mahopac and Baldwin Place and environmental organizations"
+sabin,NY,Rose,battery_storage;solar,active,2025,ny-rose-2025,Town-wide pause on large-scale solar and battery storage construction
+sabin,NY,Rotterdam,battery_storage,expired,2024,ny-rotterdam-2024,
+sabin,NY,Royalton,battery_storage,replaced,2024-03,ny-royalton-2024,
+sabin,NY,Smithtown,battery_storage,extended,2024-09-20,ny-smithtown-2024,Town-wide pause on BESS permits/approvals pending review of the Inter-Agency Fire Safety Working Group's recommendations and New York State's proposed fire code updates for BESS
+sabin,NY,Somerset,battery_storage,replaced,2024,ny-somerset-2024,
+sabin,NY,Southampton,battery_storage,replaced,2023-08-22,ny-southampton-2023,
+sabin,NY,Southold,battery_storage,extended,2023-01-31,ny-southold-2023,A proposed 60 MW lithium-ion BESS and LIPA substation on a 27-acre Oregon Road site (Key Capture Energy)
+sabin,NY,Stanford,battery_storage;wind,extended,2024-11-14,ny-stanford-2024,Town-wide pause on large-scale battery storage and wind energy conversion system projects pending clarity on state safety standards; does not apply to EV charging or single-family home battery systems
+sabin,NY,Town of Chautauqua,battery_storage;solar;wind,active,2023,ny-town-of-chautauqua-2023,Town updating its Comprehensive Plan and zoning before adopting permanent BESS/solar/wind standards
+sabin,NY,Town of Day,battery_storage,active,2025,ny-town-of-day-2025,Town-wide pause on BESS applications pending development of local siting regulations
+sabin,NY,Town of Poughkeepsie,battery_storage,replaced,2024-02,ny-town-of-poughkeepsie-2024,
+sabin,NY,Turin,battery_storage,expired,2025,ny-turin-undated,
+sabin,NY,Victory,battery_storage,active,2024-10-14,ny-victory-2024,
+sabin,NY,Village of Wilson,battery_storage,expired,2024-09-19,ny-village-of-wilson-2024,
+sabin,NY,Walworth,battery_storage;solar,replaced,2024-03,ny-walworth-2024,
+sabin,NY,Warwick,battery_storage,replaced,2023,ny-warwick-2023,2023 Warwick BESS fire
+sabin,NY,West Bloomfield,battery_storage;solar,active,2024-09-11,ny-west-bloomfield-2024,Lack of adequate zoning provisions for large-scale solar and large-scale BESS
+sabin,NY,Westfield,battery_storage,active,2024,ny-westfield-2024,Awaiting state Inter-Agency Fire Safety Working Group final report and completing local environmental/zoning review
+sabin,NY,Yonkers,battery_storage,active,2024-07-16,ny-yonkers-2024,City retained a consultant to study BESS impacts and draft regulations; work still underway
+sabin,TN,Jefferson County,battery_storage,expired,2023-07-27,tn-jefferson-county-2023,Public concern over BESS siting; regional planning commissions wanted time to study regulations and development standards
+sabin,TX,League City,battery_storage,expired,2024-03-01,tx-league-city-2024,Two proposed BESS rezoning applications (Stella Energy Solutions; Cypress Creek Renewables) drew resident opposition over fire/flood/safety concerns
+sabin,TX,Pasadena,battery_storage,extended,2024,tx-pasadena-2024,City studying BESS siting/safety regulations
+sabin,WA,Covington,battery_storage,extended,2024-05-14,wa-covington-2024,"BESS facilities present fire, explosion, hazardous-chemical, noise, visual, and wildlife-impact risks not addressed by the City's outdated 'Utility Facility' zoning definition (CMC 18.20.050/18.125.040); City wants to align with King County's BESS siting standards and Dept. of Ecology guidance befor"
+sabin,WA,Renton,battery_storage,expired,2022-04,wa-renton-2022,Tenaska 250 MW BESS proposal on land 50 feet from homes; city land-use code lacked a BESS category
+sabin,WA,Skagit County,battery_storage,expired,2024-09-23,wa-skagit-county-2024,Board concern that a proposed new Ag-NRL energy-facility ordinance could trigger a rush of permit applications on Skagit farmland

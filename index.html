@@ -921,7 +921,7 @@
           singular: "restriction",
           mapTitle: "Restrictions map",
           listTitle: "Restrictions records",
-          dateFields: ["adopted_date", "effective_date", "date"],
+          dateFields: ["adopted_date", "effective_date", "date_enacted_iso", "date"],
           typeField: "restriction_type",
           typeLabel: "Restriction type",
           severityDefault: "3-4",
@@ -1228,12 +1228,16 @@
 
       function getDisplayTitle(entityType, rec) {
         if (entityType === "restrictions") {
+          if (rec.jurisdiction) {
+            const what = [rec.restriction_type, rec.technology].filter(Boolean).join(", ");
+            return `${rec.jurisdiction}${rec.state ? ", " + rec.state : ""}${what ? " (" + what + ")" : ""}`;
+          }
           return rec.description || rec.restriction_type || rec.display_location || rec.id;
         }
         if (entityType === "contested_projects") {
           return rec.project_name || rec.description || rec.opposition_type || rec.id;
         }
-        return rec.project_name || rec.description || rec.court_level || rec.id;
+        return rec.case_name || rec.project_name || rec.description || rec.court_level || rec.id;
       }
 
       function getDisplayCategory(entityType, rec) {
@@ -1243,13 +1247,14 @@
       }
 
       function getDisplayStatus(entityType, rec) {
-        if (entityType === "cases") return rec.status || "status unavailable";
+        if (entityType === "cases") return rec.case_status || rec.status || "status unavailable";
         if (rec.severity_score) return `Severity ${rec.severity_score}`;
         return "Unscored";
       }
 
       function getDisplayLocation(rec) {
-        const parts = [rec.municipality, rec.county, rec.state].filter(Boolean);
+        const local = rec.municipality || rec.county ? [rec.municipality, rec.county] : [rec.jurisdiction];
+        const parts = [...local, rec.state].filter(Boolean);
         return parts.length ? parts.join(", ") : "Location unavailable";
       }
 
@@ -1483,7 +1488,7 @@
             <td>${escapeHtml(rec.state || "—")}</td>
             <td>${escapeHtml(rec.restriction_type || "—")}</td>
             <td><span class="badge badge-severity">${escapeHtml(rec.severity_score ? `Severity ${rec.severity_score}` : "—")}</span></td>
-            <td>${escapeHtml(rec.adopted_date || rec.effective_date || "—")}</td>
+            <td>${escapeHtml(rec.adopted_date || rec.effective_date || rec.date_enacted_iso || rec.date_text || "—")}</td>
           `;
         }
         if (state.view === "contested_projects") {
@@ -1505,7 +1510,7 @@
           </td>
           <td>${escapeHtml(rec.state || "—")}</td>
           <td>${escapeHtml(rec.court_level || "—")}</td>
-          <td><span class="badge">${escapeHtml(rec.status || "—")}</span></td>
+          <td><span class="badge">${escapeHtml(rec.case_status || rec.status || "—")}</span></td>
           <td>${escapeHtml(rec.filing_date || "—")}</td>
         `;
       }
@@ -1696,12 +1701,12 @@
             ${detailKV("Location", rec.display_location)}
             ${state.view !== "cases" ? detailKV("Technology", rec.technology || "—") : detailKV("Court level", rec.court_level || "—")}
             ${state.view === "cases"
-              ? detailKV("Status", rec.status || "—")
+              ? detailKV("Status", rec.case_status || rec.status || "—")
               : detailKV("Severity", rec.severity_score ? `Severity ${rec.severity_score}` : "—")}
             ${state.view === "restrictions" ? detailKV("Restriction type", rec.restriction_type || "—") : ""}
             ${state.view === "contested_projects" ? detailKV("Opposition type", rec.opposition_type || "—") : ""}
             ${state.view === "cases" ? detailKV("Project name", rec.project_name || "—") : ""}
-            ${state.view === "restrictions" ? detailKV("Adopted date", rec.adopted_date || "—") : ""}
+            ${state.view === "restrictions" ? detailKV("Adopted date", rec.adopted_date || rec.date_enacted_iso || rec.date_text || "—") : ""}
             ${state.view === "restrictions" ? detailKV("Effective date", rec.effective_date || "—") : ""}
             ${state.view === "contested_projects" ? detailKV("First event date", rec.first_event_date || "—") : ""}
             ${state.view === "cases" ? detailKV("Filing date", rec.filing_date || "—") : ""}

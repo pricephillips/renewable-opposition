@@ -1,0 +1,34 @@
+{
+  "count": 3,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "caseName": "Example Residents v. County Board of Supervisors",
+      "court": "Court of Appeals of Iowa",
+      "court_id": "iowactapp",
+      "docketNumber": "23-0001",
+      "dateFiled": "2024-05-01",
+      "absolute_url": "/opinion/1/example-residents-v-county-board/",
+      "opinions": [{"snippet": "challenge to the county's approval of a <mark>wind farm</mark> conditional use permit and setback variance"}]
+    },
+    {
+      "caseName": "Doe v. Roe",
+      "court": "Supreme Court of Ohio",
+      "court_id": "ohio",
+      "docketNumber": "2023-0002",
+      "dateFiled": "2024-02-01",
+      "absolute_url": "/opinion/2/doe-v-roe/",
+      "opinions": [{"snippet": "a contract dispute about a restaurant lease"}]
+    },
+    {
+      "caseName": "Solar Developer LLC v. Township",
+      "court": "United States District Court for the Western District of Michigan",
+      "court_id": "miwd",
+      "docketNumber": "1:24-cv-00003",
+      "dateFiled": "2024-09-09",
+      "absolute_url": "/opinion/3/solar-developer-v-township/",
+      "snippet": "zoning ordinance barring any <mark>solar farm</mark> larger than ten acres"
+    }
+  ]
+}

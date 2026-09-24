@@ -30,7 +30,7 @@ Usage:
 
 import argparse
 import csv
-import importlib
+import importlib.util
 import logging
 import sys
 from dataclasses import asdict, dataclass, field
