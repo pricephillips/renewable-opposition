@@ -27,16 +27,24 @@ data/review/sabin_restrictions_review.csv
 
 Contested projects
 ------------------
-outcome         four-tier vocabulary from the plan doc, mapped from source status:
-                  cancelled, rejected                   -> blocked_confirmed
+outcome         outcome ladder shared with pricephillips/data-center-map, mapped
+                from source status:
+                  cancelled, rejected                   -> blocked_unverified
                   approved, approved_after_opposition,
-                  operational                           -> advanced_confirmed
+                  operational                           -> advanced_unverified
                   pending, proposed                     -> pending
                   anything else (in_force, lifted,
                   unknown, blank)                       -> needs_review
-                ``restricted_conditional`` is only set by hand.
+                A status label alone is never finality evidence, so nothing is
+                *_confirmed on the extraction's word. A row is promoted to
+                blocked_confirmed / advanced_confirmed only when a case in
+                data/seed/cases_seed.csv linked to the same source record was
+                decided the same way (ruled_for_opposition / ruled_for_developer).
+                ``finality_evidence`` records which: court_ruling,
+                outcome_label_only or none. ``restricted_conditional`` is only
+                set by hand.
 severity_score  1-4 intensity of opposition against the project:
-                  4  project blocked (outcome blocked_confirmed)
+                  4  project blocked (outcome blocked_*)
                   3  litigation filed, project not (yet) blocked
                   2  resident/organized opposition, no litigation, not approved
                   1  project advanced despite opposition, no litigation
@@ -91,6 +99,7 @@ from common import (
 RECORDS_PATH = ROOT / "data" / "renewable_opposition_records.csv"
 CONTESTED_PATH = SEED_DIR / "contested_projects_seed.csv"
 RESTRICTIONS_PATH = SEED_DIR / "restrictions_seed.csv"
+CASES_PATH = SEED_DIR / "cases_seed.csv"
 CANDIDATES_PATH = REVIEW_DIR / "cases_candidates.csv"
 RESTRICTIONS_REVIEW_PATH = REVIEW_DIR / "sabin_restrictions_review.csv"
 
@@ -118,18 +127,18 @@ PROJECT_TECHNOLOGY_OVERRIDES = {
 }
 
 OUTCOME = {
-    "cancelled": "blocked_confirmed",
-    "rejected": "blocked_confirmed",
-    "approved": "advanced_confirmed",
-    "approved_after_opposition": "advanced_confirmed",
-    "operational": "advanced_confirmed",
+    "cancelled": "blocked_unverified",
+    "rejected": "blocked_unverified",
+    "approved": "advanced_unverified",
+    "approved_after_opposition": "advanced_unverified",
+    "operational": "advanced_unverified",
     "pending": "pending",
     "proposed": "pending",
 }
 
 CONTESTED_FIELDS = [
     "state", "project_name", "technology", "severity_score", "description",
-    "outcome", "status", "has_litigation", "opposition_type",
+    "outcome", "finality_evidence", "status", "has_litigation", "opposition_type",
     "county", "municipality", "event_date_text", "capacity_mw", "area_acres",
     "long_description", "source_record_id", "source", "source_url", "notes",
 ]
@@ -291,7 +300,36 @@ def is_litigated(row: dict) -> bool:
 
 # ── Builders ─────────────────────────────────────────────────────────────────
 
-def build_contested(records: list[dict]) -> tuple[list[dict], list[dict], list[str]]:
+# A linked case decided this way corroborates the unverified outcome.
+CONFIRMING_RULING = {
+    "blocked_unverified": ("ruled_for_opposition", "blocked_confirmed"),
+    "advanced_unverified": ("ruled_for_developer", "advanced_confirmed"),
+}
+
+
+def case_rulings(cases: list[dict]) -> dict[str, list[dict]]:
+    """source_record_id -> the seeded cases linked to it."""
+    out: dict[str, list[dict]] = {}
+    for c in cases:
+        if c.get("source_record_id"):
+            out.setdefault(c["source_record_id"], []).append(c)
+    return out
+
+
+def finalize_outcome(outcome: str, linked_cases: list[dict]) -> tuple[str, str]:
+    """Return (outcome, finality_evidence) given the cases linked to the row."""
+    if outcome in CONFIRMING_RULING:
+        ruling, confirmed = CONFIRMING_RULING[outcome]
+        for c in linked_cases:
+            if c.get("case_status") == ruling:
+                return confirmed, f"court_ruling: {c.get('case_name', '')}".strip()
+        return outcome, "outcome_label_only"
+    return outcome, "none"
+
+
+def build_contested(records: list[dict], rulings: dict[str, list[dict]] | None = None
+                    ) -> tuple[list[dict], list[dict], list[str]]:
+    rulings = rulings or {}
     seed, candidates, excluded = [], [], []
     for r in records:
         if r["extraction_source_section"] != "contested_projects":
@@ -308,13 +346,14 @@ def build_contested(records: list[dict]) -> tuple[list[dict], list[dict], list[s
             notes.append("technology inferred from project name")
         technology = ";".join(technology_tokens(tech_raw))
 
-        outcome = OUTCOME.get(r["status"].strip(), "needs_review")
+        outcome, finality = finalize_outcome(
+            OUTCOME.get(r["status"].strip(), "needs_review"), rulings.get(rid, []))
         litigated = is_litigated(r)
-        if outcome == "blocked_confirmed":
+        if outcome.startswith("blocked_"):
             severity = 4
         elif litigated:
             severity = 3
-        elif outcome == "advanced_confirmed":
+        elif outcome.startswith("advanced_"):
             severity = 1
         else:
             severity = 2
@@ -325,6 +364,7 @@ def build_contested(records: list[dict]) -> tuple[list[dict], list[dict], list[s
             "severity_score": severity,
             "description": r["short_description"].strip(),
             "outcome": outcome,
+            "finality_evidence": finality,
             "status": r["status"].strip(),
             "has_litigation": "yes" if litigated else r["has_litigation"].strip(),
             "opposition_type": r["opposition_type"].strip(),
@@ -517,7 +557,8 @@ def main() -> None:
     existing = read_csv(RESTRICTIONS_PATH)
     kept = [r for r in existing if r.get("source") != SOURCE_LABEL]
 
-    contested, project_candidates, excluded = build_contested(records)
+    contested, project_candidates, excluded = build_contested(
+        records, case_rulings(read_csv(CASES_PATH)))
     restrictions, review, restriction_candidates = build_restrictions(
         records, moratorium_nation_index(existing)
     )
