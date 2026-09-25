@@ -72,3 +72,12 @@ def test_merge_candidates_keeps_reviewer_work():
     assert [m["case_name"] for m in merged] == ["A v. B", "C v. D"]
     assert all(m["litigation_context"] == "new text" and m["review_status"] == "confirmed" for m in merged)
     assert b.merge_candidates(generated, []) == generated
+
+
+def test_label_alone_is_never_confirmed():
+    assert b.finalize_outcome("blocked_unverified", []) == ("blocked_unverified", "outcome_label_only")
+    wrong_way = [{"case_status": "ruled_for_developer", "case_name": "X v. Y"}]
+    assert b.finalize_outcome("blocked_unverified", wrong_way)[0] == "blocked_unverified"
+    right_way = [{"case_status": "ruled_for_opposition", "case_name": "X v. Y"}]
+    assert b.finalize_outcome("blocked_unverified", right_way) == ("blocked_confirmed", "court_ruling: X v. Y")
+    assert b.finalize_outcome("pending", right_way) == ("pending", "none")

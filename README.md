@@ -41,7 +41,7 @@ For map layers and headline stats, default to severity ≥ 3.
 
 ### Contested projects: outcome and severity
 
-`contested_projects` rows carry an `outcome` from a four-tier vocabulary — `blocked_confirmed`, `restricted_conditional`, `advanced_confirmed`, `pending` — plus `needs_review` when the source status can't be mapped. Their `severity_score` measures how hard opposition hit the project:
+`contested_projects` rows carry an `outcome` from the outcome ladder shared with `data-center-map`: `blocked_confirmed` / `blocked_unverified`, `restricted_conditional`, `advanced_confirmed` / `advanced_unverified`, `pending`, plus `needs_review` when the source status can't be mapped. A status label from the source is never enough for `*_confirmed`; that takes independent evidence, which today means a seeded court case, linked to the same record, that was decided the same way. `finality_evidence` records which applies: `court_ruling: <case>`, `outcome_label_only` or `none`. Their `severity_score` measures how hard opposition hit the project:
 
 - **4** – Project blocked (cancelled or permit denied)
 - **3** – Litigation filed, project not (yet) blocked
@@ -77,6 +77,8 @@ data/processed/
   contested_projects.csv / contested_projects.json
   cases.csv / cases.json
   sources.csv / sources.json        ← one row per source document
+  quarantine.json                   ← rows the QC gate blocked, with their issues
+  qc_report.md                      ← every QC finding by code and severity
 ```
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.
@@ -108,7 +110,8 @@ renewable-opposition/
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   └── processed/                          ← canonical CSV + JSON outputs
 ├── docs/
-│   └── coverage_audit.md                   ← Sabin vs Moratorium Nation recall
+│   ├── coverage_audit.md                   ← Sabin vs Moratorium Nation recall
+│   └── pipeline_comparison.md              ← practices adopted from data-center-map, and what's next
 ├── scripts/
 │   ├── common.py                           ← shared helpers (state codes, technology vocabulary, source ids)
 │   ├── fetch_moratorium_nation.py          ← refreshes the Moratorium Nation rows of restrictions_seed.csv
@@ -118,7 +121,11 @@ renewable-opposition/
 │   ├── parse.py                            ← runs scripts/extractors/<source_id>.py -> review/queue.csv
 │   ├── extractors/courtlistener_renewables.py
 │   ├── promote_reviewed.py                 ← confirmed review rows -> seed CSVs
-│   └── build_seed_outputs.py               ← validates seeds, writes processed/
+│   ├── qc_gate.py                          ← record-level QC gate + quarantine (run by the build)
+│   ├── state_bounds.py                     ← state bounding boxes (copied from data-center-map)
+│   ├── snapshot_manifest.py                ← dated, hashed record of each published output
+│   ├── smoke_frontend.py                   ← loads every page headless; fails on page errors
+│   └── build_seed_outputs.py               ← validates seeds, runs QC, writes processed/
 └── tests/                                  ← pytest suite (run in CI by .github/workflows/validate.yml)
 ```
 
