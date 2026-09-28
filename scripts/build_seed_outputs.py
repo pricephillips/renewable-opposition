@@ -7,6 +7,11 @@ For each entity (restrictions, contested_projects, cases) with a seed file:
   - assigns a stable ``id`` (see record_id) and a ``source_id``;
   - writes data/processed/<entity>.csv and <entity>.json.
 
+Rows that pass validation then go through the QC gate (scripts/qc_gate.py).
+A row with a HIGH or CRITICAL finding is quarantined: left out of the entity
+outputs and written, with its issues, to data/processed/quarantine.json.
+data/processed/qc_report.md summarizes every finding.
+
 It also writes data/processed/sources.csv / sources.json: one row per distinct
 source document, keyed by ``source_id`` (a hash of the normalized URL, so the
 same document cited by many records, or with a trailing slash or #fragment, is
@@ -22,6 +27,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import qc_gate  # noqa: E402
 from common import (  # noqa: E402
     PROCESSED_DIR, SEED_DIR, normalize_url, read_csv, source_id_for, state_code, write_csv,
 )
@@ -181,7 +187,19 @@ def main() -> int:
         print(f"{len(errors)} validation error(s); nothing written.", file=sys.stderr)
         return 1
 
+    quarantine, findings, totals = [], [], {}
+    for entity in list(datasets):
+        totals[entity] = len(datasets[entity])
+        passed, held, found = qc_gate.run(entity, datasets[entity])
+        datasets[entity] = passed
+        quarantine.extend({"entity": entity, **r} for r in held)
+        findings.extend(found)
+
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    write_json(PROCESSED_DIR / "quarantine.json", quarantine)
+    (PROCESSED_DIR / "qc_report.md").write_text(qc_gate.render_report(findings, totals), encoding="utf-8")
+    print(f"QC: {len(quarantine)} quarantined, "
+          f"{sum(1 for f in findings if not f['blocked'])} with non-blocking findings")
     for entity, rows in datasets.items():
         preferred = ["id"] + list(rows[0].keys()) if rows else ["id"]
         write_csv(PROCESSED_DIR / f"{entity}.csv", rows, preferred)

@@ -29,3 +29,30 @@ jobs:
 
       - name: Validate seeds and build outputs
         run: python scripts/build_seed_outputs.py
+
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Load every page and fail on page errors
+        run: python scripts/smoke_frontend.py --screenshots smoke-screenshots
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-screenshots
+          path: smoke-screenshots/
