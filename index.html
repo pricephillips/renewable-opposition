@@ -1485,10 +1485,10 @@
               <strong>${escapeHtml(trimText(rec.display_title, 90))}</strong><br>
               <span>${escapeHtml(trimText(rec.display_location, 60))}</span>
             </td>
-            <td>${escapeHtml(rec.state || "—")}</td>
-            <td>${escapeHtml(rec.restriction_type || "—")}</td>
-            <td><span class="badge badge-severity">${escapeHtml(rec.severity_score ? `Severity ${rec.severity_score}` : "—")}</span></td>
-            <td>${escapeHtml(rec.adopted_date || rec.effective_date || rec.date_enacted_iso || rec.date_text || "—")}</td>
+            <td>${escapeHtml(rec.state || "–")}</td>
+            <td>${escapeHtml(rec.restriction_type || "–")}</td>
+            <td><span class="badge badge-severity">${escapeHtml(rec.severity_score ? `Severity ${rec.severity_score}` : "–")}</span></td>
+            <td>${escapeHtml(rec.adopted_date || rec.effective_date || rec.date_enacted_iso || rec.date_text || "–")}</td>
           `;
         }
         if (state.view === "contested_projects") {
@@ -1497,10 +1497,10 @@
               <strong>${escapeHtml(trimText(rec.project_name || rec.display_title, 90))}</strong><br>
               <span>${escapeHtml(trimText(rec.display_location, 60))}</span>
             </td>
-            <td>${escapeHtml(rec.state || "—")}</td>
-            <td>${escapeHtml(rec.opposition_type || "—")}</td>
-            <td><span class="badge badge-severity">${escapeHtml(rec.severity_score ? `Severity ${rec.severity_score}` : "—")}</span></td>
-            <td>${escapeHtml(rec.first_event_date || "—")}</td>
+            <td>${escapeHtml(rec.state || "–")}</td>
+            <td>${escapeHtml(rec.opposition_type || "–")}</td>
+            <td><span class="badge badge-severity">${escapeHtml(rec.severity_score ? `Severity ${rec.severity_score}` : "–")}</span></td>
+            <td>${escapeHtml(rec.first_event_date || "–")}</td>
           `;
         }
         return `
@@ -1508,10 +1508,10 @@
             <strong>${escapeHtml(trimText(rec.project_name || rec.display_title, 90))}</strong><br>
             <span>${escapeHtml(trimText(rec.display_location, 60))}</span>
           </td>
-          <td>${escapeHtml(rec.state || "—")}</td>
-          <td>${escapeHtml(rec.court_level || "—")}</td>
-          <td><span class="badge">${escapeHtml(rec.case_status || rec.status || "—")}</span></td>
-          <td>${escapeHtml(rec.filing_date || "—")}</td>
+          <td>${escapeHtml(rec.state || "–")}</td>
+          <td>${escapeHtml(rec.court_level || "–")}</td>
+          <td><span class="badge">${escapeHtml(rec.case_status || rec.status || "–")}</span></td>
+          <td>${escapeHtml(rec.filing_date || "–")}</td>
         `;
       }
 
@@ -1699,17 +1699,17 @@
           <div class="detail-grid">
             ${detailKV("Entity type", ENTITY_CONFIG[rec.entity_type].label)}
             ${detailKV("Location", rec.display_location)}
-            ${state.view !== "cases" ? detailKV("Technology", rec.technology || "—") : detailKV("Court level", rec.court_level || "—")}
+            ${state.view !== "cases" ? detailKV("Technology", rec.technology || "–") : detailKV("Court level", rec.court_level || "–")}
             ${state.view === "cases"
-              ? detailKV("Status", rec.case_status || rec.status || "—")
-              : detailKV("Severity", rec.severity_score ? `Severity ${rec.severity_score}` : "—")}
-            ${state.view === "restrictions" ? detailKV("Restriction type", rec.restriction_type || "—") : ""}
-            ${state.view === "contested_projects" ? detailKV("Opposition type", rec.opposition_type || "—") : ""}
-            ${state.view === "cases" ? detailKV("Project name", rec.project_name || "—") : ""}
-            ${state.view === "restrictions" ? detailKV("Adopted date", rec.adopted_date || rec.date_enacted_iso || rec.date_text || "—") : ""}
-            ${state.view === "restrictions" ? detailKV("Effective date", rec.effective_date || "—") : ""}
-            ${state.view === "contested_projects" ? detailKV("First event date", rec.first_event_date || "—") : ""}
-            ${state.view === "cases" ? detailKV("Filing date", rec.filing_date || "—") : ""}
+              ? detailKV("Status", rec.case_status || rec.status || "–")
+              : detailKV("Severity", rec.severity_score ? `Severity ${rec.severity_score}` : "–")}
+            ${state.view === "restrictions" ? detailKV("Restriction type", rec.restriction_type || "–") : ""}
+            ${state.view === "contested_projects" ? detailKV("Opposition type", rec.opposition_type || "–") : ""}
+            ${state.view === "cases" ? detailKV("Project name", rec.project_name || "–") : ""}
+            ${state.view === "restrictions" ? detailKV("Adopted date", rec.adopted_date || rec.date_enacted_iso || rec.date_text || "–") : ""}
+            ${state.view === "restrictions" ? detailKV("Effective date", rec.effective_date || "–") : ""}
+            ${state.view === "contested_projects" ? detailKV("First event date", rec.first_event_date || "–") : ""}
+            ${state.view === "cases" ? detailKV("Filing date", rec.filing_date || "–") : ""}
           </div>
 
           <section class="detail-text-block">
@@ -1739,7 +1739,7 @@
         return `
           <div class="kv">
             <p class="kv-label">${escapeHtml(label)}</p>
-            <p class="kv-value">${escapeHtml(value || "—")}</p>
+            <p class="kv-value">${escapeHtml(value || "–")}</p>
           </div>
         `;
       }

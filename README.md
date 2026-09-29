@@ -153,12 +153,12 @@ Outputs will be written to `data/processed/`.
 
 ## Pipeline layers (roadmap)
 
-1. **Source registry** — `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).
-2. **Crawler/fetcher** — `scripts/fetch.py`: fetches each active source and stores an immutable raw copy keyed by content hash. Not scheduled yet.
-3. **Parser/extractor** — `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
-4. **Human review queue** — `data/review/*.csv`, promoted by `scripts/promote_reviewed.py`.
-5. **Canonical outputs** — `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
-6. **Dashboard** — `index.html` reads `data/processed/`.
+1. **Source registry**: `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).
+2. **Crawler/fetcher**: `scripts/fetch.py` fetches each active source and stores an immutable raw copy keyed by content hash. Not scheduled yet.
+3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
+4. **Human review queue**: `data/review/*.csv`, promoted by `scripts/promote_reviewed.py`.
+5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
+6. **Dashboard**: `index.html` reads `data/processed/`.
 
 ---
 

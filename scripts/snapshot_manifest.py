@@ -62,7 +62,7 @@ def main() -> int:
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     new = not MANIFEST.exists()
     with MANIFEST.open("a", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=FIELDS)
+        w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
         if new:
             w.writeheader()
         w.writerows(rows)

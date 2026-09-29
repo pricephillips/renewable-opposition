@@ -131,7 +131,7 @@ def append_parse_state(path: Path, record: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     write_header = not path.exists()
     with open(path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=PARSE_STATE_FIELDS)
+        writer = csv.DictWriter(f, fieldnames=PARSE_STATE_FIELDS, lineterminator="\n")
         if write_header:
             writer.writeheader()
         writer.writerow(record)
@@ -147,7 +147,7 @@ def append_queue(path: Path, candidates: list[CandidateRecord]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     write_header = not path.exists()
     with open(path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=QUEUE_FIELDS)
+        writer = csv.DictWriter(f, fieldnames=QUEUE_FIELDS, lineterminator="\n")
         if write_header:
             writer.writeheader()
         for c in candidates:

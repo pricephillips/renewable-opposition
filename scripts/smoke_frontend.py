@@ -29,6 +29,7 @@ Requires: pip install playwright && python -m playwright install chromium
 from __future__ import annotations
 
 import argparse
+import os
 import functools
 import http.server
 import re
@@ -89,7 +90,11 @@ def main() -> int:
     httpd, port = serve(ROOT)
     failures = 0
     with sync_playwright() as pw:
-        browser = pw.chromium.launch()
+        # Claude sessions ship Chromium at /opt/pw-browsers; point
+        # SMOKE_CHROMIUM at its binary there instead of running
+        # `playwright install`. CI leaves it unset.
+        browser = pw.chromium.launch(
+            executable_path=os.environ.get("SMOKE_CHROMIUM") or None)
         for name, (selector, expect) in PAGES.items():
             if not (ROOT / name).exists():
                 continue
