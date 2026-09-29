@@ -1,0 +1,22 @@
+# Weekly, grouped: at most one PR per ecosystem per week. Copied from
+# pricephillips/data-center-map .github/dependabot.yml (spec 004, FR-008).
+# Every workflow runs CPython 3.11; if a pinned package later needs 3.12, add
+# an `ignore` for it here until the workflows move.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      all:
+        patterns: ["*"]
+  - package-ecosystem: pip
+    directory: /requirements
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      all:
+        patterns: ["*"]
