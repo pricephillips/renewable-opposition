@@ -1,0 +1,88 @@
+{
+  "_comment": [
+    "Who writes which file. scripts/layer_audit.py checks this against the",
+    "code (an AST walk over scripts/) and fails on any drift: an undeclared",
+    "writer, a stale declaration, a shared file or a layer crossing with no",
+    "reason, or a seed row whose `source` no writer owns. Ported from",
+    "pricephillips/data-center-map configs/layers.json (passoff B1).",
+    "",
+    "Layers follow what a file is a record OF, except that anything derived,",
+    "regenerated every run and never hand-edited is `derived`, whichever",
+    "layer it summarizes. Patterns are matched in order; put specific paths",
+    "before globs."
+  ],
+  "layers": {
+    "raw": "Fetched source copies and the fetch and parse state around them.",
+    "review": "Candidates awaiting a reviewer. Reviewers edit these by hand.",
+    "seed": "Records of record. Hand-reviewed or rebuilt from a named source; the build reads only these.",
+    "derived": "Regenerated outputs: the published data, its manifest and audits."
+  },
+  "files": {
+    "data/raw/manifest.csv": {"layer": "raw", "writers": ["scripts/fetch.py"]},
+    "data/raw/parse_state.csv": {"layer": "raw", "writers": ["scripts/parse.py"]},
+    "data/raw/*/*": {"layer": "raw", "writers": ["scripts/fetch.py"]},
+
+    "data/review/queue.csv": {
+      "layer": "review",
+      "writers": ["scripts/parse.py", "scripts/promote_reviewed.py"],
+      "reason": "parse.py appends new candidates; promote_reviewed.py only sets review_status on rows it promotes."
+    },
+    "data/review/cases_candidates.csv": {
+      "layer": "review",
+      "writers": ["scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py"],
+      "reason": "build_sabin_seeds.py regenerates the candidate rows and carries reviewer columns forward (merge_candidates); promote_reviewed.py only sets review_status on rows it promotes."
+    },
+    "data/review/sabin_restrictions_review.csv": {"layer": "review", "writers": ["scripts/build_sabin_seeds.py"]},
+
+    "data/seed/restrictions_seed.csv": {
+      "layer": "seed",
+      "writers": ["scripts/fetch_moratorium_nation.py", "scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py"],
+      "reason": "Each writer owns its rows by `source` and keeps every other row as it found it.",
+      "row_owner": {
+        "column": "source",
+        "prefixes": {
+          "scripts/fetch_moratorium_nation.py": ["Moratorium Nation "],
+          "scripts/build_sabin_seeds.py": ["Sabin Center, "],
+          "scripts/promote_reviewed.py": ["review queue:"]
+        }
+      }
+    },
+    "data/seed/contested_projects_seed.csv": {
+      "layer": "seed",
+      "writers": ["scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py"],
+      "reason": "Each writer owns its rows by `source` and keeps every other row as it found it.",
+      "row_owner": {
+        "column": "source",
+        "prefixes": {
+          "scripts/build_sabin_seeds.py": ["Sabin Center, "],
+          "scripts/promote_reviewed.py": ["review queue:"]
+        }
+      }
+    },
+    "data/seed/cases_seed.csv": {"layer": "seed", "writers": ["scripts/promote_reviewed.py"]},
+
+    "data/processed/diff_summary.md": {"layer": "derived", "writers": ["scripts/processed_diff.py"]},
+    "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
+    "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
+    "data/review/coverage_gaps.csv": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
+    "docs/coverage_audit.md": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]}
+  },
+  "crossings": {
+    "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",
+    "scripts/build_sabin_seeds.py": "Rebuilds Sabin seed rows and holds back the rows that need a reviewer.",
+    "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row."
+  },
+  "dynamic": {
+    "scripts/promote_reviewed.py": {
+      "files": ["data/seed/restrictions_seed.csv", "data/seed/contested_projects_seed.csv", "data/seed/cases_seed.csv"],
+      "reason": "Writes the seed named by SEED_FOR for each promoted entity type."
+    },
+    "scripts/fetch.py": {
+      "files": ["data/raw/*/*"],
+      "reason": "store_raw writes data/raw/<source_id>/<sha256><ext>, never overwriting."
+    }
+  },
+  "exempt": {
+    "scripts/precommit_gates.py": "Rewrites staged files' line endings (csv-lf --fix) and temp files in its selftest; owns no data."
+  }
+}

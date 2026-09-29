@@ -57,7 +57,11 @@ its Part A is now in place:
   the published data.
 - A session-start hook (`.claude/hooks/session-start.sh`).
 
-Part B of the manual lists the later tools and the trigger for each.
+Part B of the manual lists the later tools and the trigger for each. B1
+(item 5 above) is done: `config/layers.json` declares every writer, and
+`scripts/layer_audit.py` checks it against the code in CI and pre-commit. Writing
+it down found a third seed writer (`promote_reviewed.py`) and a rebuild that
+would have dropped its contested-project rows; both are now declared and fixed.
 
 ## Deliberately not adopted
 

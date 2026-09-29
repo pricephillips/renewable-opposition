@@ -47,6 +47,9 @@ jobs:
       - name: Validate seeds and build outputs
         run: python scripts/build_seed_outputs.py
 
+      - name: Layer audit (declared writers, config/layers.json)
+        run: python scripts/layer_audit.py
+
       - name: Inline script syntax
         run: python scripts/check_inline_js.py
 
