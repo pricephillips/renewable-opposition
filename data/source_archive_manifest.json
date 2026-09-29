@@ -1,0 +1,28 @@
+{
+  "run_at": "2026-09-29T17:00:18Z",
+  "credentials": "anonymous",
+  "cited_urls": 28,
+  "lookups": 28,
+  "saves": 3,
+  "stop_reason": "complete",
+  "stop_at_url": "",
+  "counts_by_status": {
+    "archived": 1,
+    "requested": 1,
+    "not_archived": 26,
+    "unresolved_redirect": 0,
+    "failed": 0
+  },
+  "resolvable": 28,
+  "archived": 1,
+  "coverage": 0.0357,
+  "history": [
+    {
+      "run_at": "2026-09-29T17:00:18Z",
+      "archived": 1,
+      "resolvable": 28,
+      "coverage": 0.0357,
+      "stop_reason": "complete"
+    }
+  ]
+}
