@@ -39,3 +39,10 @@ def test_missing_base_says_so():
 
 def test_output_path_is_a_module_constant():
     assert pd.OUT_MD == pd.ROOT / "data" / "processed" / "diff_summary.md"
+
+
+def test_new_columns_are_one_schema_line_not_every_row():
+    b = [HDR + ["scope"]] + [r + ["renewables_only"] for r in A[1:]]
+    md = pd.render({"contested_projects": pd.hilite(A, b)})
+    assert "- contested_projects: added `scope`" in md
+    assert "| + |" not in md and "No changes." not in md

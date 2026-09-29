@@ -6,10 +6,10 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 618 | 0 |
+| restrictions | 618 | 8 |
 | contested_projects | 165 | 0 |
 | cases | 27 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|
-| (none) | | 0 |
+| SCOPE_DATA_CENTER_ONLY | HIGH | 8 |

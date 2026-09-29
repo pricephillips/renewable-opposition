@@ -65,6 +65,49 @@ Each case row links to the project (or restriction) it concerns through `source_
 
 A case is promoted into `cases_seed.csv` only after it is confirmed. Confirmed means a court record names the case and its court: an opinion, a docket, or a court's own page, found on CourtListener, Justia, govinfo, a court website or an equivalent case-law host. The row's `reviewer_notes` say how and when it was verified. Partial finds stay in `data/review/cases_candidates.csv` as `review_status=lead`, with what is known so far.
 
+## Counting and verification
+
+**Count instruments, not rows.** A seed row is one technology of one
+instrument, so a moratorium on solar, wind and battery storage is three rows.
+Every processed row carries an `instrument_id` (`scripts/classify.py`), and the
+numbers to quote are in `data/processed/headline_metrics.md` / `.json`, counted
+by instrument.
+
+**Scope.** Restrictions carry a `scope`: `renewables_only`, or
+`multi_sector_data_centers` when the instrument also covers data centers
+(Moratorium Nation's `sectors`, or the record's text). Multi-sector instruments
+are published and reported beside the renewables figure, never folded into it.
+A record whose text names data centers and no renewable technology
+(`data_center_only`) is quarantined by the QC gate for review.
+
+**Evidence level.** Every row carries an `evidence_level`, best first:
+`primary_source`, `confirmed`, `court_record`, `compiled_record`,
+`compiled_flagged`, `report_citation`. The headline metrics break every count
+down by it.
+
+**Closing the gaps.** Each build ranks what to check next in
+`data/review/outcome_worklist.csv` (unconfirmed project outcomes, blocked and
+advanced claims first) and `data/review/restriction_worklist.csv` (instruments
+without a primary source, weakest evidence first). Each row names the evidence
+that would settle it and a search query to start from. Record what you find in:
+
+- `data/review/outcome_resolutions.csv`: `source_record_id`, the `outcome` the
+  evidence supports, and a required `evidence_url` (plus `evidence_date`,
+  `evidence_note`, `reviewer`). The build sets the outcome, marks
+  `finality_evidence` as `resolution: <url>` and rescores severity.
+- `data/review/restriction_sources.csv`: `instrument_id`, the
+  `primary_source_url` (ordinance, resolution, minutes) and a `verdict` of
+  `confirmed` or `contradicts`. A confirmed instrument becomes
+  `primary_source`; a contradicted one is quarantined.
+
+Pushing either file rebuilds the published data. A resolution that names a
+record that does not exist, or has no evidence URL, stops the build.
+
+**Column coverage.** `scripts/coverage_delta.py` fails the build when a
+well-filled column loses more than 20 percent of its values against the
+previous commit, which is what an upstream format change looks like. A
+deliberate drop is declared in `config/coverage_exceptions.json`.
+
 ---
 
 ## Outputs
@@ -80,6 +123,8 @@ data/processed/
   quarantine.json                   ← rows the QC gate blocked, with their issues
   qc_report.md                      ← every QC finding by code and severity
   diff_summary.md                   ← what the last build changed, keyed on id
+  headline_metrics.md / .json       ← the numbers to quote, counted by instrument
+  coverage_delta.md                 ← column fill rates against the previous commit
 ```
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.

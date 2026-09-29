@@ -11,6 +11,13 @@ on:
       - 'scripts/common.py'
       - 'scripts/processed_diff.py'
       - 'data/source_archive.csv'
+      - 'data/review/outcome_resolutions.csv'
+      - 'data/review/restriction_sources.csv'
+      - 'scripts/classify.py'
+      - 'scripts/headline_metrics.py'
+      - 'scripts/resolutions.py'
+      - 'scripts/verification_worklist.py'
+      - 'scripts/coverage_delta.py'
       - 'requirements/ci.txt'
       - '.github/workflows/build-data.yml'
 
@@ -50,6 +57,12 @@ jobs:
       - name: Run build script
         run: python scripts/build_seed_outputs.py
 
+      - name: Rank what to verify next
+        run: python scripts/verification_worklist.py
+
+      - name: Column coverage gate (blocks publishing a collapsed column)
+        run: python scripts/coverage_delta.py
+
       - name: Record snapshot manifest
         run: python scripts/snapshot_manifest.py
 
@@ -64,11 +77,15 @@ jobs:
         if: always()
         run: cat data/processed/diff_summary.md >> "$GITHUB_STEP_SUMMARY" || true
 
+      - name: Publish headline metrics and coverage
+        if: always()
+        run: cat data/processed/headline_metrics.md data/processed/coverage_delta.md >> "$GITHUB_STEP_SUMMARY" || true
+
       - name: Commit processed data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/ data/snapshots/manifest.csv
+          git add data/processed/ data/snapshots/manifest.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"
           # Another workflow may have moved the branch since checkout. Rebase
