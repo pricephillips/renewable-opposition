@@ -37,6 +37,28 @@ reused, it is copied with an attribution line, not imported.
 7. **A generated codebook** (`CODEBOOK.md`, rebuilt every run). This repo's rubrics live in docstrings and the README. Generating the codebook from the same constants the code uses keeps the two from drifting apart.
 8. **County FIPS on every row** (`gazetteer.py`, `county_fips_lookup.json`). The map joins counties by name. FIPS codes make the join exact and enable per-county pages later.
 
+## Round two (2026-09-29)
+
+The second round of borrowed practice is the CI and safety layer data-center-map
+finished in its spec 004. The manual is
+[`PASSOFF_2026-09-29_tooling_from_data_center_map.md`](PASSOFF_2026-09-29_tooling_from_data_center_map.md);
+its Part A is now in place:
+
+- Pinned dependencies (`requirements/ci.txt`, compiled with uv) kept current by
+  Dependabot, and every action pinned to a commit SHA and linted by actionlint
+  and zizmor (`.github/workflows/workflow-lint.yml`).
+- ruff on syntax-class rules, and local pre-commit gates
+  (`.pre-commit-config.yaml`, `scripts/precommit_gates.py`).
+- Every CSV is LF (`.gitattributes`, and `lineterminator="\n"` on every writer).
+- No em-dashes in the pages or README; Vale lints client-facing markdown
+  (`.vale.ini`, `styles/Hawthorn/`).
+- `data/processed/diff_summary.md`, written by `scripts/processed_diff.py` on
+  every build and keyed on `id`, so a rebuild can no longer silently rewrite
+  the published data.
+- A session-start hook (`.claude/hooks/session-start.sh`).
+
+Part B of the manual lists the later tools and the trigger for each.
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

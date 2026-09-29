@@ -31,3 +31,8 @@ repos:
         entry: python scripts/precommit_gates.py tests
         language: system
         files: ^(scripts|tests)/.*\.py$
+      - id: vale
+        name: Vale (client-facing prose)
+        entry: vale --no-wrap
+        language: system
+        files: ^(README\.md|docs/coverage_audit\.md)$

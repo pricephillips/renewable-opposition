@@ -79,6 +79,7 @@ data/processed/
   sources.csv / sources.json        ← one row per source document
   quarantine.json                   ← rows the QC gate blocked, with their issues
   qc_report.md                      ← every QC finding by code and severity
+  diff_summary.md                   ← what the last build changed, keyed on id
 ```
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.
@@ -141,6 +142,12 @@ python scripts/coverage_audit.py            # optional: recompute the cross-sour
 python scripts/build_seed_outputs.py        # validate and write data/processed/
 python -m pytest -q
 ```
+
+CI installs under the pinned constraints in `requirements/ci.txt`
+(`uv pip install --system -c requirements/ci.txt -r requirements.txt`). For the
+same checks locally (CSV line endings, em-dashes in pages, inline script
+syntax, ruff, pytest, Vale), run `pipx install pre-commit && pre-commit install`
+once.
 
 ### Reviewing candidates
 

@@ -54,7 +54,7 @@ jobs:
         run: python scripts/precommit_gates.py --selftest
 
       - name: Vale (page and report prose)
-        run: vale --no-wrap --minAlertLevel=error README.md docs/coverage_audit.md content/
+        run: vale --no-wrap README.md docs/coverage_audit.md
 
   frontend:
     runs-on: ubuntu-latest

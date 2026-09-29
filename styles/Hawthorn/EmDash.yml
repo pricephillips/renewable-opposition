@@ -1,0 +1,7 @@
+# Copied from pricephillips/data-center-map styles/Hawthorn/EmDash.yml.
+extends: existence
+message: "Em-dash: use a comma, colon, or parentheses instead."
+level: error
+nonword: true
+tokens:
+  - '\x{2014}'

@@ -1,0 +1,10 @@
+# Describe associations, never causes: a record says what happened, not why
+# a project was cancelled. Copied from pricephillips/data-center-map.
+extends: existence
+message: "'%s' reads as a causal claim; describe the association instead."
+level: warning
+ignorecase: true
+tokens:
+  - caused by
+  - due to (?:the )?opposition
+  - attributable to
