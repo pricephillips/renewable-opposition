@@ -37,6 +37,9 @@ def test_full_build_writes_csv_json_and_sources(monkeypatch, tmp_path):
     sources = read_csv(tmp_path / "sources.csv")
     assert {s["source_id"] for s in sources} >= {r["source_id"] for r in restrictions}
     assert sum(int(s["record_count"]) for s in sources) >= len(restrictions)
+    for entity in ("restrictions", "contested_projects", "cases"):
+        header = (tmp_path / f"{entity}.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
+        assert header[0] == "id" and len(header) == len(set(header)), entity
 
 
 def test_one_case_linked_to_two_projects_gets_two_ids():

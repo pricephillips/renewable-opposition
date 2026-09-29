@@ -201,7 +201,7 @@ def main() -> int:
     print(f"QC: {len(quarantine)} quarantined, "
           f"{sum(1 for f in findings if not f['blocked'])} with non-blocking findings")
     for entity, rows in datasets.items():
-        preferred = ["id"] + list(rows[0].keys()) if rows else ["id"]
+        preferred = ["id"] + [k for k in rows[0] if k != "id"] if rows else ["id"]
         write_csv(PROCESSED_DIR / f"{entity}.csv", rows, preferred)
         write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows))
         print(f"Wrote data/processed/{entity}.csv/.json ({len(rows)} records)")
