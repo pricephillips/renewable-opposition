@@ -47,3 +47,20 @@ def test_one_case_linked_to_two_projects_gets_two_ids():
     a = bso.record_id("cases", {**base, "source_record_id": "REC-0369"})
     b = bso.record_id("cases", {**base, "source_record_id": "REC-0375"})
     assert a != b
+
+
+def test_archived_snapshot_joins_sources_and_record_links(tmp_path):
+    archive = tmp_path / "source_archive.csv"
+    archive.write_text(
+        "url,archived_url,status\n"
+        "https://a.org/x,https://web.archive.org/web/20260901000000/https://a.org/x,archived\n"
+        "https://b.org/y,,requested\n", encoding="utf-8")
+    snap = bso.archived_urls(archive)
+    assert snap == {"https://a.org/x": "https://web.archive.org/web/20260901000000/https://a.org/x"}
+    rows = [{"source_url": "https://a.org/x", "source": "A"}, {"source_url": "https://b.org/y"}]
+    sources = {s["url"]: s for s in bso.collect_sources({"restrictions": rows}, snap)}
+    assert sources["https://a.org/x"]["archived_url"].startswith("https://web.archive.org/")
+    assert sources["https://b.org/y"]["archived_url"] == ""  # requested is not archived
+    links = [r["sources"][0] for r in bso.json_records(rows, snap)]
+    assert links[0]["archived_url"] == snap["https://a.org/x"] and "archived_url" not in links[1]
+    assert bso.archived_urls(tmp_path / "missing.csv") == {}

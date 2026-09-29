@@ -5,7 +5,8 @@
     "normalized_url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
     "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
     "record_count": 488,
-    "entities": "contested_projects;restrictions"
+    "entities": "contested_projects;restrictions",
+    "archived_url": ""
   },
   {
     "source_id": "src_8a40f21d6fd9",
@@ -13,7 +14,8 @@
     "normalized_url": "https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv",
     "title": "Moratorium Nation (mjbommar/moratorium-data-2026), CC-BY-4.0",
     "record_count": 295,
-    "entities": "restrictions"
+    "entities": "restrictions",
+    "archived_url": ""
   },
   {
     "source_id": "src_b8ae2b2663d6",
@@ -21,7 +23,8 @@
     "normalized_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
     "title": "Reviewed case record",
     "record_count": 4,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_d00ef4f51f19",
@@ -29,7 +32,8 @@
     "normalized_url": "https://case-law.vlex.com/vid/keep-the-n-shore-907372581",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_f7075eca4512",
@@ -37,7 +41,8 @@
     "normalized_url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_733480173ca9",
@@ -45,7 +50,8 @@
     "normalized_url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_e6e6bdc1db81",
@@ -53,7 +59,8 @@
     "normalized_url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_5321434aa4c7",
@@ -61,7 +68,8 @@
     "normalized_url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_429df504cd5f",
@@ -69,7 +77,8 @@
     "normalized_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_d60b4b8819b7",
@@ -77,7 +86,8 @@
     "normalized_url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_95e68a6de863",
@@ -85,7 +95,8 @@
     "normalized_url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_c9ce988b661a",
@@ -93,7 +104,8 @@
     "normalized_url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_fe3ec1e3efaa",
@@ -101,7 +113,8 @@
     "normalized_url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_91330a731be3",
@@ -109,7 +122,8 @@
     "normalized_url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_66830ece2339",
@@ -117,7 +131,8 @@
     "normalized_url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_911d8cdd66f1",
@@ -125,7 +140,8 @@
     "normalized_url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_292cabf0aa2e",
@@ -133,7 +149,8 @@
     "normalized_url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_6e54ad817125",
@@ -141,7 +158,8 @@
     "normalized_url": "https://pantagraph.com/alta-farms-wind-project-ii-v-dewitt-county-et-al/pdf_503e14df-53ac-584d-90e6-e79a9a01622c.html",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_9381c0e8d347",
@@ -149,7 +167,8 @@
     "normalized_url": "https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_de7702189893",
@@ -157,7 +176,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_258ce97a7ac3",
@@ -165,7 +185,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_213e809d32a2",
@@ -173,7 +194,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_6c9ba082386e",
@@ -181,7 +203,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_22f8ac453ce3",
@@ -189,7 +212,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_5dd93a66684f",
@@ -197,7 +221,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_ed3cc583909b",
@@ -205,7 +230,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/7923542/in-re-allen",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_8f917ca74c3a",
@@ -213,7 +239,8 @@
     "normalized_url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_8eef61cb2896",
@@ -221,6 +248,7 @@
     "normalized_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377",
     "title": "Reviewed case record",
     "record_count": 2,
-    "entities": "cases"
+    "entities": "cases",
+    "archived_url": ""
   }
 ]

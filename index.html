@@ -1277,6 +1277,7 @@
             .map(s => ({
               title: s.title || s.label || "Source",
               url: s.url || s.source_url || "",
+              archived_url: s.archived_url || "",
               publisher: s.publisher || "",
               document_type: s.document_type || s.type || "",
               excerpt: s.excerpt || ""
@@ -1752,6 +1753,7 @@
             <p class="source-title">${escapeHtml(title)}</p>
             ${metaParts.length ? `<p class="source-meta">${escapeHtml(metaParts.join(" · "))}</p>` : ""}
             <a class="source-link" href="${escapeAttr(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.url)}</a>
+            ${source.archived_url ? `<p class="source-meta"><a class="source-link" href="${escapeAttr(source.archived_url)}" target="_blank" rel="noopener noreferrer">Archived copy (Internet Archive)</a></p>` : ""}
             ${source.excerpt ? `<p class="source-meta" style="margin-top:0.45rem;">${escapeHtml(source.excerpt)}</p>` : ""}
           </article>
         `;

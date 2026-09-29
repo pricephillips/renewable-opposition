@@ -76,7 +76,7 @@ data/processed/
   restrictions.csv / restrictions.json
   contested_projects.csv / contested_projects.json
   cases.csv / cases.json
-  sources.csv / sources.json        ← one row per source document
+  sources.csv / sources.json        ← one row per source document, with its Internet Archive snapshot (archived_url)
   quarantine.json                   ← rows the QC gate blocked, with their issues
   qc_report.md                      ← every QC finding by code and severity
   diff_summary.md                   ← what the last build changed, keyed on id
@@ -148,6 +148,12 @@ CI installs under the pinned constraints in `requirements/ci.txt`
 same checks locally (CSV line endings, em-dashes in pages, inline script
 syntax, ruff, pytest, Vale), run `pipx install pre-commit && pre-commit install`
 once.
+
+Every cited source gets an Internet Archive snapshot once a week
+(`.github/workflows/source-archive.yml`, `scripts/source_archive.py`; state in
+`data/source_archive.csv`). The dashboard links the archived copy beside the
+live one. `config/layers.json` declares which script writes each data file, and
+`scripts/layer_audit.py` checks that declaration against the code.
 
 ### Reviewing candidates
 

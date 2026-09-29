@@ -4,9 +4,10 @@ name: Workflow Lint
 # pricephillips/data-center-map .github/workflows/workflow-lint.yml.
 #   actionlint  BLOCKING. Syntax, expressions, and shellcheck on run: blocks.
 #   zizmor      REPORT-ONLY. Security audit; findings go to the job summary.
-#               Unpinned actions were fixed when this was added. The one
-#               remaining medium finding (artipacked on build-data.yml, which
-#               must keep credentials to push) is listed, not blocking.
+#               Unpinned actions were fixed when this was added. The
+#               remaining medium findings (artipacked on build-data.yml and
+#               source-archive.yml, which must keep credentials to push) are
+#               listed, not blocking.
 
 on:
   push:

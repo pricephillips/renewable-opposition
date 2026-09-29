@@ -21,6 +21,8 @@
     "data/raw/manifest.csv": {"layer": "raw", "writers": ["scripts/fetch.py"]},
     "data/raw/parse_state.csv": {"layer": "raw", "writers": ["scripts/parse.py"]},
     "data/raw/*/*": {"layer": "raw", "writers": ["scripts/fetch.py"]},
+    "data/source_archive.csv": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
+    "data/source_archive_manifest.json": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
 
     "data/review/queue.csv": {
       "layer": "review",
@@ -76,6 +78,10 @@
     "scripts/promote_reviewed.py": {
       "files": ["data/seed/restrictions_seed.csv", "data/seed/contested_projects_seed.csv", "data/seed/cases_seed.csv"],
       "reason": "Writes the seed named by SEED_FOR for each promoted entity type."
+    },
+    "scripts/source_archive.py": {
+      "files": ["data/source_archive.csv", "data/source_archive_manifest.json"],
+      "reason": "os.path paths passed as run() defaults; writes via a .tmp then os.replace. Its selftest writes only to a temp dir."
     },
     "scripts/fetch.py": {
       "files": ["data/raw/*/*"],

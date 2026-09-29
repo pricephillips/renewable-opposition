@@ -50,7 +50,20 @@ ROW_KEY_FIELDS = ["case_id", "moratorium_id", "source_record_id"]
 INT_FIELDS = {"severity_score"}
 FLOAT_FIELDS = {"latitude", "longitude"}
 
-SOURCE_FIELDS = ["source_id", "url", "normalized_url", "title", "record_count", "entities"]
+SOURCE_FIELDS = ["source_id", "url", "normalized_url", "title", "record_count", "entities",
+                 "archived_url"]
+# Written by scripts/source_archive.py (weekly, in Actions). Read here so each
+# source carries its Internet Archive snapshot; absent until the first run.
+ARCHIVE_PATH = SEED_DIR.parent / "source_archive.csv"
+
+
+def archived_urls(path: Path | None = None) -> dict[str, str]:
+    """url -> Wayback URL for every source with a confirmed 200 capture."""
+    path = path or ARCHIVE_PATH
+    if not path.exists():
+        return {}
+    return {r["url"]: r["archived_url"] for r in read_csv(path)
+            if r.get("status") == "archived" and r.get("archived_url")}
 
 
 def clean(v):
@@ -128,7 +141,8 @@ def build_entity(entity: str, filename: str) -> tuple[list[dict] | None, list[st
     return rows, errors
 
 
-def collect_sources(datasets: dict[str, list[dict]]) -> list[dict]:
+def collect_sources(datasets: dict[str, list[dict]], archive: dict[str, str] | None = None) -> list[dict]:
+    archive = archive or {}
     sources: dict[str, dict] = {}
     for entity, rows in datasets.items():
         for row in rows:
@@ -144,6 +158,7 @@ def collect_sources(datasets: dict[str, list[dict]]) -> list[dict]:
                     "title": (row.get(title_field) if title_field else None) or "",
                     "record_count": 0,
                     "entities": set(),
+                    "archived_url": archive.get(url, ""),
                 })
                 s["record_count"] += 1
                 s["entities"].add(entity)
@@ -153,16 +168,25 @@ def collect_sources(datasets: dict[str, list[dict]]) -> list[dict]:
     return out
 
 
-def json_records(rows: list[dict]) -> list[dict]:
-    """JSON rows carry a ``sources`` array the dashboard renders as links."""
+def json_records(rows: list[dict], archive: dict[str, str] | None = None) -> list[dict]:
+    """JSON rows carry a ``sources`` array the dashboard renders as links, each
+    with its Internet Archive snapshot when one is confirmed."""
+    archive = archive or {}
+
+    def link(title: str, url: str) -> dict:
+        out = {"title": title, "url": url}
+        if archive.get(url):
+            out["archived_url"] = archive[url]
+        return out
+
     out = []
     for row in rows:
         rec = dict(row)
         links = []
         if row.get("source_url"):
-            links.append({"title": row.get("source") or "Source", "url": row["source_url"]})
+            links.append(link(row.get("source") or "Source", row["source_url"]))
         if row.get("case_source_url") and row.get("case_source_url") != row.get("source_url"):
-            links.append({"title": row.get("case_name") or "Case record", "url": row["case_source_url"]})
+            links.append(link(row.get("case_name") or "Case record", row["case_source_url"]))
         rec["sources"] = links
         out.append(rec)
     return out
@@ -195,6 +219,7 @@ def main() -> int:
         quarantine.extend({"entity": entity, **r} for r in held)
         findings.extend(found)
 
+    archive = archived_urls()
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     write_json(PROCESSED_DIR / "quarantine.json", quarantine)
     (PROCESSED_DIR / "qc_report.md").write_text(qc_gate.render_report(findings, totals), encoding="utf-8")
@@ -203,10 +228,10 @@ def main() -> int:
     for entity, rows in datasets.items():
         preferred = ["id"] + [k for k in rows[0] if k != "id"] if rows else ["id"]
         write_csv(PROCESSED_DIR / f"{entity}.csv", rows, preferred)
-        write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows))
+        write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows, archive))
         print(f"Wrote data/processed/{entity}.csv/.json ({len(rows)} records)")
 
-    sources = collect_sources(datasets)
+    sources = collect_sources(datasets, archive)
     write_csv(PROCESSED_DIR / "sources.csv", sources, SOURCE_FIELDS)
     write_json(PROCESSED_DIR / "sources.json", sources)
     print(f"Wrote data/processed/sources.csv/.json ({len(sources)} sources)")

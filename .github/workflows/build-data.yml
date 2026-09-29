@@ -10,6 +10,7 @@ on:
       - 'scripts/state_bounds.py'
       - 'scripts/common.py'
       - 'scripts/processed_diff.py'
+      - 'data/source_archive.csv'
       - 'requirements/ci.txt'
       - '.github/workflows/build-data.yml'
 

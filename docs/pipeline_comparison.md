@@ -62,6 +62,9 @@ Part B of the manual lists the later tools and the trigger for each. B1
 `scripts/layer_audit.py` checks it against the code in CI and pre-commit. Writing
 it down found a third seed writer (`promote_reviewed.py`) and a rebuild that
 would have dropped its contested-project rows; both are now declared and fixed.
+B2 is in place too: `.github/workflows/source-archive.yml` archives every cited
+source weekly, and the build joins each snapshot into `sources.csv`/`.json` and
+the dashboard's source links.
 
 ## Deliberately not adopted
 
