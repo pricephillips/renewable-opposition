@@ -81,3 +81,29 @@ def test_label_alone_is_never_confirmed():
     right_way = [{"case_status": "ruled_for_opposition", "case_name": "X v. Y"}]
     assert b.finalize_outcome("blocked_unverified", right_way) == ("blocked_confirmed", "court_ruling: X v. Y")
     assert b.finalize_outcome("pending", right_way) == ("pending", "none")
+
+
+def test_rebuild_keeps_contested_rows_from_other_writers(monkeypatch, tmp_path):
+    """A contested project promoted from the review queue must survive a
+    Sabin rebuild (config/layers.json: two writers own rows by `source`)."""
+    import shutil
+    for name in ("contested_projects_seed.csv", "restrictions_seed.csv", "cases_seed.csv"):
+        shutil.copy(b.SEED_DIR / name, tmp_path / name)
+    shutil.copy(b.CANDIDATES_PATH, tmp_path / "cases_candidates.csv")
+    promoted = {"state": "OH", "project_name": "Promoted Solar", "technology": "solar",
+                "severity_score": "2", "description": "d", "outcome": "pending",
+                "source": "review queue: src_x", "source_url": "https://example.org"}
+    seed = tmp_path / "contested_projects_seed.csv"
+    b.write_csv(seed, read_csv(seed) + [promoted], b.CONTESTED_FIELDS)
+    for const, name in (("CONTESTED_PATH", "contested_projects_seed.csv"),
+                        ("RESTRICTIONS_PATH", "restrictions_seed.csv"),
+                        ("CASES_PATH", "cases_seed.csv"),
+                        ("CANDIDATES_PATH", "cases_candidates.csv"),
+                        ("RESTRICTIONS_REVIEW_PATH", "review.csv")):
+        monkeypatch.setattr(b, const, tmp_path / name)
+    monkeypatch.setattr(b, "ROOT", tmp_path)  # only the closing print uses it
+    monkeypatch.setattr("sys.argv", ["build_sabin_seeds.py"])
+    b.main()
+    rows = read_csv(seed)
+    assert [r["project_name"] for r in rows if r["source"] == "review queue: src_x"] == ["Promoted Solar"]
+    assert sum(r["source"] == b.SOURCE_LABEL for r in rows) == 165
