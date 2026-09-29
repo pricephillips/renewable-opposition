@@ -79,12 +79,15 @@ MANIFEST = os.path.join(ROOT, "data", "source_archive_manifest.json")
 FIXTURES = os.path.join(ROOT, "tests", "fixtures", "source_archive")
 
 CDX_URL = "https://web.archive.org/cdx/search/cdx"
+# Lighter lookup, tried when CDX fails. The first Actions run (2026-09-29) got
+# no answer from CDX for 26 of 28 URLs; this endpoint is served separately.
+AVAILABLE_URL = "https://archive.org/wayback/available"
 SAVE_URL = "https://web.archive.org/save"
 WAYBACK = "https://web.archive.org/web/{ts}/{original}"
 USER_AGENT = "renewable-opposition/1.0 (source archiving; contact repo owner)"
 
 FIELDS = ["url", "archived_url", "archived_at", "http_status", "method",
-          "status", "checked_on", "requested_on", "attempts"]
+          "status", "checked_on", "requested_on", "attempts", "last_error"]
 STATUSES = ("archived", "requested", "not_archived", "unresolved_redirect", "failed")
 TERMINAL = {"archived", "unresolved_redirect", "failed"}
 HISTORY_CAP = 60
@@ -214,6 +217,10 @@ class Client:
                                     "fl": "timestamp,original,statuscode", "limit": "-10"})
         return self._call("GET", f"{CDX_URL}?{q}", pace=float(self.cfg["cdx_sleep_s"]))
 
+    def available(self, url: str) -> tuple[int, str]:
+        q = urllib.parse.urlencode({"url": url})
+        return self._call("GET", f"{AVAILABLE_URL}?{q}", pace=float(self.cfg["cdx_sleep_s"]))
+
     def save(self, url: str) -> tuple[int, str]:
         self.saves += 1
         pace = float(self.cfg["save_sleep_s"])
@@ -243,6 +250,27 @@ def parse_cdx(body: str) -> tuple[dict | None, str]:
     at = dt.datetime.strptime(ts, "%Y%m%d%H%M%S").strftime("%Y-%m-%dT%H:%M:%SZ")
     return {"archived_url": WAYBACK.format(ts=ts, original=original),
             "archived_at": at, "http_status": "200"}, newest_status
+
+
+def parse_available(body: str) -> dict | None:
+    """The closest 200 capture from the availability API, or None."""
+    try:
+        closest = (json.loads(body or "{}").get("archived_snapshots") or {}).get("closest") or {}
+    except (ValueError, AttributeError):
+        return None
+    ts = str(closest.get("timestamp") or "")
+    if not closest.get("available") or str(closest.get("status")) != "200" \
+            or not re.fullmatch(r"\d{14}", ts) or not closest.get("url"):
+        return None
+    at = dt.datetime.strptime(ts, "%Y%m%d%H%M%S").strftime("%Y-%m-%dT%H:%M:%SZ")
+    return {"archived_url": str(closest["url"]).replace("http://", "https://", 1),
+            "archived_at": at, "http_status": "200"}
+
+
+def _err(kind: str, status: int, body: str) -> str:
+    """Short reason for last_error: the status, or the exception name when the
+    request never got one (status 0)."""
+    return f"{kind} {status or (body or 'no response')[:40]}"
 
 
 # ---------------------------------------------------------------------------
@@ -307,17 +335,25 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
             row = dict(prior)
             status, body = client.cdx(u)
             row["checked_on"] = today.isoformat()
-            if status != 200:
-                # CDX itself failed (not a rate limit). Leave the row as it was
-                # apart from checked_on, so the next run tries again.
-                if not prior.get("status"):
-                    row["status"] = "not_archived"
-                rows[u] = row
-                continue
-            cap, newest = parse_cdx(body)
+            method = "cdx"
+            if status == 200:
+                cap, newest = parse_cdx(body)
+            else:
+                # CDX failed (not a rate limit): ask the availability API.
+                a_status, a_body = client.available(u)
+                if a_status != 200:
+                    # Neither answered. Leave the row as it was apart from
+                    # checked_on and the reason, so the next run tries again.
+                    row["last_error"] = f"{_err('cdx', status, body)}; {_err('available', a_status, a_body)}"
+                    if not prior.get("status"):
+                        row["status"] = "not_archived"
+                    rows[u] = row
+                    continue
+                cap, newest, method = parse_available(a_body), "", "available"
+            row["last_error"] = ""
             if cap:
                 row.update(cap)
-                row["method"] = "spn" if prior.get("status") == "requested" else "cdx"
+                row["method"] = "spn" if prior.get("status") == "requested" else method
                 row["status"] = "archived"
             else:
                 row["http_status"] = newest
@@ -331,6 +367,7 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
                         row["requested_on"] = today.isoformat()
                         row["attempts"] = str(attempts + 1)
                     else:
+                        row["last_error"] = _err("save", s_status, "")
                         row["status"] = row.get("status") if row.get("status") == "requested" \
                             else "not_archived"
                 else:
@@ -345,6 +382,10 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
     finally:
         write_rows(rows, out_csv)
 
+    errors: dict[str, int] = {}
+    for r in rows.values():
+        for part in filter(None, (r.get("last_error") or "").split("; ")):
+            errors[part] = errors.get(part, 0) + 1
     counts = {s: 0 for s in STATUSES}
     for r in rows.values():
         counts[r["status"]] = counts.get(r["status"], 0) + 1
@@ -366,7 +407,8 @@ def run(http=urllib_http, feed_csv: str = FEED_CSV, out_csv: str = OUT_CSV,
     out = {"run_at": run_at, "credentials": client.credentials,
            "cited_urls": len(urls), "lookups": client.lookups, "saves": client.saves,
            "stop_reason": stop_reason, "stop_at_url": stop_at,
-           "counts_by_status": counts, "resolvable": resolvable,
+           "counts_by_status": counts, "errors": dict(sorted(errors.items())),
+           "resolvable": resolvable,
            "archived": archived, "coverage": coverage,
            "history": (prior_hist + [entry])[-HISTORY_CAP:]}
     os.makedirs(os.path.dirname(manifest), exist_ok=True)
