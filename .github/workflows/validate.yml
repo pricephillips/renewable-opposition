@@ -14,15 +14,32 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: uv pip install --system -c requirements/ci.txt -r requirements.txt ruff daff vale
+
+      - name: Lint (syntax-class rules, blocking)
+        run: ruff check .
+
+      - name: Lint (default rules, report-only)
+        run: |
+          {
+            echo "## ruff E,F (report-only)"
+            echo '```'
+            ruff check --select E,F --exit-zero --statistics .
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run tests
         run: python -m pytest -q
@@ -30,15 +47,29 @@ jobs:
       - name: Validate seeds and build outputs
         run: python scripts/build_seed_outputs.py
 
+      - name: Layer audit (declared writers, config/layers.json)
+        run: python scripts/layer_audit.py
+
+      - name: Inline script syntax
+        run: python scripts/check_inline_js.py
+
+      - name: Gate selftests
+        run: python scripts/precommit_gates.py --selftest
+
+      - name: Vale (page and report prose)
+        run: vale --no-wrap README.md docs/coverage_audit.md
+
   frontend:
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
 
@@ -52,7 +83,7 @@ jobs:
 
       - name: Upload screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: smoke-screenshots
           path: smoke-screenshots/

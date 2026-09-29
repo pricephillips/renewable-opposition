@@ -556,6 +556,9 @@ def main() -> None:
     records = read_csv(RECORDS_PATH)
     existing = read_csv(RESTRICTIONS_PATH)
     kept = [r for r in existing if r.get("source") != SOURCE_LABEL]
+    # promote_reviewed.py also appends to the contested seed (config/layers.json).
+    # Keep its rows, as the restrictions seed keeps Moratorium Nation's.
+    kept_contested = [r for r in read_csv(CONTESTED_PATH) if r.get("source") != SOURCE_LABEL]
 
     contested, project_candidates, excluded = build_contested(
         records, case_rulings(read_csv(CASES_PATH)))
@@ -589,13 +592,14 @@ def main() -> None:
     print(f"  held for review: {len(review)} ("
           + "; ".join(f"{k}={v}" for k, v in sorted(reasons.items())) + ")")
     print(f"  kept {len(kept)} restriction rows from other sources")
+    print(f"  kept {len(kept_contested)} contested project rows from other sources")
     print(f"Case candidates: {len(candidates)} "
           f"({len(project_candidates)} projects, {len(restriction_candidates)} restrictions)")
 
     if args.dry_run:
         print("[dry-run] no files written")
         return
-    write_csv(CONTESTED_PATH, contested, CONTESTED_FIELDS)
+    write_csv(CONTESTED_PATH, kept_contested + contested, CONTESTED_FIELDS)
     write_csv(RESTRICTIONS_PATH, kept + restrictions, RESTRICTION_FIELDS)
     write_csv(CANDIDATES_PATH, candidates, CANDIDATE_FIELDS)
     write_csv(RESTRICTIONS_REVIEW_PATH, review, REVIEW_FIELDS)

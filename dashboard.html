@@ -316,7 +316,7 @@
 
       <div style="margin-top:auto;font-size:var(--text-xs);color:var(--color-text-faint);line-height:1.6">
         Data path: <code style="font-size:10px">data/renewable_opposition_records.csv</code><br>
-        Last updated: <span id="last-updated">—</span><br>
+        Last updated: <span id="last-updated">–</span><br>
         Loaded: <span id="load-status">Waiting</span>
       </div>
     </aside>
@@ -420,7 +420,7 @@ function normalizeRow(raw) {
   r._opposition = splitMulti(r.opposition_type);
   r._status = (r.status || '').trim().toLowerCase();
   r._date_sort = slugDate(r.adopted_or_event_date_text);
-  r.display_location = [r.municipality || '', r.county || '', r.state || ''].filter(Boolean).join(', ') || r.state || '—';
+  r.display_location = [r.municipality || '', r.county || '', r.state || ''].filter(Boolean).join(', ') || r.state || '–';
   if (hasLitigation) r._bucket = 'cases';
   else if (recordType === 'contested_project') r._bucket = 'contested';
   else r._bucket = 'restrictions';
@@ -636,15 +636,15 @@ function renderTable(rows, tab) {
 function cellHTML(r, col) {
   if (col === 'technology' || col === 'policy_mechanism' || col === 'opposition_type') {
     const vals = splitMulti(r[col]);
-    return vals.length ? `<td>${vals.map(v => `<span class="tag">${escapeHtml(v)}</span>`).join('')}</td>` : '<td>—</td>';
+    return vals.length ? `<td>${vals.map(v => `<span class="tag">${escapeHtml(v)}</span>`).join('')}</td>` : '<td>–</td>';
   }
   if (col === 'has_litigation') {
     const v = (r.has_litigation || '').toLowerCase();
-    return `<td>${escapeHtml(v ? (v === 'yes' ? 'Yes' : v === 'no' ? 'No' : v) : '—')}</td>`;
+    return `<td>${escapeHtml(v ? (v === 'yes' ? 'Yes' : v === 'no' ? 'No' : v) : '–')}</td>`;
   }
-  if (col === 'status') return `<td>${r.status ? `<span class="status-chip">${escapeHtml(r.status)}</span>` : '—'}</td>`;
-  if (col === 'short_description') return `<td><span class="td-desc">${escapeHtml(r.short_description || '—')}</span></td>`;
-  return `<td>${escapeHtml(r[col] || '—')}</td>`;
+  if (col === 'status') return `<td>${r.status ? `<span class="status-chip">${escapeHtml(r.status)}</span>` : '–'}</td>`;
+  if (col === 'short_description') return `<td><span class="td-desc">${escapeHtml(r.short_description || '–')}</span></td>`;
+  return `<td>${escapeHtml(r[col] || '–')}</td>`;
 }
 
 function fieldKV(label, value) {

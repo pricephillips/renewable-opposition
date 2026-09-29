@@ -90,7 +90,7 @@ def append_manifest(path: Path, record: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     write_header = not path.exists()
     with open(path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=MANIFEST_FIELDS)
+        writer = csv.DictWriter(f, fieldnames=MANIFEST_FIELDS, lineterminator="\n")
         if write_header:
             writer.writeheader()
         writer.writerow(record)

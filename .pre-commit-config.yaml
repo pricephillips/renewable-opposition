@@ -1,0 +1,44 @@
+# Local gates. Adapted from pricephillips/data-center-map .pre-commit-config.yaml
+# (docs/PASSOFF_2026-09-29_tooling_from_data_center_map.md, A5). Every hook is a
+# system hook that calls a script in this repo; nothing is fetched from a
+# remote hook repo.
+# One-time setup: pipx install pre-commit && pre-commit install
+repos:
+  - repo: local
+    hooks:
+      - id: csv-lf
+        name: CSV line endings (no new CRLF; rewrites to LF)
+        entry: python scripts/precommit_gates.py crlf --fix
+        language: system
+        files: \.csv$
+      - id: deliverable-emdash
+        name: No em-dashes in deliverables
+        entry: python scripts/precommit_gates.py emdash
+        language: system
+        files: ^(index|dashboard|renewable-opposition-map|map-audit)\.html$|^README\.md$|^docs/coverage_audit\.md$|^content/.*\.md$
+      - id: node-check
+        name: node --check on inline scripts
+        entry: python scripts/precommit_gates.py nodecheck
+        language: system
+        files: \.(js|html)$
+      - id: ruff
+        name: ruff (syntax-class rules)
+        entry: ruff check
+        language: system
+        types: [python]
+      - id: layer-audit
+        name: Layer audit (declared writers)
+        entry: python scripts/layer_audit.py
+        language: system
+        files: ^scripts/.*\.py$|^config/layers\.json$|^data/seed/.*\.csv$
+        pass_filenames: false
+      - id: touched-tests
+        name: pytest, plus --selftest on touched modules
+        entry: python scripts/precommit_gates.py tests
+        language: system
+        files: ^(scripts|tests)/.*\.py$
+      - id: vale
+        name: Vale (client-facing prose)
+        entry: vale --no-wrap
+        language: system
+        files: ^(README\.md|docs/coverage_audit\.md)$

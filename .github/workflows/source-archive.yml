@@ -1,0 +1,112 @@
+name: Archive cited sources
+
+# Gives every URL in data/processed/sources.csv a durable Internet Archive
+# snapshot: a CDX lookup for an existing 200 capture, and a Save Page Now
+# request for any URL without one (scripts/source_archive.py). Ported from
+# pricephillips/data-center-map .github/workflows/source-archive.yml
+# (docs/PASSOFF_2026-09-29_tooling_from_data_center_map.md, B2).
+#
+# One capped batch per week; the next run resumes from data/source_archive.csv,
+# so a rate-limit stop is expected behaviour and not a failure. The job then
+# rebuilds data/processed/ so each source carries its archived_url; commits
+# made with GITHUB_TOKEN do not trigger build-data.yml, so the rebuild has to
+# happen here. archive.org is not reachable from Claude sessions.
+#
+# Keys are optional. Without IA_S3_ACCESS_KEY / IA_S3_SECRET_KEY the job runs
+# at the anonymous Save Page Now rate, which is plenty for ~30 URLs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_lookups:
+        description: "CDX lookups this run (blank uses the module default)"
+        required: false
+        default: ""
+      max_saves:
+        description: "Save Page Now requests this run (blank uses the module default)"
+        required: false
+        default: ""
+  schedule:
+    # Mondays 09:17 UTC.
+    - cron: "17 9 * * 1"
+
+permissions:
+  contents: write
+
+# Shares build-data.yml's group: both rewrite data/processed/ and push.
+concurrency:
+  group: build-data-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # HEAD~1 for the processed-data diff. Credentials are kept
+          # (zizmor: artipacked) because the last step pushes.
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Install dependencies
+        run: uv pip install --system -c requirements/ci.txt -r requirements.txt daff
+
+      - name: Self-test (mocked CDX and Save Page Now; no network)
+        run: python scripts/source_archive.py --selftest
+
+      - name: Archive one capped batch
+        env:
+          IA_S3_ACCESS_KEY: ${{ secrets.IA_S3_ACCESS_KEY }}
+          IA_S3_SECRET_KEY: ${{ secrets.IA_S3_SECRET_KEY }}
+          MAX_LOOKUPS: ${{ github.event.inputs.max_lookups }}
+          MAX_SAVES: ${{ github.event.inputs.max_saves }}
+        run: |
+          ARGS=""
+          if [ -n "$MAX_LOOKUPS" ]; then ARGS="$ARGS --max-lookups $MAX_LOOKUPS"; fi
+          if [ -n "$MAX_SAVES" ]; then ARGS="$ARGS --max-saves $MAX_SAVES"; fi
+          # shellcheck disable=SC2086 # ARGS holds several flags; splitting is intended
+          python scripts/source_archive.py $ARGS
+
+      - name: Rebuild processed data with archived URLs
+        run: |
+          python scripts/build_seed_outputs.py
+          python scripts/snapshot_manifest.py
+          python scripts/processed_diff.py
+
+      - name: Publish coverage
+        if: always()
+        run: |
+          {
+            echo "## Source archive"
+            echo '```json'
+            python -c "import json; m = json.load(open('data/source_archive_manifest.json')); m.pop('history', None); print(json.dumps(m, indent=2))" || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit archive state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/source_archive.csv data/source_archive_manifest.json data/processed/ data/snapshots/manifest.csv
+          git diff --cached --quiet && exit 0
+          git commit -m "Source archive snapshots (Internet Archive CDX / Save Page Now)"
+          # Same retry as build-data.yml: rebase this run's own commit and push;
+          # never force-push.
+          for i in 1 2 3; do
+            git push origin HEAD:"$GITHUB_REF_NAME" && exit 0
+            echo "Push rejected (attempt $i); rebasing on the latest branch"
+            git fetch --no-tags origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME" || { git rebase --abort; echo "::error::rebase conflict"; exit 1; }
+            sleep $((i * 5))
+          done
+          echo "::error::push failed after 3 attempts"; exit 1

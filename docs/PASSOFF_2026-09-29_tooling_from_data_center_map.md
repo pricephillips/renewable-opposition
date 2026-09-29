@@ -255,14 +255,14 @@ until there is a decided-project universe with dates.
 
 ## Checklist for the session that does Part A
 
-- [ ] A1 constraints file compiled; tests pass on it
-- [ ] A2 `dependabot.yml`
-- [ ] A3 `workflow-lint.yml`; every `uses:` SHA-pinned; actionlint 0 with shellcheck; zizmor 0 high
-- [ ] A4 `ruff.toml`; `ruff check .` in `validate.yml`
-- [ ] A5 pre-commit gates; `pre-commit run --all-files` passes
-- [ ] A5b LF decision recorded (applied, or deferred with a reason)
-- [ ] A6 em-dash decision recorded; pages cleaned if adopted
-- [ ] A7 Vale fixtures pass
-- [ ] A8 `data/processed/diff_summary.md` produced by a build and committed by it
-- [ ] A9 startup hook runs clean
-- [ ] `docs/pipeline_comparison.md` gains a "Round two (2026-09-29)" section pointing here
+- [x] A1 constraints file compiled; tests pass on it
+- [x] A2 `dependabot.yml`
+- [x] A3 `workflow-lint.yml`; every `uses:` SHA-pinned; actionlint 0 with shellcheck; zizmor 0 high
+- [x] A4 `ruff.toml`; `ruff check .` in `validate.yml`
+- [x] A5 pre-commit gates; `pre-commit run --all-files` passes
+- [x] A5b LF decision recorded (applied, or deferred with a reason): applied 2026-09-29
+- [x] A6 em-dash decision recorded; pages cleaned if adopted: gate pages and docs, record text left as sourced
+- [x] A7 Vale fixtures pass
+- [x] A8 `data/processed/diff_summary.md` produced by a build and committed by it (verified locally; first CI build pending)
+- [x] A9 startup hook runs clean
+- [x] `docs/pipeline_comparison.md` gains a "Round two (2026-09-29)" section pointing here

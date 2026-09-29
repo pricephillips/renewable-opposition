@@ -76,9 +76,10 @@ data/processed/
   restrictions.csv / restrictions.json
   contested_projects.csv / contested_projects.json
   cases.csv / cases.json
-  sources.csv / sources.json        ← one row per source document
+  sources.csv / sources.json        ← one row per source document, with its Internet Archive snapshot (archived_url)
   quarantine.json                   ← rows the QC gate blocked, with their issues
   qc_report.md                      ← every QC finding by code and severity
+  diff_summary.md                   ← what the last build changed, keyed on id
 ```
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.
@@ -142,6 +143,18 @@ python scripts/build_seed_outputs.py        # validate and write data/processed/
 python -m pytest -q
 ```
 
+CI installs under the pinned constraints in `requirements/ci.txt`
+(`uv pip install --system -c requirements/ci.txt -r requirements.txt`). For the
+same checks locally (CSV line endings, em-dashes in pages, inline script
+syntax, ruff, pytest, Vale), run `pipx install pre-commit && pre-commit install`
+once.
+
+Every cited source gets an Internet Archive snapshot once a week
+(`.github/workflows/source-archive.yml`, `scripts/source_archive.py`; state in
+`data/source_archive.csv`). The dashboard links the archived copy beside the
+live one. `config/layers.json` declares which script writes each data file, and
+`scripts/layer_audit.py` checks that declaration against the code.
+
 ### Reviewing candidates
 
 - **Cases.** `data/review/cases_candidates.csv` lists every project or restriction the source says was litigated. To promote one, fill in `case_name`, `court`, `court_level`, `docket_number` and `case_source_url` from a primary source (a docket, an opinion, or a court's own page), set `review_status` to `confirmed`, then run `python scripts/promote_reviewed.py`. If one project has several cases, duplicate the row. Rebuilding with `build_sabin_seeds.py` keeps these edits.
@@ -153,12 +166,12 @@ Outputs will be written to `data/processed/`.
 
 ## Pipeline layers (roadmap)
 
-1. **Source registry** — `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).
-2. **Crawler/fetcher** — `scripts/fetch.py`: fetches each active source and stores an immutable raw copy keyed by content hash. Not scheduled yet.
-3. **Parser/extractor** — `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
-4. **Human review queue** — `data/review/*.csv`, promoted by `scripts/promote_reviewed.py`.
-5. **Canonical outputs** — `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
-6. **Dashboard** — `index.html` reads `data/processed/`.
+1. **Source registry**: `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).
+2. **Crawler/fetcher**: `scripts/fetch.py` fetches each active source and stores an immutable raw copy keyed by content hash. Not scheduled yet.
+3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
+4. **Human review queue**: `data/review/*.csv`, promoted by `scripts/promote_reviewed.py`.
+5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
+6. **Dashboard**: `index.html` reads `data/processed/`.
 
 ---
 

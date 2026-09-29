@@ -84,14 +84,14 @@ def read_csv(path: Path) -> list[dict]:
 def write_csv(path: Path, rows: list[dict], preferred_fields: list[str] | None = None) -> list[str]:
     """Write rows with preferred_fields first, then any extra keys in first-seen
     order, so rows from different builders can share one file. Returns the header."""
-    fields = list(preferred_fields or [])
+    fields = list(dict.fromkeys(preferred_fields or []))  # a repeated name once
     for row in rows:
         for k in row:
             if k not in fields:
                 fields.append(k)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
+        w = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
         w.writeheader()
         for row in rows:
             w.writerow({k: ("" if row.get(k) is None else row.get(k)) for k in fields})

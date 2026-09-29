@@ -1,0 +1,13 @@
+# Everything validate.yml and build-data.yml install, plus the CI checkers
+# (docs/PASSOFF_2026-09-29_tooling_from_data_center_map.md, A1). Adapted from
+# pricephillips/data-center-map requirements/ci.in.
+# Compiled to ci.txt with:
+#   uv pip compile requirements/ci.in --python-version 3.11 -o requirements/ci.txt
+# The first three pins equal the versions CI resolved on CPython 3.11.16
+# (validate run 36598026927 on main, b78e0ca).
+requests==2.34.2
+PyYAML==6.0.3
+pytest==9.1.1
+ruff>=0.13
+daff>=1.4
+vale>=3.12
