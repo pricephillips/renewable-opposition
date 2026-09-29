@@ -316,6 +316,22 @@ def case_rulings(cases: list[dict]) -> dict[str, list[dict]]:
     return out
 
 
+# A municipality value that names a project or company, not a place.
+PROJECT_LIKE = re.compile(r"\b(solar|wind|LLC|plant|array|farm)\b", re.I)
+
+
+def project_severity(outcome: str, litigated: bool) -> int:
+    """The contested-project severity rule (module docstring). Shared with
+    resolutions.py, so a reviewed outcome is scored the same way."""
+    if outcome.startswith("blocked_"):
+        return 4
+    if litigated:
+        return 3
+    if outcome.startswith("advanced_"):
+        return 1
+    return 2
+
+
 def finalize_outcome(outcome: str, linked_cases: list[dict]) -> tuple[str, str]:
     """Return (outcome, finality_evidence) given the cases linked to the row."""
     if outcome in CONFIRMING_RULING:
@@ -340,6 +356,12 @@ def build_contested(records: list[dict], rulings: dict[str, list[dict]] | None =
             continue
 
         notes = [n for n in [r["notes"].strip()] if n]
+        project_name, municipality = r["project_or_policy_name"].strip(), r["municipality"].strip()
+        if PROJECT_LIKE.search(municipality):
+            # The extraction put the project's name in the municipality column
+            # and a description in the name column (REC-0190 to REC-0194).
+            project_name, municipality = municipality, ""
+            notes.append("project name recovered from the municipality column")
         tech_raw = r["technology"]
         if rid in PROJECT_TECHNOLOGY_OVERRIDES:
             tech_raw = PROJECT_TECHNOLOGY_OVERRIDES[rid]
@@ -349,17 +371,10 @@ def build_contested(records: list[dict], rulings: dict[str, list[dict]] | None =
         outcome, finality = finalize_outcome(
             OUTCOME.get(r["status"].strip(), "needs_review"), rulings.get(rid, []))
         litigated = is_litigated(r)
-        if outcome.startswith("blocked_"):
-            severity = 4
-        elif litigated:
-            severity = 3
-        elif outcome.startswith("advanced_"):
-            severity = 1
-        else:
-            severity = 2
+        severity = project_severity(outcome, litigated)
         row = {
             "state": state_code(r["state"]),
-            "project_name": r["project_or_policy_name"].strip(),
+            "project_name": project_name,
             "technology": technology,
             "severity_score": severity,
             "description": r["short_description"].strip(),
@@ -369,7 +384,7 @@ def build_contested(records: list[dict], rulings: dict[str, list[dict]] | None =
             "has_litigation": "yes" if litigated else r["has_litigation"].strip(),
             "opposition_type": r["opposition_type"].strip(),
             "county": r["county"].strip(),
-            "municipality": r["municipality"].strip(),
+            "municipality": municipality,
             "event_date_text": r["adopted_or_event_date_text"].strip(),
             "capacity_mw": r["project_capacity_mw"].strip(),
             "area_acres": r["project_area_acres"].strip(),
