@@ -19,6 +19,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia dockets / govinfo result names this case, court and docket; opinion text not read. Dismissed 2024-06-06; the Ninth Circuit revived the claims in 2025 and remanded.",
     "id": "cas_88caa9f9ce",
     "source_id": "src_733480173ca9",
+    "instrument_id": "case:case_36584c3665",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -46,6 +48,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / FindLaw result names this case, court; opinion text not read. Decided 2008-09-18 (166 Cal.App.4th 1349): dismissal affirmed.",
     "id": "cas_59b3fe6203",
     "source_id": "src_6c9ba082386e",
+    "instrument_id": "case:case_a216359f5a",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -73,6 +77,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Dismissed under Rule 19 (tribe a required party); affirmed by the Ninth Circuit.",
     "id": "cas_0824601d36",
     "source_id": "src_95e68a6de863",
+    "instrument_id": "case:case_745ea6e9b2",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -100,6 +106,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2023: dismissed for lack of jurisdiction with leave to transfer to Superior Court.",
     "id": "cas_3ced317c10",
     "source_id": "src_5321434aa4c7",
+    "instrument_id": "case:case_de5d5a5743",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -127,6 +135,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Transferred case; 2023 and 2024 decisions; later appealed to the Delaware Supreme Court (Kent County v. Citizens Against Solar Pollution). Outcome not captured.",
     "id": "cas_f6bc1ddf0a",
     "source_id": "src_429df504cd5f",
+    "instrument_id": "case:case_58fe8f2527",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -154,6 +164,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a vLex / DLNR result names this case, court and docket; opinion text not read. Decided 2022-02-22: habitat conservation plan approval upheld.",
     "id": "cas_95690123f7",
     "source_id": "src_d00ef4f51f19",
+    "instrument_id": "case:case_ee372892b0",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -181,6 +193,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Pantagraph (complaint PDF) / news result names this case, court; opinion text not read. 2021: board lacked authority to suspend the project's building permits. Residents' and the Village of Wapella's suits against the approval are not recorded here.",
     "id": "cas_168e9c80f4",
     "source_id": "src_6e54ad817125",
+    "instrument_id": "case:case_c1f72eeee2",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -208,6 +222,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / govinfo result names this case, court and docket; opinion text not read. Decided 2016-07-05: Cape Wind EIS held inadequate (geological surveys).",
     "id": "cas_eb7ae28c2d",
     "source_id": "src_22f8ac453ce3",
+    "instrument_id": "case:case_b20d5aafe4",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -235,6 +251,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a FindLaw / vLex result names this case, court and docket; opinion text not read. Decided 2026-06-17: county's permit denial upheld.",
     "id": "cas_90da8d11c7",
     "source_id": "src_f7075eca4512",
+    "instrument_id": "case:case_deb7e3e90a",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -262,6 +280,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court; opinion text not read. May 2018 (per NHPR): Site Evaluation Committee approval upheld.",
     "id": "cas_d4603d92ed",
     "source_id": "src_ed3cc583909b",
+    "instrument_id": "case:case_c0daa618a6",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -289,6 +309,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Decided 2024-04-09: planning board denial reversed; builder's remedy granted.",
     "id": "cas_e3b7b34361",
     "source_id": "src_fe3ec1e3efaa",
+    "instrument_id": "case:case_654d463e55",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -316,6 +338,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a govinfo result names this case, court and docket; opinion text not read. Appeal docketed in the Third Circuit as 26-2186. The municipalities' separate 2023 state suit was dismissed for lack of standing in April 2024 (not recorded here).",
     "id": "cas_6e1193c644",
     "source_id": "src_8eef61cb2896",
+    "instrument_id": "case:case_c0443f5960",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -343,6 +367,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court and docket; opinion text not read. Dismissed for lack of jurisdiction.",
     "id": "cas_858866bcc6",
     "source_id": "src_8f917ca74c3a",
+    "instrument_id": "case:case_6b27c909ba",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -370,6 +396,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Sabin Center climate litigation database result names this case, court and docket; opinion text not read. Dismissed as moot after the developer cancelled Ocean Wind 1.",
     "id": "cas_1acdb4ab13",
     "source_id": "src_9381c0e8d347",
+    "instrument_id": "case:case_5c2b2e80a1",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -397,6 +425,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court; opinion text not read. Filed September 2023 over desert tortoise protections under the Clark County MSHCP; outcome not captured.",
     "id": "cas_ddfd44db13",
     "source_id": "src_de7702189893",
+    "instrument_id": "case:case_d1ea6bd67c",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -424,6 +454,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia / Casemine result names this case, court and docket; opinion text not read. Decided 2013-02-14: permanent injunction against the turbine affirmed.",
     "id": "cas_77f6b901f6",
     "source_id": "src_c9ce988b661a",
+    "instrument_id": "case:case_cbdfe80fe9",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -451,6 +483,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Decided 2017-09-18: excavation was mineral development requiring an approved lease.",
     "id": "cas_4632b72354",
     "source_id": "src_d60b4b8819b7",
+    "instrument_id": "case:case_aa6cf531ba",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -478,6 +512,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2023 (370 Or 792): site certificate affirmed.",
     "id": "cas_38648029ab",
     "source_id": "src_91330a731be3",
+    "instrument_id": "case:case_7a2b1317ae",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -505,6 +541,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a ca9.uscourts.gov result names this case, court and docket; opinion text not read. Same case as REC-0375 (Echanis project on Steens Mountain).",
     "id": "cas_f6479ea3e0",
     "source_id": "src_b8ae2b2663d6",
+    "instrument_id": "case:case_31209f3282",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -532,6 +570,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener result names this case, court; opinion text not read. Held the 80-acre solar facility was not 'industrial development'; LUBA's reversal of the county approval stood.",
     "id": "cas_7a41442e3b",
     "source_id": "src_5dd93a66684f",
+    "instrument_id": "case:case_bc4a549741",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -559,6 +599,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a ca9.uscourts.gov result names this case, court and docket; opinion text not read. Decided 2016-05-26: BLM environmental review of the Echanis project held inadequate.",
     "id": "cas_45b49734fd",
     "source_id": "src_b8ae2b2663d6",
+    "instrument_id": "case:case_31209f3282",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -586,6 +628,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2022: PUC permit affirmed.",
     "id": "cas_279324fd24",
     "source_id": "src_66830ece2339",
+    "instrument_id": "case:case_13ef67832d",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -614,6 +658,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / Justia result names this case, court; opinion text not read. Decided 2008-08-21: no Texas nuisance claim for aesthetic impact; take-nothing judgment affirmed.",
     "id": "cas_f8bcca7748",
     "source_id": "src_213e809d32a2",
+    "instrument_id": "case:case_11d388cd77",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -641,6 +687,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. 2023: denial of certificate of public good affirmed.",
     "id": "cas_b1ecb7a2be",
     "source_id": "src_911d8cdd66f1",
+    "instrument_id": "case:case_7097903c21",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -668,6 +716,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia dockets result names this case, court and docket; opinion text not read. Decided 2009-12-08: ESA injunction limiting turbine operation absent an incidental take permit.",
     "id": "cas_da338d9586",
     "source_id": "src_e6e6bdc1db81",
+    "instrument_id": "case:case_9ab92e0161",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -695,6 +745,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a CourtListener / courtswv.gov result names this case, court and docket; opinion text not read. Decided 2007-06-08: reversed dismissal of neighbors' nuisance claim and remanded.",
     "id": "cas_00e0edbb76",
     "source_id": "src_258ce97a7ac3",
+    "instrument_id": "case:case_c8486f4e8a",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",
@@ -722,6 +774,8 @@
     "reviewer_notes": "Verified 2026-09-24 by web search: a Justia result names this case, court and docket; opinion text not read. Decided 2012-12-14: WECS permit upheld.",
     "id": "cas_f65e74e4cf",
     "source_id": "src_292cabf0aa2e",
+    "instrument_id": "case:case_e0f194ba78",
+    "evidence_level": "court_record",
     "sources": [
       {
         "title": "Reviewed case record",

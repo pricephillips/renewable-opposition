@@ -27,7 +27,10 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import classify  # noqa: E402
+import headline_metrics  # noqa: E402
 import qc_gate  # noqa: E402
+import resolutions  # noqa: E402
 from common import (  # noqa: E402
     PROCESSED_DIR, SEED_DIR, normalize_url, read_csv, source_id_for, state_code, write_csv,
 )
@@ -138,6 +141,15 @@ def build_entity(entity: str, filename: str) -> tuple[list[dict] | None, list[st
         row["id"] = rid
         if row.get("source_url"):
             row["source_id"] = source_id_for(row["source_url"])
+        classify.stamp(entity, row)
+    # Reviewer evidence, then re-derive: a resolution changes the outcome or
+    # adds a primary source, which changes evidence_level.
+    if entity == "contested_projects":
+        errors += resolutions.apply_outcomes(rows, qc_gate.VOCAB[entity]["outcome"])
+    elif entity == "restrictions":
+        errors += resolutions.apply_restriction_sources(rows)
+    for row in rows:
+        classify.stamp(entity, row)
     return rows, errors
 
 
@@ -230,6 +242,16 @@ def main() -> int:
         write_csv(PROCESSED_DIR / f"{entity}.csv", rows, preferred)
         write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows, archive))
         print(f"Wrote data/processed/{entity}.csv/.json ({len(rows)} records)")
+
+    metrics = headline_metrics.compute(datasets)
+    write_json(PROCESSED_DIR / "headline_metrics.json", metrics)
+    (PROCESSED_DIR / "headline_metrics.md").write_text(headline_metrics.render(metrics), encoding="utf-8")
+    ren = metrics["restrictions"]["by_scope"]["renewables_only"]
+    print(f"Headline: {ren['instruments']} renewables-only restrictions "
+          f"({ren['severe_instruments']} severe), "
+          f"{metrics['restrictions']['by_scope']['multi_sector_data_centers']['instruments']} "
+          f"also covering data centers; {metrics['contested_projects']['projects']} projects, "
+          f"{metrics['contested_projects']['confirmed_outcomes']} confirmed")
 
     sources = collect_sources(datasets, archive)
     write_csv(PROCESSED_DIR / "sources.csv", sources, SOURCE_FIELDS)

@@ -87,6 +87,22 @@ def _split(diff: list[list[str]]) -> tuple[list[str], list[list[str]]]:
     return (diff[0] if diff else []), diff[1:]
 
 
+def schema_changes(diff: list[list[str]]) -> tuple[list[str], list[str]]:
+    """(columns added, columns removed), from daff's schema row (tag !)."""
+    added, removed = [], []
+    for i, row in enumerate(diff):
+        if row and row[0] == "!":
+            header = diff[i + 1] if i + 1 < len(diff) else []
+            for j, mark in enumerate(row):
+                name = header[j] if j < len(header) else ""
+                if mark == "+++":
+                    added.append(name)
+                elif mark == "---":
+                    removed.append(name)
+            break
+    return added, removed
+
+
 def counts(diff: list[list[str]]) -> dict[str, int]:
     n = {"added": 0, "removed": 0, "modified": 0}
     for row in _split(diff)[1]:
@@ -160,6 +176,7 @@ def render(results: dict[str, list[list[str]] | None]) -> str:
     lines += ["## Row counts", "", "| Entity | Added | Removed | Modified |",
               "|---|---|---|---|"]
     changes: list[dict[str, str]] = []
+    schema: list[str] = []
     any_change = False
     for entity, d in results.items():
         if d is None:
@@ -167,12 +184,20 @@ def render(results: dict[str, list[list[str]] | None]) -> str:
             any_change = True
             continue
         n = counts(d)
-        any_change |= any(n.values())
+        added, removed = schema_changes(d)
+        any_change |= any(n.values()) or bool(added or removed)
         lines.append(f"| {entity} | {n['added']} | {n['removed']} | {n['modified']} |")
+        if added or removed:
+            schema.append(f"- {entity}: " + "; ".join(
+                x for x in (f"added {', '.join(f'`{c}`' for c in added)}" if added else "",
+                            f"removed {', '.join(f'`{c}`' for c in removed)}" if removed else "")
+                if x))
         changes += tracked_changes(entity, d)
     lines.append("")
     if not any_change:
         return "\n".join(intro + ["No changes.", ""])
+    if schema:
+        lines += ["## Column changes", ""] + schema + [""]
 
     lines += ["## Tracked field changes", ""]
     if changes:
@@ -188,7 +213,9 @@ def render(results: dict[str, list[list[str]] | None]) -> str:
         if d is None:
             continue
         header, body = _split(d)
-        body = [r for r in body if r and r[0] not in ("", "...", ":")]
+        # "+" marks a row whose only change is a value in a new column; the
+        # schema line above covers those.
+        body = [r for r in body if r and r[0] not in ("", "...", ":", "+")]
         if not body:
             continue
         room = DETAIL_CAP - shown

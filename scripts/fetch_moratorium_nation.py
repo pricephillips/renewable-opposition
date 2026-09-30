@@ -79,6 +79,8 @@ FIELDNAMES = [
     "longitude",
     "needs_verification",
     "moratorium_id",
+    "sectors",
+    "legal_basis",
     "source",
     "source_url",
 ]
@@ -153,6 +155,13 @@ def transform(csv_text: str) -> tuple[list[dict], list[tuple[str, str, list[str]
                     # with [VERIFY] tags; carry that flag instead of dropping rows.
                     "needs_verification": "yes" if row.get("has_verify_tags", "").lower() == "true" else "",
                     "moratorium_id": row.get("moratorium_id", ""),
+                    # Every sector the instrument covers, not just the renewable
+                    # ones: classify.py reads it to tell a renewables-only
+                    # moratorium from one that also covers data centers.
+                    "sectors": ";".join(sorted(sectors)),
+                    # The ordinance or resolution the moratorium rests on: the
+                    # primary citation a reviewer checks.
+                    "legal_basis": (row.get("legal_basis") or "").strip(),
                     "source": SOURCE_LABEL,
                     "source_url": SOURCE_URL,
                 }

@@ -21,6 +21,11 @@ Checks
   DATE_IN_FUTURE        HIGH    an enactment or filing date after the build date
   SEVERITY_STATUS       MEDIUM  a pending instrument scored above 2
   CONFIRMED_NO_EVIDENCE HIGH    a *_confirmed outcome with no finality evidence
+  PRIMARY_SOURCE_CONTRADICTS HIGH  a reviewer found the primary source disagrees
+                                with the record (data/review/restriction_sources.csv)
+  SCOPE_DATA_CENTER_ONLY HIGH   a restriction whose text names data centers and
+                                no renewable technology (classify.scope): the
+                                source's sector tag is not supported by the record
   DATE_UNPARSEABLE      LOW     an ISO date column that is not YYYY[-MM[-DD]]
 
 Usage
@@ -43,7 +48,14 @@ import state_bounds  # noqa: E402
 BLOCK_AT = {"HIGH", "CRITICAL"}
 
 VOCAB = {
-    "restrictions": {"status": {"active", "extended", "pending", "unknown"}},
+    "restrictions": {
+        "status": {"active", "extended", "pending", "unknown"},
+        # Derived by classify.py; a value outside these means the rules and the
+        # vocabulary drifted apart.
+        "scope": {"renewables_only", "multi_sector_data_centers", "data_center_only"},
+        "evidence_level": {"primary_source", "compiled_record", "compiled_flagged",
+                           "report_citation"},
+    },
     "contested_projects": {
         "outcome": {"blocked_confirmed", "blocked_unverified", "restricted_conditional",
                     "advanced_confirmed", "advanced_unverified", "pending", "needs_review"},
@@ -53,11 +65,15 @@ VOCAB = {
                         "ruled_for_opposition", "settled", "withdrawn"},
     },
 }
+DERIVED_FIELDS = {"scope", "evidence_level"}
 DATE_FIELDS = ("date_enacted_iso", "current_end_date_iso", "filing_date")
 # Dates that record something that already happened. An end date is expected
 # to be in the future, so it is format-checked only.
 PAST_DATE_FIELDS = ("date_enacted_iso", "filing_date")
-URL_FIELDS = ("source_url", "case_source_url")
+URL_FIELDS = ("source_url", "case_source_url", "primary_source_url")
+# Independent evidence that makes an outcome *_confirmed: a linked court ruling,
+# or a reviewer's resolution citing a document (data/review/outcome_resolutions.csv).
+FINALITY_PREFIXES = ("court_ruling", "resolution")
 _ISO = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
 
 
@@ -88,6 +104,8 @@ def check_record(entity: str, row: dict, today: date | None = None) -> list[Issu
             issues.append(Issue("SOURCE_URL_INVALID", "HIGH", f, f"not an http(s) URL: {v[:80]}"))
 
     for f, allowed in VOCAB.get(entity, {}).items():
+        if f in DERIVED_FIELDS and f not in row:
+            continue  # stamped by classify.py during a build; absent in isolation
         v = _s(row.get(f))
         if v not in allowed:
             issues.append(Issue("STATUS_VOCAB", "HIGH", f, f"{v!r} is not in the {entity} vocabulary"))
@@ -113,8 +131,16 @@ def check_record(entity: str, row: dict, today: date | None = None) -> list[Issu
             issues.append(Issue("SEVERITY_STATUS", "MEDIUM", "severity_score",
                                 f"pending instrument scored {sev}; pending is capped at 2"))
 
+    if _s(row.get("primary_source_verdict")) == "contradicts":
+        issues.append(Issue("PRIMARY_SOURCE_CONTRADICTS", "HIGH", "primary_source_url",
+                            f"primary source disagrees: {_s(row.get('primary_source_url'))[:80]}"))
+
+    if entity == "restrictions" and _s(row.get("scope")) == "data_center_only":
+        issues.append(Issue("SCOPE_DATA_CENTER_ONLY", "HIGH", "scope",
+                            "text names data centers and no renewable technology"))
+
     if entity == "contested_projects" and _s(row.get("outcome")).endswith("_confirmed"):
-        if not _s(row.get("finality_evidence")).startswith("court_ruling"):
+        if not _s(row.get("finality_evidence")).startswith(FINALITY_PREFIXES):
             issues.append(Issue("CONFIRMED_NO_EVIDENCE", "HIGH", "outcome",
                                 "a *_confirmed outcome needs independent finality evidence"))
     return issues
@@ -190,6 +216,16 @@ def selftest() -> int:
                                 "finality_evidence": "outcome_label_only",
                                 "source_url": "https://x.org"}, {"CONFIRMED_NO_EVIDENCE"}),
         ("cases", {"state": "VA", "case_status": "won", "source_url": "https://x.org"}, {"STATUS_VOCAB"}),
+        ("restrictions", {"state": "KS", "status": "active", "source_url": "https://x.org",
+                          "scope": "data_center_only"}, {"SCOPE_DATA_CENTER_ONLY"}),
+        ("restrictions", {"state": "KS", "status": "active", "source_url": "https://x.org",
+                          "evidence_level": "rumour"}, {"STATUS_VOCAB"}),
+        ("restrictions", {"state": "KS", "status": "active", "source_url": "https://x.org",
+                          "primary_source_url": "https://town.gov/o.pdf",
+                          "primary_source_verdict": "contradicts"}, {"PRIMARY_SOURCE_CONTRADICTS"}),
+        ("contested_projects", {"state": "VA", "outcome": "blocked_confirmed",
+                                "finality_evidence": "resolution: https://county.gov/minutes.pdf",
+                                "source_url": "https://x.org"}, set()),
     ]
     failed = 0
     for entity, row, expected in cases:

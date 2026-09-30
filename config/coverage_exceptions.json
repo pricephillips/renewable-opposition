@@ -1,0 +1,13 @@
+{
+  "_comment": [
+    "Deliberate column drops for scripts/coverage_delta.py. Each entry clears",
+    "only the exact expect_after count. Delete an entry once a build has",
+    "committed the new baseline."
+  ],
+  "contested_projects.csv": {
+    "municipality": {
+      "expect_after": 17,
+      "reason": "REC-0190 to REC-0194 carried the project name in municipality; build_sabin_seeds.py now moves it to project_name."
+    }
+  }
+}
