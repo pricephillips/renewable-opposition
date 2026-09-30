@@ -143,7 +143,7 @@ renewable-opposition/
 │   ├── sources.yaml                        ← crawler source registry (fetch.py)
 │   └── source_registry.csv                 ← dataset/tracker registry
 ├── data/
-│   ├── renewable_opposition_records.csv    ← Sabin report extraction (feeds the map/dashboard)
+│   ├── renewable_opposition_records.csv    ← Sabin report extraction (input to build_sabin_seeds.py)
 │   ├── seed/
 │   │   ├── restrictions_seed.csv           ← Moratorium Nation + Sabin local restrictions
 │   │   ├── contested_projects_seed.csv     ← Sabin contested-projects section
@@ -216,7 +216,7 @@ Outputs will be written to `data/processed/`.
 3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
 4. **Human review queue**: `data/review/*.csv`, promoted by `scripts/promote_reviewed.py`.
 5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
-6. **Dashboard**: `index.html` reads `data/processed/`.
+6. **Pages**: `index.html`, `dashboard.html`, `renewable-opposition-map.html` and `map-audit.html` all read `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
 
 ---
 

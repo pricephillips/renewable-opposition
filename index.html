@@ -732,9 +732,9 @@
 
     <section class="metrics" aria-label="Summary metrics">
       <article class="metric-card">
-        <p class="metric-label">Severe restrictions</p>
+        <p class="metric-label">Severe restrictions, renewables only</p>
         <p class="metric-value" id="metricSevere">0</p>
-        <p class="metric-context">Defaults to severity 3–4 in Restrictions view.</p>
+        <p class="metric-context" id="metricSevereContext">Instruments at severity 3–4.</p>
       </article>
       <article class="metric-card">
         <p class="metric-label">Contested projects</p>
@@ -885,6 +885,7 @@
     </p>
   </main>
 
+  <script src="./processed-data.js"></script>
   <script>
     (() => {
       const STATE_CENTROIDS = {
@@ -989,6 +990,7 @@
         colD: document.getElementById("colD"),
         colE: document.getElementById("colE"),
         metricSevere: document.getElementById("metricSevere"),
+        metricSevereContext: document.getElementById("metricSevereContext"),
         metricContested: document.getElementById("metricContested"),
         metricCases: document.getElementById("metricCases"),
         mapStatus: document.getElementById("mapStatus"),
@@ -1064,8 +1066,10 @@
         const results = await Promise.all([
           loadDataset("restrictions"),
           loadDataset("contested_projects"),
-          loadDataset("cases")
+          loadDataset("cases"),
+          fetch(ProcessedData.METRICS_URL, { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null)
         ]);
+        state.metrics = results[3];
 
         state.datasets.restrictions = results[0];
         state.datasets.contested_projects = results[1];
@@ -1327,11 +1331,15 @@
         return "Case source";
       }
 
+      // Published totals from headline_metrics.json, counted by instrument.
+      // Restrictions that also cover data centers are a separate figure.
       function updateMetrics() {
-        const severe = state.datasets.restrictions.filter(r => [3,4].includes(r.severity_score)).length;
-        els.metricSevere.textContent = formatInt(severe);
-        els.metricContested.textContent = formatInt(state.datasets.contested_projects.length);
-        els.metricCases.textContent = formatInt(state.datasets.cases.length);
+        if (!state.metrics) return;
+        const h = ProcessedData.headline(state.metrics);
+        els.metricSevere.textContent = formatInt(h.renewables_severe);
+        els.metricSevereContext.textContent = `Instruments at severity 3–4, of ${formatInt(h.renewables)}. Another ${formatInt(h.multi_sector_severe)} severe also cover data centers, counted separately.`;
+        els.metricContested.textContent = formatInt(h.projects);
+        els.metricCases.textContent = formatInt(h.cases);
       }
 
       function populateFilters() {
@@ -1441,9 +1449,17 @@
         }
       }
 
+      // Counted by instrument: rows of one instrument (one per technology) count once.
       function renderResultCount() {
-        const count = state.filtered.length;
-        els.resultCountBadge.textContent = `${formatInt(count)} ${count === 1 ? "record" : "records"}`;
+        const seen = new Set();
+        const instruments = [];
+        state.filtered.forEach(r => {
+          const key = r.instrument_id || r.id;
+          if (seen.has(key)) return;
+          seen.add(key);
+          instruments.push({ entity: r.entity_type, scope: r.scope });
+        });
+        els.resultCountBadge.textContent = ProcessedData.tallyText(ProcessedData.tally(instruments));
       }
 
       function renderList() {

@@ -40,11 +40,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 # page -> (selector whose text proves records loaded, what it should say)
+# Every page counts instruments (processed-data.js tallyText), so each badge
+# names restrictions; map-audit's metric card names instruments.
 PAGES = {
-    "index.html": ("#resultBadge, .result-badge, [id$='Badge']", "records"),
-    "renewable-opposition-map.html": ("#resultBadge", "instances"),
-    "map-audit.html": ("body", "Visible records"),
-    "dashboard.html": ("body", "records"),
+    "index.html": ("#resultBadge, .result-badge, [id$='Badge']", "restriction"),
+    "renewable-opposition-map.html": ("#resultBadge", "restriction"),
+    "map-audit.html": ("body", "Visible instruments"),
+    "dashboard.html": ("#table-summary", "restriction"),
 }
 BLOCKED = re.compile(r"(tile\.openstreetmap|basemaps\.cartocdn|arcgisonline|fontshare|fonts\.g)")
 CDN = re.compile(r"https://unpkg\.com/(leaflet(?:\.markercluster)?)@[^/]+/(.*)")

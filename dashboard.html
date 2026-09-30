@@ -292,13 +292,20 @@
         <select id="filter-jurisdiction"><option value="">All jurisdiction levels</option></select>
       </div>
       <div class="filter-group">
-        <label class="filter-label" for="filter-sev">Case intensity</label>
+        <label class="filter-label" for="filter-sev">Severity</label>
         <select id="filter-sev">
           <option value="">Any</option>
-          <option value="1">All records</option>
-          <option value="2">Medium + High</option>
-          <option value="3">High only</option>
-          <option value="4">High only</option>
+          <option value="2">2 or higher</option>
+          <option value="3">3 or higher (severe)</option>
+          <option value="4">4 only</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" for="filter-scope">Scope</label>
+        <select id="filter-scope">
+          <option value="">All scopes</option>
+          <option value="renewables_only">Renewables only</option>
+          <option value="multi_sector_data_centers">Also covers data centers</option>
         </select>
       </div>
       <button class="reset-btn" id="reset-btn" type="button">Reset filters</button>
@@ -315,14 +322,14 @@
       </div>
 
       <div style="margin-top:auto;font-size:var(--text-xs);color:var(--color-text-faint);line-height:1.6">
-        Data path: <code style="font-size:10px">data/renewable_opposition_records.csv</code><br>
+        Data path: <code style="font-size:10px">data/processed/</code><br>
         Last updated: <span id="last-updated">–</span><br>
         Loaded: <span id="load-status">Waiting</span>
       </div>
     </aside>
 
     <div class="content">
-      <div class="stats-row" id="stats-row"></div>
+      <div class="stats-row" id="stats-row" aria-label="Published totals, from data/processed/headline_metrics.json"></div>
 
       <div class="subgrid">
         <section class="insight-card">
@@ -336,7 +343,7 @@
       </div>
 
       <nav class="tabs" role="tablist" aria-label="Record categories">
-        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="restrictions" type="button">Restrictions <span class="tab-count" id="cnt-r">0</span></button>
+        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="restrictions" type="button">Restrictions <span class="tab-count" id="cnt-r" title="Renewables only">0</span> <span class="tab-count" id="cnt-rm" title="Also cover data centers, counted separately">0 also data centers</span></button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="contested" type="button">Contested projects <span class="tab-count" id="cnt-c">0</span></button>
         <button class="tab-btn" role="tab" aria-selected="false" data-tab="cases" type="button">Cases <span class="tab-count" id="cnt-k">0</span></button>
       </nav>
@@ -353,41 +360,23 @@
   <div class="panel" id="panel"></div>
 </div>
 
+<script src="./processed-data.js"></script>
 <script>
-const CSV_URL = './data/renewable_opposition_records.csv';
+// Data: data/processed/ through processed-data.js. One row per instrument, so
+// every count here is an instrument count (scripts/headline_metrics.py); the
+// stats row quotes headline_metrics.json as published.
 let rowsAll = [];
+let metrics = null;
 let activeTab = 'restrictions';
-let filters = { search: '', state: '', tech: '', status: '', jurisdiction: '', sev: '' };
+let filters = { search: '', state: '', tech: '', status: '', jurisdiction: '', sev: '', scope: '' };
 let sortState = { key: 'adopted_or_event_date_text', dir: 'asc' };
 const $ = id => document.getElementById(id);
+const BUCKETS = { restrictions: 'restrictions', contested_projects: 'contested', cases: 'cases' };
 
 function escapeHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
-function parseCSV(text) {
-  const out = [];
-  let row = [];
-  let cur = '';
-  let inQuotes = false;
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i], next = text[i + 1];
-    if (ch === '"' && inQuotes && next === '"') { cur += '"'; i++; }
-    else if (ch === '"') inQuotes = !inQuotes;
-    else if (ch === ',' && !inQuotes) { row.push(cur); cur = ''; }
-    else if ((ch === '\n' || ch === '\r') && !inQuotes) {
-      if (ch === '\r' && next === '\n') i++;
-      row.push(cur);
-      if (row.some(c => c !== '')) out.push(row);
-      row = []; cur = '';
-    } else cur += ch;
-  }
-  if (cur.length || row.length) { row.push(cur); if (row.some(c => c !== '')) out.push(row); }
-  if (!out.length) return [];
-  const headers = out[0].map(h => h.trim());
-  return out.slice(1).map(cols => Object.fromEntries(headers.map((h, i) => [h, (cols[i] ?? '').trim()])));
 }
 
 function splitMulti(value) {
@@ -397,6 +386,8 @@ function splitMulti(value) {
 function slugDate(value) {
   const s = String(value || '').trim();
   if (!s) return '9999-99';
+  const iso = s.match(/^((?:19|20)\d{2})-(\d{2})/);
+  if (iso) return `${iso[1]}-${iso[2]}`;
   const year = s.match(/(19|20)\d{2}/)?.[0] || '9999';
   const months = {
     january:'01', february:'02', march:'03', april:'04', may:'05', june:'06', july:'07', august:'08',
@@ -411,34 +402,33 @@ function slugDate(value) {
   return `${year}-${month}`;
 }
 
+function severityLabel(score) {
+  const n = Number(score) || 0;
+  return n >= 3 ? 'High' : n === 2 ? 'Medium' : n === 1 ? 'Low' : 'Unscored';
+}
+
 function normalizeRow(raw) {
   const r = { ...raw };
-  const recordType = (r.record_type || '').toLowerCase();
-  const hasLitigation = (r.has_litigation || '').toLowerCase() === 'yes';
+  r._bucket = BUCKETS[r.entity];
   r._tech_list = splitMulti(r.technology);
   r._mechanisms = splitMulti(r.policy_mechanism);
   r._opposition = splitMulti(r.opposition_type);
   r._status = (r.status || '').trim().toLowerCase();
   r._date_sort = slugDate(r.adopted_or_event_date_text);
+  r._severity_label = severityLabel(r.severity_score);
+  r.scope_label = r._bucket === 'restrictions' ? (ProcessedData.SCOPE_LABELS[r.scope] || r.scope || '') : '';
   r.display_location = [r.municipality || '', r.county || '', r.state || ''].filter(Boolean).join(', ') || r.state || '–';
-  if (hasLitigation) r._bucket = 'cases';
-  else if (recordType === 'contested_project') r._bucket = 'contested';
-  else r._bucket = 'restrictions';
   r.display_bucket_label = r._bucket === 'restrictions' ? 'Restriction' : r._bucket === 'contested' ? 'Contested project' : 'Case';
   r.display_title = r.project_or_policy_name || r.short_description || `${r.display_bucket_label} ${r.record_id || ''}`.trim();
-  if (hasLitigation) r._severity_label = 'High';
-  else if (r._bucket === 'contested') r._severity_label = 'Medium';
-  else r._severity_label = 'Low';
   return r;
 }
 
 async function initDashboard() {
   $('load-status').textContent = 'Loading';
   try {
-    const res = await fetch(CSV_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`Failed to fetch ${CSV_URL}`);
-    const text = await res.text();
-    rowsAll = parseCSV(text).map(normalizeRow);
+    const data = await ProcessedData.load();
+    metrics = data.metrics;
+    rowsAll = [...data.restrictions, ...data.contested_projects, ...data.cases].map(normalizeRow);
     $('load-status').textContent = 'Loaded';
     $('last-updated').textContent = new Date().toLocaleString();
     populateFilters();
@@ -446,9 +436,9 @@ async function initDashboard() {
     render();
   } catch (err) {
     $('load-status').textContent = 'Error';
-    $('table-container').innerHTML = '<div class="empty-state">Data could not be loaded. Check that the published CSV is available.</div>';
+    $('table-container').innerHTML = '<div class="empty-state">Data could not be loaded. Check that data/processed/ is published with the page.</div>';
     $('stats-row').innerHTML = '';
-    $('table-summary').textContent = '0 records';
+    $('table-summary').textContent = 'No instruments';
     console.error(err);
   }
 }
@@ -487,12 +477,11 @@ function applyFilters(rows) {
     if (filters.status && r.status !== filters.status) return false;
     if (filters.jurisdiction && r.jurisdiction_level !== filters.jurisdiction) return false;
     if (filters.sev) {
-      if (filters.sev === '4' || filters.sev === '3') {
-        if (r._severity_label !== 'High') return false;
-      } else if (filters.sev === '2') {
-        if (!['Medium', 'High'].includes(r._severity_label)) return false;
-      }
+      const min = Number(filters.sev);
+      const score = Number(r.severity_score) || 0;
+      if (min === 4 ? score !== 4 : score < min) return false;
     }
+    if (filters.scope && !(r._bucket === 'restrictions' && r.scope === filters.scope)) return false;
     return true;
   });
 }
@@ -574,11 +563,13 @@ function render() {
   const fk = applyFilters(cases);
   const allFiltered = [...fr, ...fc, ...fk];
 
-  $('cnt-r').textContent = fr.length;
+  const tr = ProcessedData.tally(fr);
+  $('cnt-r').textContent = tr.renewables;
+  $('cnt-rm').textContent = `${tr.multi_sector} also data centers`;
   $('cnt-c').textContent = fc.length;
   $('cnt-k').textContent = fk.length;
 
-  renderStats(fr, fc, fk);
+  renderStats();
   renderMiniList('top-tech', countBy(allFiltered, r => r._tech_list));
   renderQA(allFiltered);
   renderBars('mechanism-bars', countBy(allFiltered, r => r._mechanisms.length ? r._mechanisms : ['(none)']));
@@ -587,25 +578,23 @@ function render() {
   const rows = activeTab === 'restrictions' ? fr : activeTab === 'contested' ? fc : fk;
   const sortedRows = sortRows(rows);
   const tabLabel = activeTab === 'restrictions' ? 'restrictions' : activeTab === 'contested' ? 'contested projects' : 'cases';
-  $('table-summary').textContent = `${sortedRows.length} ${sortedRows.length === 1 ? 'record' : 'records'} in ${tabLabel}`;
+  $('table-summary').textContent = `${ProcessedData.tallyText(ProcessedData.tally(sortedRows))} in ${tabLabel}`;
   $('sort-summary').textContent = `Sorted by ${sortState.key.replace(/_/g, ' ')} (${sortState.dir})`;
   renderTable(sortedRows, activeTab);
 }
 
-function renderStats(fr, fc, fk) {
-  const all = [...fr, ...fc, ...fk];
-  const high = all.filter(r => r._severity_label === 'High').length;
-  const states = new Set(all.map(r => r.state).filter(Boolean)).size;
-  const withCapacity = all.filter(r => r.project_capacity_mw).length;
+// Published totals, exactly as headline_metrics.json states them. Filters do
+// not change these; the tab counts and table summary count the filtered set.
+function renderStats() {
+  if (!metrics) { $('stats-row').innerHTML = ''; return; }
+  const h = ProcessedData.headline(metrics);
+  const byScope = metrics.restrictions.by_scope;
   $('stats-row').innerHTML = [
-    { value: all.length, label: 'Total records' },
-    { value: fr.length, label: 'Restrictions' },
-    { value: fc.length, label: 'Contested projects' },
-    { value: fk.length, label: 'Cases' },
-    { value: high, label: 'High severity (litigation)' },
-    { value: states, label: 'States represented' },
-    { value: withCapacity, label: 'Capacity field present' }
-  ].map(s => `<div class="stat-card"><div class="stat-value">${s.value}</div><div class="stat-label">${escapeHtml(s.label)}</div></div>`).join('');
+    { id: 'renewables', value: h.renewables, label: 'Restrictions, renewables only', note: `${h.renewables_severe} severe · ${byScope.renewables_only.states} states` },
+    { id: 'multi_sector', value: h.multi_sector, label: 'Restrictions that also cover data centers', note: `${h.multi_sector_severe} severe · ${byScope.multi_sector_data_centers.states} states · counted separately` },
+    { id: 'projects', value: h.projects, label: 'Contested projects', note: `${h.confirmed_outcomes} with a confirmed outcome` },
+    { id: 'cases', value: h.cases, label: 'Cases', note: 'Litigation and proceedings' }
+  ].map(s => `<div class="stat-card" data-headline="${s.id}"><div class="stat-value">${s.value}</div><div class="stat-label">${escapeHtml(s.label)}</div><div class="stat-label">${escapeHtml(s.note)}</div></div>`).join('');
 }
 
 function renderTable(rows, tab) {
@@ -615,15 +604,16 @@ function renderTable(rows, tab) {
     return;
   }
   const cols = tab === 'restrictions'
-    ? ['state','county','municipality','jurisdiction_level','project_or_policy_name','technology','policy_mechanism','adopted_or_event_date_text','status','short_description']
+    ? ['state','county','municipality','jurisdiction_level','project_or_policy_name','technology','policy_mechanism','adopted_or_event_date_text','status','scope_label','short_description']
     : tab === 'contested'
-    ? ['state','county','municipality','project_or_policy_name','technology','opposition_type','project_capacity_mw','adopted_or_event_date_text','status','short_description']
-    : ['state','county','municipality','jurisdiction_level','project_or_policy_name','has_litigation','adopted_or_event_date_text','status','short_description'];
+    ? ['state','county','municipality','project_or_policy_name','technology','opposition_type','project_capacity_mw','adopted_or_event_date_text','outcome','short_description']
+    : ['state','county','project_or_policy_name','court','jurisdiction_level','status','short_description'];
   const headers = {
     state: 'State', county: 'County', municipality: 'City/Town', jurisdiction_level: 'Jurisdiction',
     project_or_policy_name: 'Project / Policy', technology: 'Technology', policy_mechanism: 'Policy mechanism',
     opposition_type: 'Opposition', adopted_or_event_date_text: 'Date (text)', status: 'Status',
-    has_litigation: 'Litigation', short_description: 'Short description', project_capacity_mw: 'Capacity MW'
+    has_litigation: 'Litigation', short_description: 'Short description', project_capacity_mw: 'Capacity MW',
+    scope_label: 'Scope', outcome: 'Outcome', court: 'Court'
   };
   el.innerHTML = `<table>
     <thead><tr>${cols.map(c => `<th data-sort="${c}">${headers[c] || c}${sortState.key === c ? (sortState.dir === 'asc' ? ' ↑' : ' ↓') : ''}</th>`).join('')}</tr></thead>
@@ -669,14 +659,22 @@ function openPanel(r) {
     ${r.short_description ? `<div><div class="panel-section-label">Short description</div><div class="panel-body">${escapeHtml(r.short_description)}</div></div>` : ''}
     ${r.long_description ? `<div><div class="panel-section-label">Long description</div><div class="panel-body">${escapeHtml(r.long_description)}</div></div>` : ''}
     <hr class="panel-divider">
+    ${(r.sources || []).length ? `<div><div class="panel-section-label">Sources</div><div class="panel-body">${r.sources.map(s => `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title || s.url)}</a>${s.archived_url ? ` (<a href="${escapeHtml(s.archived_url)}" target="_blank" rel="noopener noreferrer">archived</a>)` : ''}`).join('<br>')}</div></div><hr class="panel-divider">` : ''}
     <div><div class="panel-section-label">Record fields</div><div class="field-grid">
-      ${fieldKV('Record ID', r.record_id)}
+      ${fieldKV('Instrument ID', r.instrument_id)}
+      ${fieldKV('Row IDs', (r.row_ids || []).join(', '))}
+      ${fieldKV('Scope', r.scope_label)}
+      ${fieldKV('Evidence level', r.evidence_level)}
+      ${fieldKV('Severity', r.severity_score)}
+      ${fieldKV('Outcome', r.outcome)}
+      ${fieldKV('Finality evidence', r.finality_evidence)}
+      ${fieldKV('Court', r.court)}
+      ${fieldKV('Docket', r.docket_number)}
       ${fieldKV('State', r.state)}
       ${fieldKV('County', r.county)}
       ${fieldKV('Municipality', r.municipality)}
       ${fieldKV('Jurisdiction level', r.jurisdiction_level)}
       ${fieldKV('Record type', r.record_type)}
-      ${fieldKV('Source section', r.extraction_source_section)}
       ${fieldKV('Project or policy name', r.project_or_policy_name)}
       ${fieldKV('Technology', r.technology)}
       ${fieldKV('Policy mechanism', r.policy_mechanism)}
@@ -707,7 +705,7 @@ function exportFilteredCSV() {
   const cases = rowsAll.filter(r => r._bucket === 'cases');
   const rows = activeTab === 'restrictions' ? applyFilters(restrictions) : activeTab === 'contested' ? applyFilters(contested) : applyFilters(cases);
   if (!rows.length) return;
-  const headers = ['record_id','state','county','municipality','jurisdiction_level','record_type','extraction_source_section','project_or_policy_name','technology','policy_mechanism','opposition_type','adopted_or_event_date_text','status','project_capacity_mw','project_area_acres','has_litigation','short_description','long_description','notes'];
+  const headers = ['instrument_id','record_type','state','county','municipality','jurisdiction_level','project_or_policy_name','technology','policy_mechanism','opposition_type','adopted_or_event_date_text','status','scope','severity_score','outcome','evidence_level','project_capacity_mw','project_area_acres','has_litigation','short_description','source_url'];
   const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => {
     const v = String(r[h] ?? '');
     return /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
@@ -729,10 +727,11 @@ $('filter-tech').addEventListener('change', e => { filters.tech = e.target.value
 $('filter-status').addEventListener('change', e => { filters.status = e.target.value; render(); });
 $('filter-jurisdiction').addEventListener('change', e => { filters.jurisdiction = e.target.value; render(); });
 $('filter-sev').addEventListener('change', e => { filters.sev = e.target.value; render(); });
+$('filter-scope').addEventListener('change', e => { filters.scope = e.target.value; render(); });
 $('reset-btn').addEventListener('click', () => {
-  filters = { search: '', state: '', tech: '', status: '', jurisdiction: '', sev: '' };
+  filters = { search: '', state: '', tech: '', status: '', jurisdiction: '', sev: '', scope: '' };
   $('search').value = ''; $('filter-state').value = ''; $('filter-tech').value = '';
-  $('filter-status').value = ''; $('filter-jurisdiction').value = ''; $('filter-sev').value = '';
+  $('filter-status').value = ''; $('filter-jurisdiction').value = ''; $('filter-sev').value = ''; $('filter-scope').value = '';
   render();
 });
 $('refresh-btn').addEventListener('click', () => initDashboard());
