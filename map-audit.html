@@ -460,6 +460,8 @@
       }
 
       function jenksBreaks(data, classes) {
+        // More classes than distinct values leaves lower[] with empty rows to walk.
+        classes = Math.min(classes, new Set(data).size);
         if (classes <= 1 || data.length <= 1) return dedupeSorted([0, data[data.length - 1] || 0]);
         const lower = Array.from({ length: data.length + 1 }, () => Array(classes + 1).fill(0));
         const variance = Array.from({ length: data.length + 1 }, () => Array(classes + 1).fill(Infinity));
@@ -493,7 +495,7 @@
         const breaks = Array(classes + 1).fill(0);
         breaks[classes] = data[data.length - 1];
         let k = data.length;
-        for (let count = classes; count >= 2; count--) {
+        for (let count = classes; count >= 2 && lower[k]; count--) {
           const idx = lower[k][count] - 2;
           breaks[count - 1] = data[Math.max(0, idx)];
           k = lower[k][count] - 1;
