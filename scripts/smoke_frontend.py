@@ -48,7 +48,7 @@ PAGES = {
     "map-audit.html": ("body", "Visible instruments"),
     "dashboard.html": ("#table-summary", "restriction"),
 }
-BLOCKED = re.compile(r"(tile\.openstreetmap|basemaps\.cartocdn|arcgisonline|fontshare|fonts\.g)")
+BLOCKED = re.compile(r"(tile\.openstreetmap|tiles\.openfreemap|basemaps\.cartocdn|arcgisonline|fontshare|fonts\.g)")
 CDN = re.compile(r"https://unpkg\.com/(leaflet(?:\.markercluster)?)@[^/]+/(.*)")
 
 
