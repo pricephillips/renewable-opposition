@@ -66,6 +66,15 @@ B2 is in place too: `.github/workflows/source-archive.yml` archives every cited
 source weekly, and the build joins each snapshot into `sources.csv`/`.json` and
 the dashboard's source links.
 
+B4, B6 and B7 followed once data-center-map's spec 009 landed. Every page now
+reads `data/processed/` through `processed-data.js` and counts instruments,
+quoting `headline_metrics.json`. Restrictions and contested projects carry a
+derived `county_fips` (misses listed in `data/review/fips_misses.csv`), and the
+map's county choropleth draws on the Census 2024 boundaries in `data/geo/`,
+joined on that code (items 6 and 8 above). Both maps use `basemap.js`
+(OpenFreeMap with a raster fallback chain), and `tests/ui` runs Playwright with
+axe in the `ui` job of `validate.yml`.
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

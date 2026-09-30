@@ -1,0 +1,18 @@
+{
+  "name": "renewable-opposition-ui-tests",
+  "private": true,
+  "description": "Offline UI and accessibility tests. Adapted from pricephillips/data-center-map tests/ui (spec 009). Library versions match the pinned CDN URLs the pages load.",
+  "scripts": {
+    "test": "playwright test",
+    "check-geometry": "node check_geometry.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@maplibre/maplibre-gl-leaflet": "0.1.4",
+    "@playwright/test": "1.63.0",
+    "leaflet": "1.9.4",
+    "leaflet.markercluster": "1.5.3",
+    "maplibre-gl": "6.11.2",
+    "topojson-client": "3.1.0"
+  }
+}

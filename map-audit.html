@@ -157,7 +157,7 @@
     <section class="card filters">
       <h2 class="section-title">Map controls</h2>
       <p class="panel-subtitle">Data: <code style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace;">./data/processed/</code> (restrictions, contested projects, cases)</p>
-      <div class="switcher" role="tablist" aria-label="Dataset switcher">
+      <div class="switcher" role="group" aria-label="Map view">
                 <button class="mode-btn active" type="button" id="fitModeBtn">Fit filtered points</button>
         <button class="mode-btn" type="button" id="nationModeBtn">National view</button>
       </div>
@@ -165,7 +165,7 @@
         <div class="field"><label for="stateFilter">State</label><select id="stateFilter"><option value="">All states</option></select></div>
         <div class="field" id="technologyField"><label for="technologyFilter">Technology</label><select id="technologyFilter"><option value="">All technologies</option></select></div>
         <div class="field"><label for="typeFilter" id="typeFilterLabel">Record type</label><select id="typeFilter"><option value="">All record types</option></select></div>
-        <div class="field" id="severityField"><label for="statusFilter">Status</label><select id="severityFilter"><option value="">All statuses</option></select></div>
+        <div class="field" id="severityField"><label for="severityFilter">Status</label><select id="severityFilter"><option value="">All statuses</option></select></div>
         <div class="field"><label for="statusGroupFilter">Status group</label><select id="statusGroupFilter"><option value="">All status groups</option><option value="active_friction">Active friction</option><option value="resolved_or_relieved">Resolved or relieved</option><option value="advanced_despite_opposition">Advanced despite opposition</option><option value="unknown">Unknown</option></select></div>
         <div class="field"><label for="scopeFilter">Scope</label><select id="scopeFilter"><option value="">All scopes</option><option value="renewables_only">Renewables only</option><option value="multi_sector_data_centers">Also covers data centers</option></select></div>
         <div class="field"><label for="searchFilter">Search</label><input id="searchFilter" type="text" placeholder="Project, policy, county, keyword…" /></div>
