@@ -1,0 +1,22 @@
+entity,id,instrument_id,state,county_name,reason
+contested_projects,con_3d6de038c4,sabin:REC-0011,AZ,Apache and Navajo Counties,several_counties
+contested_projects,con_db31bc839d,sabin:REC-0023,CA,Alameda and Contra Costa,several_counties
+contested_projects,con_c53c33eb15,sabin:REC-0040,CT,Fairfield,not_a_2024_county
+contested_projects,con_f1fc80a098,sabin:REC-0041,CT,Hartford,not_a_2024_county
+contested_projects,con_b4dc027582,sabin:REC-0038,CT,New Haven,not_a_2024_county
+contested_projects,con_6ed1a05d09,sabin:REC-0039,CT,Tolland,not_a_2024_county
+contested_projects,con_37179879f8,sabin:REC-0085,IL,DeWitt County,not_in_lookup
+contested_projects,con_d4dbbbd76c,sabin:REC-0144,KY,Fleming County (Mason County),several_counties
+contested_projects,con_472dc0e7e0,sabin:REC-0182,MD,"Bal>more, Carroll, Frederick",several_counties
+contested_projects,con_087a407786,sabin:REC-0231,MO,Callaway and Chariton Counties,several_counties
+contested_projects,con_472ba8991c,sabin:REC-0233,MO,Clinton and DeKalb Counties,several_counties
+contested_projects,con_e41021df0e,sabin:REC-0272,NH,Granon and Merrimack Counties,several_counties
+contested_projects,con_23b3856e4c,sabin:REC-0279,NJ,"Atlantic, Cape May, Monmouth, Ocean Counties",several_counties
+contested_projects,con_6601f49b6f,sabin:REC-0281,NJ,Cape May and Ocean Counties,several_counties
+contested_projects,con_5b701c8ea7,sabin:REC-0265,NV,"Various (Clark, Lyon, Esmeralda, Lyon, Mineral, and Nye)",not_in_lookup
+contested_projects,con_a8e3b7177a,sabin:REC-0368,OR,"Baker, Malheur, Morrow, Umatilla, Union",several_counties
+contested_projects,con_1bff19d998,sabin:REC-0404,SD,Codington and Grant Counties,several_counties
+restrictions,res_3eafc600af,sabin:REC-0083,IL,"Effingham County, Village of Teutopolis",several_counties
+restrictions,res_809734d122,sabin:REC-0135,KS,Prairie,not_in_lookup
+restrictions,res_634e7b90cf,sabin:REC-0311,NC,Herndon,not_in_lookup
+restrictions,res_b982467594,sabin:REC-0439,VT,"Caledonia, Essex, Orleans Counties",several_counties

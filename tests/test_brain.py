@@ -133,3 +133,38 @@ def test_a_declared_drop_clears_only_its_exact_count():
     worse = [{"column": "municipality", "before": 22, "after": 3}]
     assert cd.split_declared("contested_projects.csv", worse, exc)[0] == worse
     assert cd.split_declared("cases.csv", drop, exc)[0] == drop
+
+
+def test_a_new_column_is_held_to_its_declared_floor():
+    exp = {"contested_projects.csv": {"county_fips": {"min_filled": 3, "reason": "r"}}}
+    ok = cd.profile("id,county_fips\na,01001\nb,01003\nc,01005\nd,\n")
+    assert cd.below_floor("contested_projects.csv", ok, exp) == []
+    thin = cd.profile("id,county_fips\na,01001\nb,\nc,\n")
+    assert [(d["column"], d["after"]) for d in cd.below_floor("contested_projects.csv", thin, exp)] == [("county_fips", 1)]
+    gone = cd.profile("id,county\na,x\n")
+    assert cd.below_floor("contested_projects.csv", gone, exp)[0]["missing"] is True
+    assert cd.below_floor("cases.csv", thin, exp) == []
+
+
+LOOKUP = {"autauga county|alabama": "01001", "autauga|alabama": "01001",
+          "fairfield|connecticut": "09001", "district 1|alaska": "02901",
+          "huron county|michigan": "26063"}
+NAMES = {"AL": "Alabama", "CT": "Connecticut", "AK": "Alaska", "MI": "Michigan"}
+
+
+@pytest.mark.parametrize("entity,row,expected", [
+    ("contested_projects", {"state": "AL", "county": "Autauga County"}, ("01001", "")),
+    ("contested_projects", {"state": "AL", "county": " autauga "}, ("01001", "")),
+    ("contested_projects", {"state": "AL", "county": ""}, ("", "blank_county")),
+    ("contested_projects", {"state": "AL", "county": "Autauga and Elmore Counties"}, ("", "several_counties")),
+    ("contested_projects", {"state": "AL", "county": "Autauga County (Elmore County)"}, ("", "several_counties")),
+    ("contested_projects", {"state": "AL", "county": "Autaugaa County"}, ("", "not_in_lookup")),
+    ("contested_projects", {"state": "CT", "county": "Fairfield"}, ("", "not_a_2024_county")),
+    ("contested_projects", {"state": "AK", "county": "District 1"}, ("", "not_a_2024_county")),
+    ("restrictions", {"state": "MI", "jurisdiction": "Huron County (solar and battery storage)",
+                      "jurisdiction_type": "County"}, ("26063", "")),
+    ("restrictions", {"state": "AL", "jurisdiction": "Autauga", "jurisdiction_type": "Town"}, ("", "")),
+    ("cases", {"state": "AL", "county": "Autauga County"}, ("", "")),
+])
+def test_county_fips_is_an_exact_lookup_or_a_named_miss(entity, row, expected):
+    assert classify.county_fips(entity, row, LOOKUP, NAMES) == expected
