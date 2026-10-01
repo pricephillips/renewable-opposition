@@ -24,6 +24,7 @@
     "data/raw/*/*": {"layer": "raw", "writers": ["scripts/fetch.py"]},
     "data/source_archive.csv": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
     "data/source_archive_manifest.json": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
+    "data/place_county_index.json": {"layer": "raw", "writers": ["scripts/build_place_index.py"]},
 
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],
@@ -103,6 +104,7 @@
     }
   },
   "exempt": {
-    "scripts/precommit_gates.py": "Rewrites staged files' line endings (csv-lf --fix) and temp files in its selftest; owns no data."
+    "scripts/precommit_gates.py": "Rewrites staged files' line endings (csv-lf --fix) and temp files in its selftest; owns no data.",
+    "scripts/site_profile.py": "Read-only over data/; --out writes a report to a path the user names, never a repository data file."
   }
 }
