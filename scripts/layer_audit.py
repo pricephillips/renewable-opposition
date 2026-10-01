@@ -15,6 +15,9 @@ covers a dozen scripts, so it keeps the two rules and drops the rest.
   Declared crossings. A script that writes into two layers needs a reason.
   Row ownership.     Where writers share a file by row, each row's owner
                      column must match exactly one writer's prefix.
+  Reference files.   A file copied from another repository (layer
+                     "reference") has no writer here and names its source
+                     under copied_from; every other file has a writer.
 
 Write targets come from an AST walk, not a grep, because a script that reads
 a path mentions it the same way a script that writes it does. A target is
@@ -189,6 +192,11 @@ def audit(config: dict, writes: dict[str, set[str]], unresolved: dict[str, list[
 
     for pattern, entry in files.items():
         writers = entry["writers"]
+        if entry["layer"] == "reference":
+            if writers or not entry.get("copied_from"):
+                findings.append(f"{pattern}: a reference file has no writer here and names copied_from")
+        elif not writers:
+            findings.append(f"{pattern}: no writer declared")
         for module in writers:
             if module not in found.get(pattern, set()):
                 findings.append(f"stale declaration: {module} no longer writes {pattern}")

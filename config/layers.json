@@ -15,7 +15,8 @@
     "raw": "Fetched source copies and the fetch and parse state around them.",
     "review": "Candidates awaiting a reviewer. Reviewers edit these by hand.",
     "seed": "Records of record. Hand-reviewed or rebuilt from a named source; the build reads only these.",
-    "derived": "Regenerated outputs: the published data, its manifest and audits."
+    "derived": "Regenerated outputs: the published data, its manifest and audits.",
+    "reference": "Copied from pricephillips/data-center-map with an attribution line. No script here writes it; its writer is named under copied_from."
   },
   "files": {
     "data/raw/manifest.csv": {"layer": "raw", "writers": ["scripts/fetch.py"]},
@@ -23,6 +24,15 @@
     "data/raw/*/*": {"layer": "raw", "writers": ["scripts/fetch.py"]},
     "data/source_archive.csv": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
     "data/source_archive_manifest.json": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
+
+    "data/county_fips_lookup.json": {
+      "layer": "reference", "writers": [],
+      "copied_from": "pricephillips/data-center-map data/county_fips_lookup.json"
+    },
+    "data/geo/*": {
+      "layer": "reference", "writers": [],
+      "copied_from": "pricephillips/data-center-map data/geo/ (acquire-geo-sources.yml, boundaries job); see data/geo/README.md"
+    },
 
     "data/review/queue.csv": {
       "layer": "review",
@@ -66,6 +76,7 @@
     "data/processed/diff_summary.md": {"layer": "derived", "writers": ["scripts/processed_diff.py"]},
     "data/processed/coverage_delta.md": {"layer": "derived", "writers": ["scripts/coverage_delta.py"]},
     "data/review/outcome_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
+    "data/review/fips_misses.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},

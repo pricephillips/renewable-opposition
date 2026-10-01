@@ -18,6 +18,8 @@ on:
       - 'scripts/resolutions.py'
       - 'scripts/verification_worklist.py'
       - 'scripts/coverage_delta.py'
+      - 'data/county_fips_lookup.json'
+      - 'config/coverage_expectations.json'
       - 'requirements/ci.txt'
       - '.github/workflows/build-data.yml'
 
@@ -85,7 +87,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/ data/snapshots/manifest.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv
+          git add data/processed/ data/snapshots/manifest.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"
           # Another workflow may have moved the branch since checkout. Rebase

@@ -28,6 +28,7 @@ def test_record_id_is_stable_and_technology_specific():
 
 def test_full_build_writes_csv_json_and_sources(monkeypatch, tmp_path):
     monkeypatch.setattr(bso, "PROCESSED_DIR", tmp_path)
+    monkeypatch.setattr(bso, "FIPS_MISSES", tmp_path / "fips_misses.csv")
     assert bso.main() == 0
     restrictions = json.loads((tmp_path / "restrictions.json").read_text())
     assert len(restrictions) == len(read_csv(tmp_path / "restrictions.csv"))
@@ -64,3 +65,20 @@ def test_archived_snapshot_joins_sources_and_record_links(tmp_path):
     links = [r["sources"][0] for r in bso.json_records(rows, snap)]
     assert links[0]["archived_url"] == snap["https://a.org/x"] and "archived_url" not in links[1]
     assert bso.archived_urls(tmp_path / "missing.csv") == {}
+
+
+def test_every_record_with_a_county_has_a_fips_or_a_listed_miss(monkeypatch, tmp_path):
+    import classify
+    monkeypatch.setattr(bso, "PROCESSED_DIR", tmp_path)
+    monkeypatch.setattr(bso, "FIPS_MISSES", tmp_path / "fips_misses.csv")
+    assert bso.main() == 0
+    missed = {(m["entity"], m["id"]) for m in read_csv(tmp_path / "fips_misses.csv")}
+    for entity in ("contested_projects", "restrictions"):
+        rows = json.loads((tmp_path / f"{entity}.json").read_text())
+        for r in rows:
+            if classify.county_name(entity, r) is None:
+                assert not r.get("county_fips"), r["id"]
+                continue
+            has = bool(r.get("county_fips"))
+            assert has != ((entity, r["id"]) in missed), r["id"]
+            assert not has or (len(r["county_fips"]) == 5 and r["county_fips"].isdigit())

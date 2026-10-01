@@ -1,0 +1,21 @@
+{
+  "_comment": [
+    "Standing floors for scripts/coverage_delta.py: the least number of",
+    "non-empty values a column of a published CSV must have, checked on",
+    "every build against the build itself. A new column is covered from the",
+    "build that introduces it. Raise a floor when coverage improves; lowering",
+    "one needs a reason here."
+  ],
+  "contested_projects.csv": {
+    "county_fips": {
+      "min_filled": 148,
+      "reason": "Derived by classify.county_fips from state plus county. 148 of 165 rows hit on 2026-09-30; the other 17 are in data/review/fips_misses.csv."
+    }
+  },
+  "restrictions.csv": {
+    "county_fips": {
+      "min_filled": 313,
+      "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 313 of 317 such rows hit on 2026-09-30; the other 4 are in data/review/fips_misses.csv."
+    }
+  }
+}

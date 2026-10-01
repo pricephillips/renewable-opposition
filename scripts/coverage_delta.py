@@ -25,6 +25,13 @@ clears only that exact count, so it cannot hide a later collapse, and once the
 next build compares against the new baseline it no longer matters; delete it
 then.
 
+A column can also carry a standing floor in config/coverage_expectations.json:
+the least number of values it must have, checked against the build itself
+rather than the previous commit. That is how a new column is covered on the
+build that introduces it (there is no previous copy to compare with), and it
+keeps covering it afterwards. Raise a floor when coverage improves; lowering
+one is a decision, with its reason in the file.
+
 Writes data/processed/coverage_delta.md. Exit 1 on any failure; build-data.yml
 runs it before committing, so a collapsed column is never published.
 
@@ -46,6 +53,7 @@ PROCESSED_REL = "data/processed"
 FILES = ("restrictions.csv", "contested_projects.csv", "cases.csv", "sources.csv")
 OUT_MD = ROOT / PROCESSED_REL / "coverage_delta.md"
 EXCEPTIONS = ROOT / "config" / "coverage_exceptions.json"
+EXPECTATIONS = ROOT / "config" / "coverage_expectations.json"
 THRESHOLD = 0.20
 MIN_FILLED = 20
 
@@ -88,6 +96,23 @@ def load_exceptions(path: Path = EXCEPTIONS) -> dict:
             if not k.startswith("_")}
 
 
+def load_expectations(path: Path = EXPECTATIONS) -> dict:
+    return load_exceptions(path)
+
+
+def below_floor(file: str, after: tuple[int, dict[str, int]], expectations: dict) -> list[dict]:
+    """Columns of file with fewer values than their declared floor. A missing
+    column has zero."""
+    _, cols = after
+    out = []
+    for col, exp in sorted(expectations.get(file, {}).items()):
+        n = cols.get(col, 0)
+        if n < exp["min_filled"]:
+            out.append({"column": col, "after": n, "floor": exp["min_filled"],
+                        "missing": col not in cols})
+    return out
+
+
 def split_declared(file: str, drops: list[dict], exceptions: dict) -> tuple[list[dict], list[dict]]:
     """(undeclared failures, declared drops). A drop is declared only when its
     column's new count equals expect_after exactly."""
@@ -107,18 +132,29 @@ def at_rev(rev: str, rel: str) -> str | None:
     return r.stdout if r.returncode == 0 else None
 
 
-def render(results: dict[str, list[dict] | None], declared: list[tuple[str, dict]] = ()) -> str:
+def render(results: dict[str, list[dict] | None], declared: list[tuple[str, dict]] = (),
+           floors: list[tuple[str, dict]] = (), floors_checked: int = 0) -> str:
     lines = ["# Column coverage", "",
              f"Each published CSV against the previous commit. A column with at least "
              f"{MIN_FILLED} values fails when its fill rate drops by more than "
              f"{int(THRESHOLD * 100)} percent.", ""]
     failed = [(f, d) for f, ds in results.items() if ds for d in ds]
+    if floors:
+        lines += ["Below the floor in config/coverage_expectations.json:", "",
+                  "| File | Column | Values | Floor |", "|---|---|---:|---:|"]
+        lines += [f"| {f} | {d['column']} | {'column missing' if d['missing'] else d['after']} | "
+                  f"{d['floor']} |" for f, d in floors]
+        lines.append("")
+    elif floors_checked:
+        lines += [f"Every declared floor holds ({floors_checked} checked).", ""]
     if declared:
         lines += ["Declared drops (config/coverage_exceptions.json):", ""]
         lines += [f"- {f} `{d['column']}`: {d['before']} -> {d['after']}. {d['reason']}"
                   for f, d in declared]
         lines.append("")
     if not failed:
+        if floors:
+            return "\n".join(lines) + "\n"
         compared = [f for f, ds in results.items() if ds is not None]
         lines.append(f"No column collapsed ({len(compared)} files compared).")
         return "\n".join(lines) + "\n"
@@ -138,22 +174,30 @@ def main(argv: list[str] | None = None) -> int:
     results: dict[str, list[dict] | None] = {}
     declared: list[tuple[str, dict]] = []
     exceptions = load_exceptions()
+    expectations = load_expectations()
+    floors: list[tuple[str, dict]] = []
+    floors_checked = sum(len(v) for v in expectations.values())
     for name in FILES:
         rel = f"{PROCESSED_REL}/{name}"
         old = at_rev(args.base, rel)
         path = ROOT / rel
+        if path.exists():
+            floors += [(name, d) for d in below_floor(name, profile(path.read_text(encoding="utf-8")),
+                                                       expectations)]
         if old is None or not path.exists():
             results[name] = None
             continue
         drops = compare(profile(old), profile(path.read_text(encoding="utf-8")))
         results[name], ok = split_declared(name, drops, exceptions)
         declared += [(name, d) for d in ok]
-    OUT_MD.write_text(render(results, declared), encoding="utf-8", newline="\n")
+    OUT_MD.write_text(render(results, declared, floors, floors_checked), encoding="utf-8", newline="\n")
     failures = [(f, d) for f, ds in results.items() if ds for d in ds]
     for f, d in failures:
         print(f"coverage_delta: {f} column {d['column']}: {d['before']} -> {d['after']}")
-    print(f"coverage_delta: {len(failures)} collapsed column(s)")
-    return 1 if failures else 0
+    for f, d in floors:
+        print(f"coverage_delta: {f} column {d['column']}: {d['after']} below floor {d['floor']}")
+    print(f"coverage_delta: {len(failures)} collapsed column(s), {len(floors)} below floor")
+    return 1 if failures or floors else 0
 
 
 if __name__ == "__main__":

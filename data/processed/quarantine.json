@@ -30,6 +30,7 @@
     "instrument_id": "mn:ks-lyon-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
+    "county_fips": "20111",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -70,6 +71,7 @@
     "instrument_id": "mn:ks-miami-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_flagged",
+    "county_fips": "20121",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -110,6 +112,7 @@
     "instrument_id": "mn:ks-miami-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_flagged",
+    "county_fips": "20121",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -150,6 +153,7 @@
     "instrument_id": "mn:ks-miami-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_flagged",
+    "county_fips": "20121",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -190,6 +194,7 @@
     "instrument_id": "mn:ks-topeka-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
+    "county_fips": null,
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -230,6 +235,7 @@
     "instrument_id": "mn:ne-logan-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
+    "county_fips": "31113",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -270,6 +276,7 @@
     "instrument_id": "mn:ne-logan-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
+    "county_fips": "31113",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -310,6 +317,7 @@
     "instrument_id": "mn:ne-logan-county-2026",
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
+    "county_fips": "31113",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",

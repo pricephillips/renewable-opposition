@@ -35,6 +35,17 @@ evidence_level  How far the record is from a primary source, best first:
                                      cites its legal basis but links the inventory
                   compiled_flagged   Moratorium Nation row with [VERIFY] tags
                   report_citation    cites the Sabin report as a whole
+
+county_fips     contested_projects, and restrictions whose jurisdiction_type is
+                County, Parish or Borough: the 5-digit county FIPS of the state
+                plus the county name (a restriction's jurisdiction), looked up
+                exactly in data/county_fips_lookup.json (copied from
+                pricephillips/data-center-map, passoff B4). No fuzzy matching:
+                a name the lookup does not hold, a field naming several
+                counties, or a code that is not a 2024 county (NOT_2024_COUNTY)
+                is a miss with a reason, never a guess. build_seed_outputs.py
+                lists the misses in data/review/fips_misses.csv. Other entities
+                and municipal restrictions have no county to look up.
 """
 from __future__ import annotations
 
@@ -49,6 +60,18 @@ TEXT_FIELDS = ("description", "long_description", "notes", "legal_basis")
 EVIDENCE_ORDER = ("primary_source", "confirmed", "court_record", "compiled_record",
                   "compiled_flagged", "report_citation")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
+
+COUNTY_JURISDICTION_TYPES = {"county", "parish", "borough"}
+# Lookup values with no polygon in the Census 2024 county boundaries: the eight
+# Connecticut counties that planning regions (09110 to 09190) replaced in 2022,
+# and Alaska's state election districts (029xx), which are not counties. A
+# record naming one of them is a miss, since picking a successor is a guess.
+NOT_2024_COUNTY_PREFIXES = ("029",)
+NOT_2024_COUNTY = {"09001", "09003", "09005", "09007", "09009", "09011", "09013", "09015"}
+SEVERAL_COUNTIES = re.compile(r",|;|&|\(|\band\b", re.I)
+# A parenthetical that names no county is a qualifier on the one county named,
+# "Huron County (solar and battery storage)"; one that does is a second county.
+QUALIFIER = re.compile(r"\s*\((?![^)]*\b(?:count|parish|borough))[^)]*\)", re.I)
 
 
 def _s(v) -> str:
@@ -95,6 +118,38 @@ def evidence_level(entity: str, row: dict) -> str:
     if _s(row.get("moratorium_id")):
         return "compiled_flagged" if _s(row.get("needs_verification")) == "yes" else "compiled_record"
     return "report_citation"
+
+
+def county_name(entity: str, row: dict) -> str | None:
+    """The county name to look up, "" when one is expected but blank, or None
+    when the record is not tied to a county at all."""
+    if entity == "contested_projects":
+        return _s(row.get("county"))
+    if entity == "restrictions" and _s(row.get("jurisdiction_type")).lower() in COUNTY_JURISDICTION_TYPES:
+        return _s(row.get("jurisdiction"))
+    return None
+
+
+def county_fips(entity: str, row: dict, lookup: dict[str, str], state_names: dict[str, str]) -> tuple[str, str]:
+    """(fips, "") on a hit, ("", reason) on a miss, ("", "") when the record
+    has no county. lookup keys are '<county>|<state name>', lowercase;
+    state_names maps a two-letter code to its name."""
+    name = county_name(entity, row)
+    if name is None:
+        return "", ""
+    if not name:
+        return "", "blank_county"
+    name = QUALIFIER.sub("", name).strip()
+    if SEVERAL_COUNTIES.search(name):
+        return "", "several_counties"
+    state = state_names.get(_s(row.get("state")).upper(), "").lower()
+    key = " ".join(name.lower().split())
+    fips = lookup.get(f"{key}|{state}")
+    if fips is None:
+        return "", "not_in_lookup"
+    if fips in NOT_2024_COUNTY or fips.startswith(NOT_2024_COUNTY_PREFIXES):
+        return "", "not_a_2024_county"
+    return fips, ""
 
 
 def stamp(entity: str, row: dict) -> dict:

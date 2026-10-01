@@ -39,6 +39,16 @@ def test_a_shared_file_needs_a_reason():
     assert any("data/review/queue.csv: 2 writers and no reason" in f for f in run(config=cfg))
 
 
+def test_a_reference_file_names_its_source_and_has_no_writer_here():
+    cfg = copy.deepcopy(CONFIG)
+    del cfg["files"]["data/geo/*"]["copied_from"]
+    assert any(f.startswith("data/geo/*: a reference file") for f in run(config=cfg))
+    cfg = copy.deepcopy(CONFIG)
+    cfg["files"]["data/review/fips_misses.csv"]["writers"] = []
+    found = run(config=cfg)
+    assert any("data/review/fips_misses.csv: no writer declared" in f for f in found)
+
+
 def test_an_undeclared_crossing_is_found():
     cfg = copy.deepcopy(CONFIG)
     del cfg["crossings"]["scripts/parse.py"]

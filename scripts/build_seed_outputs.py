@@ -12,6 +12,11 @@ A row with a HIGH or CRITICAL finding is quarantined: left out of the entity
 outputs and written, with its issues, to data/processed/quarantine.json.
 data/processed/qc_report.md summarizes every finding.
 
+Restrictions and contested projects get a derived ``county_fips``
+(classify.county_fips, from the lookup copied into data/county_fips_lookup.json).
+Every published row that should have one and does not is listed, with its
+reason, in data/review/fips_misses.csv; nothing is guessed.
+
 It also writes data/processed/sources.csv / sources.json: one row per distinct
 source document, keyed by ``source_id`` (a hash of the normalized URL, so the
 same document cited by many records, or with a trailing slash or #fragment, is
@@ -32,7 +37,8 @@ import headline_metrics  # noqa: E402
 import qc_gate  # noqa: E402
 import resolutions  # noqa: E402
 from common import (  # noqa: E402
-    PROCESSED_DIR, SEED_DIR, normalize_url, read_csv, source_id_for, state_code, write_csv,
+    PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, SEED_DIR, normalize_url, read_csv, source_id_for,
+    state_code, write_csv,
 )
 
 ENTITIES = {
@@ -58,6 +64,40 @@ SOURCE_FIELDS = ["source_id", "url", "normalized_url", "title", "record_count", 
 # Written by scripts/source_archive.py (weekly, in Actions). Read here so each
 # source carries its Internet Archive snapshot; absent until the first run.
 ARCHIVE_PATH = SEED_DIR.parent / "source_archive.csv"
+# County FIPS lookup, copied from pricephillips/data-center-map (passoff B4).
+FIPS_LOOKUP = ROOT / "data" / "county_fips_lookup.json"
+# Published rows that need a county FIPS and have none; one row per record.
+FIPS_MISSES = REVIEW_DIR / "fips_misses.csv"
+FIPS_MISS_FIELDS = ["entity", "id", "instrument_id", "state", "county_name", "reason"]
+# Cases carry no county of their own; a page places a case at its project.
+FIPS_ENTITIES = ("restrictions", "contested_projects")
+
+
+def load_fips_lookup(path: Path | None = None) -> dict[str, str]:
+    """'<county>|<state name>' -> FIPS. Keys starting with '_' are comments."""
+    path = path or FIPS_LOOKUP
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {k.strip().lower(): str(v) for k, v in data.items() if not k.startswith("_")}
+
+
+def stamp_fips(entity: str, rows: list[dict], lookup: dict[str, str]) -> None:
+    for row in rows:
+        fips, _ = classify.county_fips(entity, row, lookup, STATE_NAMES)
+        row["county_fips"] = fips or None
+
+
+def fips_misses(datasets: dict[str, list[dict]], lookup: dict[str, str]) -> list[dict]:
+    out = []
+    for entity, rows in datasets.items():
+        if entity not in FIPS_ENTITIES:
+            continue
+        for row in rows:
+            fips, reason = classify.county_fips(entity, row, lookup, STATE_NAMES)
+            if reason:
+                out.append({"entity": entity, "id": row.get("id"),
+                            "instrument_id": row.get("instrument_id"), "state": row.get("state"),
+                            "county_name": classify.county_name(entity, row), "reason": reason})
+    return sorted(out, key=lambda r: (r["entity"], r["state"] or "", r["county_name"] or "", r["id"]))
 
 
 def archived_urls(path: Path | None = None) -> dict[str, str]:
@@ -125,7 +165,8 @@ def validate(entity: str, filename: str, rows: list[dict]) -> list[str]:
     return errors
 
 
-def build_entity(entity: str, filename: str) -> tuple[list[dict] | None, list[str]]:
+def build_entity(entity: str, filename: str,
+                 fips_lookup: dict[str, str] | None = None) -> tuple[list[dict] | None, list[str]]:
     src = SEED_DIR / filename
     if not src.exists():
         print(f"Skipping missing {src.relative_to(SEED_DIR.parent.parent)}")
@@ -150,6 +191,8 @@ def build_entity(entity: str, filename: str) -> tuple[list[dict] | None, list[st
         errors += resolutions.apply_restriction_sources(rows)
     for row in rows:
         classify.stamp(entity, row)
+    if fips_lookup is not None and entity in FIPS_ENTITIES:
+        stamp_fips(entity, rows, fips_lookup)
     return rows, errors
 
 
@@ -213,8 +256,9 @@ def write_json(path: Path, data) -> None:
 def main() -> int:
     datasets: dict[str, list[dict]] = {}
     errors: list[str] = []
+    fips_lookup = load_fips_lookup()
     for entity, filename in ENTITIES.items():
-        rows, errs = build_entity(entity, filename)
+        rows, errs = build_entity(entity, filename, fips_lookup)
         errors.extend(errs)
         if rows is not None:
             datasets[entity] = rows
@@ -252,6 +296,14 @@ def main() -> int:
           f"{metrics['restrictions']['by_scope']['multi_sector_data_centers']['instruments']} "
           f"also covering data centers; {metrics['contested_projects']['projects']} projects, "
           f"{metrics['contested_projects']['confirmed_outcomes']} confirmed")
+
+    misses = fips_misses(datasets, fips_lookup)
+    write_csv(FIPS_MISSES, misses, FIPS_MISS_FIELDS)
+    for entity in FIPS_ENTITIES:
+        need = [r for r in datasets.get(entity, []) if classify.county_name(entity, r) is not None]
+        hit = sum(1 for r in need if r.get("county_fips"))
+        print(f"county_fips: {entity} {hit}/{len(need)} rows with a county have a FIPS")
+    print(f"Wrote data/review/fips_misses.csv ({len(misses)} misses)")
 
     sources = collect_sources(datasets, archive)
     write_csv(PROCESSED_DIR / "sources.csv", sources, SOURCE_FIELDS)

@@ -87,3 +87,74 @@ jobs:
         with:
           name: smoke-screenshots
           path: smoke-screenshots/
+
+  # Offline UI and accessibility tests (tests/ui, adapted from
+  # pricephillips/data-center-map; passoff B7). Every request is served from
+  # the checkout or tests/ui/node_modules, or aborted.
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: tests/ui
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Build data/processed from the seeds under test
+        # The build bot commits regenerated outputs with GITHUB_TOKEN, which
+        # does not start this workflow, so the pages are tested against a
+        # fresh build of this commit rather than whatever was last committed.
+        working-directory: .
+        run: |
+          uv pip install --system -c requirements/ci.txt -r requirements.txt
+          python scripts/build_seed_outputs.py
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: tests/ui/package-lock.json
+
+      - name: Install test dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        # CI only. Claude sessions have Chromium at /opt/pw-browsers and must
+        # never run this; they set SMOKE_CHROMIUM instead.
+        run: npx playwright install --with-deps chromium
+
+      - name: Geometry coverage gate
+        run: node check_geometry.js --selftest && node check_geometry.js
+
+      - name: JS selftests
+        working-directory: .
+        run: |
+          for f in *_selftest.js; do
+            node "$f"
+          done
+
+      - name: Playwright (pages, choropleth, basemap, axe)
+        env:
+          CI: 'true'
+        run: npx playwright test
+
+      - name: Upload report on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ui-test-results
+          path: tests/ui/test-results/
+          retention-days: 7
