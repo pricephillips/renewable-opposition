@@ -31,6 +31,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
     "county_fips": "20111",
+    "county_fips_all": "20111",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -72,6 +74,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_flagged",
     "county_fips": "20121",
+    "county_fips_all": "20121",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -113,6 +117,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_flagged",
     "county_fips": "20121",
+    "county_fips_all": "20121",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -154,6 +160,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_flagged",
     "county_fips": "20121",
+    "county_fips_all": "20121",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -195,6 +203,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
     "county_fips": null,
+    "county_fips_all": "20177",
+    "county_fips_method": "point",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -236,6 +246,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
     "county_fips": "31113",
+    "county_fips_all": "31113",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -277,6 +289,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
     "county_fips": "31113",
+    "county_fips_all": "31113",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -318,6 +332,8 @@
     "scope": "data_center_only",
     "evidence_level": "compiled_record",
     "county_fips": "31113",
+    "county_fips_all": "31113",
+    "county_fips_method": "name",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",

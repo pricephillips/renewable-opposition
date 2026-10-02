@@ -130,6 +130,111 @@ def county_name(entity: str, row: dict) -> str | None:
     return None
 
 
+# Text-extraction damage in Sabin county names: a lost "ti" or "ft" ligature.
+# Exact strings only; anything else stays a miss.
+EXTRACTION_FIXES = {"bal>more": "baltimore", "granon": "grafton"}
+_SPLIT = re.compile(r",|;|&|\(|\)|\band\b", re.I)
+_COUNTY_WORD = re.compile(r"\b(?:counties|county|various)\b", re.I)
+
+
+def _squash(name: str) -> str:
+    """Spacing and punctuation-insensitive key: 'DeWitt' and 'De Witt' match,
+    as do 'St. Clair' and 'Saint Clair'. Spelling must still be exact."""
+    n = name.lower().replace("saint ", "st ").replace("ste. ", "ste ")
+    return re.sub(r"[^a-z0-9]", "", n)
+
+
+def lookup_county(name: str, state: str, lookup: dict[str, str]) -> str | None:
+    key = " ".join(name.lower().split())
+    key = EXTRACTION_FIXES.get(key, key)
+    for k in (key, f"{key} county"):
+        hit = lookup.get(f"{k}|{state}")
+        if hit is not None:
+            return hit
+    want = _squash(key)
+    for k, v in lookup.items():
+        n, _, st = k.rpartition("|")
+        if st == state and _squash(n) == want:
+            return v
+    return None
+
+
+def _usable(fips: str | None) -> bool:
+    return bool(fips) and fips not in NOT_2024_COUNTY and not fips.startswith(NOT_2024_COUNTY_PREFIXES)
+
+
+# Legal/statistical area descriptions the Census Gazetteer appends to a place
+# name, and the "Village of" style prefixes local records use.
+_LSAD = re.compile(
+    r"\s+(?:charter township|township|town|city and borough|consolidated government"
+    r"|unified government|metropolitan government|metro government|urban county"
+    r"|city|village|borough|municipality|plantation|grant|purchase|location|gore"
+    r"|reservation|cdp|comunidad|zona urbana|precinct|district|unorganized territory)"
+    r"(?:\s+\(balance\))?$",
+    re.I,
+)
+_PLACE_PREFIX = re.compile(r"^(?:city|town|township|village|borough|municipality)\s+of\s+", re.I)
+
+
+def place_key(name: str) -> str:
+    """'Shawnee township' -> 'shawnee'; 'Village of Teutopolis' -> 'teutopolis';
+    'St. Clair' -> 'st clair'. Used to build and to read data/place_county_index.json."""
+    n = _PLACE_PREFIX.sub("", _s(name))
+    n = _LSAD.sub("", n)
+    n = n.lower().replace("saint ", "st ").replace(".", "").replace("'", "")
+    return " ".join(n.split())
+
+
+def place_name(entity: str, row: dict) -> str:
+    """The town, city or township a record names, when it names one."""
+    if entity == "restrictions":
+        if _s(row.get("jurisdiction_type")).lower() in COUNTY_JURISDICTION_TYPES | {"state", ""}:
+            return ""
+        return _s(row.get("jurisdiction"))
+    if entity == "contested_projects":
+        return _s(row.get("municipality"))
+    return ""
+
+
+def county_fips_all(entity: str, row: dict, lookup: dict[str, str], state_names: dict[str, str],
+                    locate=None, places: dict[str, list[str]] | None = None) -> tuple[list[str], str]:
+    """Every 2024 county a record touches, and how they were found:
+    ("name"), a multi-county name split into parts ("names"), or the record's
+    coordinates inside a county polygon ("point"). ``locate(lat, lon) -> fips``
+    is injected so this stays free of I/O. Unlike ``county_fips``, this is for
+    finding records by place, not for painting a county on the map: a town's
+    moratorium touches its county but does not cover it."""
+    fips, _ = county_fips(entity, row, lookup, state_names)
+    if fips:
+        return [fips], "name"
+    name = county_name(entity, row)
+    state = state_names.get(_s(row.get("state")).upper(), "").lower()
+    if name:
+        # "Various (Clark, Lyon, Nye)": the parenthetical is the list, not a qualifier.
+        listed = name if re.match(r"\s*various\b", name, re.I) else QUALIFIER.sub("", name)
+        parts = [_COUNTY_WORD.sub("", p).strip() for p in _SPLIT.split(listed)]
+        found = []
+        for part in filter(None, parts):
+            f = lookup_county(part, state, lookup)
+            if _usable(f) and f not in found:
+                found.append(f)
+        if found:
+            return found, "names"
+    lat, lon = row.get("latitude"), row.get("longitude")
+    if locate and lat not in (None, "") and lon not in (None, ""):
+        f = locate(float(lat), float(lon))
+        if f:
+            return [f], "point"
+    town = place_name(entity, row)
+    if places and town:
+        hits = places.get(f"{place_key(town)}|{_s(row.get('state')).upper()}", [])
+        if len(hits) == 1:
+            return list(hits), "place"
+        if len(hits) > 1:
+            return [], "place_ambiguous"
+    return [], ""
+
+
 def county_fips(entity: str, row: dict, lookup: dict[str, str], state_names: dict[str, str]) -> tuple[str, str]:
     """(fips, "") on a hit, ("", reason) on a miss, ("", "") when the record
     has no county. lookup keys are '<county>|<state name>', lowercase;
@@ -143,8 +248,7 @@ def county_fips(entity: str, row: dict, lookup: dict[str, str], state_names: dic
     if SEVERAL_COUNTIES.search(name):
         return "", "several_counties"
     state = state_names.get(_s(row.get("state")).upper(), "").lower()
-    key = " ".join(name.lower().split())
-    fips = lookup.get(f"{key}|{state}")
+    fips = lookup_county(name, state, lookup)
     if fips is None:
         return "", "not_in_lookup"
     if fips in NOT_2024_COUNTY or fips.startswith(NOT_2024_COUNTY_PREFIXES):

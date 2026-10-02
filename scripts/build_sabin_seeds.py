@@ -282,7 +282,8 @@ def restriction_severity(types: set[str], tech: str, status: str, text: str) -> 
         feet, mult = setback_feet(text), height_multiplier(text)
         if tech == "wind":
             if "setback" in types and (feet >= 2640 or mult >= 5):
-                score, basis = 3, f"wind setback {int(feet)} ft / {mult:g}x height"
+                parts = [f"{int(feet)} ft" if feet else "", f"{mult:g}x height" if mult else ""]
+                score, basis = 3, "wind setback " + " / ".join(p for p in parts if p)
             elif "height_limit" in types:
                 score, basis = 3, "wind height limit"
             elif "noise_limit" in types and 0 < min_noise_dba(text) <= 35:
@@ -292,6 +293,24 @@ def restriction_severity(types: set[str], tech: str, status: str, text: str) -> 
     if status == "pending" and score > 2:
         score, basis = 2, basis + "; capped at 2 (pending)"
     return score, basis
+
+
+# The severity rule that fired names the mechanism that drives the score.
+BASIS_TYPE = (("ban/prohibition", "ban"), ("in-force moratorium", "moratorium"),
+              ("wind height limit", "height_limit"), ("wind noise limit", "noise_limit"))
+
+
+def driving_type(types: set[str], basis: str) -> str:
+    """restriction_type for a row: the mechanism whose rule set its severity,
+    so an ordinance scored 3 for a 5,250 ft setback reads as a setback even
+    when it also caps height. Otherwise the most severe mechanism by
+    TYPE_ORDER, as before."""
+    for prefix, t in BASIS_TYPE:
+        if basis.startswith(prefix) and t in types:
+            return t
+    if " setback " in f" {basis} " and "setback" in types:
+        return "setback"
+    return next(t for t in TYPE_ORDER if t in types)
 
 
 def is_litigated(row: dict) -> bool:
@@ -502,7 +521,7 @@ def build_restrictions(records: list[dict], mn_index: dict) -> tuple[list[dict],
             seed.append({
                 "state": st,
                 "technology": tech,
-                "restriction_type": restriction_type,
+                "restriction_type": driving_type(types, basis),
                 "severity_score": severity,
                 "description": r["short_description"].strip(),
                 "status": status,

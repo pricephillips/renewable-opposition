@@ -33,6 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import classify  # noqa: E402
+import geo  # noqa: E402
 import headline_metrics  # noqa: E402
 import qc_gate  # noqa: E402
 import resolutions  # noqa: E402
@@ -66,9 +67,12 @@ SOURCE_FIELDS = ["source_id", "url", "normalized_url", "title", "record_count", 
 ARCHIVE_PATH = SEED_DIR.parent / "source_archive.csv"
 # County FIPS lookup, copied from pricephillips/data-center-map (passoff B4).
 FIPS_LOOKUP = ROOT / "data" / "county_fips_lookup.json"
+# Town/township name -> county, from the Census Gazetteer (scripts/build_place_index.py).
+# Optional: without it, town-level records with no coordinates stay unplaced.
+PLACE_INDEX = ROOT / "data" / "place_county_index.json"
 # Published rows that need a county FIPS and have none; one row per record.
 FIPS_MISSES = REVIEW_DIR / "fips_misses.csv"
-FIPS_MISS_FIELDS = ["entity", "id", "instrument_id", "state", "county_name", "reason"]
+FIPS_MISS_FIELDS = ["entity", "id", "instrument_id", "state", "county_name", "reason", "county_fips_all"]
 # Cases carry no county of their own; a page places a case at its project.
 FIPS_ENTITIES = ("restrictions", "contested_projects")
 
@@ -80,10 +84,29 @@ def load_fips_lookup(path: Path | None = None) -> dict[str, str]:
     return {k.strip().lower(): str(v) for k, v in data.items() if not k.startswith("_")}
 
 
-def stamp_fips(entity: str, rows: list[dict], lookup: dict[str, str]) -> None:
+def load_place_index(path: Path | None = None) -> dict[str, list[str]]:
+    path = path or PLACE_INDEX
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {k: v for k, v in data.items() if not k.startswith("_")}
+
+
+def stamp_fips(entity: str, rows: list[dict], lookup: dict[str, str],
+               places: dict[str, list[str]] | None = None) -> None:
+    """county_fips: the one county a county-level record covers (the map paints
+    it). county_fips_all: every county the record touches, ';'-joined, for
+    finding records by place (scripts/site_profile.py); county_fips_method says
+    how they were found: name, names (a multi-county name split) or point
+    (the record's coordinates inside a 2024 county polygon)."""
+    if places is None:
+        places = load_place_index()
     for row in rows:
         fips, _ = classify.county_fips(entity, row, lookup, STATE_NAMES)
         row["county_fips"] = fips or None
+        found, method = classify.county_fips_all(entity, row, lookup, STATE_NAMES, geo.county_at, places)
+        row["county_fips_all"] = ";".join(found) or None
+        row["county_fips_method"] = method or None
 
 
 def fips_misses(datasets: dict[str, list[dict]], lookup: dict[str, str]) -> list[dict]:
@@ -96,7 +119,8 @@ def fips_misses(datasets: dict[str, list[dict]], lookup: dict[str, str]) -> list
             if reason:
                 out.append({"entity": entity, "id": row.get("id"),
                             "instrument_id": row.get("instrument_id"), "state": row.get("state"),
-                            "county_name": classify.county_name(entity, row), "reason": reason})
+                            "county_name": classify.county_name(entity, row), "reason": reason,
+                            "county_fips_all": row.get("county_fips_all")})
     return sorted(out, key=lambda r: (r["entity"], r["state"] or "", r["county_name"] or "", r["id"]))
 
 

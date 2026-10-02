@@ -8,14 +8,22 @@
   ],
   "contested_projects.csv": {
     "county_fips": {
-      "min_filled": 148,
-      "reason": "Derived by classify.county_fips from state plus county. 148 of 165 rows hit on 2026-09-30; the other 17 are in data/review/fips_misses.csv."
+      "min_filled": 149,
+      "reason": "Derived by classify.county_fips from state plus county. 149 of 165 rows hit on 2026-10-01 (DeWitt County, IL now matches De Witt); the other 16 are in data/review/fips_misses.csv."
+    },
+    "county_fips_all": {
+      "min_filled": 161,
+      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 161 of 165 on 2026-10-01; the 4 Connecticut rows name pre-2022 counties."
     }
   },
   "restrictions.csv": {
     "county_fips": {
       "min_filled": 313,
       "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 313 of 317 such rows hit on 2026-09-30; the other 4 are in data/review/fips_misses.csv."
+    },
+    "county_fips_all": {
+      "min_filled": 585,
+      "reason": "County-level instruments by name, town-level ones by coordinates and by the Census place index (data/place_county_index.json). 585 of 610 on 2026-10-02; the other 25 are 21 town names shared by several counties in their state (left unplaced, never guessed) and 4 jurisdiction names that match no county or town."
     }
   }
 }

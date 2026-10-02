@@ -209,6 +209,41 @@ Outputs will be written to `data/processed/`.
 
 ---
 
+## Site profiles
+
+`scripts/site_profile.py` lists everything the data records about one county.
+It is descriptive only: no scores and no predictions.
+
+```bash
+python scripts/site_profile.py --state KS --county Cherokee
+python scripts/site_profile.py --fips 19113 --radius 40 --notes "what local contacts report"
+python scripts/site_profile.py --sites sites.csv --out profiles.md   # columns: name,state,county,fips,lat,lon,notes
+```
+
+Each profile has these sections:
+
+- **In the county:** published records whose `county_fips_all` includes the county.
+- **Adjacent counties:** the same for every county that shares a border, across state lines.
+- **Within a radius:** optional.
+- **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates).
+- **Named in the text:** records placed elsewhere whose text names the county.
+- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, and states with no contested-project coverage.
+
+An empty section means nothing is recorded. It does not mean nothing happened.
+
+**Placement.** `county_fips` stays the one county a county-level record covers, and it is the only code the map paints. `county_fips_all` lists every county a record touches, and `county_fips_method` says how each was found:
+
+- `name`: the county named in the record.
+- `names`: a multi-county name split into its parts.
+- `point`: the record's coordinates fall inside a 2024 county polygon.
+- `place`: a town name that sits in exactly one county of its state, in the Census place index.
+
+A town name shared by several counties is marked `place_ambiguous` and left unplaced.
+
+The place index is built with `python scripts/build_place_index.py`. The script downloads the Census 2024 Gazetteer and writes `data/place_county_index.json`. Without the index, town-level rows with no coordinates stay unplaced, and each profile says so.
+
+---
+
 ## Pipeline layers (roadmap)
 
 1. **Source registry**: `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).

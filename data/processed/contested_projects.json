@@ -25,6 +25,8 @@
     "instrument_id": "sabin:REC-0005",
     "evidence_level": "report_citation",
     "county_fips": "01055",
+    "county_fips_all": "01055",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -58,6 +60,8 @@
     "instrument_id": "sabin:REC-0006",
     "evidence_level": "report_citation",
     "county_fips": "01039",
+    "county_fips_all": "01039",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -91,6 +95,8 @@
     "instrument_id": "sabin:REC-0007",
     "evidence_level": "report_citation",
     "county_fips": "01019",
+    "county_fips_all": "01019",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -124,6 +130,8 @@
     "instrument_id": "sabin:REC-0008",
     "evidence_level": "report_citation",
     "county_fips": "01029",
+    "county_fips_all": "01029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -157,6 +165,8 @@
     "instrument_id": "sabin:REC-0015",
     "evidence_level": "report_citation",
     "county_fips": "05015",
+    "county_fips_all": "05015",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -190,6 +200,8 @@
     "instrument_id": "sabin:REC-0016",
     "evidence_level": "report_citation",
     "county_fips": "05143",
+    "county_fips_all": "05143",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -223,6 +235,8 @@
     "instrument_id": "sabin:REC-0011",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "04001;04017",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -256,6 +270,8 @@
     "instrument_id": "sabin:REC-0012",
     "evidence_level": "report_citation",
     "county_fips": "04003",
+    "county_fips_all": "04003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -289,6 +305,8 @@
     "instrument_id": "sabin:REC-0013",
     "evidence_level": "report_citation",
     "county_fips": "04003",
+    "county_fips_all": "04003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -322,6 +340,8 @@
     "instrument_id": "sabin:REC-0023",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "06001;06013",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -355,6 +375,8 @@
     "instrument_id": "sabin:REC-0024",
     "evidence_level": "report_citation",
     "county_fips": "06001",
+    "county_fips_all": "06001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -388,6 +410,8 @@
     "instrument_id": "sabin:REC-0025",
     "evidence_level": "report_citation",
     "county_fips": "06029",
+    "county_fips_all": "06029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -421,6 +445,8 @@
     "instrument_id": "sabin:REC-0026",
     "evidence_level": "report_citation",
     "county_fips": "06065",
+    "county_fips_all": "06065",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -454,6 +480,8 @@
     "instrument_id": "sabin:REC-0027",
     "evidence_level": "report_citation",
     "county_fips": "06073",
+    "county_fips_all": "06073",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -487,6 +515,8 @@
     "instrument_id": "sabin:REC-0028",
     "evidence_level": "report_citation",
     "county_fips": "06083",
+    "county_fips_all": "06083",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -520,6 +550,8 @@
     "instrument_id": "sabin:REC-0038",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": null,
+    "county_fips_method": null,
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -553,6 +585,8 @@
     "instrument_id": "sabin:REC-0039",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": null,
+    "county_fips_method": null,
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -586,6 +620,8 @@
     "instrument_id": "sabin:REC-0040",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": null,
+    "county_fips_method": null,
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -619,6 +655,8 @@
     "instrument_id": "sabin:REC-0041",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": null,
+    "county_fips_method": null,
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -652,6 +690,8 @@
     "instrument_id": "sabin:REC-0044",
     "evidence_level": "report_citation",
     "county_fips": "10001",
+    "county_fips_all": "10001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -685,6 +725,8 @@
     "instrument_id": "sabin:REC-0045",
     "evidence_level": "report_citation",
     "county_fips": "10005",
+    "county_fips_all": "10005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -718,6 +760,8 @@
     "instrument_id": "sabin:REC-0046",
     "evidence_level": "report_citation",
     "county_fips": "10005",
+    "county_fips_all": "10005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -751,6 +795,8 @@
     "instrument_id": "sabin:REC-0047",
     "evidence_level": "report_citation",
     "county_fips": "10005",
+    "county_fips_all": "10005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -784,6 +830,8 @@
     "instrument_id": "sabin:REC-0048",
     "evidence_level": "report_citation",
     "county_fips": "10005",
+    "county_fips_all": "10005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -817,6 +865,8 @@
     "instrument_id": "sabin:REC-0052",
     "evidence_level": "report_citation",
     "county_fips": "12001",
+    "county_fips_all": "12001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -850,6 +900,8 @@
     "instrument_id": "sabin:REC-0053",
     "evidence_level": "report_citation",
     "county_fips": "12001",
+    "county_fips_all": "12001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -883,6 +935,8 @@
     "instrument_id": "sabin:REC-0062",
     "evidence_level": "report_citation",
     "county_fips": "13021",
+    "county_fips_all": "13021",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -916,6 +970,8 @@
     "instrument_id": "sabin:REC-0063",
     "evidence_level": "report_citation",
     "county_fips": "13261",
+    "county_fips_all": "13261",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -949,6 +1005,8 @@
     "instrument_id": "sabin:REC-0064",
     "evidence_level": "report_citation",
     "county_fips": "13153",
+    "county_fips_all": "13153",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -982,6 +1040,8 @@
     "instrument_id": "sabin:REC-0065",
     "evidence_level": "report_citation",
     "county_fips": "13153",
+    "county_fips_all": "13153",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1015,6 +1075,8 @@
     "instrument_id": "sabin:REC-0067",
     "evidence_level": "confirmed",
     "county_fips": "15003",
+    "county_fips_all": "15003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1048,6 +1110,8 @@
     "instrument_id": "sabin:REC-0068",
     "evidence_level": "report_citation",
     "county_fips": "15003",
+    "county_fips_all": "15003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1081,6 +1145,8 @@
     "instrument_id": "sabin:REC-0069",
     "evidence_level": "report_citation",
     "county_fips": "15009",
+    "county_fips_all": "15009",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1114,6 +1180,8 @@
     "instrument_id": "sabin:REC-0084",
     "evidence_level": "report_citation",
     "county_fips": "17131",
+    "county_fips_all": "17131",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1146,7 +1214,9 @@
     "source_id": "src_90d5b39d9a09",
     "instrument_id": "sabin:REC-0085",
     "evidence_level": "confirmed",
-    "county_fips": null,
+    "county_fips": "17039",
+    "county_fips_all": "17039",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1180,6 +1250,8 @@
     "instrument_id": "sabin:REC-0144",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "21069;21161",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1213,6 +1285,8 @@
     "instrument_id": "sabin:REC-0145",
     "evidence_level": "report_citation",
     "county_fips": "21049",
+    "county_fips_all": "21049",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1246,6 +1320,8 @@
     "instrument_id": "sabin:REC-0146",
     "evidence_level": "report_citation",
     "county_fips": "21093",
+    "county_fips_all": "21093",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1279,6 +1355,8 @@
     "instrument_id": "sabin:REC-0147",
     "evidence_level": "report_citation",
     "county_fips": "21151",
+    "county_fips_all": "21151",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1312,6 +1390,8 @@
     "instrument_id": "sabin:REC-0148",
     "evidence_level": "report_citation",
     "county_fips": "21161",
+    "county_fips_all": "21161",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1345,6 +1425,8 @@
     "instrument_id": "sabin:REC-0149",
     "evidence_level": "report_citation",
     "county_fips": "21167",
+    "county_fips_all": "21167",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1378,6 +1460,8 @@
     "instrument_id": "sabin:REC-0150",
     "evidence_level": "report_citation",
     "county_fips": "21093",
+    "county_fips_all": "21093",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1411,6 +1495,8 @@
     "instrument_id": "sabin:REC-0154",
     "evidence_level": "report_citation",
     "county_fips": "22019",
+    "county_fips_all": "22019",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1444,6 +1530,8 @@
     "instrument_id": "sabin:REC-0155",
     "evidence_level": "report_citation",
     "county_fips": "22093",
+    "county_fips_all": "22093",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1477,6 +1565,8 @@
     "instrument_id": "sabin:REC-0156",
     "evidence_level": "report_citation",
     "county_fips": "22047",
+    "county_fips_all": "22047",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1510,6 +1600,8 @@
     "instrument_id": "sabin:REC-0190",
     "evidence_level": "report_citation",
     "county_fips": "25015",
+    "county_fips_all": "25015",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1543,6 +1635,8 @@
     "instrument_id": "sabin:REC-0191",
     "evidence_level": "report_citation",
     "county_fips": "25015",
+    "county_fips_all": "25015",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1576,6 +1670,8 @@
     "instrument_id": "sabin:REC-0192",
     "evidence_level": "report_citation",
     "county_fips": "25017",
+    "county_fips_all": "25017",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1609,6 +1705,8 @@
     "instrument_id": "sabin:REC-0193",
     "evidence_level": "confirmed",
     "county_fips": "25001",
+    "county_fips_all": "25001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1642,6 +1740,8 @@
     "instrument_id": "sabin:REC-0194",
     "evidence_level": "report_citation",
     "county_fips": "25001",
+    "county_fips_all": "25001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1675,6 +1775,8 @@
     "instrument_id": "sabin:REC-0178",
     "evidence_level": "report_citation",
     "county_fips": "24031",
+    "county_fips_all": "24031",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1708,6 +1810,8 @@
     "instrument_id": "sabin:REC-0179",
     "evidence_level": "report_citation",
     "county_fips": "24047",
+    "county_fips_all": "24047",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1741,6 +1845,8 @@
     "instrument_id": "sabin:REC-0180",
     "evidence_level": "report_citation",
     "county_fips": "24001",
+    "county_fips_all": "24001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1774,6 +1880,8 @@
     "instrument_id": "sabin:REC-0181",
     "evidence_level": "report_citation",
     "county_fips": "24017",
+    "county_fips_all": "24017",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1807,6 +1915,8 @@
     "instrument_id": "sabin:REC-0182",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "24005;24013;24021",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1840,6 +1950,8 @@
     "instrument_id": "sabin:REC-0183",
     "evidence_level": "report_citation",
     "county_fips": "24029",
+    "county_fips_all": "24029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1873,6 +1985,8 @@
     "instrument_id": "sabin:REC-0184",
     "evidence_level": "report_citation",
     "county_fips": "24017",
+    "county_fips_all": "24017",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1906,6 +2020,8 @@
     "instrument_id": "sabin:REC-0210",
     "evidence_level": "report_citation",
     "county_fips": "26159",
+    "county_fips_all": "26159",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1939,6 +2055,8 @@
     "instrument_id": "sabin:REC-0219",
     "evidence_level": "report_citation",
     "county_fips": "27043",
+    "county_fips_all": "27043",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -1972,6 +2090,8 @@
     "instrument_id": "sabin:REC-0220",
     "evidence_level": "report_citation",
     "county_fips": "27085",
+    "county_fips_all": "27085",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2005,6 +2125,8 @@
     "instrument_id": "sabin:REC-0221",
     "evidence_level": "report_citation",
     "county_fips": "27083",
+    "county_fips_all": "27083",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2038,6 +2160,8 @@
     "instrument_id": "sabin:REC-0222",
     "evidence_level": "report_citation",
     "county_fips": "27053",
+    "county_fips_all": "27053",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2071,6 +2195,8 @@
     "instrument_id": "sabin:REC-0223",
     "evidence_level": "report_citation",
     "county_fips": "27049",
+    "county_fips_all": "27049",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2104,6 +2230,8 @@
     "instrument_id": "sabin:REC-0231",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "29027;29041",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2137,6 +2265,8 @@
     "instrument_id": "sabin:REC-0232",
     "evidence_level": "report_citation",
     "county_fips": "29027",
+    "county_fips_all": "29027",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2170,6 +2300,8 @@
     "instrument_id": "sabin:REC-0233",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "29049;29063",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2203,6 +2335,8 @@
     "instrument_id": "sabin:REC-0225",
     "evidence_level": "report_citation",
     "county_fips": "28073",
+    "county_fips_all": "28073",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2236,6 +2370,8 @@
     "instrument_id": "sabin:REC-0224",
     "evidence_level": "report_citation",
     "county_fips": "28049",
+    "county_fips_all": "28049",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2269,6 +2405,8 @@
     "instrument_id": "sabin:REC-0235",
     "evidence_level": "report_citation",
     "county_fips": "30093",
+    "county_fips_all": "30093",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2302,6 +2440,8 @@
     "instrument_id": "sabin:REC-0236",
     "evidence_level": "report_citation",
     "county_fips": "30097",
+    "county_fips_all": "30097",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2335,6 +2475,8 @@
     "instrument_id": "sabin:REC-0237",
     "evidence_level": "report_citation",
     "county_fips": "30067",
+    "county_fips_all": "30067",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2368,6 +2510,8 @@
     "instrument_id": "sabin:REC-0238",
     "evidence_level": "report_citation",
     "county_fips": "30105",
+    "county_fips_all": "30105",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2401,6 +2545,8 @@
     "instrument_id": "sabin:REC-0315",
     "evidence_level": "report_citation",
     "county_fips": "37171",
+    "county_fips_all": "37171",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2434,6 +2580,8 @@
     "instrument_id": "sabin:REC-0316",
     "evidence_level": "report_citation",
     "county_fips": "37159",
+    "county_fips_all": "37159",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2467,6 +2615,8 @@
     "instrument_id": "sabin:REC-0317",
     "evidence_level": "report_citation",
     "county_fips": "37035",
+    "county_fips_all": "37035",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2500,6 +2650,8 @@
     "instrument_id": "sabin:REC-0318",
     "evidence_level": "report_citation",
     "county_fips": "37159",
+    "county_fips_all": "37159",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2533,6 +2685,8 @@
     "instrument_id": "sabin:REC-0319",
     "evidence_level": "report_citation",
     "county_fips": "37141",
+    "county_fips_all": "37141",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2566,6 +2720,8 @@
     "instrument_id": "sabin:REC-0320",
     "evidence_level": "report_citation",
     "county_fips": "37197",
+    "county_fips_all": "37197",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2599,6 +2755,8 @@
     "instrument_id": "sabin:REC-0321",
     "evidence_level": "report_citation",
     "county_fips": "37131",
+    "county_fips_all": "37131",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2632,6 +2790,8 @@
     "instrument_id": "sabin:REC-0329",
     "evidence_level": "report_citation",
     "county_fips": "38089",
+    "county_fips_all": "38089",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2665,6 +2825,8 @@
     "instrument_id": "sabin:REC-0330",
     "evidence_level": "report_citation",
     "county_fips": "38013",
+    "county_fips_all": "38013",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2698,6 +2860,8 @@
     "instrument_id": "sabin:REC-0331",
     "evidence_level": "report_citation",
     "county_fips": "38015",
+    "county_fips_all": "38015",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2731,6 +2895,8 @@
     "instrument_id": "sabin:REC-0332",
     "evidence_level": "report_citation",
     "county_fips": "38007",
+    "county_fips_all": "38007",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2764,6 +2930,8 @@
     "instrument_id": "sabin:REC-0333",
     "evidence_level": "report_citation",
     "county_fips": "38055",
+    "county_fips_all": "38055",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2797,6 +2965,8 @@
     "instrument_id": "sabin:REC-0334",
     "evidence_level": "report_citation",
     "county_fips": "38055",
+    "county_fips_all": "38055",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2830,6 +3000,8 @@
     "instrument_id": "sabin:REC-0335",
     "evidence_level": "report_citation",
     "county_fips": "38057",
+    "county_fips_all": "38057",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2863,6 +3035,8 @@
     "instrument_id": "sabin:REC-0268",
     "evidence_level": "confirmed",
     "county_fips": "33011",
+    "county_fips_all": "33011",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2896,6 +3070,8 @@
     "instrument_id": "sabin:REC-0271",
     "evidence_level": "report_citation",
     "county_fips": "33013",
+    "county_fips_all": "33013",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2929,6 +3105,8 @@
     "instrument_id": "sabin:REC-0269",
     "evidence_level": "confirmed",
     "county_fips": "33013",
+    "county_fips_all": "33013",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2962,6 +3140,8 @@
     "instrument_id": "sabin:REC-0270",
     "evidence_level": "report_citation",
     "county_fips": "33007",
+    "county_fips_all": "33007",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -2995,6 +3175,8 @@
     "instrument_id": "sabin:REC-0272",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "33009;33013",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3028,6 +3210,8 @@
     "instrument_id": "sabin:REC-0276",
     "evidence_level": "report_citation",
     "county_fips": "34029",
+    "county_fips_all": "34029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3061,6 +3245,8 @@
     "instrument_id": "sabin:REC-0277",
     "evidence_level": "report_citation",
     "county_fips": "34035",
+    "county_fips_all": "34035",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3094,6 +3280,8 @@
     "instrument_id": "sabin:REC-0278",
     "evidence_level": "report_citation",
     "county_fips": "34033",
+    "county_fips_all": "34033",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3127,6 +3315,8 @@
     "instrument_id": "sabin:REC-0279",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "34001;34009;34025;34029",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3160,6 +3350,8 @@
     "instrument_id": "sabin:REC-0280",
     "evidence_level": "report_citation",
     "county_fips": "34025",
+    "county_fips_all": "34025",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3193,6 +3385,8 @@
     "instrument_id": "sabin:REC-0281",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "34009;34029",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3226,6 +3420,8 @@
     "instrument_id": "sabin:REC-0282",
     "evidence_level": "report_citation",
     "county_fips": "34029",
+    "county_fips_all": "34029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3259,6 +3455,8 @@
     "instrument_id": "sabin:REC-0284",
     "evidence_level": "report_citation",
     "county_fips": "35005",
+    "county_fips_all": "35005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3292,6 +3490,8 @@
     "instrument_id": "sabin:REC-0285",
     "evidence_level": "report_citation",
     "county_fips": "35005",
+    "county_fips_all": "35005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3325,6 +3525,8 @@
     "instrument_id": "sabin:REC-0286",
     "evidence_level": "report_citation",
     "county_fips": "35005",
+    "county_fips_all": "35005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3358,6 +3560,8 @@
     "instrument_id": "sabin:REC-0287",
     "evidence_level": "report_citation",
     "county_fips": "35005",
+    "county_fips_all": "35005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3391,6 +3595,8 @@
     "instrument_id": "sabin:REC-0288",
     "evidence_level": "report_citation",
     "county_fips": "35049",
+    "county_fips_all": "35049",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3424,6 +3630,8 @@
     "instrument_id": "sabin:REC-0289",
     "evidence_level": "report_citation",
     "county_fips": "35029",
+    "county_fips_all": "35029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3457,6 +3665,8 @@
     "instrument_id": "sabin:REC-0255",
     "evidence_level": "report_citation",
     "county_fips": "32003",
+    "county_fips_all": "32003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3490,6 +3700,8 @@
     "instrument_id": "sabin:REC-0256",
     "evidence_level": "report_citation",
     "county_fips": "32003",
+    "county_fips_all": "32003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3523,6 +3735,8 @@
     "instrument_id": "sabin:REC-0257",
     "evidence_level": "report_citation",
     "county_fips": "32023",
+    "county_fips_all": "32023",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3556,6 +3770,8 @@
     "instrument_id": "sabin:REC-0258",
     "evidence_level": "report_citation",
     "county_fips": "32023",
+    "county_fips_all": "32023",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3589,6 +3805,8 @@
     "instrument_id": "sabin:REC-0259",
     "evidence_level": "report_citation",
     "county_fips": "32003",
+    "county_fips_all": "32003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3622,6 +3840,8 @@
     "instrument_id": "sabin:REC-0260",
     "evidence_level": "report_citation",
     "county_fips": "32003",
+    "county_fips_all": "32003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3655,6 +3875,8 @@
     "instrument_id": "sabin:REC-0261",
     "evidence_level": "report_citation",
     "county_fips": "32001",
+    "county_fips_all": "32001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3688,6 +3910,8 @@
     "instrument_id": "sabin:REC-0262",
     "evidence_level": "report_citation",
     "county_fips": "32009",
+    "county_fips_all": "32009",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3721,6 +3945,8 @@
     "instrument_id": "sabin:REC-0263",
     "evidence_level": "confirmed",
     "county_fips": "32031",
+    "county_fips_all": "32031",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3754,6 +3980,8 @@
     "instrument_id": "sabin:REC-0264",
     "evidence_level": "report_citation",
     "county_fips": "32031",
+    "county_fips_all": "32031",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3787,6 +4015,8 @@
     "instrument_id": "sabin:REC-0265",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "32003;32019;32009;32021;32023",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3820,6 +4050,8 @@
     "instrument_id": "sabin:REC-0360",
     "evidence_level": "report_citation",
     "county_fips": "40035",
+    "county_fips_all": "40035",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3853,6 +4085,8 @@
     "instrument_id": "sabin:REC-0361",
     "evidence_level": "report_citation",
     "county_fips": "40091",
+    "county_fips_all": "40091",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3886,6 +4120,8 @@
     "instrument_id": "sabin:REC-0362",
     "evidence_level": "report_citation",
     "county_fips": "40081",
+    "county_fips_all": "40081",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3919,6 +4155,8 @@
     "instrument_id": "sabin:REC-0363",
     "evidence_level": "report_citation",
     "county_fips": "40113",
+    "county_fips_all": "40113",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3952,6 +4190,8 @@
     "instrument_id": "sabin:REC-0364",
     "evidence_level": "report_citation",
     "county_fips": "40047",
+    "county_fips_all": "40047",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -3985,6 +4225,8 @@
     "instrument_id": "sabin:REC-0367",
     "evidence_level": "report_citation",
     "county_fips": "41005",
+    "county_fips_all": "41005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4018,6 +4260,8 @@
     "instrument_id": "sabin:REC-0368",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "41001;41045;41049;41059;41061",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4051,6 +4295,8 @@
     "instrument_id": "sabin:REC-0369",
     "evidence_level": "confirmed",
     "county_fips": "41025",
+    "county_fips_all": "41025",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4084,6 +4330,8 @@
     "instrument_id": "sabin:REC-0370",
     "evidence_level": "report_citation",
     "county_fips": "41005",
+    "county_fips_all": "41005",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4117,6 +4365,8 @@
     "instrument_id": "sabin:REC-0371",
     "evidence_level": "report_citation",
     "county_fips": "41039",
+    "county_fips_all": "41039",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4150,6 +4400,8 @@
     "instrument_id": "sabin:REC-0372",
     "evidence_level": "report_citation",
     "county_fips": "41059",
+    "county_fips_all": "41059",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4183,6 +4435,8 @@
     "instrument_id": "sabin:REC-0373",
     "evidence_level": "report_citation",
     "county_fips": "41037",
+    "county_fips_all": "41037",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4216,6 +4470,8 @@
     "instrument_id": "sabin:REC-0374",
     "evidence_level": "report_citation",
     "county_fips": "41029",
+    "county_fips_all": "41029",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4249,6 +4505,8 @@
     "instrument_id": "sabin:REC-0375",
     "evidence_level": "confirmed",
     "county_fips": "41025",
+    "county_fips_all": "41025",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4282,6 +4540,8 @@
     "instrument_id": "sabin:REC-0381",
     "evidence_level": "report_citation",
     "county_fips": "42025",
+    "county_fips_all": "42025",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4315,6 +4575,8 @@
     "instrument_id": "sabin:REC-0382",
     "evidence_level": "report_citation",
     "county_fips": "42071",
+    "county_fips_all": "42071",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4348,6 +4610,8 @@
     "instrument_id": "sabin:REC-0383",
     "evidence_level": "report_citation",
     "county_fips": "42071",
+    "county_fips_all": "42071",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4381,6 +4645,8 @@
     "instrument_id": "sabin:REC-0384",
     "evidence_level": "report_citation",
     "county_fips": "42133",
+    "county_fips_all": "42133",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4414,6 +4680,8 @@
     "instrument_id": "sabin:REC-0385",
     "evidence_level": "report_citation",
     "county_fips": "42133",
+    "county_fips_all": "42133",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4447,6 +4715,8 @@
     "instrument_id": "sabin:REC-0386",
     "evidence_level": "report_citation",
     "county_fips": "42069",
+    "county_fips_all": "42069",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4480,6 +4750,8 @@
     "instrument_id": "sabin:REC-0387",
     "evidence_level": "report_citation",
     "county_fips": "42073",
+    "county_fips_all": "42073",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4513,6 +4785,8 @@
     "instrument_id": "sabin:REC-0388",
     "evidence_level": "report_citation",
     "county_fips": "42069",
+    "county_fips_all": "42069",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4546,6 +4820,8 @@
     "instrument_id": "sabin:REC-0396",
     "evidence_level": "report_citation",
     "county_fips": "45051",
+    "county_fips_all": "45051",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4579,6 +4855,8 @@
     "instrument_id": "sabin:REC-0397",
     "evidence_level": "report_citation",
     "county_fips": "45085",
+    "county_fips_all": "45085",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4612,6 +4890,8 @@
     "instrument_id": "sabin:REC-0403",
     "evidence_level": "report_citation",
     "county_fips": "46025",
+    "county_fips_all": "46025",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4645,6 +4925,8 @@
     "instrument_id": "sabin:REC-0404",
     "evidence_level": "report_citation",
     "county_fips": null,
+    "county_fips_all": "46029;46051",
+    "county_fips_method": "names",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4678,6 +4960,8 @@
     "instrument_id": "sabin:REC-0405",
     "evidence_level": "report_citation",
     "county_fips": "46083",
+    "county_fips_all": "46083",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4711,6 +4995,8 @@
     "instrument_id": "sabin:REC-0407",
     "evidence_level": "report_citation",
     "county_fips": "46035",
+    "county_fips_all": "46035",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4744,6 +5030,8 @@
     "instrument_id": "sabin:REC-0409",
     "evidence_level": "report_citation",
     "county_fips": "46087",
+    "county_fips_all": "46087",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4777,6 +5065,8 @@
     "instrument_id": "sabin:REC-0410",
     "evidence_level": "report_citation",
     "county_fips": "46129",
+    "county_fips_all": "46129",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4810,6 +5100,8 @@
     "instrument_id": "sabin:REC-0417",
     "evidence_level": "report_citation",
     "county_fips": "47157",
+    "county_fips_all": "47157",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4843,6 +5135,8 @@
     "instrument_id": "sabin:REC-0433",
     "evidence_level": "report_citation",
     "county_fips": "48077",
+    "county_fips_all": "48077",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4876,6 +5170,8 @@
     "instrument_id": "sabin:REC-0434",
     "evidence_level": "report_citation",
     "county_fips": "48077",
+    "county_fips_all": "48077",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4909,6 +5205,8 @@
     "instrument_id": "sabin:REC-0435",
     "evidence_level": "confirmed",
     "county_fips": "48441",
+    "county_fips_all": "48441",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4942,6 +5240,8 @@
     "instrument_id": "sabin:REC-0436",
     "evidence_level": "report_citation",
     "county_fips": "48149",
+    "county_fips_all": "48149",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -4975,6 +5275,8 @@
     "instrument_id": "sabin:REC-0440",
     "evidence_level": "report_citation",
     "county_fips": "50003",
+    "county_fips_all": "50003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5008,6 +5310,8 @@
     "instrument_id": "sabin:REC-0444",
     "evidence_level": "report_citation",
     "county_fips": "50019",
+    "county_fips_all": "50019",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5041,6 +5345,8 @@
     "instrument_id": "sabin:REC-0445",
     "evidence_level": "report_citation",
     "county_fips": "50019",
+    "county_fips_all": "50019",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5074,6 +5380,8 @@
     "instrument_id": "sabin:REC-0446",
     "evidence_level": "report_citation",
     "county_fips": "50003",
+    "county_fips_all": "50003",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5107,6 +5415,8 @@
     "instrument_id": "sabin:REC-0466",
     "evidence_level": "report_citation",
     "county_fips": "53017",
+    "county_fips_all": "53017",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5140,6 +5450,8 @@
     "instrument_id": "sabin:REC-0467",
     "evidence_level": "report_citation",
     "county_fips": "53039",
+    "county_fips_all": "53039",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5173,6 +5485,8 @@
     "instrument_id": "sabin:REC-0468",
     "evidence_level": "report_citation",
     "county_fips": "53037",
+    "county_fips_all": "53037",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5206,6 +5520,8 @@
     "instrument_id": "sabin:REC-0469",
     "evidence_level": "report_citation",
     "county_fips": "53039",
+    "county_fips_all": "53039",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5239,6 +5555,8 @@
     "instrument_id": "sabin:REC-0470",
     "evidence_level": "report_citation",
     "county_fips": "53057",
+    "county_fips_all": "53057",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5272,6 +5590,8 @@
     "instrument_id": "sabin:REC-0473",
     "evidence_level": "report_citation",
     "county_fips": "54025",
+    "county_fips_all": "54025",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5305,6 +5625,8 @@
     "instrument_id": "sabin:REC-0474",
     "evidence_level": "report_citation",
     "county_fips": "54023",
+    "county_fips_all": "54023",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5338,6 +5660,8 @@
     "instrument_id": "sabin:REC-0475",
     "evidence_level": "report_citation",
     "county_fips": "54053",
+    "county_fips_all": "54053",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5371,6 +5695,8 @@
     "instrument_id": "sabin:REC-0493",
     "evidence_level": "report_citation",
     "county_fips": "56009",
+    "county_fips_all": "56009",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5404,6 +5730,8 @@
     "instrument_id": "sabin:REC-0494",
     "evidence_level": "report_citation",
     "county_fips": "56001",
+    "county_fips_all": "56001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -5437,6 +5765,8 @@
     "instrument_id": "sabin:REC-0495",
     "evidence_level": "report_citation",
     "county_fips": "56001",
+    "county_fips_all": "56001",
+    "county_fips_method": "name",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
