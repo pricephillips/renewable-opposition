@@ -22,8 +22,8 @@
       "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 313 of 317 such rows hit on 2026-09-30; the other 4 are in data/review/fips_misses.csv."
     },
     "county_fips_all": {
-      "min_filled": 500,
-      "reason": "County-level instruments by name plus town-level ones by coordinates (and by the Census place index once data/place_county_index.json is built). 500 of 610 on 2026-10-01, before the place index; raise this after building it."
+      "min_filled": 585,
+      "reason": "County-level instruments by name, town-level ones by coordinates and by the Census place index (data/place_county_index.json). 585 of 610 on 2026-10-02; the other 25 are 21 town names shared by several counties in their state (left unplaced, never guessed) and 4 jurisdiction names that match no county or town."
     }
   }
 }
