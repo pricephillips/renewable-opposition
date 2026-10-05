@@ -1,27 +1,38 @@
 {
-  "run_at": "2026-09-29T17:00:18Z",
+  "run_at": "2026-10-05T18:41:58Z",
   "credentials": "anonymous",
   "cited_urls": 28,
-  "lookups": 28,
-  "saves": 3,
+  "lookups": 27,
+  "saves": 16,
   "stop_reason": "complete",
   "stop_at_url": "",
   "counts_by_status": {
-    "archived": 1,
+    "archived": 12,
     "requested": 1,
-    "not_archived": 26,
+    "not_archived": 15,
     "unresolved_redirect": 0,
     "failed": 0
   },
+  "errors": {
+    "save 520": 1,
+    "save no response": 14
+  },
   "resolvable": 28,
-  "archived": 1,
-  "coverage": 0.0357,
+  "archived": 12,
+  "coverage": 0.4286,
   "history": [
     {
       "run_at": "2026-09-29T17:00:18Z",
       "archived": 1,
       "resolvable": 28,
       "coverage": 0.0357,
+      "stop_reason": "complete"
+    },
+    {
+      "run_at": "2026-10-05T18:41:58Z",
+      "archived": 12,
+      "resolvable": 28,
+      "coverage": 0.4286,
       "stop_reason": "complete"
     }
   ]
