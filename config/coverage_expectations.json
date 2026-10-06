@@ -12,8 +12,8 @@
       "reason": "Derived by classify.county_fips from state plus county. 149 of 165 rows hit on 2026-10-01 (DeWitt County, IL now matches De Witt); the other 16 are in data/review/fips_misses.csv."
     },
     "county_fips_all": {
-      "min_filled": 161,
-      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 161 of 165 on 2026-10-01; the 4 Connecticut rows name pre-2022 counties."
+      "min_filled": 163,
+      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 163 of 165 on 2026-10-06: Ellington and Manchester, Connecticut, are placed in their 2022 planning region by the town their record names; the other 2 Connecticut rows name only a pre-2022 county."
     }
   },
   "restrictions.csv": {
@@ -22,8 +22,8 @@
       "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 313 of 317 such rows hit on 2026-09-30; the other 4 are in data/review/fips_misses.csv."
     },
     "county_fips_all": {
-      "min_filled": 585,
-      "reason": "County-level instruments by name, town-level ones by coordinates and by the Census place index (data/place_county_index.json). 585 of 610 on 2026-10-02; the other 25 are 21 town names shared by several counties in their state (left unplaced, never guessed) and 4 jurisdiction names that match no county or town."
+      "min_filled": 602,
+      "reason": "County-level instruments by name, town-level ones by coordinates and by the Census place index (data/place_county_index.json). 602 of 610 on 2026-10-06, up from 585 on 2026-10-02: a county typed as a municipality and Honolulu's consolidated city-county by name, 4 shared town names by the county their own text names (place_text), and 11 rows by reviewer overrides with evidence (data/review/place_overrides.csv). The other 8 are 7 town names shared by several counties (left unplaced, never guessed) and Prairie, KS, which matches no county."
     }
   }
 }

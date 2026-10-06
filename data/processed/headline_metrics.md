@@ -13,20 +13,21 @@ however many technologies it covers. Quote these, not row counts.
 | States | 43 | 26 |
 | Evidence: compiled_flagged | 51 | 15 |
 | Evidence: compiled_record | 78 | 67 |
-| Evidence: report_citation | 261 | 0 |
+| Evidence: primary_source | 1 | 0 |
+| Evidence: report_citation | 260 | 0 |
 
 610 published rows describe 472 instruments.
 
 ## Contested projects
 
-165 projects; 9 with a confirmed outcome.
+165 projects; 10 with a confirmed outcome.
 
 | Outcome | Projects |
 |---|---:|
 | advanced_confirmed | 5 |
 | advanced_unverified | 11 |
-| blocked_confirmed | 4 |
-| blocked_unverified | 52 |
+| blocked_confirmed | 5 |
+| blocked_unverified | 51 |
 | needs_review | 16 |
 | pending | 77 |
 

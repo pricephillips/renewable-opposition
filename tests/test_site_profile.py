@@ -148,3 +148,12 @@ def test_nicholas_ky_finds_the_multi_county_flemingsburg_project_next_door(data)
 def test_render_has_no_em_dashes(data):
     text = sp.render(run(data, "KS", "Cherokee", radius=40))
     assert "—" not in text
+
+
+def test_state_context_counts_unplaced_and_ambiguous_rows_apart(data):
+    p = run(data, "MI", "Monroe")
+    s = p["state_context"]
+    rows = [r for r in data.restrictions + data.projects if r["state"] == "MI" and not sp.fips_set(r)]
+    assert s["ambiguous_rows"] == sum(1 for r in rows if r["county_fips_method"] == "place_ambiguous")
+    assert s["unplaced_rows"] + s["ambiguous_rows"] == len(rows)
+    assert f"{s['ambiguous_rows']} are ambiguous (a town name shared by several counties" in sp.render(p)

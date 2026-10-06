@@ -18,6 +18,11 @@ covers a dozen scripts, so it keeps the two rules and drops the rest.
   Reference files.   A file copied from another repository (layer
                      "reference") has no writer here and names its source
                      under copied_from; every other file has a writer.
+  Hand-edited files. A review file a person keeps by hand ("hand_edited":
+                     true) has no writer at all. "readers", when given, lists
+                     every script allowed to name the file; any other script
+                     that mentions it is a finding, so a private file cannot
+                     drift into the build.
 
 Write targets come from an AST walk, not a grep, because a script that reads
 a path mentions it the same way a script that writes it does. A target is
@@ -166,7 +171,7 @@ def _file_entry(files: dict, target: str) -> str | None:
 
 
 def audit(config: dict, writes: dict[str, set[str]], unresolved: dict[str, list[str]],
-          read_rows=None) -> list[str]:
+          read_rows=None, mentions=None) -> list[str]:
     findings: list[str] = []
     files = config["files"]
     dynamic = config.get("dynamic", {})
@@ -195,6 +200,9 @@ def audit(config: dict, writes: dict[str, set[str]], unresolved: dict[str, list[
         if entry["layer"] == "reference":
             if writers or not entry.get("copied_from"):
                 findings.append(f"{pattern}: a reference file has no writer here and names copied_from")
+        elif entry.get("hand_edited"):
+            if writers or entry["layer"] != "review":
+                findings.append(f"{pattern}: a hand-edited file is a review file with no writer")
         elif not writers:
             findings.append(f"{pattern}: no writer declared")
         for module in writers:
@@ -215,6 +223,14 @@ def audit(config: dict, writes: dict[str, set[str]], unresolved: dict[str, list[
         if len(layers_by_module.get(module, ())) < 2:
             findings.append(f"stale crossing: {module} writes one layer")
 
+    mentions = mentions if mentions is not None else _mentions
+    for pattern, entry in files.items():
+        if "readers" not in entry:
+            continue
+        base = posixpath.basename(pattern)
+        for module in sorted(mentions(base) - set(entry["readers"])):
+            findings.append(f"undeclared reader: {module} names {pattern}")
+
     read_rows = read_rows or _read_rows
     for pattern, entry in files.items():
         owners = entry.get("row_owner")
@@ -230,6 +246,17 @@ def audit(config: dict, writes: dict[str, set[str]], unresolved: dict[str, list[
                 findings.append(f"{pattern} row {i}: {column}={value!r} matches "
                                 f"{len(hits)} writers")
     return findings
+
+
+def _mentions(name: str) -> set[str]:
+    """Scripts whose source names the file (its base name), this one aside."""
+    out = set()
+    for pattern in SCRIPTS:
+        for path in sorted(ROOT.glob(pattern)):
+            rel = path.relative_to(ROOT).as_posix()
+            if rel != "scripts/layer_audit.py" and name in path.read_text(encoding="utf-8"):
+                out.add(rel)
+    return out
 
 
 def _read_rows(rel: str) -> list[dict]:

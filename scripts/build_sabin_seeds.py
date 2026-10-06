@@ -126,6 +126,16 @@ PROJECT_TECHNOLOGY_OVERRIDES = {
     "REC-0368": "transmission",  # Boardman-to-Hemingway Transmission Line
 }
 
+# Projects whose municipality column is blank but whose own text names the
+# town. Connecticut replaced its counties with planning regions in 2022, so a
+# Connecticut project naming only its old county is placed by its town
+# (classify.county_fips_all, method "place"). Each town must appear in the
+# record's long_description; build_contested refuses the row otherwise.
+PROJECT_MUNICIPALITY_FROM_TEXT = {
+    "REC-0039": "Ellington",   # "a 4-MW solar facility in Ellington Airport"
+    "REC-0041": "Manchester",  # "a 0.999-MW solar facility in Manchester on Carter Street"
+}
+
 OUTCOME = {
     "cancelled": "blocked_unverified",
     "rejected": "blocked_unverified",
@@ -381,6 +391,11 @@ def build_contested(records: list[dict], rulings: dict[str, list[dict]] | None =
             # and a description in the name column (REC-0190 to REC-0194).
             project_name, municipality = municipality, ""
             notes.append("project name recovered from the municipality column")
+        if rid in PROJECT_MUNICIPALITY_FROM_TEXT and not municipality:
+            municipality = PROJECT_MUNICIPALITY_FROM_TEXT[rid]
+            if not re.search(rf"\b{re.escape(municipality)}\b", r["long_description"]):
+                raise ValueError(f"{rid}: {municipality!r} is not named in the record's text")
+            notes.append("municipality from the record's text")
         tech_raw = r["technology"]
         if rid in PROJECT_TECHNOLOGY_OVERRIDES:
             tech_raw = PROJECT_TECHNOLOGY_OVERRIDES[rid]

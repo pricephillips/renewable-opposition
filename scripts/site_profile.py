@@ -8,6 +8,11 @@ each item:
                         instruments, multi-county projects, and town-level
                         instruments placed by coordinates or by the Census
                         place index).
+     Local knowledge   rows of data/review/local_knowledge.csv whose
+                        county_fips is the county, printed as they are and
+                        labelled "reported, not verified". Hand-edited and
+                        never published; --no-local leaves it out (and does
+                        not read the file) for profiles that leave THG.
   2. Adjacent counties  the same, for every county sharing a boundary,
                         across state lines (data/geo/counties_2024.topojson).
   3. Within a radius    optional (--radius): records outside 1 and 2 whose
@@ -22,12 +27,17 @@ each item:
                         report-only evidence, same-name counties elsewhere,
                         and whether the state has any contested-project
                         coverage at all, so an empty section reads as
-                        "nothing recorded", never "nothing happened".
+                        "nothing recorded", never "nothing happened". The
+                        state line counts unplaced rows (nothing to match)
+                        apart from ambiguous ones (a town name shared by
+                        several counties), since only the second could be
+                        settled by a reviewer override.
 
 Usage
   python scripts/site_profile.py --state KS --county Cherokee
   python scripts/site_profile.py --fips 20021 --radius 50
   python scripts/site_profile.py --sites sites.csv --out profiles.md
+  python scripts/site_profile.py --state KS --county Cherokee --no-local
       sites.csv columns: name, state, county, fips (any one of county or fips),
       optional lat, lon, notes. --json writes structured output instead.
 """
@@ -54,6 +64,12 @@ REVIEW = ROOT / "data" / "review"
 FIPS_LOOKUP = ROOT / "data" / "county_fips_lookup.json"
 PLACE_INDEX = ROOT / "data" / "place_county_index.json"
 SNAPSHOTS = ROOT / "data" / "snapshots" / "manifest.csv"
+# Hand-edited, unverified, never published: read here and nowhere else.
+LOCAL_KNOWLEDGE = REVIEW / "local_knowledge.csv"
+LOCAL_FIELDS = ["county_fips", "state", "county", "topic", "claim", "source_type", "source_note",
+                "date_reported", "reporter"]
+LOCAL_SOURCE_TYPES = ("local_contact", "meeting_attended", "document_seen")
+LOCAL_TOPICS = ("restriction", "project", "litigation", "sentiment", "other")
 
 IN_FORCE = {"active", "extended", "unknown", "pending", ""}
 COUNTY_SUFFIX = re.compile(r"\s+(?:county|co\.?|parish|borough|census area|city and borough)$", re.I)
@@ -73,7 +89,7 @@ def _json(path: Path, default):
 
 
 class Data:
-    def __init__(self) -> None:
+    def __init__(self, local: bool = True) -> None:
         self.restrictions = _csv(PROCESSED / "restrictions.csv")
         self.projects = _csv(PROCESSED / "contested_projects.csv")
         self.cases = _csv(PROCESSED / "cases.csv")
@@ -81,6 +97,8 @@ class Data:
         self.held = _csv(REVIEW / "sabin_restrictions_review.csv")
         self.gaps = _csv(REVIEW / "coverage_gaps.csv")
         self.candidates = _csv(REVIEW / "cases_candidates.csv")
+        # None, not [], when left out, so the profile omits the section.
+        self.local = _csv(LOCAL_KNOWLEDGE) if local else None
         raw = _json(FIPS_LOOKUP, {})
         self.lookup = {k.lower(): str(v) for k, v in raw.items() if not k.startswith("_")}
         self.places = {k: v for k, v in _json(PLACE_INDEX, {}).items() if not k.startswith("_")}
@@ -159,6 +177,7 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
 
     here = {"restrictions": take(d.restrictions, lambda r: fips in fips_set(r)),
             "contested_projects": take(d.projects, lambda r: fips in fips_set(r))}
+    local = None if d.local is None else [r for r in d.local if r["county_fips"].strip().zfill(5) == fips]
     near = {}
     for nb in neighbors:
         rs = take(d.restrictions, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
@@ -241,13 +260,14 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
         flags.append(f"Same county name has records in {', '.join(twins)}; do not mix them up")
 
     state_rows = [r for r in d.restrictions if r["state"] == st]
+    unplaced = [r for r in state_rows + [p for p in d.projects if p["state"] == st] if not fips_set(r)]
     context = {
         "restriction_instruments": len({r["instrument_id"] for r in state_rows}),
         "severe_instruments": len({r["instrument_id"] for r in state_rows if r["severity_score"] in ("3", "4")}),
         "contested_projects": sum(1 for r in d.projects if r["state"] == st),
         "cases": sum(1 for r in d.cases if r["state"] == st),
-        "unplaced_rows": sum(1 for r in state_rows + [p for p in d.projects if p["state"] == st]
-                             if not fips_set(r)),
+        "unplaced_rows": sum(1 for r in unplaced if r.get("county_fips_method") != "place_ambiguous"),
+        "ambiguous_rows": sum(1 for r in unplaced if r.get("county_fips_method") == "place_ambiguous"),
         "place_index": bool(d.places),
         "data_as_of": d.as_of,
     }
@@ -257,7 +277,7 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
 
     return {"site": site or f"{name}, {st}", "notes": notes, "state": st, "county": name, "fips": fips,
             "neighbors": [{"fips": n, "name": geo.name(n), "state": state_of(d, n)} for n in neighbors],
-            "in_county": here, "adjacent": near, "within_radius": radius_rows, "radius_mi": radius,
+            "in_county": here, "local_knowledge": local, "adjacent": near, "within_radius": radius_rows, "radius_mi": radius,
             "cases": cases, "not_published": {"held_back": held, "coverage_gaps": gaps,
                                               "quarantined": quarantined, "case_candidates": candidates},
             "text_mentions": mentions, "flags": flags, "state_context": context}
@@ -324,6 +344,18 @@ def render(p: dict) -> str:
     if not here["restrictions"] and not here["contested_projects"]:
         L.append("- Nothing published for this county.")
     L.append("")
+    if p["local_knowledge"] is not None:
+        L.append(f"### Local knowledge on file: {len(p['local_knowledge'])} item(s)")
+        L.append("From data/review/local_knowledge.csv, as entered. Not checked against a source "
+                 "and not part of the published data.")
+        for r in p["local_knowledge"]:
+            L.append(f"- Reported, not verified ({r['topic'] or 'no topic'}): {r['claim']}")
+            L.append(f"  Source: {r['source_type'] or 'not given'}"
+                     + (f", {r['source_note']}" if r["source_note"] else "")
+                     + f". Reported {r['date_reported'] or 'undated'} by {r['reporter'] or 'unnamed'}.")
+        if not p["local_knowledge"]:
+            L.append("- Nothing on file for this county.")
+        L.append("")
     nb_names = ", ".join(f"{n['name']} {n['state']}" for n in p["neighbors"])
     L.append(f"### Adjacent counties ({nb_names})")
     if not p["adjacent"]:
@@ -374,9 +406,11 @@ def render(p: dict) -> str:
     s = p["state_context"]
     L += ["", f"State context ({p['state']}): {s['restriction_instruments']} restriction instruments "
           f"({s['severe_instruments']} severe), {s['contested_projects']} contested projects, {s['cases']} cases. "
-          f"{s['unplaced_rows']} {p['state']} row(s) could not be placed in any county"
-          + ("" if s["place_index"] else " (the Census place index is not built; run "
-             "scripts/build_place_index.py to place town-level records)") + ".", ""]
+          f"{s['unplaced_rows']} {p['state']} row(s) are unplaced (no county, town or coordinates "
+          f"the build could match) and {s['ambiguous_rows']} are ambiguous (a town name shared by "
+          "several counties, left unplaced rather than guessed)"
+          + ("" if s["place_index"] else "; the Census place index is not built, so run "
+             "scripts/build_place_index.py to place town-level records") + ".", ""]
     return "\n".join(L)
 
 
@@ -407,8 +441,10 @@ def main(argv=None) -> int:
     a.add_argument("--sites", help="CSV with name,state,county,fips,lat,lon,notes")
     a.add_argument("--out", help="write here instead of stdout")
     a.add_argument("--json", action="store_true")
+    a.add_argument("--no-local", action="store_true",
+                   help="omit local knowledge (data/review/local_knowledge.csv) and do not read it")
     x = a.parse_args(argv)
-    d = Data()
+    d = Data(local=not x.no_local)
     specs = _csv(Path(x.sites)) if x.sites else [{
         "name": x.name, "state": x.state or "", "county": x.county or "", "fips": x.fips or "",
         "lat": "" if x.lat is None else str(x.lat), "lon": "" if x.lon is None else str(x.lon),
