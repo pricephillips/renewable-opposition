@@ -46,6 +46,10 @@
       "reason": "build_sabin_seeds.py regenerates the candidate rows and carries reviewer columns forward (merge_candidates); promote_reviewed.py only sets review_status on rows it promotes."
     },
     "data/review/sabin_restrictions_review.csv": {"layer": "review", "writers": ["scripts/build_sabin_seeds.py"]},
+    "data/review/place_overrides.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "A reviewer's county for a record the code cannot place, with an evidence URL. build_seed_outputs.py applies it last (resolutions.apply_place_overrides)."
+    },
 
     "data/seed/restrictions_seed.csv": {
       "layer": "seed",

@@ -97,8 +97,9 @@ def stamp_fips(entity: str, rows: list[dict], lookup: dict[str, str],
     """county_fips: the one county a county-level record covers (the map paints
     it). county_fips_all: every county the record touches, ';'-joined, for
     finding records by place (scripts/site_profile.py); county_fips_method says
-    how they were found: name, names (a multi-county name split) or point
-    (the record's coordinates inside a 2024 county polygon)."""
+    how they were found (classify's module docstring lists the methods).
+    Reviewer overrides (data/review/place_overrides.csv) are laid over these
+    in main, once every entity is built."""
     if places is None:
         places = load_place_index()
     for row in rows:
@@ -286,6 +287,8 @@ def main() -> int:
         errors.extend(errs)
         if rows is not None:
             datasets[entity] = rows
+    # Reviewer counties go last, over whatever classify.county_fips_all found.
+    errors += resolutions.apply_place_overrides(datasets, geo.known)
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"{len(errors)} validation error(s); nothing written.", file=sys.stderr)

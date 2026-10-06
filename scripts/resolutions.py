@@ -29,8 +29,21 @@ data/review/restriction_sources.csv      restrictions, keyed on instrument_id
      every row of the instrument; classify.evidence_level becomes
      primary_source for a confirmed one.
 
+data/review/place_overrides.csv          restrictions and contested projects, keyed on instrument_id
+  county_fips      required: the 2024 county the evidence places the record in
+  evidence_url     required: the ordinance, minutes or news story that names the
+                   town (or project) together with its county
+  evidence_note    one line: what the document says
+  reviewer, checked_on
+  -> county_fips_all = county_fips, county_fips_method = "override" on every
+     row of the instrument. Applied last, after classify.county_fips_all, for
+     records the code cannot place (a town name shared by several counties,
+     a jurisdiction name that matches nothing). county_fips, the code the map
+     paints, is never changed.
+
 A resolution naming a record that does not exist, or missing its evidence URL,
 is an error: build_seed_outputs refuses to build, as it does for a broken seed.
+So is an override whose county_fips is not a 2024 county.
 """
 from __future__ import annotations
 
@@ -41,11 +54,14 @@ from common import REVIEW_DIR, read_csv
 
 OUTCOME_PATH = REVIEW_DIR / "outcome_resolutions.csv"
 RESTRICTION_PATH = REVIEW_DIR / "restriction_sources.csv"
+PLACE_OVERRIDE_PATH = REVIEW_DIR / "place_overrides.csv"
 
 OUTCOME_FIELDS = ["source_record_id", "project_name", "outcome", "evidence_url",
                   "evidence_date", "evidence_note", "reviewer"]
 RESTRICTION_FIELDS = ["instrument_id", "jurisdiction", "state", "primary_source_url",
                       "verdict", "checked_on", "note", "reviewer"]
+PLACE_OVERRIDE_FIELDS = ["instrument_id", "county_fips", "evidence_url", "evidence_note",
+                         "reviewer", "checked_on"]
 VERDICTS = {"confirmed", "contradicts"}
 _URL = re.compile(r"^https?://[^\s/]+\.[^\s]+$")
 _ISO = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
@@ -128,4 +144,41 @@ def apply_restriction_sources(rows: list[dict], path: Path | None = None) -> lis
             row["primary_source_url"] = url
             row["primary_source_verdict"] = verdict
             row["primary_source_checked_on"] = _s(res.get("checked_on"))
+    return errors
+
+
+def apply_place_overrides(datasets: dict[str, list[dict]], known, path: Path | None = None) -> list[str]:
+    """Lay reviewer counties over county_fips_all. ``known(fips) -> bool`` says
+    whether a code is a 2024 county (geo.known); injected to keep this free of
+    the geometry file."""
+    path = path or PLACE_OVERRIDE_PATH
+    errors: list[str] = []
+    by_iid: dict[str, list[dict]] = {}
+    for entity in ("restrictions", "contested_projects"):
+        for r in datasets.get(entity, []):
+            by_iid.setdefault(_s(r.get("instrument_id")), []).append(r)
+    seen: set[str] = set()
+    for i, ov in _load(path):
+        where = f"{path.name}: row {i}"
+        iid, fips, url = _s(ov.get("instrument_id")), _s(ov.get("county_fips")), _s(ov.get("evidence_url"))
+        checked = _s(ov.get("checked_on"))
+        if iid in seen:
+            errors.append(f"{where}: {iid} is listed twice")
+            continue
+        seen.add(iid)
+        if iid not in by_iid or not iid:
+            errors.append(f"{where}: no restriction or contested project has instrument_id {iid!r}")
+            continue
+        if not _URL.match(url):
+            errors.append(f"{where}: evidence_url is required and must be http(s)")
+            continue
+        if not (re.fullmatch(r"\d{5}", fips) and known(fips)):
+            errors.append(f"{where}: county_fips {fips!r} is not a 2024 county")
+            continue
+        if checked and not _ISO.match(checked):
+            errors.append(f"{where}: checked_on {checked!r} is not YYYY[-MM[-DD]]")
+            continue
+        for row in by_iid[iid]:
+            row["county_fips_all"] = fips
+            row["county_fips_method"] = "override"
     return errors

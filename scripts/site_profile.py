@@ -22,7 +22,11 @@ each item:
                         report-only evidence, same-name counties elsewhere,
                         and whether the state has any contested-project
                         coverage at all, so an empty section reads as
-                        "nothing recorded", never "nothing happened".
+                        "nothing recorded", never "nothing happened". The
+                        state line counts unplaced rows (nothing to match)
+                        apart from ambiguous ones (a town name shared by
+                        several counties), since only the second could be
+                        settled by a reviewer override.
 
 Usage
   python scripts/site_profile.py --state KS --county Cherokee
@@ -241,13 +245,14 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
         flags.append(f"Same county name has records in {', '.join(twins)}; do not mix them up")
 
     state_rows = [r for r in d.restrictions if r["state"] == st]
+    unplaced = [r for r in state_rows + [p for p in d.projects if p["state"] == st] if not fips_set(r)]
     context = {
         "restriction_instruments": len({r["instrument_id"] for r in state_rows}),
         "severe_instruments": len({r["instrument_id"] for r in state_rows if r["severity_score"] in ("3", "4")}),
         "contested_projects": sum(1 for r in d.projects if r["state"] == st),
         "cases": sum(1 for r in d.cases if r["state"] == st),
-        "unplaced_rows": sum(1 for r in state_rows + [p for p in d.projects if p["state"] == st]
-                             if not fips_set(r)),
+        "unplaced_rows": sum(1 for r in unplaced if r.get("county_fips_method") != "place_ambiguous"),
+        "ambiguous_rows": sum(1 for r in unplaced if r.get("county_fips_method") == "place_ambiguous"),
         "place_index": bool(d.places),
         "data_as_of": d.as_of,
     }
@@ -374,9 +379,11 @@ def render(p: dict) -> str:
     s = p["state_context"]
     L += ["", f"State context ({p['state']}): {s['restriction_instruments']} restriction instruments "
           f"({s['severe_instruments']} severe), {s['contested_projects']} contested projects, {s['cases']} cases. "
-          f"{s['unplaced_rows']} {p['state']} row(s) could not be placed in any county"
-          + ("" if s["place_index"] else " (the Census place index is not built; run "
-             "scripts/build_place_index.py to place town-level records)") + ".", ""]
+          f"{s['unplaced_rows']} {p['state']} row(s) are unplaced (no county, town or coordinates "
+          f"the build could match) and {s['ambiguous_rows']} are ambiguous (a town name shared by "
+          "several counties, left unplaced rather than guessed)"
+          + ("" if s["place_index"] else "; the Census place index is not built, so run "
+             "scripts/build_place_index.py to place town-level records") + ".", ""]
     return "\n".join(L)
 
 

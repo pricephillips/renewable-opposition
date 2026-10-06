@@ -46,6 +46,26 @@ county_fips     contested_projects, and restrictions whose jurisdiction_type is
                 is a miss with a reason, never a guess. build_seed_outputs.py
                 lists the misses in data/review/fips_misses.csv. Other entities
                 and municipal restrictions have no county to look up.
+
+county_fips_all Every 2024 county a record touches, for finding records by
+                place (scripts/site_profile.py), never for painting the map.
+                county_fips_method says how they were found, in the order tried:
+                  name         the county named in the record; also a
+                               jurisdiction typed as a municipality whose name
+                               ends in County or Parish, and a consolidated
+                               city-county (CITY_COUNTIES)
+                  names        a multi-county name split into its parts
+                  point        the record's coordinates inside a county polygon
+                  place        a town name that sits in one county of its state
+                               in the Census place index
+                  place_text   a town name shared by several counties, where
+                               the record's own text names exactly one of them
+                               as "<Name> County"
+                  place_ambiguous  shared by several counties and the text
+                               does not settle it: left unplaced
+                  override     a reviewer's county with an evidence URL, from
+                               data/review/place_overrides.csv, applied last by
+                               resolutions.apply_place_overrides
 """
 from __future__ import annotations
 
@@ -185,6 +205,71 @@ def place_key(name: str) -> str:
     return " ".join(n.split())
 
 
+# A city and county under one government, where the city has the county's
+# name. Listed outright because a record often says only "City Council"
+# (the Sabin entry for Honolulu does). Other consolidated governments
+# (Nashville-Davidson, Louisville-Jefferson) have a different county name and
+# are not matched here.
+CITY_COUNTIES = {
+    "honolulu|HI": "15003",       # City and County of Honolulu
+    "san francisco|CA": "06075",  # City and County of San Francisco
+    "denver|CO": "08031",         # City and County of Denver
+    "broomfield|CO": "08014",     # City and County of Broomfield
+    "philadelphia|PA": "42101",   # City and County of Philadelphia
+}
+_MISTYPED_COUNTY = re.compile(r"\b(?:county|parish)\s*$", re.I)
+
+
+def _mistyped_county(entity: str, row: dict) -> str:
+    """A jurisdiction typed as a municipality whose name is plainly a county,
+    "Atlantic County". county_fips leaves it alone (the map paints only
+    County-typed rows); county_fips_all looks it up."""
+    if entity != "restrictions" or county_name(entity, row) is not None:
+        return ""
+    j = _s(row.get("jurisdiction"))
+    return j if _MISTYPED_COUNTY.search(j) else ""
+
+
+def _words(name: str) -> str:
+    """A regex for a name, any run of whitespace between its words."""
+    return r"\s+".join(map(re.escape, name.split()))
+
+
+def _city_county(row: dict, town: str, state: str, lookup: dict[str, str],
+                 places: dict[str, list[str]] | None) -> str | None:
+    """The county of a consolidated city-county: listed in CITY_COUNTIES, or
+    a city whose record calls it "City and County of <Name>" (or "<Name> City
+    and County") and whose Census place sits in the county of that name."""
+    key, st = place_key(town), _s(row.get("state")).upper()
+    if f"{key}|{st}" in CITY_COUNTIES:
+        return CITY_COUNTIES[f"{key}|{st}"]
+    name = _words(key)
+    said = re.compile(rf"\bcity\s+and\s+county\s+of\s+{name}\b|\b{name}\s+city\s+and\s+county\b", re.I)
+    if not said.search(f"{town} {_text(row)}"):
+        return None
+    fips = lookup_county(key, state, lookup)
+    if _usable(fips) and fips in (places or {}).get(f"{key}|{st}", []):
+        return fips
+    return None
+
+
+def _county_names(fips: str, state: str, lookup: dict[str, str]) -> set[str]:
+    """Every lookup spelling of a county's name without its County/Parish word."""
+    out = set()
+    for k, v in lookup.items():
+        n, _, st = k.rpartition("|")
+        if v == fips and st == state:
+            out.add(re.sub(r"\s+(?:county|parish)$", "", n))
+    return out
+
+
+def _named_in_text(row: dict, fips: str, state: str, lookup: dict[str, str]) -> bool:
+    """Whether the record's text says "<Name> County" (or Parish) for this county."""
+    text = _text(row)
+    return any(re.search(rf"\b{_words(n)}\s+(?:County|Parish)\b", text, re.I)
+               for n in _county_names(fips, state, lookup))
+
+
 def place_name(entity: str, row: dict) -> str:
     """The town, city or township a record names, when it names one."""
     if entity == "restrictions":
@@ -198,17 +283,28 @@ def place_name(entity: str, row: dict) -> str:
 
 def county_fips_all(entity: str, row: dict, lookup: dict[str, str], state_names: dict[str, str],
                     locate=None, places: dict[str, list[str]] | None = None) -> tuple[list[str], str]:
-    """Every 2024 county a record touches, and how they were found:
-    ("name"), a multi-county name split into parts ("names"), or the record's
-    coordinates inside a county polygon ("point"). ``locate(lat, lon) -> fips``
+    """Every 2024 county a record touches, and how they were found (the
+    methods are listed in the module docstring). ``locate(lat, lon) -> fips``
     is injected so this stays free of I/O. Unlike ``county_fips``, this is for
     finding records by place, not for painting a county on the map: a town's
-    moratorium touches its county but does not cover it."""
+    moratorium touches its county but does not cover it. Reviewer overrides
+    are not applied here; resolutions.apply_place_overrides lays them over
+    the result."""
     fips, _ = county_fips(entity, row, lookup, state_names)
     if fips:
         return [fips], "name"
-    name = county_name(entity, row)
     state = state_names.get(_s(row.get("state")).upper(), "").lower()
+    mistyped = _mistyped_county(entity, row)
+    if mistyped:
+        f = lookup_county(QUALIFIER.sub("", mistyped).strip(), state, lookup)
+        if _usable(f):
+            return [f], "name"
+    town = place_name(entity, row)
+    if town and not mistyped:
+        f = _city_county(row, town, state, lookup, places)
+        if f:
+            return [f], "name"
+    name = county_name(entity, row) or mistyped
     if name:
         # "Various (Clark, Lyon, Nye)": the parenthetical is the list, not a qualifier.
         listed = name if re.match(r"\s*various\b", name, re.I) else QUALIFIER.sub("", name)
@@ -225,12 +321,14 @@ def county_fips_all(entity: str, row: dict, lookup: dict[str, str], state_names:
         f = locate(float(lat), float(lon))
         if f:
             return [f], "point"
-    town = place_name(entity, row)
-    if places and town:
+    if places and town and not mistyped:
         hits = places.get(f"{place_key(town)}|{_s(row.get('state')).upper()}", [])
         if len(hits) == 1:
             return list(hits), "place"
         if len(hits) > 1:
+            named = [f for f in hits if _named_in_text(row, f, state, lookup)]
+            if len(named) == 1:
+                return named, "place_text"
             return [], "place_ambiguous"
     return [], ""
 

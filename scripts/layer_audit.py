@@ -18,6 +18,8 @@ covers a dozen scripts, so it keeps the two rules and drops the rest.
   Reference files.   A file copied from another repository (layer
                      "reference") has no writer here and names its source
                      under copied_from; every other file has a writer.
+  Hand-edited files. A review file a person keeps by hand ("hand_edited":
+                     true) has no writer at all.
 
 Write targets come from an AST walk, not a grep, because a script that reads
 a path mentions it the same way a script that writes it does. A target is
@@ -195,6 +197,9 @@ def audit(config: dict, writes: dict[str, set[str]], unresolved: dict[str, list[
         if entry["layer"] == "reference":
             if writers or not entry.get("copied_from"):
                 findings.append(f"{pattern}: a reference file has no writer here and names copied_from")
+        elif entry.get("hand_edited"):
+            if writers or entry["layer"] != "review":
+                findings.append(f"{pattern}: a hand-edited file is a review file with no writer")
         elif not writers:
             findings.append(f"{pattern}: no writer declared")
         for module in writers:

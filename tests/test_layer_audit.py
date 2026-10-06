@@ -87,3 +87,12 @@ def test_resolver_follows_constants_fstrings_and_helpers(tmp_path):
     targets, unresolved = la.module_writes(mod, {}, rel="scripts/x.py")
     assert targets == {"data/processed/*.csv", "docs/a.md"}  # a read-mode open is not a write
     assert unresolved == []
+
+
+def test_a_hand_edited_file_has_no_writer():
+    cfg = copy.deepcopy(CONFIG)
+    assert cfg["files"]["data/review/place_overrides.csv"]["hand_edited"] is True
+    cfg["files"]["data/review/place_overrides.csv"]["writers"] = ["scripts/resolutions.py"]
+    found = run(config=cfg)
+    assert any("data/review/place_overrides.csv: a hand-edited file is a review file" in f for f in found)
+
