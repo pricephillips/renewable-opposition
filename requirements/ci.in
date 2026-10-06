@@ -8,6 +8,6 @@
 requests==2.34.2
 PyYAML==6.0.3
 pytest==9.1.1
-ruff>=0.13
+ruff>=0.16.10
 daff>=1.4
 vale>=3.12
