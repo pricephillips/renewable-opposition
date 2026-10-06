@@ -96,3 +96,13 @@ def test_a_hand_edited_file_has_no_writer():
     found = run(config=cfg)
     assert any("data/review/place_overrides.csv: a hand-edited file is a review file" in f for f in found)
 
+
+def test_only_declared_readers_may_name_a_private_file():
+    found = run(writes=None)
+    assert not any("undeclared reader" in f for f in found)
+    mentions = {"local_knowledge.csv": {"scripts/site_profile.py", "scripts/build_seed_outputs.py"}}
+    w, u = la.scan()
+    w = {m: t for m, t in w.items() if m not in CONFIG["exempt"]}
+    u = {m: s for m, s in u.items() if m not in CONFIG["exempt"]}
+    found = la.audit(CONFIG, w, u, mentions=lambda name: mentions.get(name, set()))
+    assert found == ["undeclared reader: scripts/build_seed_outputs.py names data/review/local_knowledge.csv"]

@@ -153,6 +153,7 @@ renewable-opposition/
 │   │   ├── sabin_restrictions_review.csv   ← Sabin restriction rows held back, with reasons
 │   │   ├── coverage_gaps.csv               ← moratoria found in only one source
 │   │   ├── place_overrides.csv             ← reviewer counties with evidence (hand-edited)
+│   │   ├── local_knowledge.csv             ← unverified local reports, never published (hand-edited)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   └── processed/                          ← canonical CSV + JSON outputs
@@ -219,11 +220,13 @@ It is descriptive only: no scores and no predictions.
 python scripts/site_profile.py --state KS --county Cherokee
 python scripts/site_profile.py --fips 19113 --radius 40 --notes "what local contacts report"
 python scripts/site_profile.py --sites sites.csv --out profiles.md   # columns: name,state,county,fips,lat,lon,notes
+python scripts/site_profile.py --state KS --county Cherokee --no-local   # leaves out local knowledge
 ```
 
 Each profile has these sections:
 
 - **In the county:** published records whose `county_fips_all` includes the county.
+- **Local knowledge on file:** the county's rows in `data/review/local_knowledge.csv`, printed as entered, each labelled "reported, not verified". See below.
 - **Adjacent counties:** the same for every county that shares a border, across state lines.
 - **Within a radius:** optional.
 - **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates).
@@ -246,6 +249,8 @@ An empty section means nothing is recorded. It does not mean nothing happened.
 A town name shared by several counties, where the text does not settle it, is marked `place_ambiguous` and left unplaced. Neighbors are never used to infer a county.
 
 **Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. The build stops if `evidence_url` is blank, if `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
+
+**Local knowledge.** `data/review/local_knowledge.csv` records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. Pass `--no-local` for a profile that leaves THG; the section is omitted and the file is not read.
 
 The place index is built with `python scripts/build_place_index.py`. The script downloads the Census 2024 Gazetteer and writes `data/place_county_index.json`. Without the index, town-level rows with no coordinates stay unplaced, and each profile says so.
 

@@ -50,6 +50,11 @@
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "A reviewer's county for a record the code cannot place, with an evidence URL. build_seed_outputs.py applies it last (resolutions.apply_place_overrides)."
     },
+    "data/review/local_knowledge.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "readers": ["scripts/site_profile.py"],
+      "reason": "What local contacts, meetings and documents report about a county, unverified. Only site_profile.py reads it, and never with --no-local; the build must not read or publish it (tests/test_local_knowledge.py)."
+    },
 
     "data/seed/restrictions_seed.csv": {
       "layer": "seed",
