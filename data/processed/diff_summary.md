@@ -6,57 +6,51 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 0 | 29 |
-| contested_projects | 0 | 0 | 1 |
+| restrictions | 0 | 0 | 18 |
+| contested_projects | 0 | 0 | 3 |
 | cases | 0 | 0 | 0 |
 
 ## Column changes
 
-- restrictions: added `county_fips_all`, `county_fips_method`
-- contested_projects: added `county_fips_all`, `county_fips_method`
+- restrictions: added `primary_source_url`, `primary_source_verdict`, `primary_source_checked_on`
+- contested_projects: added `resolution_date`
 
 ## Tracked field changes
 
-No changes to outcome, status, case_status, finality_evidence, severity_score.
+| Entity | Row | Column | Before | After |
+|---|---|---|---|---|
+| contested_projects | con_d4dbbbd76c (Flemingsburg Wind Project, KY) | outcome | blocked_unverified | blocked_confirmed |
+| contested_projects | con_d4dbbbd76c (Flemingsburg Wind Project, KY) | finality_evidence | outcome_label_only | resolution: https://www.wmky.org/business/2014-05-10/flemingsburg-wind-project-discontinued |
 
 ## Detail
 
 ### restrictions
 
-| @@ | id | state | restriction_type | jurisdiction | severity_basis |
-|---|---|---|---|---|---|
-| -> | res_66d7f44e41 | HI | setback | Honolulu City | wind setback 6600 ft / 0x height->wind setback 6600 ft |
-| -> | res_d3dfa408f8 | IA | setback | Dallas County | wind setback 2640 ft / 0x height->wind setback 2640 ft |
-| -> | res_75e99b2ba8 | ID | setback | Bingham County | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_b2f00e8272 | IL | setback | DeKalb County | wind setback 15840 ft / 0x height->wind setback 15840 ft |
-| -> | res_029353e208 | IL | setback | Monroe County | wind setback 2640 ft / 0x height->wind setback 2640 ft |
-| -> | res_a34404786e | IN | setback | Miami | wind setback 2640 ft / 0x height->wind setback 2640 ft |
-| -> | res_fd0d691db9 | KS | height_limit->setback | Cherokee | wind setback 5250 ft / 0x height->wind setback 5250 ft |
-| -> | res_dd5facad54 | MD | setback | Allegany | wind setback 5000 ft / 0x height->wind setback 5000 ft |
-| -> | res_c8e3d88190 | ME | setback | Dixfield | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_06e32ef1aa | ME | setback | Freedom | wind setback 0 ft / 13x height->wind setback 13x height |
-| -> | res_2f2cf007ae | MI | height_limit->setback | Claybanks Township | wind setback 3000 ft / 0x height->wind setback 3000 ft |
-| -> | res_e517e13ceb | MT | setback | Wibaux County | wind setback 7920 ft / 0x height->wind setback 7920 ft |
-| -> | res_ba1b926f2f | NC | setback | Carteret | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_71319018f9 | NC | setback | Craven | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_661b9f02a9 | NE | setback | Brown County | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_cca5e7b1c7 | NE | setback | Buffalo County | wind setback 10560 ft / 0x height->wind setback 10560 ft |
-| -> | res_ee3bc1725d | NE | setback | Burt County | wind setback 15840 ft / 0x height->wind setback 15840 ft |
-| -> | res_53565fbe1e | NE | setback | Cedar County | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_9cc4427902 | NE | setback | Dakota County | wind setback 10560 ft / 0x height->wind setback 10560 ft |
-| -> | res_b935260821 | NE | setback | Hamilton County | wind setback 10560 ft / 0x height->wind setback 10560 ft |
-| -> | res_b28e1324d3 | NE | setback | Holt County | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_56951854b6 | NY | setback | Farmersville | wind setback 3000 ft / 0x height->wind setback 3000 ft |
-| -> | res_036786ece0 | OK | setback | Owasso | wind setback 7920 ft / 0x height->wind setback 7920 ft |
-| -> | res_0fbddfd48f | OR | setback | Umatilla | wind setback 10560 ft / 0x height->wind setback 10560 ft |
-| -> | res_4719af30b3 | SD | setback | Letcher Township | wind setback 5280 ft / 0x height->wind setback 5280 ft |
-| -> | res_0af970e524 | SD | setback | Lincoln County | wind setback 2640 ft / 0x height->wind setback 2640 ft |
-| -> | res_c231c2b93c | SD | setback | Walworth County | wind setback 10560 ft / 0x height->wind setback 10560 ft |
-| -> | res_412e51c531 | WI | setback | Manitowoc County | wind setback 2640 ft / 0x height->wind setback 2640 ft |
-| -> | res_4393c67d8b | WI | setback | Union | wind setback 2640 ft / 0x height->wind setback 2640 ft |
+| @@ | id | state | jurisdiction | evidence_level | county_fips_all | county_fips_method |
+|---|---|---|---|---|---|---|
+| -> | res_66d7f44e41 | HI | Honolulu City | report_citation | ->15003 | ->name |
+| -> | res_fd0d691db9 | KS | Cherokee | report_citation->primary_source | 20021 | name |
+| -> | res_d343965aee | MI | Augusta Township | report_citation | ->26161 | place_ambiguous->override |
+| -> | res_9a50f2622b | MI | Beaver Township | report_citation | ->26017 | place_ambiguous->override |
+| -> | res_a8fef03b0a | MI | Beaver Township | report_citation | ->26017 | place_ambiguous->override |
+| -> | res_3cd890360d | MI | Berlin Charter Township | report_citation | ->26115 | place_ambiguous->override |
+| -> | res_1740547994 | MN | Scandia | report_citation | ->27163 | place_ambiguous->place_text |
+| -> | res_634e7b90cf | NC | Herndon | report_citation | ->37091 | ->override |
+| -> | res_8b84934ed9 | NE | Franklin Township | report_citation | ->31023 | place_ambiguous->place_text |
+| -> | res_9f60f3f636 | NJ | Atlantic County | report_citation | ->34001 | ->name |
+| -> | res_91aea95c72 | NY | Clinton | report_citation | ->36027 | place_ambiguous->override |
+| -> | res_d05eb227e2 | NY | Florida | report_citation | ->36057 | place_ambiguous->override |
+| -> | res_a400f633e0 | NY | Florida | report_citation | ->36057 | place_ambiguous->override |
+| -> | res_99aed426dc | WI | Cleveland | report_citation | ->55073 | place_ambiguous->place_text |
+| -> | res_965dba7e81 | WI | Deerfield | report_citation | ->55025 | place_ambiguous->override |
+| -> | res_481bb45a2c | WI | Green Valley | report_citation | ->55073 | place_ambiguous->place_text |
+| -> | res_e9185a1856 | WI | Springfield | report_citation | ->55025 | place_ambiguous->override |
+| -> | res_4393c67d8b | WI | Union | report_citation | ->55105 | place_ambiguous->override |
 
 ### contested_projects
 
-| @@ | id | state | project_name | county_fips |
-|---|---|---|---|---|
-| -> | con_37179879f8 | IL | Alta Wind Farm | ->17039 |
+| @@ | id | state | project_name | outcome | finality_evidence | municipality | notes | evidence_level | county_fips_all | county_fips_method |
+|---|---|---|---|---|---|---|---|---|---|---|
+| -> | con_6ed1a05d09 | CT | Ellington Airport Solar Project | pending | none | ->Ellington | ->municipality from the record's text | report_citation | ->09110 | ->place |
+| -> | con_f1fc80a098 | CT | TRITEC America’s Carter Street Solar Project | pending | none | ->Manchester | ->municipality from the record's text | report_citation | ->09110 | ->place |
+| -> | con_d4dbbbd76c | KY | Flemingsburg Wind Project | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://www.wmky.org/business/2014-05-10/flemingsburg-wind-project-discontinued | Flemingsburg |  | report_citation->confirmed | 21069;21161 | names |
