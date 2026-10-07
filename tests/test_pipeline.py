@@ -70,14 +70,19 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
     parse.main()  # already parsed: nothing new is queued
     assert len(common.read_csv(review / "queue.csv")) == 2
 
-    queue[0].update(review_status="confirmed", state="IA", severity_score="3")
+    # No one confirms anything: filling the fields the API lacks is enough.
+    queue[0].update(state="IA", severity_score="3")
     common.write_csv(review / "queue.csv", queue)
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
     assert promote_reviewed.main() == 0
     cases = common.read_csv(seed / "cases_seed.csv")
     assert len(cases) == 1 and cases[0]["docket_number"] == "23-0001"
     assert not [f for f in build_seed_outputs.REQUIRED["cases"] if not cases[0].get(f)]
-    assert common.read_csv(review / "queue.csv")[0]["review_status"] == "promoted"
+    assert "promoted automatically" in cases[0]["reviewer_notes"]
+    header = (seed / "cases_seed.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
+    assert header == promote_reviewed.CASE_FIELDS              # no column added to the seed
+    # The second extractor row has no state or severity: it waits, never guessed.
+    assert [q["review_status"] for q in common.read_csv(review / "queue.csv")] == ["promoted", "pending"]
 
     assert promote_reviewed.main() == 0  # idempotent
     assert len(common.read_csv(seed / "cases_seed.csv")) == 1
@@ -87,17 +92,66 @@ def test_promote_case_candidate_requires_case_fields(monkeypatch, tmp_path):
     _, review, seed = _patch_paths(monkeypatch, tmp_path)
     base = {"state": "AL", "project_name": "Noccalula Wind Energy Center", "technology": "wind",
             "source_record_id": "REC-0005", "linked_entity": "contested_project"}
+    found = {"case_name": "Residents v. Developer", "court": "Etowah County Circuit Court",
+             "court_level": "state_trial", "case_source_url": "https://example.org/docket"}
     common.write_csv(review / "cases_candidates.csv", [
-        {**base, "review_status": "confirmed", "case_name": "Residents v. Developer",
-         "court": "Etowah County Circuit Court", "court_level": "state_trial",
-         "case_source_url": "https://example.org/docket"},
+        {**base, "review_status": "confirmed", **found},
+        {**base, "review_status": "needs_docket_research", **found, "case_name": "Researched v. Row"},
+        {**base, "review_status": "rejected", **found, "case_name": "Rejected v. Row"},
+        {**base, "review_status": "lead", **found, "case_name": "News v. Row",
+         "case_source_url": "example.org/story"},
         {**base, "review_status": "confirmed", "case_name": "Incomplete v. Row"},
         {**base, "review_status": "needs_docket_research"},
     ])
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
     promote_reviewed.main()
     cases = common.read_csv(seed / "cases_seed.csv")
-    assert [c["case_name"] for c in cases] == ["Residents v. Developer"]
+    assert [c["case_name"] for c in cases] == ["Residents v. Developer", "Researched v. Row"]
     assert cases[0]["severity_score"] == "3"
+    assert "promoted automatically" not in cases[0]["reviewer_notes"]   # a person confirmed it
+    assert "not reviewed by hand" in cases[1]["reviewer_notes"]
     statuses = [r["review_status"] for r in common.read_csv(review / "cases_candidates.csv")]
-    assert statuses == ["promoted", "confirmed", "needs_docket_research"]
+    assert statuses == ["promoted", "promoted", "rejected", "lead", "confirmed", "needs_docket_research"]
+
+
+QUEUE_ROW = {"source_id": "manual", "entity_type": "restriction", "review_status": "pending",
+             "state": "IA", "county": "Linn County", "jurisdiction_type": "County", "technology": "solar",
+             "severity_score": "2", "description": "300 ft solar setback from dwellings.",
+             "source_url": "https://www.linncountyiowa.gov/minutes", "restriction_type": "setback",
+             "adopted_date": "2023-09-20", "effective_date": "2023-09-28", "reviewer_notes": "seen in minutes"}
+
+
+def test_a_complete_queue_row_is_promoted_into_the_seed_columns(monkeypatch, tmp_path):
+    _, review, seed = _patch_paths(monkeypatch, tmp_path)
+    header = ["state", "technology", "restriction_type", "severity_score", "description", "status",
+              "jurisdiction", "jurisdiction_type", "date_enacted_iso", "source", "source_url", "notes"]
+    common.write_csv(seed / "restrictions_seed.csv",
+                     [{**{k: "" for k in header}, "state": "OH", "source": "Moratorium Nation x"}], header)
+    common.write_csv(review / "queue.csv", [
+        QUEUE_ROW,
+        {**QUEUE_ROW, "county": "Benton County", "review_status": "rejected"},
+        {**QUEUE_ROW, "county": "Jones County", "severity_score": ""},
+        {**QUEUE_ROW, "county": "Story County", "source_url": "not a url"},
+    ])
+    monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
+    assert promote_reviewed.main() == 0
+    rows = common.read_csv(seed / "restrictions_seed.csv")
+    assert list(rows[0]) == header                      # no column added to the seed
+    (r,) = rows[1:]
+    assert (r["jurisdiction"], r["jurisdiction_type"], r["date_enacted_iso"], r["status"]) == \
+        ("Linn County", "County", "2023-09-20", "unknown")
+    assert r["source"] == "review queue: manual"
+    assert r["notes"].startswith("effective 2023-09-28; seen in minutes; promoted automatically")
+    assert [q["review_status"] for q in common.read_csv(review / "queue.csv")] == \
+        ["promoted", "rejected", "pending", "pending"]
+    assert promote_reviewed.main() == 0                  # idempotent
+    assert len(common.read_csv(seed / "restrictions_seed.csv")) == 2
+
+
+def test_the_data_build_promotes_before_it_builds_and_commits_the_seeds():
+    wf = (Path(__file__).resolve().parent.parent / ".github" / "workflows" / "build-data.yml").read_text()
+    assert wf.index("scripts/promote_reviewed.py |") < wf.index("python scripts/build_seed_outputs.py")
+    assert "git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv" in wf
+    for path in ("data/review/queue.csv", "data/review/cases_candidates.csv",
+                 "data/review/place_overrides.csv", "scripts/promote_reviewed.py"):
+        assert f"- '{path}'" in wf, path

@@ -63,7 +63,7 @@ Each case row links to the project (or restriction) it concerns through `source_
 
 `severity_score` defaults to 3, the contested-projects score for "litigation filed".
 
-A case is promoted into `cases_seed.csv` only after it is confirmed. Confirmed means a court record names the case and its court: an opinion, a docket, or a court's own page, found on CourtListener, Justia, govinfo, a court website or an equivalent case-law host. The row's `reviewer_notes` say how and when it was verified. Partial finds stay in `data/review/cases_candidates.csv` as `review_status=lead`, with what is known so far.
+A case goes into `cases_seed.csv` only once a court record names the case and its court: an opinion, a docket, or a court's own page, found on CourtListener, Justia, govinfo, a court website or an equivalent case-law host. Promotion is automatic as soon as the candidate row has `case_name`, `court`, `court_level` and that record's URL in `case_source_url` (see Reviewing candidates). The row's `reviewer_notes` say how it was found. Partial finds stay in `data/review/cases_candidates.csv` as `review_status=lead`, with what is known so far.
 
 ## Counting and verification
 
@@ -147,7 +147,7 @@ renewable-opposition/
 │   ├── seed/
 │   │   ├── restrictions_seed.csv           ← Moratorium Nation + Sabin local restrictions
 │   │   ├── contested_projects_seed.csv     ← Sabin contested-projects section
-│   │   └── cases_seed.csv                  ← confirmed cases (via promote_reviewed.py)
+│   │   └── cases_seed.csv                  ← cases with a court record (via promote_reviewed.py)
 │   ├── review/
 │   │   ├── cases_candidates.csv            ← litigated projects/restrictions awaiting docket research
 │   │   ├── sabin_restrictions_review.csv   ← Sabin restriction rows held back, with reasons
@@ -168,7 +168,7 @@ renewable-opposition/
 │   ├── fetch.py                            ← crawler: sources.yaml -> data/raw/
 │   ├── parse.py                            ← runs scripts/extractors/<source_id>.py -> review/queue.csv
 │   ├── extractors/courtlistener_renewables.py
-│   ├── promote_reviewed.py                 ← confirmed review rows -> seed CSVs
+│   ├── promote_reviewed.py                 ← complete review rows -> seed CSVs (run by build-data.yml)
 │   ├── qc_gate.py                          ← record-level QC gate + quarantine (run by the build)
 │   ├── state_bounds.py                     ← state bounding boxes (copied from data-center-map)
 │   ├── snapshot_manifest.py                ← dated, hashed record of each published output
@@ -204,8 +204,10 @@ live one. `config/layers.json` declares which script writes each data file, and
 
 ### Reviewing candidates
 
-- **Cases.** `data/review/cases_candidates.csv` lists every project or restriction the source says was litigated. To promote one, fill in `case_name`, `court`, `court_level`, `docket_number` and `case_source_url` from a primary source (a docket, an opinion, or a court's own page), set `review_status` to `confirmed`, then run `python scripts/promote_reviewed.py`. If one project has several cases, duplicate the row. Rebuilding with `build_sabin_seeds.py` keeps these edits.
-- **Extractor output.** Each extractor, such as the CourtListener one, writes candidates to `data/review/queue.csv` with `review_status=pending`. Change a row to `confirmed` (filling any blank required fields) or `rejected`, then run `promote_reviewed.py`.
+Promotion is automatic. The Build dashboard data workflow runs `scripts/promote_reviewed.py` before every build and commits what it promotes, so nobody promotes anything by hand. A row goes into its seed as soon as it is complete; `review_status` only holds a row back (`rejected`), and a promoted row is marked `promoted`. A row promoted without `review_status=confirmed` says so in its seed notes ("promoted automatically ... not reviewed by hand"), and every promoted row still passes the QC gate. Nothing is filled in to make a row complete: an incomplete row stays where it is, and the workflow's summary lists what it lacks.
+
+- **Cases.** `data/review/cases_candidates.csv` lists every project or restriction the source says was litigated. A candidate is complete once `case_name`, `court`, `court_level` and an http(s) `case_source_url` are filled from a court record (a docket, an opinion, or a court's own page). If one project has several cases, duplicate the row. Rebuilding with `build_sabin_seeds.py` keeps these edits.
+- **Queue.** Extractors such as the CourtListener one, and anyone adding a candidate by hand, write to `data/review/queue.csv`. A row is complete once every field its seed requires is filled, including an http(s) `source_url`. Queue columns are mapped onto the seed's own columns (`adopted_date` becomes `date_enacted_iso`, a blank restriction status becomes `unknown`), so a promoted row never adds a column. Set `review_status=rejected` to keep a row out.
 
 Outputs will be written to `data/processed/`.
 
@@ -261,7 +263,7 @@ The place index is built with `python scripts/build_place_index.py`. The script 
 1. **Source registry**: `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).
 2. **Crawler/fetcher**: `scripts/fetch.py` fetches each active source and stores an immutable raw copy keyed by content hash. Not scheduled yet.
 3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
-4. **Human review queue**: `data/review/*.csv`, promoted by `scripts/promote_reviewed.py`.
+4. **Review queue**: `data/review/*.csv`. `scripts/promote_reviewed.py` promotes complete rows on every data build.
 5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
 6. **Pages**: `index.html`, `dashboard.html`, `renewable-opposition-map.html` and `map-audit.html` all read `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
 
