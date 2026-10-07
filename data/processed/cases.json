@@ -793,5 +793,237 @@
         "archived_url": "https://web.archive.org/web/20221006173131/https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html"
       }
     ]
+  },
+  {
+    "state": "CA",
+    "project_name": "Blythe Mesa Solar Power Project",
+    "technology": "solar",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Colorado River Indian Tribes v. Department of Interior (U.S. District Court for the Central District of California) - litigation over Blythe Mesa Solar Power Project",
+    "case_name": "Colorado River Indian Tribes v. Department of Interior",
+    "court": "U.S. District Court for the Central District of California",
+    "docket_number": "5:14-cv-02504",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0026",
+    "case_id": "case_22bbe850a4",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/",
+    "case_source_url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): docket and final judgment (ECF No. 162, 2015-09-15): following the July 17, 2015 summary judgment order (ECF No. 157), judgment entered for the federal defendants and intervenor NextEra Blythe Solar Energy Center, LLC on all claims, dismissed with prejudice. The case matches the record's description (CRIT sued Interior in C.D. Cal. in 2014; summary judgment in 2015), but the intervenor is NextEra's Blythe Solar Energy Center, while the record names the project 'Blythe Mesa Solar Power Project'; the record's project name may be wrong.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_4c787f2ac0",
+    "source_id": "src_4a68254cbd3f",
+    "instrument_id": "case:case_22bbe850a4",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/"
+      }
+    ]
+  },
+  {
+    "state": "MD",
+    "project_name": "Dan’s Mountain Wind Farm",
+    "technology": "wind",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "Dan's Mountain Wind Force, LLC v. Allegany County Board of Zoning Appeals (Court of Special Appeals of Maryland) - litigation over Dan’s Mountain Wind Farm",
+    "case_name": "Dan's Mountain Wind Force, LLC v. Allegany County Board of Zoning Appeals",
+    "court": "Court of Special Appeals of Maryland",
+    "docket_number": "No. 804, September Term 2016",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0180",
+    "case_id": "case_cd121880bb",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals/",
+    "case_source_url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): reported opinion filed 2018-04-03 (Friedman, J.), appeal from Circuit Court for Allegany County Case No. 01-C-15-043252-F. The developer appealed the Board of Zoning Appeals' rejection of setback and separation-distance variances for 17 turbines; the court held the Board misapplied the uniqueness and practical-difficulty tests, reversed, and directed the circuit court to vacate the Board's decision and remand. This does not match the record's account (an ANCHOR challenge in which the Court of Special Appeals upheld an approval); no ANCHOR case was found. A related Court of Appeals entry (No. 253, Sept. Term 2016) shows a petition for certiorari denied 2016-09-29. Earlier note: Lead from web search 2026-09-24 (not confirmed): Dan's Mountain Wind Force, LLC v. Jennifer Shaw, et al. (Maryland Daily Record, 2022-04-22); circuit court earlier upheld the county's denial. Court for the 2022 decision not confirmed.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_aa8e5fbb71",
+    "source_id": "src_2d9681e5431e",
+    "instrument_id": "case:case_cd121880bb",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals/"
+      }
+    ]
+  },
+  {
+    "state": "MO",
+    "project_name": "Grain Belt Express Tiger Connector Expansion",
+    "technology": "solar;transmission",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "Grain Belt Express, L.L.C. v. Chariton County, Missouri (Missouri Court of Appeals, Western District) - litigation over Grain Belt Express Tiger Connector Expansion",
+    "case_name": "Grain Belt Express, L.L.C. v. Chariton County, Missouri",
+    "court": "Missouri Court of Appeals, Western District",
+    "docket_number": "WD86613",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0231",
+    "case_id": "case_a6e2e6fc6b",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/",
+    "case_source_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): opinion filed 2024-10-15 (Hardwick, J.), appeal from the Circuit Court of Chariton County. Affirmed that Section 49.650.4 bars the county from any action, including withholding Section 229.100 assent, that would prevent Grain Belt from building the overhead line on public roads along the MPSC-approved route; reversed in part to hold that Grain Belt must still obtain the county's assent to the manner of construction. The opinion does not mention the Tiger Connector; it concerns the Grain Belt line in Chariton County, the ruling the record cites.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_62fb38056b",
+    "source_id": "src_84f8736fb7b5",
+    "instrument_id": "case:case_a6e2e6fc6b",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/"
+      }
+    ]
+  },
+  {
+    "state": "MT",
+    "project_name": "Crazy Mountain Wind Project",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Diana's Great Idea, LLC v. Jarrett (Supreme Court of Montana) - litigation over Crazy Mountain Wind Project",
+    "case_name": "Diana's Great Idea, LLC v. Jarrett",
+    "court": "Supreme Court of Montana",
+    "docket_number": "DA 19-0594",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0236",
+    "case_id": "case_9d25f0d762",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain/",
+    "case_source_url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): opinion 2020 MT 199, decided 2020-08-11, appeal from the Sixth Judicial District Court (Cause No. DV-2018-161). Defendants include Crazy Mountain Wind, LLC and Pattern Energy. The opinion records that the District Court granted the neighbors a preliminary injunction on March 19, 2019, that Pattern moved on July 1, 2019 to be dismissed because the injunction made financing impossible and it was abandoning the wind farm, and that the District Court ruled for the neighbors. On appeal the Supreme Court affirmed the denial of the landowners' amendments, reversed the dismissal of their counterclaims with prejudice (remanding for dismissal without prejudice), and held the bond issue moot. case_status reflects the lower court's ruling for the neighbors; the appeal itself concerned the counterclaims. Earlier note: Lead from web search 2026-09-24 (not confirmed): Neighbors' nuisance suit filed September 2018 in Montana's Sixth Judicial District Court; preliminary injunction March 2019; Pattern abandoned the project and moved to dismiss. A later Montana Supreme Court matter (DA 21-0410) may relate. Caption not found.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_21f5b7352f",
+    "source_id": "src_62b2194e5e0e",
+    "instrument_id": "case:case_9d25f0d762",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain/"
+      }
+    ]
+  },
+  {
+    "state": "NV",
+    "project_name": "Gerlach Geothermal ExploraDon Project",
+    "technology": "geothermal",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Burning Man Project v. Bureau of Land Management (U.S. District Court for the District of Nevada) - litigation over Gerlach Geothermal ExploraDon Project",
+    "case_name": "Burning Man Project v. Bureau of Land Management",
+    "court": "U.S. District Court for the District of Nevada",
+    "docket_number": "3:23-cv-00013",
+    "case_status": "withdrawn",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0264",
+    "case_id": "case_45231f9086",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of/",
+    "case_source_url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): docket and complaint (ECF No. 1, filed 2023-01-09) challenging BLM's approval of the Gerlach Geothermal Exploration Project for Ormat Nevada under NEPA, FLPMA and the APA; Ormat intervened as a defendant. On 2025-06-16 the court granted the plaintiffs' unopposed motion to voluntarily dismiss with prejudice, each party bearing its own fees and costs (ECF Nos. 67, 68). The documents read do not say whether a settlement preceded the dismissal. Earlier note: Lead from web search 2026-09-24 (not confirmed): Burning Man Project sued BLM in January 2023 (NEPA); settled with Ormat October 2024. Court and docket not found in results.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_fb70d39ba6",
+    "source_id": "src_8714f02ecb25",
+    "instrument_id": "case:case_45231f9086",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of/"
+      }
+    ]
+  },
+  {
+    "state": "NV",
+    "project_name": "Greenlink West Transmission Project",
+    "technology": "transmission",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Friends of Nevada Wilderness v. United States Bureau of Land Management (U.S. District Court for the District of Nevada) - litigation over Greenlink West Transmission Project",
+    "case_name": "Friends of Nevada Wilderness v. United States Bureau of Land Management",
+    "court": "U.S. District Court for the District of Nevada",
+    "docket_number": "2:25-cv-00929",
+    "case_status": "pending",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0265",
+    "case_id": "case_0bbc3dcc9b",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management/",
+    "case_source_url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): docket and complaint (ECF No. 1, filed 2025-05-28 by Friends of Nevada Wilderness and Basin and Range Watch) against BLM, FWS and NPS over approval of the Greenlink West transmission line, including its route through Tule Springs Fossil Beds National Monument. The docket shows no termination date on 2026-10-07, so case_status is pending.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_5e3b5d684f",
+    "source_id": "src_a5dfad01e7d6",
+    "instrument_id": "case:case_0bbc3dcc9b",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management/"
+      }
+    ]
+  },
+  {
+    "state": "WY",
+    "project_name": "Rail Tie Wind Project",
+    "technology": "wind",
+    "court_level": "state_supreme",
+    "severity_score": 3,
+    "description": "Monaghan Farms, Inc. v. Board of County Commissioners of Albany County (Supreme Court of Wyoming) - litigation over Rail Tie Wind Project",
+    "case_name": "Monaghan Farms, Inc. v. Board of County Commissioners of Albany County",
+    "court": "Supreme Court of Wyoming",
+    "docket_number": "S-22-0127, S-22-0128",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0494",
+    "case_id": "case_6f570107b1",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/",
+    "case_source_url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): opinion 2023 WY 31, decided 2023-04-17, appeal from the District Court of Albany County; ConnectGen Albany County LLC intervened. The opinion quotes the county's letter confirming the Rail Tie Wind Project application (WEC-01-21) was approved on July 13, 2021, and affirms: no conditional use permit was needed beyond the WECS special use permit, the approval was not arbitrary and capricious, and it was not a taking. Earlier note: Lead from web search 2026-09-24 (not confirmed): Wyoming Supreme Court upheld Albany County's WECS permit in April 2023 (Wyoming Public Media); a 2024 Industrial Siting Council appeal was dismissed. Caption not found.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_f838d26e5a",
+    "source_id": "src_db53cb6e1149",
+    "instrument_id": "case:case_6f570107b1",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/"
+      }
+    ]
+  },
+  {
+    "state": "WY",
+    "project_name": "Rail Tie Wind Project",
+    "technology": "wind",
+    "court_level": "federal_district",
+    "severity_score": 3,
+    "description": "Albany County Conservancy v. Western Area Power Administration (U.S. District Court for the District of Wyoming) - litigation over Rail Tie Wind Project",
+    "case_name": "Albany County Conservancy v. Western Area Power Administration",
+    "court": "U.S. District Court for the District of Wyoming",
+    "docket_number": "1:24-cv-00271",
+    "case_status": "pending",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0494",
+    "case_id": "case_c7aad0f88b",
+    "source": "Reviewed case record",
+    "source_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/",
+    "case_source_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/",
+    "reviewer_notes": "Opened 2026-10-07 on CourtListener (authenticated API): docket and petition for review (ECF No. 1, filed 2024-12-23 by Albany County Conservancy, Wyoming Association of Professional Archaeologists and three individuals) challenging WAPA's Record of Decision approving an interconnection request for the Rail Tie Wind Project and the FEIS behind it (NEPA). The docket shows no termination date on 2026-10-07, so case_status is pending. This is the December 2024 lawsuit the record mentions.; promoted automatically from data/review/cases_candidates.csv on 2026-10-07: required fields complete, not reviewed by hand",
+    "id": "cas_c242e33d14",
+    "source_id": "src_79287f71401d",
+    "instrument_id": "case:case_c7aad0f88b",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/"
+      }
+    ]
   }
 ]
