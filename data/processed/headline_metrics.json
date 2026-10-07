@@ -49,18 +49,18 @@
   "contested_projects": {
     "rows": 165,
     "projects": 165,
-    "confirmed_outcomes": 9,
+    "confirmed_outcomes": 10,
     "by_outcome": {
       "advanced_confirmed": 5,
       "advanced_unverified": 11,
-      "blocked_confirmed": 4,
-      "blocked_unverified": 52,
+      "blocked_confirmed": 5,
+      "blocked_unverified": 51,
       "needs_review": 16,
       "pending": 77
     },
     "by_evidence_level": {
-      "confirmed": 9,
-      "report_citation": 156
+      "confirmed": 10,
+      "report_citation": 155
     }
   },
   "cases": {
