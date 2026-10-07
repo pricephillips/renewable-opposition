@@ -10,7 +10,10 @@ Writes
 Each row says what evidence would settle it and gives a search query to start
 from. A reviewer records the answer in data/review/outcome_resolutions.csv or
 data/review/restriction_sources.csv (see resolutions.py); the next build
-applies it and the item drops off these lists. Nothing here edits a record.
+applies it and the item drops off these lists once its access is opened or
+archived. A row seen only as search-index text (access snippet) stays on the
+list, with its URL in located_url, because the source still has to be read.
+Nothing here edits a record.
 
 Ranking
   Outcomes      blocked_unverified, then advanced_unverified, then needs_review,
@@ -54,10 +57,11 @@ TECH_WORDS = {"solar": "solar", "wind": "wind", "battery_storage": "battery stor
 
 OUTCOME_FIELDS = ["priority", "tier", "source_record_id", "state", "county", "municipality",
                   "project_name", "technology", "outcome", "event_date_text", "has_litigation",
-                  "what_would_confirm", "search_query"]
+                  "what_would_confirm", "located_url", "search_query"]
 RESTRICTION_FIELDS = ["priority", "tier", "instrument_id", "state", "jurisdiction",
                       "jurisdiction_type", "scope", "technologies", "status", "severity_score",
-                      "date_enacted_iso", "current_end_date_iso", "legal_basis", "search_query"]
+                      "date_enacted_iso", "current_end_date_iso", "legal_basis", "located_url",
+                      "search_query"]
 
 
 def _s(v) -> str:
@@ -77,7 +81,7 @@ def _state_name(code: str) -> str:
     return STATE_NAMES.get(code, code)
 
 
-def outcome_rows(projects: list[dict], resolved: set[str]) -> list[dict]:
+def outcome_rows(projects: list[dict], resolved: set[str], located: dict[str, str] | None = None) -> list[dict]:
     seen, rows = set(), []
     for p in projects:
         rid, outcome = _s(p.get("source_record_id")), _s(p.get("outcome"))
@@ -95,7 +99,8 @@ def outcome_rows(projects: list[dict], resolved: set[str]) -> list[dict]:
             "project_name": name, "technology": p.get("technology"), "outcome": outcome,
             "event_date_text": p.get("event_date_text"),
             "has_litigation": p.get("has_litigation"),
-            "what_would_confirm": WHAT_CONFIRMS[outcome], "search_query": query,
+            "what_would_confirm": WHAT_CONFIRMS[outcome], "located_url": (located or {}).get(rid, ""),
+            "search_query": query,
         })
     rows.sort(key=lambda r: (OUTCOME_TIERS.index(r["tier"]),
                              _s(r["has_litigation"]) != "yes",
@@ -105,7 +110,8 @@ def outcome_rows(projects: list[dict], resolved: set[str]) -> list[dict]:
     return rows
 
 
-def restriction_rows(restrictions: list[dict], checked: set[str]) -> list[dict]:
+def restriction_rows(restrictions: list[dict], checked: set[str],
+                     located: dict[str, str] | None = None) -> list[dict]:
     inst: dict[str, dict] = {}
     for r in restrictions:
         iid = _s(r.get("instrument_id"))
@@ -127,7 +133,8 @@ def restriction_rows(restrictions: list[dict], checked: set[str]) -> list[dict]:
             "severity_score": r.get("severity_score"),
             "date_enacted_iso": r.get("date_enacted_iso"),
             "current_end_date_iso": r.get("current_end_date_iso"),
-            "legal_basis": r.get("legal_basis"), "search_query": query,
+            "legal_basis": r.get("legal_basis"), "located_url": (located or {}).get(iid, ""),
+            "search_query": query,
         })
     rows.sort(key=lambda r: (EVIDENCE_TIERS.index(r["tier"]),
                              _s(r["scope"]) != "renewables_only",
@@ -138,15 +145,28 @@ def restriction_rows(restrictions: list[dict], checked: set[str]) -> list[dict]:
     return rows
 
 
+def split_by_access(rows: list[dict], key: str, url: str) -> tuple[set[str], dict[str, str]]:
+    """(keys whose source was opened or archived, key -> URL of the ones seen
+    only as search-index text). A read source settles the item; a snippet is
+    a located lead that still has to be read."""
+    read, leads = set(), {}
+    for r in rows:
+        if _s(r.get("access")) in ("opened", "archived"):
+            read.add(_s(r.get(key)))
+        else:
+            leads[_s(r.get(key))] = _s(r.get(url))
+    return read, leads
+
+
 def main() -> int:
     projects = json.loads((PROCESSED_DIR / "contested_projects.json").read_text(encoding="utf-8"))
     restrictions = json.loads((PROCESSED_DIR / "restrictions.json").read_text(encoding="utf-8"))
-    resolved = {_s(r.get("source_record_id")) for r in read_csv(REVIEW_DIR / "outcome_resolutions.csv")} \
-        if (REVIEW_DIR / "outcome_resolutions.csv").exists() else set()
-    checked = {_s(r.get("instrument_id")) for r in read_csv(REVIEW_DIR / "restriction_sources.csv")} \
-        if (REVIEW_DIR / "restriction_sources.csv").exists() else set()
-    outcomes = outcome_rows(projects, resolved)
-    restr = restriction_rows(restrictions, checked)
+    resolved, lead_outcomes = split_by_access(read_csv(REVIEW_DIR / "outcome_resolutions.csv"),
+                                              "source_record_id", "evidence_url")
+    checked, lead_sources = split_by_access(read_csv(REVIEW_DIR / "restriction_sources.csv"),
+                                            "instrument_id", "primary_source_url")
+    outcomes = outcome_rows(projects, resolved, lead_outcomes)
+    restr = restriction_rows(restrictions, checked, lead_sources)
     write_csv(OUTCOME_WORKLIST, outcomes, OUTCOME_FIELDS)
     write_csv(RESTRICTION_WORKLIST, restr, RESTRICTION_FIELDS)
     print(f"verification_worklist: {len(outcomes)} outcomes, {len(restr)} restriction instruments")

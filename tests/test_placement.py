@@ -83,7 +83,7 @@ def test_a_shared_town_name_stays_ambiguous_unless_the_text_names_exactly_one_ca
 
 # ── 4. Reviewer overrides ────────────────────────────────────────────────────
 
-HEADER = "instrument_id,county_fips,evidence_url,evidence_note,reviewer,checked_on\n"
+HEADER = "instrument_id,county_fips,evidence_url,evidence_note,reviewer,checked_on,access\n"
 
 
 def datasets():
@@ -96,18 +96,21 @@ def datasets():
 def test_an_override_places_every_row_of_its_instrument_last(tmp_path):
     path = tmp_path / "place_overrides.csv"
     path.write_text(HEADER + "sabin:REC-0201,26017,https://example.org/minutes.pdf,Beaver Township Bay County,x,"
-                    "2026-10-06\n", encoding="utf-8")
+                    "2026-10-06,snippet\n", encoding="utf-8")
     d = datasets()
     assert resolutions.apply_place_overrides(d, geo.known, path) == []
     row = d["restrictions"][0]
     assert (row["county_fips_all"], row["county_fips_method"], row["county_fips"]) == ("26017", "override", None)
+    # Placement is low-stakes, so a snippet places the record; the access is carried through.
+    assert (row["placement_access"], row["placement_url"]) == ("snippet", "https://example.org/minutes.pdf")
 
 
 @pytest.mark.parametrize("line,why", [
-    ("sabin:REC-0201,26017,,no url,x,", "evidence_url is required"),
-    ("sabin:REC-0201,09001,https://example.org/a,old Connecticut county,x,", "is not a 2024 county"),
-    ("sabin:REC-0201,26,https://example.org/a,short code,x,", "is not a 2024 county"),
-    ("sabin:REC-9999,26017,https://example.org/a,no such record,x,", "no restriction or contested project"),
+    ("sabin:REC-0201,26017,,no url,x,,opened", "evidence_url is required"),
+    ("sabin:REC-0201,09001,https://example.org/a,old Connecticut county,x,,opened", "is not a 2024 county"),
+    ("sabin:REC-0201,26,https://example.org/a,short code,x,,opened", "is not a 2024 county"),
+    ("sabin:REC-9999,26017,https://example.org/a,no such record,x,,opened", "no restriction or contested project"),
+    ("sabin:REC-0201,26017,https://example.org/a,no access,x,,", "access"),
 ])
 def test_an_override_without_evidence_or_a_2024_county_stops_the_build(tmp_path, line, why):
     path = tmp_path / "place_overrides.csv"

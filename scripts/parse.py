@@ -107,6 +107,8 @@ class CandidateRecord:
 
     # Evidence
     evidence_text: str = ""             # verbatim excerpt that triggered extraction
+    access: str = ""                    # opened | archived | snippet (resolutions.ACCESS); set by the extractor
+    archived_url: str = ""              # the Internet Archive copy read, when access is archived
 
 
 QUEUE_FIELDS = list(CandidateRecord.__dataclass_fields__.keys())

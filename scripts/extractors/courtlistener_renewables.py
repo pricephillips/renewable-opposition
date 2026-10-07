@@ -79,5 +79,7 @@ def extract(raw_path: Path, source: dict) -> list[dict]:
             "filing_date": r.get("dateFiled") or "",
             "docket_number": docket,
             "evidence_text": snippet[:1000],
+            # A search API result: highlighted index text, not the opinion itself.
+            "access": "snippet",
         })
     return out

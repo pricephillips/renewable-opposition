@@ -41,8 +41,16 @@ def test_evidence_levels():
     assert classify.evidence_level("restrictions", mn("solar", "solar")) == "compiled_record"
     assert classify.evidence_level("restrictions", mn("solar", "solar", needs_verification="yes")) == "compiled_flagged"
     assert classify.evidence_level("restrictions", {"source_record_id": "REC-1"}) == "report_citation"
-    confirmed = {"primary_source_url": "https://town.gov/o.pdf", "primary_source_verdict": "confirmed"}
+    confirmed = {"primary_source_url": "https://town.gov/o.pdf", "primary_source_verdict": "confirmed",
+                 "primary_source_access": "opened"}
     assert classify.evidence_level("restrictions", confirmed) == "primary_source"
+    assert classify.evidence_level("restrictions", {**confirmed, "primary_source_access": "archived"}) \
+        == "primary_source"
+    # Located, not yet read: no upgrade, and no access at all is no upgrade either.
+    assert classify.evidence_level("restrictions", {**confirmed, "primary_source_access": "snippet"}) \
+        == "report_citation"
+    assert classify.evidence_level("restrictions", {**confirmed, "primary_source_access": ""}) \
+        == "report_citation"
     assert classify.evidence_level("restrictions", {**confirmed, "primary_source_verdict": "contradicts"}) \
         == "report_citation"
     assert classify.evidence_level("contested_projects", {"outcome": "blocked_confirmed"}) == "confirmed"
@@ -55,34 +63,124 @@ def _write(path, text):
 
 def test_outcome_resolution_confirms_and_rescores(tmp_path):
     rows = [{"source_record_id": "REC-5", "outcome": "pending", "has_litigation": "yes", "severity_score": 3}]
-    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,evidence_date\n"
-               "REC-5,blocked_confirmed,https://county.gov/denial.pdf,2024-05\n")
+    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,evidence_date,access\n"
+               "REC-5,blocked_confirmed,https://county.gov/denial.pdf,2024-05,opened\n")
     assert resolutions.apply_outcomes(rows, {"blocked_confirmed", "pending"}, f) == []
     assert rows[0]["outcome"] == "blocked_confirmed" and rows[0]["severity_score"] == 4
     assert rows[0]["finality_evidence"] == "resolution: https://county.gov/denial.pdf"
+    assert rows[0]["resolution_access"] == "opened"
+
+
+def test_an_archived_copy_confirms_an_outcome_and_needs_its_url(tmp_path):
+    rows = [{"source_record_id": "REC-5", "outcome": "blocked_unverified", "has_litigation": "no"}]
+    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,access,archived_url\n"
+               "REC-5,blocked_confirmed,https://news.example.org/a,archived,"
+               "https://web.archive.org/web/2024/https://news.example.org/a\n")
+    assert resolutions.apply_outcomes(rows, {"blocked_confirmed", "blocked_unverified"}, f) == []
+    assert rows[0]["outcome"] == "blocked_confirmed"
+    assert classify.stamp("contested_projects", rows[0])["evidence_level"] == "confirmed"
+    bad = _write(tmp_path / "b.csv", "source_record_id,outcome,evidence_url,access\n"
+                 "REC-5,blocked_confirmed,https://news.example.org/a,archived\n")
+    assert "archived_url" in resolutions.apply_outcomes(rows, {"blocked_confirmed"}, bad)[0]
+
+
+def test_a_snippet_resolution_is_a_lead_and_confirms_nothing(tmp_path):
+    rows = [{"source_record_id": "REC-5", "outcome": "blocked_unverified", "has_litigation": "no",
+             "severity_score": 4, "finality_evidence": "outcome_label_only"}]
+    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,evidence_date,access\n"
+               "REC-5,blocked_confirmed,https://news.example.org/a,2014-05,snippet\n")
+    assert resolutions.apply_outcomes(rows, {"blocked_confirmed", "blocked_unverified"}, f) == []
+    r = classify.stamp("contested_projects", rows[0])
+    assert r["outcome"] == "blocked_unverified" and r["evidence_level"] == "report_citation"
+    assert r["finality_evidence"] == "lead: https://news.example.org/a"
+    assert (r["resolution_url"], r["resolution_access"]) == ("https://news.example.org/a", "snippet")
+    assert not r.get("resolution_date")
+
+
+def test_a_snippet_resolution_never_overwrites_a_court_ruling(tmp_path):
+    rows = [{"source_record_id": "REC-5", "outcome": "advanced_confirmed",
+             "finality_evidence": "court_ruling: A v. B"}]
+    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,access\n"
+               "REC-5,advanced_confirmed,https://news.example.org/a,snippet\n")
+    assert resolutions.apply_outcomes(rows, {"advanced_confirmed"}, f) == []
+    assert rows[0]["finality_evidence"] == "court_ruling: A v. B"
+
+
+@pytest.mark.parametrize("access", ["", "seen", "Opened"])
+def test_a_blank_or_unknown_access_stops_the_build(tmp_path, access):
+    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,access\n"
+               f"REC-5,blocked_confirmed,https://x.gov/a,{access}\n")
+    rows = [{"source_record_id": "REC-5", "outcome": "pending"}]
+    errors = resolutions.apply_outcomes(rows, {"blocked_confirmed", "pending"}, f)
+    assert len(errors) == 1 and "access" in errors[0] and "snippet" in errors[0]
+    assert rows[0]["outcome"] == "pending"
+    s = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict,access\n"
+               f"mn:ks-x-2026,https://ks-x.gov/o.pdf,confirmed,{access}\n")
+    errors = resolutions.apply_restriction_sources([classify.stamp("restrictions", mn("solar", "solar"))], s)
+    assert len(errors) == 1 and "access" in errors[0]
 
 
 @pytest.mark.parametrize("line,msg", [
-    ("REC-9,blocked_confirmed,https://x.gov/a,", "no contested project"),
-    ("REC-5,won,https://x.gov/a,", "not in the vocabulary"),
-    ("REC-5,blocked_confirmed,,", "evidence_url is required"),
-    ("REC-5,blocked_confirmed,https://x.gov/a,May 2024", "not YYYY"),
+    ("REC-9,blocked_confirmed,https://x.gov/a,,opened", "no contested project"),
+    ("REC-5,won,https://x.gov/a,,opened", "not in the vocabulary"),
+    ("REC-5,blocked_confirmed,,,opened", "evidence_url is required"),
+    ("REC-5,blocked_confirmed,https://x.gov/a,May 2024,opened", "not YYYY"),
 ])
 def test_bad_outcome_resolutions_are_errors(tmp_path, line, msg):
     rows = [{"source_record_id": "REC-5", "outcome": "pending"}]
-    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,evidence_date\n" + line + "\n")
+    f = _write(tmp_path / "r.csv", "source_record_id,outcome,evidence_url,evidence_date,access\n" + line + "\n")
     errors = resolutions.apply_outcomes(rows, {"blocked_confirmed", "pending"}, f)
     assert len(errors) == 1 and msg in errors[0] and rows[0]["outcome"] == "pending"
 
 
 def test_restriction_source_reaches_every_row_of_the_instrument(tmp_path):
     rows = [classify.stamp("restrictions", mn(t, "solar;wind")) for t in ("solar", "wind")]
-    f = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict\n"
-               "mn:ks-x-2026,https://ks-x.gov/ordinance.pdf,confirmed\n")
+    f = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict,access\n"
+               "mn:ks-x-2026,https://ks-x.gov/ordinance.pdf,confirmed,opened\n")
     assert resolutions.apply_restriction_sources(rows, f) == []
     assert all(classify.stamp("restrictions", r)["evidence_level"] == "primary_source" for r in rows)
-    bad = _write(tmp_path / "b.csv", "instrument_id,primary_source_url,verdict\nmn:ks-x-2026,https://a.gov/x,maybe\n")
+    bad = _write(tmp_path / "b.csv", "instrument_id,primary_source_url,verdict,access\n"
+                 "mn:ks-x-2026,https://a.gov/x,maybe,opened\n")
     assert "verdict" in resolutions.apply_restriction_sources(rows, bad)[0]
+
+
+def test_a_snippet_primary_source_is_attached_but_upgrades_nothing(tmp_path):
+    rows = [classify.stamp("restrictions", mn(t, "solar;wind")) for t in ("solar", "wind")]
+    f = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict,access\n"
+               "mn:ks-x-2026,https://ks-x.gov/ordinance.pdf,confirmed,snippet\n")
+    assert resolutions.apply_restriction_sources(rows, f) == []
+    for r in rows:
+        classify.stamp("restrictions", r)
+        assert r["evidence_level"] == "compiled_record"
+        assert (r["primary_source_url"], r["primary_source_access"]) == ("https://ks-x.gov/ordinance.pdf", "snippet")
+
+
+def test_a_snippet_contradiction_is_reported_not_quarantined():
+    import qc_gate
+    row = {"state": "KS", "status": "active", "source_url": "https://x.org",
+           "primary_source_url": "https://town.gov/o.pdf", "primary_source_verdict": "contradicts"}
+    (issue,) = qc_gate.check_record("restrictions", {**row, "primary_source_access": "snippet"})
+    assert issue.code == "PRIMARY_SOURCE_CONTRADICTS" and issue.severity == "MEDIUM"
+    (issue,) = qc_gate.check_record("restrictions", {**row, "primary_source_access": "opened"})
+    assert issue.severity == "HIGH"
+
+
+@pytest.mark.parametrize("name", ["restriction_sources", "outcome_resolutions", "place_overrides", "queue"])
+def test_every_committed_review_row_says_how_its_evidence_was_seen(name):
+    from common import REVIEW_DIR, read_csv
+    for r in read_csv(REVIEW_DIR / f"{name}.csv"):
+        assert resolutions.access_error(r) == "", (name, r.get("access"))
+
+
+def test_snippet_leads_stay_on_the_worklists():
+    read, leads = vw.split_by_access([
+        {"instrument_id": "a", "primary_source_url": "https://a.gov", "access": "opened"},
+        {"instrument_id": "b", "primary_source_url": "https://b.gov", "access": "snippet"}],
+        "instrument_id", "primary_source_url")
+    assert read == {"a"} and leads == {"b": "https://b.gov"}
+    rows = [classify.stamp("restrictions", {"source_record_id": "REC-1", "state": "KS", "technology": "wind"})]
+    (out,) = vw.restriction_rows(rows, checked=read, located={"sabin:REC-1": "https://b.gov"})
+    assert out["located_url"] == "https://b.gov"
 
 
 def test_missing_resolution_files_are_fine(tmp_path):

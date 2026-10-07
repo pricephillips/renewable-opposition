@@ -28,7 +28,11 @@ scope           restrictions only. Whether the instrument is aimed at
 evidence_level  How far the record is from a primary source, best first:
                   primary_source     a reviewer confirmed the record against a
                                      primary_source_url (the ordinance, minutes,
-                                     permit decision): resolutions.py
+                                     permit decision) that they opened or read
+                                     in an Internet Archive copy
+                                     (primary_source_access): resolutions.py.
+                                     A source seen only as search-index text
+                                     (snippet) is attached but upgrades nothing
                   confirmed          contested project whose outcome is *_confirmed
                   court_record       case with a court or docket URL
                   compiled_record    Moratorium Nation row with no [VERIFY] tag;
@@ -79,6 +83,8 @@ TEXT_FIELDS = ("description", "long_description", "notes", "legal_basis")
 
 EVIDENCE_ORDER = ("primary_source", "confirmed", "court_record", "compiled_record",
                   "compiled_flagged", "report_citation")
+# Kept in step with resolutions.READ_ACCESS (this module does no I/O and imports nothing).
+READ_ACCESS = ("opened", "archived")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
 
 COUNTY_JURISDICTION_TYPES = {"county", "parish", "borough"}
@@ -128,7 +134,8 @@ def scope(row: dict) -> str:
 
 
 def evidence_level(entity: str, row: dict) -> str:
-    if _s(row.get("primary_source_url")) and _s(row.get("primary_source_verdict")) != "contradicts":
+    if _s(row.get("primary_source_url")) and _s(row.get("primary_source_verdict")) != "contradicts" \
+            and _s(row.get("primary_source_access")) in READ_ACCESS:
         return "primary_source"
     if entity == "contested_projects":
         return "confirmed" if _s(row.get("outcome")).endswith("_confirmed") else "report_citation"

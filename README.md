@@ -83,7 +83,8 @@ A record whose text names data centers and no renewable technology
 **Evidence level.** Every row carries an `evidence_level`, best first:
 `primary_source`, `confirmed`, `court_record`, `compiled_record`,
 `compiled_flagged`, `report_citation`. The headline metrics break every count
-down by it.
+down by it. `primary_source` and an outcome's `confirmed` both need a source
+someone actually read; see "How the evidence was seen" below.
 
 **Closing the gaps.** Each build ranks what to check next in
 `data/review/outcome_worklist.csv` (unconfirmed project outcomes, blocked and
@@ -93,15 +94,45 @@ that would settle it and a search query to start from. Record what you find in:
 
 - `data/review/outcome_resolutions.csv`: `source_record_id`, the `outcome` the
   evidence supports, and a required `evidence_url` (plus `evidence_date`,
-  `evidence_note`, `reviewer`). The build sets the outcome, marks
+  `evidence_note`, `reviewer`, `access`, `archived_url`). With `access` of
+  `opened` or `archived`, the build sets the outcome, marks
   `finality_evidence` as `resolution: <url>` and rescores severity.
 - `data/review/restriction_sources.csv`: `instrument_id`, the
-  `primary_source_url` (ordinance, resolution, minutes) and a `verdict` of
-  `confirmed` or `contradicts`. A confirmed instrument becomes
-  `primary_source`; a contradicted one is quarantined.
+  `primary_source_url` (ordinance, resolution, minutes), a `verdict` of
+  `confirmed` or `contradicts`, and `access`. A confirmed instrument whose
+  source was opened or archived becomes `primary_source`; a contradicted one
+  is quarantined.
 
-Pushing either file rebuilds the published data. A resolution that names a
-record that does not exist, or has no evidence URL, stops the build.
+**How the evidence was seen.** Every row of `restriction_sources.csv`,
+`outcome_resolutions.csv`, `place_overrides.csv` and `queue.csv` has an
+`access` column:
+
+- `opened`: the page or document itself was read.
+- `archived`: an Internet Archive copy was read. Its URL goes in
+  `archived_url`.
+- `snippet`: only search-index text was seen, for example because the
+  session's network blocked the page.
+
+Only `opened` and `archived` evidence upgrades a record. A `snippet` row is
+kept and its URL attached, but nothing moves:
+
+- A restriction keeps its evidence level. Its `primary_source_url` is
+  published with `primary_source_access` = `snippet`, which pages show as
+  "source located, not yet read". A snippet `contradicts` verdict is a QC
+  finding, not a quarantine.
+- An outcome keeps its `*_unverified` (or other) value and severity, and
+  `finality_evidence` reads `lead: <url>`. Each contested project with a
+  resolution row also carries `resolution_url` and `resolution_access`.
+- A place override still places the record, since placement is low-stakes,
+  and carries `placement_access` so a profile can say how the county was
+  found.
+
+A snippet row stays on the worklists below, with its URL in `located_url`,
+until someone opens or archives the source and changes `access`.
+
+Pushing any of these files rebuilds the published data. A resolution that
+names a record that does not exist, has no evidence URL, or has a blank or
+unknown `access` (or `archived` with no `archived_url`) stops the build.
 
 **Column coverage.** `scripts/coverage_delta.py` fails the build when a
 well-filled column loses more than 20 percent of its values against the
@@ -248,7 +279,7 @@ An empty section means nothing is recorded. It does not mean nothing happened.
 
 A town name shared by several counties, where the text does not settle it, is marked `place_ambiguous` and left unplaced. Neighbors are never used to infer a county.
 
-**Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. The build stops if `evidence_url` is blank, if `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
+**Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`, `access`, `archived_url`. Any `access` value places the record; the profile prints it. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. The build stops if `evidence_url` or `access` is blank, if `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
 
 **Local knowledge.** `data/review/local_knowledge.csv` records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. Pass `--no-local` for a profile that leaves THG; the section is omitted and the file is not read.
 
