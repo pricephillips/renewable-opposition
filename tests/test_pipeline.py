@@ -70,9 +70,16 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
     parse.main()  # already parsed: nothing new is queued
     assert len(common.read_csv(review / "queue.csv")) == 2
 
+    # Search API results are index text: confirmed or not, they wait until the opinion is opened.
+    assert {q["access"] for q in queue} == {"snippet"}
     queue[0].update(review_status="confirmed", state="IA", severity_score="3")
     common.write_csv(review / "queue.csv", queue)
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
+    assert promote_reviewed.main() == 0
+    assert not common.read_csv(seed / "cases_seed.csv")
+
+    queue[0].update(access="opened")
+    common.write_csv(review / "queue.csv", queue)
     assert promote_reviewed.main() == 0
     cases = common.read_csv(seed / "cases_seed.csv")
     assert len(cases) == 1 and cases[0]["docket_number"] == "23-0001"
