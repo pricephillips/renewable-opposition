@@ -33,14 +33,14 @@ For each row:
 3. If no copy can be read, leave the row `snippet` and append to its note the date, each URL tried, and what each attempt returned (HTTP status, rate limit, connection reset). No field changes.
 4. If the session's network blocks most hosts, check `curl -sS "$HTTPS_PROXY/__agentproxy/status"` and tell the user which hosts were denied and that they can allow them under Network access in the environment settings.
 
-## 2. Worklists (only if asked, or once step 1 has nothing left to read)
+## 2. Worklists: records still waiting on a source (only if asked, or once step 1 has nothing left to read)
 
 Run `python scripts/build_seed_outputs.py` and `python scripts/verification_worklist.py`, then take items from the top of `data/review/outcome_worklist.csv` and `data/review/restriction_worklist.csv`. Rows with a `located_url` come first: the source is already located and only needs reading. For each item you can settle from a source you read, add one row to `outcome_resolutions.csv` or `restriction_sources.csv` with every column filled, including `access`. Record what the document says, never what you expect it to say.
 
 ## 3. Checks, commit, PR
 
 1. Record the evidence counts before and after: restriction instruments at `evidence_level` = `primary_source`, and contested-project outcomes ending in `_confirmed` (count by `instrument_id` in `data/processed/`).
-2. Run everything CI runs:
+2. Run the same checks GitHub Actions runs on every PR:
 
    ```bash
    pip install -c requirements/ci.txt -r requirements.txt ruff daff
@@ -56,6 +56,6 @@ Run `python scripts/build_seed_outputs.py` and `python scripts/verification_work
 
    If a newly read source raises a coverage column, raise its floor in `config/coverage_expectations.json` with the reason.
 3. Commit the review-file changes with a message that says what was read and what changed. Restore the generated files (`git checkout -- data/processed data/review/*_worklist.csv data/review/fips_misses.csv`) rather than committing them.
-4. Push, open a PR against `main`, and wait for CI. The PR description lists, at the top, anything that contradicts the published data, then:
+4. Push, open a PR against `main`, and wait for the GitHub Actions checks to finish. The PR description lists, at the top, anything that contradicts the published data, then:
    - the before and after evidence counts;
    - a table with one row per item: file, key, old access, new access, the URLs tried, and the field-level corrections (or "none").
