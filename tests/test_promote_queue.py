@@ -48,7 +48,7 @@ def test_every_mechanism_counts_and_the_score_is_computed(queue):
     assert (s["severity_score"], s["restriction_type"]) == ("3", "setback")
     assert s["severity_basis"] == "wind setback 3000 ft"
     assert s["mechanisms"] == "height limit, setback, noise limit"
-    assert "3,000 feet" in s["mechanism_detail"]
+    assert "3,000 feet" in s["long_description"]     # the seed's own column, none added
 
 
 def test_a_matching_typed_score_is_accepted(queue):
@@ -118,6 +118,6 @@ def test_an_archived_copy_can_be_promoted(queue):
     assert code == 0 and len(seeds) == 1
 
 
-def test_pending_rows_are_left_alone(queue):
+def test_a_pending_row_without_access_is_not_promoted(queue):
     code, seeds, status = queue(row(review_status="pending", mechanisms="vibes", access=""))
     assert code == 0 and seeds == [] and status == ["pending"]

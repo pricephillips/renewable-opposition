@@ -3,8 +3,9 @@
 Input: one raw JSON page of opinion search results, as stored by fetch.py.
 Output: one ``case`` candidate per result that mentions a renewable technology
 in its case name or snippet. Candidates land in data/review/queue.csv with
-review_status 'pending'; a reviewer confirms the project, state, technology
-and severity before scripts/promote_reviewed.py moves them into cases_seed.csv.
+review_status 'pending'. The API gives no state or severity, so a candidate
+stays queued until those are filled; scripts/promote_reviewed.py then moves it
+into cases_seed.csv on the next data build.
 
 Only facts present in the API response are filled: case name, court,
 docket number, filing date and the opinion URL. Nothing is inferred beyond

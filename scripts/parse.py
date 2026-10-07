@@ -65,7 +65,9 @@ class CandidateRecord:
     enrichment pass. Required fields: entity_type, source_id, raw_path.
 
     entity_type must be one of: restriction | contested_project | case | unknown
-    review_status starts as 'pending'; reviewer sets to 'confirmed' or 'rejected'.
+    review_status starts as 'pending'. promote_reviewed.py promotes the row on
+    the next data build once its seed's required fields are filled; 'rejected'
+    keeps it out.
     """
     # Provenance
     source_id: str = ""
@@ -74,7 +76,7 @@ class CandidateRecord:
 
     # Classification
     entity_type: str = "unknown"          # restriction | contested_project | case | unknown
-    review_status: str = "pending"        # pending | confirmed | rejected
+    review_status: str = "pending"        # pending | confirmed | rejected | promoted
     reviewer_notes: str = ""
 
     # Jurisdiction
