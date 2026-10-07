@@ -250,5 +250,14 @@
     "record_count": 2,
     "entities": "cases",
     "archived_url": "https://web.archive.org/web/20260709014400/https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"
+  },
+  {
+    "source_id": "src_8925f8475ddc",
+    "url": "https://www.linncountyiowa.gov/AgendaCenter/ViewFile/Minutes/_09202023-3459",
+    "normalized_url": "https://www.linncountyiowa.gov/AgendaCenter/ViewFile/Minutes/_09202023-3459",
+    "title": "review queue: web_research_2026-10-06",
+    "record_count": 1,
+    "entities": "restrictions",
+    "archived_url": ""
   }
 ]
