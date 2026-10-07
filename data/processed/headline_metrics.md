@@ -13,7 +13,8 @@ however many technologies it covers. Quote these, not row counts.
 | States | 43 | 26 |
 | Evidence: compiled_flagged | 51 | 15 |
 | Evidence: compiled_record | 78 | 67 |
-| Evidence: report_citation | 262 | 0 |
+| Evidence: primary_source | 1 | 0 |
+| Evidence: report_citation | 261 | 0 |
 
 611 published rows describe 473 instruments.
 

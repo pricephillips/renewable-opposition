@@ -6,32 +6,29 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 0 | 1 |
-| contested_projects | 0 | 0 | 1 |
+| restrictions | 0 | 0 | 12 |
+| contested_projects | 0 | 0 | 0 |
 | cases | 0 | 0 | 0 |
-
-## Column changes
-
-- restrictions: added `primary_source_access`, `primary_source_archived_url`, `placement_url`, `placement_access`
-- contested_projects: added `resolution_url`, `resolution_access`, `resolution_archived_url`; removed `resolution_date`
 
 ## Tracked field changes
 
-| Entity | Row | Column | Before | After |
-|---|---|---|---|---|
-| contested_projects | con_d4dbbbd76c (Flemingsburg Wind Project, KY) | outcome | blocked_confirmed | blocked_unverified |
-| contested_projects | con_d4dbbbd76c (Flemingsburg Wind Project, KY) | finality_evidence | resolution: https://www.wmky.org/business/2014-05-10/flemingsburg-wind-project-discontinued | lead: https://www.wmky.org/business/2014-05-10/flemingsburg-wind-project-discontinued |
+No changes to outcome, status, case_status, finality_evidence, severity_score.
 
 ## Detail
 
 ### restrictions
 
-| @@ | id | state | jurisdiction | evidence_level |
-|---|---|---|---|---|
-| -> | res_fd0d691db9 | KS | Cherokee | primary_source->report_citation |
-
-### contested_projects
-
-| @@ | id | state | project_name | outcome | finality_evidence | evidence_level |
-|---|---|---|---|---|---|---|
-| -> | con_d4dbbbd76c | KY | Flemingsburg Wind Project | blocked_confirmed->blocked_unverified | resolution: https://www.wmky.org/business/2014-05-10/flemingsburg-wind-project-discontinued->lead: https://www.wmky.org/business/2014-05-10/flemingsburg-wind-project-discontinued | confirmed->report_citation |
+| @@ | id | state | jurisdiction | evidence_level | primary_source_checked_on | primary_source_access | placement_access |
+|---|---|---|---|---|---|---|---|
+| -> | res_fd0d691db9 | KS | Cherokee | report_citation->primary_source | ->2026-10-07 | snippet->opened |  |
+| -> | res_d343965aee | MI | Augusta Township | report_citation |  |  | snippet->opened |
+| -> | res_9a50f2622b | MI | Beaver Township | report_citation |  |  | snippet->opened |
+| -> | res_a8fef03b0a | MI | Beaver Township | report_citation |  |  | snippet->opened |
+| -> | res_3cd890360d | MI | Berlin Charter Township | report_citation |  |  | snippet->opened |
+| -> | res_634e7b90cf | NC | Herndon | report_citation |  |  | snippet->opened |
+| -> | res_91aea95c72 | NY | Clinton | report_citation |  |  | snippet->opened |
+| -> | res_d05eb227e2 | NY | Florida | report_citation |  |  | snippet->opened |
+| -> | res_a400f633e0 | NY | Florida | report_citation |  |  | snippet->opened |
+| -> | res_965dba7e81 | WI | Deerfield | report_citation |  |  | snippet->opened |
+| -> | res_e9185a1856 | WI | Springfield | report_citation |  |  | snippet->opened |
+| -> | res_4393c67d8b | WI | Union | report_citation |  |  | snippet->opened |
