@@ -129,6 +129,9 @@ kept and its URL attached, but nothing moves:
 
 A snippet row stays on the worklists below, with its URL in `located_url`,
 until someone opens or archives the source and changes `access`.
+In Claude Code, `/verify-evidence` (`.claude/commands/verify-evidence.md`)
+runs this process: it tries to read each snippet row's source, corrects the
+row against it, and then works the worklists.
 
 Pushing any of these files rebuilds the published data. A resolution that
 names a record that does not exist, has no evidence URL, or has a blank or
