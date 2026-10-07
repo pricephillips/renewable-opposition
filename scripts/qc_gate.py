@@ -23,6 +23,9 @@ Checks
   CONFIRMED_NO_EVIDENCE HIGH    a *_confirmed outcome with no finality evidence
   PRIMARY_SOURCE_CONTRADICTS HIGH  a reviewer found the primary source disagrees
                                 with the record (data/review/restriction_sources.csv)
+                                MEDIUM when that source was seen only as
+                                search-index text (access snippet): a lead to
+                                read, not grounds to hold the record back
   SCOPE_DATA_CENTER_ONLY HIGH   a restriction whose text names data centers and
                                 no renewable technology (classify.scope): the
                                 source's sector tag is not supported by the record
@@ -132,8 +135,10 @@ def check_record(entity: str, row: dict, today: date | None = None) -> list[Issu
                                 f"pending instrument scored {sev}; pending is capped at 2"))
 
     if _s(row.get("primary_source_verdict")) == "contradicts":
-        issues.append(Issue("PRIMARY_SOURCE_CONTRADICTS", "HIGH", "primary_source_url",
-                            f"primary source disagrees: {_s(row.get('primary_source_url'))[:80]}"))
+        unread = _s(row.get("primary_source_access")) == "snippet"
+        issues.append(Issue("PRIMARY_SOURCE_CONTRADICTS", "MEDIUM" if unread else "HIGH", "primary_source_url",
+                            ("primary source located, not yet read, may disagree: " if unread
+                             else "primary source disagrees: ") + _s(row.get('primary_source_url'))[:80]))
 
     if entity == "restrictions" and _s(row.get("scope")) == "data_center_only":
         issues.append(Issue("SCOPE_DATA_CENTER_ONLY", "HIGH", "scope",
@@ -223,6 +228,12 @@ def selftest() -> int:
         ("restrictions", {"state": "KS", "status": "active", "source_url": "https://x.org",
                           "primary_source_url": "https://town.gov/o.pdf",
                           "primary_source_verdict": "contradicts"}, {"PRIMARY_SOURCE_CONTRADICTS"}),
+        ("restrictions", {"state": "KS", "status": "active", "source_url": "https://x.org",
+                          "primary_source_url": "https://town.gov/o.pdf", "primary_source_access": "snippet",
+                          "primary_source_verdict": "contradicts"}, {"PRIMARY_SOURCE_CONTRADICTS"}),
+        ("contested_projects", {"state": "VA", "outcome": "blocked_confirmed",
+                                "finality_evidence": "lead: https://county.gov/minutes.pdf",
+                                "source_url": "https://x.org"}, {"CONFIRMED_NO_EVIDENCE"}),
         ("contested_projects", {"state": "VA", "outcome": "blocked_confirmed",
                                 "finality_evidence": "resolution: https://county.gov/minutes.pdf",
                                 "source_url": "https://x.org"}, set()),

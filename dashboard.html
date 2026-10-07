@@ -642,6 +642,13 @@ function fieldKV(label, value) {
   return `<div class="field"><span class="field-name">${escapeHtml(label)}</span><span class="field-val">${escapeHtml(value)}</span></div>`;
 }
 
+// How a reviewer saw an attached source (data/review access column).
+function sourceWithAccess(url, access) {
+  if (!url) return '';
+  if (access === 'snippet') return url + ' (source located, not yet read)';
+  return access ? `${url} (${access})` : url;
+}
+
 function openPanel(r) {
   $('panel').innerHTML = `
     <button class="panel-close" id="panel-close" aria-label="Close" type="button">
@@ -668,6 +675,8 @@ function openPanel(r) {
       ${fieldKV('Severity', r.severity_score)}
       ${fieldKV('Outcome', r.outcome)}
       ${fieldKV('Finality evidence', r.finality_evidence)}
+      ${fieldKV('Primary source', sourceWithAccess(r.primary_source_url, r.primary_source_access))}
+      ${fieldKV('Resolution source', sourceWithAccess(r.resolution_url, r.resolution_access))}
       ${fieldKV('Court', r.court)}
       ${fieldKV('Docket', r.docket_number)}
       ${fieldKV('State', r.state)}

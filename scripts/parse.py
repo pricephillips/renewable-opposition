@@ -88,12 +88,14 @@ class CandidateRecord:
     # Project / restriction shared
     project_name: str = ""
     technology: str = ""                  # solar | wind | battery | offshore_wind | mixed
-    severity_score: str = ""             # 1-4
+    severity_score: str = ""             # 1-4; restrictions: computed on promotion, a typed one must agree
     description: str = ""
     source_url: str = ""
 
     # Restriction-specific
-    restriction_type: str = ""           # moratorium | ban | setback | height_limit | zoning_amendment | other
+    restriction_type: str = ""           # computed on promotion (driving_type); a typed value is ignored
+    mechanisms: str = ""                 # ;-separated, build_sabin_seeds.MECHANISM_TYPE vocabulary
+    mechanism_detail: str = ""           # the mechanisms' values: distances, dBA and hours, acreage, caps
     adopted_date: str = ""
     effective_date: str = ""
 
@@ -109,6 +111,8 @@ class CandidateRecord:
 
     # Evidence
     evidence_text: str = ""             # verbatim excerpt that triggered extraction
+    access: str = ""                    # opened | archived | snippet (resolutions.ACCESS); set by the extractor
+    archived_url: str = ""              # the Internet Archive copy read, when access is archived
 
 
 QUEUE_FIELDS = list(CandidateRecord.__dataclass_fields__.keys())

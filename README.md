@@ -83,7 +83,8 @@ A record whose text names data centers and no renewable technology
 **Evidence level.** Every row carries an `evidence_level`, best first:
 `primary_source`, `confirmed`, `court_record`, `compiled_record`,
 `compiled_flagged`, `report_citation`. The headline metrics break every count
-down by it.
+down by it. `primary_source` and an outcome's `confirmed` both need a source
+someone actually read; see "How the evidence was seen" below.
 
 **Closing the gaps.** Each build ranks what to check next in
 `data/review/outcome_worklist.csv` (unconfirmed project outcomes, blocked and
@@ -93,15 +94,45 @@ that would settle it and a search query to start from. Record what you find in:
 
 - `data/review/outcome_resolutions.csv`: `source_record_id`, the `outcome` the
   evidence supports, and a required `evidence_url` (plus `evidence_date`,
-  `evidence_note`, `reviewer`). The build sets the outcome, marks
+  `evidence_note`, `reviewer`, `access`, `archived_url`). With `access` of
+  `opened` or `archived`, the build sets the outcome, marks
   `finality_evidence` as `resolution: <url>` and rescores severity.
 - `data/review/restriction_sources.csv`: `instrument_id`, the
-  `primary_source_url` (ordinance, resolution, minutes) and a `verdict` of
-  `confirmed` or `contradicts`. A confirmed instrument becomes
-  `primary_source`; a contradicted one is quarantined.
+  `primary_source_url` (ordinance, resolution, minutes), a `verdict` of
+  `confirmed` or `contradicts`, and `access`. A confirmed instrument whose
+  source was opened or archived becomes `primary_source`; a contradicted one
+  is quarantined.
 
-Pushing either file rebuilds the published data. A resolution that names a
-record that does not exist, or has no evidence URL, stops the build.
+**How the evidence was seen.** Every row of `restriction_sources.csv`,
+`outcome_resolutions.csv`, `place_overrides.csv` and `queue.csv` has an
+`access` column:
+
+- `opened`: the page or document itself was read.
+- `archived`: an Internet Archive copy was read. Its URL goes in
+  `archived_url`.
+- `snippet`: only search-index text was seen, for example because the
+  session's network blocked the page.
+
+Only `opened` and `archived` evidence upgrades a record. A `snippet` row is
+kept and its URL attached, but nothing moves:
+
+- A restriction keeps its evidence level. Its `primary_source_url` is
+  published with `primary_source_access` = `snippet`, which pages show as
+  "source located, not yet read". A snippet `contradicts` verdict is a QC
+  finding, not a quarantine.
+- An outcome keeps its `*_unverified` (or other) value and severity, and
+  `finality_evidence` reads `lead: <url>`. Each contested project with a
+  resolution row also carries `resolution_url` and `resolution_access`.
+- A place override still places the record, since placement is low-stakes,
+  and carries `placement_access` so a profile can say how the county was
+  found.
+
+A snippet row stays on the worklists below, with its URL in `located_url`,
+until someone opens or archives the source and changes `access`.
+
+Pushing any of these files rebuilds the published data. A resolution that
+names a record that does not exist, has no evidence URL, or has a blank or
+unknown `access` (or `archived` with no `archived_url`) stops the build.
 
 **Column coverage.** `scripts/coverage_delta.py` fails the build when a
 well-filled column loses more than 20 percent of its values against the
@@ -208,6 +239,8 @@ Promotion is automatic. The Build dashboard data workflow runs `scripts/promote_
 
 - **Cases.** `data/review/cases_candidates.csv` lists every project or restriction the source says was litigated. A candidate is complete once `case_name`, `court`, `court_level` and an http(s) `case_source_url` are filled from a court record (a docket, an opinion, or a court's own page). If one project has several cases, duplicate the row. Rebuilding with `build_sabin_seeds.py` keeps these edits.
 - **Queue.** Extractors such as the CourtListener one, and anyone adding a candidate by hand, write to `data/review/queue.csv`. A row is complete once every field its seed requires is filled, including an http(s) `source_url`. Queue columns are mapped onto the seed's own columns (`adopted_date` becomes `date_enacted_iso`, a blank restriction status becomes `unknown`), so a promoted row never adds a column. Set `review_status=rejected` to keep a row out.
+- **How the queue source was seen.** Every queue row has `access` (`opened`, `archived` with its `archived_url`, or `snippet`). The CourtListener extractor writes `snippet`, because a search API result is index text. A `snippet` row is never promoted: it waits, and the workflow summary says its source has to be opened or archived first. A blank or unknown `access` is reported the same way.
+- **Restriction candidates.** List every mechanism in `mechanisms`, separated by semicolons, in the vocabulary of `build_sabin_seeds.MECHANISM_TYPE` (for example `setback; height limit; noise limit`). Put their values (distances, dBA and hours, acreage, caps) in `mechanism_detail`; a promoted row carries it in the seed's `long_description`. On promotion, `severity_score`, `severity_basis` and `restriction_type` are computed per technology by the same rules as published Sabin rows (`restriction_severity`, `driving_type`), run on `mechanism_detail` plus `description`. A `status` of `pending` caps the score at 2, as for Sabin rows; blank means unknown. A typed `severity_score` is optional: one that disagrees with the computed score is reported as a conflict and the row is not promoted. An unknown mechanism stops the run before anything is written.
 
 Outputs will be written to `data/processed/`.
 
@@ -229,11 +262,13 @@ Each profile has these sections:
 
 - **In the county:** published records whose `county_fips_all` includes the county.
 - **Local knowledge on file:** the county's rows in `data/review/local_knowledge.csv`, printed as entered, each labelled "reported, not verified". See below.
-- **Adjacent counties:** the same for every county that shares a border, across state lines.
+- **Adjacent counties:** the same for every county that shares a border, across state lines, plus one line for each pending review-queue candidate there.
 - **Within a radius:** optional.
-- **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates).
+- **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
 - **Named in the text:** records placed elsewhere whose text names the county.
-- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, and states with no contested-project coverage.
+- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, and one "Evidence still to read" flag that counts the items the profile shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
+
+Every record line names its sources. A record with a primary source prints it on the "Source" line with how it was seen ("located, not yet read" for `snippet`), and the compiled source it came from (the Sabin report or Moratorium Nation) as "Compiled from". A contested project with a resolution row also prints an "Outcome source" line the same way. A record placed by a reviewer override says how that evidence was seen.
 
 The state line under the flags counts unplaced rows (nothing the build could match) apart from ambiguous ones (a town name shared by several counties).
 
@@ -250,7 +285,7 @@ An empty section means nothing is recorded. It does not mean nothing happened.
 
 A town name shared by several counties, where the text does not settle it, is marked `place_ambiguous` and left unplaced. Neighbors are never used to infer a county.
 
-**Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. The build stops if `evidence_url` is blank, if `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
+**Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`, `access`, `archived_url`. Any `access` value places the record; the profile prints it. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. The build stops if `evidence_url` or `access` is blank, if `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
 
 **Local knowledge.** `data/review/local_knowledge.csv` records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. Pass `--no-local` for a profile that leaves THG; the section is omitted and the file is not read.
 

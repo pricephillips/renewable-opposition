@@ -21,8 +21,7 @@
         "by_evidence_level": {
           "compiled_flagged": 51,
           "compiled_record": 78,
-          "primary_source": 1,
-          "report_citation": 261
+          "report_citation": 262
         }
       },
       "multi_sector_data_centers": {
@@ -49,18 +48,18 @@
   "contested_projects": {
     "rows": 165,
     "projects": 165,
-    "confirmed_outcomes": 10,
+    "confirmed_outcomes": 9,
     "by_outcome": {
       "advanced_confirmed": 5,
       "advanced_unverified": 11,
-      "blocked_confirmed": 5,
-      "blocked_unverified": 51,
+      "blocked_confirmed": 4,
+      "blocked_unverified": 52,
       "needs_review": 16,
       "pending": 77
     },
     "by_evidence_level": {
-      "confirmed": 10,
-      "report_citation": 155
+      "confirmed": 9,
+      "report_citation": 156
     }
   },
   "cases": {

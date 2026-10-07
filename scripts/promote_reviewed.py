@@ -29,6 +29,21 @@ is and is listed with what it lacks. A row promoted without review_status
 reviewed by hand"). Promoted rows still pass through qc_gate in the build,
 which quarantines a row that breaks a rule.
 
+Queue rows say how their source was seen in `access` (resolutions.ACCESS).
+A row whose access is blank or unknown, or `archived` with no archived_url,
+is reported and not promoted, and so is any row whose access is `snippet`,
+whatever its review_status: the source has to be opened or archived first.
+
+Restriction candidates are scored by the rules published Sabin rows use, never
+by a typed number. `mechanisms` is a semicolon-separated list in the
+build_sabin_seeds.MECHANISM_TYPE vocabulary, and `mechanism_detail` holds
+their values (distances, dBA and hours, acreage, caps). For each technology
+the row names, restriction_severity and driving_type run on
+mechanism_detail plus description and set severity_score, severity_basis and
+restriction_type. A typed severity_score that disagrees with the computed
+one is reported as a conflict and the row is not promoted. An unknown
+mechanism stops the run with an error, before anything is written.
+
 Case severity: a reviewer may set severity_score on a candidate; otherwise it
 defaults to 3, the contested-projects score for "litigation filed".
 
@@ -45,9 +60,13 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_sabin_seeds import OUTCOME, RESTRICTION_STATUS, finalize_outcome  # noqa: E402
+from build_sabin_seeds import (  # noqa: E402
+    MECHANISM_TYPE, OUTCOME, RESTRICTION_STATUS, RESTRICTION_TECH, driving_type, finalize_outcome,
+    restriction_severity, text_about,
+)
 from build_seed_outputs import REQUIRED  # noqa: E402
-from common import REVIEW_DIR, SEED_DIR, read_csv, write_csv  # noqa: E402
+from common import REVIEW_DIR, SEED_DIR, read_csv, technology_tokens, write_csv  # noqa: E402
+from resolutions import access_error, is_read  # noqa: E402
 
 QUEUE_PATH = REVIEW_DIR / "queue.csv"
 CANDIDATES_PATH = REVIEW_DIR / "cases_candidates.csv"
@@ -64,7 +83,8 @@ QUEUE_COMMON = ["state", "technology", "severity_score", "description", "source_
 # so a promoted row never adds a column to a seed.
 QUEUE_SPECIFIC = {
     "restriction": {"jurisdiction_type": "jurisdiction_type", "restriction_type": "restriction_type",
-                    "status": "status", "adopted_date": "date_enacted_iso"},
+                    "status": "status", "adopted_date": "date_enacted_iso",
+                    "mechanism_detail": "long_description"},
     "contested_project": {"project_name": "project_name", "county": "county",
                           "municipality": "municipality", "opposition_type": "opposition_type",
                           "first_event_date": "event_date_text", "status": "status"},
@@ -83,6 +103,7 @@ def provenance(row: dict, kind: str) -> str:
         notes.append(f"promoted automatically from {kind} on {date.today().isoformat()}: "
                      "required fields complete, not reviewed by hand")
     return "; ".join(notes)
+
 
 CASE_FIELDS = [
     "state", "project_name", "technology", "court_level", "severity_score",
@@ -126,6 +147,56 @@ def queue_to_seed(row: dict) -> dict:
     return out
 
 
+class PromotionError(Exception):
+    """A queue row that must stop the whole run (an unknown mechanism)."""
+
+
+def mechanism_list(row: dict) -> list[str]:
+    return [m.strip() for m in (row.get("mechanisms") or "").split(";") if m.strip()]
+
+
+def score_restriction(row: dict) -> tuple[list[dict], list[str]]:
+    """One scored seed row per technology, or ([], problems). Raises
+    PromotionError on a mechanism outside MECHANISM_TYPE."""
+    mechanisms = mechanism_list(row)
+    unknown = [m for m in mechanisms if m not in MECHANISM_TYPE]
+    if unknown:
+        raise PromotionError(f"unknown mechanism(s) {unknown}; use the build_sabin_seeds.MECHANISM_TYPE "
+                             "vocabulary, separated by semicolons")
+    if not mechanisms:
+        return [], ["mechanisms is blank; list every mechanism the instrument uses"]
+    status_raw = (row.get("status") or "").strip()
+    published = set(RESTRICTION_STATUS.values())
+    status = status_raw if status_raw in published else RESTRICTION_STATUS.get(status_raw)
+    if status is None:
+        allowed = sorted(published | {k for k in RESTRICTION_STATUS if k})
+        return [], [f"status {status_raw!r} is not one of {allowed} (blank means unknown)"]
+    try:
+        techs = technology_tokens(row.get("technology", ""))
+    except ValueError as exc:
+        return [], [str(exc)]
+    off = [t for t in techs if t not in RESTRICTION_TECH]
+    if off or not techs:
+        return [], [f"technology must be among {', '.join(RESTRICTION_TECH)} to be scored"]
+    types = {MECHANISM_TYPE[m] for m in mechanisms}
+    text = " ".join(x for x in ((row.get("mechanism_detail") or "").strip(),
+                                (row.get("description") or "").strip()) if x)
+    typed = (row.get("severity_score") or "").strip()
+    out, problems = [], []
+    for tech in techs:
+        score, basis = restriction_severity(types, tech, status, text_about(text, tech))
+        if typed and typed != str(score):
+            problems.append(f"typed severity_score {typed} conflicts with the computed {score} for {tech} "
+                            f"({basis}); clear the typed score or correct mechanisms/mechanism_detail")
+            continue
+        seed = queue_to_seed(row)
+        seed.update(technology=tech, severity_score=score, severity_basis=basis,
+                    restriction_type=driving_type(types, basis), status=status,
+                    mechanisms=", ".join(mechanisms))
+        out.append(seed)
+    return ([] if problems else out), problems
+
+
 def candidate_to_case(row: dict) -> dict:
     return {
         "state": row["state"],
@@ -164,20 +235,45 @@ def main() -> int:
     problems: list[str] = []
 
     queue = read_csv(QUEUE_PATH) if QUEUE_PATH.exists() else []
+    errors: list[str] = []
     for i, row in enumerate(queue, start=2):
         if (row.get("review_status") or "").strip() in NEVER:
             continue
+        where = f"queue.csv row {i}"
         etype = row.get("entity_type", "")
         if etype not in SEED_FOR:
-            problems.append(f"queue.csv row {i}: entity_type {etype!r} cannot be promoted")
+            problems.append(f"{where}: entity_type {etype!r} cannot be promoted")
             continue
-        seed_row = queue_to_seed(row)
-        gaps = missing(SEED_FOR[etype][0], seed_row)
+        bad = access_error(row)
+        if bad:
+            problems.append(f"{where}: {bad}")
+            continue
+        if not is_read(row.get("access", "")):
+            problems.append(f"{where}: access is snippet (only search-index text was seen); the source has "
+                            "to be opened or archived first, then set access to opened or archived")
+            continue
+        if etype == "restriction":
+            try:
+                seed_rows, why = score_restriction(row)
+            except PromotionError as exc:
+                errors.append(f"{where}: {exc}")
+                continue
+            if why:
+                problems += [f"{where}: {w}" for w in why]
+                continue
+        else:
+            seed_rows = [queue_to_seed(row)]
+        gaps = sorted({g for r in seed_rows for g in missing(SEED_FOR[etype][0], r)})
         if gaps:
-            problems.append(f"queue.csv row {i}: missing {', '.join(gaps)}")
+            problems.append(f"{where}: missing {', '.join(gaps)}")
             continue
-        additions[etype].append(seed_row)
+        additions[etype].extend(seed_rows)
         row["review_status"] = "promoted"
+    if errors:
+        for e in errors:
+            print(e, file=sys.stderr)
+        print(f"{len(errors)} error(s); nothing promoted.", file=sys.stderr)
+        return 1
 
     candidates = read_csv(CANDIDATES_PATH) if CANDIDATES_PATH.exists() else []
     waiting = 0

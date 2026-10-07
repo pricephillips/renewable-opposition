@@ -19,12 +19,20 @@ each item:
                         coordinates, or county centroid, fall within N miles.
   4. Not published      rows the build held back that concern the county:
                         Sabin rows set aside (lifted, duplicate, unplaceable),
-                        QC quarantine, coverage gaps and case candidates.
+                        QC quarantine, coverage gaps, case candidates, and
+                        data/review/queue.csv candidates of any entity type
+                        still pending review (matched by county name, town
+                        via the place index, or "<Name> County" in the text).
+                        Pending candidates in adjacent counties are listed
+                        there too, one line each.
   5. Text mentions      any row in the data or review files whose text names
                         "<County> County" in the state but that 1 to 4 did
                         not place, so an unplaced record still surfaces.
   6. Flags and context  moratoria past their end date, pending instruments,
                         report-only evidence, same-name counties elsewhere,
+                        one "Evidence still to read" flag counting the items
+                        shown whose source was seen only as search-index
+                        text (access snippet),
                         and whether the state has any contested-project
                         coverage at all, so an empty section reads as
                         "nothing recorded", never "nothing happened". The
@@ -40,6 +48,11 @@ Usage
   python scripts/site_profile.py --state KS --county Cherokee --no-local
       sites.csv columns: name, state, county, fips (any one of county or fips),
       optional lat, lon, notes. --json writes structured output instead.
+
+Every record line prints its primary source on the "Source" line when one is
+attached, labelled "located, not yet read" when only search-index text was
+seen, and the compiled source (Sabin, Moratorium Nation) as "Compiled from".
+A contested project's outcome prints its resolution URL and access the same way.
 """
 from __future__ import annotations
 
@@ -89,20 +102,32 @@ def _json(path: Path, default):
 
 
 class Data:
-    def __init__(self, local: bool = True) -> None:
-        self.restrictions = _csv(PROCESSED / "restrictions.csv")
-        self.projects = _csv(PROCESSED / "contested_projects.csv")
-        self.cases = _csv(PROCESSED / "cases.csv")
-        self.quarantine = _json(PROCESSED / "quarantine.json", [])
-        self.held = _csv(REVIEW / "sabin_restrictions_review.csv")
-        self.gaps = _csv(REVIEW / "coverage_gaps.csv")
-        self.candidates = _csv(REVIEW / "cases_candidates.csv")
+    def __init__(self, local: bool = True, root: Path | None = None) -> None:
+        """root: a directory holding a data/ tree laid out like this repo's;
+        default the repository itself."""
+        if root is None:
+            processed, review = PROCESSED, REVIEW
+            local_path, lookup, place_index, snapshots = LOCAL_KNOWLEDGE, FIPS_LOOKUP, PLACE_INDEX, SNAPSHOTS
+        else:
+            processed, review = root / "data" / "processed", root / "data" / "review"
+            local_path = review / LOCAL_KNOWLEDGE.name
+            lookup, place_index = root / "data" / FIPS_LOOKUP.name, root / "data" / PLACE_INDEX.name
+            snapshots = root / "data" / "snapshots" / SNAPSHOTS.name
+        self.restrictions = _csv(processed / "restrictions.csv")
+        self.projects = _csv(processed / "contested_projects.csv")
+        self.cases = _csv(processed / "cases.csv")
+        self.quarantine = _json(processed / "quarantine.json", [])
+        self.held = _csv(review / "sabin_restrictions_review.csv")
+        self.gaps = _csv(review / "coverage_gaps.csv")
+        self.candidates = _csv(review / "cases_candidates.csv")
+        # Review-queue candidates nobody has decided on yet: shown, never published.
+        self.queue = [r for r in _csv(review / "queue.csv") if r.get("review_status") == "pending"]
         # None, not [], when left out, so the profile omits the section.
-        self.local = _csv(LOCAL_KNOWLEDGE) if local else None
-        raw = _json(FIPS_LOOKUP, {})
+        self.local = _csv(local_path) if local else None
+        raw = _json(lookup, {})
         self.lookup = {k.lower(): str(v) for k, v in raw.items() if not k.startswith("_")}
-        self.places = {k: v for k, v in _json(PLACE_INDEX, {}).items() if not k.startswith("_")}
-        snaps = _csv(SNAPSHOTS)
+        self.places = {k: v for k, v in _json(place_index, {}).items() if not k.startswith("_")}
+        snaps = _csv(snapshots)
         self.as_of = max((r["date"] for r in snaps if r.get("date")), default="unknown")
         for r in self.restrictions + self.projects:
             if "county_fips_all" not in r:  # data built before county_fips_all existed
@@ -163,6 +188,32 @@ def county_phrase(name: str) -> re.Pattern:
     return re.compile(rf"\b{re.escape(name)}\s+(?:County|Counties|Parish)\b", re.I)
 
 
+def concerns(d: Data, row: dict, fips: str, name: str, st: str, *fields: str) -> bool:
+    """Whether a held-back row names this county: the county's own name in a
+    field, a town the place index puts in this county alone, or "<Name>
+    County" in the text. Rows of other states never match."""
+    if (row.get("state") or "").upper() != st:
+        return False
+    phrase, bare = county_phrase(name), name.lower()
+    for f in fields:
+        v = (row.get(f) or "").strip()
+        if not v:
+            continue
+        if COUNTY_SUFFIX.sub("", v).lower() == bare or phrase.search(v):
+            return True
+        if d.places.get(f"{classify.place_key(v)}|{st}") == [fips]:
+            return True
+    return False
+
+
+# Queue fields matched against a county: its county, its town, and its text.
+QUEUE_PLACE_FIELDS = ("county", "municipality", "project_name", "description")
+
+
+def pending_for(d: Data, fips: str, name: str, st: str) -> list[dict]:
+    return [r for r in d.queue if concerns(d, r, fips, name, st, *QUEUE_PLACE_FIELDS)]
+
+
 def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None, lon=None,
             radius: float = 0.0, notes: str = "") -> dict:
     neighbors = geo.neighbors(fips)
@@ -178,13 +229,18 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
     here = {"restrictions": take(d.restrictions, lambda r: fips in fips_set(r)),
             "contested_projects": take(d.projects, lambda r: fips in fips_set(r))}
     local = None if d.local is None else [r for r in d.local if r["county_fips"].strip().zfill(5) == fips]
+    pending = pending_for(d, fips, name, st)
+    queued = {id(r) for r in pending}
     near = {}
     for nb in neighbors:
         rs = take(d.restrictions, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
         ps = take(d.projects, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
-        if rs or ps:
-            near[nb] = {"name": geo.name(nb), "state": state_of(d, nb),
-                        "restrictions": rs, "contested_projects": ps}
+        nb_name, nb_state = geo.name(nb), state_of(d, nb)
+        qs = [r for r in pending_for(d, nb, nb_name, nb_state) if id(r) not in queued]
+        queued.update(id(r) for r in qs)
+        if rs or ps or qs:
+            near[nb] = {"name": nb_name, "state": nb_state,
+                        "restrictions": rs, "contested_projects": ps, "pending": qs}
     radius_rows = []
     if radius and origin:
         for r in d.restrictions + d.projects:
@@ -205,18 +261,7 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
     bare = name.lower()
 
     def names_county(row: dict, *fields: str) -> bool:
-        if (row.get("state") or "").upper() != st:
-            return False
-        for f in fields:
-            v = (row.get(f) or "").strip()
-            if not v:
-                continue
-            if COUNTY_SUFFIX.sub("", v).lower() == bare or phrase.search(v):
-                return True
-            key = f"{classify.place_key(v)}|{st}"
-            if d.places.get(key) == [fips]:
-                return True
-        return False
+        return concerns(d, row, fips, name, st, *fields)
 
     held = [r for r in d.held if names_county(r, "jurisdiction")]
     gaps = [r for r in d.gaps if names_county(r, "jurisdiction")]
@@ -250,9 +295,15 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
     for r in here["restrictions"] + here["contested_projects"]:
         if r.get("evidence_level") == "report_citation":
             label = r.get("jurisdiction") or r.get("project_name")
-            flags.append(f"{label}: evidence is a report citation only; no primary source attached")
+            flags.append(f"{label}: evidence is a report citation only; "
+                         + ("a primary source is located but not yet read" if r.get("primary_source_url")
+                            else "no primary source attached"))
     if held:
         flags.append(f"{len(held)} Sabin row(s) for this county were held back from publication; see Not published")
+    unread = still_to_read(here, near, radius_rows, pending)
+    if unread:
+        flags.append(f"Evidence still to read: {len(unread)} item(s) shown here rest on a source located but not "
+                     "yet read (only search-index text was seen): " + "; ".join(unread))
     twins = sorted({r["state"] for r in d.restrictions + d.projects
                     if r.get("state", "").upper() != st and fips not in fips_set(r)
                     and any(geo.name(f).lower() == bare for f in fips_set(r))})
@@ -279,8 +330,37 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
             "neighbors": [{"fips": n, "name": geo.name(n), "state": state_of(d, n)} for n in neighbors],
             "in_county": here, "local_knowledge": local, "adjacent": near, "within_radius": radius_rows, "radius_mi": radius,
             "cases": cases, "not_published": {"held_back": held, "coverage_gaps": gaps,
-                                              "quarantined": quarantined, "case_candidates": candidates},
+                                              "quarantined": quarantined, "case_candidates": candidates,
+                                              "pending_review": pending},
             "text_mentions": mentions, "flags": flags, "state_context": context}
+
+
+def _label(r: dict) -> str:
+    return r.get("jurisdiction") or r.get("project_name") or r.get("municipality") or r.get("county") or ""
+
+
+def still_to_read(here: dict, near: dict, radius_rows: list[dict], pending: list[dict]) -> list[str]:
+    """One entry per item the profile shows whose source was seen only as
+    search-index text: a primary source, an outcome resolution, a placement,
+    or a pending review-queue candidate."""
+    out, seen = [], set()
+    groups = [here, *near.values()]
+    restrictions = [r for g in groups for r in g["restrictions"]] + [r for r in radius_rows
+                                                                    if r["id"].startswith("res_")]
+    projects = [r for g in groups for r in g["contested_projects"]] + [r for r in radius_rows
+                                                                      if r["id"].startswith("con_")]
+    for r in restrictions + projects:
+        iid = r.get("instrument_id") or r["id"]
+        for field, what in (("primary_source_access", "primary source"),
+                            ("resolution_access", "outcome source"),
+                            ("placement_access", "county placement")):
+            if r.get(field) == "snippet" and (iid, field) not in seen:
+                seen.add((iid, field))
+                out.append(f"{_label(r)} {what}")
+    for r in pending + [r for g in near.values() for r in g.get("pending", [])]:
+        if r.get("access") == "snippet":
+            out.append(f"{_label(r)} pending {r.get('entity_type') or 'candidate'}")
+    return out
 
 
 def state_of(d: Data, fips: str) -> str:
@@ -299,6 +379,48 @@ def _instruments(rows: list[dict]) -> list[list[dict]]:
     return sorted(groups.values(), key=lambda g: -int(g[0].get("severity_score") or 0))
 
 
+ACCESS_LABEL = {"snippet": "located, not yet read", "opened": "opened", "archived": "archived copy read"}
+
+
+def _seen(url: str, access: str, archived: str = "") -> str:
+    """A reviewer's source URL with how it was seen."""
+    label = ACCESS_LABEL.get(access, f"access {access or 'not recorded'}")
+    return f"{url} ({label}{': ' + archived if archived and access == 'archived' else ''})"
+
+
+def _compiled(r: dict) -> str:
+    """The compiled source a record came from, or '' when its source_url is
+    the document itself (a promoted review-queue row)."""
+    iid = r.get("instrument_id") or ""
+    name = ("Moratorium Nation" if iid.startswith("mn:") else "Sabin Center report" if iid.startswith("sabin:")
+            else "")
+    return f"{name}, {r.get('source_url', '')}" if name else ""
+
+
+def _source_line(r: dict) -> str:
+    """'Source: <primary> (access). Compiled from <name>, <url>' or the
+    compiled source alone when no primary source is attached."""
+    compiled = _compiled(r)
+    if r.get("primary_source_url"):
+        line = "Source: " + _seen(r["primary_source_url"], r.get("primary_source_access", ""),
+                                  r.get("primary_source_archived_url", ""))
+        if r.get("primary_source_verdict") == "contradicts":
+            line += ", which a reviewer reads as contradicting the record"
+        return line + (f". Compiled from {compiled}" if compiled else "")
+    if compiled:
+        return f"Source: no primary source attached. Compiled from {compiled}"
+    return f"Source: {r.get('source_url', '')}"
+
+
+def _placed(r: dict) -> str:
+    how = r.get("county_fips_method") or ""
+    if not how or how == "name":
+        return ""
+    if how == "override" and r.get("placement_access"):
+        return f", placed by override ({ACCESS_LABEL.get(r['placement_access'], r['placement_access'])})"
+    return f", placed by {how}"
+
+
 def _restriction_lines(rows: list[dict], indent: str = "") -> list[str]:
     out = []
     for g in _instruments(rows):
@@ -306,8 +428,7 @@ def _restriction_lines(rows: list[dict], indent: str = "") -> list[str]:
         techs = ", ".join(sorted({x["technology"] for x in g}))
         when = r.get("date_enacted_iso") or r.get("date_text") or "date n/a"
         dist = f", {r['_miles']} mi" if "_miles" in r else ""
-        how = r.get("county_fips_method") or ""
-        how = f", placed by {how}" if how and how != "name" else ""
+        how = _placed(r)
         out.append(f"{indent}- **{r['jurisdiction']}** ({r['jurisdiction_type']}{dist}{how}): "
                    f"{r['restriction_type']}, severity {r['severity_score']}, {techs}; "
                    f"status {r.get('status') or 'n/a'}; {when}; evidence {r['evidence_level']}; "
@@ -316,7 +437,7 @@ def _restriction_lines(rows: list[dict], indent: str = "") -> list[str]:
         basis = r.get("severity_basis") or (
             "Moratorium Nation rule: active or extended moratorium scores 4, pending 2"
             if (r.get("instrument_id") or "").startswith("mn:") else "n/a")
-        out.append(f"{indent}  Severity basis: {basis}. Source: {r['source_url']}")
+        out.append(f"{indent}  Severity basis: {basis}. {_source_line(r)}")
     return out
 
 
@@ -325,10 +446,41 @@ def _project_lines(rows: list[dict], indent: str = "") -> list[str]:
     for r in rows:
         dist = f", {r['_miles']} mi" if "_miles" in r else ""
         out.append(f"{indent}- **{r['project_name']}** ({r['technology']}, {r.get('capacity_mw') or 'size n/a'}"
-                   f"{dist}; {r.get('county', '')}): outcome {r['outcome']}, severity {r['severity_score']}, "
+                   f"{dist}{_placed(r)}; {r.get('county', '')}): outcome {r['outcome']}, "
+                   f"severity {r['severity_score']}, "
                    f"litigation {r.get('has_litigation') or 'n/a'}, {r.get('event_date_text') or 'date n/a'}; "
                    f"finality {r.get('finality_evidence')}; evidence {r['evidence_level']}")
         out.append(f"{indent}  {r['description'][:280]}")
+        if r.get("resolution_url"):
+            out.append(f"{indent}  Outcome source: " + _seen(r["resolution_url"], r.get("resolution_access", ""),
+                                                            r.get("resolution_archived_url", "")))
+        out.append(f"{indent}  {_source_line(r)}")
+    return out
+
+
+def _mechanisms(r: dict) -> str:
+    mech = r.get("mechanisms") or r.get("restriction_type") or r.get("opposition_type") or ""
+    detail = r.get("mechanism_detail") or ""
+    return " ".join(x for x in (f"Mechanisms: {mech}." if mech else "No mechanisms recorded.",
+                                 f"Values: {detail}" if detail else "") if x)
+
+
+def _adopted(r: dict) -> str:
+    return r.get("adopted_date") or r.get("first_event_date") or r.get("filing_date") or "date n/a"
+
+
+def _pending_lines(rows: list[dict], indent: str = "", short: bool = False) -> list[str]:
+    out = []
+    for r in rows:
+        head = (f"{indent}- Pending review, not published: {r.get('entity_type') or 'candidate'}, "
+                f"{_label(r)}, {r.get('technology') or 'technology n/a'}")
+        access = ACCESS_LABEL.get(r.get("access", ""), f"access {r.get('access') or 'not recorded'}")
+        if short:
+            out.append(f"{head}; {r.get('mechanisms') or r.get('restriction_type') or 'mechanisms n/a'}; "
+                       f"{_adopted(r)}; source {access}")
+            continue
+        out.append(f"{head}; adopted {_adopted(r)}; source {r.get('source_url') or 'n/a'} ({access}).")
+        out.append(f"{indent}  {_mechanisms(r)}")
     return out
 
 
@@ -363,6 +515,7 @@ def render(p: dict) -> str:
     for nb, g in p["adjacent"].items():
         L.append(f"- {g['name']}, {g['state']} ({nb})")
         L += _restriction_lines(g["restrictions"], "  ") + _project_lines(g["contested_projects"], "  ")
+        L += _pending_lines(g.get("pending", []), "  ", short=True)
     L.append("")
     if p["radius_mi"]:
         L.append(f"### Within {p['radius_mi']:g} miles (beyond the county and its neighbors)")
@@ -391,6 +544,7 @@ def render(p: dict) -> str:
     for r in np_["case_candidates"]:
         L.append(f"- Case candidate: {r['project_name']} ({r.get('review_status') or 'unreviewed'}); "
                  "no court record confirmed yet")
+    L += _pending_lines(np_.get("pending_review", []))
     if not any(np_.values()):
         L.append("- Nothing held back for this county.")
     L.append("")

@@ -70,10 +70,17 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
     parse.main()  # already parsed: nothing new is queued
     assert len(common.read_csv(review / "queue.csv")) == 2
 
-    # No one confirms anything: filling the fields the API lacks is enough.
+    # Search API results are index text: they wait until the opinion is opened, and
+    # no one confirms anything; filling the fields the API lacks is the rest.
+    assert {q["access"] for q in queue} == {"snippet"}
     queue[0].update(state="IA", severity_score="3")
     common.write_csv(review / "queue.csv", queue)
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
+    assert promote_reviewed.main() == 0
+    assert not common.read_csv(seed / "cases_seed.csv")
+
+    queue[0].update(access="opened")
+    common.write_csv(review / "queue.csv", queue)
     assert promote_reviewed.main() == 0
     cases = common.read_csv(seed / "cases_seed.csv")
     assert len(cases) == 1 and cases[0]["docket_number"] == "23-0001"
@@ -118,20 +125,22 @@ QUEUE_ROW = {"source_id": "manual", "entity_type": "restriction", "review_status
              "state": "IA", "county": "Linn County", "jurisdiction_type": "County", "technology": "solar",
              "severity_score": "2", "description": "300 ft solar setback from dwellings.",
              "source_url": "https://www.linncountyiowa.gov/minutes", "restriction_type": "setback",
-             "adopted_date": "2023-09-20", "effective_date": "2023-09-28", "reviewer_notes": "seen in minutes"}
+             "adopted_date": "2023-09-20", "effective_date": "2023-09-28", "reviewer_notes": "seen in minutes",
+             "access": "opened", "mechanisms": "setback", "mechanism_detail": "Panels 300 ft from dwellings."}
 
 
 def test_a_complete_queue_row_is_promoted_into_the_seed_columns(monkeypatch, tmp_path):
     _, review, seed = _patch_paths(monkeypatch, tmp_path)
-    header = ["state", "technology", "restriction_type", "severity_score", "description", "status",
-              "jurisdiction", "jurisdiction_type", "date_enacted_iso", "source", "source_url", "notes"]
+    real = Path(__file__).resolve().parent.parent / "data" / "seed" / "restrictions_seed.csv"
+    header = real.read_text(encoding="utf-8").splitlines()[0].split(",")
     common.write_csv(seed / "restrictions_seed.csv",
                      [{**{k: "" for k in header}, "state": "OH", "source": "Moratorium Nation x"}], header)
     common.write_csv(review / "queue.csv", [
         QUEUE_ROW,
         {**QUEUE_ROW, "county": "Benton County", "review_status": "rejected"},
-        {**QUEUE_ROW, "county": "Jones County", "severity_score": ""},
+        {**QUEUE_ROW, "county": "Jones County", "description": ""},
         {**QUEUE_ROW, "county": "Story County", "source_url": "not a url"},
+        {**QUEUE_ROW, "county": "Polk County", "access": "snippet"},
     ])
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
     assert promote_reviewed.main() == 0
@@ -142,8 +151,9 @@ def test_a_complete_queue_row_is_promoted_into_the_seed_columns(monkeypatch, tmp
         ("Linn County", "County", "2023-09-20", "unknown")
     assert r["source"] == "review queue: manual"
     assert r["notes"].startswith("effective 2023-09-28; seen in minutes; promoted automatically")
+    assert r["long_description"] == "Panels 300 ft from dwellings."
     assert [q["review_status"] for q in common.read_csv(review / "queue.csv")] == \
-        ["promoted", "rejected", "pending", "pending"]
+        ["promoted", "rejected", "pending", "pending", "pending"]
     assert promote_reviewed.main() == 0                  # idempotent
     assert len(common.read_csv(seed / "restrictions_seed.csv")) == 2
 
