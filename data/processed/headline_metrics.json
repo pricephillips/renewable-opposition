@@ -21,7 +21,8 @@
         "by_evidence_level": {
           "compiled_flagged": 51,
           "compiled_record": 78,
-          "report_citation": 262
+          "primary_source": 1,
+          "report_citation": 261
         }
       },
       "multi_sector_data_centers": {
