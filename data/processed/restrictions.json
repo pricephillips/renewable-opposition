@@ -15075,10 +15075,12 @@
     "source_id": "src_90d5b39d9a09",
     "instrument_id": "sabin:REC-0122",
     "scope": "renewables_only",
-    "evidence_level": "primary_source",
+    "evidence_level": "report_citation",
     "primary_source_url": "https://cherokeecountyks.gov/MAIN/component/easyfolderlistingpro/?view=download&format=raw&data=eNpFUNEOgjAM_BXTd8OGBrU8-gc-m5AJBZcwRtahJMZ_d2MQn7q73t3aKpQSP4wFQmv7hhyUjAeJoI3qiO-NrVwnQ4Pn-9Uao5m1HcjxLsqCEyYml4y8UAhia3UTsf-HnhCqauFcIjpcJ-ugDEUoEGIpEqsbKDWKZHLUj8o_l9RcMLMbse1cJx_m4CwXeb6mtbqnLS3IxGW_NQ8INPv1NTbtqqB51I54-0mGEZT3qn7GdaF8oAzsJTgcvTS90xJHhCEcXDDK7w-wC2Kz",
     "primary_source_verdict": "confirmed",
     "primary_source_checked_on": "",
+    "primary_source_access": "snippet",
+    "primary_source_archived_url": "",
     "county_fips": "20021",
     "county_fips_all": "20021",
     "county_fips_method": "name",
@@ -17522,6 +17524,8 @@
     "county_fips": null,
     "county_fips_all": "26161",
     "county_fips_method": "override",
+    "placement_url": "https://augustatownship.org/wp-content/uploads/2020/12/White-Tail-Solar-Special-Use-Permit-and-Site-Plan-Application_FINAL.pdf",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -17602,6 +17606,8 @@
     "county_fips": null,
     "county_fips_all": "26017",
     "county_fips_method": "override",
+    "placement_url": "https://www.michigancapitolconfidential.com/another-michigan-community-moving-toward-wind-farm-restrictions",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -17642,6 +17648,8 @@
     "county_fips": null,
     "county_fips_all": "26017",
     "county_fips_method": "override",
+    "placement_url": "https://www.michigancapitolconfidential.com/another-michigan-community-moving-toward-wind-farm-restrictions",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -17722,6 +17730,8 @@
     "county_fips": null,
     "county_fips_all": "26115",
     "county_fips_method": "override",
+    "placement_url": "https://berlinchartertwp.com/about/",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -18682,6 +18692,8 @@
     "county_fips": null,
     "county_fips_all": "37091",
     "county_fips_method": "override",
+    "placement_url": "https://www.roanoke-chowannewsherald.com/2020/10/06/moratorium-slows-start-up-of-hertford-co-solar-farms/",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -20042,6 +20054,8 @@
     "county_fips": null,
     "county_fips_all": "36027",
     "county_fips_method": "override",
+    "placement_url": "https://www.clintondcny.gov/",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -20362,6 +20376,8 @@
     "county_fips": null,
     "county_fips_all": "36057",
     "county_fips_method": "override",
+    "placement_url": "https://www.townofflorida.com/index.php/document-center/forms/256-draft-amendment-to-solar-ordinance/file",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -20402,6 +20418,8 @@
     "county_fips": null,
     "county_fips_all": "36057",
     "county_fips_method": "override",
+    "placement_url": "https://www.townofflorida.com/index.php/document-center/forms/256-draft-amendment-to-solar-ordinance/file",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -24242,6 +24260,8 @@
     "county_fips": null,
     "county_fips_all": "55025",
     "county_fips_method": "override",
+    "placement_url": "https://www.town.deerfield.wi.us/wp-content/uploads/2014/11/Building-Permit-Ordinance-Draft-7.11.18.pdf",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -24562,6 +24582,8 @@
     "county_fips": null,
     "county_fips_all": "55025",
     "county_fips_method": "override",
+    "placement_url": "https://www.town.springfield.wi.us/ordinances/",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
@@ -24602,6 +24624,8 @@
     "county_fips": null,
     "county_fips_all": "55105",
     "county_fips_method": "override",
+    "placement_url": "https://isthmus.com/news/news/the-war-over-wind/",
+    "placement_access": "snippet",
     "sources": [
       {
         "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
