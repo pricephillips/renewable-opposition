@@ -171,9 +171,54 @@
     "archived_url": "https://web.archive.org/web/20250929061155/https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5"
   },
   {
+    "source_id": "src_4a68254cbd3f",
+    "url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/",
+    "normalized_url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_8714f02ecb25",
+    "url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of/",
+    "normalized_url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_79287f71401d",
+    "url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/",
+    "normalized_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_a5dfad01e7d6",
+    "url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management/",
+    "normalized_url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_de7702189893",
     "url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland/",
     "normalized_url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_84f8736fb7b5",
+    "url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/",
+    "normalized_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri",
     "title": "Reviewed case record",
     "record_count": 2,
     "entities": "cases",
@@ -216,6 +261,24 @@
     "archived_url": ""
   },
   {
+    "source_id": "src_2d9681e5431e",
+    "url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals/",
+    "normalized_url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_62b2194e5e0e",
+    "url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain/",
+    "normalized_url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_5dd93a66684f",
     "url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty/",
     "normalized_url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty",
@@ -241,6 +304,15 @@
     "record_count": 2,
     "entities": "cases",
     "archived_url": "https://web.archive.org/web/20241124014205/https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/"
+  },
+  {
+    "source_id": "src_db53cb6e1149",
+    "url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/",
+    "normalized_url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_8eef61cb2896",
