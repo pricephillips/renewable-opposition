@@ -260,11 +260,13 @@ Each profile has these sections:
 
 - **In the county:** published records whose `county_fips_all` includes the county.
 - **Local knowledge on file:** the county's rows in `data/review/local_knowledge.csv`, printed as entered, each labelled "reported, not verified". See below.
-- **Adjacent counties:** the same for every county that shares a border, across state lines.
+- **Adjacent counties:** the same for every county that shares a border, across state lines, plus one line for each pending review-queue candidate there.
 - **Within a radius:** optional.
-- **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates).
+- **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
 - **Named in the text:** records placed elsewhere whose text names the county.
-- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, and states with no contested-project coverage.
+- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, and one "Evidence still to read" flag that counts the items the profile shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
+
+Every record line names its sources. A record with a primary source prints it on the "Source" line with how it was seen ("located, not yet read" for `snippet`), and the compiled source it came from (the Sabin report or Moratorium Nation) as "Compiled from". A contested project with a resolution row also prints an "Outcome source" line the same way. A record placed by a reviewer override says how that evidence was seen.
 
 The state line under the flags counts unplaced rows (nothing the build could match) apart from ambiguous ones (a town name shared by several counties).
 
