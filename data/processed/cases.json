@@ -1082,5 +1082,63 @@
         "url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf"
       }
     ]
+  },
+  {
+    "state": "LA",
+    "project_name": "Cajun Crescent Energy Center",
+    "technology": "solar",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "Cajun Crossroads Energy Center, LLC v. Calcasieu Parish Police Jury (Louisiana Court of Appeal, Third Circuit) - litigation over Cajun Crescent Energy Center",
+    "case_name": "Cajun Crossroads Energy Center, LLC v. Calcasieu Parish Police Jury",
+    "court": "Louisiana Court of Appeal, Third Circuit",
+    "docket_number": "25-650",
+    "case_status": "ruled_for_opposition",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0154",
+    "case_id": "case_a3562f8eba",
+    "source": "Reviewed case record",
+    "source_url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html",
+    "case_source_url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html",
+    "reviewer_notes": "Opened 2026-10-08 (FindLaw copy of the opinion): Cajun Crossroads Energy Center, LLC, Crescent Coast Energy Center, LLC, and Cedar Holdco, LLC v. Calcasieu Parish Police Jury, Louisiana Third Circuit Court of Appeal, No. 25-650, decided 2026-07-15. The developer entities (Aypa Power affiliates) sued over the board's 2024-11-19 denial (3-3 vote) of a zoning exception for a 3,656-acre solar facility; the trial court reversed the denial; the appeals court 'reinstate[d] the Calcasieu Parish Planning and Zoning Board's denial of Plaintiffs' Application for Zoning Exception, and remand[ed] for further proceedings.' KPLC (2025-07-26, opened) ties Aypa's Cajun Crescent Energy Center to that denial. The record's own litigation context (residents suing in 2021 over an approval) is not what the documents show; further trial-court proceedings are possible.; promoted automatically from data/review/cases_candidates.csv on 2026-10-08: required fields complete, not reviewed by hand",
+    "id": "cas_fba4754147",
+    "source_id": "src_7b9a8c5c9d61",
+    "instrument_id": "case:case_a3562f8eba",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html"
+      }
+    ]
+  },
+  {
+    "state": "MN",
+    "project_name": "Hale Township Community Solar Garden",
+    "technology": "solar",
+    "court_level": "state_appellate",
+    "severity_score": 3,
+    "description": "In re Application of United States Solar Corporation and USS Water Fowl Solar LLC for a Conditional Use Permit (Minnesota Court of Appeals) - litigation over Hale Township Community Solar Garden",
+    "case_name": "In re Application of United States Solar Corporation and USS Water Fowl Solar LLC for a Conditional Use Permit",
+    "court": "Minnesota Court of Appeals",
+    "docket_number": "A20-1043",
+    "case_status": "ruled_for_developer",
+    "linked_entity": "contested_project",
+    "source_record_id": "REC-0220",
+    "case_id": "case_2a82da5fd8",
+    "source": "Reviewed case record",
+    "source_url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf",
+    "case_source_url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf",
+    "reviewer_notes": "Opened 2026-10-08 (Minnesota State Law Library archive copy of the nonprecedential opinion): Minnesota Court of Appeals No. A20-1043, filed 2021-07-12, 'Reversed and remanded' with instruction 'to approve the CUP application subject to reasonable conditions'; the court held the McLeod County Board's two reasons (land values, prime agricultural soil) insufficient. Minnesota Lawyer (2021-07-23, opened) places the 3.35-acre system in Hale Township. Contradicts the record's date: the reversal was July 2021, not 2024.; promoted automatically from data/review/cases_candidates.csv on 2026-10-08: required fields complete, not reviewed by hand",
+    "id": "cas_0d29f40185",
+    "source_id": "src_1dd0405c5250",
+    "instrument_id": "case:case_2a82da5fd8",
+    "evidence_level": "court_record",
+    "sources": [
+      {
+        "title": "Reviewed case record",
+        "url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf"
+      }
+    ]
   }
 ]

@@ -36,6 +36,15 @@
     "archived_url": ""
   },
   {
+    "source_id": "src_7b9a8c5c9d61",
+    "url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html",
+    "normalized_url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_f7075eca4512",
     "url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
     "normalized_url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
@@ -160,6 +169,15 @@
     "record_count": 2,
     "entities": "cases",
     "archived_url": "https://web.archive.org/web/20221006173131/https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html"
+  },
+  {
+    "source_id": "src_1dd0405c5250",
+    "url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf",
+    "normalized_url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
   },
   {
     "source_id": "src_00e442106d00",

@@ -64,14 +64,14 @@
     }
   },
   "cases": {
-    "rows": 37,
-    "cases": 36,
+    "rows": 39,
+    "cases": 38,
     "by_case_status": {
       "": 1,
       "dismissed": 5,
       "pending": 4,
-      "ruled_for_developer": 15,
-      "ruled_for_opposition": 10,
+      "ruled_for_developer": 16,
+      "ruled_for_opposition": 11,
       "withdrawn": 1
     }
   }
