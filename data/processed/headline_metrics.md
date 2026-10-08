@@ -8,27 +8,27 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 391 | 82 |
-| Severe (severity 3 or 4) | 332 | 74 |
+| Instruments | 390 | 82 |
+| Severe (severity 3 or 4) | 331 | 74 |
 | States | 43 | 26 |
-| Evidence: compiled_flagged | 51 | 15 |
+| Evidence: compiled_flagged | 37 | 9 |
 | Evidence: compiled_record | 78 | 67 |
-| Evidence: primary_source | 1 | 0 |
+| Evidence: primary_source | 14 | 6 |
 | Evidence: report_citation | 261 | 0 |
 
-611 published rows describe 473 instruments.
+610 published rows describe 472 instruments.
 
 ## Contested projects
 
-165 projects; 117 with a confirmed outcome.
+165 projects; 125 with a confirmed outcome.
 
 | Outcome | Projects |
 |---|---:|
-| advanced_confirmed | 54 |
-| blocked_confirmed | 63 |
-| blocked_unverified | 13 |
-| needs_review | 3 |
-| pending | 32 |
+| advanced_confirmed | 55 |
+| blocked_confirmed | 70 |
+| blocked_unverified | 10 |
+| needs_review | 2 |
+| pending | 28 |
 
 ## Cases
 
