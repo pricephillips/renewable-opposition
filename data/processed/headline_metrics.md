@@ -33,13 +33,13 @@ however many technologies it covers. Quote these, not row counts.
 
 ## Cases
 
-34 cases.
+36 cases.
 
 | Status | Cases |
 |---|---:|
-| (blank) | 2 |
-| dismissed | 4 |
+| (blank) | 1 |
+| dismissed | 5 |
 | pending | 4 |
-| ruled_for_developer | 13 |
+| ruled_for_developer | 15 |
 | ruled_for_opposition | 10 |
 | withdrawn | 1 |
