@@ -254,7 +254,9 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
 
     linked = {r["source_record_id"] for g in (here, *near.values())
               for k in ("restrictions", "contested_projects") for r in g[k] if r.get("source_record_id")}
-    cases = [c for c in d.cases if c.get("source_record_id") in linked]
+    # One case linked to two records is one case row per record; list it once.
+    cases = list({(c["case_name"], c["court"], c.get("docket_number", "")): c
+                  for c in d.cases if c.get("source_record_id") in linked}.values())
 
     # Not published: anything the build set aside that names this county or one of its towns.
     phrase = county_phrase(name)
@@ -268,10 +270,11 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
     quarantined = [r for r in d.quarantine
                    if fips in fips_set(r) or names_county(r, "jurisdiction", "county")]
     held_ids = {r.get("source_record_id") for r in held} | {r.get("id") for r in gaps}
-    candidates = [r for r in d.candidates
-                  if r.get("source_record_id") in linked | held_ids
+    # A promoted candidate is a published case (listed under Cases), not held back.
+    candidates = [r for r in d.candidates if r.get("review_status") != "promoted"
+                  and (r.get("source_record_id") in linked | held_ids
                   or names_county(r, "project_name") or phrase.search(r.get("litigation_context", ""))
-                  and r.get("state", "").upper() == st]
+                  and r.get("state", "").upper() == st)]
 
     # Text mentions the placement missed.
     mentions = []
@@ -326,6 +329,7 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
         flags.append(f"No contested projects are recorded anywhere in {st}: project-level opposition "
                      "is a coverage gap there, not evidence of none")
 
+    flags = list(dict.fromkeys(flags))  # a flag raised per technology row of one instrument shows once
     return {"site": site or f"{name}, {st}", "notes": notes, "state": st, "county": name, "fips": fips,
             "neighbors": [{"fips": n, "name": geo.name(n), "state": state_of(d, n)} for n in neighbors],
             "in_county": here, "local_knowledge": local, "adjacent": near, "within_radius": radius_rows, "radius_mi": radius,
