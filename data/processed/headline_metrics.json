@@ -1,27 +1,27 @@
 {
   "restrictions": {
-    "rows": 611,
-    "instruments": 473,
+    "rows": 610,
+    "instruments": 472,
     "by_scope": {
       "renewables_only": {
-        "instruments": 391,
-        "severe_instruments": 332,
+        "instruments": 390,
+        "severe_instruments": 331,
         "states": 43,
         "by_status": {
-          "active": 324,
+          "active": 323,
           "extended": 59,
           "pending": 6,
           "unknown": 2
         },
         "by_technology": {
-          "battery_storage": 119,
+          "battery_storage": 118,
           "solar": 181,
           "wind": 188
         },
         "by_evidence_level": {
-          "compiled_flagged": 51,
+          "compiled_flagged": 37,
           "compiled_record": 78,
-          "primary_source": 1,
+          "primary_source": 14,
           "report_citation": 261
         }
       },
@@ -40,8 +40,9 @@
           "wind": 17
         },
         "by_evidence_level": {
-          "compiled_flagged": 15,
-          "compiled_record": 67
+          "compiled_flagged": 9,
+          "compiled_record": 67,
+          "primary_source": 6
         }
       }
     }
@@ -49,17 +50,17 @@
   "contested_projects": {
     "rows": 165,
     "projects": 165,
-    "confirmed_outcomes": 117,
+    "confirmed_outcomes": 125,
     "by_outcome": {
-      "advanced_confirmed": 54,
-      "blocked_confirmed": 63,
-      "blocked_unverified": 13,
-      "needs_review": 3,
-      "pending": 32
+      "advanced_confirmed": 55,
+      "blocked_confirmed": 70,
+      "blocked_unverified": 10,
+      "needs_review": 2,
+      "pending": 28
     },
     "by_evidence_level": {
-      "confirmed": 117,
-      "report_citation": 48
+      "confirmed": 125,
+      "report_citation": 40
     }
   },
   "cases": {
