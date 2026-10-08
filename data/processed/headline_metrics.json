@@ -19,9 +19,9 @@
           "wind": 188
         },
         "by_evidence_level": {
-          "compiled_flagged": 37,
-          "compiled_record": 78,
-          "primary_source": 14,
+          "compiled_flagged": 30,
+          "compiled_record": 61,
+          "primary_source": 38,
           "report_citation": 261
         }
       },
@@ -64,14 +64,14 @@
     }
   },
   "cases": {
-    "rows": 37,
-    "cases": 36,
+    "rows": 39,
+    "cases": 38,
     "by_case_status": {
       "": 1,
       "dismissed": 5,
       "pending": 4,
-      "ruled_for_developer": 15,
-      "ruled_for_opposition": 10,
+      "ruled_for_developer": 16,
+      "ruled_for_opposition": 11,
       "withdrawn": 1
     }
   }
