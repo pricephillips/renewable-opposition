@@ -11,9 +11,9 @@ however many technologies it covers. Quote these, not row counts.
 | Instruments | 390 | 82 |
 | Severe (severity 3 or 4) | 331 | 74 |
 | States | 43 | 26 |
-| Evidence: compiled_flagged | 37 | 9 |
-| Evidence: compiled_record | 78 | 67 |
-| Evidence: primary_source | 14 | 6 |
+| Evidence: compiled_flagged | 30 | 9 |
+| Evidence: compiled_record | 61 | 67 |
+| Evidence: primary_source | 38 | 6 |
 | Evidence: report_citation | 261 | 0 |
 
 610 published rows describe 472 instruments.
