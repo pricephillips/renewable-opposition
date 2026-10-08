@@ -27,9 +27,9 @@
     "archived_url": "https://web.archive.org/web/20251005222952/https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf"
   },
   {
-    "source_id": "src_d00ef4f51f19",
-    "url": "https://case-law.vlex.com/vid/keep-the-n-shore-907372581",
-    "normalized_url": "https://case-law.vlex.com/vid/keep-the-n-shore-907372581",
+    "source_id": "src_b878ed0a41a6",
+    "url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf",
+    "normalized_url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf",
     "title": "Reviewed case record",
     "record_count": 2,
     "entities": "cases",
@@ -99,6 +99,15 @@
     "archived_url": ""
   },
   {
+    "source_id": "src_2347b3acaab4",
+    "url": "https://law.justia.com/cases/hawaii/supreme-court/2022/scap-19-0000449.html",
+    "normalized_url": "https://law.justia.com/cases/hawaii/supreme-court/2022/scap-19-0000449.html",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_c9ce988b661a",
     "url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
     "normalized_url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
@@ -153,22 +162,13 @@
     "archived_url": "https://web.archive.org/web/20221006173131/https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html"
   },
   {
-    "source_id": "src_6e54ad817125",
-    "url": "https://pantagraph.com/alta-farms-wind-project-ii-v-dewitt-county-et-al/pdf_503e14df-53ac-584d-90e6-e79a9a01622c.html",
-    "normalized_url": "https://pantagraph.com/alta-farms-wind-project-ii-v-dewitt-county-et-al/pdf_503e14df-53ac-584d-90e6-e79a9a01622c.html",
+    "source_id": "src_00e442106d00",
+    "url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf",
+    "normalized_url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf",
     "title": "Reviewed case record",
     "record_count": 2,
     "entities": "cases",
     "archived_url": ""
-  },
-  {
-    "source_id": "src_9381c0e8d347",
-    "url": "https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5",
-    "normalized_url": "https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20250929061155/https://www.climatecasechart.com/collections/county-of-cape-may-v-united-states_3878a5"
   },
   {
     "source_id": "src_4a68254cbd3f",
@@ -309,6 +309,24 @@
     "source_id": "src_db53cb6e1149",
     "url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/",
     "normalized_url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_1b96ffa73bcb",
+    "url": "https://www.courts.state.md.us/sites/default/files/unreported-opinions/1177s20.pdf",
+    "normalized_url": "https://www.courts.state.md.us/sites/default/files/unreported-opinions/1177s20.pdf",
+    "title": "Reviewed case record",
+    "record_count": 2,
+    "entities": "cases",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_dd5821622498",
+    "url": "https://www.govinfo.gov/app/details/USCOURTS-njd-1_23-cv-21201",
+    "normalized_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-1_23-cv-21201",
     "title": "Reviewed case record",
     "record_count": 2,
     "entities": "cases",

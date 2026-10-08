@@ -49,28 +49,27 @@
   "contested_projects": {
     "rows": 165,
     "projects": 165,
-    "confirmed_outcomes": 37,
+    "confirmed_outcomes": 117,
     "by_outcome": {
-      "advanced_confirmed": 24,
-      "advanced_unverified": 7,
-      "blocked_confirmed": 13,
-      "blocked_unverified": 42,
-      "needs_review": 11,
-      "pending": 68
+      "advanced_confirmed": 54,
+      "blocked_confirmed": 63,
+      "blocked_unverified": 13,
+      "needs_review": 3,
+      "pending": 32
     },
     "by_evidence_level": {
-      "confirmed": 37,
-      "report_citation": 128
+      "confirmed": 117,
+      "report_citation": 48
     }
   },
   "cases": {
-    "rows": 35,
-    "cases": 34,
+    "rows": 37,
+    "cases": 36,
     "by_case_status": {
-      "": 2,
-      "dismissed": 4,
+      "": 1,
+      "dismissed": 5,
       "pending": 4,
-      "ruled_for_developer": 13,
+      "ruled_for_developer": 15,
       "ruled_for_opposition": 10,
       "withdrawn": 1
     }
