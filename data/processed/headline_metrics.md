@@ -20,16 +20,15 @@ however many technologies it covers. Quote these, not row counts.
 
 ## Contested projects
 
-165 projects; 37 with a confirmed outcome.
+165 projects; 117 with a confirmed outcome.
 
 | Outcome | Projects |
 |---|---:|
-| advanced_confirmed | 24 |
-| advanced_unverified | 7 |
-| blocked_confirmed | 13 |
-| blocked_unverified | 42 |
-| needs_review | 11 |
-| pending | 68 |
+| advanced_confirmed | 54 |
+| blocked_confirmed | 63 |
+| blocked_unverified | 13 |
+| needs_review | 3 |
+| pending | 32 |
 
 ## Cases
 
