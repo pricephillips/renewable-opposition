@@ -157,3 +157,18 @@ def test_state_context_counts_unplaced_and_ambiguous_rows_apart(data):
     assert s["ambiguous_rows"] == sum(1 for r in rows if r["county_fips_method"] == "place_ambiguous")
     assert s["unplaced_rows"] + s["ambiguous_rows"] == len(rows)
     assert f"{s['ambiguous_rows']} are ambiguous (a town name shared by several counties" in sp.render(p)
+
+
+def test_harney_or_lists_published_cases_once_and_does_not_hold_them_back(data):
+    # Found on the 2026-10-08 four-county run (Chautauqua NY, Harney OR, Cherokee KS, Albany WY).
+    p = run(data, "OR", "Harney")
+    keys = [(c["case_name"], c["court"], c.get("docket_number", "")) for c in p["cases"]]
+    assert len(keys) == len(set(keys))
+    assert "Oregon Natural Desert Association v. Jewell" in {k[0] for k in keys}
+    assert all(r.get("review_status") != "promoted" for r in p["not_published"]["case_candidates"])
+
+
+def test_chautauqua_ny_flags_a_multi_technology_instrument_once(data):
+    p = run(data, "NY", "Chautauqua")
+    assert len(p["flags"]) == len(set(p["flags"]))
+    assert any(f.startswith("Ellery moratorium") for f in p["flags"])
