@@ -3,7 +3,7 @@
 Research-grade ingestion, normalization, and dashboard pipeline for local opposition to renewable energy projects in the United States.
 
 Inspired by the Columbia Sabin Center's work:
-- *Opposition to Renewable Energy Facilities in the United States*
+- *Opposition to Renewable Energy Facilities in the United States* (the data is built on the September 2026 edition, the 6th, with data through December 31, 2025)
 - *Local laws and lawsuits targeting renewables becoming more prevalent*
 
 ---
@@ -23,6 +23,8 @@ The ontology explicitly separates three types of opposition:
 | **Restrictions** | Local/state laws that materially constrain renewable deployment (moratoria, bans, setbacks, zoning amendments) |
 | **Contested projects** | Project-level opposition events (hearings, permit denials, campaigns, cancellations) |
 | **Cases** | Litigation and formal administrative proceedings |
+| **Siting standards** | Every feature of a local wind or solar siting ordinance in NREL's 2025 databases (setbacks, height, noise, shadow flicker, lot size, prohibitions and the rest), one row per jurisdiction, technology and feature |
+| **State policies** | State siting law, one row per state and policy: who decides and above what size, state preemption, local opt-out powers, state setback standards, state moratoria |
 
 ### Severity scale (1–4)
 - **1** – Mild procedural friction
@@ -35,7 +37,9 @@ For map layers and headline stats, default to severity ≥ 3.
 ### Restrictions: how severity is assigned
 
 - **Moratorium Nation** rows: an active or extended moratorium scores 4, a pending one 2.
-- **Sabin** rows: a ban scores 4, and so does an in-force moratorium. These score 3: a wind setback of at least half a mile or 5× turbine height, any wind height limit, a wind noise limit of 35 dBA or less, and a solar or storage setback of at least 1,000 ft. Every other restricting mechanism scores 2, and a pending instrument is capped at 2. Each row's `severity_basis` column names the rule that set its score.
+- **Sabin** rows: a ban scores 4, and so does an in-force moratorium or an entry the 2026 edition labels "Ban / Moratorium" without saying which (`restriction_type` `ban_or_moratorium`). These score 3: a wind setback of at least half a mile or 5× turbine height, any wind height limit, a wind noise limit of 35 dBA or less, and a solar or storage setback of at least 1,000 ft. Every other restricting mechanism scores 2, and a pending instrument is capped at 2. Each row's `severity_basis` column names the rule that set its score.
+
+- **NREL** rows: the same rules (`restriction_severity`) run on the jurisdiction's combined ordinance features; see "NREL siting ordinance databases" below.
 
 `scripts/build_sabin_seeds.py` documents every rule, and every row it holds back goes to `data/review/sabin_restrictions_review.csv` with the reason.
 
@@ -93,7 +97,7 @@ someone actually read; see "How the evidence was seen" below.
 - Contested projects: `verified` when the outcome or event is backed by a news article or other document that was opened or archived (a resolution row, or a promoted queue row whose `source_kind` is news or an official record), or by a court ruling; `unverified` when only a compiled report or tracker is behind it.
 - Cases: `verified` when a court record is attached.
 
-`headline_metrics` counts `verification` by instrument for each entity, and for restrictions within each scope.
+`headline_metrics` counts `verification` by instrument for each entity, and for restrictions within each scope. It also breaks every count down by source (Sabin 2026, Sabin 2025 records not in the 2026 edition, NREL, Moratorium Nation, review queue), and reports county coverage: how many counties have any published record, how many have a documented negative check, and how many have neither.
 
 **Closing the gaps.** Each build ranks what to check next in
 `data/review/outcome_worklist.csv` (unconfirmed project outcomes, blocked and
@@ -155,6 +159,34 @@ deliberate drop is declared in `config/coverage_exceptions.json`.
 
 ---
 
+## Sources and editions
+
+### Sabin Center, September 2026 edition
+
+The Sabin rows come from the September 2026 edition of *Opposition to Renewable Energy Facilities in the United States* (published September 2, 2026; at least 888 state and local restrictions and 567 contested projects). `scripts/fetch_sabin_edition.py` stores the Sabin Center's own export of the edition's entries and its web edition (oppositionreport.org) in `data/raw/`, with the URL, date and SHA-256 of each file in `data/raw/manifest.csv`. The report PDF itself could not be downloaded from a script (a Cloudflare challenge on Columbia's Scholarship Archive, and no reachable archive copy); its URL is in the manifest so it can be added by hand. `scripts/extract_sabin_edition.py` writes `data/renewable_opposition_records_2026-09.csv` in exactly the columns of the June 2025 extraction, and `docs/sabin_2026_reconciliation.md` compares the extracted counts, per state, with the totals the Sabin Center publishes.
+
+The edition renumbers its entries. `scripts/sabin_crosswalk.py` maps every 2025 `REC-` id onto its 2026 entry in `data/review/sabin_edition_crosswalk.csv`, by state, jurisdiction or project name, technology and mechanism. Anything short of one clear candidate is `ambiguous` and waits for a reviewer (`review_decision`); nothing is guessed. A matched record keeps its id, its `instrument_id`, its published `id` (`pinned_id`) and every review row attached to it. A new entry gets a new id (`S26R-` for restrictions, `S26P-` for projects). A 2025 record missing from the 2026 edition is never deleted: it keeps its 2025 row, marked `edition_status` `not_in_latest_edition`, and goes on `data/review/sabin_edition_worklist.csv`, since it may have been lifted or merged. Where the 2026 edition changes a status, the new one is published and `diff_summary.md` lists the old and new values.
+
+### NREL siting ordinance databases
+
+Siting standards and the restrictions marked NREL come from NREL's *U.S. Wind Siting Regulation and Zoning Ordinances (2025)* (doi.org/10.25984/3363758) and *U.S. Solar Siting Regulation and Zoning Ordinances (2025)* (doi.org/10.25984/3363739), both licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). The repository reshapes NREL's rows into `siting_standards` and derives restrictions from them; that is the only change. NREL compiled the data with large language models and asks that it be validated, so every NREL row is `compiled_flagged` and `unverified` until its ordinance is read.
+
+`scripts/fetch_nrel_ordinances.py` stores both spreadsheets in `data/raw/` and refuses a file whose sheets, headers or feature names differ from what the code reads. `scripts/nrel_ordinances.py` makes a jurisdiction and technology a restriction only by the shared rules: an outright prohibition or moratorium, or `restriction_severity` scoring its combined restricting features (setbacks from non-participating structures and property lines, height, noise, project and lot size caps, coverage, shadow flicker, prohibited districts, prohibitions) at 2 or more. Every other feature stays in `siting_standards` only. An NREL restriction that agrees with a Sabin, Moratorium Nation or review-queue restriction for the same jurisdiction and technology is not published twice; one that disagrees is kept beside it and listed in `data/review/nrel_restriction_conflicts.csv`.
+
+Before relying on NREL, `scripts/nrel_sample.py` draws a random sample of 60 NREL restrictions with a fixed, recorded seed, a reviewing agent checks each sampled feature against its ordinance (`data/review/nrel_sample_review.csv`, under `docs/AGENT_REVIEW.md`), and `docs/nrel_sample_report.md` reports the error rate by feature. A sampled restriction whose every feature passed becomes `verified`; the rest stay on the restriction worklist.
+
+### State siting law
+
+`state_policies` rows are drafted in `data/review/state_policies_candidates.csv` from Lawrence Berkeley National Laboratory's *Laws in Order: An Inventory of State Renewable Energy Siting Policies* (June 2024, Regulatory Assistance Project; CC BY-NC 4.0) and from the Sabin Center's state-level entries, and each is checked against the statute itself, never the inventory, including amendments since 2024. A row publishes only with a recorded review by someone other than its drafter who read the statute; the rest are listed with the reason in `data/processed/state_policies_held.csv`. `data/review/sabin_state_level_dispositions.csv` says what became of each state-level Sabin row.
+
+`data/review/ohio_sb52_worklist.csv` (`scripts/ohio_sb52_worklist.py`) lists every Ohio county with the records already held, for checking local opt-outs under Ohio SB 52 (Ohio Rev. Code 303.58 and 303.62).
+
+### Agent review
+
+`docs/AGENT_REVIEW.md` sets out how a reviewing agent checks a record and how the review is recorded. Nothing drafted here publishes without a recorded review, and nobody reviews their own work: a review-queue row drafted by an agent carries `review_status` `awaiting_review`, which holds it back until a different reviewer confirms it.
+
+---
+
 ## Outputs
 
 Canonical data lives in `data/processed/` as both CSV and JSON:
@@ -171,6 +203,8 @@ data/processed/
   headline_metrics.md / .json       ← the numbers to quote, counted by instrument
   coverage_delta.md                 ← column fill rates against the previous commit
   group_registry.csv                ← opposition groups with their sources (scripts/group_registry.py)
+  siting_standards.csv / .json      ← NREL ordinance features by jurisdiction, technology and feature (the JSON leaves out NREL's long summary text)
+  state_policies.csv / .json        ← state siting law verified against the statute
 ```
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.
@@ -189,7 +223,8 @@ renewable-opposition/
 │   ├── sources.yaml                        ← crawler source registry (fetch.py)
 │   └── source_registry.csv                 ← dataset/tracker registry
 ├── data/
-│   ├── renewable_opposition_records.csv    ← Sabin report extraction (input to build_sabin_seeds.py)
+│   ├── renewable_opposition_records.csv    ← Sabin June 2025 extraction (read through the edition crosswalk)
+│   ├── renewable_opposition_records_2026-09.csv ← Sabin September 2026 extraction (input to build_sabin_seeds.py)
 │   ├── reference/
 │   │   └── data_center_events.csv          ← local data center events from data-center-map (sync_data_center_map.py)
 │   ├── seed/
@@ -216,6 +251,14 @@ renewable-opposition/
 ├── scripts/
 │   ├── common.py                           ← shared helpers (state codes, technology vocabulary, source ids)
 │   ├── fetch_moratorium_nation.py          ← refreshes the Moratorium Nation rows of restrictions_seed.csv
+│   ├── fetch_sabin_edition.py              ← stores the Sabin 2026 edition files in data/raw/
+│   ├── extract_sabin_edition.py            ← data/raw/ -> renewable_opposition_records_2026-09.csv + reconciliation
+│   ├── sabin_crosswalk.py                  ← 2025 REC- ids -> 2026 entries (data/review/sabin_edition_crosswalk.csv)
+│   ├── fetch_nrel_ordinances.py            ← stores NREL's wind and solar spreadsheets (schema guard)
+│   ├── nrel_ordinances.py                  ← NREL restrictions in restrictions_seed.csv, conflicts worklist
+│   ├── nrel_sample.py                      ← NREL accuracy sample: draw, apply, report
+│   ├── siting_standards.py / state_policies.py ← the two new published entities (called by the build)
+│   ├── ohio_sb52_worklist.py               ← one row per Ohio county for SB 52 checks
 │   ├── build_sabin_seeds.py                ← Sabin rows of restrictions + contested projects, review files
 │   ├── coverage_audit.py                   ← writes docs/coverage_audit.md + coverage_gaps.csv
 │   ├── fetch.py                            ← crawler: sources.yaml -> data/raw/
@@ -237,7 +280,12 @@ renewable-opposition/
 ```bash
 pip install -r requirements.txt
 python scripts/fetch_moratorium_nation.py   # refresh Moratorium Nation restrictions (run before the Sabin build: it dedups against them)
+python scripts/fetch_sabin_edition.py       # store the Sabin 2026 edition files in data/raw/
+python scripts/extract_sabin_edition.py     # extract them, and reconcile the counts
+python scripts/sabin_crosswalk.py           # map 2025 ids onto 2026 entries
 python scripts/build_sabin_seeds.py         # rebuild Sabin restrictions + contested projects
+python scripts/fetch_nrel_ordinances.py     # store NREL's spreadsheets (refuses a changed layout)
+python scripts/nrel_ordinances.py           # NREL restrictions (run after the Sabin build: it dedups against them)
 python scripts/coverage_audit.py            # optional: recompute the cross-source audit
 python scripts/build_seed_outputs.py        # validate and write data/processed/
 python -m pytest -q
@@ -257,7 +305,7 @@ live one. `config/layers.json` declares which script writes each data file, and
 
 ### Reviewing candidates
 
-Promotion is automatic. The Build dashboard data workflow runs `scripts/promote_reviewed.py` before every build and commits what it promotes, so nobody promotes anything by hand. A row goes into its seed as soon as it is complete; `review_status` only holds a row back (`rejected`), and a promoted row is marked `promoted`. A row promoted without `review_status=confirmed` says so in its seed notes ("promoted automatically ... not reviewed by hand"), and every promoted row still passes the QC gate. Nothing is filled in to make a row complete: an incomplete row stays where it is, and the workflow's summary lists what it lacks.
+Promotion is automatic. The Build dashboard data workflow runs `scripts/promote_reviewed.py` before every build and commits what it promotes, so nobody promotes anything by hand. A row goes into its seed as soon as it is complete; `review_status` only holds a row back (`rejected`, or `awaiting_review` for a row drafted by an agent or person and not yet reviewed by someone else), and a promoted row is marked `promoted`. A row promoted without `review_status=confirmed` says so in its seed notes ("promoted automatically ... not reviewed by hand"), and every promoted row still passes the QC gate. Nothing is filled in to make a row complete: an incomplete row stays where it is, and the workflow's summary lists what it lacks.
 
 - **Cases.** `data/review/cases_candidates.csv` lists every project or restriction the source says was litigated. A candidate is complete once `case_name`, `court`, `court_level` and an http(s) `case_source_url` are filled from a court record (a docket, an opinion, or a court's own page). If one project has several cases, duplicate the row. Rebuilding with `build_sabin_seeds.py` keeps these edits.
 - **Queue.** Extractors such as the CourtListener one, and anyone adding a candidate by hand, write to `data/review/queue.csv`. A row is complete once every field its seed requires is filled, including an http(s) `source_url`. Queue columns are mapped onto the seed's own columns (`adopted_date` becomes `date_enacted_iso`). A contested-project candidate with no typed `severity_score` is scored by the same rule as Sabin rows (`project_severity`), from the outcome its status maps to. A promoted row adds only these columns to its seed: `queue_id` (the link back to its queue row, assigned once and stored; rows from one article and place get distinct keys), `pinned_id` (its published id), and the evidence columns `source_kind`, `source_access` (contested projects and cases) or `primary_source_url`, `primary_source_access`, `primary_source_archived_url` and `primary_source_verdict` (restrictions). Set `review_status=rejected` to keep a row out.
@@ -312,15 +360,17 @@ python scripts/site_profile.py --fips 19113 --verified-only               # only
 
 Each profile has these sections:
 
+- **State framework:** at the top, the state's siting law from `state_policies`: who decides and above what size, any local opt-out power, state setback standards and other state rules, each with its verification label. Rows still held for review are shown as not verified, with the reason.
 - **In the county:** published records whose `county_fips_all` includes the county.
 - **Local knowledge on file:** the county's rows in the local-knowledge file (outside the repository, see below), printed as entered, each labelled "reported, not verified".
 - **Adjacent counties:** the same for every county that shares a border, across state lines, plus one line for each pending review-queue candidate there.
+- **Local siting standards:** the NREL `siting_standards` rows for the county and its neighbors, one line per jurisdiction and technology, with NREL's attribution. Rows not checked against the ordinance are labelled unverified.
 - **Within a radius:** optional.
 - **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
 - **Named in the text:** records placed elsewhere whose text names the county.
 - **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, and one "Evidence still to read" flag that counts the items the profile shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
 
-Every restriction line says in plain words how it stands under the evidence standard: verified against the instrument or the minutes that adopted it, instrument located but not yet read, or not verified. Every contested-project line says whether a news article or court record that was read backs it. `--verified-only` leaves restrictions that are not verified out of the county and adjacent sections and states how many it left out, split into located and unverified.
+Every restriction line says in plain words how it stands under the evidence standard: verified against the instrument or the minutes that adopted it, instrument located but not yet read, or not verified. Every contested-project line says whether a news article or court record that was read backs it. `--verified-only` leaves restrictions that are not verified out of the county and adjacent sections and states how many it left out, split into located and unverified. It also leaves out unverified siting standards and state framework rows still held for review, and counts them.
 
 Each contested-project line lists its groups and the sources that name them, and each profile has a "Groups active nearby" line: every sourced group on a record the profile shows, where it was active, and its sources.
 
