@@ -6,6 +6,10 @@ review_status only ever holds a row back:
 
   rejected   never promoted
   promoted   already in a seed; skipped, so re-running is a no-op
+  awaiting_review
+             drafted by an agent or person and not yet reviewed by someone
+             else (docs/AGENT_REVIEW.md): held and listed until a reviewer
+             sets it to confirmed
   anything else (pending, confirmed, lead, needs_docket_research, blank)
              promoted once complete
 
@@ -122,6 +126,8 @@ QUEUE_SPECIFIC = {
              "docket_number": "docket_number"},
 }
 NEVER = {"rejected", "promoted"}
+# Drafted rows waiting for a reviewer other than their drafter.
+AWAITING = "awaiting_review"
 # Statuses a restriction candidate may carry; blank stops promotion. Lifted and
 # expired instruments are not in force and are not published.
 QUEUE_RESTRICTION_STATUS = ("active", "extended", "pending", "lifted", "expired")
@@ -436,6 +442,10 @@ def main() -> int:
             resync_rows.append((where, row))
             continue
         if status in NEVER:
+            continue
+        if status == AWAITING:
+            problems.append(f"{where}: awaiting review by someone other than its drafter (docs/AGENT_REVIEW.md); "
+                            "set review_status to confirmed once reviewed")
             continue
         try:
             seed_rows, why = seed_rows_for(row)

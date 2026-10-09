@@ -199,6 +199,33 @@ setTimeout(() => {
   osm.fire('tileload'); osm.fire('tileerror'); osm.fire('tileerror'); osm.fire('tileerror');
   ok('errors after a tile has loaded do not switch, and the chain ends at osm',
      chain.provider === 'osm' && events.length === 2);
-  console.log('\n' + pass + ' passed, ' + fail + ' failed');
+  // ---- a vector layer removed while a frame is queued -------------------------
+{
+  const frames = [];
+  let zoomEnds = 0, reads = 0;
+  function Fake() {}
+  Fake.prototype._zoomEnd = function () { zoomEnds++; };
+  Fake.prototype._transitionEnd = function () { throw new Error('unguarded'); };
+  const map = { getZoom: () => { reads++; return 5; }, getCenter: () => ({ lat: 0, lng: 0 }),
+                getBounds: () => ({ getNorthWest: () => ({}) }), latLngToContainerPoint: () => ({}) };
+  const L = { MaplibreGL: Fake, Util: { requestAnimFrame: (fn, ctx) => frames.push(() => fn.call(ctx)),
+              bind: (fn, ctx) => fn.bind(ctx) }, DomUtil: { setTransform: () => {} } };
+  B.guardRemovedLayer(L);
+  const layer = new Fake();
+  layer._map = map;
+  layer._glMap = { _actualCanvas: {}, once: (ev, fn) => fn(), jumpTo: () => {} };
+  layer._resizeContainer = () => {};
+  layer._transitionEnd();
+  layer._map = null;  // the chain fell back and removed the layer
+  let threw = false;
+  try { frames.splice(0).forEach(f => f()); layer._zoomEnd(); } catch (e) { threw = true; }
+  ok('a removed vector layer skips its queued frame and zoom end', !threw && reads === 0 && zoomEnds === 0);
+  layer._map = map;
+  layer._transitionEnd();
+  frames.splice(0).forEach(f => f());
+  ok('a layer still on the map runs its queued frame', reads === 1 && zoomEnds === 1);
+}
+
+console.log('\n' + pass + ' passed, ' + fail + ' failed');
   process.exit(fail ? 1 : 0);
 }, 50);

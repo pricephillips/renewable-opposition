@@ -51,6 +51,18 @@
       "reason": "build_sabin_seeds.py regenerates the candidate rows and carries reviewer columns forward (merge_candidates); promote_reviewed.py only sets review_status on rows it promotes."
     },
     "data/review/sabin_restrictions_review.csv": {"layer": "review", "writers": ["scripts/build_sabin_seeds.py"]},
+    "data/review/sabin_edition_worklist.csv": {
+      "layer": "review", "writers": ["scripts/build_sabin_seeds.py"],
+      "reason": "2025 Sabin records missing from the September 2026 edition or ambiguous in the crosswalk, and the 2026 entries held with them. Regenerated with the Sabin seeds, which the data workflow does not run, so it is committed."
+    },
+    "data/review/sabin_edition_crosswalk.csv": {
+      "layer": "review", "writers": ["scripts/sabin_crosswalk.py"],
+      "reason": "Maps each 2025 REC- id onto its September 2026 entry. The script regenerates the match columns and carries the reviewer columns (review_decision, reviewer, reviewed_on, review_note) forward."
+    },
+    "data/renewable_opposition_records_2026-09.csv": {
+      "layer": "seed", "writers": ["scripts/extract_sabin_edition.py"],
+      "reason": "The Sabin Center September 2026 edition, extracted from its stored export and web edition (data/raw/) in the columns of data/renewable_opposition_records.csv. Read by sabin_crosswalk.py and build_sabin_seeds.py."
+    },
     "data/review/place_overrides.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "A reviewer's county for a record the code cannot place, with an evidence URL. build_seed_outputs.py applies it last (resolutions.apply_place_overrides)."
@@ -72,16 +84,46 @@
     "data/review/profile_requests.csv": {"layer": "review", "writers": ["scripts/site_profile.py"]},
     "data/seed/restrictions_seed.csv": {
       "layer": "seed",
-      "writers": ["scripts/fetch_moratorium_nation.py", "scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py"],
+      "writers": ["scripts/fetch_moratorium_nation.py", "scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py",
+                  "scripts/nrel_ordinances.py"],
       "reason": "Each writer owns its rows by `source` and keeps every other row as it found it.",
       "row_owner": {
         "column": "source",
         "prefixes": {
           "scripts/fetch_moratorium_nation.py": ["Moratorium Nation "],
           "scripts/build_sabin_seeds.py": ["Sabin Center, "],
-          "scripts/promote_reviewed.py": ["review queue:"]
+          "scripts/promote_reviewed.py": ["review queue:"],
+          "scripts/nrel_ordinances.py": ["NREL U.S. "]
         }
       }
+    },
+    "data/review/state_policies_candidates.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "State siting law rows, drafted against the statute and reviewed by someone other than the drafter (docs/AGENT_REVIEW.md). build_seed_outputs.py publishes reviewed rows (scripts/state_policies.py) and holds the rest in data/processed/state_policies_held.csv."
+    },
+    "data/review/sabin_state_level_dispositions.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "What became of each state-level Sabin row held for a statute check: the state_policies row that covers it, or why it stays held."
+    },
+    "data/review/nrel_restriction_conflicts.csv": {
+      "layer": "review", "writers": ["scripts/nrel_ordinances.py"],
+      "reason": "NREL restrictions matched to a Sabin, Moratorium Nation or review-queue restriction for the same jurisdiction and technology: duplicates (not published twice) and conflicts (both kept, to review). Regenerated with the NREL seed rows, which the data workflow does not run, so it is committed."
+    },
+    "data/review/nrel_sample.csv": {
+      "layer": "review", "writers": ["scripts/nrel_sample.py"],
+      "reason": "The fixed-seed random sample of NREL restrictions checked against their ordinances (scripts/nrel_sample.py draw)."
+    },
+    "data/review/nrel_sample_review.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "A reviewing agent's verdict on each sampled NREL feature against the ordinance (docs/AGENT_REVIEW.md). Read by nrel_sample.py and siting_standards.py."
+    },
+    "data/review/restriction_sources.csv": {
+      "layer": "review", "writers": ["scripts/nrel_sample.py"],
+      "reason": "Hand-edited by reviewers; nrel_sample.py apply only appends a confirmed row for an NREL sample instrument whose every sampled feature a reviewer confirmed against the ordinance."
+    },
+    "data/review/ohio_sb52_worklist.csv": {
+      "layer": "review", "writers": ["scripts/ohio_sb52_worklist.py"],
+      "reason": "One row per Ohio county for SB 52 restricted-area checks, with the records already held. A worklist the data workflow does not regenerate, so it is committed."
     },
     "data/seed/contested_projects_seed.csv": {
       "layer": "seed",
@@ -109,11 +151,16 @@
     "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
     "data/review/coverage_gaps.csv": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
+    "docs/sabin_2026_reconciliation.md": {"layer": "derived", "writers": ["scripts/extract_sabin_edition.py"]},
+    "docs/nrel_sample_report.md": {"layer": "derived", "writers": ["scripts/nrel_sample.py"]},
     "docs/coverage_audit.md": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]}
   },
   "crossings": {
     "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",
     "scripts/build_sabin_seeds.py": "Rebuilds Sabin seed rows and holds back the rows that need a reviewer.",
+    "scripts/extract_sabin_edition.py": "Writes the edition's extraction (seed) and its count reconciliation (derived).",
+    "scripts/nrel_ordinances.py": "Writes NREL's restriction rows (seed) and the conflicts they raise with other sources (review).",
+    "scripts/nrel_sample.py": "Draws the accuracy sample and records passing instruments (review), and reports the error rates (derived).",
     "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row."
   },
   "dynamic": {
@@ -124,6 +171,10 @@
     "scripts/source_archive.py": {
       "files": ["data/source_archive.csv", "data/source_archive_manifest.json"],
       "reason": "os.path paths passed as run() defaults; writes via a .tmp then os.replace. Its selftest writes only to a temp dir."
+    },
+    "scripts/build_seed_outputs.py": {
+      "files": ["data/processed/state_policies_held.csv"],
+      "reason": "state_policies.HELD_PATH, a module constant of scripts/state_policies.py."
     },
     "scripts/site_profile.py": {
       "files": [],

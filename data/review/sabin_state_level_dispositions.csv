@@ -1,0 +1,41 @@
+sabin_record_id,state,disposition,policy_id,reason
+REC-0502,IA,held,,not a statute: describes a research report (Kelly et al.) counting restrictive county ordinances
+REC-0074,IL,held,,"the report text names no statute (""state-level prohibitions"" adopted 2019-2020); no Illinois statute prohibiting wind or solar found, and the 2023 state law limits local restrictions instead"
+REC-0075,IL,covered,IL-local_preemption-1,P.A. 102-1123 (55 ILCS 5/5-12020) read on ilga.gov; setbacks also in IL-state_setback_standard-1
+REC-0499,IL,held,,not a statute: a reference to a database (University of Michigan Energy Zoning database of local ordinances)
+S26R-6284,IL,covered,IL-local_preemption-1,P.A. 103-0081 read: it exempts the Lee-Ogle enterprise zone from the state limits on county restrictions in 5-12020(u); it does not itself bar development as Sabin says
+REC-0119,KS,held,,"not a statute: a governor's proclamation (Tallgrass Heartland wind moratorium, continued 2020-07-28); proclamation not read"
+S26R-6283,KS,held,,not a statute: a governor's proclamation (2020-07-28) continuing the 2004/2011 Tallgrass Heartland wind moratorium; proclamation not read
+REC-0137,KY,covered,KY-state_setback_standard-1,"HB 291 (2014 Ky. Acts ch. 88) setbacks are in KRS 278.704(2), read on apps.legislature.ky.gov; amended 2023 and 2026"
+S26R-6309,LA,covered,LA-state_setback_standard-1,"Act 279 of 2025 (HB 459) codified at La. R.S. 30:1144, read on legis.la.gov"
+REC-0171,MD,covered,MD-local_preemption-1,"describes a 2019 court decision, not a statute; the preemption it describes is now in PUA 7-218(h) (2025 RECA), read on mgaleg.maryland.gov"
+S26R-6310,MD,covered,MD-other-1,Renewable Energy Certainty Act (2025 ch. 623) growth-area bar and 5 percent priority preservation cap in PUA 7-218(h)(3)-(4); preemption parts in MD-local_preemption-1
+REC-0157,ME,covered,ME-state_moratorium-1,"LD 1619 (PL 2021, c. 407) codified at 35-A M.R.S. 3405, read on legislature.maine.gov"
+S26R-6280,ME,held,,not a statute: executive order (Exec. Order No. 2 FY 17/18); expired: rescinded by Exec. Order No. 3 FY 19/20 on 2019-02-14 (per Sabin; orders not read)
+REC-0195,MI,held,,"the report text names no statute and describes no specific provision (""state-level restrictions on wind and solar""); the 2023 PA 233 siting law (MI-siting_authority-1, MI-local_preemption-1, MI-state_setback_standard-1) is a state siting framework, not a prohibition, so I did not map this vague record to it"
+REC-0211,MN,held,,statute not found: no Minnesota statute or rule banning wind projects in certain counties in 2019-2020 found in chapters 216F/216I on revisor.mn.gov or by government-source search on 2026-10-09; the report text names no statute
+REC-0212,MN,covered,MN-local_preemption-1,"Minn. Stat. 216I.18 subd. 1 (2024 Minn. Laws c. 126, Minnesota Energy Infrastructure Permitting Act) preempts local zoning for large energy infrastructure facilities; thresholds also in MN-siting_authority-1"
+S26R-6279,MN,covered,MN-other-1,"Minn. R. 7850.4400 subp. 4 prime farmland exclusion, read on revisor.mn.gov; drafted as solar only (see draft_note)"
+REC-0305,NC,held,,the report text names no statute (generic 2019-2020 'bans or prohibitions'); no North Carolina statute banning wind or solar found
+REC-0306,NC,held,,"expired: the wind permit moratorium in S.L. 2017-192 (HB 589), Part XIII, sec. 13(b), ran from 2017-01-01 to 2018-12-31 by its own terms (read at ncleg.gov SL2017-192.pdf)"
+REC-0266,NH,held,,"statute not found: no New Hampshire statute banning offshore wind in state waters found; RSA 162-H governs siting. 2025 HB 682 (Laws 2025, ch. 286, eff. 9/30/2025) renamed the offshore wind office and repealed offshore wind commissions but is not a ban, and 2025 HB 575 (a prohibition bill) was reported killed (news sources; HB 682 status confirmed on gc.nh.gov)"
+REC-0273,NJ,held,,"the report text names no statute; no 2019 New Jersey law banning utility-scale wind and solar in coastal and agricultural regions found. Related state limits drafted separately (NJ-other-1, Pinelands solar rule from 2012) do not match the record description"
+REC-0283,NM,held,,the report text names no statute (generic 2019-2023 'state-level prohibitions'); no New Mexico statute banning wind or solar found
+REC-0290,NY,held,,the report text names no statute (generic 2019-2023 restrictions on several technologies)
+REC-0291,NY,covered,NY-other-1,"NYPA agricultural land and Native American territory limits, N.Y. Pub. Auth. Law § 1005(27-a)(b)"
+REC-0497,NY,held,,not a statute: a reference to the Department of State database of local laws
+S26R-6277,NY,covered,NY-other-1,same provision; text matches § 1005(27-a)(b)(i) and (iii)
+REC-0336,OH,held,,not a statute: describes county bans; the state law that lets counties do this is drafted as OH-local_opt_out-1
+REC-0337,OH,covered,OH-state_setback_standard-1,"HB 483 setback in Ohio Rev. Code 4906.20(B)(2)(a) and 4906.201; matches 1,125 feet from blade tip to nearest adjacent property line"
+REC-0338,OH,covered,OH-local_opt_out-1,"SB 52, Ohio Rev. Code 303.57 to 303.62; matches (5 MW wind, 50 MW solar)"
+REC-0356,OK,held,,"statute not found: no 2019 Oklahoma law prohibits new wind or solar; the 2019 wind enactment found (Laws 2019, c. 310, HB 2118) adds military clearance requirements, not a ban"
+REC-0357,OK,covered,OK-state_setback_standard-1,"HB 2118 amended Okla. Stat. tit. 17, § 160.20, but the Sabin text is inaccurate: the 1.5 nautical mile setback is from public-use or municipal airport runways, public schools and hospitals; the military provision requires FAA and Defense Department clearance and sets no distance"
+S26R-6273,OK,covered,OK-state_setback_standard-1,§ 160.20(A); the statute says 1.5 nautical miles (not statute miles) and covers public-use or municipal airports
+REC-0365,OR,covered,OR-other-1,"OAR 660-033-0130(38); a state rule, not a statute; the rule has been amended since 2019 (latest LCDD 10-2026)"
+S26R-6272,OR,covered,OR-other-1,same rule; the '20 acres of other farmland' is the arable-land cap and the 86 percent figure is not in the rule
+REC-0376,PA,held,,the report text names no statute (generic 2019-2020 'state-level prohibitions'); no Pennsylvania statute banning wind or solar found
+REC-0377,PA,held,,"not a statute: a Pennsylvania Game Commission board resolution (policy on State Game Lands), not a statute or regulation"
+REC-0498,PA,held,,not a statute: a reference to a Penn State spreadsheet of local solar ordinances
+S26R-6271,PA,held,,"not a statute: Game Commission board resolution of 2018-04-24; also not readable: https://www.pgc.pa.gov/InformationResources/AgencyBusinessCenter/WindEnergy/Documents/Resolution%20Establishing%20Windmill%20Policy.pdf returned an HTML page (HTTP 200, text/html), not the PDF, on 2026-10-09"
+REC-0389,RI,covered,RI-other-1,"2023 core forest law, R.I. Gen. Laws 39-26.6-3(6) and 39-26.6-12(c)"
+S26R-6270,RI,covered,RI-other-1,"same law (P.L. 2023, ch. 300 and 301); core forest definition matches"

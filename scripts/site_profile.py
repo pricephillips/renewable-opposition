@@ -3,6 +3,12 @@
 No scoring and no prediction. For a county it lists, with the evidence behind
 each item:
 
+  0. State framework    the state's siting law (data/processed/state_policies.csv):
+                        who decides and above what size, any local opt-out
+                        power, state setback standards and other state rules,
+                        each with its verification label; rows still held for
+                        review (data/processed/state_policies_held.csv) are shown
+                        as not verified, with the reason.
   1. In the county      published restrictions, contested projects and cases
                         whose county_fips_all includes it (county-level
                         instruments, multi-county projects, and town-level
@@ -18,6 +24,13 @@ each item:
                         file) for profiles that leave THG.
   2. Adjacent counties  the same, for every county sharing a boundary,
                         across state lines (data/geo/counties_2024.topojson).
+     Local siting standards
+                        NREL's siting ordinance features (setbacks, height,
+                        noise, shadow flicker, lot size, prohibitions and the
+                        rest; data/processed/siting_standards.csv) for the
+                        county and its neighbors, one line per jurisdiction
+                        and technology, each labelled unverified unless a
+                        reviewer confirmed it against the ordinance.
   3. Within a radius    optional (--radius): records outside 1 and 2 whose
                         coordinates, or county centroid, fall within N miles.
   4. Not published      rows the build held back that concern the county:
@@ -58,7 +71,9 @@ standard (classify.verification): verified against the instrument or its
 minutes, instrument located but not yet read, or not verified. Every
 contested-project line says whether a news article or court record that was
 read backs it. --verified-only leaves out restrictions that are not verified
-from the county and adjacent sections and states how many it left out.
+from the county and adjacent sections and states how many it left out; it
+also leaves out siting standards that are not verified and state framework
+rows still held for review, and counts them.
 
 An empty county section prints the newest matching row of
 data/review/negative_checks.csv instead of "Nothing published": "Checked
@@ -90,6 +105,7 @@ import classify  # noqa: E402
 import geo  # noqa: E402
 import group_registry  # noqa: E402
 import negative_checks  # noqa: E402
+import state_policies  # noqa: E402
 from sync_data_center_map import evidence_label  # noqa: E402
 from common import STATE_NAMES  # noqa: E402
 
@@ -147,6 +163,9 @@ class Data:
             processed, review = root / "data" / "processed", root / "data" / "review"
             lookup, place_index = root / "data" / FIPS_LOOKUP.name, root / "data" / PLACE_INDEX.name
             snapshots = root / "data" / "snapshots" / SNAPSHOTS.name
+        self.policies = _csv(processed / "state_policies.csv")
+        self.policies_held = _csv(processed / state_policies.HELD_PATH.name)
+        self.standards = _csv(processed / "siting_standards.csv")
         self.restrictions = _csv(processed / "restrictions.csv")
         self.projects = _csv(processed / "contested_projects.csv")
         self.cases = _csv(processed / "cases.csv")
@@ -397,6 +416,10 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
             flags.append(f"The negative check of {c['checked_on']} is more than 12 months old (stale); "
                          "search again before relying on it")
 
+    framework = state_policies.framework(getattr(d, "policies", []), st)
+    held_policies = [] if verified_only else [r for r in getattr(d, "policies_held", []) if r.get("state") == st]
+    standards, standards_left_out = local_standards(d, fips, neighbors, verified_only)
+
     flags = list(dict.fromkeys(flags))  # a flag raised per technology row of one instrument shows once
     return {"site": site or f"{name}, {st}", "notes": notes, "state": st, "county": name, "fips": fips,
             "neighbors": [{"fips": n, "name": geo.name(n), "state": state_of(d, n)} for n in neighbors],
@@ -407,7 +430,26 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
             "text_mentions": mentions, "flags": flags, "state_context": context,
             "data_center_activity": dc_activity(d, fips, neighbors),
             "verified_only": verified_only, "negative_checks": checks, "neighbor_checks": neighbor_checks,
-            "left_out": {k: len(v) for k, v in left_out.items()}}
+            "left_out": {k: len(v) for k, v in left_out.items()},
+            "state_framework": framework, "state_framework_held": held_policies,
+            "state_framework_held_left_out": (sum(1 for r in getattr(d, "policies_held", []) if r.get("state") == st)
+                                              if verified_only else 0),
+            "local_standards": standards, "local_standards_left_out": standards_left_out}
+
+
+def local_standards(d: Data, fips: str, neighbors: list[str], verified_only: bool) -> tuple[dict, int]:
+    """{county fips: [siting_standards rows]} for the county and each neighbor
+    with any, and how many unverified rows --verified-only left out."""
+    out: dict[str, list[dict]] = {}
+    left = 0
+    for f in [fips, *neighbors]:
+        rows = [r for r in getattr(d, "standards", []) if f in fips_set(r)]
+        if verified_only:
+            left += sum(1 for r in rows if r.get("verification") != "verified")
+            rows = [r for r in rows if r.get("verification") == "verified"]
+        if rows:
+            out[f] = rows
+    return out, left
 
 
 def dc_activity(d: Data, fips: str, neighbors: list[str]) -> dict[str, list[dict]]:
@@ -639,6 +681,82 @@ def _pending_lines(rows: list[dict], indent: str = "", short: bool = False) -> l
     return out
 
 
+POLICY_WORDS = {
+    "siting_authority": "Who decides", "local_preemption": "State preemption of local rules",
+    "local_opt_out": "Local opt-out power", "state_setback_standard": "State setback standard",
+    "state_moratorium": "State moratorium or ban", "other": "Other state rule",
+}
+WHO_WORDS = {"state_board": "a state board", "local_government": "local government",
+             "hybrid": "state and local government (hybrid)"}
+
+
+def _threshold(value: str) -> str:
+    parts = [p.split(":") for p in (value or "").split(";") if ":" in p]
+    return ", ".join(f"{t.replace('_', ' ')} {mw} MW" for t, mw in parts)
+
+
+def framework_lines(p: dict) -> list[str]:
+    out = []
+    for r in p.get("state_framework") or []:
+        head = POLICY_WORDS.get(r["policy_type"], r["policy_type"])
+        who = ""
+        if r.get("who_decides"):
+            who = WHO_WORDS.get(r["who_decides"], r["who_decides"])
+            if r.get("state_body"):
+                who += f" ({r['state_body']})"
+            if r.get("threshold_mw"):
+                who += f", threshold {_threshold(r['threshold_mw'])}"
+            who += ". "
+        out.append(f"- **{head}** ({r.get('technology', '').replace(';', ', ')}): {who}{r.get('summary', '')}")
+        out.append(f"  {r.get('statute_citation') or 'statute not cited'}, {r.get('source_url', '')}: verified "
+                   f"against the statute ({r.get('reviewer', 'reviewer not named')}, {r.get('reviewed_on', '')}, "
+                   f"{ACCESS_LABEL.get(r.get('review_access', ''), r.get('review_access', ''))})"
+                   + (f". Amendments: {r['amendments_note']}" if r.get("amendments_note") else ""))
+    for r in p.get("state_framework_held") or []:
+        out.append(f"- Not verified, held for review: {POLICY_WORDS.get(r['policy_type'], r['policy_type'])} "
+                   f"({r.get('statute_citation') or 'no citation'}): {r.get('reason')}")
+    return out
+
+
+QUALITATIVE = re.compile(r"Districts|Decommissioning|Lighting|Signage|Color|Soil|Climbing|Repowering|Screening|"
+                         r"Fencing|Glare|Visual", re.I)
+
+
+def _feature(r: dict) -> str:
+    if QUALITATIVE.search(r.get("feature", "")) or not r.get("value"):
+        return r.get("feature", "")
+    extra = f", at least {r['min_setback_ft']} ft" if r.get("min_setback_ft") else ""
+    return f"{r['feature']} {r['value']} {r.get('units', '')}".strip() + extra
+
+
+def standards_lines(p: dict) -> list[str]:
+    out = []
+    for f, rows in (p.get("local_standards") or {}).items():
+        where = "In the county" if f == p["fips"] else f"{geo.name(f)} ({f})"
+        groups: dict[tuple[str, str, str], list[dict]] = {}
+        for r in rows:
+            groups.setdefault((r["jurisdiction"], r["jurisdiction_type"], r["technology"]), []).append(r)
+        out.append(f"- {where}:")
+        for (jur, jtype, tech), rs in sorted(groups.items()):
+            rs.sort(key=lambda r: (r.get("restricting") != "yes", r["feature"]))
+            unverified = sum(1 for r in rs if r.get("verification") != "verified")
+            label = ("all unverified: NREL's reading, not checked against the ordinance" if unverified == len(rs)
+                     else f"{len(rs) - unverified} verified against the ordinance, {unverified} unverified")
+            year = sorted({r["ordinance_year"] for r in rs if r.get("ordinance_year")})
+            out.append(f"  - **{jur}** ({jtype}, {tech}{', ordinance year ' + '/'.join(year) if year else ''}; "
+                       f"{label}): " + "; ".join(_feature(r) for r in rs))
+            urls = sorted({u for r in rs for u in (r.get("ordinance_url") or "").split()})
+            if urls:
+                out.append(f"    Ordinance as cited by NREL: {'; '.join(urls[:3])}"
+                           + (f"; and {len(urls) - 3} more" if len(urls) > 3 else ""))
+    return out
+
+
+NREL_ATTRIBUTION = ("Source: NREL, U.S. Wind and U.S. Solar Siting Regulation and Zoning Ordinances (2025), "
+                    "doi.org/10.25984/3363758 and doi.org/10.25984/3363739, licensed CC BY 4.0. NREL compiled "
+                    "them with large language models and asks that they be validated.")
+
+
 def checked_line(c: dict) -> str:
     """'Checked <sources> on <date>: none found', flagged when stale."""
     srcs = "; ".join(negative_checks.sources(c))
@@ -665,6 +783,12 @@ def render(p: dict) -> str:
          f"{p['county']}, {p['state']} (FIPS {p['fips']}). Data as of {p['state_context']['data_as_of']}.", ""]
     if p["notes"]:
         L += [f"Local knowledge supplied: {p['notes']}", ""]
+    L.append(f"### State framework ({p['state']})")
+    fl = framework_lines(p)
+    L += fl or [f"- No state siting law row is published for {p['state']} yet."]
+    if p.get("state_framework_held_left_out"):
+        L.append(f"- Verified only: {p['state_framework_held_left_out']} row(s) still held for review were left out.")
+    L.append("")
     here = p["in_county"]
     if p.get("verified_only"):
         lo = p.get("left_out", {})
@@ -704,6 +828,15 @@ def render(p: dict) -> str:
         L.append(f"- {g['name']}, {g['state']} ({nb})")
         L += _restriction_lines(g["restrictions"], "  ") + _project_lines(g["contested_projects"], "  ")
         L += _pending_lines(g.get("pending", []), "  ", short=True)
+    L.append("")
+    ls = p.get("local_standards") or {}
+    n_here = len(ls.get(p["fips"], []))
+    L.append(f"### Local siting standards (NREL): {n_here} feature(s) in the county, "
+             f"{sum(len(v) for k, v in ls.items() if k != p['fips'])} in adjacent counties")
+    L.append(NREL_ATTRIBUTION)
+    L += standards_lines(p) or ["- None recorded for the county or its neighbors."]
+    if p.get("verified_only") and p.get("local_standards_left_out"):
+        L.append(f"- Verified only: {p['local_standards_left_out']} unverified feature(s) were left out.")
     L.append("")
     if p["radius_mi"]:
         L.append(f"### Within {p['radius_mi']:g} miles (beyond the county and its neighbors)")
@@ -776,7 +909,8 @@ def render(p: dict) -> str:
 
 def summary(profiles: list[dict]) -> str:
     L = ["| Site | County | Restrictions here | Severe here | Projects here | Adjacent records | "
-         "Held back | Flags |", "|---|---|---:|---:|---:|---:|---:|---:|"]
+         "Held back | Flags | Siting standards here | State framework rows |",
+         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for p in profiles:
         h = p["in_county"]
         inst = _instruments(h["restrictions"])
@@ -784,7 +918,9 @@ def summary(profiles: list[dict]) -> str:
         adj = sum(len(g["restrictions"]) + len(g["contested_projects"]) for g in p["adjacent"].values())
         held = sum(len(v) for v in p["not_published"].values())
         L.append(f"| {p['site']} | {p['county']}, {p['state']} ({p['fips']}) | {len(inst)} | {severe} | "
-                 f"{len(h['contested_projects'])} | {adj} | {held} | {len(p['flags'])} |")
+                 f"{len(h['contested_projects'])} | {adj} | {held} | {len(p['flags'])} | "
+                 f"{len((p.get('local_standards') or {}).get(p['fips'], []))} | "
+                 f"{len(p.get('state_framework') or [])} |")
     return "\n".join(L) + "\n"
 
 

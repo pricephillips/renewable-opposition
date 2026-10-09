@@ -37,7 +37,8 @@ def test_restriction_severity_rules():
 
 
 def test_real_build_invariants():
-    records = read_csv(b.RECORDS_PATH)
+    records, _ = b.merge_editions(read_csv(b.RECORDS_PATH), read_csv(b.RECORDS_2025_PATH),
+                                  read_csv(b.CROSSWALK_PATH))
     restrictions, review, _ = b.build_restrictions(records, {})
     assert restrictions, "expected Sabin restriction rows"
     for row in restrictions:
@@ -54,7 +55,7 @@ def test_real_build_invariants():
 
 
 def test_duplicate_moratorium_is_held_back():
-    records = [r for r in read_csv(b.RECORDS_PATH) if r["record_id"] == "REC-0401"]
+    records = [r for r in read_csv(b.RECORDS_2025_PATH) if r["record_id"] == "REC-0401"]
     mn_index = {("SD::county::pennington", "solar"): "sd-pennington-county-2024"}
     restrictions, review, _ = b.build_restrictions(records, mn_index)
     assert [r["technology"] for r in restrictions] == ["wind"]
@@ -99,11 +100,13 @@ def test_rebuild_keeps_contested_rows_from_other_writers(monkeypatch, tmp_path):
                         ("RESTRICTIONS_PATH", "restrictions_seed.csv"),
                         ("CASES_PATH", "cases_seed.csv"),
                         ("CANDIDATES_PATH", "cases_candidates.csv"),
-                        ("RESTRICTIONS_REVIEW_PATH", "review.csv")):
+                        ("RESTRICTIONS_REVIEW_PATH", "review.csv"),
+                        ("EDITION_WORKLIST_PATH", "worklist.csv")):
         monkeypatch.setattr(b, const, tmp_path / name)
     monkeypatch.setattr(b, "ROOT", tmp_path)  # only the closing print uses it
     monkeypatch.setattr("sys.argv", ["build_sabin_seeds.py"])
     b.main()
     rows = read_csv(seed)
     assert [r["project_name"] for r in rows if r["source"] == "review queue: src_x"] == ["Promoted Solar"]
-    assert sum(r["source"] == b.SOURCE_LABEL for r in rows) == 165
+    sabin = [r for r in rows if r["source"].startswith(b.SOURCE_PREFIX)]
+    assert sabin and all(r["source"] in (b.SOURCE_LABEL, b.SOURCE_LABEL_2025) for r in sabin)

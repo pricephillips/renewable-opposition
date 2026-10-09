@@ -352,6 +352,7 @@
         <div id="sort-summary">Sorted by date text</div>
       </div>
       <div id="table-container" class="table-wrap"></div>
+      <p class="site-subtitle" id="nrelAttribution">Siting standards and the restrictions marked NREL come from NREL's U.S. Wind and U.S. Solar Siting Regulation and Zoning Ordinances (2025), <a href="https://doi.org/10.25984/3363758">doi.org/10.25984/3363758</a> and <a href="https://doi.org/10.25984/3363739">doi.org/10.25984/3363739</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. NREL compiled them with large language models; they are shown as unverified until checked against the ordinance.</p>
     </div>
   </main>
 </div>
@@ -597,8 +598,14 @@ function renderStats() {
   ].map(s => `<div class="stat-card" data-headline="${s.id}"><div class="stat-value">${s.value}</div><div class="stat-label">${escapeHtml(s.label)}</div><div class="stat-label">${escapeHtml(s.note)}</div></div>`).join('');
 }
 
-function renderTable(rows, tab) {
+// Thousands of rows (NREL adds ~2,400 instruments) make the page slow, so the
+// table shows the first ROW_LIMIT and a button for the rest.
+const ROW_LIMIT = 500;
+let showAllRows = false;
+
+function renderTable(allRows, tab) {
   const el = $('table-container');
+  const rows = showAllRows ? allRows : allRows.slice(0, ROW_LIMIT);
   if (!rows.length) {
     el.innerHTML = '<div class="empty-state">No records match the current filters.</div>';
     return;
@@ -618,7 +625,9 @@ function renderTable(rows, tab) {
   el.innerHTML = `<table>
     <thead><tr>${cols.map(c => `<th data-sort="${c}">${headers[c] || c}${sortState.key === c ? (sortState.dir === 'asc' ? ' ↑' : ' ↓') : ''}</th>`).join('')}</tr></thead>
     <tbody>${rows.map((r, i) => `<tr class="data-row" data-idx="${i}">${cols.map(c => cellHTML(r, c)).join('')}</tr>`).join('')}</tbody>
-  </table>`;
+  </table>${allRows.length > rows.length ? `<button type="button" class="tab-btn" id="show-all-rows">Show all ${allRows.length} rows (first ${rows.length} shown)</button>` : ''}`;
+  const more = $('show-all-rows');
+  if (more) more.addEventListener('click', () => { showAllRows = true; renderTable(allRows, tab); });
   el.querySelectorAll('.data-row').forEach(row => row.addEventListener('click', () => openPanel(rows[Number(row.dataset.idx)])));
   el.querySelectorAll('th[data-sort]').forEach(th => th.addEventListener('click', () => toggleSort(th.dataset.sort)));
 }

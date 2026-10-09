@@ -1,32 +1,32 @@
 {
   "restrictions": {
-    "rows": 621,
-    "instruments": 480,
+    "rows": 3625,
+    "instruments": 3423,
     "by_scope": {
       "renewables_only": {
-        "instruments": 397,
-        "severe_instruments": 333,
-        "states": 43,
+        "instruments": 3340,
+        "severe_instruments": 1362,
+        "states": 50,
         "by_status": {
-          "active": 331,
-          "extended": 59,
-          "pending": 6,
-          "unknown": 1
+          "active": 884,
+          "extended": 58,
+          "pending": 5,
+          "unknown": 2393
         },
         "by_technology": {
-          "battery_storage": 121,
-          "solar": 185,
-          "wind": 189
+          "battery_storage": 138,
+          "solar": 1657,
+          "wind": 1704
         },
         "by_evidence_level": {
-          "compiled_flagged": 30,
+          "compiled_flagged": 2396,
           "compiled_record": 61,
-          "primary_source": 42,
-          "report_citation": 264
+          "primary_source": 69,
+          "report_citation": 814
         },
         "by_verification": {
-          "unverified": 355,
-          "verified": 42
+          "unverified": 3271,
+          "verified": 69
         }
       },
       "multi_sector_data_centers": {
@@ -53,27 +53,97 @@
           "verified": 7
         }
       }
+    },
+    "by_source": {
+      "Sabin 2026": {
+        "instruments": 756,
+        "severe_instruments": 531,
+        "by_verification": {
+          "unverified": 755,
+          "verified": 1
+        }
+      },
+      "Sabin 2025 (not in 2026 edition)": {
+        "instruments": 55,
+        "severe_instruments": 41,
+        "by_verification": {
+          "unverified": 55
+        }
+      },
+      "NREL": {
+        "instruments": 2393,
+        "severe_instruments": 663,
+        "by_verification": {
+          "unverified": 2366,
+          "verified": 27
+        }
+      },
+      "Moratorium Nation": {
+        "instruments": 210,
+        "severe_instruments": 199,
+        "by_verification": {
+          "unverified": 167,
+          "verified": 43
+        }
+      },
+      "review queue": {
+        "instruments": 9,
+        "severe_instruments": 3,
+        "by_verification": {
+          "unverified": 4,
+          "verified": 5
+        }
+      }
+    },
+    "by_verification": {
+      "unverified": 3347,
+      "verified": 76
     }
   },
   "contested_projects": {
-    "rows": 167,
-    "projects": 167,
-    "confirmed_outcomes": 125,
+    "rows": 576,
+    "projects": 576,
+    "confirmed_outcomes": 123,
     "by_outcome": {
-      "advanced_confirmed": 55,
-      "advanced_unverified": 1,
+      "advanced_confirmed": 53,
+      "advanced_unverified": 24,
       "blocked_confirmed": 70,
-      "blocked_unverified": 10,
-      "needs_review": 2,
-      "pending": 29
+      "blocked_unverified": 165,
+      "needs_review": 34,
+      "pending": 230
     },
     "by_evidence_level": {
-      "confirmed": 125,
-      "report_citation": 42
+      "confirmed": 123,
+      "report_citation": 453
     },
     "by_verification": {
-      "unverified": 40,
-      "verified": 127
+      "unverified": 451,
+      "verified": 125
+    },
+    "by_source": {
+      "Sabin 2026": {
+        "instruments": 568,
+        "severe_instruments": 397,
+        "by_verification": {
+          "unverified": 446,
+          "verified": 122
+        }
+      },
+      "Sabin 2025 (not in 2026 edition)": {
+        "instruments": 6,
+        "severe_instruments": 3,
+        "by_verification": {
+          "unverified": 5,
+          "verified": 1
+        }
+      },
+      "review queue": {
+        "instruments": 2,
+        "severe_instruments": 0,
+        "by_verification": {
+          "verified": 2
+        }
+      }
     }
   },
   "cases": {
@@ -90,5 +160,34 @@
     "by_verification": {
       "verified": 38
     }
+  },
+  "siting_standards": {
+    "rows": 23778,
+    "jurisdictions": 2713,
+    "by_technology": {
+      "solar": 11481,
+      "wind": 12297
+    },
+    "by_verification": {
+      "unverified": 23685,
+      "verified": 93
+    },
+    "restricting_rows": 7317
+  },
+  "state_policies": {
+    "rows": 0,
+    "states": 0,
+    "by_policy_type": {},
+    "by_verification": {}
+  },
+  "county_coverage": {
+    "counties": 3144,
+    "with_any_record": 1403,
+    "with_restriction": 1255,
+    "with_contested_project": 456,
+    "with_siting_standard": 1158,
+    "with_negative_check": 1,
+    "with_negative_check_and_no_record": 1,
+    "with_neither": 1740
   }
 }

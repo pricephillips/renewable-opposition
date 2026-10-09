@@ -223,3 +223,10 @@ def test_rows_from_one_article_are_separate_instruments(queue):
                         row(technology="wind", mechanisms="moratorium", description="A second wind instrument."))
     ids = [classify.instrument_id("restrictions", s) for s in seeds]
     assert len(set(ids)) == 3 and ids[2].endswith("-2")
+
+
+def test_a_row_awaiting_review_is_held_until_someone_else_confirms_it(queue, capsys):
+    code, seed, statuses = queue(row(review_status="awaiting_review", mechanisms="setback",
+                                     mechanism_detail="setback 1,000 feet"))
+    assert code == 0 and seed == [] and statuses == ["awaiting_review"]
+    assert "awaiting review by someone other than its drafter" in capsys.readouterr().out

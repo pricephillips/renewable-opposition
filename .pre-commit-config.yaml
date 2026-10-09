@@ -11,6 +11,7 @@ repos:
         entry: python scripts/precommit_gates.py crlf --fix
         language: system
         files: \.csv$
+        exclude: ^data/raw/
       - id: private-local-knowledge
         name: No local-knowledge files (reports from local contacts stay outside the repo)
         entry: python scripts/precommit_gates.py private

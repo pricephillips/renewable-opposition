@@ -8,26 +8,36 @@
   ],
   "contested_projects.csv": {
     "county_fips": {
-      "min_filled": 149,
-      "reason": "Derived by classify.county_fips from state plus county. 149 of 165 rows hit on 2026-10-01 (DeWitt County, IL now matches De Witt); the other 16 are in data/review/fips_misses.csv."
+      "min_filled": 520,
+      "reason": "Derived by classify.county_fips from state plus county. 520 of 576 rows on 2026-10-09, up from 149 of 165: the Sabin September 2026 edition (568 projects) gives a county for nearly every project. The 56 misses are multi-county projects (several_counties) and Connecticut's pre-2022 counties, in data/review/fips_misses.csv."
     },
     "county_fips_all": {
-      "min_filled": 163,
-      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 163 of 165 on 2026-10-06: Ellington and Manchester, Connecticut, are placed in their 2022 planning region by the town their record names; the other 2 Connecticut rows name only a pre-2022 county."
+      "min_filled": 570,
+      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 570 of 576 on 2026-10-09, up from 163 of 165, with the Sabin September 2026 edition."
     }
   },
   "restrictions.csv": {
     "county_fips": {
-      "min_filled": 313,
-      "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 313 of 317 such rows hit on 2026-09-30; the other 4 are in data/review/fips_misses.csv."
+      "min_filled": 1747,
+      "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 1,747 of 1,754 such rows on 2026-10-09, up from 313 of 317: the Sabin September 2026 edition and NREL's county ordinances (2,393 NREL restrictions) added county-level instruments."
     },
     "county_fips_all": {
-      "min_filled": 602,
-      "reason": "County-level instruments by name, town-level ones by coordinates and by the Census place index (data/place_county_index.json). 602 of 610 on 2026-10-06, up from 585 on 2026-10-02: a county typed as a municipality and Honolulu's consolidated city-county by name, 4 shared town names by the county their own text names (place_text), and 11 rows by reviewer overrides with evidence (data/review/place_overrides.csv). The other 8 are 7 town names shared by several counties (left unplaced, never guessed) and Prairie, KS, which matches no county."
+      "min_filled": 3621,
+      "reason": "County-level instruments by name, town-level ones by coordinates, the Census place index, reviewer overrides and, new on 2026-10-09, the county code the source itself gives (method source_fips: NREL's FIPS code, the Sabin 2026 export's county FIPS). 3,621 of 3,625 on 2026-10-09, up from 602 of 610."
     },
     "primary_source_access": {
-      "min_filled": 1,
-      "reason": "How a reviewer saw each attached primary source (opened, archived or snippet), from data/review/restriction_sources.csv by resolutions.apply_restriction_sources. Set on every row that has a primary_source_url. 1 row on 2026-10-07 (one instrument, seen only as search-index text)."
+      "min_filled": 92,
+      "reason": "How a reviewer saw each attached primary source, from data/review/restriction_sources.csv. 92 rows on 2026-10-09, up from 1 on 2026-10-07: earlier verification rounds, and 27 NREL restrictions whose every sampled feature a reviewing agent confirmed against the ordinance (scripts/nrel_sample.py)."
+    }
+  },
+  "siting_standards.csv": {
+    "county_fips_all": {
+      "min_filled": 23663,
+      "reason": "New entity on 2026-10-09: NREL's 2025 ordinance features, placed by the existing county logic with NREL's own county code as the fallback (source_fips). 23,663 of 23,778 rows; the other 115 are state-level rows, which have no county."
+    },
+    "ordinance_url": {
+      "min_filled": 23778,
+      "reason": "New entity on 2026-10-09: every NREL row cites the ordinance it was read from (23,778 of 23,778). A drop means NREL's Source URL column changed."
     }
   }
 }
