@@ -13,3 +13,5 @@ daff>=1.4
 vale>=3.12
 # Reads NREL's siting ordinance spreadsheets (scripts/nrel_ordinances.py).
 openpyxl==3.1.5
+# Builds the national database (scripts/build_database.py).
+duckdb==1.5.6
