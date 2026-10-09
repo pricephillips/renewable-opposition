@@ -88,6 +88,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import classify  # noqa: E402
 import geo  # noqa: E402
+import group_registry  # noqa: E402
 import negative_checks  # noqa: E402
 from common import STATE_NAMES  # noqa: E402
 
@@ -540,8 +541,36 @@ def _project_lines(rows: list[dict], indent: str = "") -> list[str]:
         if r.get("resolution_url"):
             out.append(f"{indent}  Outcome source: " + _seen(r["resolution_url"], r.get("resolution_access", ""),
                                                             r.get("resolution_archived_url", "")))
+        if r.get("opposition_groups"):
+            out.append(f"{indent}  Groups: {_groups(r.get('opposition_groups'), r.get('group_sources'))}")
         out.append(f"{indent}  {_source_line(r)}")
     return out
+
+
+def _groups(names: str, sources: str) -> str:
+    """'A, B (sources: url1; url2)': the group names on a record and the
+    sources that name them."""
+    gs = [g.strip() for g in (names or "").split(";") if g.strip()]
+    us = [u.strip() for u in (sources or "").split(";") if u.strip()]
+    return ", ".join(gs) + (f" (sources: {'; '.join(us)})" if us else "")
+
+
+def groups_nearby(p: dict) -> list[dict]:
+    """Every sourced group named on a record the profile shows, once each:
+    name, where (county or neighbor), and its sources."""
+    seen: dict[str, dict] = {}
+    blocks = [("in the county", p["in_county"]["contested_projects"])]
+    blocks += [(f"{g['name']}, {g['state']}", g["contested_projects"]) for g in p["adjacent"].values()]
+    blocks += [("within the radius", [r for r in p["within_radius"] if r["id"].startswith("con_")])]
+    for where_, rows in blocks:
+        for r in rows:
+            us = [u.strip() for u in (r.get("group_sources") or "").split(";") if u.strip()]
+            for g in [g.strip() for g in (r.get("opposition_groups") or "").split(";") if g.strip()]:
+                e = seen.setdefault(group_registry.key(g), {"name": g, "where": [], "sources": []})
+                if where_ not in e["where"]:
+                    e["where"].append(where_)
+                e["sources"] += [u for u in us if u not in e["sources"]]
+    return list(seen.values())
 
 
 def _mechanisms(r: dict) -> str:
@@ -642,6 +671,11 @@ def render(p: dict) -> str:
         ps = [r for r in p["within_radius"] if r["id"].startswith("con_")]
         L += _restriction_lines(rs) + _project_lines(ps) or ["- Nothing."]
         L.append("")
+    nearby = groups_nearby(p)
+    L.append("Groups active nearby: " + ("; ".join(
+        f"{g['name']} ({', '.join(g['where'])}; sources: {'; '.join(g['sources'])})" for g in nearby)
+        if nearby else "none with a source on the records shown."))
+    L.append("")
     L.append(f"### Cases linked to the records above: {len(p['cases'])}")
     for c in p["cases"]:
         L.append(f"- {c['case_name']}, {c['court']} {c.get('docket_number', '')}: "

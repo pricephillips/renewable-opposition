@@ -39,6 +39,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import classify  # noqa: E402
 import geo  # noqa: E402
+import group_registry  # noqa: E402
 import headline_metrics  # noqa: E402
 import negative_checks  # noqa: E402
 import qc_gate  # noqa: E402
@@ -327,6 +328,13 @@ def main() -> int:
         datasets[entity] = passed
         quarantine.extend({"entity": entity, **r} for r in held)
         findings.extend(found)
+
+    # Opposition groups: the registry is built from every named group, then a
+    # group with no source is blanked from the published row (held for review).
+    registry, held_groups = group_registry.run(datasets.get("contested_projects", []))
+    blanked = group_registry.hold_unsourced(datasets.get("contested_projects", []))
+    print(f"Groups: {len(registry)} in the registry, {len(held_groups)} occurrence(s) held for review "
+          f"({blanked} published row(s) had groups with no source)")
 
     archive = archived_urls()
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)

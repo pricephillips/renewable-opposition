@@ -167,6 +167,7 @@ data/processed/
   diff_summary.md                   ← what the last build changed, keyed on id
   headline_metrics.md / .json       ← the numbers to quote, counted by instrument
   coverage_delta.md                 ← column fill rates against the previous commit
+  group_registry.csv                ← opposition groups with their sources (scripts/group_registry.py)
 ```
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.
@@ -195,6 +196,8 @@ renewable-opposition/
 │   │   ├── sabin_restrictions_review.csv   ← Sabin restriction rows held back, with reasons
 │   │   ├── coverage_gaps.csv               ← moratoria found in only one source
 │   │   ├── place_overrides.csv             ← reviewer counties with evidence (hand-edited)
+│   │   ├── group_candidates.csv            ← groups named in seed or Sabin text, awaiting a read news URL (hand-edited)
+│   │   ├── group_review.csv                ← groups held back for want of a source (written by the build)
 │   │   ├── negative_checks.csv             ← "checked, nothing found" results per county (hand-edited)
 │   │   ├── profile_requests.csv            ← county code and date of every profile run (site_profile.py)
 │   │   ├── negative_check_worklist.csv     ← profiled counties still to check (written by the build)
@@ -262,6 +265,14 @@ Outputs will be written to `data/processed/`.
 
 ---
 
+## Opposition groups
+
+Contested projects (the seed and `data/review/queue.csv`) carry `opposition_groups`, a semicolon list of the groups a record names, and `group_sources`, a semicolon list of one or more URLs (news articles) that name them. Every URL on a row applies to every group on the row. `scripts/group_registry.py`, run by every build, writes `data/processed/group_registry.csv`: `canonical_id`, `canonical_name`, `variants`, `n_projects`, `states`, `first_seen`, `last_seen`, `source_urls`. Case, punctuation, a leading "The", an "Inc." or "LLC" suffix and a leading "Citizens for" do not make a new group; "Stop", "Save" and "No" prefixes are kept. Generic labels such as "local residents" are not groups. The registry also takes the groups named in `data/reference/data_center_events.csv`, with their source URLs.
+
+A group with no source URL is held for review, never published: the build blanks it from the published row and lists it in `data/review/group_review.csv`. No per-group outcome or success rate is computed or published.
+
+`data/review/group_candidates.csv` (hand-edited) holds groups named in the seeds' and Sabin records' text, one per row: `source_record_id`, `entity`, `state`, `record_name`, `group_name`, `excerpt`, `group_source_url`, `access`, `archived_url`, `note`. A row publishes once `group_source_url` is a news article naming the group and `access` is `opened` or `archived`; until then it is held.
+
 ## Site profiles
 
 `scripts/site_profile.py` lists everything the data records about one county.
@@ -286,6 +297,8 @@ Each profile has these sections:
 - **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, and one "Evidence still to read" flag that counts the items the profile shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
 
 Every restriction line says in plain words how it stands under the evidence standard: verified against the instrument or the minutes that adopted it, instrument located but not yet read, or not verified. Every contested-project line says whether a news article or court record that was read backs it. `--verified-only` leaves restrictions that are not verified out of the county and adjacent sections and states how many it left out, split into located and unverified.
+
+Each contested-project line lists its groups and the sources that name them, and each profile has a "Groups active nearby" line: every sourced group on a record the profile shows, where it was active, and its sources.
 
 Every record line names its sources. A record with a primary source prints it on the "Source" line with how it was seen ("located, not yet read" for `snippet`), and the compiled source it came from (the Sabin report or Moratorium Nation) as "Compiled from". A contested project with a resolution row also prints an "Outcome source" line the same way. A record placed by a reviewer override says how that evidence was seen.
 

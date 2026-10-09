@@ -113,7 +113,8 @@ QUEUE_SPECIFIC = {
                     "mechanism_detail": "long_description"},
     "contested_project": {"project_name": "project_name", "county": "county",
                           "municipality": "municipality", "opposition_type": "opposition_type",
-                          "first_event_date": "event_date_text", "status": "status"},
+                          "first_event_date": "event_date_text", "status": "status",
+                          "opposition_groups": "opposition_groups", "group_sources": "group_sources"},
     "case": {"project_name": "project_name", "court_level": "court_level",
              "docket_number": "docket_number"},
 }

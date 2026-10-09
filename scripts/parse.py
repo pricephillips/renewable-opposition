@@ -103,6 +103,8 @@ class CandidateRecord:
     opposition_type: str = ""            # public_hearing | petition | permit_denial | campaign | settlement
     first_event_date: str = ""
     status: str = ""
+    opposition_groups: str = ""          # ;-separated group names; each needs a source in group_sources
+    group_sources: str = ""              # ;-separated URLs (news articles) that name the groups
 
     # Case-specific
     court_level: str = ""               # state_trial | state_appellate | federal_district | agency

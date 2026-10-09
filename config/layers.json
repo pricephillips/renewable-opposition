@@ -60,6 +60,10 @@
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "A reviewer's 'checked, nothing found' result for a county, with what was searched. build_seed_outputs.py validates it (scripts/negative_checks.py) and site_profile.py prints it; never published as a record."
     },
+    "data/review/group_candidates.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "Opposition groups named in the seeds' or Sabin text, one per row, awaiting a news URL that was opened (group_source_url, access). group_registry.py publishes a group only once that is filled; until then it is held in data/review/group_review.csv."
+    },
     "data/review/profile_requests.csv": {"layer": "review", "writers": ["scripts/site_profile.py"]},
     "data/seed/restrictions_seed.csv": {
       "layer": "seed",
@@ -88,6 +92,8 @@
     },
     "data/seed/cases_seed.csv": {"layer": "seed", "writers": ["scripts/promote_reviewed.py"]},
 
+    "data/processed/group_registry.csv": {"layer": "derived", "writers": ["scripts/group_registry.py"]},
+    "data/review/group_review.csv": {"layer": "derived", "writers": ["scripts/group_registry.py"]},
     "data/processed/diff_summary.md": {"layer": "derived", "writers": ["scripts/processed_diff.py"]},
     "data/processed/coverage_delta.md": {"layer": "derived", "writers": ["scripts/coverage_delta.py"]},
     "data/review/outcome_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
