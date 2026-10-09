@@ -13,7 +13,10 @@ Rules
     multi_sector_data_centers is reported beside it, never folded in.
     data_center_only instruments are quarantined by qc_gate and never counted.
   - Every count is also broken down by evidence_level, so a reader can see how
-    much of a number rests on a primary source.
+    much of a number rests on a primary source, and by verification
+    (classify.verification): verified, located or unverified under the
+    evidence standard. An instrument counts as verified only when every one
+    of its rows is (in practice they agree).
 """
 from __future__ import annotations
 
@@ -39,6 +42,20 @@ def _instruments(rows: list[dict]) -> dict[str, dict]:
     return out
 
 
+VERIFICATION_RANK = {"verified": 0, "located": 1, "unverified": 2}
+
+
+def _instrument_verification(rows: list[dict]) -> dict[str, str]:
+    """instrument_id -> its weakest verification across rows."""
+    out: dict[str, str] = {}
+    for r in rows:
+        iid = r.get("instrument_id") or r.get("id")
+        v = r.get("verification") or "unverified"
+        if iid not in out or VERIFICATION_RANK.get(v, 2) > VERIFICATION_RANK.get(out[iid], 2):
+            out[iid] = v
+    return out
+
+
 def _counter(items, key) -> dict[str, int]:
     return dict(sorted(Counter(key(i) or "" for i in items).items()))
 
@@ -47,6 +64,8 @@ def compute(datasets: dict[str, list[dict]]) -> dict:
     out: dict = {}
     rows = datasets.get("restrictions", [])
     inst = _instruments(rows)
+    for iid, v in _instrument_verification(rows).items():
+        inst[iid]["verification"] = v
     by_scope: dict[str, dict] = {}
     for sc in ("renewables_only", "multi_sector_data_centers"):
         group = [i for i in inst.values() if i.get("scope") == sc]
@@ -57,11 +76,14 @@ def compute(datasets: dict[str, list[dict]]) -> dict:
             "by_status": _counter(group, lambda i: i.get("status")),
             "by_technology": dict(sorted(Counter(t for i in group for t in i["_techs"]).items())),
             "by_evidence_level": _counter(group, lambda i: i.get("evidence_level")),
+            "by_verification": _counter(group, lambda i: i.get("verification")),
         }
     out["restrictions"] = {"rows": len(rows), "instruments": len(inst), "by_scope": by_scope}
 
     rows = datasets.get("contested_projects", [])
     inst = _instruments(rows)
+    for iid, v in _instrument_verification(rows).items():
+        inst[iid]["verification"] = v
     out["contested_projects"] = {
         "rows": len(rows),
         "projects": len(inst),
@@ -69,14 +91,18 @@ def compute(datasets: dict[str, list[dict]]) -> dict:
                                   if str(i.get("outcome") or "").endswith("_confirmed")),
         "by_outcome": _counter(inst.values(), lambda i: i.get("outcome")),
         "by_evidence_level": _counter(inst.values(), lambda i: i.get("evidence_level")),
+        "by_verification": _counter(inst.values(), lambda i: i.get("verification")),
     }
 
     rows = datasets.get("cases", [])
     inst = _instruments(rows)
+    for iid, v in _instrument_verification(rows).items():
+        inst[iid]["verification"] = v
     out["cases"] = {
         "rows": len(rows),
         "cases": len(inst),
         "by_case_status": _counter(inst.values(), lambda i: i.get("case_status")),
+        "by_verification": _counter(inst.values(), lambda i: i.get("verification")),
     }
     return out
 
@@ -103,18 +129,28 @@ def render(m: dict) -> str:
     for level in sorted(set(ren["by_evidence_level"]) | set(multi["by_evidence_level"])):
         lines.append(f"| Evidence: {level} | {ren['by_evidence_level'].get(level, 0)} | "
                      f"{multi['by_evidence_level'].get(level, 0)} |")
+    for v in ("verified", "located", "unverified"):
+        lines.append(f"| Verification: {v} | {ren['by_verification'].get(v, 0)} | "
+                     f"{multi['by_verification'].get(v, 0)} |")
     lines += [
+        "",
+        "Verified: checked against the instrument itself or the minutes that adopted it, opened or "
+        "read in an archived copy. Located: that document is found but not yet read. Unverified: "
+        "a news article or a compiled tracker locates the instrument but does not verify it.",
         "",
         f"{r['rows']} published rows describe {r['instruments']} instruments.",
         "",
         "## Contested projects",
         "",
-        f"{c['projects']} projects; {c['confirmed_outcomes']} with a confirmed outcome.",
+        f"{c['projects']} projects; {c['confirmed_outcomes']} with a confirmed outcome; "
+        f"{c['by_verification'].get('verified', 0)} verified (backed by a news article or court record "
+        f"that was read), {c['by_verification'].get('unverified', 0)} resting on a compiled report only.",
         "",
         "| Outcome | Projects |",
         "|---|---:|",
     ]
     lines += [f"| {o} | {n} |" for o, n in c["by_outcome"].items()]
-    lines += ["", "## Cases", "", f"{k['cases']} cases.", "", "| Status | Cases |", "|---|---:|"]
+    lines += ["", "## Cases", "", f"{k['cases']} cases; {k['by_verification'].get('verified', 0)} "
+              "with a court record.", "", "| Status | Cases |", "|---|---:|"]
     lines += [f"| {s or '(blank)'} | {n} |" for s, n in k["by_case_status"].items()]
     return "\n".join(lines) + "\n"

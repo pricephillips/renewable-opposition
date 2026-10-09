@@ -103,6 +103,8 @@ class CandidateRecord:
     opposition_type: str = ""            # public_hearing | petition | permit_denial | campaign | settlement
     first_event_date: str = ""
     status: str = ""
+    opposition_groups: str = ""          # ;-separated group names; each needs a source in group_sources
+    group_sources: str = ""              # ;-separated URLs (news articles) that name the groups
 
     # Case-specific
     court_level: str = ""               # state_trial | state_appellate | federal_district | agency
@@ -113,6 +115,9 @@ class CandidateRecord:
     evidence_text: str = ""             # verbatim excerpt that triggered extraction
     access: str = ""                    # opened | archived | snippet (resolutions.ACCESS); set by the extractor
     archived_url: str = ""              # the Internet Archive copy read, when access is archived
+    source_kind: str = ""               # what source_url is (classify.SOURCE_KINDS): instrument | minutes |
+                                        # official_copy | court_record | news | tracker | other
+    queue_id: str = ""                  # set by promote_reviewed.py on promotion; links the row to its seed rows
 
 
 QUEUE_FIELDS = list(CandidateRecord.__dataclass_fields__.keys())

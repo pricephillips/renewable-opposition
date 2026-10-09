@@ -87,7 +87,10 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
     assert not [f for f in build_seed_outputs.REQUIRED["cases"] if not cases[0].get(f)]
     assert "promoted automatically" in cases[0]["reviewer_notes"]
     header = (seed / "cases_seed.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
-    assert header == promote_reviewed.CASE_FIELDS              # no column added to the seed
+    n = len(promote_reviewed.CASE_FIELDS)
+    # Only the evidence and link columns are added to the seed.
+    assert header[:n] == promote_reviewed.CASE_FIELDS
+    assert set(header[n:]) <= set(promote_reviewed.EVIDENCE_COLUMNS)
     # The second extractor row has no state or severity: it waits, never guessed.
     assert [q["review_status"] for q in common.read_csv(review / "queue.csv")] == ["promoted", "pending"]
 
@@ -126,7 +129,8 @@ QUEUE_ROW = {"source_id": "manual", "entity_type": "restriction", "review_status
              "severity_score": "2", "description": "300 ft solar setback from dwellings.",
              "source_url": "https://www.linncountyiowa.gov/minutes", "restriction_type": "setback",
              "adopted_date": "2023-09-20", "effective_date": "2023-09-28", "reviewer_notes": "seen in minutes",
-             "access": "opened", "mechanisms": "setback", "mechanism_detail": "Panels 300 ft from dwellings."}
+             "access": "opened", "mechanisms": "setback", "mechanism_detail": "Panels 300 ft from dwellings.",
+             "status": "active"}
 
 
 def test_a_complete_queue_row_is_promoted_into_the_seed_columns(monkeypatch, tmp_path):
@@ -145,17 +149,18 @@ def test_a_complete_queue_row_is_promoted_into_the_seed_columns(monkeypatch, tmp
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
     assert promote_reviewed.main() == 0
     rows = common.read_csv(seed / "restrictions_seed.csv")
-    assert list(rows[0]) == header                      # no column added to the seed
+    assert list(rows[0])[:len(header)] == header         # only evidence and link columns are added
+    assert set(list(rows[0])[len(header):]) <= set(promote_reviewed.EVIDENCE_COLUMNS)
     (r,) = rows[1:]
     assert (r["jurisdiction"], r["jurisdiction_type"], r["date_enacted_iso"], r["status"]) == \
-        ("Linn County", "County", "2023-09-20", "unknown")
+        ("Linn County", "County", "2023-09-20", "active")
     assert r["source"] == "review queue: manual"
     assert r["notes"].startswith("effective 2023-09-28; seen in minutes; promoted automatically")
     assert r["long_description"] == "Panels 300 ft from dwellings."
     assert [q["review_status"] for q in common.read_csv(review / "queue.csv")] == \
         ["promoted", "rejected", "pending", "pending", "pending"]
     assert promote_reviewed.main() == 0                  # idempotent
-    assert len(common.read_csv(seed / "restrictions_seed.csv")) == 2
+    assert common.read_csv(seed / "restrictions_seed.csv") == rows
 
 
 def test_the_data_build_promotes_before_it_builds_and_commits_the_seeds():

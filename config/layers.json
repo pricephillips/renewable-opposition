@@ -26,6 +26,11 @@
     "data/source_archive_manifest.json": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
     "data/place_county_index.json": {"layer": "raw", "writers": ["scripts/build_place_index.py"]},
 
+    "data/reference/data_center_events.csv": {
+      "layer": "raw", "writers": ["scripts/sync_data_center_map.py"],
+      "reason": "Local data center events copied from pricephillips/data-center-map master_opposition.csv (path from --dc-map or $RO_DATA_CENTER_MAP), placed by classify.county_fips_all. Read by site_profile.py and group_registry.py; never part of the renewable counts."
+    },
+
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],
       "copied_from": "pricephillips/data-center-map data/county_fips_lookup.json"
@@ -53,9 +58,18 @@
     "data/review/local_knowledge.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
       "readers": ["scripts/site_profile.py"],
-      "reason": "What local contacts, meetings and documents report about a county, unverified. Only site_profile.py reads it, and never with --no-local; the build must not read or publish it (tests/test_local_knowledge.py)."
+      "reason": "What local contacts, meetings and documents report about a county, unverified. Not in this public repository: it lives at $RO_LOCAL_KNOWLEDGE (default ~/.renewable-opposition/local_knowledge.csv), this path is gitignored, and scripts/precommit_gates.py private refuses any staged local_knowledge* file. Declared so that only site_profile.py may name it; it reads the file only without --no-local, and the build must not read or publish it (tests/test_local_knowledge.py)."
     },
 
+    "data/review/negative_checks.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "A reviewer's 'checked, nothing found' result for a county, with what was searched. build_seed_outputs.py validates it (scripts/negative_checks.py) and site_profile.py prints it; never published as a record."
+    },
+    "data/review/group_candidates.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "Opposition groups named in the seeds' or Sabin text, one per row, awaiting a news URL that was opened (group_source_url, access). group_registry.py publishes a group only once that is filled; until then it is held in data/review/group_review.csv."
+    },
+    "data/review/profile_requests.csv": {"layer": "review", "writers": ["scripts/site_profile.py"]},
     "data/seed/restrictions_seed.csv": {
       "layer": "seed",
       "writers": ["scripts/fetch_moratorium_nation.py", "scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py"],
@@ -83,10 +97,14 @@
     },
     "data/seed/cases_seed.csv": {"layer": "seed", "writers": ["scripts/promote_reviewed.py"]},
 
+    "data/processed/group_registry.csv": {"layer": "derived", "writers": ["scripts/group_registry.py"]},
+    "data/review/group_review.csv": {"layer": "derived", "writers": ["scripts/group_registry.py"]},
     "data/processed/diff_summary.md": {"layer": "derived", "writers": ["scripts/processed_diff.py"]},
     "data/processed/coverage_delta.md": {"layer": "derived", "writers": ["scripts/coverage_delta.py"]},
     "data/review/outcome_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/review/fips_misses.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
+    "data/review/adjacency_worklist.csv": {"layer": "derived", "writers": ["scripts/adjacency_worklist.py"]},
+    "data/review/negative_check_worklist.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
@@ -107,13 +125,16 @@
       "files": ["data/source_archive.csv", "data/source_archive_manifest.json"],
       "reason": "os.path paths passed as run() defaults; writes via a .tmp then os.replace. Its selftest writes only to a temp dir."
     },
+    "scripts/site_profile.py": {
+      "files": [],
+      "reason": "--out writes a report to a path the user names, never a repository data file. Its one repository write is data/review/profile_requests.csv (declared above)."
+    },
     "scripts/fetch.py": {
       "files": ["data/raw/*/*"],
       "reason": "store_raw writes data/raw/<source_id>/<sha256><ext>, never overwriting."
     }
   },
   "exempt": {
-    "scripts/precommit_gates.py": "Rewrites staged files' line endings (csv-lf --fix) and temp files in its selftest; owns no data.",
-    "scripts/site_profile.py": "Read-only over data/; --out writes a report to a path the user names, never a repository data file."
+    "scripts/precommit_gates.py": "Rewrites staged files' line endings (csv-lf --fix) and temp files in its selftest; owns no data."
   }
 }

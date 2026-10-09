@@ -151,6 +151,8 @@ CONTESTED_FIELDS = [
     "outcome", "finality_evidence", "status", "has_litigation", "opposition_type",
     "county", "municipality", "event_date_text", "capacity_mw", "area_acres",
     "long_description", "source_record_id", "source", "source_url", "notes",
+    # Reviewer columns, carried forward on a rebuild (carry_groups).
+    "opposition_groups", "group_sources",
 ]
 
 CANDIDATE_FIELDS = [
@@ -597,6 +599,16 @@ def merge_candidates(generated: list[dict], existing: list[dict]) -> list[dict]:
     return out
 
 
+def carry_groups(generated: list[dict], existing: list[dict]) -> None:
+    """Keep the reviewer's opposition_groups and group_sources on each rebuilt
+    Sabin row (keyed on source_record_id and technology)."""
+    old = {(r.get("source_record_id"), r.get("technology")): r for r in existing}
+    for r in generated:
+        prev = old.get((r.get("source_record_id"), r.get("technology")), {})
+        for f in ("opposition_groups", "group_sources"):
+            r[f] = prev.get(f, "") or r.get(f, "")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="report counts without writing files")
@@ -607,10 +619,12 @@ def main() -> None:
     kept = [r for r in existing if r.get("source") != SOURCE_LABEL]
     # promote_reviewed.py also appends to the contested seed (config/layers.json).
     # Keep its rows, as the restrictions seed keeps Moratorium Nation's.
-    kept_contested = [r for r in read_csv(CONTESTED_PATH) if r.get("source") != SOURCE_LABEL]
+    existing_contested = read_csv(CONTESTED_PATH)
+    kept_contested = [r for r in existing_contested if r.get("source") != SOURCE_LABEL]
 
     contested, project_candidates, excluded = build_contested(
         records, case_rulings(read_csv(CASES_PATH)))
+    carry_groups(contested, existing_contested)
     restrictions, review, restriction_candidates = build_restrictions(
         records, moratorium_nation_index(existing)
     )

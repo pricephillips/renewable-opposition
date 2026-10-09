@@ -8,11 +8,14 @@ each item:
                         instruments, multi-county projects, and town-level
                         instruments placed by coordinates or by the Census
                         place index).
-     Local knowledge   rows of data/review/local_knowledge.csv whose
-                        county_fips is the county, printed as they are and
-                        labelled "reported, not verified". Hand-edited and
-                        never published; --no-local leaves it out (and does
-                        not read the file) for profiles that leave THG.
+     Local knowledge   rows of the local-knowledge file whose county_fips is
+                        the county, printed as they are and labelled
+                        "reported, not verified". Hand-edited, never
+                        published and kept outside the repository: the path
+                        is $RO_LOCAL_KNOWLEDGE, default
+                        ~/.renewable-opposition/local_knowledge.csv.
+                        --no-local leaves it out (and does not read the
+                        file) for profiles that leave THG.
   2. Adjacent counties  the same, for every county sharing a boundary,
                         across state lines (data/geo/counties_2024.topojson).
   3. Within a radius    optional (--radius): records outside 1 and 2 whose
@@ -46,8 +49,22 @@ Usage
   python scripts/site_profile.py --fips 20021 --radius 50
   python scripts/site_profile.py --sites sites.csv --out profiles.md
   python scripts/site_profile.py --state KS --county Cherokee --no-local
+  python scripts/site_profile.py --fips 19113 --verified-only
       sites.csv columns: name, state, county, fips (any one of county or fips),
       optional lat, lon, notes. --json writes structured output instead.
+
+Every restriction line says, in plain words, how it stands under the evidence
+standard (classify.verification): verified against the instrument or its
+minutes, instrument located but not yet read, or not verified. Every
+contested-project line says whether a news article or court record that was
+read backs it. --verified-only leaves out restrictions that are not verified
+from the county and adjacent sections and states how many it left out.
+
+An empty county section prints the newest matching row of
+data/review/negative_checks.csv instead of "Nothing published": "Checked
+<sources> on <date>: none found", flagged stale after 12 months. Every county
+a profile is run for is recorded in data/review/profile_requests.csv (county
+code and date only), which feeds the build's negative-check worklist.
 
 Every record line prints its primary source on the "Source" line when one is
 attached, labelled "located, not yet read" when only search-index text was
@@ -61,6 +78,7 @@ import csv
 import difflib
 import json
 import math
+import os
 import re
 import sys
 from datetime import date
@@ -70,6 +88,9 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 import classify  # noqa: E402
 import geo  # noqa: E402
+import group_registry  # noqa: E402
+import negative_checks  # noqa: E402
+from sync_data_center_map import evidence_label  # noqa: E402
 from common import STATE_NAMES  # noqa: E402
 
 PROCESSED = ROOT / "data" / "processed"
@@ -77,8 +98,20 @@ REVIEW = ROOT / "data" / "review"
 FIPS_LOOKUP = ROOT / "data" / "county_fips_lookup.json"
 PLACE_INDEX = ROOT / "data" / "place_county_index.json"
 SNAPSHOTS = ROOT / "data" / "snapshots" / "manifest.csv"
-# Hand-edited, unverified, never published: read here and nowhere else.
-LOCAL_KNOWLEDGE = REVIEW / "local_knowledge.csv"
+# Local data center events from pricephillips/data-center-map (scripts/sync_data_center_map.py).
+DC_EVENTS = ROOT / "data" / "reference" / "data_center_events.csv"
+# Every county a profile is run for: county code and date, never who asked or why.
+PROFILE_REQUESTS = REVIEW / "profile_requests.csv"
+# Hand-edited, unverified, never published: read here and nowhere else. It
+# holds reports from local contacts, so it lives outside this public
+# repository; .gitignore and the precommit "private" gate keep it out.
+LOCAL_KNOWLEDGE_ENV = "RO_LOCAL_KNOWLEDGE"
+LOCAL_KNOWLEDGE_DEFAULT = Path("~/.renewable-opposition/local_knowledge.csv")
+
+
+def local_knowledge_path() -> Path:
+    """$RO_LOCAL_KNOWLEDGE, or ~/.renewable-opposition/local_knowledge.csv."""
+    return Path(os.environ.get(LOCAL_KNOWLEDGE_ENV) or LOCAL_KNOWLEDGE_DEFAULT).expanduser()
 LOCAL_FIELDS = ["county_fips", "state", "county", "topic", "claim", "source_type", "source_note",
                 "date_reported", "reporter"]
 LOCAL_SOURCE_TYPES = ("local_contact", "meeting_attended", "document_seen")
@@ -107,10 +140,11 @@ class Data:
         default the repository itself."""
         if root is None:
             processed, review = PROCESSED, REVIEW
-            local_path, lookup, place_index, snapshots = LOCAL_KNOWLEDGE, FIPS_LOOKUP, PLACE_INDEX, SNAPSHOTS
+            lookup, place_index, snapshots = FIPS_LOOKUP, PLACE_INDEX, SNAPSHOTS
+            dc_events = DC_EVENTS
         else:
+            dc_events = root / "data" / "reference" / DC_EVENTS.name
             processed, review = root / "data" / "processed", root / "data" / "review"
-            local_path = review / LOCAL_KNOWLEDGE.name
             lookup, place_index = root / "data" / FIPS_LOOKUP.name, root / "data" / PLACE_INDEX.name
             snapshots = root / "data" / "snapshots" / SNAPSHOTS.name
         self.restrictions = _csv(processed / "restrictions.csv")
@@ -122,8 +156,13 @@ class Data:
         self.candidates = _csv(review / "cases_candidates.csv")
         # Review-queue candidates nobody has decided on yet: shown, never published.
         self.queue = [r for r in _csv(review / "queue.csv") if r.get("review_status") == "pending"]
+        self.dc_events = _csv(dc_events)
+        # "Checked, nothing found" rows (never published), by county.
+        self.checks: dict[str, list[dict]] = {}
+        for r in _csv(review / negative_checks.CHECKS_PATH.name):
+            self.checks.setdefault(r.get("county_fips", "").strip().zfill(5), []).append(r)
         # None, not [], when left out, so the profile omits the section.
-        self.local = _csv(local_path) if local else None
+        self.local = _csv(local_knowledge_path()) if local else None
         raw = _json(lookup, {})
         self.lookup = {k.lower(): str(v) for k, v in raw.items() if not k.startswith("_")}
         self.places = {k: v for k, v in _json(place_index, {}).items() if not k.startswith("_")}
@@ -214,8 +253,12 @@ def pending_for(d: Data, fips: str, name: str, st: str) -> list[dict]:
     return [r for r in d.queue if concerns(d, r, fips, name, st, *QUEUE_PLACE_FIELDS)]
 
 
+def _verification(r: dict) -> str:
+    return r.get("verification") or "unverified"
+
+
 def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None, lon=None,
-            radius: float = 0.0, notes: str = "") -> dict:
+            radius: float = 0.0, notes: str = "", verified_only: bool = False) -> dict:
     neighbors = geo.neighbors(fips)
     origin = (lat, lon) if lat is not None and lon is not None else geo.centroid(fips)
     today = date.today().isoformat()
@@ -226,14 +269,26 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
         shown.update(r["id"] for r in out)
         return out
 
-    here = {"restrictions": take(d.restrictions, lambda r: fips in fips_set(r)),
+    # --verified-only: restrictions not verified against the instrument are
+    # left out of the county and adjacent sections, and counted.
+    left_out: dict[str, set[str]] = {"located": set(), "unverified": set()}
+
+    def keep(r: dict) -> bool:
+        v = _verification(r)
+        if verified_only and v != "verified":
+            left_out.setdefault(v, set()).add(r.get("instrument_id") or r["id"])
+            return False
+        return True
+
+    here = {"restrictions": [r for r in take(d.restrictions, lambda r: fips in fips_set(r)) if keep(r)],
             "contested_projects": take(d.projects, lambda r: fips in fips_set(r))}
     local = None if d.local is None else [r for r in d.local if r["county_fips"].strip().zfill(5) == fips]
     pending = pending_for(d, fips, name, st)
     queued = {id(r) for r in pending}
     near = {}
     for nb in neighbors:
-        rs = take(d.restrictions, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
+        rs = [r for r in take(d.restrictions, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
+              if keep(r)]
         ps = take(d.projects, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
         nb_name, nb_state = geo.name(nb), state_of(d, nb)
         qs = [r for r in pending_for(d, nb, nb_name, nb_state) if id(r) not in queued]
@@ -329,6 +384,19 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
         flags.append(f"No contested projects are recorded anywhere in {st}: project-level opposition "
                      "is a coverage gap there, not evidence of none")
 
+    def checked(f: str, scope: str) -> list[dict]:
+        return sorted((c for c in d.checks.get(f, []) if negative_checks.covers(c, scope)),
+                      key=lambda c: c.get("checked_on", ""), reverse=True)
+
+    checks = {"restrictions": [] if here["restrictions"] else checked(fips, "restrictions"),
+              "projects": [] if here["contested_projects"] else checked(fips, "projects")}
+    neighbor_checks = {nb: sorted(d.checks[nb], key=lambda c: c.get("checked_on", ""), reverse=True)
+                       for nb in neighbors if nb not in near and d.checks.get(nb)}
+    for c in checks["restrictions"] + checks["projects"]:
+        if negative_checks.is_stale(c):
+            flags.append(f"The negative check of {c['checked_on']} is more than 12 months old (stale); "
+                         "search again before relying on it")
+
     flags = list(dict.fromkeys(flags))  # a flag raised per technology row of one instrument shows once
     return {"site": site or f"{name}, {st}", "notes": notes, "state": st, "county": name, "fips": fips,
             "neighbors": [{"fips": n, "name": geo.name(n), "state": state_of(d, n)} for n in neighbors],
@@ -336,7 +404,37 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
             "cases": cases, "not_published": {"held_back": held, "coverage_gaps": gaps,
                                               "quarantined": quarantined, "case_candidates": candidates,
                                               "pending_review": pending},
-            "text_mentions": mentions, "flags": flags, "state_context": context}
+            "text_mentions": mentions, "flags": flags, "state_context": context,
+            "data_center_activity": dc_activity(d, fips, neighbors),
+            "verified_only": verified_only, "negative_checks": checks, "neighbor_checks": neighbor_checks,
+            "left_out": {k: len(v) for k, v in left_out.items()}}
+
+
+def dc_activity(d: Data, fips: str, neighbors: list[str]) -> dict[str, list[dict]]:
+    """data-center-map events in the county and in each neighbor, newest first."""
+    out: dict[str, list[dict]] = {}
+    for f in [fips, *neighbors]:
+        rows = [e for e in getattr(d, "dc_events", []) if f in fips_set({"county_fips": e.get("county_fips")})]
+        if rows:
+            out[f] = sorted(rows, key=lambda e: e.get("date", ""), reverse=True)
+    return out
+
+
+DC_EVIDENCE_WORDS = {"verified": "verified: a source is the instrument or official minutes",
+                     "reported": "reported"}
+
+
+def _dc_lines(events: list[dict], indent: str = "") -> list[str]:
+    out = []
+    for e in events:
+        urls = [u.strip() for u in (e.get("source_urls") or "").split(";") if u.strip()]
+        out.append(f"{indent}- {e.get('date') or 'date n/a'}, {e.get('event_type') or 'type n/a'}, "
+                   f"status {e.get('status') or 'n/a'} ({DC_EVIDENCE_WORDS[evidence_label(urls)]}): "
+                   f"{e.get('summary')}")
+        groups = f" Groups: {e['opposition_groups']}." if e.get("opposition_groups") else ""
+        out.append(f"{indent}  Sources: {'; '.join(urls) or 'none'}.{groups} From data-center-map, "
+                   f"{e.get('dc_row_ref')}")
+    return out
 
 
 def _label(r: dict) -> str:
@@ -381,6 +479,24 @@ def _instruments(rows: list[dict]) -> list[list[dict]]:
     for r in rows:
         groups.setdefault(r.get("instrument_id") or r["id"], []).append(r)
     return sorted(groups.values(), key=lambda g: -int(g[0].get("severity_score") or 0))
+
+
+# The evidence standard in plain words (classify.verification).
+VERIFICATION_WORDS = {
+    "restrictions": {
+        "verified": "verified against the instrument or the minutes that adopted it",
+        "located": "instrument located but not yet read, so not verified",
+        "unverified": "not verified: no instrument or minutes read, only a news article or compiled tracker",
+    },
+    "contested_projects": {
+        "verified": "verified: backed by a news article or court record that was read",
+        "unverified": "not verified: rests on a compiled report or tracker only",
+    },
+}
+
+
+def verification_words(entity: str, r: dict) -> str:
+    return VERIFICATION_WORDS[entity].get(_verification(r), VERIFICATION_WORDS[entity]["unverified"])
 
 
 ACCESS_LABEL = {"snippet": "located, not yet read", "opened": "opened", "archived": "archived copy read"}
@@ -436,7 +552,7 @@ def _restriction_lines(rows: list[dict], indent: str = "") -> list[str]:
         out.append(f"{indent}- **{r['jurisdiction']}** ({r['jurisdiction_type']}{dist}{how}): "
                    f"{r['restriction_type']}, severity {r['severity_score']}, {techs}; "
                    f"status {r.get('status') or 'n/a'}; {when}; evidence {r['evidence_level']}; "
-                   f"scope {r.get('scope', '')}")
+                   f"scope {r.get('scope', '')}; {verification_words('restrictions', r)}")
         out.append(f"{indent}  {r['description'][:280]}")
         basis = r.get("severity_basis") or (
             "Moratorium Nation rule: active or extended moratorium scores 4, pending 2"
@@ -453,13 +569,48 @@ def _project_lines(rows: list[dict], indent: str = "") -> list[str]:
                    f"{dist}{_placed(r)}; {r.get('county', '')}): outcome {r['outcome']}, "
                    f"severity {r['severity_score']}, "
                    f"litigation {r.get('has_litigation') or 'n/a'}, {r.get('event_date_text') or 'date n/a'}; "
-                   f"finality {r.get('finality_evidence')}; evidence {r['evidence_level']}")
+                   f"finality {r.get('finality_evidence')}; evidence {r['evidence_level']}; "
+                   f"{verification_words('contested_projects', r)}")
         out.append(f"{indent}  {r['description'][:280]}")
         if r.get("resolution_url"):
             out.append(f"{indent}  Outcome source: " + _seen(r["resolution_url"], r.get("resolution_access", ""),
                                                             r.get("resolution_archived_url", "")))
+        if r.get("opposition_groups"):
+            out.append(f"{indent}  Groups: {_groups(r.get('opposition_groups'), r.get('group_sources'))}")
         out.append(f"{indent}  {_source_line(r)}")
     return out
+
+
+def _groups(names: str, sources: str) -> str:
+    """'A, B (sources: url1; url2)': the group names on a record and the
+    sources that name them."""
+    gs = [g.strip() for g in (names or "").split(";") if g.strip()]
+    us = [u.strip() for u in (sources or "").split(";") if u.strip()]
+    return ", ".join(gs) + (f" (sources: {'; '.join(us)})" if us else "")
+
+
+def groups_nearby(p: dict) -> list[dict]:
+    """Every sourced group named on a record the profile shows, once each:
+    name, where (county or neighbor), and its sources."""
+    seen: dict[str, dict] = {}
+    blocks = [("in the county", p["in_county"]["contested_projects"])]
+    blocks += [(f"{g['name']}, {g['state']}", g["contested_projects"]) for g in p["adjacent"].values()]
+    blocks += [("within the radius", [r for r in p["within_radius"] if r["id"].startswith("con_")])]
+    for f, events in (p.get("data_center_activity") or {}).items():
+        where_ = "in the county" if f == p["fips"] else f"{geo.name(f)} ({f})"
+        blocks.append((f"{where_}, data center activity",
+                       [{"opposition_groups": e.get("opposition_groups"), "group_sources": e.get("source_urls")}
+                        for e in events]))
+    for where_, rows in blocks:
+        for r in rows:
+            us = [u.strip() for u in (r.get("group_sources") or "").split(";") if u.strip()]
+            for g in [g.strip() for g in (r.get("opposition_groups") or "").split(";")
+                      if g.strip() and not group_registry.is_generic(g)]:
+                e = seen.setdefault(group_registry.key(g), {"name": g, "where": [], "sources": []})
+                if where_ not in e["where"]:
+                    e["where"].append(where_)
+                e["sources"] += [u for u in us if u not in e["sources"]]
+    return list(seen.values())
 
 
 def _mechanisms(r: dict) -> str:
@@ -488,22 +639,53 @@ def _pending_lines(rows: list[dict], indent: str = "", short: bool = False) -> l
     return out
 
 
+def checked_line(c: dict) -> str:
+    """'Checked <sources> on <date>: none found', flagged when stale."""
+    srcs = "; ".join(negative_checks.sources(c))
+    stale = " (stale: more than 12 months old)" if negative_checks.is_stale(c) else ""
+    return f"Checked {srcs} on {c.get('checked_on')}: none found{stale}"
+
+
+def record_request(fips: str, today: str | None = None) -> None:
+    """Append the county code and today's date to PROFILE_REQUESTS, once per
+    county per day. Nothing about who asked or why."""
+    today = today or date.today().isoformat()
+    if any(r.get("county_fips") == fips and r.get("date") == today for r in _csv(PROFILE_REQUESTS)):
+        return
+    new = not PROFILE_REQUESTS.exists()
+    with open(PROFILE_REQUESTS, "a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=negative_checks.REQUEST_FIELDS, lineterminator="\n")
+        if new:
+            w.writeheader()
+        w.writerow({"county_fips": fips, "date": today})
+
+
 def render(p: dict) -> str:
     L = [f"## {p['site']}", "",
          f"{p['county']}, {p['state']} (FIPS {p['fips']}). Data as of {p['state_context']['data_as_of']}.", ""]
     if p["notes"]:
         L += [f"Local knowledge supplied: {p['notes']}", ""]
     here = p["in_county"]
+    if p.get("verified_only"):
+        lo = p.get("left_out", {})
+        n = sum(lo.values())
+        L += [f"Verified only: {n} restriction instrument(s) not verified against the instrument were left "
+              f"out of the county and adjacent sections ({lo.get('located', 0)} located but not yet read, "
+              f"{lo.get('unverified', 0)} unverified).", ""]
     L.append(f"### In the county: {len(_instruments(here['restrictions']))} restriction instrument(s), "
              f"{len(here['contested_projects'])} contested project(s)")
     L += _restriction_lines(here["restrictions"]) + _project_lines(here["contested_projects"])
-    if not here["restrictions"] and not here["contested_projects"]:
+    nc = p.get("negative_checks") or {}
+    for scope, entity in (("restrictions", "restrictions"), ("projects", "contested_projects")):
+        if not here[entity]:
+            L += [f"- {scope.capitalize()}: {checked_line(c)}" for c in nc.get(scope, [])[:1]]
+    if not here["restrictions"] and not here["contested_projects"] and not any(nc.values()):
         L.append("- Nothing published for this county.")
     L.append("")
     if p["local_knowledge"] is not None:
         L.append(f"### Local knowledge on file: {len(p['local_knowledge'])} item(s)")
-        L.append("From data/review/local_knowledge.csv, as entered. Not checked against a source "
-                 "and not part of the published data.")
+        L.append("From the local-knowledge file outside the repository, as entered. Not checked "
+                 "against a source and not part of the published data.")
         for r in p["local_knowledge"]:
             L.append(f"- Reported, not verified ({r['topic'] or 'no topic'}): {r['claim']}")
             L.append(f"  Source: {r['source_type'] or 'not given'}"
@@ -516,6 +698,8 @@ def render(p: dict) -> str:
     L.append(f"### Adjacent counties ({nb_names})")
     if not p["adjacent"]:
         L.append("- Nothing published in any adjacent county.")
+    for nb, cs in (p.get("neighbor_checks") or {}).items():
+        L.append(f"- {geo.name(nb)} ({nb}), nothing published: {checked_line(cs[0])}")
     for nb, g in p["adjacent"].items():
         L.append(f"- {g['name']}, {g['state']} ({nb})")
         L += _restriction_lines(g["restrictions"], "  ") + _project_lines(g["contested_projects"], "  ")
@@ -527,6 +711,24 @@ def render(p: dict) -> str:
         ps = [r for r in p["within_radius"] if r["id"].startswith("con_")]
         L += _restriction_lines(rs) + _project_lines(ps) or ["- Nothing."]
         L.append("")
+    dca = p.get("data_center_activity") or {}
+    L.append(f"### Data center activity (data-center-map): {sum(len(v) for v in dca.values())} event(s)")
+    L.append("Local data center events the same governments acted on, from pricephillips/data-center-map. "
+             "Not renewable restrictions and not counted above.")
+    for f, events in dca.items():
+        L.append(f"- {'In the county' if f == p['fips'] else geo.name(f) + ' (' + f + ')'}:")
+        L += _dc_lines(events, "  ")
+    if not dca:
+        L.append("- None recorded for the county or its neighbors.")
+    L.append("")
+    nearby = groups_nearby(p)
+    def few(us: list[str]) -> str:
+        return "; ".join(us[:3]) + (f"; and {len(us) - 3} more on the record" if len(us) > 3 else "")
+
+    L.append("Groups active nearby: " + ("; ".join(
+        f"{g['name']} ({', '.join(g['where'])}; sources: {few(g['sources'])})" for g in nearby)
+        if nearby else "none with a source on the records shown."))
+    L.append("")
     L.append(f"### Cases linked to the records above: {len(p['cases'])}")
     for c in p["cases"]:
         L.append(f"- {c['case_name']}, {c['court']} {c.get('docket_number', '')}: "
@@ -599,8 +801,11 @@ def main(argv=None) -> int:
     a.add_argument("--sites", help="CSV with name,state,county,fips,lat,lon,notes")
     a.add_argument("--out", help="write here instead of stdout")
     a.add_argument("--json", action="store_true")
+    a.add_argument("--verified-only", action="store_true",
+                   help="leave out restrictions not verified against the instrument (in the county and "
+                        "adjacent sections) and say how many were left out")
     a.add_argument("--no-local", action="store_true",
-                   help="omit local knowledge (data/review/local_knowledge.csv) and do not read it")
+                   help="omit local knowledge ($RO_LOCAL_KNOWLEDGE) and do not read it")
     x = a.parse_args(argv)
     d = Data(local=not x.no_local)
     specs = _csv(Path(x.sites)) if x.sites else [{
@@ -612,10 +817,11 @@ def main(argv=None) -> int:
     profiles = []
     for s in specs:
         fips, name, st = resolve(d, s.get("state", ""), s.get("county", ""), s.get("fips", ""))
+        record_request(fips)
         lat = float(s["lat"]) if s.get("lat") else None
         lon = float(s["lon"]) if s.get("lon") else None
         profiles.append(profile(d, fips, name, st, site=s.get("name", ""), lat=lat, lon=lon,
-                                radius=x.radius, notes=s.get("notes", "")))
+                                radius=x.radius, notes=s.get("notes", ""), verified_only=x.verified_only))
     if x.json:
         text = json.dumps(profiles, indent=2, default=str)
     else:

@@ -1,6 +1,7 @@
-"""data/review/local_knowledge.csv: what local contacts, meetings and documents
-report about a county. Hand-edited and unverified, so the build never reads or
-publishes it; only site_profile.py prints it, and --no-local leaves it out."""
+"""The local-knowledge file: what local contacts, meetings and documents report
+about a county. Hand-edited and unverified, kept outside this public repository
+($RO_LOCAL_KNOWLEDGE), so the build never reads or publishes it; only
+site_profile.py prints it, and --no-local leaves it out."""
 import copy
 import sys
 from pathlib import Path
@@ -43,14 +44,37 @@ def test_the_build_never_opens_or_publishes_local_knowledge(monkeypatch, tmp_pat
             assert "local_knowledge" not in Path(f).read_text(encoding="utf-8"), f
 
 
-def test_the_committed_file_has_the_columns_and_vocabulary():
-    path = ROOT / "data" / "review" / "local_knowledge.csv"
-    header = path.read_text(encoding="utf-8").splitlines()[0].split(",")
-    assert header == sp.LOCAL_FIELDS
+def test_the_file_lives_outside_the_repository(monkeypatch, tmp_path):
+    """Reports from local contacts never sit in this public repository."""
+    assert not (ROOT / "data" / "review" / "local_knowledge.csv").exists()
+    ignored = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
+    assert "data/review/local_knowledge.csv" in ignored and "local_knowledge*" in ignored
+    monkeypatch.delenv(sp.LOCAL_KNOWLEDGE_ENV, raising=False)
+    default = sp.local_knowledge_path()
+    assert default == Path("~/.renewable-opposition/local_knowledge.csv").expanduser()
+    assert ROOT not in default.parents
+    custom = tmp_path / "lk.csv"
+    monkeypatch.setenv(sp.LOCAL_KNOWLEDGE_ENV, str(custom))
+    assert sp.local_knowledge_path() == custom
+
+
+def test_the_precommit_gate_refuses_a_staged_local_knowledge_file():
+    import precommit_gates as pg
+    assert pg.private(["data/review/" + "local_knowledge.csv"]) == 1
+    assert pg.private(["notes/Local_Knowledge_copy.csv"]) == 1
+    assert pg.private(["data/review/queue.csv"]) == 0
+
+
+def test_rows_from_the_env_path_print_and_use_the_vocabulary(monkeypatch, tmp_path):
+    path = tmp_path / "lk.csv"
+    from common import write_csv
+    write_csv(path, [ROW], sp.LOCAL_FIELDS)
+    monkeypatch.setenv(sp.LOCAL_KNOWLEDGE_ENV, str(path))
+    d = sp.Data()
+    assert d.local == [ROW]
     for r in read_csv(path):
         assert r["source_type"] in sp.LOCAL_SOURCE_TYPES, r
         assert r["topic"] in sp.LOCAL_TOPICS, r
-        assert len(r["county_fips"].strip()) == 5, r
 
 
 ROW = {"county_fips": "20021", "state": "KS", "county": "Cherokee", "topic": "restriction",
@@ -59,7 +83,7 @@ ROW = {"county_fips": "20021", "state": "KS", "county": "Cherokee", "topic": "re
 
 
 def local_data(rows):
-    d = sp.Data()
+    d = sp.Data(local=False)
     d.local = rows
     return d
 
@@ -89,7 +113,7 @@ def test_an_empty_county_says_so_and_no_local_omits_the_section(tmp_path):
 
 def test_no_local_does_not_read_the_file(monkeypatch, tmp_path, capsys):
     missing = tmp_path / "nope" / "local_knowledge.csv"
-    monkeypatch.setattr(sp, "LOCAL_KNOWLEDGE", missing)
+    monkeypatch.setenv(sp.LOCAL_KNOWLEDGE_ENV, str(missing))
     calls = []
     real = sp._csv
     monkeypatch.setattr(sp, "_csv", lambda path: calls.append(path) or real(path))

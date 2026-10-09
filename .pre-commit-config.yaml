@@ -11,6 +11,11 @@ repos:
         entry: python scripts/precommit_gates.py crlf --fix
         language: system
         files: \.csv$
+      - id: private-local-knowledge
+        name: No local-knowledge files (reports from local contacts stay outside the repo)
+        entry: python scripts/precommit_gates.py private
+        language: system
+        files: (^|/)[Ll][Oo][Cc][Aa][Ll]_[Kk][Nn][Oo][Ww][Ll][Ee][Dd][Gg][Ee][^/]*$
       - id: deliverable-emdash
         name: No em-dashes in deliverables
         entry: python scripts/precommit_gates.py emdash

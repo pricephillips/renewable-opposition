@@ -58,17 +58,20 @@ VOCAB = {
         "scope": {"renewables_only", "multi_sector_data_centers", "data_center_only"},
         "evidence_level": {"primary_source", "compiled_record", "compiled_flagged",
                            "report_citation"},
+        "verification": {"verified", "located", "unverified"},
     },
     "contested_projects": {
         "outcome": {"blocked_confirmed", "blocked_unverified", "restricted_conditional",
                     "advanced_confirmed", "advanced_unverified", "pending", "needs_review"},
+        "verification": {"verified", "unverified"},
     },
     "cases": {
         "case_status": {"", "pending", "dismissed", "ruled_for_developer",
                         "ruled_for_opposition", "settled", "withdrawn"},
+        "verification": {"verified", "unverified"},
     },
 }
-DERIVED_FIELDS = {"scope", "evidence_level"}
+DERIVED_FIELDS = {"scope", "evidence_level", "verification"}
 DATE_FIELDS = ("date_enacted_iso", "current_end_date_iso", "filing_date")
 # Dates that record something that already happened. An end date is expected
 # to be in the future, so it is format-checked only.

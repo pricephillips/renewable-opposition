@@ -9,7 +9,7 @@ import pytest
 BASE = {"source_id": "web_research_test", "entity_type": "restriction", "review_status": "confirmed",
         "state": "KS", "county": "Example County", "jurisdiction_type": "County",
         "technology": "wind", "description": "Example County adopted wind siting rules.",
-        "source_url": "https://example.gov/ordinance.pdf", "access": "opened"}
+        "source_url": "https://example.gov/ordinance.pdf", "access": "opened", "status": "active"}
 
 
 def row(**kw):
@@ -75,7 +75,7 @@ def test_each_technology_is_its_own_row_scored_on_its_own_sentences(queue):
 
 
 def test_a_ban_or_an_in_force_moratorium_scores_4_and_pending_is_capped(queue):
-    _, seeds, _ = queue(row(mechanisms="moratorium", status="in_force"),
+    _, seeds, _ = queue(row(mechanisms="moratorium", status="active"),
                         row(mechanisms="ban/prohibition", technology="solar",
                             description="Example County bans commercial solar."),
                         row(mechanisms="setback", status="pending",
@@ -121,3 +121,87 @@ def test_an_archived_copy_can_be_promoted(queue):
 def test_a_pending_row_without_access_is_not_promoted(queue):
     code, seeds, status = queue(row(review_status="pending", mechanisms="vibes", access=""))
     assert code == 0 and seeds == [] and status == ["pending"]
+
+
+def test_a_blank_status_stops_promotion_and_lifted_is_not_published(queue, capsys):
+    code, seeds, status = queue(row(mechanisms="setback", status=""),
+                                row(mechanisms="moratorium", status="lifted"),
+                                row(mechanisms="moratorium", status="in_force"))
+    assert code == 0 and seeds == [] and status == ["confirmed"] * 3
+    out = capsys.readouterr().out
+    assert "a blank status stops promotion" in out
+    assert "status lifted: the instrument is no longer in force" in out
+    assert "status 'in_force' must be one of active, extended, pending, lifted, expired" in out
+
+
+def test_an_instrument_that_was_read_publishes_as_primary_source(queue):
+    import build_seed_outputs as bso
+    import classify
+    _, seeds, _ = queue(row(mechanisms="setback", mechanism_detail="Turbines 1,000 ft from homes.",
+                            source_kind="minutes"),
+                        row(county="Other County", mechanisms="setback", source_kind="news",
+                            source_url="https://news.example.com/story"))
+    by_county = {s["jurisdiction"]: s for s in seeds}
+    minutes, news = by_county["Example County"], by_county["Other County"]
+    assert (minutes["primary_source_url"], minutes["primary_source_access"],
+            minutes["primary_source_verdict"]) == ("https://example.gov/ordinance.pdf", "opened", "confirmed")
+    stamped = classify.stamp("restrictions", bso.normalize_row(minutes))
+    assert (stamped["evidence_level"], stamped["verification"]) == ("primary_source", "verified")
+    # A news article locates an instrument but does not verify it.
+    assert not news.get("primary_source_url")
+    assert classify.stamp("restrictions", bso.normalize_row(news))["verification"] == "unverified"
+
+
+def test_an_unknown_source_kind_is_reported(queue, capsys):
+    _, seeds, _ = queue(row(mechanisms="setback", source_kind="blog"))
+    assert seeds == [] and "source_kind 'blog' must be one of" in capsys.readouterr().out
+
+
+def test_a_row_corrected_after_promotion_resyncs_its_seed_rows_and_keeps_the_id(queue, monkeypatch, tmp_path,
+                                                                                capsys):
+    """A row promoted earlier (no queue_id yet, the old description, unknown
+    status, no severity_basis, report_citation evidence) is corrected in the
+    queue; the next run brings the seed row up to date under the same id."""
+    import build_seed_outputs as bso
+    seed_path = pr.SEED_FOR["restriction"][1]
+    stale = {"state": "KS", "technology": "wind", "restriction_type": "setback", "severity_score": "2",
+             "description": "Old text from search snippets.", "status": "unknown",
+             "jurisdiction": "Example County", "jurisdiction_type": "County", "date_enacted_iso": "2024-01-02",
+             "mechanisms": "", "severity_basis": "", "long_description": "", "moratorium_id": "",
+             "source_record_id": "", "source": "review queue: web_research_test",
+             "source_url": "https://example.gov/minutes-not-read",
+             "notes": "old notes; promoted automatically from data/review/queue.csv on 2026-01-05: "
+                      "required fields complete, not reviewed by hand"}
+    common.write_csv(seed_path, [stale])
+    old_id = bso.record_id("restrictions", bso.normalize_row(stale))
+    corrected = row(review_status="promoted", technology="wind;battery_storage", mechanisms="setback; noise limit",
+                    mechanism_detail="Turbines 2,640 ft from homes; 45 dBA. Battery storage 500 ft from homes.",
+                    description="Corrected against the ordinance.", adopted_date="2024-01-02",
+                    source_kind="instrument", reviewer_notes="corrected notes")
+    code, seeds, status = queue(corrected)
+    assert code == 0 and status == ["promoted"]
+    by_tech = {s["technology"]: s for s in seeds}
+    wind = by_tech["wind"]
+    assert wind["pinned_id"] == old_id
+    assert (wind["description"], wind["status"], wind["severity_score"], wind["severity_basis"]) == (
+        "Corrected against the ordinance.", "active", "3", "wind setback 2640 ft")
+    assert wind["mechanisms"] == "setback, noise limit" and "45 dBA" in wind["long_description"]
+    assert wind["source_url"] == "https://example.gov/ordinance.pdf"
+    assert wind["primary_source_verdict"] == "confirmed" and wind["queue_id"].startswith("q_")
+    # The original automatic-promotion date is kept, so notes do not churn.
+    assert wind["notes"] == ("corrected notes; promoted automatically from data/review/queue.csv on "
+                             "2026-01-05: required fields complete, not reviewed by hand")
+    assert by_tech["battery_storage"]["queue_id"] == wind["queue_id"]
+    import classify
+    # One ordinance, two technology rows: one instrument.
+    assert {classify.instrument_id("restrictions", r) for r in seeds} == {f"queue:{wind['queue_id']}"}
+    out = capsys.readouterr().out
+    for field in ("description", "status", "severity_basis", "source_url", "primary_source_url"):
+        assert f"({'wind'}): {field} changed" in out, field
+    assert "added a row for battery_storage" in out
+    # The build publishes the pinned id, and a second run changes nothing.
+    monkeypatch.setattr(bso, "SEED_DIR", seed_path.parent)
+    built, _ = bso.build_entity("restrictions", seed_path.name)
+    assert {r["technology"]: r["id"] for r in built}["wind"] == old_id   # errors: the real review files
+    code, again, _ = queue(dict(corrected, queue_id=wind["queue_id"]))
+    assert again == seeds and "0 field change(s)" in capsys.readouterr().out

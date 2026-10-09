@@ -1,3 +1,9 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Reports from local contacts. Never committed: site_profile.py reads them
+# from $RO_LOCAL_KNOWLEDGE (default ~/.renewable-opposition/local_knowledge.csv),
+# and the precommit "private" gate refuses any staged local_knowledge* file.
+data/review/local_knowledge.csv
+local_knowledge*
