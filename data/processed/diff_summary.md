@@ -6,8 +6,8 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 2 | 0 | 0 |
-| contested_projects | 0 | 0 | 0 |
+| restrictions | 0 | 0 | 0 |
+| contested_projects | 0 | 0 | 2 |
 | cases | 0 | 0 | 0 |
 
 ## Tracked field changes
@@ -16,9 +16,9 @@ No changes to outcome, status, case_status, finality_evidence, severity_score.
 
 ## Detail
 
-### restrictions
+### contested_projects
 
-| @@ | id | state | jurisdiction |
-|---|---|---|---|
-| +++ | res_21c213ec3a | AZ | Goodyear |
-| +++ | res_2f30d590f5 | KY | Breckinridge County |
+| @@ | id | state | project_name | opposition_groups | group_sources |
+|---|---|---|---|---|---|
+| -> | con_bcdb34a15a | MT | Valley County Wind Project | ->The Wilderness Society | ->https://www.minneapolisfed.org/article/2007/blowing-down-a-wind-farm |
+| -> | con_81e9f94eb3 | NH | Granite Reliable Wind Farm | ->Appalachian Mountain Club | ->https://www.nsenergybusiness.com/news/newssec_to_evaluate_granite_reliable_powers_proposed_wind_energy_project_in_coos_county_oregon_090305/ |
