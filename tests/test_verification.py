@@ -64,7 +64,7 @@ def test_headline_metrics_count_verification_by_instrument():
 def synthetic_data(rows):
     d = sp.Data(local=False)
     d.restrictions, d.projects, d.cases, d.queue = rows, [], [], []
-    d.held, d.gaps, d.candidates, d.quarantine = [], [], [], []
+    d.held, d.gaps, d.candidates, d.quarantine, d.dc_events = [], [], [], [], []
     return d
 
 

@@ -187,6 +187,8 @@ renewable-opposition/
 │   └── source_registry.csv                 ← dataset/tracker registry
 ├── data/
 │   ├── renewable_opposition_records.csv    ← Sabin report extraction (input to build_sabin_seeds.py)
+│   ├── reference/
+│   │   └── data_center_events.csv          ← local data center events from data-center-map (sync_data_center_map.py)
 │   ├── seed/
 │   │   ├── restrictions_seed.csv           ← Moratorium Nation + Sabin local restrictions
 │   │   ├── contested_projects_seed.csv     ← Sabin contested-projects section
@@ -265,6 +267,18 @@ Promotion is automatic. The Build dashboard data workflow runs `scripts/promote_
 Outputs will be written to `data/processed/`.
 
 ---
+
+## Data center activity
+
+The same county governments often act on both data centers and renewables. `scripts/sync_data_center_map.py` reads `pricephillips/data-center-map`'s `master_opposition.csv` from `--dc-map`, or the `RO_DATA_CENTER_MAP` environment variable, by default `../data-center-map/master_opposition.csv`, and writes `data/reference/data_center_events.csv`: `state`, `county`, `county_fips`, `jurisdiction`, `date`, `event_type`, `status`, `summary`, `source_urls`, `opposition_groups`, `dc_row_ref` (the source row and its headline).
+
+```bash
+python scripts/sync_data_center_map.py --dc-map ../data-center-map/master_opposition.csv
+```
+
+Each row is placed by this repository's own county logic (`classify.county_fips_all`: the county named, a multi-county name, coordinates, the Census place index); a row that places nowhere is left out. Also left out: `signal_harvest_auto` rows with no state, no type, or a generic or unrelated headline (fewer than four words, or text that names no data center), and any row with no type whose text names no data center.
+
+Profiles have a "Data center activity" section for the county and its neighbors: date, type, status, a one-line summary and source links, labelled "verified" only when a source is the instrument or official minutes (a government host and a document path, or a municipal records host such as Legistar) and "reported" otherwise. These events never enter the renewable counts. Their opposition groups, with their source URLs, feed the group registry.
 
 ## Neighbor watch
 

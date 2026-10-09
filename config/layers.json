@@ -26,6 +26,11 @@
     "data/source_archive_manifest.json": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
     "data/place_county_index.json": {"layer": "raw", "writers": ["scripts/build_place_index.py"]},
 
+    "data/reference/data_center_events.csv": {
+      "layer": "raw", "writers": ["scripts/sync_data_center_map.py"],
+      "reason": "Local data center events copied from pricephillips/data-center-map master_opposition.csv (path from --dc-map or $RO_DATA_CENTER_MAP), placed by classify.county_fips_all. Read by site_profile.py and group_registry.py; never part of the renewable counts."
+    },
+
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],
       "copied_from": "pricephillips/data-center-map data/county_fips_lookup.json"

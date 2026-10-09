@@ -20,6 +20,7 @@ on:
       - 'scripts/group_registry.py'
       - 'scripts/adjacency_worklist.py'
       - 'data/review/group_candidates.csv'
+      - 'data/reference/data_center_events.csv'
       - 'data/review/queue.csv'
       - 'data/review/cases_candidates.csv'
       - 'scripts/promote_reviewed.py'

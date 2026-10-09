@@ -90,6 +90,7 @@ import classify  # noqa: E402
 import geo  # noqa: E402
 import group_registry  # noqa: E402
 import negative_checks  # noqa: E402
+from sync_data_center_map import evidence_label  # noqa: E402
 from common import STATE_NAMES  # noqa: E402
 
 PROCESSED = ROOT / "data" / "processed"
@@ -97,6 +98,8 @@ REVIEW = ROOT / "data" / "review"
 FIPS_LOOKUP = ROOT / "data" / "county_fips_lookup.json"
 PLACE_INDEX = ROOT / "data" / "place_county_index.json"
 SNAPSHOTS = ROOT / "data" / "snapshots" / "manifest.csv"
+# Local data center events from pricephillips/data-center-map (scripts/sync_data_center_map.py).
+DC_EVENTS = ROOT / "data" / "reference" / "data_center_events.csv"
 # Every county a profile is run for: county code and date, never who asked or why.
 PROFILE_REQUESTS = REVIEW / "profile_requests.csv"
 # Hand-edited, unverified, never published: read here and nowhere else. It
@@ -138,7 +141,9 @@ class Data:
         if root is None:
             processed, review = PROCESSED, REVIEW
             lookup, place_index, snapshots = FIPS_LOOKUP, PLACE_INDEX, SNAPSHOTS
+            dc_events = DC_EVENTS
         else:
+            dc_events = root / "data" / "reference" / DC_EVENTS.name
             processed, review = root / "data" / "processed", root / "data" / "review"
             lookup, place_index = root / "data" / FIPS_LOOKUP.name, root / "data" / PLACE_INDEX.name
             snapshots = root / "data" / "snapshots" / SNAPSHOTS.name
@@ -151,6 +156,7 @@ class Data:
         self.candidates = _csv(review / "cases_candidates.csv")
         # Review-queue candidates nobody has decided on yet: shown, never published.
         self.queue = [r for r in _csv(review / "queue.csv") if r.get("review_status") == "pending"]
+        self.dc_events = _csv(dc_events)
         # "Checked, nothing found" rows (never published), by county.
         self.checks: dict[str, list[dict]] = {}
         for r in _csv(review / negative_checks.CHECKS_PATH.name):
@@ -399,8 +405,36 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
                                               "quarantined": quarantined, "case_candidates": candidates,
                                               "pending_review": pending},
             "text_mentions": mentions, "flags": flags, "state_context": context,
+            "data_center_activity": dc_activity(d, fips, neighbors),
             "verified_only": verified_only, "negative_checks": checks, "neighbor_checks": neighbor_checks,
             "left_out": {k: len(v) for k, v in left_out.items()}}
+
+
+def dc_activity(d: Data, fips: str, neighbors: list[str]) -> dict[str, list[dict]]:
+    """data-center-map events in the county and in each neighbor, newest first."""
+    out: dict[str, list[dict]] = {}
+    for f in [fips, *neighbors]:
+        rows = [e for e in getattr(d, "dc_events", []) if f in fips_set({"county_fips": e.get("county_fips")})]
+        if rows:
+            out[f] = sorted(rows, key=lambda e: e.get("date", ""), reverse=True)
+    return out
+
+
+DC_EVIDENCE_WORDS = {"verified": "verified: a source is the instrument or official minutes",
+                     "reported": "reported"}
+
+
+def _dc_lines(events: list[dict], indent: str = "") -> list[str]:
+    out = []
+    for e in events:
+        urls = [u.strip() for u in (e.get("source_urls") or "").split(";") if u.strip()]
+        out.append(f"{indent}- {e.get('date') or 'date n/a'}, {e.get('event_type') or 'type n/a'}, "
+                   f"status {e.get('status') or 'n/a'} ({DC_EVIDENCE_WORDS[evidence_label(urls)]}): "
+                   f"{e.get('summary')}")
+        groups = f" Groups: {e['opposition_groups']}." if e.get("opposition_groups") else ""
+        out.append(f"{indent}  Sources: {'; '.join(urls) or 'none'}.{groups} From data-center-map, "
+                   f"{e.get('dc_row_ref')}")
+    return out
 
 
 def _label(r: dict) -> str:
@@ -562,10 +596,16 @@ def groups_nearby(p: dict) -> list[dict]:
     blocks = [("in the county", p["in_county"]["contested_projects"])]
     blocks += [(f"{g['name']}, {g['state']}", g["contested_projects"]) for g in p["adjacent"].values()]
     blocks += [("within the radius", [r for r in p["within_radius"] if r["id"].startswith("con_")])]
+    for f, events in (p.get("data_center_activity") or {}).items():
+        where_ = "in the county" if f == p["fips"] else f"{geo.name(f)} ({f})"
+        blocks.append((f"{where_}, data center activity",
+                       [{"opposition_groups": e.get("opposition_groups"), "group_sources": e.get("source_urls")}
+                        for e in events]))
     for where_, rows in blocks:
         for r in rows:
             us = [u.strip() for u in (r.get("group_sources") or "").split(";") if u.strip()]
-            for g in [g.strip() for g in (r.get("opposition_groups") or "").split(";") if g.strip()]:
+            for g in [g.strip() for g in (r.get("opposition_groups") or "").split(";")
+                      if g.strip() and not group_registry.is_generic(g)]:
                 e = seen.setdefault(group_registry.key(g), {"name": g, "where": [], "sources": []})
                 if where_ not in e["where"]:
                     e["where"].append(where_)
@@ -671,9 +711,22 @@ def render(p: dict) -> str:
         ps = [r for r in p["within_radius"] if r["id"].startswith("con_")]
         L += _restriction_lines(rs) + _project_lines(ps) or ["- Nothing."]
         L.append("")
+    dca = p.get("data_center_activity") or {}
+    L.append(f"### Data center activity (data-center-map): {sum(len(v) for v in dca.values())} event(s)")
+    L.append("Local data center events the same governments acted on, from pricephillips/data-center-map. "
+             "Not renewable restrictions and not counted above.")
+    for f, events in dca.items():
+        L.append(f"- {'In the county' if f == p['fips'] else geo.name(f) + ' (' + f + ')'}:")
+        L += _dc_lines(events, "  ")
+    if not dca:
+        L.append("- None recorded for the county or its neighbors.")
+    L.append("")
     nearby = groups_nearby(p)
+    def few(us: list[str]) -> str:
+        return "; ".join(us[:3]) + (f"; and {len(us) - 3} more on the record" if len(us) > 3 else "")
+
     L.append("Groups active nearby: " + ("; ".join(
-        f"{g['name']} ({', '.join(g['where'])}; sources: {'; '.join(g['sources'])})" for g in nearby)
+        f"{g['name']} ({', '.join(g['where'])}; sources: {few(g['sources'])})" for g in nearby)
         if nearby else "none with a source on the records shown."))
     L.append("")
     L.append(f"### Cases linked to the records above: {len(p['cases'])}")

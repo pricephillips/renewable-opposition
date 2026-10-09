@@ -54,6 +54,16 @@ GENERIC = {"residents", "local residents", "citizens", "community members", "nei
            "local officials", "na", "none", "unknown", "various", "multiple groups", "local farmers",
            "landowners", "local landowners", "farmers"}
 
+# "Linn County residents", "Residents of Palo": people, not an organization.
+_GENERIC_TAIL = re.compile(r"^(?:[\w .'-]+\s)?(?:residents|landowners|homeowners|community members)$|"
+                           r"^residents of\b", re.I)
+
+
+def is_generic(name: str) -> bool:
+    k = key(name)
+    return not k or k in GENERIC or bool(_GENERIC_TAIL.search(k))
+
+
 _PREFIX = re.compile(r"^(?:the\s+)?(?:concerned\s+)?citizens\s+for\s+(?:the\s+)?", re.I)
 _SUFFIX = re.compile(r"\s+(?:inc|incorporated|llc|co|corp)$", re.I)
 _URL = re.compile(r"^https?://\S+$")
@@ -124,7 +134,7 @@ def occurrences(projects: list[dict], candidates: list[dict], dc_events: list[di
                         "state": _s(r.get("state")), "date": iso_date(r.get("date")),
                         "sources": urls(r.get("source_urls")), "excerpt": _s(r.get("summary"))[:200],
                         "why": "no source_urls on the data-center-map row"})
-    return [o for o in out if key(o["name"]) and key(o["name"]) not in GENERIC]
+    return [o for o in out if not is_generic(o["name"])]
 
 
 def build(occ: list[dict]) -> tuple[list[dict], list[dict]]:

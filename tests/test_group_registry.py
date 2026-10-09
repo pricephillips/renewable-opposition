@@ -51,7 +51,7 @@ def test_profiles_show_groups_with_their_sources_and_a_nearby_line():
                evidence_level="report_citation", description="Synthetic.", state="KS", county_fips_all="20037",
                opposition_groups="Synthetic Neighbors Alliance", group_sources="https://news.example.com/g")
     d.restrictions, d.projects, d.cases, d.queue = [], [row], [], []
-    d.held, d.gaps, d.candidates, d.quarantine, d.checks = [], [], [], [], {}
+    d.held, d.gaps, d.candidates, d.quarantine, d.checks, d.dc_events = [], [], [], [], {}, []
     text = sp.render(sp.profile(d, "20021", "Cherokee", "KS"))
     assert "Groups: Synthetic Neighbors Alliance (sources: https://news.example.com/g)" in text
     assert ("Groups active nearby: Synthetic Neighbors Alliance (Crawford, KS; sources: "

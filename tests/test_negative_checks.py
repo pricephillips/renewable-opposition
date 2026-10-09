@@ -42,7 +42,7 @@ def test_the_worklist_lists_unchecked_unrestricted_counties_newest_first():
 def synthetic(checks):
     d = sp.Data(local=False)
     d.restrictions, d.projects, d.cases, d.queue = [], [], [], []
-    d.held, d.gaps, d.candidates, d.quarantine = [], [], [], []
+    d.held, d.gaps, d.candidates, d.quarantine, d.dc_events = [], [], [], [], []
     d.checks = checks
     return d
 
