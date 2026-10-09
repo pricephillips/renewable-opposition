@@ -426,4 +426,3 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,technolog
 425,report_citation,sabin:REC-0152,LA,St. James Parish,County,renewables_only,solar,pending,2,,,,,"""St. James Parish"" Louisiana solar moratorium"
 426,report_citation,sabin:REC-0392,RI,Foster,Municipality,renewables_only,wind,pending,2,,,,,"""Foster"" Rhode Island wind ban"
 427,report_citation,sabin:REC-0439,VT,"Caledonia, Essex, Orleans Counties",County,renewables_only,wind,pending,2,,,,,"""Caledonia, Essex, Orleans Counties"" Vermont wind ban"
-428,report_citation,res_c873e7b35d,IA,Linn County,County,renewables_only,solar,unknown,2,2023-09-20,,,,"""Linn County"" Iowa solar setback"

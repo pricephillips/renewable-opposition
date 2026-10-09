@@ -189,6 +189,15 @@
     "archived_url": ""
   },
   {
+    "source_id": "src_08ecd0b293ba",
+    "url": "https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf",
+    "normalized_url": "https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf",
+    "title": "review queue: web_research_2026-10-06",
+    "record_count": 2,
+    "entities": "restrictions",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_4a68254cbd3f",
     "url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/",
     "normalized_url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior",
@@ -358,14 +367,5 @@
     "record_count": 2,
     "entities": "cases",
     "archived_url": "https://web.archive.org/web/20260709014400/https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"
-  },
-  {
-    "source_id": "src_8925f8475ddc",
-    "url": "https://www.linncountyiowa.gov/AgendaCenter/ViewFile/Minutes/_09202023-3459",
-    "normalized_url": "https://www.linncountyiowa.gov/AgendaCenter/ViewFile/Minutes/_09202023-3459",
-    "title": "review queue: web_research_2026-10-06",
-    "record_count": 1,
-    "entities": "restrictions",
-    "archived_url": ""
   }
 ]

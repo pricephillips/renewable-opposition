@@ -13,14 +13,19 @@ however many technologies it covers. Quote these, not row counts.
 | States | 43 | 26 |
 | Evidence: compiled_flagged | 30 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 38 | 6 |
-| Evidence: report_citation | 261 | 0 |
+| Evidence: primary_source | 39 | 6 |
+| Evidence: report_citation | 260 | 0 |
+| Verification: verified | 39 | 6 |
+| Verification: located | 0 | 0 |
+| Verification: unverified | 351 | 76 |
 
-610 published rows describe 472 instruments.
+Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
+
+611 published rows describe 472 instruments.
 
 ## Contested projects
 
-165 projects; 125 with a confirmed outcome.
+165 projects; 125 with a confirmed outcome; 125 verified (backed by a news article or court record that was read), 40 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
@@ -32,7 +37,7 @@ however many technologies it covers. Quote these, not row counts.
 
 ## Cases
 
-38 cases.
+38 cases; 38 with a court record.
 
 | Status | Cases |
 |---|---:|
