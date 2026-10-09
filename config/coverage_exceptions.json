@@ -3,5 +3,89 @@
     "Deliberate column drops for scripts/coverage_delta.py. Each entry clears",
     "only the exact expect_after count. Delete an entry once a build has",
     "committed the new baseline."
-  ]
+  ],
+  "restrictions.csv": {
+    "date_enacted_iso": {
+      "expect_after": 264,
+      "reason": "2026-10-09: the column keeps 264 values (264 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "long_description": {
+      "expect_after": 553,
+      "reason": "2026-10-09: the column keeps 553 values (335 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "moratorium_id": {
+      "expect_after": 286,
+      "reason": "2026-10-09: the column keeps 286 values (286 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "source_record_id": {
+      "expect_after": 934,
+      "reason": "2026-10-09: the column keeps 934 values (323 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "current_end_date_iso": {
+      "expect_after": 49,
+      "reason": "2026-10-09: the column keeps 49 values (49 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "latitude": {
+      "expect_after": 286,
+      "reason": "2026-10-09: the column keeps 286 values (286 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "longitude": {
+      "expect_after": 286,
+      "reason": "2026-10-09: the column keeps 286 values (286 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "needs_verification": {
+      "expect_after": 87,
+      "reason": "2026-10-09: the column keeps 87 values (87 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "sectors": {
+      "expect_after": 286,
+      "reason": "2026-10-09: the column keeps 286 values (286 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "legal_basis": {
+      "expect_after": 275,
+      "reason": "2026-10-09: the column keeps 275 values (275 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "primary_source_verdict": {
+      "expect_after": 92,
+      "reason": "2026-10-09: the column keeps 92 values (65 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "primary_source_access": {
+      "expect_after": 92,
+      "reason": "2026-10-09: the column keeps 92 values (65 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "primary_source_url": {
+      "expect_after": 92,
+      "reason": "2026-10-09: the column keeps 92 values (65 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "primary_source_checked_on": {
+      "expect_after": 84,
+      "reason": "2026-10-09: the column keeps 84 values (57 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    }
+  },
+  "contested_projects.csv": {
+    "opposition_type": {
+      "expect_after": 304,
+      "reason": "2026-10-09: the column keeps 304 values (160 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "opposition_groups": {
+      "expect_after": 28,
+      "reason": "2026-10-09: the column keeps 28 values (28 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "group_sources": {
+      "expect_after": 28,
+      "reason": "2026-10-09: the column keeps 28 values (28 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "resolution_url": {
+      "expect_after": 116,
+      "reason": "2026-10-09: the column keeps 116 values (116 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "resolution_access": {
+      "expect_after": 116,
+      "reason": "2026-10-09: the column keeps 116 values (116 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    },
+    "resolution_date": {
+      "expect_after": 114,
+      "reason": "2026-10-09: the column keeps 114 values (114 before) while the file gained rows: the Sabin September 2026 edition and 2,393 NREL restrictions, which do not carry this field. Not a loss of values."
+    }
+  }
 }

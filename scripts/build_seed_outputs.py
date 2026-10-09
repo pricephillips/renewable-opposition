@@ -27,6 +27,12 @@ It validates data/review/negative_checks.csv (scripts/negative_checks.py;
 never published) and writes data/review/negative_check_worklist.csv: the
 counties profiled so far that have no restriction and no check yet.
 
+Two more entities have their own modules: siting_standards (NREL's ordinance
+features per jurisdiction, scripts/siting_standards.py) and state_policies
+(state siting law checked against the statute, scripts/state_policies.py,
+which also writes data/processed/state_policies_held.csv). A structural error in
+data/review/state_policies_candidates.csv stops the build like a broken seed.
+
 Exits non-zero, writing nothing, if any seed row fails validation.
 """
 from __future__ import annotations
@@ -44,6 +50,8 @@ import headline_metrics  # noqa: E402
 import negative_checks  # noqa: E402
 import qc_gate  # noqa: E402
 import resolutions  # noqa: E402
+import siting_standards  # noqa: E402
+import state_policies  # noqa: E402
 from common import (  # noqa: E402
     PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, SEED_DIR, normalize_url, read_csv, source_id_for,
     state_code, write_csv,
@@ -62,7 +70,7 @@ REQUIRED = {
 }
 
 # Fields that identify a row within its source, in order of preference.
-ROW_KEY_FIELDS = ["case_id", "moratorium_id", "source_record_id"]
+ROW_KEY_FIELDS = ["case_id", "moratorium_id", "source_record_id", "nrel_id"]
 
 INT_FIELDS = {"severity_score"}
 FLOAT_FIELDS = {"latitude", "longitude"}
@@ -296,8 +304,12 @@ def json_records(rows: list[dict], archive: dict[str, str] | None = None) -> lis
     return out
 
 
-def write_json(path: Path, data) -> None:
+def write_json(path: Path, data, compact: bool = False) -> None:
+    """compact: one record per line, for a large file nobody reads by eye."""
     with path.open("w", encoding="utf-8") as f:
+        if compact and isinstance(data, list):
+            f.write("[\n" + ",\n".join(json.dumps(r, ensure_ascii=False) for r in data) + "\n]\n")
+            return
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
@@ -316,6 +328,8 @@ def main() -> int:
     states = fips_states(fips_lookup)
     checks = negative_checks.load()
     errors += negative_checks.validate(checks, geo.known, states.get)
+    policies, held_policies, policy_errors = state_policies.build()
+    errors += policy_errors
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"{len(errors)} validation error(s); nothing written.", file=sys.stderr)
@@ -348,7 +362,20 @@ def main() -> int:
         write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows, archive))
         print(f"Wrote data/processed/{entity}.csv/.json ({len(rows)} records)")
 
-    metrics = headline_metrics.compute(datasets)
+    standards = siting_standards.build(fips_lookup, load_place_index())
+    write_csv(PROCESSED_DIR / "siting_standards.csv", standards, siting_standards.OUT_FIELDS)
+    write_json(PROCESSED_DIR / "siting_standards.json", siting_standards.json_records(standards), compact=True)
+    placed = sum(1 for r in standards if r["county_fips_all"])
+    print(f"Wrote data/processed/siting_standards.csv/.json ({len(standards)} rows, {placed} placed in a county, "
+          f"{sum(1 for r in standards if r['verification'] == 'verified')} verified)")
+    write_csv(PROCESSED_DIR / "state_policies.csv", policies, state_policies.OUT_FIELDS)
+    write_json(PROCESSED_DIR / "state_policies.json", policies)
+    write_csv(state_policies.HELD_PATH, held_policies, state_policies.HELD_FIELDS)
+    print(f"Wrote data/processed/state_policies.csv/.json ({len(policies)} verified rows); "
+          f"data/processed/state_policies_held.csv ({len(held_policies)} held)")
+
+    metrics = headline_metrics.compute(datasets, standards=standards, policies=policies,
+                                       checks=checks, all_counties=geo.all_counties())
     write_json(PROCESSED_DIR / "headline_metrics.json", metrics)
     (PROCESSED_DIR / "headline_metrics.md").write_text(headline_metrics.render(metrics), encoding="utf-8")
     ren = metrics["restrictions"]["by_scope"]["renewables_only"]

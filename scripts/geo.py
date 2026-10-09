@@ -79,6 +79,11 @@ def known(fips: str) -> bool:
     return fips in _topology()["counties"]
 
 
+def all_counties() -> list[str]:
+    """Every 2024 county (and county equivalent) in the boundary file."""
+    return sorted(_topology()["counties"])
+
+
 def name(fips: str) -> str:
     c = _topology()["counties"].get(fips)
     return c["name"] if c else ""

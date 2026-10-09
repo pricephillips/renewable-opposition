@@ -17,6 +17,14 @@ Rules
     (classify.verification): verified, located or unverified under the
     evidence standard. An instrument counts as verified only when every one
     of its rows is (in practice they agree).
+  - Every count is also broken down by source (SOURCES: Sabin 2026 edition,
+    Sabin 2025 edition rows not in the 2026 edition, NREL, Moratorium Nation,
+    the review queue), each with its verification.
+  - County coverage: of the counties in the 2024 boundary file (50 states
+    and DC; Puerto Rico apart), how many have any published record (a
+    restriction, a contested project or an NREL siting standard placed in
+    them, by county_fips_all), how many have a documented "checked, nothing
+    found" (data/review/negative_checks.csv), and how many have neither.
 """
 from __future__ import annotations
 
@@ -60,7 +68,61 @@ def _counter(items, key) -> dict[str, int]:
     return dict(sorted(Counter(key(i) or "" for i in items).items()))
 
 
-def compute(datasets: dict[str, list[dict]]) -> dict:
+SOURCES = ("Sabin 2026", "Sabin 2025 (not in 2026 edition)", "NREL", "Moratorium Nation", "review queue",
+           "other")
+
+
+def source_of(row: dict) -> str:
+    iid = str(row.get("instrument_id") or "")
+    if iid.startswith("sabin:"):
+        return "Sabin 2025 (not in 2026 edition)" if row.get("sabin_edition") == "2025-06" else "Sabin 2026"
+    if iid.startswith("nrel:"):
+        return "NREL"
+    if iid.startswith("mn:"):
+        return "Moratorium Nation"
+    if iid.startswith("queue:"):
+        return "review queue"
+    return "other"
+
+
+def by_source(inst: dict[str, dict]) -> dict[str, dict]:
+    out = {}
+    for src in SOURCES:
+        group = [i for i in inst.values() if source_of(i) == src]
+        if group:
+            out[src] = {"instruments": len(group),
+                        "severe_instruments": sum(1 for i in group if i["severity_score"] in SEVERE),
+                        "by_verification": _counter(group, lambda i: i.get("verification"))}
+    return out
+
+
+def _fips(row: dict) -> set[str]:
+    return {f for f in str(row.get("county_fips_all") or row.get("county_fips") or "").split(";") if f}
+
+
+def county_coverage(datasets: dict[str, list[dict]], standards: list[dict], checks: list[dict],
+                    all_counties: list[str]) -> dict:
+    counties = {f for f in all_counties if not f.startswith("72")}
+    restricted = set().union(*(_fips(r) for r in datasets.get("restrictions", []))) & counties
+    projects = set().union(*(_fips(r) for r in datasets.get("contested_projects", []))) & counties
+    standard = set().union(*(_fips(r) for r in standards)) & counties
+    any_record = restricted | projects | standard
+    checked = {str(c.get("county_fips", "")).strip().zfill(5) for c in checks} & counties
+    return {
+        "counties": len(counties),
+        "with_any_record": len(any_record),
+        "with_restriction": len(restricted),
+        "with_contested_project": len(projects),
+        "with_siting_standard": len(standard),
+        "with_negative_check": len(checked),
+        "with_negative_check_and_no_record": len(checked - any_record),
+        "with_neither": len(counties - any_record - checked),
+    }
+
+
+def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None,
+            policies: list[dict] | None = None, checks: list[dict] | None = None,
+            all_counties: list[str] | None = None) -> dict:
     out: dict = {}
     rows = datasets.get("restrictions", [])
     inst = _instruments(rows)
@@ -78,7 +140,9 @@ def compute(datasets: dict[str, list[dict]]) -> dict:
             "by_evidence_level": _counter(group, lambda i: i.get("evidence_level")),
             "by_verification": _counter(group, lambda i: i.get("verification")),
         }
-    out["restrictions"] = {"rows": len(rows), "instruments": len(inst), "by_scope": by_scope}
+    out["restrictions"] = {"rows": len(rows), "instruments": len(inst), "by_scope": by_scope,
+                           "by_source": by_source(inst),
+                           "by_verification": _counter(inst.values(), lambda i: i.get("verification"))}
 
     rows = datasets.get("contested_projects", [])
     inst = _instruments(rows)
@@ -92,6 +156,7 @@ def compute(datasets: dict[str, list[dict]]) -> dict:
         "by_outcome": _counter(inst.values(), lambda i: i.get("outcome")),
         "by_evidence_level": _counter(inst.values(), lambda i: i.get("evidence_level")),
         "by_verification": _counter(inst.values(), lambda i: i.get("verification")),
+        "by_source": by_source(inst),
     }
 
     rows = datasets.get("cases", [])
@@ -104,6 +169,22 @@ def compute(datasets: dict[str, list[dict]]) -> dict:
         "by_case_status": _counter(inst.values(), lambda i: i.get("case_status")),
         "by_verification": _counter(inst.values(), lambda i: i.get("verification")),
     }
+    standards = standards or []
+    out["siting_standards"] = {
+        "rows": len(standards),
+        "jurisdictions": len({(r.get("state"), r.get("jurisdiction"), r.get("technology")) for r in standards}),
+        "by_technology": _counter(standards, lambda r: r.get("technology")),
+        "by_verification": _counter(standards, lambda r: r.get("verification")),
+        "restricting_rows": sum(1 for r in standards if r.get("restricting") == "yes"),
+    }
+    policies = policies or []
+    out["state_policies"] = {
+        "rows": len(policies), "states": len({r.get("state") for r in policies}),
+        "by_policy_type": _counter(policies, lambda r: r.get("policy_type")),
+        "by_verification": _counter(policies, lambda r: r.get("verification")),
+    }
+    if all_counties:
+        out["county_coverage"] = county_coverage(datasets, standards, checks or [], all_counties)
     return out
 
 
@@ -153,4 +234,38 @@ def render(m: dict) -> str:
     lines += ["", "## Cases", "", f"{k['cases']} cases; {k['by_verification'].get('verified', 0)} "
               "with a court record.", "", "| Status | Cases |", "|---|---:|"]
     lines += [f"| {s or '(blank)'} | {n} |" for s, n in k["by_case_status"].items()]
+    lines += ["", "## By source", "",
+              "Instruments (restrictions) and projects by the source they came from, with their verification.",
+              "", "| Entity | Source | Count | Severe | Verified | Located | Unverified |",
+              "|---|---|---:|---:|---:|---:|---:|"]
+    for entity, label in (("restrictions", "Restrictions"), ("contested_projects", "Contested projects")):
+        for src, g in m[entity].get("by_source", {}).items():
+            v = g["by_verification"]
+            severe = g["severe_instruments"] if entity == "restrictions" else ""
+            lines.append(f"| {label} | {src} | {g['instruments']} | {severe} | {v.get('verified', 0)} | "
+                         f"{v.get('located', 0)} | {v.get('unverified', 0)} |")
+    st, sp = m.get("siting_standards"), m.get("state_policies")
+    if st:
+        lines += ["", "## Siting standards (NREL)", "",
+                  f"{st['rows']} feature rows for {st['jurisdictions']} jurisdiction and technology pairs "
+                  f"({', '.join(f'{t} {n}' for t, n in st['by_technology'].items())}); "
+                  f"{st['by_verification'].get('verified', 0)} verified against the ordinance, "
+                  f"{st['by_verification'].get('unverified', 0)} unverified. NREL compiled them with language "
+                  "models; unverified rows are NREL's reading, not a checked fact."]
+    if sp:
+        lines += ["", "## State siting law", "",
+                  f"{sp['rows']} state policy rows in {sp['states']} states, each verified against the statute."]
+    cc = m.get("county_coverage")
+    if cc:
+        lines += ["", "## County coverage", "",
+                  f"Of {cc['counties']} counties and county equivalents (50 states and DC):", "",
+                  "| | Counties |", "|---|---:|",
+                  f"| Any published record | {cc['with_any_record']} |",
+                  f"| A restriction | {cc['with_restriction']} |",
+                  f"| A contested project | {cc['with_contested_project']} |",
+                  f"| An NREL siting standard | {cc['with_siting_standard']} |",
+                  f"| A documented negative check | {cc['with_negative_check']} |",
+                  f"| A negative check and no record | {cc['with_negative_check_and_no_record']} |",
+                  f"| Neither a record nor a check | {cc['with_neither']} |", "",
+                  "A county with neither has not been looked at; it is not evidence that nothing happened."]
     return "\n".join(lines) + "\n"
