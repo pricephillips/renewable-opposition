@@ -4,7 +4,8 @@ For each entity (restrictions, contested_projects, cases) with a seed file:
   - checks required fields, the 1-4 severity scale, the state code and that
     every row has a source_url (the README's provenance-first rule);
   - normalizes state to its two-letter code;
-  - assigns a stable ``id`` (see record_id) and a ``source_id``;
+  - assigns a stable ``id`` (see record_id; a seed row's ``pinned_id``, set
+    by promote_reviewed.py, wins) and a ``source_id``;
   - writes data/processed/<entity>.csv and <entity>.json.
 
 Rows that pass validation then go through the QC gate (scripts/qc_gate.py).
@@ -200,7 +201,10 @@ def build_entity(entity: str, filename: str,
     errors = validate(entity, filename, rows)
     seen: dict[str, int] = {}
     for i, row in enumerate(rows, start=2):
-        rid = record_id(entity, row)
+        # A promoted review-queue row keeps the id it was first published
+        # under (promote_reviewed.py pins it), so a corrected description or
+        # source URL never renumbers it.
+        rid = row.get("pinned_id") or record_id(entity, row)
         if rid in seen:
             errors.append(f"{filename}: row {i} duplicates row {seen[rid]} (same source, key and technology)")
         seen[rid] = i

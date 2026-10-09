@@ -44,6 +44,31 @@ restriction_type. A typed severity_score that disagrees with the computed
 one is reported as a conflict and the row is not promoted. An unknown
 mechanism stops the run with an error, before anything is written.
 
+Restriction status. A restriction candidate needs a status, one of active,
+extended, pending, lifted or expired; a blank or other status stops its
+promotion and is listed. A lifted or expired instrument is no longer in force
+and is not published (as for Sabin rows); it stays in the queue, listed.
+
+Evidence. `source_kind` says what source_url is (classify.SOURCE_KINDS). A
+restriction whose access is opened or archived and whose source_kind is
+instrument, minutes or official_copy (the instrument, its minutes, or an
+official copy of either) publishes with that URL as its primary source
+(primary_source_url, _access, _archived_url, verdict confirmed), so it is
+evidence_level primary_source and verification verified. Any other restriction
+publishes as unverified: a news article or tracker locates an instrument but
+does not verify it. A contested project carries source_kind and source_access,
+and is verified when its source is news or an official record that was read.
+
+Re-sync. A queue row corrected after promotion would leave its seed rows
+stale, so every run recomputes the seed rows of every row whose review_status
+is promoted, by the same rules as a first promotion, and reports each field
+that changed. Seed rows are linked to their queue row by queue_id (assigned on
+promotion; older rows are matched once by source, state and jurisdiction or
+project name). Each seed row keeps its published id: pinned_id, set on
+promotion to the id the build gives the row, is what the build uses, so a
+corrected description or source URL never renumbers the record. A technology
+the queue row no longer lists drops its seed row; a new one adds a row.
+
 Case severity: a reviewer may set severity_score on a candidate; otherwise it
 defaults to 3, the contested-projects score for "litigation filed".
 
@@ -64,7 +89,8 @@ from build_sabin_seeds import (  # noqa: E402
     MECHANISM_TYPE, OUTCOME, RESTRICTION_STATUS, RESTRICTION_TECH, driving_type, finalize_outcome,
     restriction_severity, text_about,
 )
-from build_seed_outputs import REQUIRED  # noqa: E402
+from build_seed_outputs import REQUIRED, normalize_row, record_id  # noqa: E402
+from classify import INSTRUMENT_KINDS, SOURCE_KINDS  # noqa: E402
 from common import REVIEW_DIR, SEED_DIR, read_csv, technology_tokens, write_csv  # noqa: E402
 from resolutions import access_error, is_read  # noqa: E402
 
@@ -92,17 +118,51 @@ QUEUE_SPECIFIC = {
              "docket_number": "docket_number"},
 }
 NEVER = {"rejected", "promoted"}
+# Statuses a restriction candidate may carry; blank stops promotion. Lifted and
+# expired instruments are not in force and are not published.
+QUEUE_RESTRICTION_STATUS = ("active", "extended", "pending", "lifted", "expired")
+NOT_IN_FORCE = {"lifted", "expired"}
+# Seed columns a promotion may add (beyond the seed's own): the link to the
+# queue row, the pinned id, and the evidence for the verification field.
+EVIDENCE_COLUMNS = ["queue_id", "pinned_id", "source_kind", "source_access", "primary_source_url",
+                    "primary_source_access", "primary_source_archived_url", "primary_source_verdict"]
+_PROMOTED_ON = re.compile(r"promoted automatically from \S+ on (\d{4}-\d{2}-\d{2})")
 _URL = re.compile(r"^https?://[^\s/]+\.[^\s]+$")
 
 
-def provenance(row: dict, kind: str) -> str:
+def provenance(row: dict, kind: str, auto_on: str | None = None) -> str:
     """The reviewer_notes a promoted row carries, plus a line saying whether a
-    person confirmed it."""
+    person confirmed it. auto_on: on a re-sync, the date of the original
+    automatic promotion ('' when a person confirmed it), so the notes do not
+    change with the calendar."""
     notes = [n for n in [(row.get("reviewer_notes") or "").strip()] if n]
-    if (row.get("review_status") or "").strip() != "confirmed":
-        notes.append(f"promoted automatically from {kind} on {date.today().isoformat()}: "
+    if auto_on is None:
+        auto_on = "" if (row.get("review_status") or "").strip() == "confirmed" else date.today().isoformat()
+    if auto_on:
+        notes.append(f"promoted automatically from {kind} on {auto_on}: "
                      "required fields complete, not reviewed by hand")
     return "; ".join(notes)
+
+
+def queue_id(row: dict) -> str:
+    """A stable key for a queue row, assigned once on promotion."""
+    raw = "|".join((row.get(k) or "").strip().lower() for k in
+                   ("source_id", "entity_type", "state", "county", "municipality", "project_name", "extracted_at"))
+    return "q_" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+
+
+def evidence(row: dict) -> dict:
+    """Seed columns that carry how the queue row's source was seen."""
+    kind, access = (row.get("source_kind") or "").strip(), (row.get("access") or "").strip()
+    out = {"source_kind": kind}
+    if row["entity_type"] == "restriction":
+        if kind in INSTRUMENT_KINDS and is_read(access):
+            out.update(primary_source_url=row.get("source_url", ""), primary_source_access=access,
+                       primary_source_archived_url=row.get("archived_url", ""),
+                       primary_source_verdict="confirmed")
+    else:
+        out["source_access"] = access
+    return {k: v for k, v in out.items() if v}
 
 
 CASE_FIELDS = [
@@ -118,12 +178,13 @@ def case_id(case_name: str, court: str, docket: str) -> str:
     return "case_" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
 
 
-def queue_to_seed(row: dict) -> dict:
+def queue_to_seed(row: dict, auto_on: str | None = None) -> dict:
     etype = row["entity_type"]
     out = {k: row[k] for k in QUEUE_COMMON if row.get(k)}
     out.update({dst: row[src] for src, dst in QUEUE_SPECIFIC[etype].items() if row.get(src)})
     out["source"] = f"review queue: {row.get('source_id', '')}".strip()
-    notes = provenance(row, "data/review/queue.csv")
+    out.update(evidence(row))
+    notes = provenance(row, "data/review/queue.csv", auto_on)
     if etype == "restriction":
         # The Sabin status rule: in_force -> active, blank -> unknown.
         status = (row.get("status") or "").strip()
@@ -155,7 +216,7 @@ def mechanism_list(row: dict) -> list[str]:
     return [m.strip() for m in (row.get("mechanisms") or "").split(";") if m.strip()]
 
 
-def score_restriction(row: dict) -> tuple[list[dict], list[str]]:
+def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict], list[str]]:
     """One scored seed row per technology, or ([], problems). Raises
     PromotionError on a mechanism outside MECHANISM_TYPE."""
     mechanisms = mechanism_list(row)
@@ -165,12 +226,12 @@ def score_restriction(row: dict) -> tuple[list[dict], list[str]]:
                              "vocabulary, separated by semicolons")
     if not mechanisms:
         return [], ["mechanisms is blank; list every mechanism the instrument uses"]
-    status_raw = (row.get("status") or "").strip()
-    published = set(RESTRICTION_STATUS.values())
-    status = status_raw if status_raw in published else RESTRICTION_STATUS.get(status_raw)
-    if status is None:
-        allowed = sorted(published | {k for k in RESTRICTION_STATUS if k})
-        return [], [f"status {status_raw!r} is not one of {allowed} (blank means unknown)"]
+    status = (row.get("status") or "").strip()
+    if status not in QUEUE_RESTRICTION_STATUS:
+        return [], [f"status {status!r} must be one of {', '.join(QUEUE_RESTRICTION_STATUS)}; "
+                    "a blank status stops promotion"]
+    if status in NOT_IN_FORCE:
+        return [], [f"status {status}: the instrument is no longer in force, so it is not published"]
     try:
         techs = technology_tokens(row.get("technology", ""))
     except ValueError as exc:
@@ -189,7 +250,7 @@ def score_restriction(row: dict) -> tuple[list[dict], list[str]]:
             problems.append(f"typed severity_score {typed} conflicts with the computed {score} for {tech} "
                             f"({basis}); clear the typed score or correct mechanisms/mechanism_detail")
             continue
-        seed = queue_to_seed(row)
+        seed = queue_to_seed(row, auto_on)
         seed.update(technology=tech, severity_score=score, severity_basis=basis,
                     restriction_type=driving_type(types, basis), status=status,
                     mechanisms=", ".join(mechanisms))
@@ -226,49 +287,164 @@ def missing(entity: str, row: dict) -> list[str]:
     return gaps
 
 
+def seed_rows_for(row: dict, auto_on: str | None = None) -> tuple[list[dict], list[str]]:
+    """The seed rows a queue row produces now, or ([], problems). Raises
+    PromotionError on an unknown mechanism."""
+    etype = row.get("entity_type", "")
+    if etype not in SEED_FOR:
+        return [], [f"entity_type {etype!r} cannot be promoted"]
+    bad = access_error(row)
+    if bad:
+        return [], [bad]
+    if not is_read(row.get("access", "")):
+        return [], ["access is snippet (only search-index text was seen); the source has to be opened "
+                    "or archived first, then set access to opened or archived"]
+    kind = (row.get("source_kind") or "").strip()
+    if kind and kind not in SOURCE_KINDS:
+        return [], [f"source_kind {kind!r} must be one of {', '.join(SOURCE_KINDS)}"]
+    if etype == "restriction":
+        rows, why = score_restriction(row, auto_on)
+        if why:
+            return [], why
+    else:
+        rows = [queue_to_seed(row, auto_on)]
+    gaps = sorted({g for r in rows for g in missing(SEED_FOR[etype][0], r)})
+    if gaps:
+        return [], [f"missing {', '.join(gaps)}"]
+    return rows, []
+
+
+def pin(entity: str, seed: dict) -> str:
+    """The id the build gives this seed row (build_seed_outputs.record_id)."""
+    return record_id(entity, normalize_row({k: "" if v is None else str(v) for k, v in seed.items()}))
+
+
+def _jurisdiction(row: dict) -> str:
+    return (row.get("municipality") or row.get("county") or "").strip()
+
+
+def linked(entity: str, qrow: dict, seeds: list[dict]) -> list[dict]:
+    """The seed rows a promoted queue row produced: by queue_id, or for a row
+    promoted before queue_id existed, by source, state and jurisdiction (or
+    project name) among rows not yet linked."""
+    qid = qrow.get("queue_id", "")
+    hits = [r for r in seeds if qid and r.get("queue_id") == qid]
+    if hits:
+        return hits
+    source = f"review queue: {qrow.get('source_id', '')}".strip()
+    key = qrow.get("project_name", "").strip() if entity != "restrictions" else _jurisdiction(qrow)
+    return [r for r in seeds if not r.get("queue_id") and r.get("source") == source
+            and r.get("state") == qrow.get("state")
+            and (r.get("project_name") if entity != "restrictions" else r.get("jurisdiction")) == key]
+
+
+def _short(v) -> str:
+    v = "" if v is None else str(v)
+    return v if len(v) <= 90 else v[:87] + "..."
+
+
+def resync(entity: str, where: str, qrow: dict, seeds: list[dict]) -> tuple[list[str], list[str]]:
+    """Recompute the seed rows of a promoted queue row in place in seeds.
+    Returns (changes, problems)."""
+    old = linked(entity, qrow, seeds)
+    if not old:
+        return [], [f"{where}: review_status is promoted but no seed row is linked to it"]
+    m = _PROMOTED_ON.search(" ".join((r.get("notes") or r.get("reviewer_notes") or "") for r in old))
+    try:
+        fresh, why = seed_rows_for(qrow, m.group(1) if m else "")
+    except PromotionError as exc:
+        return [], [f"{where}: {exc}"]
+    if why:
+        return [], [f"{where} (promoted) was not re-synced: {w}" for w in why]
+    qid = qrow.get("queue_id") or queue_id(qrow)
+    qrow["queue_id"] = qid
+    managed = set(EVIDENCE_COLUMNS) | set(QUEUE_COMMON) | {"source", "notes", "reviewer_notes", "outcome",
+                                                         "finality_evidence", "severity_basis", "mechanisms",
+                                                         "jurisdiction"}
+    for spec in QUEUE_SPECIFIC.values():
+        managed |= set(spec.values())
+    by_tech = {r.get("technology", ""): r for r in old}
+    changes = []
+    for f in fresh:
+        f["queue_id"] = qid
+        prev = by_tech.pop(f.get("technology", ""), None) if entity != "cases" else (old[0] if old else None)
+        if prev is None:
+            f["pinned_id"] = pin(entity, f)
+            seeds.append(f)
+            changes.append(f"{where} -> {f['pinned_id']}: added a row for {f.get('technology')}")
+            continue
+        pinned = prev.get("pinned_id") or pin(entity, prev)
+        new = dict(prev)
+        for k in managed:
+            if k in new or k in f:
+                new[k] = f.get(k, "")
+        new["pinned_id"], new["queue_id"] = pinned, qid
+        for k in sorted(set(prev) | set(new)):
+            a, b = "" if prev.get(k) is None else str(prev.get(k)), "" if new.get(k) is None else str(new.get(k))
+            if a != b:
+                label = "linked" if k in ("pinned_id", "queue_id") and not a else "changed"
+                changes.append(f"{where} -> {pinned} ({new.get('technology')}): {k} {label}: "
+                               f"{_short(a)!r} -> {_short(b)!r}")
+        seeds[seeds.index(prev)] = new
+    for gone in by_tech.values() if entity != "cases" else []:
+        seeds.remove(gone)
+        changes.append(f"{where} -> {gone.get('pinned_id') or pin(entity, gone)}: removed the "
+                       f"{gone.get('technology')} row; the queue row no longer lists it")
+    return changes, []
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
-    additions: dict[str, list[dict]] = {k: [] for k in SEED_FOR}
+    seeds: dict[str, list[dict]] = {}
+    headers: dict[str, list[str]] = {}
+    for etype, (_, path) in SEED_FOR.items():
+        seeds[etype] = read_csv(path)
+        headers[etype] = list(seeds[etype][0].keys()) if seeds[etype] else []
+    added: dict[str, int] = {k: 0 for k in SEED_FOR}
     problems: list[str] = []
+    changes: list[str] = []
 
     queue = read_csv(QUEUE_PATH) if QUEUE_PATH.exists() else []
     errors: list[str] = []
+    resync_rows = []
     for i, row in enumerate(queue, start=2):
-        if (row.get("review_status") or "").strip() in NEVER:
-            continue
         where = f"queue.csv row {i}"
+        status = (row.get("review_status") or "").strip()
+        if status == "promoted":
+            resync_rows.append((where, row))
+            continue
+        if status in NEVER:
+            continue
+        try:
+            seed_rows, why = seed_rows_for(row)
+        except PromotionError as exc:
+            errors.append(f"{where}: {exc}")
+            continue
+        if why:
+            problems += [f"{where}: {w}" for w in why]
+            continue
+        etype = row["entity_type"]
+        qid = row.get("queue_id") or queue_id(row)
+        for r in seed_rows:
+            r["queue_id"] = qid
+            r["pinned_id"] = pin(SEED_FOR[etype][0], r)
+        known = {r.get("case_id") for r in seeds[etype] if r.get("case_id")}
+        fresh = [r for r in seed_rows if not r.get("case_id") or r["case_id"] not in known]
+        seeds[etype].extend(fresh)
+        added[etype] += len(fresh)
+        row["queue_id"] = qid
+        row["review_status"] = "promoted"
+    for where, row in resync_rows:
         etype = row.get("entity_type", "")
         if etype not in SEED_FOR:
-            problems.append(f"{where}: entity_type {etype!r} cannot be promoted")
+            problems.append(f"{where}: entity_type {etype!r} cannot be re-synced")
             continue
-        bad = access_error(row)
-        if bad:
-            problems.append(f"{where}: {bad}")
-            continue
-        if not is_read(row.get("access", "")):
-            problems.append(f"{where}: access is snippet (only search-index text was seen); the source has "
-                            "to be opened or archived first, then set access to opened or archived")
-            continue
-        if etype == "restriction":
-            try:
-                seed_rows, why = score_restriction(row)
-            except PromotionError as exc:
-                errors.append(f"{where}: {exc}")
-                continue
-            if why:
-                problems += [f"{where}: {w}" for w in why]
-                continue
-        else:
-            seed_rows = [queue_to_seed(row)]
-        gaps = sorted({g for r in seed_rows for g in missing(SEED_FOR[etype][0], r)})
-        if gaps:
-            problems.append(f"{where}: missing {', '.join(gaps)}")
-            continue
-        additions[etype].extend(seed_rows)
-        row["review_status"] = "promoted"
+        ch, why = resync(SEED_FOR[etype][0], where, row, seeds[etype])
+        changes += ch
+        problems += why
     if errors:
         for e in errors:
             print(e, file=sys.stderr)
@@ -291,30 +467,33 @@ def main() -> int:
             else:
                 waiting += 1
             continue
-        additions["case"].append(candidate_to_case(row))
+        case = candidate_to_case(row)
+        if case["case_id"] not in {r.get("case_id") for r in seeds["case"]}:
+            seeds["case"].append(case)
+            added["case"] += 1
         row["review_status"] = "promoted"
 
     for p in problems:
         print(p)
     if waiting:
         print(f"{waiting} case candidate(s) still await docket research (no case fields yet)")
-    total = sum(len(v) for v in additions.values())
-    print(f"{total} row(s) to promote: " + ", ".join(f"{k}={len(v)}" for k, v in additions.items()))
-    if args.dry_run or not total:
+    total = sum(added.values())
+    print(f"{total} row(s) to promote: " + ", ".join(f"{k}={v}" for k, v in added.items()))
+    print(f"Re-sync of promoted queue rows: {len(changes)} field change(s)")
+    for c in changes:
+        print(f"  {c}")
+    if args.dry_run or not (total or changes):
         return 0
 
-    for etype, rows in additions.items():
-        if not rows:
-            continue
+    for etype, rows in seeds.items():
         _, path = SEED_FOR[etype]
-        existing = read_csv(path)
-        known = {r.get("case_id") for r in existing if r.get("case_id")}
-        fresh = [r for r in rows if not r.get("case_id") or r["case_id"] not in known]
-        fields = CASE_FIELDS if etype == "case" else list(existing[0].keys()) if existing else None
-        write_csv(path, existing + fresh, fields)
-        print(f"Appended {len(fresh)} row(s) to {path.name}")
+        if rows == read_csv(path):
+            continue
+        fields = CASE_FIELDS if etype == "case" else headers[etype] or None
+        write_csv(path, rows, fields)
+        print(f"Wrote {path.name} ({added[etype]} row(s) added)")
     if queue:
-        write_csv(QUEUE_PATH, queue, list(queue[0].keys()))
+        write_csv(QUEUE_PATH, queue, list(dict.fromkeys(list(queue[0].keys()) + ["queue_id"])))
     if candidates:
         write_csv(CANDIDATES_PATH, candidates, list(candidates[0].keys()))
     return 0
