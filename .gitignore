@@ -7,3 +7,7 @@ __pycache__/
 # and the precommit "private" gate refuses any staged local_knowledge* file.
 data/review/local_knowledge.csv
 local_knowledge*
+
+# The national database (scripts/build_database.py). Rebuilt from
+# data/processed/ on demand; never committed.
+data/db/

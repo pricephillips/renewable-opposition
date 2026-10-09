@@ -236,6 +236,14 @@ Every record has a stable `id` that doesn't change between runs, plus the `sourc
 
 Both formats are required. JSON is used by downstream apps and dashboards; CSV is the human-readable source of truth.
 
+### National database
+
+`scripts/build_database.py` loads everything in `data/processed/`, with the county boundary file, the negative checks and the data center events, into one DuckDB file, `data/db/renewable_opposition.duckdb`, normalized around the instrument and the county (`db/schema.sql`, `db/load.sql`, `db/views.sql`). `--parquet <dir>` also writes one Parquet file per table and view. The database is derived and never committed. Before it writes, the script recomputes the headline numbers from the database and compares them with `headline_metrics.json`; any difference stops it. Its `v_county_summary` view gives every county a `coverage_status`: `has_records`, `checked_none` or `not_examined`. Design and roadmap: `docs/national_database_design.md`.
+
+```bash
+python scripts/build_database.py --parquet data/db/parquet
+```
+
 ---
 
 ## Repository structure
@@ -271,9 +279,12 @@ renewable-opposition/
 │   │   ├── facility_matches.csv            ← projects matched to federal plant inventories, conflicts first (written by the build)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
-│   └── processed/                          ← canonical CSV + JSON outputs
+│   ├── processed/                          ← canonical CSV + JSON outputs
+│   └── db/                                 ← national database, built on demand, not committed (build_database.py)
+├── db/                                     ← national database schema, load and views (build_database.py)
 ├── docs/
 │   ├── coverage_audit.md                   ← Sabin vs Moratorium Nation recall
+│   ├── national_database_design.md         ← design for the national database and dashboard
 │   └── pipeline_comparison.md              ← practices adopted from data-center-map, and what's next
 ├── scripts/
 │   ├── run_pipeline.py                     ← runs the stages in order (build; refresh re-fetches the inputs first)
@@ -300,7 +311,8 @@ renewable-opposition/
 │   ├── state_bounds.py                     ← state bounding boxes (copied from data-center-map)
 │   ├── snapshot_manifest.py                ← dated, hashed record of each published output
 │   ├── smoke_frontend.py                   ← loads every page headless; fails on page errors
-│   └── build_seed_outputs.py               ← validates seeds, runs QC, writes processed/
+│   ├── build_seed_outputs.py               ← validates seeds, runs QC, writes processed/
+│   └── build_database.py                   ← processed/ -> national DuckDB database + Parquet, checked against headline_metrics
 └── tests/                                  ← pytest suite (run in CI by .github/workflows/validate.yml)
 ```
 
