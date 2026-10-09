@@ -35,7 +35,7 @@ For each row:
 
 ## 2. Worklists: records still waiting on a source (only if asked, or once step 1 has nothing left to read)
 
-Run `python scripts/build_seed_outputs.py` and `python scripts/verification_worklist.py`, then take items from the top of `data/review/outcome_worklist.csv` and `data/review/restriction_worklist.csv`. Rows with a `located_url` come first: the source is already located and only needs reading. For each item you can settle from a source you read, add one row to `outcome_resolutions.csv` or `restriction_sources.csv` with every column filled, including `access`. Record what the document says, never what you expect it to say.
+Run `python scripts/build_seed_outputs.py` and `python scripts/verification_worklist.py`, then take items from the top of `data/review/outcome_worklist.csv` and `data/review/restriction_worklist.csv`. Rows with a `located_url` come first: the source is already located and only needs reading. Outcome rows with a `facility_conflict` come before them: `data/review/facility_matches.csv` has a drafted outcome, evidence URL and note from the federal plant inventories for each; open the inventory, check the entry, and copy the row into `outcome_resolutions.csv` only if it matches what you read. For each item you can settle from a source you read, add one row to `outcome_resolutions.csv` or `restriction_sources.csv` with every column filled, including `access`. Record what the document says, never what you expect it to say.
 
 ## 3. Checks, commit, PR
 
