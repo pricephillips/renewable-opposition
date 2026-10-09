@@ -136,6 +136,8 @@ kept and its URL attached, but nothing moves:
   and carries `placement_access` so a profile can say how the county was
   found.
 
+**Reading sources that block plain fetches.** Many county sites and newspapers answer a script with HTTP 403. Two open-source tools, installed outside the repository and with no usage cap, read most of them: Crawl4AI (a local headless Chromium that returns the page as Markdown; pin `playwright==1.56.0` in a cloud session so it uses the pre-installed browser at `/opt/pw-browsers`) and, for scanned PDFs, `pdftoppm` plus RapidOCR (`rapidocr_onnxruntime`). Neither is a reader service or proxy: the page is fetched directly, and a row read this way is `opened`.
+
 A snippet row stays on the worklists below, with its URL in `located_url`,
 until someone opens or archives the source and changes `access`.
 In Claude Code, `/verify-evidence` (`.claude/commands/verify-evidence.md`)
@@ -279,7 +281,9 @@ python scripts/sync_data_center_map.py --dc-map ../data-center-map/master_opposi
 
 Each row is placed by this repository's own county logic (`classify.county_fips_all`: the county named, a multi-county name, coordinates, the Census place index); a row that places nowhere is left out. Also left out: `signal_harvest_auto` rows with no state, no type, or a generic or unrelated headline (fewer than four words, or text that names no data center), and any row with no type whose text names no data center.
 
-Profiles have a "Data center activity" section for the county and its neighbors: date, type, status, a one-line summary and source links, labelled "verified" only when a source is the instrument or official minutes (a government host and a document path, or a municipal records host such as Legistar) and "reported" otherwise. These events never enter the renewable counts. Their opposition groups, with their source URLs, feed the group registry.
+Profiles have a "Data center activity" section for the county and its neighbors: date, type, status, a one-line summary and source links, labelled "verified" only when a source is the instrument or official minutes (a government host and a document path, or a municipal records host such as Legistar) and "reported" otherwise. These events never enter the renewable counts.
+
+Attribution: most data-center-map rows come from Data Center Tracker (https://datacentertracker.org), whose data is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). `data_center_events.csv` reuses those rows' summaries, sources and groups, shortened to one line and placed by this repository's county logic; that adaptation is the only change. Their opposition groups, with their source URLs, feed the group registry.
 
 ## Neighbor watch
 
