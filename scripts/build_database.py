@@ -21,9 +21,15 @@ data/processed/headline_metrics.json. Any difference stops the build: the
 database must never quote a number the published metrics do not.
 
 Usage
-  python scripts/build_database.py                       build data/db/renewable_opposition.duckdb
-  python scripts/build_database.py --parquet data/db/parquet   also export every table and view as Parquet
-  python scripts/build_database.py --out /tmp/ro.duckdb  build somewhere else
+  python scripts/build_database.py              build data/db/renewable_opposition.duckdb
+  python scripts/build_database.py --publish    also write the published files: one Parquet file per
+                                                table and view in data/db/parquet/, and
+                                                data/db/state_summary.json and county_summary.json
+  python scripts/build_database.py --out /tmp/ro.duckdb   build somewhere else
+
+The Build dashboard data workflow runs it with --publish and commits the
+Parquet and the summaries, so GitHub Pages serves them; the .duckdb file is
+never committed.
 """
 
 from __future__ import annotations
@@ -46,6 +52,14 @@ from common import PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, jurisdiction_ke
 
 DB_DIR = ROOT / "db"
 DEFAULT_OUT = ROOT / "data" / "db" / "renewable_opposition.duckdb"
+# Published with --publish and committed by the Build dashboard data workflow,
+# so GitHub Pages serves them to the dashboard. The .duckdb file is not.
+PARQUET_DIR = ROOT / "data" / "db" / "parquet"
+STATE_SUMMARY = ROOT / "data" / "db" / "state_summary.json"
+COUNTY_SUMMARY = ROOT / "data" / "db" / "county_summary.json"
+# build_info keys that change on every run. Left out of the Parquet so an
+# unchanged build rewrites identical bytes and commits nothing.
+VOLATILE_INFO = ("built_at", "git_commit")
 METRICS = PROCESSED_DIR / "headline_metrics.json"
 
 # Every input, as staging table -> file. Read with every column VARCHAR;
@@ -243,20 +257,54 @@ def parity(con: duckdb.DuckDBPyConnection, metrics: dict) -> list[str]:
     return problems
 
 
-def export_parquet(con: duckdb.DuckDBPyConnection, out_dir: Path) -> list[Path]:
-    out_dir.mkdir(parents=True, exist_ok=True)
+def _write_bytes(dest: Path, data: bytes) -> None:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_bytes(data)
+
+
+def export_parquet(con: duckdb.DuckDBPyConnection) -> list[Path]:
+    """One Parquet file per table and view in PARQUET_DIR. Rows are sorted and
+    build_info leaves out VOLATILE_INFO, so the same inputs give the same
+    bytes. A file for a table that no longer exists is removed."""
     written = []
-    for name in TABLES + VIEWS:
-        path = out_dir / f"{name}.parquet"
-        con.execute(f"COPY (SELECT * FROM {name}) TO '{path.as_posix()}' (FORMAT parquet, COMPRESSION zstd)")
-        written.append(path)
+    with tempfile.TemporaryDirectory() as tmp:
+        for name in TABLES + VIEWS:
+            where = ""
+            if name == "build_info":
+                where = "WHERE key NOT IN (" + ", ".join(f"'{k}'" for k in VOLATILE_INFO) + ")"
+            staged = Path(tmp) / f"{name}.parquet"
+            con.execute(f"COPY (SELECT * FROM {name} {where} ORDER BY ALL) TO '{staged.as_posix()}' "
+                        "(FORMAT parquet, COMPRESSION zstd)")
+            _write_bytes(PARQUET_DIR / f"{name}.parquet", staged.read_bytes())
+            written.append(PARQUET_DIR / f"{name}.parquet")
+    for stale in set(PARQUET_DIR.glob("*.parquet")) - set(written):
+        stale.unlink()
     return written
+
+
+def _summary(con: duckdb.DuckDBPyConnection, view: str, key: str) -> str:
+    """A view as {"columns": [...], "rows": [[...], ...]}, sorted by key, one
+    row per line: a third the size of an array of objects, and readable diffs."""
+    cur = con.execute(f"SELECT * FROM {view} ORDER BY {key}")
+    cols = [d[0] for d in cur.description]
+    rows = [[v.isoformat() if hasattr(v, "isoformat") else v for v in r] for r in cur.fetchall()]
+    dump = lambda v: json.dumps(v, ensure_ascii=False, separators=(",", ":"))  # noqa: E731
+    return ('{"columns":' + dump(cols) + ',"rows":[\n' + ",\n".join(dump(r) for r in rows) + "\n]}\n")
+
+
+def write_summaries(con: duckdb.DuckDBPyConnection) -> None:
+    """state_summary.json and county_summary.json: what the dashboard's first
+    paint draws before the in-browser database has loaded."""
+    _write_bytes(STATE_SUMMARY, _summary(con, "v_state_summary", "state_code").encode("utf-8"))
+    _write_bytes(COUNTY_SUMMARY, _summary(con, "v_county_summary", "county_fips").encode("utf-8"))
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="DuckDB file to write")
-    ap.add_argument("--parquet", type=Path, help="also export every table and view as Parquet here")
+    ap.add_argument("--publish", action="store_true",
+                    help="also write the published files: Parquet in data/db/parquet/ and the state and "
+                         "county summaries in data/db/")
     args = ap.parse_args(argv)
 
     # Build in a temporary file and move it into place only once parity
@@ -274,18 +322,23 @@ def main(argv: list[str] | None = None) -> int:
                 for p in problems:
                     print(f"  - {p}", file=sys.stderr)
                 return 1
-            if args.parquet:
-                export_parquet(con, args.parquet)
+            if args.publish:
+                export_parquet(con)
+                write_summaries(con)
             counts = {t: con.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for t in TABLES}
         finally:
             con.close()
         tmp_db.replace(args.out)
 
-    print(f"build_database: wrote {args.out.relative_to(ROOT) if args.out.is_relative_to(ROOT) else args.out}")
+    def rel(path: Path) -> Path:
+        return path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+
+    print(f"build_database: wrote {rel(args.out)}")
     for t, n in counts.items():
         print(f"  {t:<24} {n:>7}")
-    if args.parquet:
-        print(f"  parquet: {len(TABLES) + len(VIEWS)} files in {args.parquet}")
+    if args.publish:
+        print(f"  published: {len(TABLES) + len(VIEWS)} Parquet files in {rel(PARQUET_DIR)}, "
+              f"{STATE_SUMMARY.name}, {COUNTY_SUMMARY.name}")
     print("  parity with headline_metrics.json: ok")
     return 0
 
