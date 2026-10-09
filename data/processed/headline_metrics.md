@@ -8,32 +8,33 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 390 | 82 |
-| Severe (severity 3 or 4) | 331 | 74 |
+| Instruments | 395 | 83 |
+| Severe (severity 3 or 4) | 332 | 75 |
 | States | 43 | 26 |
 | Evidence: compiled_flagged | 30 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 39 | 6 |
-| Evidence: report_citation | 260 | 0 |
-| Verification: verified | 39 | 6 |
+| Evidence: primary_source | 40 | 7 |
+| Evidence: report_citation | 264 | 0 |
+| Verification: verified | 40 | 7 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 351 | 76 |
+| Verification: unverified | 355 | 76 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-611 published rows describe 472 instruments.
+619 published rows describe 478 instruments.
 
 ## Contested projects
 
-165 projects; 125 with a confirmed outcome; 125 verified (backed by a news article or court record that was read), 40 resting on a compiled report only.
+167 projects; 125 with a confirmed outcome; 127 verified (backed by a news article or court record that was read), 40 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
 | advanced_confirmed | 55 |
+| advanced_unverified | 1 |
 | blocked_confirmed | 70 |
 | blocked_unverified | 10 |
 | needs_review | 2 |
-| pending | 28 |
+| pending | 29 |
 
 ## Cases
 

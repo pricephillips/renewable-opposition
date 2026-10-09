@@ -69,6 +69,9 @@ promotion to the id the build gives the row, is what the build uses, so a
 corrected description or source URL never renumbers the record. A technology
 the queue row no longer lists drops its seed row; a new one adds a row.
 
+Contested-project severity: a typed severity_score is kept; otherwise it is
+scored by build_sabin_seeds.project_severity from the outcome its status maps to.
+
 Case severity: a reviewer may set severity_score on a candidate; otherwise it
 defaults to 3, the contested-projects score for "litigation filed".
 
@@ -87,7 +90,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_sabin_seeds import (  # noqa: E402
     MECHANISM_TYPE, OUTCOME, RESTRICTION_STATUS, RESTRICTION_TECH, driving_type, finalize_outcome,
-    restriction_severity, text_about,
+    project_severity, restriction_severity, text_about,
 )
 from build_seed_outputs import REQUIRED, normalize_row, record_id  # noqa: E402
 from classify import INSTRUMENT_KINDS, SOURCE_KINDS  # noqa: E402
@@ -145,11 +148,21 @@ def provenance(row: dict, kind: str, auto_on: str | None = None) -> str:
     return "; ".join(notes)
 
 
-def queue_id(row: dict) -> str:
-    """A stable key for a queue row, assigned once on promotion."""
+def queue_id(row: dict, taken: set[str] | None = None) -> str:
+    """A key for a queue row, assigned once on promotion and stored, so later
+    corrections never change it. Two rows from one source and place (three
+    ordinances reported in one article) get distinct keys: the technology is
+    part of the hash, and a remaining collision with a key in `taken` gets a
+    numeric suffix."""
     raw = "|".join((row.get(k) or "").strip().lower() for k in
-                   ("source_id", "entity_type", "state", "county", "municipality", "project_name", "extracted_at"))
-    return "q_" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+                   ("source_id", "entity_type", "state", "county", "municipality", "project_name", "technology",
+                    "extracted_at"))
+    base = "q_" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+    qid, n = base, 1
+    while taken and qid in taken:
+        n += 1
+        qid = f"{base}-{n}"
+    return qid
 
 
 def evidence(row: dict) -> dict:
@@ -199,6 +212,10 @@ def queue_to_seed(row: dict, auto_on: str | None = None) -> dict:
         # never *_confirmed.
         out["outcome"], out["finality_evidence"] = finalize_outcome(
             OUTCOME.get((row.get("status") or "").strip(), "needs_review"), [])
+        # Scored by the Sabin rule (build_sabin_seeds.project_severity) when no
+        # severity is typed; a queue row records no litigation of its own.
+        if not out.get("severity_score"):
+            out["severity_score"] = project_severity(out["outcome"], False)
     if etype == "case":
         out["case_id"] = case_id(row.get("project_name", ""), row.get("court_level", ""), row.get("docket_number", ""))
         # cases_seed.csv has no filing-date column; keep the date in the notes.
@@ -410,6 +427,7 @@ def main() -> int:
 
     queue = read_csv(QUEUE_PATH) if QUEUE_PATH.exists() else []
     errors: list[str] = []
+    taken = {r.get("queue_id") for r in queue if r.get("queue_id")}
     resync_rows = []
     for i, row in enumerate(queue, start=2):
         where = f"queue.csv row {i}"
@@ -428,7 +446,8 @@ def main() -> int:
             problems += [f"{where}: {w}" for w in why]
             continue
         etype = row["entity_type"]
-        qid = row.get("queue_id") or queue_id(row)
+        qid = row.get("queue_id") or queue_id(row, taken)
+        taken.add(qid)
         for r in seed_rows:
             r["queue_id"] = qid
             r["pinned_id"] = pin(SEED_FOR[etype][0], r)
