@@ -6,10 +6,10 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 0 | 4 |
+| restrictions | 0 | 0 | 0 |
 | contested_projects | 0 | 0 | 0 |
 | cases | 0 | 0 | 0 |
-| state_policies | 61 | 0 | 0 |
+| state_policies | 96 | 0 | 0 |
 
 ## Tracked field changes
 
@@ -17,19 +17,26 @@ No changes to outcome, status, case_status, finality_evidence, severity_score.
 
 ## Detail
 
-### restrictions
-
-| @@ | id | state | jurisdiction | primary_source_verdict | primary_source_access | primary_source_url | evidence_level | verification | primary_source_checked_on |
-|---|---|---|---|---|---|---|---|---|---|
-| -> | res_42b4a46830 | NY | New Lisbon Town | ->confirmed | ->opened | ->https://townofnewlisbonny.gov/wp-content/uploads/2012/04/Local-Law-2-of-2017.pdf | compiled_flagged->primary_source | unverified->verified | ->2026-10-09 |
-| -> | res_69535de7dc | IA | Fremont County | ->confirmed | ->opened | ->https://fremontia.socs.net/vimages/shared/vnews/stories/5cad3edf734e1/Wind_Energy_Conversion_Systems_-_Final_Draft.pdf | compiled_flagged->primary_source | unverified->verified | ->2026-10-09 |
-| -> | res_b0f2b57d5e | OR | Crook County | ->confirmed | ->opened | ->https://www.codepublishing.com/OR/CrookCounty/html/CrookCounty18/CrookCounty18161.html | compiled_flagged->primary_source | unverified->verified | ->2026-10-09 |
-| -> | res_1d1d612c38 | TX | Hallsville City | ->confirmed | ->opened | ->https://cityofhallsvilletx.com/wp-content/uploads/2018/02/Ordinance-2016-06-Zoning-Ordinance-web.pdf | compiled_flagged->primary_source | unverified->verified | ->2026-10-09 |
-
 ### state_policies
 
 | @@ | id | state |
 |---|---|---|
+| +++ | AL-siting_authority-1 | AL |
+| +++ | AL-other-1 | AL |
+| +++ | AR-state_setback_standard-1 | AR |
+| +++ | AZ-siting_authority-1 | AZ |
+| +++ | CA-siting_authority-1 | CA |
+| +++ | CA-local_preemption-1 | CA |
+| +++ | CO-siting_authority-1 | CO |
+| +++ | CO-local_preemption-1 | CO |
+| +++ | CT-local_preemption-1 | CT |
+| +++ | CT-state_setback_standard-1 | CT |
+| +++ | CT-other-1 | CT |
+| +++ | DE-siting_authority-1 | DE |
+| +++ | FL-siting_authority-1 | FL |
+| +++ | FL-local_preemption-1 | FL |
+| +++ | FL-local_preemption-2 | FL |
+| +++ | FL-state_moratorium-1 | FL |
 | +++ | HI-siting_authority-1 | HI |
 | +++ | HI-other-1 | HI |
 | +++ | ID-siting_authority-1 | ID |
@@ -91,3 +98,22 @@ No changes to outcome, status, case_status, finality_evidence, severity_score.
 | +++ | PA-siting_authority-1 | PA |
 | +++ | RI-siting_authority-1 | RI |
 | +++ | RI-local_preemption-1 | RI |
+| +++ | SC-siting_authority-1 | SC |
+| +++ | SC-local_preemption-1 | SC |
+| +++ | SC-state_setback_standard-1 | SC |
+| +++ | SD-siting_authority-1 | SD |
+| +++ | SD-state_setback_standard-1 | SD |
+| +++ | TN-other-1 | TN |
+| +++ | TX-siting_authority-1 | TX |
+| +++ | VA-other-1 | VA |
+| +++ | VT-siting_authority-1 | VT |
+| +++ | VT-local_preemption-1 | VT |
+| +++ | VT-state_setback_standard-1 | VT |
+| +++ | WA-siting_authority-1 | WA |
+| +++ | WA-local_preemption-1 | WA |
+| +++ | WI-siting_authority-1 | WI |
+| +++ | WI-local_preemption-1 | WI |
+| +++ | WI-local_preemption-2 | WI |
+| +++ | WI-state_setback_standard-1 | WI |
+| +++ | WY-siting_authority-1 | WY |
+| +++ | WY-state_setback_standard-1 | WY |
