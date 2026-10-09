@@ -15,6 +15,12 @@ removed and modified rows; every change to a tracked field (outcome, status,
 case_status, finality_evidence, severity_score) with both values; and up to
 DETAIL_CAP detail rows.
 
+When data/review/sabin_edition_crosswalk.csv changed since the base, a
+"Sabin edition status changes" section lists every matched record whose
+status the new edition changed, old and new values side by side (the
+published row keeps its id, so the same change also shows as a tracked field
+change above).
+
 The output carries no timestamp or commit hash, so a build that changes no
 published data rewrites the file byte for byte and build-data.yml has nothing
 to commit.
@@ -40,11 +46,12 @@ import daff
 ROOT = Path(__file__).resolve().parent.parent
 PROCESSED_REL = "data/processed"
 OUT_MD = ROOT / PROCESSED_REL / "diff_summary.md"
-ENTITIES = ("restrictions", "contested_projects", "cases")
+ENTITIES = ("restrictions", "contested_projects", "cases", "state_policies")
 TRACKED = ("outcome", "status", "case_status", "finality_evidence", "severity_score")
 # Human-readable label for a row, first non-empty field wins.
 LABEL_FIELDS = ("project_name", "case_name", "jurisdiction")
 DETAIL_CAP = 200
+CROSSWALK_REL = "data/review/sabin_edition_crosswalk.csv"
 
 
 def read_rows(text: str) -> list[list[str]]:
@@ -234,6 +241,32 @@ def render(results: dict[str, list[list[str]] | None]) -> str:
     return "\n".join(lines).rstrip("\n") + "\n"
 
 
+def edition_changes(old_text: str | None, new_text: str | None) -> list[dict[str, str]]:
+    """Crosswalk rows whose status changed in the new edition and that are new
+    or different since the base (all of them when the base had no crosswalk)."""
+    if not new_text:
+        return []
+
+    def rows(text: str | None) -> list[dict[str, str]]:
+        return list(csv.DictReader(io.StringIO((text or "").lstrip("\ufeff")))) if text else []
+
+    before = {(r.get("rec_id"), r.get("entry_2026"), r.get("status_2026")) for r in rows(old_text)}
+    return [r for r in rows(new_text) if r.get("status_changed") == "yes"
+            and (r.get("rec_id"), r.get("entry_2026"), r.get("status_2026")) not in before]
+
+
+def render_edition(changes: list[dict[str, str]]) -> str:
+    if not changes:
+        return ""
+    lines = ["", "## Sabin edition status changes", "",
+             "Matched records whose status the September 2026 edition changed "
+             f"({CROSSWALK_REL}). The new status is the one published.", "",
+             "| 2025 record | 2026 entry | Name | Status 2025 | Status 2026 |", "|---|---|---|---|---|"]
+    lines += [f"| {c['rec_id']} | {c['entry_2026']} | {esc(c.get('name_2025', ''))} | {c['status_2025']} | "
+              f"{c['status_2026']} |" for c in changes]
+    return "\n".join(lines) + "\n"
+
+
 def build(base: str) -> str:
     results: dict[str, list[list[str]] | None] = {}
     for entity in ENTITIES:
@@ -244,7 +277,10 @@ def build(base: str) -> str:
             continue
         new = (ROOT / rel).read_text(encoding="utf-8")
         results[entity] = hilite(read_rows(old), read_rows(new))
-    return render(results)
+    crosswalk = ROOT / CROSSWALK_REL
+    edition = edition_changes(at_rev(base, CROSSWALK_REL),
+                              crosswalk.read_text(encoding="utf-8") if crosswalk.exists() else None)
+    return render(results) + render_edition(edition)
 
 
 def main(argv: list[str] | None = None) -> int:
