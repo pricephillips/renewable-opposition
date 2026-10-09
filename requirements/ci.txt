@@ -6,6 +6,8 @@ charset-normalizer==3.5.1
     # via requests
 daff==1.4.2
     # via -r ci.in
+duckdb==1.5.6
+    # via -r ci.in
 et-xmlfile==2.0.0
     # via openpyxl
 idna==3.20
