@@ -103,6 +103,8 @@ def data(tmp_path_factory):
     mp = pytest.MonkeyPatch()
     mp.setattr(bso, "PROCESSED_DIR", out)
     mp.setattr(bso, "FIPS_MISSES", out / "fips_misses.csv")
+    import facility_matches
+    mp.setattr(facility_matches, "WORKLIST_PATH", out / "facility_matches.csv")
     assert bso.main() == 0
     mp.setattr(sp, "PROCESSED", out)
     d = sp.Data()
