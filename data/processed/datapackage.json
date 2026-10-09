@@ -1,0 +1,1163 @@
+{
+  "name": "renewable-opposition",
+  "title": "Local opposition to renewable energy facilities in the United States",
+  "description": "Restrictions, contested projects, cases, NREL siting standards and state siting law, each row traceable to its source. Count instrument_id, not rows; restrictions that also cover data centers are a separate figure. The numbers to quote are in headline_metrics.json.",
+  "homepage": "https://github.com/pricephillips/renewable-opposition",
+  "sources": [
+    {
+      "title": "Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (June 2025 and September 2026 editions)",
+      "path": "https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-september-2026-edition",
+      "license": "Reuse terms not stated; cited as the compiled source of each row"
+    },
+    {
+      "title": "Moratorium Nation (mjbommar/moratorium-data-2026)",
+      "path": "https://github.com/mjbommar/moratorium-data-2026",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "title": "NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758 and 10.25984/3363739",
+      "path": "https://data.openei.org/submissions/8519",
+      "license": "CC-BY-4.0"
+    },
+    {
+      "title": "EIA-860M; U.S. Wind Turbine Database (USGS, LBNL, ACP); U.S. Large-Scale Solar Photovoltaic Database (USGS, LBNL)",
+      "path": "https://www.eia.gov/electricity/data/eia860m/",
+      "license": "U.S. government work, public domain"
+    },
+    {
+      "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+      "path": "https://github.com/pricephillips/renewable-opposition",
+      "license": "see each evidence URL"
+    },
+    {
+      "title": "U.S. Census Bureau 2024 county boundaries",
+      "path": "https://www.census.gov/",
+      "license": "U.S. government work, public domain"
+    }
+  ],
+  "resources": [
+    {
+      "name": "restrictions",
+      "path": "restrictions.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
+      "rows": 3625,
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Stable record id; never renumbered between builds."
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "technology",
+            "type": "string"
+          },
+          {
+            "name": "restriction_type",
+            "type": "string"
+          },
+          {
+            "name": "severity_score",
+            "type": "integer",
+            "description": "1 mild friction, 2 material burden, 3 likely de facto ban, 4 moratorium or ban (restrictions); 4 blocked to 1 advanced (contested projects)."
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "jurisdiction",
+            "type": "string"
+          },
+          {
+            "name": "jurisdiction_type",
+            "type": "string"
+          },
+          {
+            "name": "date_enacted_iso",
+            "type": "string"
+          },
+          {
+            "name": "date_text",
+            "type": "string"
+          },
+          {
+            "name": "mechanisms",
+            "type": "string"
+          },
+          {
+            "name": "severity_basis",
+            "type": "string",
+            "description": "The rule that set severity_score."
+          },
+          {
+            "name": "long_description",
+            "type": "string"
+          },
+          {
+            "name": "moratorium_id",
+            "type": "string"
+          },
+          {
+            "name": "source_record_id",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "source_url",
+            "type": "string"
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          },
+          {
+            "name": "sabin_edition",
+            "type": "string"
+          },
+          {
+            "name": "edition_status",
+            "type": "string"
+          },
+          {
+            "name": "pinned_id",
+            "type": "string"
+          },
+          {
+            "name": "source_county_fips",
+            "type": "integer"
+          },
+          {
+            "name": "current_end_date_iso",
+            "type": "string"
+          },
+          {
+            "name": "latitude",
+            "type": "number"
+          },
+          {
+            "name": "longitude",
+            "type": "number"
+          },
+          {
+            "name": "needs_verification",
+            "type": "string"
+          },
+          {
+            "name": "sectors",
+            "type": "string"
+          },
+          {
+            "name": "legal_basis",
+            "type": "string"
+          },
+          {
+            "name": "primary_source_verdict",
+            "type": "string"
+          },
+          {
+            "name": "queue_id",
+            "type": "string"
+          },
+          {
+            "name": "source_kind",
+            "type": "string"
+          },
+          {
+            "name": "primary_source_access",
+            "type": "string"
+          },
+          {
+            "name": "primary_source_url",
+            "type": "string"
+          },
+          {
+            "name": "nrel_id",
+            "type": "string"
+          },
+          {
+            "name": "ordinance_url",
+            "type": "string"
+          },
+          {
+            "name": "nrel_jurisdiction_type",
+            "type": "string"
+          },
+          {
+            "name": "conflicts_with",
+            "type": "string"
+          },
+          {
+            "name": "source_id",
+            "type": "string",
+            "description": "Hash of the normalized source URL; joins sources.csv."
+          },
+          {
+            "name": "instrument_id",
+            "type": "string",
+            "description": "One ordinance, moratorium, project or case. Count these, not rows."
+          },
+          {
+            "name": "scope",
+            "type": "string",
+            "description": "renewables_only, or multi_sector_data_centers when the instrument also covers data centers."
+          },
+          {
+            "name": "evidence_level",
+            "type": "string",
+            "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
+          },
+          {
+            "name": "verification",
+            "type": "string",
+            "description": "verified (the instrument, minutes, a read news article or a court record backs it), located (primary source found, not yet read) or unverified."
+          },
+          {
+            "name": "county_fips",
+            "type": "integer",
+            "description": "The one county a county-level record covers; the county the map paints."
+          },
+          {
+            "name": "county_fips_all",
+            "type": "string",
+            "description": "Every county the record touches, semicolon-separated."
+          },
+          {
+            "name": "county_fips_method",
+            "type": "string",
+            "description": "How county_fips_all was found: name, names, point, place, place_text, override."
+          },
+          {
+            "name": "primary_source_checked_on",
+            "type": "string"
+          },
+          {
+            "name": "primary_source_archived_url",
+            "type": "string"
+          },
+          {
+            "name": "placement_url",
+            "type": "string"
+          },
+          {
+            "name": "placement_access",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (June 2025 and September 2026 editions)",
+          "path": "https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-september-2026-edition",
+          "license": "Reuse terms not stated; cited as the compiled source of each row"
+        },
+        {
+          "title": "Moratorium Nation (mjbommar/moratorium-data-2026)",
+          "path": "https://github.com/mjbommar/moratorium-data-2026",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "title": "NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758 and 10.25984/3363739",
+          "path": "https://data.openei.org/submissions/8519",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ],
+      "json_path": "restrictions.json"
+    },
+    {
+      "name": "contested-projects",
+      "path": "contested_projects.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Project-level opposition, one row per technology of one project, with the plant the project matches in the federal inventories.",
+      "rows": 576,
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Stable record id; never renumbered between builds."
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "project_name",
+            "type": "string"
+          },
+          {
+            "name": "technology",
+            "type": "string"
+          },
+          {
+            "name": "severity_score",
+            "type": "integer",
+            "description": "1 mild friction, 2 material burden, 3 likely de facto ban, 4 moratorium or ban (restrictions); 4 blocked to 1 advanced (contested projects)."
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "outcome",
+            "type": "string",
+            "description": "blocked_confirmed, blocked_unverified, restricted_conditional, advanced_confirmed, advanced_unverified, pending or needs_review."
+          },
+          {
+            "name": "finality_evidence",
+            "type": "string",
+            "description": "What backs the outcome: court_ruling, resolution, lead, outcome_label_only or none."
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "has_litigation",
+            "type": "string"
+          },
+          {
+            "name": "opposition_type",
+            "type": "string"
+          },
+          {
+            "name": "county",
+            "type": "string"
+          },
+          {
+            "name": "municipality",
+            "type": "string"
+          },
+          {
+            "name": "event_date_text",
+            "type": "string"
+          },
+          {
+            "name": "capacity_mw",
+            "type": "string"
+          },
+          {
+            "name": "area_acres",
+            "type": "string"
+          },
+          {
+            "name": "long_description",
+            "type": "string"
+          },
+          {
+            "name": "source_record_id",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "source_url",
+            "type": "string"
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          },
+          {
+            "name": "opposition_groups",
+            "type": "string"
+          },
+          {
+            "name": "group_sources",
+            "type": "string"
+          },
+          {
+            "name": "sabin_edition",
+            "type": "string"
+          },
+          {
+            "name": "edition_status",
+            "type": "string"
+          },
+          {
+            "name": "pinned_id",
+            "type": "string"
+          },
+          {
+            "name": "source_kind",
+            "type": "string"
+          },
+          {
+            "name": "source_access",
+            "type": "string"
+          },
+          {
+            "name": "queue_id",
+            "type": "string"
+          },
+          {
+            "name": "source_id",
+            "type": "string",
+            "description": "Hash of the normalized source URL; joins sources.csv."
+          },
+          {
+            "name": "instrument_id",
+            "type": "string",
+            "description": "One ordinance, moratorium, project or case. Count these, not rows."
+          },
+          {
+            "name": "evidence_level",
+            "type": "string",
+            "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
+          },
+          {
+            "name": "verification",
+            "type": "string",
+            "description": "verified (the instrument, minutes, a read news article or a court record backs it), located (primary source found, not yet read) or unverified."
+          },
+          {
+            "name": "county_fips",
+            "type": "integer",
+            "description": "The one county a county-level record covers; the county the map paints."
+          },
+          {
+            "name": "county_fips_all",
+            "type": "string",
+            "description": "Every county the record touches, semicolon-separated."
+          },
+          {
+            "name": "county_fips_method",
+            "type": "string",
+            "description": "How county_fips_all was found: name, names, point, place, place_text, override."
+          },
+          {
+            "name": "facility_match",
+            "type": "string",
+            "description": "strong when the project matches one plant in EIA-860M, USWTDB or USPVDB by name, county and size (scripts/facility_matches.py). Never changes the outcome."
+          },
+          {
+            "name": "facility_ids",
+            "type": "string",
+            "description": "The matched plant's rows in data/reference/facilities.csv."
+          },
+          {
+            "name": "facility_name",
+            "type": "string"
+          },
+          {
+            "name": "facility_status",
+            "type": "string",
+            "description": "What the inventory records for the plant: operating, under_construction, planned, canceled_or_postponed or retired."
+          },
+          {
+            "name": "facility_capacity_mw",
+            "type": "number"
+          },
+          {
+            "name": "facility_year",
+            "type": "integer"
+          },
+          {
+            "name": "facility_latitude",
+            "type": "number"
+          },
+          {
+            "name": "facility_longitude",
+            "type": "number"
+          },
+          {
+            "name": "facility_note",
+            "type": "string",
+            "description": "The inventory entry the match rests on, in words."
+          },
+          {
+            "name": "facility_conflict",
+            "type": "string",
+            "description": "Set when the plant's status contradicts the published outcome."
+          },
+          {
+            "name": "resolution_url",
+            "type": "string"
+          },
+          {
+            "name": "resolution_access",
+            "type": "string"
+          },
+          {
+            "name": "resolution_archived_url",
+            "type": "string"
+          },
+          {
+            "name": "resolution_date",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (June 2025 and September 2026 editions)",
+          "path": "https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-september-2026-edition",
+          "license": "Reuse terms not stated; cited as the compiled source of each row"
+        },
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        },
+        {
+          "title": "EIA-860M; U.S. Wind Turbine Database (USGS, LBNL, ACP); U.S. Large-Scale Solar Photovoltaic Database (USGS, LBNL)",
+          "path": "https://www.eia.gov/electricity/data/eia860m/",
+          "license": "U.S. government work, public domain"
+        }
+      ],
+      "json_path": "contested_projects.json"
+    },
+    {
+      "name": "cases",
+      "path": "cases.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Litigation and formal proceedings with a court record.",
+      "rows": 39,
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Stable record id; never renumbered between builds."
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "project_name",
+            "type": "string"
+          },
+          {
+            "name": "technology",
+            "type": "string"
+          },
+          {
+            "name": "court_level",
+            "type": "string"
+          },
+          {
+            "name": "severity_score",
+            "type": "integer",
+            "description": "1 mild friction, 2 material burden, 3 likely de facto ban, 4 moratorium or ban (restrictions); 4 blocked to 1 advanced (contested projects)."
+          },
+          {
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "name": "case_name",
+            "type": "string"
+          },
+          {
+            "name": "court",
+            "type": "string"
+          },
+          {
+            "name": "docket_number",
+            "type": "string"
+          },
+          {
+            "name": "case_status",
+            "type": "string"
+          },
+          {
+            "name": "linked_entity",
+            "type": "string"
+          },
+          {
+            "name": "source_record_id",
+            "type": "string"
+          },
+          {
+            "name": "case_id",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "source_url",
+            "type": "string"
+          },
+          {
+            "name": "case_source_url",
+            "type": "string"
+          },
+          {
+            "name": "reviewer_notes",
+            "type": "string"
+          },
+          {
+            "name": "source_id",
+            "type": "string",
+            "description": "Hash of the normalized source URL; joins sources.csv."
+          },
+          {
+            "name": "instrument_id",
+            "type": "string",
+            "description": "One ordinance, moratorium, project or case. Count these, not rows."
+          },
+          {
+            "name": "evidence_level",
+            "type": "string",
+            "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
+          },
+          {
+            "name": "verification",
+            "type": "string",
+            "description": "verified (the instrument, minutes, a read news article or a court record backs it), located (primary source found, not yet read) or unverified."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (June 2025 and September 2026 editions)",
+          "path": "https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-september-2026-edition",
+          "license": "Reuse terms not stated; cited as the compiled source of each row"
+        },
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ],
+      "json_path": "cases.json"
+    },
+    {
+      "name": "siting-standards",
+      "path": "siting_standards.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Every feature of a local wind or solar siting ordinance in NREL's 2025 databases.",
+      "rows": 23778,
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Stable record id; never renumbered between builds."
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "jurisdiction",
+            "type": "string"
+          },
+          {
+            "name": "jurisdiction_type",
+            "type": "string"
+          },
+          {
+            "name": "nrel_jurisdiction_type",
+            "type": "string"
+          },
+          {
+            "name": "county_fips",
+            "type": "integer",
+            "description": "The one county a county-level record covers; the county the map paints."
+          },
+          {
+            "name": "county_fips_all",
+            "type": "integer",
+            "description": "Every county the record touches, semicolon-separated."
+          },
+          {
+            "name": "county_fips_method",
+            "type": "string",
+            "description": "How county_fips_all was found: name, names, point, place, place_text, override."
+          },
+          {
+            "name": "technology",
+            "type": "string"
+          },
+          {
+            "name": "feature",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "name": "units",
+            "type": "string"
+          },
+          {
+            "name": "setback_adder",
+            "type": "integer"
+          },
+          {
+            "name": "min_setback_ft",
+            "type": "number"
+          },
+          {
+            "name": "max_setback_ft",
+            "type": "integer"
+          },
+          {
+            "name": "summary",
+            "type": "string"
+          },
+          {
+            "name": "section",
+            "type": "string"
+          },
+          {
+            "name": "ordinance_year",
+            "type": "integer"
+          },
+          {
+            "name": "ordinance_url",
+            "type": "string"
+          },
+          {
+            "name": "nrel_fips_code",
+            "type": "integer"
+          },
+          {
+            "name": "county_name",
+            "type": "string"
+          },
+          {
+            "name": "subdivision",
+            "type": "string"
+          },
+          {
+            "name": "restricting",
+            "type": "string"
+          },
+          {
+            "name": "restriction_instrument_id",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "source_url",
+            "type": "string"
+          },
+          {
+            "name": "evidence_level",
+            "type": "string",
+            "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
+          },
+          {
+            "name": "verification",
+            "type": "string",
+            "description": "verified (the instrument, minutes, a read news article or a court record backs it), located (primary source found, not yet read) or unverified."
+          },
+          {
+            "name": "verified_by",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758 and 10.25984/3363739",
+          "path": "https://data.openei.org/submissions/8519",
+          "license": "CC-BY-4.0"
+        }
+      ],
+      "json_path": "siting_standards.json"
+    },
+    {
+      "name": "state-policies",
+      "path": "state_policies.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "State siting law, verified against the statute.",
+      "rows": 0,
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "description": "Stable record id; never renumbered between builds."
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "technology",
+            "type": "string"
+          },
+          {
+            "name": "policy_type",
+            "type": "string"
+          },
+          {
+            "name": "who_decides",
+            "type": "string"
+          },
+          {
+            "name": "state_body",
+            "type": "string"
+          },
+          {
+            "name": "threshold_mw",
+            "type": "string"
+          },
+          {
+            "name": "summary",
+            "type": "string"
+          },
+          {
+            "name": "statute_citation",
+            "type": "string"
+          },
+          {
+            "name": "statute_url",
+            "type": "string"
+          },
+          {
+            "name": "lbnl_reference",
+            "type": "string"
+          },
+          {
+            "name": "sabin_record_ids",
+            "type": "string"
+          },
+          {
+            "name": "amendments_note",
+            "type": "string"
+          },
+          {
+            "name": "evidence_level",
+            "type": "string",
+            "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
+          },
+          {
+            "name": "verification",
+            "type": "string",
+            "description": "verified (the instrument, minutes, a read news article or a court record backs it), located (primary source found, not yet read) or unverified."
+          },
+          {
+            "name": "reviewer",
+            "type": "string"
+          },
+          {
+            "name": "reviewed_on",
+            "type": "string"
+          },
+          {
+            "name": "review_access",
+            "type": "string"
+          },
+          {
+            "name": "review_archived_url",
+            "type": "string"
+          },
+          {
+            "name": "source",
+            "type": "string"
+          },
+          {
+            "name": "source_url",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ],
+      "json_path": "state_policies.json"
+    },
+    {
+      "name": "state-policies-held",
+      "path": "state_policies_held.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "State siting law rows held for review, with the reason.",
+      "rows": 74,
+      "schema": {
+        "fields": [
+          {
+            "name": "policy_id",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "policy_type",
+            "type": "string"
+          },
+          {
+            "name": "technology",
+            "type": "string"
+          },
+          {
+            "name": "statute_citation",
+            "type": "string"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ]
+    },
+    {
+      "name": "county-summary",
+      "path": "county_summary.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per county: published records counted by instrument, and how the county stands (record, negative check or none).",
+      "rows": 3222,
+      "schema": {
+        "fields": [
+          {
+            "name": "county_fips",
+            "type": "integer",
+            "description": "The one county a county-level record covers; the county the map paints."
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "county",
+            "type": "string"
+          },
+          {
+            "name": "coverage",
+            "type": "string",
+            "description": "record (anything published), negative_check (checked, nothing found) or none (not looked at)."
+          },
+          {
+            "name": "restrictions_renewables",
+            "type": "integer"
+          },
+          {
+            "name": "restrictions_renewables_severe",
+            "type": "integer"
+          },
+          {
+            "name": "restrictions_renewables_verified",
+            "type": "integer"
+          },
+          {
+            "name": "restrictions_multi_sector",
+            "type": "integer"
+          },
+          {
+            "name": "contested_projects",
+            "type": "integer"
+          },
+          {
+            "name": "projects_blocked",
+            "type": "integer"
+          },
+          {
+            "name": "projects_advanced",
+            "type": "integer"
+          },
+          {
+            "name": "projects_pending",
+            "type": "integer"
+          },
+          {
+            "name": "projects_matched_to_plant",
+            "type": "integer"
+          },
+          {
+            "name": "cases",
+            "type": "integer"
+          },
+          {
+            "name": "siting_standard_jurisdictions",
+            "type": "integer"
+          },
+          {
+            "name": "negative_check_on",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (June 2025 and September 2026 editions)",
+          "path": "https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-september-2026-edition",
+          "license": "Reuse terms not stated; cited as the compiled source of each row"
+        },
+        {
+          "title": "Moratorium Nation (mjbommar/moratorium-data-2026)",
+          "path": "https://github.com/mjbommar/moratorium-data-2026",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "title": "NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758 and 10.25984/3363739",
+          "path": "https://data.openei.org/submissions/8519",
+          "license": "CC-BY-4.0"
+        },
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        },
+        {
+          "title": "U.S. Census Bureau 2024 county boundaries",
+          "path": "https://www.census.gov/",
+          "license": "U.S. government work, public domain"
+        }
+      ],
+      "json_path": "county_summary.json"
+    },
+    {
+      "name": "sources",
+      "path": "sources.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "One row per cited source document, with its Internet Archive snapshot.",
+      "rows": 52,
+      "schema": {
+        "fields": [
+          {
+            "name": "source_id",
+            "type": "string",
+            "description": "Hash of the normalized source URL; joins sources.csv."
+          },
+          {
+            "name": "url",
+            "type": "string"
+          },
+          {
+            "name": "normalized_url",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "record_count",
+            "type": "integer"
+          },
+          {
+            "name": "entities",
+            "type": "string"
+          },
+          {
+            "name": "archived_url",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ],
+      "json_path": "sources.json"
+    },
+    {
+      "name": "group-registry",
+      "path": "group_registry.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Opposition groups named in the records, with the sources that name them.",
+      "rows": 802,
+      "schema": {
+        "fields": [
+          {
+            "name": "canonical_id",
+            "type": "string"
+          },
+          {
+            "name": "canonical_name",
+            "type": "string"
+          },
+          {
+            "name": "variants",
+            "type": "string"
+          },
+          {
+            "name": "n_projects",
+            "type": "integer"
+          },
+          {
+            "name": "states",
+            "type": "string"
+          },
+          {
+            "name": "first_seen",
+            "type": "string"
+          },
+          {
+            "name": "last_seen",
+            "type": "string"
+          },
+          {
+            "name": "source_urls",
+            "type": "string"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (June 2025 and September 2026 editions)",
+          "path": "https://climate.law.columbia.edu/content/opposition-renewable-energy-facilities-united-states-september-2026-edition",
+          "license": "Reuse terms not stated; cited as the compiled source of each row"
+        },
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ]
+    }
+  ]
+}
