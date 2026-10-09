@@ -195,6 +195,9 @@ renewable-opposition/
 │   │   ├── sabin_restrictions_review.csv   ← Sabin restriction rows held back, with reasons
 │   │   ├── coverage_gaps.csv               ← moratoria found in only one source
 │   │   ├── place_overrides.csv             ← reviewer counties with evidence (hand-edited)
+│   │   ├── negative_checks.csv             ← "checked, nothing found" results per county (hand-edited)
+│   │   ├── profile_requests.csv            ← county code and date of every profile run (site_profile.py)
+│   │   ├── negative_check_worklist.csv     ← profiled counties still to check (written by the build)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   └── processed/                          ← canonical CSV + JSON outputs
@@ -288,7 +291,11 @@ Every record line names its sources. A record with a primary source prints it on
 
 The state line under the flags counts unplaced rows (nothing the build could match) apart from ambiguous ones (a town name shared by several counties).
 
-An empty section means nothing is recorded. It does not mean nothing happened.
+An empty section means nothing is recorded. It does not mean nothing happened, unless someone checked: see below.
+
+**Checked, nothing found.** `data/review/negative_checks.csv` is hand-edited, one row per check: `county_fips`, `state`, `county`, `scope` (`restrictions`, `projects` or `both`), `sources_checked` (a semicolon list of exactly what was searched, such as the county code library, the commission minutes archive for a date range, a named news search, or state PSC dockets), `checked_on` (YYYY-MM-DD), `result` (always `none_found`), `note` and `reviewer`. The build validates it (a 2024 county whose state matches, a date, at least one source checked) and stops on a bad row; it is never published as a record. When a county's restrictions or projects are empty and a matching check exists, the profile prints "Checked <sources> on <date>: none found" instead of "Nothing published", with a "stale" flag once the check is more than 12 months old. An adjacent county with nothing published prints its newest check the same way.
+
+Every profile run records the county code and the date, and nothing else (not who asked or why), in `data/review/profile_requests.csv`. Each build writes `data/review/negative_check_worklist.csv` from it: the profiled counties with no published restriction and no check covering restrictions, most recent request first, with the sources a check should cover.
 
 **Placement.** `county_fips` stays the one county a county-level record covers, and it is the only code the map paints. `county_fips_all` lists every county a record touches, and `county_fips_method` says how each was found:
 

@@ -23,6 +23,10 @@ source document, keyed by ``source_id`` (a hash of the normalized URL, so the
 same document cited by many records, or with a trailing slash or #fragment, is
 stored once).
 
+It validates data/review/negative_checks.csv (scripts/negative_checks.py;
+never published) and writes data/review/negative_check_worklist.csv: the
+counties profiled so far that have no restriction and no check yet.
+
 Exits non-zero, writing nothing, if any seed row fails validation.
 """
 from __future__ import annotations
@@ -36,6 +40,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import classify  # noqa: E402
 import geo  # noqa: E402
 import headline_metrics  # noqa: E402
+import negative_checks  # noqa: E402
 import qc_gate  # noqa: E402
 import resolutions  # noqa: E402
 from common import (  # noqa: E402
@@ -76,6 +81,20 @@ FIPS_MISSES = REVIEW_DIR / "fips_misses.csv"
 FIPS_MISS_FIELDS = ["entity", "id", "instrument_id", "state", "county_name", "reason", "county_fips_all"]
 # Cases carry no county of their own; a page places a case at its project.
 FIPS_ENTITIES = ("restrictions", "contested_projects")
+# Profiled counties with no restriction and no "checked, nothing found" row
+# yet (scripts/negative_checks.py). A worklist; nothing in it is published.
+NEGATIVE_WORKLIST = REVIEW_DIR / "negative_check_worklist.csv"
+
+
+def fips_states(lookup: dict[str, str]) -> dict[str, str]:
+    """FIPS -> two-letter state code, from the county lookup."""
+    by_name = {n.lower(): c for c, n in STATE_NAMES.items()}
+    out = {}
+    for k, v in lookup.items():
+        st = by_name.get(k.rpartition("|")[2])
+        if st:
+            out.setdefault(v, st)
+    return out
 
 
 def load_fips_lookup(path: Path | None = None) -> dict[str, str]:
@@ -293,6 +312,9 @@ def main() -> int:
             datasets[entity] = rows
     # Reviewer counties go last, over whatever classify.county_fips_all found.
     errors += resolutions.apply_place_overrides(datasets, geo.known)
+    states = fips_states(fips_lookup)
+    checks = negative_checks.load()
+    errors += negative_checks.validate(checks, geo.known, states.get)
     if errors:
         print("\n".join(errors), file=sys.stderr)
         print(f"{len(errors)} validation error(s); nothing written.", file=sys.stderr)
@@ -335,6 +357,17 @@ def main() -> int:
         hit = sum(1 for r in need if r.get("county_fips"))
         print(f"county_fips: {entity} {hit}/{len(need)} rows with a county have a FIPS")
     print(f"Wrote data/review/fips_misses.csv ({len(misses)} misses)")
+
+    restricted = {f for r in datasets.get("restrictions", [])
+                  for f in (r.get("county_fips_all") or "").split(";") if f}
+    for c in checks:
+        if negative_checks.covers(c, "restrictions") and c["county_fips"] in restricted:
+            print(f"Note: negative check for {c['county_fips']} ({c['checked_on']}) covers restrictions, "
+                  "but a restriction is now published there; the check is out of date")
+    todo = negative_checks.worklist(read_csv(negative_checks.REQUESTS_PATH), checks, restricted,
+                                    geo.name, lambda f: states.get(f, ""))
+    write_csv(NEGATIVE_WORKLIST, todo, negative_checks.WORKLIST_FIELDS)
+    print(f"Wrote data/review/negative_check_worklist.csv ({len(todo)} counties to check)")
 
     sources = collect_sources(datasets, archive)
     write_csv(PROCESSED_DIR / "sources.csv", sources, SOURCE_FIELDS)
