@@ -1,78 +1,79 @@
 {
   "restrictions": {
-    "rows": 611,
-    "instruments": 472,
+    "rows": 619,
+    "instruments": 478,
     "by_scope": {
       "renewables_only": {
-        "instruments": 390,
-        "severe_instruments": 331,
+        "instruments": 395,
+        "severe_instruments": 332,
         "states": 43,
         "by_status": {
-          "active": 324,
+          "active": 329,
           "extended": 59,
           "pending": 6,
           "unknown": 1
         },
         "by_technology": {
-          "battery_storage": 119,
-          "solar": 181,
-          "wind": 188
+          "battery_storage": 120,
+          "solar": 184,
+          "wind": 189
         },
         "by_evidence_level": {
           "compiled_flagged": 30,
           "compiled_record": 61,
-          "primary_source": 39,
-          "report_citation": 260
+          "primary_source": 40,
+          "report_citation": 264
         },
         "by_verification": {
-          "unverified": 351,
-          "verified": 39
+          "unverified": 355,
+          "verified": 40
         }
       },
       "multi_sector_data_centers": {
-        "instruments": 82,
-        "severe_instruments": 74,
+        "instruments": 83,
+        "severe_instruments": 75,
         "states": 26,
         "by_status": {
           "active": 66,
-          "extended": 8,
+          "extended": 9,
           "pending": 8
         },
         "by_technology": {
-          "battery_storage": 71,
-          "solar": 35,
-          "wind": 17
+          "battery_storage": 72,
+          "solar": 36,
+          "wind": 18
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
           "compiled_record": 67,
-          "primary_source": 6
+          "primary_source": 7
         },
         "by_verification": {
           "unverified": 76,
-          "verified": 6
+          "verified": 7
         }
       }
     }
   },
   "contested_projects": {
-    "rows": 165,
-    "projects": 165,
+    "rows": 167,
+    "projects": 167,
     "confirmed_outcomes": 125,
     "by_outcome": {
       "advanced_confirmed": 55,
+      "advanced_unverified": 1,
       "blocked_confirmed": 70,
       "blocked_unverified": 10,
       "needs_review": 2,
-      "pending": 28
+      "pending": 29
     },
     "by_evidence_level": {
       "confirmed": 125,
-      "report_citation": 40
+      "report_citation": 42
     },
     "by_verification": {
       "unverified": 40,
-      "verified": 125
+      "verified": 127
     }
   },
   "cases": {

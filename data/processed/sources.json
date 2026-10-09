@@ -27,6 +27,24 @@
     "archived_url": "https://web.archive.org/web/20251005222952/https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf"
   },
   {
+    "source_id": "src_a19958c3a465",
+    "url": "https://www.cherokeecountyks.gov/main/component/easyfolderlistingpro/?view=download&format=raw&data=eNpFUE1PwzAM_SvId7Rmmwq4R8QRCe08KcpatwvKRxVcJ2wI8d9Jmlac7Pfs9_RshULgD2OLMHozUICO8SAQtFUT8XnwfbLkXCKfX721mll7R4EfylpWQmIKVcgLhdBsoykRx3_TXCcEKReuoOcqdcpSgQ1CKW1l9VwwncamigKZWcXr4prh7kTsTYo5B-_2zb5d3UZtaHM75j0hHstUvvugog86WemdPJGjm7oYkm_5jOlbfgT_SX1cXMIfEOge124exjU13WcdiLdIXCJnVTGq_lr-At0FRWZfslwi0JemW732iODyp6D7_QMb4HMY",
+    "normalized_url": "https://www.cherokeecountyks.gov/main/component/easyfolderlistingpro?view=download&format=raw&data=eNpFUE1PwzAM_SvId7Rmmwq4R8QRCe08KcpatwvKRxVcJ2wI8d9Jmlac7Pfs9_RshULgD2OLMHozUICO8SAQtFUT8XnwfbLkXCKfX721mll7R4EfylpWQmIKVcgLhdBsoykRx3_TXCcEKReuoOcqdcpSgQ1CKW1l9VwwncamigKZWcXr4prh7kTsTYo5B-_2zb5d3UZtaHM75j0hHstUvvugog86WemdPJGjm7oYkm_5jOlbfgT_SX1cXMIfEOge124exjU13WcdiLdIXCJnVTGq_lr-At0FRWZfslwi0JemW732iODyp6D7_QMb4HMY",
+    "title": "review queue: web_research_2026-10-09",
+    "record_count": 3,
+    "entities": "restrictions",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_ec3a4bfbbd99",
+    "url": "https://www.thecr.com/news/rules-approved-for-data-centers-and-battery-storage/article_d1e08843-27f1-4d1a-8ef3-742607be0bad.html",
+    "normalized_url": "https://www.thecr.com/news/rules-approved-for-data-centers-and-battery-storage/article_d1e08843-27f1-4d1a-8ef3-742607be0bad.html",
+    "title": "review queue: data-center-map: Jay County (master_opposition.csv row 1161)",
+    "record_count": 3,
+    "entities": "restrictions",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_b878ed0a41a6",
     "url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf",
     "normalized_url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf",
@@ -367,5 +385,41 @@
     "record_count": 2,
     "entities": "cases",
     "archived_url": "https://web.archive.org/web/20260709014400/https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"
+  },
+  {
+    "source_id": "src_c067ca72c0f5",
+    "url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf",
+    "normalized_url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf",
+    "title": "review queue: data-center-map: Clarke County (master_opposition.csv row 70)",
+    "record_count": 1,
+    "entities": "restrictions",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_519088ccf1e1",
+    "url": "https://corridorbusiness.com/linn-supervisors-give-green-light-to-coggon-solar-project/",
+    "normalized_url": "https://corridorbusiness.com/linn-supervisors-give-green-light-to-coggon-solar-project",
+    "title": "review queue: web_research_2026-10-09",
+    "record_count": 1,
+    "entities": "contested_projects",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_fd5251ab33ec",
+    "url": "https://digital-release.fourstateshomepage.com/news/local/cherokee-countys-moratorium-affects-solar-project-plans/amp/",
+    "normalized_url": "https://digital-release.fourstateshomepage.com/news/local/cherokee-countys-moratorium-affects-solar-project-plans/amp",
+    "title": "review queue: web_research_2026-10-09",
+    "record_count": 1,
+    "entities": "contested_projects",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_56895fcaf4c8",
+    "url": "https://www.idahopress.com/guest-commentary-ada-county-balancing-community-needs-with-property-rights/article_b4d25663-b8e1-4556-ab92-91f985b88286.html",
+    "normalized_url": "https://www.idahopress.com/guest-commentary-ada-county-balancing-community-needs-with-property-rights/article_b4d25663-b8e1-4556-ab92-91f985b88286.html",
+    "title": "review queue: data-center-map: Ada County (master_opposition.csv row 39)",
+    "record_count": 1,
+    "entities": "restrictions",
+    "archived_url": ""
   }
 ]
