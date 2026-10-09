@@ -32,6 +32,10 @@ minutes, by its address (a government host and a document path, or a
 municipal records host); otherwise "reported". These sources were not read in
 this repository.
 
+Attribution: most rows of master_opposition.csv come from Data Center Tracker
+(https://datacentertracker.org), licensed CC BY 4.0; README.md carries the
+notice.
+
 Usage
   python scripts/sync_data_center_map.py [--dc-map PATH] [--dry-run]
 """

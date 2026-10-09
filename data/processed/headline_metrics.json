@@ -1,32 +1,32 @@
 {
   "restrictions": {
-    "rows": 619,
-    "instruments": 478,
+    "rows": 621,
+    "instruments": 480,
     "by_scope": {
       "renewables_only": {
-        "instruments": 395,
-        "severe_instruments": 332,
+        "instruments": 397,
+        "severe_instruments": 333,
         "states": 43,
         "by_status": {
-          "active": 329,
+          "active": 331,
           "extended": 59,
           "pending": 6,
           "unknown": 1
         },
         "by_technology": {
-          "battery_storage": 120,
-          "solar": 184,
+          "battery_storage": 121,
+          "solar": 185,
           "wind": 189
         },
         "by_evidence_level": {
           "compiled_flagged": 30,
           "compiled_record": 61,
-          "primary_source": 40,
+          "primary_source": 42,
           "report_citation": 264
         },
         "by_verification": {
           "unverified": 355,
-          "verified": 40
+          "verified": 42
         }
       },
       "multi_sector_data_centers": {

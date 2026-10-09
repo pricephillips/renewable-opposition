@@ -8,20 +8,20 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 395 | 83 |
-| Severe (severity 3 or 4) | 332 | 75 |
+| Instruments | 397 | 83 |
+| Severe (severity 3 or 4) | 333 | 75 |
 | States | 43 | 26 |
 | Evidence: compiled_flagged | 30 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 40 | 7 |
+| Evidence: primary_source | 42 | 7 |
 | Evidence: report_citation | 264 | 0 |
-| Verification: verified | 40 | 7 |
+| Verification: verified | 42 | 7 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 355 | 76 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-619 published rows describe 478 instruments.
+621 published rows describe 480 instruments.
 
 ## Contested projects
 
