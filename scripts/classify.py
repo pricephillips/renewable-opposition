@@ -13,6 +13,9 @@ instrument_id   What one count means. A seed row is one technology of one
                   promoted queue rows queue:<queue_id> (promote_reviewed.py),
                                       so one ordinance's technology rows
                                       count once
+                  NREL restrictions   nrel:<technology>:<NREL FIPS code>
+                                      (scripts/nrel_ordinances.py): one
+                                      jurisdiction's wind or solar ordinance
                 A row with none of those keys is its own instrument (its id).
 
 scope           restrictions only. Whether the instrument is aimed at
@@ -40,7 +43,9 @@ evidence_level  How far the record is from a primary source, best first:
                   court_record       case with a court or docket URL
                   compiled_record    Moratorium Nation row with no [VERIFY] tag;
                                      cites its legal basis but links the inventory
-                  compiled_flagged   Moratorium Nation row with [VERIFY] tags
+                  compiled_flagged   Moratorium Nation row with [VERIFY] tags, and
+                                     every NREL row (compiled with language
+                                     models; NREL asks that it be validated)
                   report_citation    cites the Sabin report as a whole
 
 verification    The evidence standard, in one word per row:
@@ -91,6 +96,9 @@ county_fips_all Every 2024 county a record touches, for finding records by
                                as "<Name> County"
                   place_ambiguous  shared by several counties and the text
                                does not settle it: left unplaced
+                  source_fips  none of the above placed it, and the source
+                               itself gives a 2024 county code
+                               (source_county_fips: NREL's FIPS code)
                   override     a reviewer's county with an evidence URL, from
                                data/review/place_overrides.csv, applied last by
                                resolutions.apply_place_overrides
@@ -149,6 +157,8 @@ def instrument_id(entity: str, row: dict) -> str:
         return f"sabin:{_s(row['source_record_id'])}"
     elif entity == "cases" and _s(row.get("case_id")):
         return f"case:{_s(row['case_id'])}"
+    if entity == "restrictions" and _s(row.get("nrel_id")):
+        return f"nrel:{_s(row['nrel_id'])}"
     if _s(row.get("queue_id")):
         return f"queue:{_s(row['queue_id'])}"
     return _s(row.get("id"))
@@ -181,6 +191,8 @@ def evidence_level(entity: str, row: dict) -> str:
             else "report_citation"
     if _s(row.get("moratorium_id")):
         return "compiled_flagged" if _s(row.get("needs_verification")) == "yes" else "compiled_record"
+    if _s(row.get("nrel_id")):
+        return "compiled_flagged"
     return "report_citation"
 
 
@@ -393,8 +405,31 @@ def county_fips_all(entity: str, row: dict, lookup: dict[str, str], state_names:
             named = [f for f in hits if _named_in_text(row, f, state, lookup)]
             if len(named) == 1:
                 return named, "place_text"
-            return [], "place_ambiguous"
+            if not _source_fips(row, lookup):
+                return [], "place_ambiguous"
+    f = _source_fips(row, lookup)
+    if f:
+        return [f], "source_fips"
     return [], ""
+
+
+def _source_fips(row: dict, lookup: dict[str, str]) -> str:
+    """The 2024 county code the source itself gives (source_county_fips), when
+    it is one."""
+    f = _s(row.get("source_county_fips"))
+    if re.fullmatch(r"\d{5}", f) and _usable(f) and f in _codes(lookup):
+        return f
+    return ""
+
+
+_CODES: dict[int, set[str]] = {}
+
+
+def _codes(lookup: dict[str, str]) -> set[str]:
+    if id(lookup) not in _CODES:
+        _CODES.clear()
+        _CODES[id(lookup)] = set(lookup.values())
+    return _CODES[id(lookup)]
 
 
 def county_fips(entity: str, row: dict, lookup: dict[str, str], state_names: dict[str, str]) -> tuple[str, str]:

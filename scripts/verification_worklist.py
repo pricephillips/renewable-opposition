@@ -24,7 +24,13 @@ Ranking
   Restrictions  compiled_flagged (Moratorium Nation [VERIFY] tags), then
                 compiled_record, then report_citation (Sabin). Inside a tier,
                 renewables_only before multi-sector, higher severity first,
-                then active before extended before pending.
+                then active before extended before pending. NREL rows are
+                compiled_flagged, so they come first, most severe first.
+
+flags (restrictions) says why an item needs a closer look: an NREL row whose
+values disagree with a Sabin, Moratorium Nation or queue row for the same
+jurisdiction (conflicts_with), and an NREL row whose features the accuracy
+sample contradicted or could not check (data/review/nrel_sample_review.csv).
 
 Usage
   python scripts/verification_worklist.py
@@ -61,7 +67,7 @@ OUTCOME_FIELDS = ["priority", "tier", "source_record_id", "state", "county", "mu
 RESTRICTION_FIELDS = ["priority", "tier", "instrument_id", "state", "jurisdiction",
                       "jurisdiction_type", "scope", "technologies", "status", "severity_score",
                       "date_enacted_iso", "current_end_date_iso", "legal_basis", "located_url",
-                      "search_query"]
+                      "search_query", "flags"]
 
 
 def _s(v) -> str:
@@ -111,7 +117,7 @@ def outcome_rows(projects: list[dict], resolved: set[str], located: dict[str, st
 
 
 def restriction_rows(restrictions: list[dict], checked: set[str],
-                     located: dict[str, str] | None = None) -> list[dict]:
+                     located: dict[str, str] | None = None, sample: dict[str, list[str]] | None = None) -> list[dict]:
     inst: dict[str, dict] = {}
     for r in restrictions:
         iid = _s(r.get("instrument_id"))
@@ -135,6 +141,9 @@ def restriction_rows(restrictions: list[dict], checked: set[str],
             "current_end_date_iso": r.get("current_end_date_iso"),
             "legal_basis": r.get("legal_basis"), "located_url": (located or {}).get(iid, ""),
             "search_query": query,
+            "flags": "; ".join(x for x in (
+                f"values conflict with {r['conflicts_with']}" if _s(r.get("conflicts_with")) else "",
+                *(sample or {}).get(iid, [])) if x),
         })
     rows.sort(key=lambda r: (EVIDENCE_TIERS.index(r["tier"]),
                              _s(r["scope"]) != "renewables_only",
@@ -165,8 +174,13 @@ def main() -> int:
                                               "source_record_id", "evidence_url")
     checked, lead_sources = split_by_access(read_csv(REVIEW_DIR / "restriction_sources.csv"),
                                             "instrument_id", "primary_source_url")
+    sample: dict[str, list[str]] = {}
+    for r in read_csv(REVIEW_DIR / "nrel_sample_review.csv"):
+        if r.get("verdict") in ("contradicts", "unverifiable"):
+            sample.setdefault(_s(r.get("instrument_id")), []).append(
+                f"NREL sample: {r['feature']} {r['verdict']}")
     outcomes = outcome_rows(projects, resolved, lead_outcomes)
-    restr = restriction_rows(restrictions, checked, lead_sources)
+    restr = restriction_rows(restrictions, checked, lead_sources, sample)
     write_csv(OUTCOME_WORKLIST, outcomes, OUTCOME_FIELDS)
     write_csv(RESTRICTION_WORKLIST, restr, RESTRICTION_FIELDS)
     print(f"verification_worklist: {len(outcomes)} outcomes, {len(restr)} restriction instruments")
