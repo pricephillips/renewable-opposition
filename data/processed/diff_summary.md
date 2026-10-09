@@ -398,3 +398,126 @@ What the last build changed in `data/processed/`, compared with the previous com
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 574 further rows not shown.
+
+## Sabin edition status changes
+
+Matched records whose status the September 2026 edition changed (data/review/sabin_edition_crosswalk.csv). The new status is the one published.
+
+| 2025 record | 2026 entry | Name | Status 2025 | Status 2026 |
+|---|---|---|---|---|
+| REC-0010 | S26R-6257 | Mohave County | lifted | in_force |
+| REC-0011 | S26P-3875 | Black Mesa Pumped Storage Project | pending | cancelled |
+| REC-0012 | S26P-3876 | Prince Road Solar Project | pending | cancelled |
+| REC-0014 | S26R-6252 | Madison County | in_force | expired |
+| REC-0023 | S26P-3878 | Altamont Pass Wind Resource Area First-Generation Wind Farms | in_force | unknown |
+| REC-0024 | S26P-3879 | Aramis Solar Project | in_force | pending |
+| REC-0025 | S26P-3880 | Aratina Solar Center | in_force | pending |
+| REC-0026 | S26P-3881 | Blythe Mesa Solar Power Project | in_force | unknown |
+| REC-0027 | S26P-3882 | Boulder Brush Project | in_force | pending |
+| REC-0028 | S26P-3883 | BW-IDEOL Offshore Wind Project | in_force | cancelled |
+| REC-0030 | S26R-6235 | Delta County | in_force | expired |
+| REC-0031 | S26R-6228 | Mesa County | lifted | in_force |
+| REC-0033 | S26R-6223 | Rio Blanco County | in_force | expired |
+| REC-0034 | S26R-6222 | San Miguel County | lifted | in_force |
+| REC-0035 | S26R-6221 | Washington County | lifted | expired |
+| REC-0039 | S26P-3918 | Ellington Airport Solar Project | pending | cancelled |
+| REC-0041 | S26P-3922 | TRITEC America’s Carter Street Solar Project | pending | cancelled |
+| REC-0047 | S26P-3926 | University of Delaware Wind Turbine | cancelled | unknown |
+| REC-0048 | S26P-3927 | US Wind Substation Project in Dagsboro | cancelled | pending |
+| REC-0052 | S26P-3928 | Archer Solar Project | approved_after_opposition | cancelled |
+| REC-0053 | S26P-3929 | Sand Bluff Solar Project | approved_after_opposition | cancelled |
+| REC-0056 | S26R-6195 | Grady County | lifted | expired |
+| REC-0059 | S26R-6190 | Lee County | lifted | expired |
+| REC-0067 | S26P-3934 | Kahuku Na Pua Makani Wind Project | approved_after_opposition | pending |
+| REC-0068 | S26P-3935 | Kawailoa Wind Farm | approved_after_opposition | operational |
+| REC-0072 | S26R-6182 | Bonneville County | in_force | expired |
+| REC-0077 | S26R-6172 | DeKalb County | in_force | expired |
+| REC-0078 | S26R-6170 | Ford County | lifted | in_force |
+| REC-0079 | S26R-6165 | Lee County | lifted | expired |
+| REC-0081 | S26R-6160 | Piatt County | lifted | in_force |
+| REC-0085 | S26P-3954 | Alta Wind Farm | approved_after_opposition | operational |
+| REC-0109 | S26R-6106 | Emmet County | in_force | expired |
+| REC-0110 | S26R-6104 | Floyd County | in_force | expired |
+| REC-0111 | S26R-6102 | Greene County | lifted | in_force |
+| REC-0114 | S26R-6098 | Henry County | in_force | expired |
+| REC-0115 | S26R-6097 | Humboldt County | in_force | expired |
+| REC-0116 | S26R-6094 | Johnson County | lifted | expired |
+| REC-0118 | S26R-6092 | Linn County | lifted | expired |
+| REC-0121 | S26R-6064 | Brown | in_force | expired |
+| REC-0132 | S26R-6051 | Nemaha | in_force | expired |
+| REC-0145 | S26P-4005 | Geenex Solar Project | cancelled | unknown |
+| REC-0147 | S26P-4007 | Madison County Solar Farm | approved_after_opposition | pending |
+| REC-0152 | S26R-6022 | St. James Parish | pending | in_force |
+| REC-0154 | S26P-4011 | Cajun Crescent Energy Center | pending | cancelled |
+| REC-0155 | S26P-4012 | St. James Solar | pending | cancelled |
+| REC-0160 | S26R-6013 | Ellsworth | in_force | expired |
+| REC-0164 | S26R-6002 | Corinth | in_force | expired |
+| REC-0180 | S26P-4032 | Dan’s Mountain Wind Farm | pending | unknown |
+| REC-0190 | S26P-4014 | Amherst Capped Landfill Solar | cancelled | unknown |
+| REC-0194 | S26P-4024 | Commonwealth Wind | cancelled | pending |
+| REC-0204 | S26R-5869 | Bridgehampton Township | lifted | expired |
+| REC-0208 | S26R-5908 | Cohoctah Township | in_force | expired |
+| REC-0214 | S26R-5847 | Minnetrista | lifted | in_force |
+| REC-0216 | S26R-5844 | Meeker | in_force | expired |
+| REC-0217 | S26R-5830 | Traverse | extended | expired |
+| REC-0219 | S26P-4086 | Big Blue Wind Farm | pending | operational |
+| REC-0221 | S26P-4088 | Marshall Solar Project | approved | pending |
+| REC-0230 | S26R-5813 | Monroe County | in_force | expired |
+| REC-0231 | S26P-4090 | Grain Belt Express Tiger Connector Expansion | approved_after_opposition | pending |
+| REC-0232 | S26P-4091 | Guthrie Solar Project | cancelled | unknown |
+| REC-0235 | S26P-4095 | Basin Creek Solar Project | pending | unknown |
+| REC-0244 | S26R-5770 | Gretna | lifted | expired |
+| REC-0255 | S26P-4140 | Angora Solar Project | pending | unknown |
+| REC-0262 | S26P-4146 | Esmeralda Seven Solar Project | pending | cancelled |
+| REC-0268 | S26P-4122 | Antrim Wind Project | approved_after_opposition | operational |
+| REC-0269 | S26P-4123 | Franklin Solar Project | approved_after_opposition | pending |
+| REC-0270 | S26P-4124 | Granite Reliable Wind Farm | in_force | operational |
+| REC-0276 | S26P-4127 | Atlantic Shores South Project | pending | cancelled |
+| REC-0278 | S26P-4129 | Leading Light Wind Project | unknown | pending |
+| REC-0279 | S26P-4130 | New York Bight Offshore Wind Area | unknown | pending |
+| REC-0284 | S26P-4134 | Cenergy’s Two Community Solar Projects | pending | cancelled |
+| REC-0286 | S26P-4136 | Energy Management Inc.’s Community Solar Project | pending | cancelled |
+| REC-0287 | S26P-4137 | NextEra’s Two Community Solar Projects | pending | cancelled |
+| REC-0289 | S26P-4139 | South Peak Solar Project | pending | unknown |
+| REC-0292 | S26R-5751 | Cattaraugus | in_force | expired |
+| REC-0306 | S26R-6278 | HB 589 / SL 2017-192 | in_force | expired |
+| REC-0310 | S26R-5664 | Currituck | lifted | in_force |
+| REC-0313 | S26R-5649 | Rowan | lifted | expired |
+| REC-0314 | S26R-5654 | Woodland | in_force | expired |
+| REC-0315 | S26P-4099 | Bacon’s Castle Solar Farm | rejected | cancelled |
+| REC-0316 | S26P-4100 | Birdseye Renewable Energy | rejected | cancelled |
+| REC-0317 | S26P-4101 | Blackburn Solar Project | rejected | cancelled |
+| REC-0318 | S26P-4102 | China Grove Solar Project | rejected | cancelled |
+| REC-0319 | S26P-4103 | Coastal Pine Solar Farm | pending | unknown |
+| REC-0320 | S26P-4104 | Shady Grove Solar Farm | rejected | pending |
+| REC-0321 | S26P-4105 | Woodland Solar Project | rejected | cancelled |
+| REC-0327 | S26R-5639 | Mercer County | lifted | expired |
+| REC-0328 | S26R-5635 | Stark County | lifted | expired |
+| REC-0329 | S26P-4106 | Brady Wind Farm | approved_after_opposition | unknown |
+| REC-0334 | S26P-4111 | Discovery Wind Farm | pending | cancelled |
+| REC-0335 | S26P-4112 | Garrison Buje Wind Farm | pending | cancelled |
+| REC-0363 | S26P-4230 | Osage Wind | pending | cancelled |
+| REC-0366 | S26R-5597 | Umatilla |  | in_force |
+| REC-0369 | S26P-4235 | Echanis Wind Farm | cancelled | pending |
+| REC-0374 | S26P-4240 | Origis Energy Solar Project | pending | cancelled |
+| REC-0381 | S26P-4244 | AtlanDc Wind Project | in_force | unknown |
+| REC-0382 | S26P-4245 | Brookfield Solar Energy Center | pending | cancelled |
+| REC-0383 | S26P-4246 | Brookview Solar 1 | pending | cancelled |
+| REC-0385 | S26P-4247 | Dover Solar I Project | approved_after_opposition | pending |
+| REC-0386 | S26P-4248 | Electric City Solar Initiative | pending | cancelled |
+| REC-0388 | S26P-4249 | Greenfield Township Solar Farm | pending | cancelled |
+| REC-0403 | S26P-4274 | Crocker Wind Farm | approved_after_opposition | operational |
+| REC-0407 | S26P-4278 | Juhl Energy’s Davison County Wind Project | lifted | cancelled |
+| REC-0413 | S26R-6268 | HB 1021/SB 1336 | in_force | expired |
+| REC-0415 | S26R-5517 | Greene County | in_force | expired |
+| REC-0416 | S26R-5514 | Shelby County | in_force | expired |
+| REC-0436 | S26P-4287 | Mustang Wind Project | proposed | unknown |
+| REC-0440 | S26P-4328 | Apple Hill Solar and Willow Road Solar (f/k/a Chelsea Solar) | pending | cancelled |
+| REC-0445 | S26P-4333 | Kingdom Community Wind Project | approved_after_opposition | unknown |
+| REC-0463 | S26R-5432 | Kittitas | in_force | expired |
+| REC-0468 | S26P-4343 | Columbia Solar Project | approved_after_opposition | pending |
+| REC-0473 | S26P-4359 | Beech Ridge Wind Farm | pending | operational |
+| REC-0474 | S26P-4360 | Mount Storm Wind Project | in_force | operational |
+| REC-0475 | S26P-4361 | Tyr Energy Solar Project | in_force | pending |
+| REC-0485 | S26R-5421 | Lincoln | lifted | expired |
+| REC-0493 | S26P-4362 | Pioneer Wind Parks I and II | in_force | operational |
