@@ -19,14 +19,14 @@
           "wind": 1704
         },
         "by_evidence_level": {
-          "compiled_flagged": 2396,
+          "compiled_flagged": 2392,
           "compiled_record": 61,
-          "primary_source": 69,
+          "primary_source": 73,
           "report_citation": 814
         },
         "by_verification": {
-          "unverified": 3271,
-          "verified": 69
+          "unverified": 3267,
+          "verified": 73
         }
       },
       "multi_sector_data_centers": {
@@ -74,8 +74,8 @@
         "instruments": 2393,
         "severe_instruments": 663,
         "by_verification": {
-          "unverified": 2366,
-          "verified": 27
+          "unverified": 2362,
+          "verified": 31
         }
       },
       "Moratorium Nation": {
@@ -96,8 +96,8 @@
       }
     },
     "by_verification": {
-      "unverified": 3347,
-      "verified": 76
+      "unverified": 3343,
+      "verified": 80
     }
   },
   "contested_projects": {
@@ -169,8 +169,8 @@
       "wind": 12297
     },
     "by_verification": {
-      "unverified": 23685,
-      "verified": 93
+      "unverified": 23668,
+      "verified": 110
     },
     "restricting_rows": 7317
   },
