@@ -86,6 +86,14 @@ A record whose text names data centers and no renewable technology
 down by it. `primary_source` and an outcome's `confirmed` both need a source
 someone actually read; see "How the evidence was seen" below.
 
+**The evidence standard.** Anything on the books (an ordinance, resolution, moratorium, zoning amendment or state law) counts as verified only against the instrument itself, or the minutes or official record that adopted it. A news article or a compiled tracker locates it but does not verify it. Opposition activity (groups, petitions, hearings, campaigns, project fights) may rest on a news article. Every published row carries a derived `verification` field (`scripts/classify.py`) that applies it:
+
+- Restrictions: `verified` when `evidence_level` is `primary_source` (the instrument or its minutes were opened or read in an archived copy), `located` when a primary source URL is attached but was seen only as search-index text, and `unverified` otherwise.
+- Contested projects: `verified` when the outcome or event is backed by a news article or other document that was opened or archived (a resolution row, or a promoted queue row whose `source_kind` is news or an official record), or by a court ruling; `unverified` when only a compiled report or tracker is behind it.
+- Cases: `verified` when a court record is attached.
+
+`headline_metrics` counts `verification` by instrument for each entity, and for restrictions within each scope.
+
 **Closing the gaps.** Each build ranks what to check next in
 `data/review/outcome_worklist.csv` (unconfirmed project outcomes, blocked and
 advanced claims first) and `data/review/restriction_worklist.csv` (instruments
@@ -258,6 +266,7 @@ python scripts/site_profile.py --state KS --county Cherokee
 python scripts/site_profile.py --fips 19113 --radius 40 --notes "what local contacts report"
 python scripts/site_profile.py --sites sites.csv --out profiles.md   # columns: name,state,county,fips,lat,lon,notes
 python scripts/site_profile.py --state KS --county Cherokee --no-local   # leaves out local knowledge
+python scripts/site_profile.py --fips 19113 --verified-only               # only restrictions verified against the instrument
 ```
 
 Each profile has these sections:
@@ -269,6 +278,8 @@ Each profile has these sections:
 - **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
 - **Named in the text:** records placed elsewhere whose text names the county.
 - **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, and one "Evidence still to read" flag that counts the items the profile shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
+
+Every restriction line says in plain words how it stands under the evidence standard: verified against the instrument or the minutes that adopted it, instrument located but not yet read, or not verified. Every contested-project line says whether a news article or court record that was read backs it. `--verified-only` leaves restrictions that are not verified out of the county and adjacent sections and states how many it left out, split into located and unverified.
 
 Every record line names its sources. A record with a primary source prints it on the "Source" line with how it was seen ("located, not yet read" for `snippet`), and the compiled source it came from (the Sabin report or Moratorium Nation) as "Compiled from". A contested project with a resolution row also prints an "Outcome source" line the same way. A record placed by a reviewer override says how that evidence was seen.
 

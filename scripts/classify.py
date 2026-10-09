@@ -40,6 +40,27 @@ evidence_level  How far the record is from a primary source, best first:
                   compiled_flagged   Moratorium Nation row with [VERIFY] tags
                   report_citation    cites the Sabin report as a whole
 
+verification    The evidence standard, in one word per row:
+                  restrictions (anything on the books counts as verified only
+                  against the instrument itself, or the minutes or official
+                  record that adopted it):
+                    verified    evidence_level is primary_source, so the
+                                instrument or its minutes were opened or read
+                                in an archived copy
+                    located     a primary source URL is attached but was
+                                seen only as search-index text (snippet)
+                    unverified  otherwise: a news article or a compiled
+                                tracker locates it but does not verify it
+                  contested_projects (opposition activity may rest on news):
+                    verified    the outcome or event is backed by a news
+                                article or other document that was opened or
+                                archived (a resolution row, or a promoted
+                                queue row's source), or by a court ruling
+                    unverified  only a compiled report or tracker is behind it
+                  cases:
+                    verified    a court record (case_source_url) is attached
+                    unverified  otherwise
+
 county_fips     contested_projects, and restrictions whose jurisdiction_type is
                 County, Parish or Borough: the 5-digit county FIPS of the state
                 plus the county name (a restriction's jurisdiction), looked up
@@ -86,6 +107,13 @@ EVIDENCE_ORDER = ("primary_source", "confirmed", "court_record", "compiled_recor
 # Kept in step with resolutions.READ_ACCESS (this module does no I/O and imports nothing).
 READ_ACCESS = ("opened", "archived")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
+VERIFICATION = ("verified", "located", "unverified")
+# What a promoted queue row's source_url is (queue column source_kind). The
+# first three are the instrument or its official record; only they can verify
+# a restriction. News can verify opposition activity, never an instrument.
+INSTRUMENT_KINDS = ("instrument", "minutes", "official_copy")
+SOURCE_KINDS = INSTRUMENT_KINDS + ("court_record", "news", "tracker", "other")
+EVENT_KINDS = INSTRUMENT_KINDS + ("court_record", "news")
 
 COUNTY_JURISDICTION_TYPES = {"county", "parish", "borough"}
 # Lookup values with no polygon in the Census 2024 county boundaries: the eight
@@ -145,6 +173,26 @@ def evidence_level(entity: str, row: dict) -> str:
     if _s(row.get("moratorium_id")):
         return "compiled_flagged" if _s(row.get("needs_verification")) == "yes" else "compiled_record"
     return "report_citation"
+
+
+def verification(entity: str, row: dict) -> str:
+    """verified | located | unverified; see the module docstring. Reads the
+    evidence_level stamped on the row, so stamp it first."""
+    if entity == "restrictions":
+        if _s(row.get("evidence_level")) == "primary_source":
+            return "verified"
+        return "located" if _s(row.get("primary_source_url")) else "unverified"
+    if entity == "contested_projects":
+        if _s(row.get("resolution_url")) and _s(row.get("resolution_access")) in READ_ACCESS:
+            return "verified"
+        if _s(row.get("finality_evidence")).startswith("court_ruling"):
+            return "verified"
+        if _s(row.get("source_kind")) in EVENT_KINDS and _s(row.get("source_access")) in READ_ACCESS:
+            return "verified"
+        return "unverified"
+    if entity == "cases":
+        return "verified" if _s(row.get("case_source_url")) else "unverified"
+    return "unverified"
 
 
 def county_name(entity: str, row: dict) -> str | None:
@@ -367,4 +415,5 @@ def stamp(entity: str, row: dict) -> dict:
     if entity == "restrictions":
         row["scope"] = scope(row)
     row["evidence_level"] = evidence_level(entity, row)
+    row["verification"] = verification(entity, row)
     return row

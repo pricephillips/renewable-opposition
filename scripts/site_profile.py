@@ -49,8 +49,16 @@ Usage
   python scripts/site_profile.py --fips 20021 --radius 50
   python scripts/site_profile.py --sites sites.csv --out profiles.md
   python scripts/site_profile.py --state KS --county Cherokee --no-local
+  python scripts/site_profile.py --fips 19113 --verified-only
       sites.csv columns: name, state, county, fips (any one of county or fips),
       optional lat, lon, notes. --json writes structured output instead.
+
+Every restriction line says, in plain words, how it stands under the evidence
+standard (classify.verification): verified against the instrument or its
+minutes, instrument located but not yet read, or not verified. Every
+contested-project line says whether a news article or court record that was
+read backs it. --verified-only leaves out restrictions that are not verified
+from the county and adjacent sections and states how many it left out.
 
 Every record line prints its primary source on the "Source" line when one is
 attached, labelled "located, not yet read" when only search-index text was
@@ -225,8 +233,12 @@ def pending_for(d: Data, fips: str, name: str, st: str) -> list[dict]:
     return [r for r in d.queue if concerns(d, r, fips, name, st, *QUEUE_PLACE_FIELDS)]
 
 
+def _verification(r: dict) -> str:
+    return r.get("verification") or "unverified"
+
+
 def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None, lon=None,
-            radius: float = 0.0, notes: str = "") -> dict:
+            radius: float = 0.0, notes: str = "", verified_only: bool = False) -> dict:
     neighbors = geo.neighbors(fips)
     origin = (lat, lon) if lat is not None and lon is not None else geo.centroid(fips)
     today = date.today().isoformat()
@@ -237,14 +249,26 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
         shown.update(r["id"] for r in out)
         return out
 
-    here = {"restrictions": take(d.restrictions, lambda r: fips in fips_set(r)),
+    # --verified-only: restrictions not verified against the instrument are
+    # left out of the county and adjacent sections, and counted.
+    left_out: dict[str, set[str]] = {"located": set(), "unverified": set()}
+
+    def keep(r: dict) -> bool:
+        v = _verification(r)
+        if verified_only and v != "verified":
+            left_out.setdefault(v, set()).add(r.get("instrument_id") or r["id"])
+            return False
+        return True
+
+    here = {"restrictions": [r for r in take(d.restrictions, lambda r: fips in fips_set(r)) if keep(r)],
             "contested_projects": take(d.projects, lambda r: fips in fips_set(r))}
     local = None if d.local is None else [r for r in d.local if r["county_fips"].strip().zfill(5) == fips]
     pending = pending_for(d, fips, name, st)
     queued = {id(r) for r in pending}
     near = {}
     for nb in neighbors:
-        rs = take(d.restrictions, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
+        rs = [r for r in take(d.restrictions, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
+              if keep(r)]
         ps = take(d.projects, lambda r, nb=nb: nb in fips_set(r) and r["id"] not in shown)
         nb_name, nb_state = geo.name(nb), state_of(d, nb)
         qs = [r for r in pending_for(d, nb, nb_name, nb_state) if id(r) not in queued]
@@ -347,7 +371,9 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
             "cases": cases, "not_published": {"held_back": held, "coverage_gaps": gaps,
                                               "quarantined": quarantined, "case_candidates": candidates,
                                               "pending_review": pending},
-            "text_mentions": mentions, "flags": flags, "state_context": context}
+            "text_mentions": mentions, "flags": flags, "state_context": context,
+            "verified_only": verified_only,
+            "left_out": {k: len(v) for k, v in left_out.items()}}
 
 
 def _label(r: dict) -> str:
@@ -392,6 +418,24 @@ def _instruments(rows: list[dict]) -> list[list[dict]]:
     for r in rows:
         groups.setdefault(r.get("instrument_id") or r["id"], []).append(r)
     return sorted(groups.values(), key=lambda g: -int(g[0].get("severity_score") or 0))
+
+
+# The evidence standard in plain words (classify.verification).
+VERIFICATION_WORDS = {
+    "restrictions": {
+        "verified": "verified against the instrument or the minutes that adopted it",
+        "located": "instrument located but not yet read, so not verified",
+        "unverified": "not verified: no instrument or minutes read, only a news article or compiled tracker",
+    },
+    "contested_projects": {
+        "verified": "verified: backed by a news article or court record that was read",
+        "unverified": "not verified: rests on a compiled report or tracker only",
+    },
+}
+
+
+def verification_words(entity: str, r: dict) -> str:
+    return VERIFICATION_WORDS[entity].get(_verification(r), VERIFICATION_WORDS[entity]["unverified"])
 
 
 ACCESS_LABEL = {"snippet": "located, not yet read", "opened": "opened", "archived": "archived copy read"}
@@ -447,7 +491,7 @@ def _restriction_lines(rows: list[dict], indent: str = "") -> list[str]:
         out.append(f"{indent}- **{r['jurisdiction']}** ({r['jurisdiction_type']}{dist}{how}): "
                    f"{r['restriction_type']}, severity {r['severity_score']}, {techs}; "
                    f"status {r.get('status') or 'n/a'}; {when}; evidence {r['evidence_level']}; "
-                   f"scope {r.get('scope', '')}")
+                   f"scope {r.get('scope', '')}; {verification_words('restrictions', r)}")
         out.append(f"{indent}  {r['description'][:280]}")
         basis = r.get("severity_basis") or (
             "Moratorium Nation rule: active or extended moratorium scores 4, pending 2"
@@ -464,7 +508,8 @@ def _project_lines(rows: list[dict], indent: str = "") -> list[str]:
                    f"{dist}{_placed(r)}; {r.get('county', '')}): outcome {r['outcome']}, "
                    f"severity {r['severity_score']}, "
                    f"litigation {r.get('has_litigation') or 'n/a'}, {r.get('event_date_text') or 'date n/a'}; "
-                   f"finality {r.get('finality_evidence')}; evidence {r['evidence_level']}")
+                   f"finality {r.get('finality_evidence')}; evidence {r['evidence_level']}; "
+                   f"{verification_words('contested_projects', r)}")
         out.append(f"{indent}  {r['description'][:280]}")
         if r.get("resolution_url"):
             out.append(f"{indent}  Outcome source: " + _seen(r["resolution_url"], r.get("resolution_access", ""),
@@ -505,6 +550,12 @@ def render(p: dict) -> str:
     if p["notes"]:
         L += [f"Local knowledge supplied: {p['notes']}", ""]
     here = p["in_county"]
+    if p.get("verified_only"):
+        lo = p.get("left_out", {})
+        n = sum(lo.values())
+        L += [f"Verified only: {n} restriction instrument(s) not verified against the instrument were left "
+              f"out of the county and adjacent sections ({lo.get('located', 0)} located but not yet read, "
+              f"{lo.get('unverified', 0)} unverified).", ""]
     L.append(f"### In the county: {len(_instruments(here['restrictions']))} restriction instrument(s), "
              f"{len(here['contested_projects'])} contested project(s)")
     L += _restriction_lines(here["restrictions"]) + _project_lines(here["contested_projects"])
@@ -610,6 +661,9 @@ def main(argv=None) -> int:
     a.add_argument("--sites", help="CSV with name,state,county,fips,lat,lon,notes")
     a.add_argument("--out", help="write here instead of stdout")
     a.add_argument("--json", action="store_true")
+    a.add_argument("--verified-only", action="store_true",
+                   help="leave out restrictions not verified against the instrument (in the county and "
+                        "adjacent sections) and say how many were left out")
     a.add_argument("--no-local", action="store_true",
                    help="omit local knowledge ($RO_LOCAL_KNOWLEDGE) and do not read it")
     x = a.parse_args(argv)
@@ -626,7 +680,7 @@ def main(argv=None) -> int:
         lat = float(s["lat"]) if s.get("lat") else None
         lon = float(s["lon"]) if s.get("lon") else None
         profiles.append(profile(d, fips, name, st, site=s.get("name", ""), lat=lat, lon=lon,
-                                radius=x.radius, notes=s.get("notes", "")))
+                                radius=x.radius, notes=s.get("notes", ""), verified_only=x.verified_only))
     if x.json:
         text = json.dumps(profiles, indent=2, default=str)
     else:
