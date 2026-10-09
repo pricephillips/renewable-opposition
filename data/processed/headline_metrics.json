@@ -19,14 +19,14 @@
           "wind": 1704
         },
         "by_evidence_level": {
-          "compiled_flagged": 2392,
+          "compiled_flagged": 2396,
           "compiled_record": 61,
-          "primary_source": 73,
+          "primary_source": 69,
           "report_citation": 814
         },
         "by_verification": {
-          "unverified": 3267,
-          "verified": 73
+          "unverified": 3271,
+          "verified": 69
         }
       },
       "multi_sector_data_centers": {
@@ -74,8 +74,8 @@
         "instruments": 2393,
         "severe_instruments": 663,
         "by_verification": {
-          "unverified": 2362,
-          "verified": 31
+          "unverified": 2366,
+          "verified": 27
         }
       },
       "Moratorium Nation": {
@@ -96,8 +96,8 @@
       }
     },
     "by_verification": {
-      "unverified": 3343,
-      "verified": 80
+      "unverified": 3347,
+      "verified": 76
     }
   },
   "contested_projects": {
@@ -144,7 +144,14 @@
           "verified": 2
         }
       }
-    }
+    },
+    "facility_matches": {
+      "canceled_or_postponed": 18,
+      "operating": 72,
+      "planned": 29,
+      "under_construction": 14
+    },
+    "facility_conflicts": 46
   },
   "cases": {
     "rows": 39,
@@ -169,25 +176,16 @@
       "wind": 12297
     },
     "by_verification": {
-      "unverified": 23668,
-      "verified": 110
+      "unverified": 23685,
+      "verified": 93
     },
     "restricting_rows": 7317
   },
   "state_policies": {
-    "rows": 122,
-    "states": 51,
-    "by_policy_type": {
-      "local_opt_out": 1,
-      "local_preemption": 29,
-      "other": 16,
-      "siting_authority": 49,
-      "state_moratorium": 3,
-      "state_setback_standard": 24
-    },
-    "by_verification": {
-      "verified": 122
-    }
+    "rows": 0,
+    "states": 0,
+    "by_policy_type": {},
+    "by_verification": {}
   },
   "county_coverage": {
     "counties": 3144,

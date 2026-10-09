@@ -11,13 +11,13 @@ however many technologies it covers. Quote these, not row counts.
 | Instruments | 3340 | 83 |
 | Severe (severity 3 or 4) | 1362 | 75 |
 | States | 50 | 26 |
-| Evidence: compiled_flagged | 2392 | 9 |
+| Evidence: compiled_flagged | 2396 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 73 | 7 |
+| Evidence: primary_source | 69 | 7 |
 | Evidence: report_citation | 814 | 0 |
-| Verification: verified | 73 | 7 |
+| Verification: verified | 69 | 7 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 3267 | 76 |
+| Verification: unverified | 3271 | 76 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
@@ -35,6 +35,17 @@ Verified: checked against the instrument itself or the minutes that adopted it, 
 | blocked_unverified | 165 |
 | needs_review | 34 |
 | pending | 230 |
+
+133 projects match a plant in the federal inventories (EIA-860M, USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:
+
+| Plant status | Projects |
+|---|---:|
+| canceled_or_postponed | 18 |
+| operating | 72 |
+| planned | 29 |
+| under_construction | 14 |
+
+46 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
 
 ## Cases
 
@@ -57,7 +68,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 |---|---|---:|---:|---:|---:|---:|
 | Restrictions | Sabin 2026 | 756 | 531 | 1 | 0 | 755 |
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 0 | 0 | 55 |
-| Restrictions | NREL | 2393 | 663 | 31 | 0 | 2362 |
+| Restrictions | NREL | 2393 | 663 | 27 | 0 | 2366 |
 | Restrictions | Moratorium Nation | 210 | 199 | 43 | 0 | 167 |
 | Restrictions | review queue | 9 | 3 | 5 | 0 | 4 |
 | Contested projects | Sabin 2026 | 568 |  | 122 | 0 | 446 |
@@ -66,11 +77,11 @@ Instruments (restrictions) and projects by the source they came from, with their
 
 ## Siting standards (NREL)
 
-23778 feature rows for 2713 jurisdiction and technology pairs (solar 11481, wind 12297); 110 verified against the ordinance, 23668 unverified. NREL compiled them with language models; unverified rows are NREL's reading, not a checked fact.
+23778 feature rows for 2713 jurisdiction and technology pairs (solar 11481, wind 12297); 93 verified against the ordinance, 23685 unverified. NREL compiled them with language models; unverified rows are NREL's reading, not a checked fact.
 
 ## State siting law
 
-122 state policy rows in 51 states, each verified against the statute.
+0 state policy rows in 0 states, each verified against the statute.
 
 ## County coverage
 

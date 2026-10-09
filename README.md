@@ -54,6 +54,8 @@ For map layers and headline stats, default to severity ≥ 3.
 
 `scripts/build_sabin_seeds.py` documents the exact status → outcome mapping.
 
+Each contested project is also matched to the federal plant inventories (see "Federal plant inventories" below). A strong match publishes what the inventory records for the plant (`facility_status`: operating, under construction, planned, cancelled or retired) beside the outcome, and flags a contradiction in `facility_conflict`. It never changes the outcome.
+
 ### Cases: status and verification
 
 Each case row links to the project (or restriction) it concerns through `source_record_id`. One case can therefore appear twice if it concerns two records. `case_status` uses one of:
@@ -175,6 +177,25 @@ Siting standards and the restrictions marked NREL come from NREL's *U.S. Wind Si
 
 Before relying on NREL, `scripts/nrel_sample.py` draws a random sample of 60 NREL restrictions with a fixed, recorded seed, a reviewing agent checks each sampled feature against its ordinance (`data/review/nrel_sample_review.csv`, under `docs/AGENT_REVIEW.md`), and `docs/nrel_sample_report.md` reports the error rate by feature. A sampled restriction whose every feature passed becomes `verified`; the rest stay on the restriction worklist.
 
+### Federal plant inventories
+
+What became of a contested project after the fight is often on record in three public-domain federal datasets:
+
+- **EIA-860M**, the Preliminary Monthly Electric Generator Inventory (https://www.eia.gov/electricity/data/eia860m/): every generator of 1 MW or more that is operating, planned, under construction, retired, or cancelled or indefinitely postponed.
+- **USWTDB**, the U.S. Wind Turbine Database (USGS, LBNL and ACP; https://energy.usgs.gov/uswtdb/): every built turbine, located from imagery.
+- **USPVDB**, the U.S. Large-Scale Solar Photovoltaic Database (USGS and LBNL; https://energy.usgs.gov/uspvdb/): every ground-mounted PV facility of 1 MW or more.
+
+`scripts/fetch_facilities.py` keeps their solar, wind, battery storage and geothermal plants in `data/reference/facilities.csv`, one row per plant and status, each placed in its county by its coordinates. The source files are not committed (the EIA workbook is about 14 MB a month); `data/reference/facilities_manifest.csv` records each file's URL, release and SHA-256. A file whose sheets or headers change is refused. The Build dashboard data workflow refreshes them on the 3rd of each month, after EIA's monthly release.
+
+`scripts/facility_matches.py` matches each contested project to a plant on the distinctive words of its name ("Ripley Road Solar Project" and EIA's "Ripley" are both `ripley`), within the project's state and technology:
+
+- **Strong:** the same distinctive words and a plant in one of the project's counties; or one name contained in the other, in the project's county, with capacities that agree. The strong candidates must all be one plant, and a plant more than three times larger or smaller than the record's capacity is never strong.
+- **Possible:** the same words in another county, or a contained name in the project's county.
+
+Checked against the 35 projects whose EIA plant a reviewer had already identified by hand, the matcher finds 28 and names no wrong plant; the 7 it misses have two plants of one name (phases) or a plant named differently from the project.
+
+A strong match publishes `facility_match`, `facility_ids`, `facility_name`, `facility_status`, `facility_capacity_mw`, `facility_year`, `facility_latitude`, `facility_longitude`, `facility_note` (the inventory entry in words) and `facility_conflict` on the project row. The maps place a matched project at its plant. `data/review/facility_matches.csv` lists every strong and possible match, conflicts first (a project published as blocked whose plant is operating; a pending one whose plant is built or cancelled), with a drafted outcome, evidence URL, date and note. A reviewer who checks the inventory entry copies them into `outcome_resolutions.csv`; nothing changes an outcome until then. The inventories say what became of a plant, never whether opposition had anything to do with it.
+
 ### State siting law
 
 `state_policies` rows are drafted in `data/review/state_policies_candidates.csv` from Lawrence Berkeley National Laboratory's *Laws in Order: An Inventory of State Renewable Energy Siting Policies* (June 2024, Regulatory Assistance Project; CC BY-NC 4.0) and from the Sabin Center's state-level entries, and each is checked against the statute itself, never the inventory, including amendments since 2024. A row publishes only with a recorded review by someone other than its drafter who read the statute; the rest are listed with the reason in `data/processed/state_policies_held.csv`. `data/review/sabin_state_level_dispositions.csv` says what became of each state-level Sabin row.
@@ -205,7 +226,11 @@ data/processed/
   group_registry.csv                ← opposition groups with their sources (scripts/group_registry.py)
   siting_standards.csv / .json      ← NREL ordinance features by jurisdiction, technology and feature (the JSON leaves out NREL's long summary text)
   state_policies.csv / .json        ← state siting law verified against the statute
+  county_summary.csv / .json        ← one row per county: records counted by instrument, and coverage (record, negative_check or none)
+  datapackage.json                  ← every published table: rows, fields and types, what derived fields mean, sources and licenses
 ```
+
+The entity JSON files hold one record per line: still one JSON document, and a changed record is one changed line in a diff. A consumer that needs only per-county figures reads `county_summary`, about 3,200 rows, instead of the entity files. It lists every 2024 county, including those with nothing published, and counts a record in every county it touches (`county_fips_all`).
 
 Every record has a stable `id` that doesn't change between runs, plus the `source_id` of its source. In the JSON files, each record also has a `sources` array that the dashboard renders as links.
 
@@ -234,7 +259,8 @@ renewable-opposition/
 │   ├── renewable_opposition_records.csv    ← Sabin June 2025 extraction (read through the edition crosswalk)
 │   ├── renewable_opposition_records_2026-09.csv ← Sabin September 2026 extraction (input to build_sabin_seeds.py)
 │   ├── reference/
-│   │   └── data_center_events.csv          ← local data center events from data-center-map (sync_data_center_map.py)
+│   │   ├── data_center_events.csv          ← local data center events from data-center-map (sync_data_center_map.py)
+│   │   └── facilities.csv                  ← EIA-860M, USWTDB and USPVDB plants (fetch_facilities.py), with facilities_manifest.csv
 │   ├── seed/
 │   │   ├── restrictions_seed.csv           ← Moratorium Nation + Sabin local restrictions
 │   │   ├── contested_projects_seed.csv     ← Sabin contested-projects section
@@ -250,6 +276,7 @@ renewable-opposition/
 │   │   ├── profile_requests.csv            ← county code and date of every profile run (site_profile.py)
 │   │   ├── negative_check_worklist.csv     ← profiled counties still to check (written by the build)
 │   │   ├── adjacency_worklist.csv          ← unchecked neighbors of a new restriction (adjacency_worklist.py)
+│   │   ├── facility_matches.csv            ← projects matched to federal plant inventories, conflicts first (written by the build)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   ├── processed/                          ← canonical CSV + JSON outputs
@@ -260,6 +287,10 @@ renewable-opposition/
 │   ├── national_database_design.md         ← design for the national database and dashboard
 │   └── pipeline_comparison.md              ← practices adopted from data-center-map, and what's next
 ├── scripts/
+│   ├── run_pipeline.py                     ← runs the stages in order (build; refresh re-fetches the inputs first)
+│   ├── fetch_facilities.py                 ← EIA-860M, USWTDB, USPVDB -> data/reference/facilities.csv (schema guard)
+│   ├── facility_matches.py                 ← contested projects -> plants (called by the build)
+│   ├── county_summary.py / datapackage.py  ← county_summary and datapackage.json (called by the build)
 │   ├── common.py                           ← shared helpers (state codes, technology vocabulary, source ids)
 │   ├── fetch_moratorium_nation.py          ← refreshes the Moratorium Nation rows of restrictions_seed.csv
 │   ├── fetch_sabin_edition.py              ← stores the Sabin 2026 edition files in data/raw/
@@ -291,6 +322,15 @@ renewable-opposition/
 
 ```bash
 pip install -r requirements.txt
+python scripts/run_pipeline.py              # build: promote, build, worklists, gates, diff (what CI runs)
+python scripts/run_pipeline.py refresh      # re-fetch every input and rebuild the seeds first
+python scripts/run_pipeline.py --list       # the stages, in order
+python -m pytest -q
+```
+
+The stages one by one, in the order `run_pipeline.py refresh` runs them:
+
+```bash
 python scripts/fetch_moratorium_nation.py   # refresh Moratorium Nation restrictions (run before the Sabin build: it dedups against them)
 python scripts/fetch_sabin_edition.py       # store the Sabin 2026 edition files in data/raw/
 python scripts/extract_sabin_edition.py     # extract them, and reconcile the counts
@@ -298,10 +338,17 @@ python scripts/sabin_crosswalk.py           # map 2025 ids onto 2026 entries
 python scripts/build_sabin_seeds.py         # rebuild Sabin restrictions + contested projects
 python scripts/fetch_nrel_ordinances.py     # store NREL's spreadsheets (refuses a changed layout)
 python scripts/nrel_ordinances.py           # NREL restrictions (run after the Sabin build: it dedups against them)
-python scripts/coverage_audit.py            # optional: recompute the cross-source audit
+python scripts/fetch_facilities.py          # EIA-860M, USWTDB, USPVDB plants (refuses a changed layout)
+python scripts/promote_reviewed.py          # complete review rows into the seeds (the build stages start here)
 python scripts/build_seed_outputs.py        # validate and write data/processed/
-python -m pytest -q
+python scripts/verification_worklist.py     # rank what to verify next
+python scripts/adjacency_worklist.py        # neighbor watch
+python scripts/coverage_delta.py            # column coverage gate
+python scripts/snapshot_manifest.py         # dated, hashed record of each output
+python scripts/processed_diff.py            # what the build changed
 ```
+
+`python scripts/coverage_audit.py` (the cross-source audit) is run by hand, outside the stages.
 
 CI installs under the pinned constraints in `requirements/ci.txt`
 (`uv pip install --system -c requirements/ci.txt -r requirements.txt`). For the

@@ -28,3 +28,10 @@ def _no_real_group_files(monkeypatch, tmp_path):
     import group_registry
     monkeypatch.setattr(group_registry, "REGISTRY_PATH", tmp_path / "group_registry.csv")
     monkeypatch.setattr(group_registry, "REVIEW_PATH", tmp_path / "group_review.csv")
+
+
+@pytest.fixture(autouse=True)
+def _no_real_facility_worklist(monkeypatch, tmp_path):
+    """A build run by a test writes the facility match worklist to a temp dir."""
+    import facility_matches
+    monkeypatch.setattr(facility_matches, "WORKLIST_PATH", tmp_path / "facility_matches.csv")
