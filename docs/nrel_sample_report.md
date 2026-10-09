@@ -6,19 +6,19 @@ Error rate: contradicted features divided by features with a verdict of confirme
 
 | Feature | Sampled | Confirmed | Contradicted | Unverifiable | Not reviewed | Error rate |
 |---|---:|---:|---:|---:|---:|---:|
-| Coverage | 4 | 1 | 0 | 2 | 1 | 0% |
-| Maximum Height | 28 | 17 | 3 | 4 | 4 | 15% |
+| Coverage | 4 | 2 | 0 | 2 | 0 | 0% |
+| Maximum Height | 28 | 21 | 3 | 4 | 0 | 12% |
 | Maximum Lot Size | 4 | 1 | 1 | 2 | 0 | 50% |
-| Maximum Project Size | 3 | 1 | 1 | 0 | 1 | 50% |
-| Noise | 32 | 19 | 5 | 4 | 4 | 21% |
-| Prohibited Use Districts | 7 | 5 | 0 | 1 | 1 | 0% |
-| Prohibitions | 6 | 3 | 2 | 0 | 1 | 40% |
-| Property Line (Non-Participating) | 46 | 23 | 8 | 6 | 9 | 26% |
-| Shadow Flicker | 5 | 3 | 1 | 0 | 1 | 25% |
-| Structures (Non-Participating) | 36 | 20 | 7 | 2 | 7 | 26% |
-| **All features** | 171 | 93 | 28 | 21 | 29 | 23% |
+| Maximum Project Size | 3 | 2 | 1 | 0 | 0 | 33% |
+| Noise | 32 | 22 | 6 | 4 | 0 | 21% |
+| Prohibited Use Districts | 7 | 5 | 1 | 1 | 0 | 17% |
+| Prohibitions | 6 | 4 | 2 | 0 | 0 | 33% |
+| Property Line (Non-Participating) | 46 | 27 | 13 | 6 | 0 | 32% |
+| Shadow Flicker | 5 | 4 | 1 | 0 | 0 | 20% |
+| Structures (Non-Participating) | 36 | 22 | 12 | 2 | 0 | 35% |
+| **All features** | 171 | 110 | 40 | 21 | 0 | 27% |
 
-Instruments whose every sampled feature was confirmed: 27 of 60. They are now verified (data/review/restriction_sources.csv). The rest stay unverified on the restriction worklist.
+Instruments whose every sampled feature was confirmed: 31 of 60. They are now verified (data/review/restriction_sources.csv). The rest stay unverified on the restriction worklist.
 
 ## Unverifiable
 
@@ -59,6 +59,18 @@ Instruments whose every sampled feature was confirmed: 27 of 60. They are now ve
 - nrel:wind:4207933376 Noise: NREL 5 dB above background, ordinance 0 dB above lowest nighttime ambient at residential/agricultural property lines; ambient plus 5 dBA at non-residential property lines. Hazle Township Zoning Ordinance (2018), Section 1808 Special Exceptions MWET and LWET, item A.9 (LWET). A.9.b.i: LWET noise shall not exceed the lowest ambient sound level (9 pm to 9 am) at any property line of a residential or agricultural
 - nrel:wind:4207933376 Property Line (Non-Participating): NREL 2 tip-height-multiplier; min 1000 ft, ordinance 1.5 times Total Height from internal property lines. Hazle Township Zoning Ordinance (2018), Section 1808 Special Exceptions MWET and LWET, item A.9 (LWET). A.9.d.ii: property line setback is a minimum of 1.5 times Total Height (reducible with engineer certification). The 2x / 1,000 ft figure
 - nrel:wind:4207933376 Structures (Non-Participating): NREL 2 tip-height-multiplier; min 1000 ft, ordinance 2 times Total Height or 1,000 ft, whichever is greater, from the nearest occupied building on the same parcel as the LWET. Hazle Township Zoning Ordinance (2018), Section 1808 Special Exceptions MWET and LWET, item A.9 (LWET). A.9.d.i: value and minimum match, but the text applies to an Occupied Building 'located on the same parcel as the LWET', i.e. a particip
+- nrel:wind:19027 Property Line (Non-Participating): NREL 1 rotor-diameter-multiplier, ordinance Rotor Radius from property lines abutting non-participating properties. Direct curl on 2026-10-09 returned HTTP 403 (Cloudflare 'Just a moment' challenge); read the same document through Jina Reader (r.jina.ai), which returned the full 37-page text of Carroll County Ordinance No. 14 (file titled '2016-10-24 Zon
+- nrel:wind:19027 Structures (Non-Participating): NREL 1 tip-height-multiplier, ordinance 1,000 ft from nearest occupied dwelling; may be reduced by owner waiver, but never closer than the height of the tower. Direct curl returned HTTP 403 Cloudflare challenge; read via Jina Reader (full text). Sections 14.15.040.04.12(3) and .13(1). Field value/units: NREL codes 1 tip-height-multiplier, which is only the floor that applies when the dwelling owne
+- nrel:wind:3608923646 Property Line (Non-Participating): NREL 1.5 tip-height-multiplier, ordinance 500 ft from the nearest site boundary property line. Section 11.E.1: each WECS set back 500 feet from the nearest site boundary property line. Field value/units: NREL codes 1.5 tip-height-multiplier, but the 1.5 x Total Height rule (11.E.5) is from any non-WECS structure or above-ground utili
+- nrel:wind:3608923646 Structures (Non-Participating): NREL 1.5 tip-height-multiplier, ordinance 1,000 ft from nearest off-site residence (measured from exterior); 1.5 x Total Height from any non-WECS structure. Section 11.E.4 and 11.E.5. Field value/units: NREL codes only 1.5 tip-height-multiplier and drops the 1,000 ft residence setback, which governs for dwellings (1.5 x the 500 ft maximum height is 750 ft). The 1.5 x height rule applies to all 
+- nrel:wind:2301140175 Noise: NREL 55 dBA, ordinance No wind-specific dBA limit; 9.13.8 defers to the general noise standard 8.14: night (8 pm to 6:30 am) 55 dB in the Planned Development District, 50 dB in all other districts, A-weighted, at the property boundary. Sections 9.13.8 and 8.14.2 to 8.14.3 in the 2022 draft at NREL's URL, and the same in the 2024 and 2025 versions (OCR; only the night column of the table is printed in every version). Field value: the sentence NREL quotes ('Wind turbines sh
+- nrel:wind:2301140175 Property Line (Non-Participating): NREL 1.5 tip-height-multiplier, ordinance Wind Turbine Height plus 10 ft from property lines. Section 9.13.3, identical in the 2022 draft at NREL's URL and the 2024 and 2025 versions (OCR). Field value/units: NREL codes 1.5 tip-height-multiplier; the ordinance says height plus 10 ft (about 1.07 x at the 150 ft maximum). The 1.5 x te
+- nrel:wind:2301140175 Structures (Non-Participating): NREL 1.5 tip-height-multiplier, ordinance not stated; 9.13 sets no setback from occupied buildings. Read all of 9.13.1 to 9.13.9 in the 2022 draft at NREL's URL and in the 2024 and 2025 versions (OCR); also checked the 2010 LUO (https://www.litchfieldmaine.org/wp-content/uploads/2010/04/LUO.pdf), which has no wind section. Field: the prov
+- nrel:wind:31053 Property Line (Non-Participating): NREL 4.1 tip-height-multiplier, ordinance Rotor diameter plus applicable building setback (Commercial/Utility WECS). Scanned PDF read by OCR and visual check of page 2. Section 23.3.D applies Table 1 (Wind Energy Installation Setbacks). Field value/units: the Commercial/Utility WECS column gives 'Diameter plus applicable building setback' for property lin
+- nrel:wind:31053 Structures (Non-Participating): NREL 1.1 tip-height-multiplier, ordinance 1,000 ft from neighboring dwelling units (Commercial/Utility WECS), reciprocal. Scanned PDF read by OCR and visual check of page 2, Table 1 under Section 23.3.D. Field value/units: NREL codes 1.1 tip-height-multiplier, which is the Meteorological Towers column ('1.1 times the total height plus applicable building setba
+- nrel:solar:2502775400 Prohibited Use Districts: NREL n/a, ordinance No district named where ground-mounted solar is prohibited; Special Permit in RR, RN and G (the only columns in the use table); I-Industrial district listed in 2.1 but not addressed. Read 2.1 Classes of Districts, 3.1 and 3.2 use table (row 9 Ground-Mounted Solar Energy Facilities: SP SP SP), 3.27 and 3.28.1 to 3.28.3. The row asserts a prohibited-use-district restriction with no value, but the bylaw marks no district N
+- nrel:solar:2502775400 Structures (Non-Participating): NREL 200 feet, ordinance No setback measured from dwellings; 200 ft from a lot line that abuts one or more residences. 3.28.10.A.3. Field: the provision does not apply as NREL says. The 200 ft is measured from the lot line abutting residences, not from the residence, so it is the same rule NREL also coded as the property line setback; the bylaw states no se
+- nrel:solar:37163 Property Line (Non-Participating): NREL 10 feet, ordinance No property line setback stated for solar farms; 10 ft is the height of a required opaque perimeter fence (or an existing 100 ft wide natural buffer). Read via Jina Reader (direct curl HTTP 403). Section 1117.C Solar Farm Buffer Requirements: option 1 is 'a ten (10) foot opaque fence with six (6) feet minimum height evergreen plantings every ten (10) feet'; option 2 is an existing 100 ft 
 - nrel:wind:20197 Maximum Project Size: NREL 0 (count), ordinance not stated; commercial WECS prohibited outright. NREL URL https://www.wbcounty.org/sites/g/files/vyhlif6196/f/pages/wabaunsee_county_zoning_regulations_5-8-2023.pdf returned a connection reset (curl error 35) on the first try and HTTP 404 on the second on 2026-10-09; Internet Archive avai
 - nrel:wind:20197 Shadow Flicker: NREL 0 hr/year, ordinance not stated; commercial WECS prohibited outright. NREL URL https://www.wbcounty.org/sites/g/files/vyhlif6196/f/pages/wabaunsee_county_zoning_regulations_5-8-2023.pdf returned a connection reset (curl error 35) on the first try and HTTP 404 on the second on 2026-10-09; Internet Archive avai
 - nrel:wind:3600960587 Property Line (Non-Participating): NREL 2 tip-height-multiplier; no minimum given, ordinance minimum 1,500 ft or 2 times total WECS height from any property line (excluding participants' adjoining lot lines). Sec. 10.25 G.2.c. Multiplier matches, but the document also sets a 1,500 ft minimum that NREL's row omits (min_setback_ft blank; document 1,500 ft). Waivable by recorded agreement of the adjacent landowner. Total height defined as tower plu
