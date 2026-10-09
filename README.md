@@ -179,7 +179,7 @@ Before relying on NREL, `scripts/nrel_sample.py` draws a random sample of 60 NRE
 
 `state_policies` rows are drafted in `data/review/state_policies_candidates.csv` from Lawrence Berkeley National Laboratory's *Laws in Order: An Inventory of State Renewable Energy Siting Policies* (June 2024, Regulatory Assistance Project; CC BY-NC 4.0) and from the Sabin Center's state-level entries, and each is checked against the statute itself, never the inventory, including amendments since 2024. A row publishes only with a recorded review by someone other than its drafter who read the statute; the rest are listed with the reason in `data/processed/state_policies_held.csv`. `data/review/sabin_state_level_dispositions.csv` says what became of each state-level Sabin row.
 
-`data/review/ohio_sb52_worklist.csv` (`scripts/ohio_sb52_worklist.py`) lists every Ohio county with the records already held, for checking local opt-outs under Ohio SB 52 (Ohio Rev. Code 303.58 and 303.62).
+`data/review/ohio_sb52_worklist.csv` (`scripts/ohio_sb52_worklist.py`) lists every Ohio county with the records already held, for checking local opt-outs under Ohio SB 52 (Ohio Rev. Code 303.58 and 303.62). `docs/ohio_sb52_first_pass.md` records the first pass on 10 counties and the leads it left.
 
 ### Agent review
 

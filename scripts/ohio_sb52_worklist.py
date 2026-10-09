@@ -73,7 +73,7 @@ def build(restrictions: list[dict], projects: list[dict], standards: list[dict],
                 if SB52.search(" ".join(r.get(k, "") for k in ("description", "long_description", "notes")))]
         ps = [p for p in projects if fips in _fips(p)]
         st = [s for s in standards if fips in _fips(s)]
-        qs = [q for q in queue if q.get("state") == "OH" and q.get("review_status") in ("pending", "confirmed", "")
+        qs = [q for q in queue if q.get("state") == "OH" and q.get("review_status") in ("pending", "awaiting_review", "confirmed", "")
               and (q.get("county", "").lower().replace(" county", "") == name.lower()
                    or f"{name} County".lower() in (q.get("description", "") + q.get("reviewer_notes", "")).lower())]
         cs = sorted((c for c in checks if c.get("county_fips", "").zfill(5) == fips),
