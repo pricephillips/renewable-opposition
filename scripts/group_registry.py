@@ -120,7 +120,10 @@ def occurrences(projects: list[dict], candidates: list[dict], dc_events: list[di
             out.append({"name": g, "record": _s(r.get("instrument_id") or r.get("id")), "state": _s(r.get("state")),
                         "date": when, "sources": urls(r.get("group_sources")),
                         "excerpt": _s(r.get("description"))[:200], "why": "no group_sources on the record"})
+    on_records = {(o["record"], key(o["name"])) for o in out}
     for r in candidates:
+        if (f"sabin:{_s(r.get('source_record_id'))}", key(r.get("group_name"))) in on_records:
+            continue   # copied onto the published project row; counted there
         url = _s(r.get("group_source_url"))
         read = _URL.match(url) and _s(r.get("access")) in READ_ACCESS
         why = ("no group_source_url yet" if not url else

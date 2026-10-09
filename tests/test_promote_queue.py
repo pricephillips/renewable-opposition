@@ -205,3 +205,21 @@ def test_a_row_corrected_after_promotion_resyncs_its_seed_rows_and_keeps_the_id(
     assert {r["technology"]: r["id"] for r in built}["wind"] == old_id   # errors: the real review files
     code, again, _ = queue(dict(corrected, queue_id=wind["queue_id"]))
     assert again == seeds and "0 field change(s)" in capsys.readouterr().out
+
+
+def test_a_contested_project_is_scored_by_the_sabin_rule(monkeypatch, tmp_path):
+    seed = pr.queue_to_seed({**BASE, "entity_type": "contested_project", "project_name": "Example Solar",
+                             "status": "approved_after_opposition", "severity_score": ""})
+    assert (seed["outcome"], seed["severity_score"]) == ("advanced_unverified", 1)
+    seed = pr.queue_to_seed({**BASE, "entity_type": "contested_project", "project_name": "Example Solar",
+                             "status": "proposed", "severity_score": ""})
+    assert (seed["outcome"], seed["severity_score"]) == ("pending", 2)
+
+
+def test_rows_from_one_article_are_separate_instruments(queue):
+    import classify
+    _, seeds, _ = queue(row(technology="solar", mechanisms="setback", mechanism_detail="250 ft"),
+                        row(technology="wind", mechanisms="setback", mechanism_detail="1,500 ft"),
+                        row(technology="wind", mechanisms="moratorium", description="A second wind instrument."))
+    ids = [classify.instrument_id("restrictions", s) for s in seeds]
+    assert len(set(ids)) == 3 and ids[2].endswith("-2")

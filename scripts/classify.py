@@ -154,8 +154,12 @@ def instrument_id(entity: str, row: dict) -> str:
     return _s(row.get("id"))
 
 
+# The name of the sibling repository a record was copied from, not a sector.
+SOURCE_NAMES = re.compile(r"data-center-map", re.I)
+
+
 def scope(row: dict) -> str:
-    text = _text(row)
+    text = SOURCE_NAMES.sub(" ", _text(row))
     names_renewable = bool(RENEWABLE_TEXT.search(text))
     names_data_center = bool(DATA_CENTER_TEXT.search(text))
     if names_data_center and not names_renewable:
