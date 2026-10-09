@@ -70,7 +70,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 
 ## State siting law
 
-0 state policy rows in 0 states, each verified against the statute.
+61 state policy rows in 25 states, each verified against the statute.
 
 ## County coverage
 
