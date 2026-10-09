@@ -357,6 +357,8 @@ The place index is built with `python scripts/build_place_index.py`. The script 
 5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
 6. **Pages**: `index.html`, `dashboard.html`, `renewable-opposition-map.html` and `map-audit.html` all read `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
 
+**Rules for any future news intake.** Harvested news never writes to a seed or a published file. A news harvester or extractor writes candidates to `data/review/queue.csv` only, and every candidate goes through the same review and promotion gates as a hand-entered row: `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. `tests/test_news_intake.py` asserts that `parse.py` and every module in `scripts/extractors/` write only to `data/review/` (apart from `parse.py`'s own record of which raw files it has parsed, `data/raw/parse_state.csv`), and that no seed lists either as a writer.
+
 ---
 
 ## Relation to pricephillips/data-center-map
