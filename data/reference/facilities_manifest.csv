@@ -1,0 +1,4 @@
+source,release,url,file_name,sha256,bytes,fetched_at,rows_read,rows_kept
+eia860m,EIA-860M August 2026,https://www.eia.gov/electricity/data/eia860m/xls/august_generator2026.xlsx,august_generator2026.xlsx,b4b70abb4c217e8e2658c3bde7608a3d530e86a81279ccc572ced82a200e9f1c,13955142,2026-10-09T21:23:15+00:00,40008,12068
+uswtdb,USWTDB v9.1 (2026-09-28),https://energy.usgs.gov/uswtdb/assets/data/uswtdbCSV.zip,uswtdbCSV.zip,aabd87ee12357819d40128282b43edef3b8c6f2a6df06fe4b7e882b72c04bee6,1676073,2026-10-09T21:23:15+00:00,77839,1998
+uspvdb,USPVDB v4.0 (2026-04-14),https://energy.usgs.gov/uspvdb/assets/data/uspvdbCSV.zip,uspvdbCSV.zip,3bc862e6988aa1474c55dab656bfc0e74bd8e4609ed2cec0bbce21091a0219fa,366335,2026-10-09T21:23:15+00:00,6611,6611

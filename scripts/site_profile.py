@@ -617,6 +617,9 @@ def _project_lines(rows: list[dict], indent: str = "") -> list[str]:
         if r.get("resolution_url"):
             out.append(f"{indent}  Outcome source: " + _seen(r["resolution_url"], r.get("resolution_access", ""),
                                                             r.get("resolution_archived_url", "")))
+        if r.get("facility_match"):
+            clash = f" Contradicts the published outcome: {r['facility_conflict']}." if r.get("facility_conflict") else ""
+            out.append(f"{indent}  Federal plant inventory: {r.get('facility_note')}{clash}")
         if r.get("opposition_groups"):
             out.append(f"{indent}  Groups: {_groups(r.get('opposition_groups'), r.get('group_sources'))}")
         out.append(f"{indent}  {_source_line(r)}")
