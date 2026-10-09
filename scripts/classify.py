@@ -10,6 +10,9 @@ instrument_id   What one count means. A seed row is one technology of one
                   restrictions        mn:<moratorium_id> or sabin:<source_record_id>
                   contested_projects  sabin:<source_record_id>
                   cases               case:<case_id>
+                  promoted queue rows queue:<queue_id> (promote_reviewed.py),
+                                      so one ordinance's technology rows
+                                      count once
                 A row with none of those keys is its own instrument (its id).
 
 scope           restrictions only. Whether the instrument is aimed at
@@ -146,6 +149,8 @@ def instrument_id(entity: str, row: dict) -> str:
         return f"sabin:{_s(row['source_record_id'])}"
     elif entity == "cases" and _s(row.get("case_id")):
         return f"case:{_s(row['case_id'])}"
+    if _s(row.get("queue_id")):
+        return f"queue:{_s(row['queue_id'])}"
     return _s(row.get("id"))
 
 

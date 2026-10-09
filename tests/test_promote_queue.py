@@ -192,6 +192,9 @@ def test_a_row_corrected_after_promotion_resyncs_its_seed_rows_and_keeps_the_id(
     assert wind["notes"] == ("corrected notes; promoted automatically from data/review/queue.csv on "
                              "2026-01-05: required fields complete, not reviewed by hand")
     assert by_tech["battery_storage"]["queue_id"] == wind["queue_id"]
+    import classify
+    # One ordinance, two technology rows: one instrument.
+    assert {classify.instrument_id("restrictions", r) for r in seeds} == {f"queue:{wind['queue_id']}"}
     out = capsys.readouterr().out
     for field in ("description", "status", "severity_basis", "source_url", "primary_source_url"):
         assert f"({'wind'}): {field} changed" in out, field

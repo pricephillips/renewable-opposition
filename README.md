@@ -69,7 +69,8 @@ A case goes into `cases_seed.csv` only once a court record names the case and it
 
 **Count instruments, not rows.** A seed row is one technology of one
 instrument, so a moratorium on solar, wind and battery storage is three rows.
-Every processed row carries an `instrument_id` (`scripts/classify.py`), and the
+Every processed row carries an `instrument_id` (`scripts/classify.py`; a promoted
+queue row's technology rows share `queue:<queue_id>`), and the
 numbers to quote are in `data/processed/headline_metrics.md` / `.json`, counted
 by instrument.
 
