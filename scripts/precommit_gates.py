@@ -20,6 +20,12 @@ exits 1 on any finding.
                          quoted from its source and is out of scope (A6).
   nodecheck FILE...      node --check on .js files and on inline <script>
                          blocks of .html files (scripts/check_inline_js.py).
+  private FILE...        Refuses any staged file whose name starts with
+                         "local_knowledge": reports from local contacts
+                         live outside this public repository
+                         ($RO_LOCAL_KNOWLEDGE, see scripts/site_profile.py).
+                         .gitignore keeps them out of `git add`; this
+                         catches a forced add or a renamed copy.
   tests FILE...          The whole pytest suite, plus --selftest on each
                          touched module that has one. The suite is small
                          enough to run whole on any Python change.
@@ -42,6 +48,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 EMDASH = "—"
+# Name prefix of files that must never be committed (private local reports).
+PRIVATE_PREFIX = "local_" + "knowledge"
 
 SELFTEST_RE = re.compile(
     r"""add_argument\(\s*["']--selftest|["']--selftest["']\s*(?:in|==)""")
@@ -87,6 +95,14 @@ def emdash(files: list[str]) -> int:
                 if EMDASH in line:
                     print(f"{_rel(f)}:{i}: em-dash")
                     bad += 1
+    return 1 if bad else 0
+
+
+def private(files: list[str]) -> int:
+    bad = [f for f in files if os.path.basename(f).lower().startswith(PRIVATE_PREFIX)]
+    for f in bad:
+        print(f"{_rel(f)}: local-knowledge files hold reports from local contacts and are never "
+              "committed; keep it at $RO_LOCAL_KNOWLEDGE outside the repository and unstage it")
     return 1 if bad else 0
 
 
@@ -181,6 +197,14 @@ def selftest() -> int:
     with quiet:
         check("clean markdown passes emdash", emdash([w("ok.md", b"plain, text\n")]) == 0)
 
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        rc = private([os.path.join("data", "review", PRIVATE_PREFIX + ".csv"), "data/review/queue.csv"])
+    check("a staged local-knowledge file is refused", rc == 1 and "never committed" in buf.getvalue())
+    with quiet:
+        check("a renamed copy is refused too", private([PRIVATE_PREFIX + "_backup.xlsx"]) == 1)
+        check("other files pass the private gate", private(["data/review/queue.csv", "README.md"]) == 0)
+
     good_html = w("good.html", b"<script>var a = 1;</script>\n")
     bad_html = w("bad.html", b"<p>x</p>\n<script>function ( {</script>\n")
     buf = io.StringIO()
@@ -213,13 +237,15 @@ def main(argv: list[str] | None = None) -> int:
     p_crlf = sub.add_parser("crlf")
     p_crlf.add_argument("--fix", action="store_true")
     p_crlf.add_argument("files", nargs="*")
-    for name in ("emdash", "nodecheck", "tests"):
+    for name in ("emdash", "private", "nodecheck", "tests"):
         sub.add_parser(name).add_argument("files", nargs="*")
     args = ap.parse_args(argv)
     if args.cmd == "crlf":
         return crlf(args.files, args.fix)
     if args.cmd == "emdash":
         return emdash(args.files)
+    if args.cmd == "private":
+        return private(args.files)
     if args.cmd == "nodecheck":
         return nodecheck(args.files)
     return tests(args.files)

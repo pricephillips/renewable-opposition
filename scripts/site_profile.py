@@ -8,11 +8,14 @@ each item:
                         instruments, multi-county projects, and town-level
                         instruments placed by coordinates or by the Census
                         place index).
-     Local knowledge   rows of data/review/local_knowledge.csv whose
-                        county_fips is the county, printed as they are and
-                        labelled "reported, not verified". Hand-edited and
-                        never published; --no-local leaves it out (and does
-                        not read the file) for profiles that leave THG.
+     Local knowledge   rows of the local-knowledge file whose county_fips is
+                        the county, printed as they are and labelled
+                        "reported, not verified". Hand-edited, never
+                        published and kept outside the repository: the path
+                        is $RO_LOCAL_KNOWLEDGE, default
+                        ~/.renewable-opposition/local_knowledge.csv.
+                        --no-local leaves it out (and does not read the
+                        file) for profiles that leave THG.
   2. Adjacent counties  the same, for every county sharing a boundary,
                         across state lines (data/geo/counties_2024.topojson).
   3. Within a radius    optional (--radius): records outside 1 and 2 whose
@@ -61,6 +64,7 @@ import csv
 import difflib
 import json
 import math
+import os
 import re
 import sys
 from datetime import date
@@ -77,8 +81,16 @@ REVIEW = ROOT / "data" / "review"
 FIPS_LOOKUP = ROOT / "data" / "county_fips_lookup.json"
 PLACE_INDEX = ROOT / "data" / "place_county_index.json"
 SNAPSHOTS = ROOT / "data" / "snapshots" / "manifest.csv"
-# Hand-edited, unverified, never published: read here and nowhere else.
-LOCAL_KNOWLEDGE = REVIEW / "local_knowledge.csv"
+# Hand-edited, unverified, never published: read here and nowhere else. It
+# holds reports from local contacts, so it lives outside this public
+# repository; .gitignore and the precommit "private" gate keep it out.
+LOCAL_KNOWLEDGE_ENV = "RO_LOCAL_KNOWLEDGE"
+LOCAL_KNOWLEDGE_DEFAULT = Path("~/.renewable-opposition/local_knowledge.csv")
+
+
+def local_knowledge_path() -> Path:
+    """$RO_LOCAL_KNOWLEDGE, or ~/.renewable-opposition/local_knowledge.csv."""
+    return Path(os.environ.get(LOCAL_KNOWLEDGE_ENV) or LOCAL_KNOWLEDGE_DEFAULT).expanduser()
 LOCAL_FIELDS = ["county_fips", "state", "county", "topic", "claim", "source_type", "source_note",
                 "date_reported", "reporter"]
 LOCAL_SOURCE_TYPES = ("local_contact", "meeting_attended", "document_seen")
@@ -107,10 +119,9 @@ class Data:
         default the repository itself."""
         if root is None:
             processed, review = PROCESSED, REVIEW
-            local_path, lookup, place_index, snapshots = LOCAL_KNOWLEDGE, FIPS_LOOKUP, PLACE_INDEX, SNAPSHOTS
+            lookup, place_index, snapshots = FIPS_LOOKUP, PLACE_INDEX, SNAPSHOTS
         else:
             processed, review = root / "data" / "processed", root / "data" / "review"
-            local_path = review / LOCAL_KNOWLEDGE.name
             lookup, place_index = root / "data" / FIPS_LOOKUP.name, root / "data" / PLACE_INDEX.name
             snapshots = root / "data" / "snapshots" / SNAPSHOTS.name
         self.restrictions = _csv(processed / "restrictions.csv")
@@ -123,7 +134,7 @@ class Data:
         # Review-queue candidates nobody has decided on yet: shown, never published.
         self.queue = [r for r in _csv(review / "queue.csv") if r.get("review_status") == "pending"]
         # None, not [], when left out, so the profile omits the section.
-        self.local = _csv(local_path) if local else None
+        self.local = _csv(local_knowledge_path()) if local else None
         raw = _json(lookup, {})
         self.lookup = {k.lower(): str(v) for k, v in raw.items() if not k.startswith("_")}
         self.places = {k: v for k, v in _json(place_index, {}).items() if not k.startswith("_")}
@@ -502,8 +513,8 @@ def render(p: dict) -> str:
     L.append("")
     if p["local_knowledge"] is not None:
         L.append(f"### Local knowledge on file: {len(p['local_knowledge'])} item(s)")
-        L.append("From data/review/local_knowledge.csv, as entered. Not checked against a source "
-                 "and not part of the published data.")
+        L.append("From the local-knowledge file outside the repository, as entered. Not checked "
+                 "against a source and not part of the published data.")
         for r in p["local_knowledge"]:
             L.append(f"- Reported, not verified ({r['topic'] or 'no topic'}): {r['claim']}")
             L.append(f"  Source: {r['source_type'] or 'not given'}"
@@ -600,7 +611,7 @@ def main(argv=None) -> int:
     a.add_argument("--out", help="write here instead of stdout")
     a.add_argument("--json", action="store_true")
     a.add_argument("--no-local", action="store_true",
-                   help="omit local knowledge (data/review/local_knowledge.csv) and do not read it")
+                   help="omit local knowledge ($RO_LOCAL_KNOWLEDGE) and do not read it")
     x = a.parse_args(argv)
     d = Data(local=not x.no_local)
     specs = _csv(Path(x.sites)) if x.sites else [{

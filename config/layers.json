@@ -53,7 +53,7 @@
     "data/review/local_knowledge.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
       "readers": ["scripts/site_profile.py"],
-      "reason": "What local contacts, meetings and documents report about a county, unverified. Only site_profile.py reads it, and never with --no-local; the build must not read or publish it (tests/test_local_knowledge.py)."
+      "reason": "What local contacts, meetings and documents report about a county, unverified. Not in this public repository: it lives at $RO_LOCAL_KNOWLEDGE (default ~/.renewable-opposition/local_knowledge.csv), this path is gitignored, and scripts/precommit_gates.py private refuses any staged local_knowledge* file. Declared so that only site_profile.py may name it; it reads the file only without --no-local, and the build must not read or publish it (tests/test_local_knowledge.py)."
     },
 
     "data/seed/restrictions_seed.csv": {

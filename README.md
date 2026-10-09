@@ -187,7 +187,6 @@ renewable-opposition/
 │   │   ├── sabin_restrictions_review.csv   ← Sabin restriction rows held back, with reasons
 │   │   ├── coverage_gaps.csv               ← moratoria found in only one source
 │   │   ├── place_overrides.csv             ← reviewer counties with evidence (hand-edited)
-│   │   ├── local_knowledge.csv             ← unverified local reports, never published (hand-edited)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   └── processed/                          ← canonical CSV + JSON outputs
@@ -264,7 +263,7 @@ python scripts/site_profile.py --state KS --county Cherokee --no-local   # leave
 Each profile has these sections:
 
 - **In the county:** published records whose `county_fips_all` includes the county.
-- **Local knowledge on file:** the county's rows in `data/review/local_knowledge.csv`, printed as entered, each labelled "reported, not verified". See below.
+- **Local knowledge on file:** the county's rows in the local-knowledge file (outside the repository, see below), printed as entered, each labelled "reported, not verified".
 - **Adjacent counties:** the same for every county that shares a border, across state lines, plus one line for each pending review-queue candidate there.
 - **Within a radius:** optional.
 - **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
@@ -290,7 +289,7 @@ A town name shared by several counties, where the text does not settle it, is ma
 
 **Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`, `access`, `archived_url`. Any `access` value places the record; the profile prints it. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. The build stops if `evidence_url` or `access` is blank, if `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
 
-**Local knowledge.** `data/review/local_knowledge.csv` records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. Pass `--no-local` for a profile that leaves THG; the section is omitted and the file is not read.
+**Local knowledge.** Reports from local contacts never go in this repository, which is public. `site_profile.py` reads them from the path in the `RO_LOCAL_KNOWLEDGE` environment variable, by default `~/.renewable-opposition/local_knowledge.csv`. The file records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. Pass `--no-local` for a profile that leaves THG; the section is omitted and the file is not read. `.gitignore` lists `data/review/local_knowledge.csv` and `local_knowledge*`, and the precommit gate `python scripts/precommit_gates.py private` refuses any staged file whose name starts with `local_knowledge`.
 
 The place index is built with `python scripts/build_place_index.py`. The script downloads the Census 2024 Gazetteer and writes `data/place_county_index.json`. Without the index, town-level rows with no coordinates stay unplaced, and each profile says so.
 
