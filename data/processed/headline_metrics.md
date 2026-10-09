@@ -8,33 +8,33 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 397 | 83 |
-| Severe (severity 3 or 4) | 333 | 75 |
-| States | 43 | 26 |
-| Evidence: compiled_flagged | 30 | 9 |
+| Instruments | 3340 | 83 |
+| Severe (severity 3 or 4) | 1362 | 75 |
+| States | 50 | 26 |
+| Evidence: compiled_flagged | 2396 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 42 | 7 |
-| Evidence: report_citation | 264 | 0 |
-| Verification: verified | 42 | 7 |
+| Evidence: primary_source | 69 | 7 |
+| Evidence: report_citation | 814 | 0 |
+| Verification: verified | 69 | 7 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 355 | 76 |
+| Verification: unverified | 3271 | 76 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-621 published rows describe 480 instruments.
+3625 published rows describe 3423 instruments.
 
 ## Contested projects
 
-167 projects; 125 with a confirmed outcome; 127 verified (backed by a news article or court record that was read), 40 resting on a compiled report only.
+576 projects; 123 with a confirmed outcome; 125 verified (backed by a news article or court record that was read), 451 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
-| advanced_confirmed | 55 |
-| advanced_unverified | 1 |
+| advanced_confirmed | 53 |
+| advanced_unverified | 24 |
 | blocked_confirmed | 70 |
-| blocked_unverified | 10 |
-| needs_review | 2 |
-| pending | 29 |
+| blocked_unverified | 165 |
+| needs_review | 34 |
+| pending | 230 |
 
 ## Cases
 
@@ -48,3 +48,42 @@ Verified: checked against the instrument itself or the minutes that adopted it, 
 | ruled_for_developer | 16 |
 | ruled_for_opposition | 11 |
 | withdrawn | 1 |
+
+## By source
+
+Instruments (restrictions) and projects by the source they came from, with their verification.
+
+| Entity | Source | Count | Severe | Verified | Located | Unverified |
+|---|---|---:|---:|---:|---:|---:|
+| Restrictions | Sabin 2026 | 756 | 531 | 1 | 0 | 755 |
+| Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 0 | 0 | 55 |
+| Restrictions | NREL | 2393 | 663 | 27 | 0 | 2366 |
+| Restrictions | Moratorium Nation | 210 | 199 | 43 | 0 | 167 |
+| Restrictions | review queue | 9 | 3 | 5 | 0 | 4 |
+| Contested projects | Sabin 2026 | 568 |  | 122 | 0 | 446 |
+| Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 1 | 0 | 5 |
+| Contested projects | review queue | 2 |  | 2 | 0 | 0 |
+
+## Siting standards (NREL)
+
+23778 feature rows for 2713 jurisdiction and technology pairs (solar 11481, wind 12297); 93 verified against the ordinance, 23685 unverified. NREL compiled them with language models; unverified rows are NREL's reading, not a checked fact.
+
+## State siting law
+
+0 state policy rows in 0 states, each verified against the statute.
+
+## County coverage
+
+Of 3144 counties and county equivalents (50 states and DC):
+
+| | Counties |
+|---|---:|
+| Any published record | 1403 |
+| A restriction | 1255 |
+| A contested project | 456 |
+| An NREL siting standard | 1158 |
+| A documented negative check | 1 |
+| A negative check and no record | 1 |
+| Neither a record nor a check | 1740 |
+
+A county with neither has not been looked at; it is not evidence that nothing happened.

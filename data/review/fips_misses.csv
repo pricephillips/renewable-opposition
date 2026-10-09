@@ -1,21 +1,64 @@
 entity,id,instrument_id,state,county_name,reason,county_fips_all
-contested_projects,con_3d6de038c4,sabin:REC-0011,AZ,Apache and Navajo Counties,several_counties,04001;04017
-contested_projects,con_db31bc839d,sabin:REC-0023,CA,Alameda and Contra Costa,several_counties,06001;06013
-contested_projects,con_c53c33eb15,sabin:REC-0040,CT,Fairfield,not_a_2024_county,
-contested_projects,con_f1fc80a098,sabin:REC-0041,CT,Hartford,not_a_2024_county,09110
-contested_projects,con_b4dc027582,sabin:REC-0038,CT,New Haven,not_a_2024_county,
-contested_projects,con_6ed1a05d09,sabin:REC-0039,CT,Tolland,not_a_2024_county,09110
-contested_projects,con_d4dbbbd76c,sabin:REC-0144,KY,Fleming County (Mason County),several_counties,21069;21161
-contested_projects,con_472dc0e7e0,sabin:REC-0182,MD,"Bal>more, Carroll, Frederick",several_counties,24005;24013;24021
-contested_projects,con_087a407786,sabin:REC-0231,MO,Callaway and Chariton Counties,several_counties,29027;29041
-contested_projects,con_472ba8991c,sabin:REC-0233,MO,Clinton and DeKalb Counties,several_counties,29049;29063
-contested_projects,con_e41021df0e,sabin:REC-0272,NH,Granon and Merrimack Counties,several_counties,33009;33013
-contested_projects,con_23b3856e4c,sabin:REC-0279,NJ,"Atlantic, Cape May, Monmouth, Ocean Counties",several_counties,34001;34009;34025;34029
-contested_projects,con_6601f49b6f,sabin:REC-0281,NJ,Cape May and Ocean Counties,several_counties,34009;34029
-contested_projects,con_5b701c8ea7,sabin:REC-0265,NV,"Various (Clark, Lyon, Esmeralda, Lyon, Mineral, and Nye)",not_in_lookup,32003;32019;32009;32021;32023
-contested_projects,con_a8e3b7177a,sabin:REC-0368,OR,"Baker, Malheur, Morrow, Umatilla, Union",several_counties,41001;41045;41049;41059;41061
-contested_projects,con_1bff19d998,sabin:REC-0404,SD,Codington and Grant Counties,several_counties,46029;46051
+contested_projects,con_3d6de038c4,sabin:REC-0011,AZ,Apache County; Navajo County,several_counties,04001;04017
+contested_projects,con_db31bc839d,sabin:REC-0023,CA,Alameda County; Contra Costa County,several_counties,06001;06013
+contested_projects,con_c53c33eb15,sabin:REC-0040,CT,Fairfield County,not_a_2024_county,
+contested_projects,con_5ce9f5edfc,sabin:S26P-4424,CT,Hartford County,not_a_2024_county,09110
+contested_projects,con_be43533cdb,sabin:S26P-4377,CT,Hartford County,not_a_2024_county,09110
+contested_projects,con_cf806f591c,sabin:S26P-3920,CT,Hartford County,not_a_2024_county,09110
+contested_projects,con_f1fc80a098,sabin:REC-0041,CT,Hartford County,not_a_2024_county,09110
+contested_projects,con_061f1152b8,sabin:S26P-3921,CT,Litchfield County,not_a_2024_county,
+contested_projects,con_12fe3b9b18,sabin:S26P-3916,CT,Litchfield County,not_a_2024_county,
+contested_projects,con_b4dc027582,sabin:REC-0038,CT,New Haven County,not_a_2024_county,
+contested_projects,con_6ed1a05d09,sabin:REC-0039,CT,Tolland County,not_a_2024_county,
+contested_projects,con_c3a789b368,sabin:S26P-3941,IA,Black Hawk County; Humboldt County; Fayette County,several_counties,19013;19091;19065
+contested_projects,con_a08570ca0a,sabin:S26P-3945,IA,Mills County; Pottawattamie County,several_counties,19129;19155
+contested_projects,con_01c7bb138b,sabin:S26P-3951,ID,Ada County; Canyon County,several_counties,16001;16027
+contested_projects,con_78c16d08e1,sabin:S26P-3950,ID,Jerome County; Lincoln County; Minidoka County,several_counties,16053;16063;16067
+contested_projects,con_3b25daf340,sabin:S26P-3959,IL,Christian County; Clark County; Cumberland County; Greene County; Macoupin County; Montgomery County; Pike County; Scott County; Shelby County,several_counties,17021;17023;17035;17061;17117;17135;17149;17171;17173
+contested_projects,con_bf8c2e3e89,sabin:S26P-4426,IL,Massac County; Johnson County,several_counties,17127;17087
+contested_projects,con_51ff1adc85,sabin:S26P-3982,IN,Benton County; Warren County,several_counties,18007;18171
+contested_projects,con_a12a297c85,sabin:S26P-3992,IN,Henry County; Fayette County; Rush County,several_counties,18065;18041;18139
+contested_projects,con_bbc7eb8124,sabin:S26P-3985,IN,Pulaski County; Starke County,several_counties,18131;18149
+contested_projects,con_d4dbbbd76c,sabin:REC-0144,KY,Fleming County; Mason County,several_counties,21069;21161
+contested_projects,con_7249412564,sabin:REC-0156,LA,Iberville Parish; Pointe Coupee Parish,several_counties,22047;22077
+contested_projects,con_e5fc646228,sabin:S26P-4020,MA,Barnstable County; Plymouth County,several_counties,25001;25023
+contested_projects,con_472dc0e7e0,sabin:REC-0182,MD,Baltimore County; Carroll County; Frederick County,several_counties,24005;24013;24021
+contested_projects,con_25075a752f,sabin:S26P-4052,ME,Androscoggin County; Franklin County; Somerset County,several_counties,23001;23007;23025
+contested_projects,con_37cdafceb7,sabin:S26P-4042,ME,Waldo County; Kennebec County,several_counties,23027;23011
+contested_projects,con_c297174ce5,sabin:S26P-4067,MI,Huron County; Sanilac County,several_counties,26063;26151
+contested_projects,con_5b0b98fcde,sabin:S26P-4069,MI,Kent County; Muskegon County,several_counties,26081;26121
+contested_projects,con_1dfcd20b4c,sabin:S26P-4078,MI,Mason County; Muskegon County; Oceana County; Ottawa County,several_counties,26105;26121;26127;26139
+contested_projects,con_087a407786,sabin:REC-0231,MO,Callaway County; Chariton County,several_counties,29027;29041
+contested_projects,con_472ba8991c,sabin:REC-0233,MO,Clinton County; DeKalb County,several_counties,29049;29063
+contested_projects,con_e41021df0e,sabin:REC-0272,NH,Grafton County; Merrimack County,several_counties,33009;33013
+contested_projects,con_23b3856e4c,sabin:REC-0279,NJ,Atlantic County; Cape May County; Monmouth County; Ocean County,several_counties,34001;34009;34025;34029
+contested_projects,con_6601f49b6f,sabin:REC-0281,NJ,Cape May County; Ocean County,several_counties,34009;34029
+contested_projects,con_5b701c8ea7,sabin:REC-0265,NV,Clark County; Esmeralda County; Lyon County; Mineral County; Nye County,several_counties,32003;32009;32019;32021;32023
+contested_projects,con_ae2b8c443f,sabin:S26P-4150,NV,Lyon County; Storey County; Washoe County,several_counties,32019;32029;32031
+contested_projects,con_d6604dd7ee,sabin:S26P-4158,NY,Allegany County; Cattaraugus County; Wyoming County,several_counties,36003;36009;36121
+contested_projects,con_89fccd94e4,sabin:S26P-4180,NY,Jefferson County; Oswego County,several_counties,36045;36075
+contested_projects,con_d6026df632,sabin:S26P-4167,NY,Nassau County; Kings County,several_counties,36059;36047
+contested_projects,con_85f3765dd5,sabin:S26P-4179,NY,Niagara County; Orleans County,several_counties,36063;36073
+contested_projects,con_2c16b74f26,sabin:S26P-4202,OH,Allen County; Auglaize County,several_counties,39003;39011
+contested_projects,con_7495cb93d6,sabin:S26P-4210,OH,Erie County; Huron County,several_counties,39043;39077
+contested_projects,con_ef4c554165,sabin:S26P-4221,OH,Sandusky County; Seneca County,several_counties,39143;39147
+contested_projects,con_7f792fc53f,sabin:S26P-4372,OK,Beaver County; Creek County; Ellis County; Garfield County; Harper County; Kingfisher County; Lincoln County; Logan County; Major County; Payne County; Texas County; Woodward County,several_counties,40007;40037;40045;40047;40059;40073;40081;40083;40093;40119;40139;40153
+contested_projects,con_ecf576530f,sabin:S26P-4232,OK,Cimarron County; Texas County,several_counties,40025;40139
+contested_projects,con_a8e3b7177a,sabin:REC-0368,OR,Baker County; Malheur County; Morrow County; Umatilla County; Union County,several_counties,41001;41045;41049;41059;41061
+contested_projects,con_c698bbc591,sabin:S26P-4270,RI,Bristol County; Newport County,several_counties,44001;44005
+contested_projects,con_cabcbf063f,sabin:S26P-4272,SC,McCook County,not_in_lookup,
+contested_projects,con_1bff19d998,sabin:REC-0404,SD,Codington County; Grant County,several_counties,46029;46051
+contested_projects,con_24daa7136e,sabin:S26P-4288,TX,Callahan County; Eastland County,several_counties,48059;48133
+contested_projects,con_bfb2ebe123,sabin:S26P-4292,TX,Donley County; Gregg County,several_counties,48129;48183
+contested_projects,con_db39ab01b2,sabin:S26P-4284,TX,Fannin County; Lamar County,several_counties,48147;48277
+contested_projects,con_036f2cee6b,sabin:REC-0435,TX,Nolan County; Taylor County,several_counties,48353;48441
+contested_projects,con_6d6ae8b1d3,sabin:S26P-4409,VA,Isle of Wight County; Surry County,several_counties,51093;51181
+contested_projects,con_3adafeb06a,sabin:S26P-4356,WI,Grant County; Iowa County; Lafayette County,several_counties,55043;55049;55065
+contested_projects,con_a7515a6e34,sabin:S26P-4407,WI,Jefferson County; Walworth County,several_counties,55055;55127
+restrictions,res_a51903991c,sabin:S26R-6259,AK,Anchorage Municipality,not_in_lookup,
 restrictions,res_3eafc600af,sabin:REC-0083,IL,"Effingham County, Village of Teutopolis",several_counties,17049
 restrictions,res_809734d122,sabin:REC-0135,KS,Prairie,not_in_lookup,
+restrictions,res_6eb78f3c5c,sabin:S26R-5811,MT,Lewis and Clark County,several_counties,30049
 restrictions,res_634e7b90cf,sabin:REC-0311,NC,Herndon,not_in_lookup,37091
+restrictions,res_f749f7a0be,sabin:S26R-5478,VT,Caledonia County; Essex County; Orleans County,several_counties,50005;50009;50019
 restrictions,res_b982467594,sabin:REC-0439,VT,"Caledonia, Essex, Orleans Counties",several_counties,50005;50009;50019

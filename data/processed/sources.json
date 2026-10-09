@@ -1,11 +1,29 @@
 [
   {
-    "source_id": "src_90d5b39d9a09",
-    "url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
-    "normalized_url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
-    "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
-    "record_count": 488,
+    "source_id": "src_731207f65d0f",
+    "url": "https://scholarship.law.columbia.edu/sabin_climate_change/280/",
+    "normalized_url": "https://scholarship.law.columbia.edu/sabin_climate_change/280",
+    "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (Sept. 2026 ed.), via data/renewable_opposition_records_2026-09.csv",
+    "record_count": 1434,
     "entities": "contested_projects;restrictions",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_35f547ae9e1e",
+    "url": "https://doi.org/10.25984/3363739",
+    "normalized_url": "https://doi.org/10.25984/3363739",
+    "title": "NREL U.S. Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363739, CC BY 4.0",
+    "record_count": 1223,
+    "entities": "restrictions",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_62f3cc813b0f",
+    "url": "https://doi.org/10.25984/3363758",
+    "normalized_url": "https://doi.org/10.25984/3363758",
+    "title": "NREL U.S. Wind Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758, CC BY 4.0",
+    "record_count": 1170,
+    "entities": "restrictions",
     "archived_url": ""
   },
   {
@@ -16,6 +34,15 @@
     "record_count": 286,
     "entities": "restrictions",
     "archived_url": "https://web.archive.org/web/20260929165324/https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv"
+  },
+  {
+    "source_id": "src_90d5b39d9a09",
+    "url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
+    "normalized_url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
+    "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
+    "record_count": 74,
+    "entities": "contested_projects;restrictions",
+    "archived_url": ""
   },
   {
     "source_id": "src_b8ae2b2663d6",
