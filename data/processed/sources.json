@@ -387,6 +387,15 @@
     "archived_url": "https://web.archive.org/web/20260709014400/https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"
   },
   {
+    "source_id": "src_4c42e6a81b22",
+    "url": "https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf",
+    "normalized_url": "https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf",
+    "title": "review queue: web_research_2026-10-09",
+    "record_count": 1,
+    "entities": "restrictions",
+    "archived_url": ""
+  },
+  {
     "source_id": "src_c067ca72c0f5",
     "url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf",
     "normalized_url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf",
@@ -411,6 +420,15 @@
     "title": "review queue: web_research_2026-10-09",
     "record_count": 1,
     "entities": "contested_projects",
+    "archived_url": ""
+  },
+  {
+    "source_id": "src_ed02f44e049b",
+    "url": "https://public.destinyhosted.com/goodydocs/2026/CC/20260706_2200/3175_Ordinance_No._2026-1652_with_Exhibit.pdf",
+    "normalized_url": "https://public.destinyhosted.com/goodydocs/2026/CC/20260706_2200/3175_Ordinance_No._2026-1652_with_Exhibit.pdf",
+    "title": "review queue: data-center-map: Goodyear (master_opposition.csv row 1734)",
+    "record_count": 1,
+    "entities": "restrictions",
     "archived_url": ""
   },
   {
