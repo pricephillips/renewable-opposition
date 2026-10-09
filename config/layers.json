@@ -98,6 +98,7 @@
     "data/processed/coverage_delta.md": {"layer": "derived", "writers": ["scripts/coverage_delta.py"]},
     "data/review/outcome_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/review/fips_misses.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
+    "data/review/adjacency_worklist.csv": {"layer": "derived", "writers": ["scripts/adjacency_worklist.py"]},
     "data/review/negative_check_worklist.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},

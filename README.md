@@ -201,6 +201,7 @@ renewable-opposition/
 │   │   ├── negative_checks.csv             ← "checked, nothing found" results per county (hand-edited)
 │   │   ├── profile_requests.csv            ← county code and date of every profile run (site_profile.py)
 │   │   ├── negative_check_worklist.csv     ← profiled counties still to check (written by the build)
+│   │   ├── adjacency_worklist.csv          ← unchecked neighbors of a new restriction (adjacency_worklist.py)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   └── processed/                          ← canonical CSV + JSON outputs
@@ -264,6 +265,10 @@ Promotion is automatic. The Build dashboard data workflow runs `scripts/promote_
 Outputs will be written to `data/processed/`.
 
 ---
+
+## Neighbor watch
+
+A county that adopts a moratorium or siting rules is often followed by its neighbors. `scripts/adjacency_worklist.py`, run by the Build dashboard data workflow, takes every published restriction instrument enacted in the last 18 months (`date_enacted_iso`; an extension counts only through that date, since no separate extension date is recorded) and lists each adjacent county, across state lines (`geo.neighbors`), that has no published restriction and no `negative_checks.csv` row covering restrictions. It writes `data/review/adjacency_worklist.csv`: `county_fips`, `state`, `county`, the triggering instrument (`trigger_instrument_id`, `trigger_jurisdiction`, `trigger_state`, `trigger_type`, `trigger_status`, `trigger_date`, `trigger_technologies`) and a `suggested_query`, newest trigger first. It is a worklist only and never publishes anything.
 
 ## Opposition groups
 

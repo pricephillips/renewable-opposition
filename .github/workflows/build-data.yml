@@ -18,6 +18,7 @@ on:
       - 'data/review/profile_requests.csv'
       - 'scripts/negative_checks.py'
       - 'scripts/group_registry.py'
+      - 'scripts/adjacency_worklist.py'
       - 'data/review/group_candidates.csv'
       - 'data/review/queue.csv'
       - 'data/review/cases_candidates.csv'
@@ -79,6 +80,9 @@ jobs:
       - name: Rank what to verify next
         run: python scripts/verification_worklist.py
 
+      - name: Neighbor watch (counties next to a new restriction, unchecked)
+        run: python scripts/adjacency_worklist.py
+
       - name: Column coverage gate (blocks publishing a collapsed column)
         run: python scripts/coverage_delta.py
 
@@ -104,7 +108,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/ data/snapshots/manifest.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv
+          git add data/processed/ data/snapshots/manifest.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
           git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"
