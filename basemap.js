@@ -216,6 +216,7 @@
       return firstOf(BINDING_URLS, loadScript);
     }).then(function () {
       if (!global.L || !global.L.maplibreGL) throw new Error('binding missing');
+      guardRemovedLayer(global.L);
       var ml = global.maplibregl;
       if (typeof ml.supported === 'function' && !ml.supported()) throw new Error('no WebGL');
       return ml;
@@ -223,6 +224,33 @@
     // A failed load is retried on the next page, not on the next map.
     vectorReady.catch(function () {});
     return vectorReady;
+  }
+
+  // maplibre-gl-leaflet 0.1.4 reads this._map in a requestAnimFrame queued by
+  // a map resize or zoom transition, and again when the GL map's moveend
+  // fires. When the chain falls back and removes the vector layer in between,
+  // _map is null and the page throws "Cannot read properties of null (reading
+  // 'getZoom')". The same steps, skipped once the layer is off the map.
+  function guardRemovedLayer(L) {
+    var P = L.MaplibreGL && L.MaplibreGL.prototype;
+    if (!P || P._removedGuard) return;
+    P._removedGuard = true;
+    var zoomEnd = P._zoomEnd;
+    P._zoomEnd = function () {
+      if (this._map && this._glMap) zoomEnd.apply(this, arguments);
+    };
+    P._transitionEnd = function () {
+      L.Util.requestAnimFrame(function () {
+        if (!this._map || !this._glMap) return;
+        var zoom = this._map.getZoom();
+        var center = this._map.getCenter();
+        var offset = this._map.latLngToContainerPoint(this._map.getBounds().getNorthWest());
+        this._resizeContainer();
+        L.DomUtil.setTransform(this._glMap._actualCanvas, offset, 1);
+        this._glMap.once('moveend', L.Util.bind(function () { this._zoomEnd(); }, this));
+        this._glMap.jumpTo({ center: center, zoom: zoom - 1 });
+      }, this);
+    };
   }
 
   // ---- the chain layer -----------------------------------------------------
@@ -373,7 +401,8 @@
     nextProvider: nextProvider,
     raster: raster,
     dark: dark,
-    light: light
+    light: light,
+    guardRemovedLayer: guardRemovedLayer
   };
 
   global.Basemap = api;
