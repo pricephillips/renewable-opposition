@@ -27,6 +27,19 @@ It validates data/review/negative_checks.csv (scripts/negative_checks.py;
 never published) and writes data/review/negative_check_worklist.csv: the
 counties profiled so far that have no restriction and no check yet.
 
+Contested projects are matched to the federal plant inventories in
+data/reference/facilities.csv (scripts/facility_matches.py): a strong match
+adds the facility_* columns, and every match, conflicts first, goes to
+data/review/facility_matches.csv. No outcome changes here.
+
+data/processed/county_summary.csv / .json (scripts/county_summary.py) gives
+every county's counts in one small file, and data/processed/datapackage.json
+(scripts/datapackage.py) describes every published file: its rows, fields,
+the sources behind it and their licenses.
+
+Entity JSON files are written one record per line: half the size of indented
+JSON, still valid JSON, and a changed record is a changed line in a diff.
+
 Two more entities have their own modules: siting_standards (NREL's ordinance
 features per jurisdiction, scripts/siting_standards.py) and state_policies
 (state siting law checked against the statute, scripts/state_policies.py,
@@ -44,6 +57,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import classify  # noqa: E402
+import county_summary  # noqa: E402
+import datapackage  # noqa: E402
+import facility_matches  # noqa: E402
 import geo  # noqa: E402
 import group_registry  # noqa: E402
 import headline_metrics  # noqa: E402
@@ -343,6 +359,10 @@ def main() -> int:
         quarantine.extend({"entity": entity, **r} for r in held)
         findings.extend(found)
 
+    # Federal plant inventories: a strong match is published on the project
+    # row; every match goes to the worklist. Outcomes are never changed here.
+    facility_work = facility_matches.stamp(datasets.get("contested_projects", []), facility_matches.load())
+
     # Opposition groups: the registry is built from every named group, then a
     # group with no source is blanked from the published row (held for review).
     registry, held_groups = group_registry.run(datasets.get("contested_projects", []))
@@ -359,7 +379,7 @@ def main() -> int:
     for entity, rows in datasets.items():
         preferred = ["id"] + [k for k in rows[0] if k != "id"] if rows else ["id"]
         write_csv(PROCESSED_DIR / f"{entity}.csv", rows, preferred)
-        write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows, archive))
+        write_json(PROCESSED_DIR / f"{entity}.json", json_records(rows, archive), compact=True)
         print(f"Wrote data/processed/{entity}.csv/.json ({len(rows)} records)")
 
     standards = siting_standards.build(fips_lookup, load_place_index())
@@ -385,6 +405,12 @@ def main() -> int:
           f"also covering data centers; {metrics['contested_projects']['projects']} projects, "
           f"{metrics['contested_projects']['confirmed_outcomes']} confirmed")
 
+    write_csv(facility_matches.WORKLIST_PATH, facility_work, facility_matches.WORKLIST_FIELDS)
+    projects = datasets.get("contested_projects", [])
+    print(f"Facilities: {sum(1 for r in projects if r.get('facility_match'))} projects matched to a plant, "
+          f"{sum(1 for r in projects if r.get('facility_conflict'))} whose outcome the plant's status contradicts; "
+          f"wrote data/review/{facility_matches.WORKLIST_PATH.name} ({len(facility_work)} rows)")
+
     misses = fips_misses(datasets, fips_lookup)
     write_csv(FIPS_MISSES, misses, FIPS_MISS_FIELDS)
     for entity in FIPS_ENTITIES:
@@ -404,10 +430,22 @@ def main() -> int:
     write_csv(NEGATIVE_WORKLIST, todo, negative_checks.WORKLIST_FIELDS)
     print(f"Wrote data/review/negative_check_worklist.csv ({len(todo)} counties to check)")
 
+    by_prefix = {f[:2]: st for f, st in states.items()}
+    counties = county_summary.build(datasets, standards, checks, geo.all_counties(), geo.name,
+                                    lambda f: states.get(f) or by_prefix.get(f[:2], ""))
+    write_csv(PROCESSED_DIR / "county_summary.csv", counties, county_summary.FIELDS)
+    write_json(PROCESSED_DIR / "county_summary.json", counties, compact=True)
+    print(f"Wrote data/processed/county_summary.csv/.json ({len(counties)} counties, "
+          f"{sum(1 for c in counties if c['coverage'] == 'record')} with a record)")
+
     sources = collect_sources(datasets, archive)
     write_csv(PROCESSED_DIR / "sources.csv", sources, SOURCE_FIELDS)
-    write_json(PROCESSED_DIR / "sources.json", sources)
+    write_json(PROCESSED_DIR / "sources.json", sources, compact=True)
     print(f"Wrote data/processed/sources.csv/.json ({len(sources)} sources)")
+
+    package = datapackage.build(PROCESSED_DIR)
+    write_json(PROCESSED_DIR / "datapackage.json", package)
+    print(f"Wrote data/processed/datapackage.json ({len(package['resources'])} resources)")
     return 0
 
 

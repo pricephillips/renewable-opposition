@@ -63,7 +63,8 @@ TECH_WORDS = {"solar": "solar", "wind": "wind", "battery_storage": "battery stor
 
 OUTCOME_FIELDS = ["priority", "tier", "source_record_id", "state", "county", "municipality",
                   "project_name", "technology", "outcome", "event_date_text", "has_litigation",
-                  "what_would_confirm", "located_url", "search_query"]
+                  "what_would_confirm", "located_url", "search_query", "facility_status",
+                  "facility_conflict"]
 RESTRICTION_FIELDS = ["priority", "tier", "instrument_id", "state", "jurisdiction",
                       "jurisdiction_type", "scope", "technologies", "status", "severity_score",
                       "date_enacted_iso", "current_end_date_iso", "legal_basis", "located_url",
@@ -107,8 +108,12 @@ def outcome_rows(projects: list[dict], resolved: set[str], located: dict[str, st
             "has_litigation": p.get("has_litigation"),
             "what_would_confirm": WHAT_CONFIRMS[outcome], "located_url": (located or {}).get(rid, ""),
             "search_query": query,
+            "facility_status": p.get("facility_status") or "",
+            "facility_conflict": p.get("facility_conflict") or "",
         })
-    rows.sort(key=lambda r: (OUTCOME_TIERS.index(r["tier"]),
+    # A plant inventory that contradicts the outcome goes first: its drafted
+    # evidence note is in data/review/facility_matches.csv.
+    rows.sort(key=lambda r: (not r["facility_conflict"], OUTCOME_TIERS.index(r["tier"]),
                              _s(r["has_litigation"]) != "yes",
                              _year(_s(r["event_date_text"])), r["state"], r["project_name"]))
     for i, r in enumerate(rows, 1):

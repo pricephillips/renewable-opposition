@@ -1,470 +1,54 @@
 [
-  {
-    "source_id": "src_731207f65d0f",
-    "url": "https://scholarship.law.columbia.edu/sabin_climate_change/280/",
-    "normalized_url": "https://scholarship.law.columbia.edu/sabin_climate_change/280",
-    "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (Sept. 2026 ed.), via data/renewable_opposition_records_2026-09.csv",
-    "record_count": 1434,
-    "entities": "contested_projects;restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_35f547ae9e1e",
-    "url": "https://doi.org/10.25984/3363739",
-    "normalized_url": "https://doi.org/10.25984/3363739",
-    "title": "NREL U.S. Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363739, CC BY 4.0",
-    "record_count": 1223,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_62f3cc813b0f",
-    "url": "https://doi.org/10.25984/3363758",
-    "normalized_url": "https://doi.org/10.25984/3363758",
-    "title": "NREL U.S. Wind Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758, CC BY 4.0",
-    "record_count": 1170,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_8a40f21d6fd9",
-    "url": "https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv",
-    "normalized_url": "https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv",
-    "title": "Moratorium Nation (mjbommar/moratorium-data-2026), CC-BY-4.0",
-    "record_count": 286,
-    "entities": "restrictions",
-    "archived_url": "https://web.archive.org/web/20260929165324/https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv"
-  },
-  {
-    "source_id": "src_90d5b39d9a09",
-    "url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
-    "normalized_url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf",
-    "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv",
-    "record_count": 74,
-    "entities": "contested_projects;restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_b8ae2b2663d6",
-    "url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
-    "normalized_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf",
-    "title": "Reviewed case record",
-    "record_count": 4,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20251005222952/https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf"
-  },
-  {
-    "source_id": "src_a19958c3a465",
-    "url": "https://www.cherokeecountyks.gov/main/component/easyfolderlistingpro/?view=download&format=raw&data=eNpFUE1PwzAM_SvId7Rmmwq4R8QRCe08KcpatwvKRxVcJ2wI8d9Jmlac7Pfs9_RshULgD2OLMHozUICO8SAQtFUT8XnwfbLkXCKfX721mll7R4EfylpWQmIKVcgLhdBsoykRx3_TXCcEKReuoOcqdcpSgQ1CKW1l9VwwncamigKZWcXr4prh7kTsTYo5B-_2zb5d3UZtaHM75j0hHstUvvugog86WemdPJGjm7oYkm_5jOlbfgT_SX1cXMIfEOge124exjU13WcdiLdIXCJnVTGq_lr-At0FRWZfslwi0JemW732iODyp6D7_QMb4HMY",
-    "normalized_url": "https://www.cherokeecountyks.gov/main/component/easyfolderlistingpro?view=download&format=raw&data=eNpFUE1PwzAM_SvId7Rmmwq4R8QRCe08KcpatwvKRxVcJ2wI8d9Jmlac7Pfs9_RshULgD2OLMHozUICO8SAQtFUT8XnwfbLkXCKfX721mll7R4EfylpWQmIKVcgLhdBsoykRx3_TXCcEKReuoOcqdcpSgQ1CKW1l9VwwncamigKZWcXr4prh7kTsTYo5B-_2zb5d3UZtaHM75j0hHstUvvugog86WemdPJGjm7oYkm_5jOlbfgT_SX1cXMIfEOge124exjU13WcdiLdIXCJnVTGq_lr-At0FRWZfslwi0JemW732iODyp6D7_QMb4HMY",
-    "title": "review queue: web_research_2026-10-09",
-    "record_count": 3,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_ec3a4bfbbd99",
-    "url": "https://www.thecr.com/news/rules-approved-for-data-centers-and-battery-storage/article_d1e08843-27f1-4d1a-8ef3-742607be0bad.html",
-    "normalized_url": "https://www.thecr.com/news/rules-approved-for-data-centers-and-battery-storage/article_d1e08843-27f1-4d1a-8ef3-742607be0bad.html",
-    "title": "review queue: data-center-map: Jay County (master_opposition.csv row 1161)",
-    "record_count": 3,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_b878ed0a41a6",
-    "url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf",
-    "normalized_url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_7b9a8c5c9d61",
-    "url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html",
-    "normalized_url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_f7075eca4512",
-    "url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
-    "normalized_url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_733480173ca9",
-    "url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631",
-    "normalized_url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20240721223358/https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631"
-  },
-  {
-    "source_id": "src_e6e6bdc1db81",
-    "url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229",
-    "normalized_url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_5321434aa4c7",
-    "url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html",
-    "normalized_url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_429df504cd5f",
-    "url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
-    "normalized_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_d60b4b8819b7",
-    "url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html",
-    "normalized_url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20190723194753/https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html"
-  },
-  {
-    "source_id": "src_95e68a6de863",
-    "url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74/",
-    "normalized_url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_2347b3acaab4",
-    "url": "https://law.justia.com/cases/hawaii/supreme-court/2022/scap-19-0000449.html",
-    "normalized_url": "https://law.justia.com/cases/hawaii/supreme-court/2022/scap-19-0000449.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_c9ce988b661a",
-    "url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
-    "normalized_url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_fe3ec1e3efaa",
-    "url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html",
-    "normalized_url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20250622095728/https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html"
-  },
-  {
-    "source_id": "src_91330a731be3",
-    "url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html",
-    "normalized_url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20240908100019/https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html"
-  },
-  {
-    "source_id": "src_66830ece2339",
-    "url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html",
-    "normalized_url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20220925163445/https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html"
-  },
-  {
-    "source_id": "src_911d8cdd66f1",
-    "url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html",
-    "normalized_url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20231102161232/https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html"
-  },
-  {
-    "source_id": "src_292cabf0aa2e",
-    "url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html",
-    "normalized_url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20221006173131/https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html"
-  },
-  {
-    "source_id": "src_1dd0405c5250",
-    "url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf",
-    "normalized_url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_00e442106d00",
-    "url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf",
-    "normalized_url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_08ecd0b293ba",
-    "url": "https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf",
-    "normalized_url": "https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf",
-    "title": "review queue: web_research_2026-10-06",
-    "record_count": 2,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_4a68254cbd3f",
-    "url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/",
-    "normalized_url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_8714f02ecb25",
-    "url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of/",
-    "normalized_url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_79287f71401d",
-    "url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/",
-    "normalized_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_a5dfad01e7d6",
-    "url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management/",
-    "normalized_url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_de7702189893",
-    "url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland/",
-    "normalized_url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_84f8736fb7b5",
-    "url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/",
-    "normalized_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_258ce97a7ac3",
-    "url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc/",
-    "normalized_url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_213e809d32a2",
-    "url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc/",
-    "normalized_url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_6c9ba082386e",
-    "url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc/",
-    "normalized_url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_22f8ac453ce3",
-    "url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper/",
-    "normalized_url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_2d9681e5431e",
-    "url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals/",
-    "normalized_url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_62b2194e5e0e",
-    "url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain/",
-    "normalized_url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_5dd93a66684f",
-    "url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty/",
-    "normalized_url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_ed3cc583909b",
-    "url": "https://www.courtlistener.com/opinion/7923542/in-re-allen/",
-    "normalized_url": "https://www.courtlistener.com/opinion/7923542/in-re-allen",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_8f917ca74c3a",
-    "url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/",
-    "normalized_url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20241124014205/https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/"
-  },
-  {
-    "source_id": "src_db53cb6e1149",
-    "url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/",
-    "normalized_url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_1b96ffa73bcb",
-    "url": "https://www.courts.state.md.us/sites/default/files/unreported-opinions/1177s20.pdf",
-    "normalized_url": "https://www.courts.state.md.us/sites/default/files/unreported-opinions/1177s20.pdf",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_dd5821622498",
-    "url": "https://www.govinfo.gov/app/details/USCOURTS-njd-1_23-cv-21201",
-    "normalized_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-1_23-cv-21201",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_8eef61cb2896",
-    "url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377",
-    "normalized_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377",
-    "title": "Reviewed case record",
-    "record_count": 2,
-    "entities": "cases",
-    "archived_url": "https://web.archive.org/web/20260709014400/https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"
-  },
-  {
-    "source_id": "src_4c42e6a81b22",
-    "url": "https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf",
-    "normalized_url": "https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf",
-    "title": "review queue: web_research_2026-10-09",
-    "record_count": 1,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_c067ca72c0f5",
-    "url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf",
-    "normalized_url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf",
-    "title": "review queue: data-center-map: Clarke County (master_opposition.csv row 70)",
-    "record_count": 1,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_519088ccf1e1",
-    "url": "https://corridorbusiness.com/linn-supervisors-give-green-light-to-coggon-solar-project/",
-    "normalized_url": "https://corridorbusiness.com/linn-supervisors-give-green-light-to-coggon-solar-project",
-    "title": "review queue: web_research_2026-10-09",
-    "record_count": 1,
-    "entities": "contested_projects",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_fd5251ab33ec",
-    "url": "https://digital-release.fourstateshomepage.com/news/local/cherokee-countys-moratorium-affects-solar-project-plans/amp/",
-    "normalized_url": "https://digital-release.fourstateshomepage.com/news/local/cherokee-countys-moratorium-affects-solar-project-plans/amp",
-    "title": "review queue: web_research_2026-10-09",
-    "record_count": 1,
-    "entities": "contested_projects",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_ed02f44e049b",
-    "url": "https://public.destinyhosted.com/goodydocs/2026/CC/20260706_2200/3175_Ordinance_No._2026-1652_with_Exhibit.pdf",
-    "normalized_url": "https://public.destinyhosted.com/goodydocs/2026/CC/20260706_2200/3175_Ordinance_No._2026-1652_with_Exhibit.pdf",
-    "title": "review queue: data-center-map: Goodyear (master_opposition.csv row 1734)",
-    "record_count": 1,
-    "entities": "restrictions",
-    "archived_url": ""
-  },
-  {
-    "source_id": "src_56895fcaf4c8",
-    "url": "https://www.idahopress.com/guest-commentary-ada-county-balancing-community-needs-with-property-rights/article_b4d25663-b8e1-4556-ab92-91f985b88286.html",
-    "normalized_url": "https://www.idahopress.com/guest-commentary-ada-county-balancing-community-needs-with-property-rights/article_b4d25663-b8e1-4556-ab92-91f985b88286.html",
-    "title": "review queue: data-center-map: Ada County (master_opposition.csv row 39)",
-    "record_count": 1,
-    "entities": "restrictions",
-    "archived_url": ""
-  }
+{"source_id": "src_731207f65d0f", "url": "https://scholarship.law.columbia.edu/sabin_climate_change/280/", "normalized_url": "https://scholarship.law.columbia.edu/sabin_climate_change/280", "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (Sept. 2026 ed.), via data/renewable_opposition_records_2026-09.csv", "record_count": 1434, "entities": "contested_projects;restrictions", "archived_url": ""},
+{"source_id": "src_35f547ae9e1e", "url": "https://doi.org/10.25984/3363739", "normalized_url": "https://doi.org/10.25984/3363739", "title": "NREL U.S. Solar Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363739, CC BY 4.0", "record_count": 1223, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_62f3cc813b0f", "url": "https://doi.org/10.25984/3363758", "normalized_url": "https://doi.org/10.25984/3363758", "title": "NREL U.S. Wind Siting Regulation and Zoning Ordinances (2025), DOI 10.25984/3363758, CC BY 4.0", "record_count": 1170, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_8a40f21d6fd9", "url": "https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv", "normalized_url": "https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv", "title": "Moratorium Nation (mjbommar/moratorium-data-2026), CC-BY-4.0", "record_count": 286, "entities": "restrictions", "archived_url": "https://web.archive.org/web/20260929165324/https://github.com/mjbommar/moratorium-data-2026/blob/main/data/moratorium_inventory.csv"},
+{"source_id": "src_90d5b39d9a09", "url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf", "normalized_url": "https://climate.law.columbia.edu/sites/default/files/content/Opposition-Report-June-2025.pdf", "title": "Sabin Center, Opposition to Renewable Energy Facilities in the United States (June 2025 ed.), via data/renewable_opposition_records.csv", "record_count": 74, "entities": "contested_projects;restrictions", "archived_url": ""},
+{"source_id": "src_b8ae2b2663d6", "url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf", "normalized_url": "https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf", "title": "Reviewed case record", "record_count": 4, "entities": "cases", "archived_url": "https://web.archive.org/web/20251005222952/https://cdn.ca9.uscourts.gov/datastore/opinions/2016/05/26/13-36078.pdf"},
+{"source_id": "src_a19958c3a465", "url": "https://www.cherokeecountyks.gov/main/component/easyfolderlistingpro/?view=download&format=raw&data=eNpFUE1PwzAM_SvId7Rmmwq4R8QRCe08KcpatwvKRxVcJ2wI8d9Jmlac7Pfs9_RshULgD2OLMHozUICO8SAQtFUT8XnwfbLkXCKfX721mll7R4EfylpWQmIKVcgLhdBsoykRx3_TXCcEKReuoOcqdcpSgQ1CKW1l9VwwncamigKZWcXr4prh7kTsTYo5B-_2zb5d3UZtaHM75j0hHstUvvugog86WemdPJGjm7oYkm_5jOlbfgT_SX1cXMIfEOge124exjU13WcdiLdIXCJnVTGq_lr-At0FRWZfslwi0JemW732iODyp6D7_QMb4HMY", "normalized_url": "https://www.cherokeecountyks.gov/main/component/easyfolderlistingpro?view=download&format=raw&data=eNpFUE1PwzAM_SvId7Rmmwq4R8QRCe08KcpatwvKRxVcJ2wI8d9Jmlac7Pfs9_RshULgD2OLMHozUICO8SAQtFUT8XnwfbLkXCKfX721mll7R4EfylpWQmIKVcgLhdBsoykRx3_TXCcEKReuoOcqdcpSgQ1CKW1l9VwwncamigKZWcXr4prh7kTsTYo5B-_2zb5d3UZtaHM75j0hHstUvvugog86WemdPJGjm7oYkm_5jOlbfgT_SX1cXMIfEOge124exjU13WcdiLdIXCJnVTGq_lr-At0FRWZfslwi0JemW732iODyp6D7_QMb4HMY", "title": "review queue: web_research_2026-10-09", "record_count": 3, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_ec3a4bfbbd99", "url": "https://www.thecr.com/news/rules-approved-for-data-centers-and-battery-storage/article_d1e08843-27f1-4d1a-8ef3-742607be0bad.html", "normalized_url": "https://www.thecr.com/news/rules-approved-for-data-centers-and-battery-storage/article_d1e08843-27f1-4d1a-8ef3-742607be0bad.html", "title": "review queue: data-center-map: Jay County (master_opposition.csv row 1161)", "record_count": 3, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_b878ed0a41a6", "url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf", "normalized_url": "https://bloximages.chicago2.vip.townnews.com/pantagraph.com/content/tncms/assets/v3/editorial/2/d7/2d766008-937a-572c-9e64-1b6be300fc8d/613a6e8edb992.pdf.pdf", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_7b9a8c5c9d61", "url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html", "normalized_url": "https://caselaw.findlaw.com/court/la-court-of-appeal/219220.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_f7075eca4512", "url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html", "normalized_url": "https://caselaw.findlaw.com/court/nc-court-of-appeals/129583.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_733480173ca9", "url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631", "normalized_url": "https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20240721223358/https://dockets.justia.com/docket/arizona/azdce/4:2024cv00034/1359631"},
+{"source_id": "src_e6e6bdc1db81", "url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229", "normalized_url": "https://dockets.justia.com/docket/maryland/mddce/8:2009cv01519/169229", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_5321434aa4c7", "url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html", "normalized_url": "https://law.justia.com/cases/delaware/court-of-chancery/2023/2022-0287-nac.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_429df504cd5f", "url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html", "normalized_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_d60b4b8819b7", "url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html", "normalized_url": "https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20190723194753/https://law.justia.com/cases/federal/appellate-courts/ca10/15-5121/15-5121-2017-09-18.html"},
+{"source_id": "src_95e68a6de863", "url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74/", "normalized_url": "https://law.justia.com/cases/federal/district-courts/california/casdce/3:2020cv02343/694320/74", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_2347b3acaab4", "url": "https://law.justia.com/cases/hawaii/supreme-court/2022/scap-19-0000449.html", "normalized_url": "https://law.justia.com/cases/hawaii/supreme-court/2022/scap-19-0000449.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_c9ce988b661a", "url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html", "normalized_url": "https://law.justia.com/cases/nevada/supreme-court/2013/129-nev-adv-op-no-9.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_fe3ec1e3efaa", "url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html", "normalized_url": "https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20250622095728/https://law.justia.com/cases/new-hampshire/supreme-court/2024/2022-0122.html"},
+{"source_id": "src_91330a731be3", "url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html", "normalized_url": "https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20240908100019/https://law.justia.com/cases/oregon/supreme-court/2023/s069919.html"},
+{"source_id": "src_66830ece2339", "url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html", "normalized_url": "https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20220925163445/https://law.justia.com/cases/south-dakota/supreme-court/2022/29334.html"},
+{"source_id": "src_911d8cdd66f1", "url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html", "normalized_url": "https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20231102161232/https://law.justia.com/cases/vermont/supreme-court/2023/22-ap-286.html"},
+{"source_id": "src_292cabf0aa2e", "url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html", "normalized_url": "https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20221006173131/https://law.justia.com/cases/wyoming/supreme-court/2012/s-12-0060.html"},
+{"source_id": "src_1dd0405c5250", "url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf", "normalized_url": "https://mn.gov/law-library-stat/archive/ctapun/2021/OPa201043-071221.pdf", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_00e442106d00", "url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf", "normalized_url": "https://static1.squarespace.com/static/611d92d311bd286f9d8b0469/t/64c7df34fb047f2fa46f820c/1690820503260/Complaint.pdf", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_08ecd0b293ba", "url": "https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf", "normalized_url": "https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf", "title": "review queue: web_research_2026-10-06", "record_count": 2, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_4a68254cbd3f", "url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior/", "normalized_url": "https://www.courtlistener.com/docket/5913373/colorado-river-indian-tribes-v-department-of-interior", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_8714f02ecb25", "url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of/", "normalized_url": "https://www.courtlistener.com/docket/66713578/burning-man-project-v-bureau-of-land-management-of-the-us-department-of", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_79287f71401d", "url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/", "normalized_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_a5dfad01e7d6", "url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management/", "normalized_url": "https://www.courtlistener.com/docket/70393156/friends-of-nevada-wilderness-v-united-states-bureau-of-land-management", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_de7702189893", "url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland/", "normalized_url": "https://www.courtlistener.com/opinion/10366230/western-watersheds-project-v-haaland", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_84f8736fb7b5", "url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/", "normalized_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_258ce97a7ac3", "url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc/", "normalized_url": "https://www.courtlistener.com/opinion/1406402/burch-v-nedpower-mount-storm-llc", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_213e809d32a2", "url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc/", "normalized_url": "https://www.courtlistener.com/opinion/1665625/rankin-v-fpl-energy-llc", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_6c9ba082386e", "url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc/", "normalized_url": "https://www.courtlistener.com/opinion/2247219/center-for-biological-diversity-inc-v-fpl-group-inc", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_22f8ac453ce3", "url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper/", "normalized_url": "https://www.courtlistener.com/opinion/3219842/public-employees-for-environmental-responsibility-v-hopper", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_2d9681e5431e", "url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals/", "normalized_url": "https://www.courtlistener.com/opinion/4483340/dans-mountain-wind-force-llc-v-allegany-cnty-bd-of-zoning-appeals", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_62b2194e5e0e", "url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain/", "normalized_url": "https://www.courtlistener.com/opinion/4774441/dianas-v-crazy-mountain", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_5dd93a66684f", "url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty/", "normalized_url": "https://www.courtlistener.com/opinion/6657003/1000-friends-of-or-v-jackson-cnty", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_ed3cc583909b", "url": "https://www.courtlistener.com/opinion/7923542/in-re-allen/", "normalized_url": "https://www.courtlistener.com/opinion/7923542/in-re-allen", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_8f917ca74c3a", "url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/", "normalized_url": "https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20241124014205/https://www.courtlistener.com/opinion/9382865/save-long-beach-island-v-united-states-department-of-the-interior/"},
+{"source_id": "src_db53cb6e1149", "url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county/", "normalized_url": "https://www.courtlistener.com/opinion/9391802/monaghan-farms-inc-v-the-board-of-county-commissioners-of-albany-county", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_1b96ffa73bcb", "url": "https://www.courts.state.md.us/sites/default/files/unreported-opinions/1177s20.pdf", "normalized_url": "https://www.courts.state.md.us/sites/default/files/unreported-opinions/1177s20.pdf", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_dd5821622498", "url": "https://www.govinfo.gov/app/details/USCOURTS-njd-1_23-cv-21201", "normalized_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-1_23-cv-21201", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": ""},
+{"source_id": "src_8eef61cb2896", "url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377", "normalized_url": "https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377", "title": "Reviewed case record", "record_count": 2, "entities": "cases", "archived_url": "https://web.archive.org/web/20260709014400/https://www.govinfo.gov/app/details/USCOURTS-njd-3_24-cv-09377"},
+{"source_id": "src_4c42e6a81b22", "url": "https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf", "normalized_url": "https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf", "title": "review queue: web_research_2026-10-09", "record_count": 1, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_c067ca72c0f5", "url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf", "normalized_url": "https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf", "title": "review queue: data-center-map: Clarke County (master_opposition.csv row 70)", "record_count": 1, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_519088ccf1e1", "url": "https://corridorbusiness.com/linn-supervisors-give-green-light-to-coggon-solar-project/", "normalized_url": "https://corridorbusiness.com/linn-supervisors-give-green-light-to-coggon-solar-project", "title": "review queue: web_research_2026-10-09", "record_count": 1, "entities": "contested_projects", "archived_url": ""},
+{"source_id": "src_fd5251ab33ec", "url": "https://digital-release.fourstateshomepage.com/news/local/cherokee-countys-moratorium-affects-solar-project-plans/amp/", "normalized_url": "https://digital-release.fourstateshomepage.com/news/local/cherokee-countys-moratorium-affects-solar-project-plans/amp", "title": "review queue: web_research_2026-10-09", "record_count": 1, "entities": "contested_projects", "archived_url": ""},
+{"source_id": "src_ed02f44e049b", "url": "https://public.destinyhosted.com/goodydocs/2026/CC/20260706_2200/3175_Ordinance_No._2026-1652_with_Exhibit.pdf", "normalized_url": "https://public.destinyhosted.com/goodydocs/2026/CC/20260706_2200/3175_Ordinance_No._2026-1652_with_Exhibit.pdf", "title": "review queue: data-center-map: Goodyear (master_opposition.csv row 1734)", "record_count": 1, "entities": "restrictions", "archived_url": ""},
+{"source_id": "src_56895fcaf4c8", "url": "https://www.idahopress.com/guest-commentary-ada-county-balancing-community-needs-with-property-rights/article_b4d25663-b8e1-4556-ab92-91f985b88286.html", "normalized_url": "https://www.idahopress.com/guest-commentary-ada-county-balancing-community-needs-with-property-rights/article_b4d25663-b8e1-4556-ab92-91f985b88286.html", "title": "review queue: data-center-map: Ada County (master_opposition.csv row 39)", "record_count": 1, "entities": "restrictions", "archived_url": ""}
 ]

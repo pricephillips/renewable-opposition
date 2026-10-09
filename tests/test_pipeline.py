@@ -164,8 +164,13 @@ def test_a_complete_queue_row_is_promoted_into_the_seed_columns(monkeypatch, tmp
 
 
 def test_the_data_build_promotes_before_it_builds_and_commits_the_seeds():
+    import run_pipeline
     wf = (Path(__file__).resolve().parent.parent / ".github" / "workflows" / "build-data.yml").read_text()
-    assert wf.index("scripts/promote_reviewed.py |") < wf.index("python scripts/build_seed_outputs.py")
+    # The workflow runs the build stages from scripts/run_pipeline.py, which
+    # promotes before it builds.
+    assert "python scripts/run_pipeline.py build" in wf
+    names = [s[0] for s in run_pipeline.BUILD]
+    assert names.index("promote_reviewed") < names.index("build_seed_outputs")
     assert "git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv" in wf
     for path in ("data/review/queue.csv", "data/review/cases_candidates.csv",
                  "data/review/place_overrides.csv", "scripts/promote_reviewed.py"):

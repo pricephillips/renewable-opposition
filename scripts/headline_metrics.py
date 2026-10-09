@@ -157,6 +157,9 @@ def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None
         "by_evidence_level": _counter(inst.values(), lambda i: i.get("evidence_level")),
         "by_verification": _counter(inst.values(), lambda i: i.get("verification")),
         "by_source": by_source(inst),
+        "facility_matches": _counter((i for i in inst.values() if i.get("facility_match")),
+                                     lambda i: i.get("facility_status")),
+        "facility_conflicts": sum(1 for i in inst.values() if i.get("facility_conflict")),
     }
 
     rows = datasets.get("cases", [])
@@ -231,6 +234,15 @@ def render(m: dict) -> str:
         "|---|---:|",
     ]
     lines += [f"| {o} | {n} |" for o, n in c["by_outcome"].items()]
+    fm = c.get("facility_matches") or {}
+    if fm:
+        lines += ["", f"{sum(fm.values())} projects match a plant in the federal inventories (EIA-860M, "
+                  "USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:", "",
+                  "| Plant status | Projects |", "|---|---:|"]
+        lines += [f"| {st} | {n} |" for st, n in fm.items()]
+        lines += ["", f"{c.get('facility_conflicts', 0)} of them carry an outcome the plant's status contradicts "
+                  "(see `data/review/facility_matches.csv`). A plant's status says what became of it, not "
+                  "whether opposition had anything to do with it; no outcome is changed by a match."]
     lines += ["", "## Cases", "", f"{k['cases']} cases; {k['by_verification'].get('verified', 0)} "
               "with a court record.", "", "| Status | Cases |", "|---|---:|"]
     lines += [f"| {s or '(blank)'} | {n} |" for s, n in k["by_case_status"].items()]

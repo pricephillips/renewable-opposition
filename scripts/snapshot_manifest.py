@@ -27,7 +27,7 @@ from common import PROCESSED_DIR, ROOT, read_csv  # noqa: E402
 
 MANIFEST = ROOT / "data" / "snapshots" / "manifest.csv"
 FIELDS = ["date", "file", "rows", "sha256"]
-TRACKED = ["restrictions.csv", "contested_projects.csv", "cases.csv", "sources.csv"]
+TRACKED = ["restrictions.csv", "contested_projects.csv", "cases.csv", "sources.csv", "county_summary.csv"]
 
 
 def file_rows(path: Path) -> int:

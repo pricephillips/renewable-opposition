@@ -31,6 +31,12 @@
       "reason": "Local data center events copied from pricephillips/data-center-map master_opposition.csv (path from --dc-map or $RO_DATA_CENTER_MAP), placed by classify.county_fips_all. Read by site_profile.py and group_registry.py; never part of the renewable counts."
     },
 
+    "data/reference/facilities.csv": {
+      "layer": "raw", "writers": ["scripts/fetch_facilities.py"],
+      "reason": "Solar, wind, storage and geothermal plants from EIA-860M, USWTDB and USPVDB (public domain), one row per plant and status. The source files are not committed (the EIA workbook is about 14 MB a month); facilities_manifest.csv records each one's URL, release and SHA-256. Read by build_seed_outputs.py through scripts/facility_matches.py."
+    },
+    "data/reference/facilities_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_facilities.py"]},
+
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],
       "copied_from": "pricephillips/data-center-map data/county_fips_lookup.json"
@@ -145,6 +151,7 @@
     "data/processed/coverage_delta.md": {"layer": "derived", "writers": ["scripts/coverage_delta.py"]},
     "data/review/outcome_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/review/fips_misses.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
+    "data/review/facility_matches.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/adjacency_worklist.csv": {"layer": "derived", "writers": ["scripts/adjacency_worklist.py"]},
     "data/review/negative_check_worklist.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
@@ -173,8 +180,12 @@
       "reason": "os.path paths passed as run() defaults; writes via a .tmp then os.replace. Its selftest writes only to a temp dir."
     },
     "scripts/build_seed_outputs.py": {
-      "files": ["data/processed/state_policies_held.csv"],
-      "reason": "state_policies.HELD_PATH, a module constant of scripts/state_policies.py."
+      "files": ["data/processed/state_policies_held.csv", "data/review/facility_matches.csv"],
+      "reason": "state_policies.HELD_PATH and facility_matches.WORKLIST_PATH, module constants of scripts/state_policies.py and scripts/facility_matches.py."
+    },
+    "scripts/run_pipeline.py": {
+      "files": [],
+      "reason": "--summary appends stage output to a file outside the repository ($GITHUB_STEP_SUMMARY in Actions); it owns no data. Every data file is written by the stage scripts it runs."
     },
     "scripts/site_profile.py": {
       "files": [],

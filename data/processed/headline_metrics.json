@@ -144,7 +144,14 @@
           "verified": 2
         }
       }
-    }
+    },
+    "facility_matches": {
+      "canceled_or_postponed": 18,
+      "operating": 72,
+      "planned": 29,
+      "under_construction": 14
+    },
+    "facility_conflicts": 46
   },
   "cases": {
     "rows": 39,

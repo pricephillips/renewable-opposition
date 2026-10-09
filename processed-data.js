@@ -99,6 +99,13 @@
       rec.project_area_acres = r.area_acres;
       rec.has_litigation = s(r.has_litigation).toLowerCase();
       rec.scope = 'renewables_only';
+      // A project matched to a plant in the federal inventories
+      // (scripts/facility_matches.py, strong matches only) sits at the plant.
+      if (r.latitude == null && r.facility_latitude != null && r.facility_longitude != null) {
+        rec.latitude = r.facility_latitude;
+        rec.longitude = r.facility_longitude;
+        rec.coord_source = 'facility';
+      }
     } else {
       rec.record_type = 'case';
       rec.jurisdiction_level = s(r.court_level);

@@ -36,6 +36,17 @@ Verified: checked against the instrument itself or the minutes that adopted it, 
 | needs_review | 34 |
 | pending | 230 |
 
+133 projects match a plant in the federal inventories (EIA-860M, USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:
+
+| Plant status | Projects |
+|---|---:|
+| canceled_or_postponed | 18 |
+| operating | 72 |
+| planned | 29 |
+| under_construction | 14 |
+
+46 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
+
 ## Cases
 
 38 cases; 38 with a court record.

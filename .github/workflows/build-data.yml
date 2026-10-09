@@ -2,8 +2,22 @@ name: Build dashboard data
 
 on:
   workflow_dispatch:
+    inputs:
+      refresh_facilities:
+        description: 'Re-fetch EIA-860M, USWTDB and USPVDB before building'
+        type: boolean
+        default: false
+  # EIA publishes EIA-860M late each month; this run picks up the new month.
+  schedule:
+    - cron: '17 6 3 * *'
   push:
     paths:
+      - 'scripts/run_pipeline.py'
+      - 'scripts/facility_matches.py'
+      - 'scripts/fetch_facilities.py'
+      - 'scripts/county_summary.py'
+      - 'scripts/datapackage.py'
+      - 'data/reference/facilities.csv'
       - 'data/seed/*.csv'
       - 'scripts/build_seed_outputs.py'
       - 'scripts/qc_gate.py'
@@ -76,28 +90,20 @@ jobs:
       - name: Install dependencies
         run: uv pip install --system -c requirements/ci.txt -r requirements.txt daff
 
-      # Complete review rows go into the seeds before the build, so nothing is
-      # promoted by hand. Incomplete rows stay queued and are listed here.
-      - name: Promote complete review rows into the seeds
-        run: python scripts/promote_reviewed.py | tee -a "$GITHUB_STEP_SUMMARY"
+      # The monthly run (and a manual run that asks for it) re-fetches the
+      # federal plant inventories first. A failed fetch stops the job before
+      # anything is written, so the stored inventory stays as it was.
+      - name: Refresh the plant inventories
+        if: github.event_name == 'schedule' || inputs.refresh_facilities
+        run: python scripts/run_pipeline.py refresh --only fetch_facilities --summary "$GITHUB_STEP_SUMMARY" --skip-build
 
-      - name: Run build script
-        run: python scripts/build_seed_outputs.py
-
-      - name: Rank what to verify next
-        run: python scripts/verification_worklist.py
-
-      - name: Neighbor watch (counties next to a new restriction, unchecked)
-        run: python scripts/adjacency_worklist.py
-
-      - name: Column coverage gate (blocks publishing a collapsed column)
-        run: python scripts/coverage_delta.py
-
-      - name: Record snapshot manifest
-        run: python scripts/snapshot_manifest.py
-
-      - name: Diff processed data against the previous commit
-        run: python scripts/processed_diff.py
+      # Every build stage, in order, from one list (scripts/run_pipeline.py):
+      # promote complete review rows (nothing is promoted by hand; incomplete
+      # rows stay queued and the summary lists them), build, rank what to
+      # verify next, the neighbor watch, the column coverage gate (blocks a
+      # collapsed column), the snapshot manifest and the processed-data diff.
+      - name: Build
+        run: python scripts/run_pipeline.py build --summary "$GITHUB_STEP_SUMMARY"
 
       - name: Publish QC report
         if: always()
@@ -115,7 +121,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/ data/snapshots/manifest.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
+          git add data/processed/ data/snapshots/manifest.csv data/reference/facilities.csv data/reference/facilities_manifest.csv data/review/facility_matches.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
           git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"

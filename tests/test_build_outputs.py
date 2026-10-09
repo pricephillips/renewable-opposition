@@ -41,6 +41,13 @@ def test_full_build_writes_csv_json_and_sources(monkeypatch, tmp_path):
     for entity in ("restrictions", "contested_projects", "cases"):
         header = (tmp_path / f"{entity}.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
         assert header[0] == "id" and len(header) == len(set(header)), entity
+        # One record per line, still one JSON document.
+        lines = (tmp_path / f"{entity}.json").read_text(encoding="utf-8").splitlines()
+        assert lines[0] == "[" and lines[-1] == "]" and len(lines) == len(read_csv(tmp_path / f"{entity}.csv")) + 2
+    counties = read_csv(tmp_path / "county_summary.csv")
+    assert len(counties) > 3000 and {c["coverage"] for c in counties} <= {"record", "negative_check", "none"}
+    package = json.loads((tmp_path / "datapackage.json").read_text())
+    assert {r["path"] for r in package["resources"]} >= {"restrictions.csv", "county_summary.csv"}
 
 
 def test_one_case_linked_to_two_projects_gets_two_ids():
