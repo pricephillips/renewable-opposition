@@ -59,6 +59,26 @@ test('counties draw from the local TopoJSON, never the plotly GeoJSON', async ({
   expect(page.requested.filter(u => /geojson-counties-fips/.test(u))).toEqual([]);
 });
 
+test('a filter applied mid-animation still fits the map to it', async ({ page }) => {
+  await page.goto('/' + FILE);
+  await expect(page.locator('#resultBadge')).toContainText(/[1-9]/, { timeout: 30000 });
+  await page.selectOption('#stateFilter', 'TX');
+  await expect.poll(() => page.locator('.leaflet-county-pane path').count(), { timeout: 30000 }).toBe(254);
+  // Zoom back out to every state and, while that animation runs, pick Minnesota.
+  // Leaflet drops a zoom requested during a zoom animation, so the page has to
+  // fit again once the first animation ends.
+  await page.evaluate(async () => {
+    const select = document.getElementById('stateFilter');
+    const choose = value => { select.value = value; select.dispatchEvent(new Event('change')); };
+    const frame = () => new Promise(resolve => requestAnimationFrame(resolve));
+    choose('');
+    await frame();
+    await frame();
+    choose('MN');
+  });
+  await expect.poll(() => page.locator('.leaflet-county-pane path').count(), { timeout: 30000 }).toBe(87);
+});
+
 test('geometry fetch failure says so and still draws points', async ({ page }) => {
   await page.route('**/counties_2024.topojson', route => route.fulfill({ status: 404, body: '' }));
   await page.goto('/' + FILE);

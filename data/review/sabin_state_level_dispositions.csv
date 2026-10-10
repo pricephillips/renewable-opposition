@@ -1,4 +1,11 @@
 sabin_record_id,state,disposition,policy_id,reason
+S26R-6287,AR,covered,AR-state_setback_standard-1,"Act 945 of 2025 (SB 437), read in the enrolled act; permit authority is in AR-siting_authority-1"
+REC-0017,CA,held,,"not a statute: the record describes bans adopted by local jurisdictions in California between 2018 and 2020 and names no state law; no state ban on wind, solar or storage found"
+REC-0029,CO,held,,the report text names no statute; no Colorado statute prohibiting wind or solar found in titles 29 and 40 (CRS 2024); state law instead limits local delay for utility projects (CO-local_preemption-1) and supports local permitting (SB 24-212)
+REC-0036,CT,held,,the report text names no statute; no Connecticut statute or rule banning utility-scale wind found; wind is sited by the Siting Council under setback rules effective 2014 (CT-state_setback_standard-1)
+REC-0037,CT,covered,CT-other-1,"P.A. 17-218 sec. 3, codified at Conn. Gen. Stat. 16-50k(a), read on cga.ct.gov; it conditions approval on agency findings rather than prohibiting projects outright"
+REC-0049,FL,covered,FL-state_moratorium-1,Fla. Stat. 377.708 (ch. 2024-186) read on flsenate.gov
+S26R-6285,FL,covered,FL-state_moratorium-1,Fla. Stat. 377.708 (ch. 2024-186) read on flsenate.gov; matches the Sabin citation
 REC-0502,IA,held,,not a statute: describes a research report (Kelly et al.) counting restrictive county ordinances
 REC-0074,IL,held,,"the report text names no statute (""state-level prohibitions"" adopted 2019-2020); no Illinois statute prohibiting wind or solar found, and the 2023 state law limits local restrictions instead"
 REC-0075,IL,covered,IL-local_preemption-1,P.A. 102-1123 (55 ILCS 5/5-12020) read on ilga.gov; setbacks also in IL-state_setback_standard-1
@@ -39,3 +46,12 @@ REC-0498,PA,held,,not a statute: a reference to a Penn State spreadsheet of loca
 S26R-6271,PA,held,,"not a statute: Game Commission board resolution of 2018-04-24; also not readable: https://www.pgc.pa.gov/InformationResources/AgencyBusinessCenter/WindEnergy/Documents/Resolution%20Establishing%20Windmill%20Policy.pdf returned an HTML page (HTTP 200, text/html), not the PDF, on 2026-10-09"
 REC-0389,RI,covered,RI-other-1,"2023 core forest law, R.I. Gen. Laws 39-26.6-3(6) and 39-26.6-12(c)"
 S26R-6270,RI,covered,RI-other-1,"same law (P.L. 2023, ch. 300 and 301); core forest definition matches"
+REC-0411,TN,held,,"statute not found: no Tennessee statute bans utility-scale solar or wind. The 2018 wind siting act (2018 Pub. Ch. 825, covered by TN-siting_authority-1, TN-state_setback_standard-1 and TN-other-1) regulates wind and bans only tall ridgetop turbines; 2025 HB 149 on solar siting was not enacted."
+REC-0412,TN,covered,TN-state_setback_standard-1,HB 1731 is 2018 Tenn. Pub. Acts ch. 825; setback and noise limits read in sec. 5(e)(1)(A) and (D).
+REC-0413,TN,held,,"expired: the wind moratorium in 2017 Tenn. Pub. Acts ch. 368 (HB 1021), sec. 4, ran until 2018-07-01 by its own terms, and 2018 Pub. Ch. 825, sec. 1, deleted the codified section (65-17-103) on 2018-04-24. Read at https://publications.tnsosfiles.com/acts/110/pub/pc0368.pdf via Jina Reader."
+REC-0418,TX,held,,"the report text names no statute (""a series of bans ... in specific regions"", 2019 to 2023). No Texas statute banning wind or solar in any region found; the nearest rule is the tax abatement bar for wind near military aviation facilities (Tex. Tax Code 312.0021, a 2017 law; not a siting rule), which is not a ban."
+REC-0500,VA,held,,not a statute: a reference to the University of Virginia Weldon Cooper Center solar project database.
+REC-0438,VT,held,,statute not found: no Vermont statute bans new wind projects. The closest state measures are the 2017 Commission wind sound rule (VT-state_setback_standard-2) and the certificate process (VT-siting_authority-1); 30 V.S.A. 248 as read on 2026-10-09 contains no wind ban.
+REC-0471,WV,held,,statute not found: no West Virginia statute banning new wind projects was found. Wind facilities are licensed through Public Service Commission siting certificates (WV-siting_authority-1); W. Va. Code 24-2-1 and 24-2-11c as read on 2026-10-09 contain no ban.
+REC-0472,WV,held,,"expired: W. Va. Code 24-2-1o(l) says the renewable energy facilities program section expires 2025-12-31 (read at https://code.wvlegislature.gov/24-2-1O/ on 2026-10-09; last signed amendment 2024 HB 5528). The caps (200 MW per facility, 400 MW cumulative, 50 MW steps) applied only to utility-owned solar with rate recovery under the program, not to siting generally."
+REC-0496,WY,held,,not a statute: a reference to the NREL database of local wind and solar ordinances.
