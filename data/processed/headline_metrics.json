@@ -1,32 +1,32 @@
 {
   "restrictions": {
-    "rows": 3627,
-    "instruments": 3424,
+    "rows": 3625,
+    "instruments": 3423,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3341,
+        "instruments": 3340,
         "severe_instruments": 1362,
         "states": 50,
         "by_status": {
-          "active": 885,
+          "active": 884,
           "extended": 58,
           "pending": 5,
           "unknown": 2393
         },
         "by_technology": {
           "battery_storage": 138,
-          "solar": 1658,
-          "wind": 1705
+          "solar": 1657,
+          "wind": 1704
         },
         "by_evidence_level": {
-          "compiled_flagged": 2392,
+          "compiled_flagged": 2396,
           "compiled_record": 61,
-          "primary_source": 74,
+          "primary_source": 69,
           "report_citation": 814
         },
         "by_verification": {
-          "unverified": 3267,
-          "verified": 74
+          "unverified": 3271,
+          "verified": 69
         }
       },
       "multi_sector_data_centers": {
@@ -74,8 +74,8 @@
         "instruments": 2393,
         "severe_instruments": 663,
         "by_verification": {
-          "unverified": 2362,
-          "verified": 31
+          "unverified": 2366,
+          "verified": 27
         }
       },
       "Moratorium Nation": {
@@ -87,17 +87,17 @@
         }
       },
       "review queue": {
-        "instruments": 10,
+        "instruments": 9,
         "severe_instruments": 3,
         "by_verification": {
           "unverified": 4,
-          "verified": 6
+          "verified": 5
         }
       }
     },
     "by_verification": {
-      "unverified": 3343,
-      "verified": 81
+      "unverified": 3347,
+      "verified": 76
     }
   },
   "contested_projects": {
@@ -176,25 +176,16 @@
       "wind": 12297
     },
     "by_verification": {
-      "unverified": 23668,
-      "verified": 110
+      "unverified": 23685,
+      "verified": 93
     },
     "restricting_rows": 7317
   },
   "state_policies": {
-    "rows": 122,
-    "states": 51,
-    "by_policy_type": {
-      "local_opt_out": 1,
-      "local_preemption": 29,
-      "other": 16,
-      "siting_authority": 49,
-      "state_moratorium": 3,
-      "state_setback_standard": 24
-    },
-    "by_verification": {
-      "verified": 122
-    }
+    "rows": 0,
+    "states": 0,
+    "by_policy_type": {},
+    "by_verification": {}
   },
   "county_coverage": {
     "counties": 3144,

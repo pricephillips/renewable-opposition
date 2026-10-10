@@ -20,6 +20,8 @@ on:
       - 'data/reference/facilities.csv'
       - 'data/seed/*.csv'
       - 'scripts/build_seed_outputs.py'
+      - 'scripts/build_database.py'
+      - 'db/*.sql'
       - 'scripts/qc_gate.py'
       - 'scripts/state_bounds.py'
       - 'scripts/common.py'
@@ -105,6 +107,14 @@ jobs:
       - name: Build
         run: python scripts/run_pipeline.py build --summary "$GITHUB_STEP_SUMMARY"
 
+      # The national database, checked against headline_metrics.json; a
+      # mismatch fails the build. Only the Parquet export and the two
+      # summaries are committed (GitHub Pages serves them to the dashboard).
+      # Their bytes depend only on the data, so an unchanged build commits
+      # nothing.
+      - name: Build the national database (Parquet and summaries)
+        run: python scripts/build_database.py --publish
+
       - name: Publish QC report
         if: always()
         run: cat data/processed/qc_report.md >> "$GITHUB_STEP_SUMMARY" || true
@@ -123,6 +133,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/processed/ data/snapshots/manifest.csv data/reference/facilities.csv data/reference/facilities_manifest.csv data/review/facility_matches.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
           git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv
+          git add data/db/parquet/ data/db/state_summary.json data/db/county_summary.json
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"
           # Another workflow may have moved the branch since checkout. Rebase

@@ -1,6 +1,6 @@
 # National database and dashboard: design
 
-**Status:** draft for review, 2026-10-09. Phase 1 (the database itself) is built: `db/`, `scripts/build_database.py`, `tests/test_build_database.py`. Phases 2 to 5 are proposals.
+**Status:** draft for review, 2026-10-09. Phase 1 (the database itself) and phase 2 (publishing it) are built: `db/`, `scripts/build_database.py`, `tests/test_build_database.py`, and a step in the Build dashboard data workflow. Phases 3 to 5 are proposals.
 
 This document designs one national database for everything the pipeline publishes, and one dashboard on top of it, to replace the four pages that read `data/processed/` today.
 
@@ -46,7 +46,8 @@ data/seed/*.csv, data/review/*.csv
 data/processed/*.csv, *.json, headline_metrics.json      ← source of truth
         │  build_database.py  (db/schema.sql, load.sql, views.sql; parity check)
         ▼
-data/db/renewable_opposition.duckdb   +   data/db/parquet/<table>.parquet
+data/db/renewable_opposition.duckdb   +   data/db/parquet/<table>.parquet, state_summary.json, county_summary.json
+(built locally, never committed)           (committed by the Build dashboard data workflow)
         │
         ├── dashboard (static HTML + DuckDB-WASM, reads Parquet over HTTP)
         └── downloads (DuckDB file, Parquet, the existing CSVs)
@@ -60,7 +61,7 @@ data/db/renewable_opposition.duckdb   +   data/db/parquet/<table>.parquet
 | Postgres / PostGIS (hosted) | Multi-user writes, a live API, spatial queries. | Needs a server, credentials, a sync job and a bill. The data has no live writers: everything goes through review CSVs and a build. Revisit only if that changes. |
 | SQLite + sql.js | Small, universal, Datasette-compatible. | No Parquet; slower for the group-by work the dashboard does. A SQLite export is a few lines if someone needs one. |
 
-**First paint.** The national view must not wait for the WASM engine. The build will also write two small JSON files, `state_summary.json` (52 rows) and `county_summary.json` (3,222 rows), from the views below, and the landing page draws from those plus `headline_metrics.json`. DuckDB-WASM loads in the background and takes over once someone filters, opens a county or opens the explorer.
+**First paint.** The national view must not wait for the WASM engine. The build also writes two small JSON files, `data/db/state_summary.json` (52 rows, 3 KB) and `county_summary.json` (3,222 rows, 250 KB), from the views below, and the landing page draws from those plus `headline_metrics.json`. DuckDB-WASM loads in the background and takes over once someone filters, opens a county or opens the explorer.
 
 ## 4. Data model
 
@@ -123,7 +124,7 @@ erDiagram
 
 ### Rules the database keeps
 
-- It is derived. `data/db/` is in `.gitignore`; nothing in it is hand-edited.
+- It is derived; nothing in it is hand-edited. The `.duckdb` file is in `.gitignore`. The Parquet export and the two summaries are committed, and their bytes depend only on the data (rows sorted, build time and commit left out of `build_info.parquet`), so a build that changes no data commits nothing.
 - It counts instruments, never rows, and keeps `multi_sector_data_centers` beside the renewables figure, never inside it.
 - It publishes nothing the build holds back: no quarantine rows, no review candidates, no local knowledge.
 
@@ -204,15 +205,15 @@ Placeholders in angle brackets; the layout, not the data, is the point.
 
 | Phase | Scope | Done when |
 |---|---|---|
-| **1. Database** (this change) | `db/schema.sql`, `load.sql`, `views.sql`; `scripts/build_database.py`; parity with `headline_metrics.json`; tests | built, tested, parity holds |
-| **2. Publish** | the Build dashboard data workflow runs `build_database.py --parquet data/db/parquet` and writes `state_summary.json` and `county_summary.json`; Parquet is committed so GitHub Pages serves it | Parquet and summaries on the published site after each build |
+| **1. Database** (done) | `db/schema.sql`, `load.sql`, `views.sql`; `scripts/build_database.py`; parity with `headline_metrics.json`; tests | built, tested, parity holds |
+| **2. Publish** (done) | the Build dashboard data workflow runs `build_database.py --publish`, which writes `data/db/parquet/` (25 files, about 2.1 MB) and `data/db/state_summary.json` (3 KB) and `county_summary.json` (250 KB); the workflow commits them so GitHub Pages serves them | Parquet and summaries on the published site after each build |
 | **3. Dashboard shell** | national, state and county views from the summaries and Parquet, DuckDB-WASM loaded lazily; Playwright smoke tests | totals match `headline_metrics.json` on every view |
 | **4. Explorer and records** | explorer, record pages, coverage view, data page, downloads; old pages redirect | the four old pages retired |
 | **5. Depth** | Census GEOIDs for jurisdictions (places and county subdivisions) in place of the match key; NREL `ordinance_year` on the timeline; state siting law for all 50 states; build-to-build history from `data/snapshots/` so the dashboard can show what changed | |
 
 ## 7. Decisions for Price
 
-1. **Where the Parquet lives.** Committing `data/db/parquet/` (about 2.2 MB, rewritten each build) lets GitHub Pages serve it with no other hosting. GitHub release assets avoid the churn but cannot be fetched from a browser page (no CORS headers), so they suit only the `.duckdb` download. Recommendation: commit the Parquet; attach the `.duckdb` file to a release when there is one.
+1. ~~**Where the Parquet lives.**~~ Decided 2026-10-09: committed in `data/db/parquet/`, served by GitHub Pages. The `.duckdb` file can go on a release when there is one.
 2. **What the public dashboard shows.** Profiles print pending review candidates and held rows under "Not published". Should the public county view show them, or only the published records? Recommendation: published records only, with the count of pending items and no detail.
 3. **Worklists on the public site.** Should the coverage view show the worklists, or only their sizes? Recommendation: sizes publicly; the worklists stay in the repository.
 4. **Retiring the old pages.** Redirect them once the new dashboard passes the smoke tests, or keep them alongside it?
@@ -221,7 +222,7 @@ Placeholders in angle brackets; the layout, not the data, is the point.
 
 ```bash
 python scripts/build_database.py                              # data/db/renewable_opposition.duckdb
-python scripts/build_database.py --parquet data/db/parquet    # also one Parquet file per table and view
+python scripts/build_database.py --publish                    # also data/db/parquet/ and the two summaries
 duckdb -readonly data/db/renewable_opposition.duckdb \
   -c "SELECT state_code, restrictions, severe_restrictions, counties_not_examined FROM v_state_summary ORDER BY restrictions DESC LIMIT 10"
 ```

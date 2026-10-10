@@ -61,9 +61,45 @@ def test_every_case_links_to_a_published_project(con):
     assert con.execute("SELECT count(*) FROM case_project WHERE project_id IS NULL").fetchone()[0] == 0
 
 
-def test_main_writes_database_and_parquet(tmp_path):
-    out = tmp_path / "ro.duckdb"
-    assert bdb.main(["--out", str(out), "--parquet", str(tmp_path / "parquet")]) == 0
+@pytest.fixture
+def publish_dirs(monkeypatch, tmp_path):
+    monkeypatch.setattr(bdb, "PARQUET_DIR", tmp_path / "parquet")
+    monkeypatch.setattr(bdb, "STATE_SUMMARY", tmp_path / "state_summary.json")
+    monkeypatch.setattr(bdb, "COUNTY_SUMMARY", tmp_path / "county_summary.json")
+    return tmp_path
+
+
+def test_main_publishes_parquet_and_summaries(publish_dirs):
+    out = publish_dirs / "ro.duckdb"
+    (publish_dirs / "parquet").mkdir()
+    (publish_dirs / "parquet" / "dropped_table.parquet").write_bytes(b"old")
+    assert bdb.main(["--out", str(out), "--publish"]) == 0
     assert out.exists()
-    names = {p.stem for p in (tmp_path / "parquet").glob("*.parquet")}
+    names = {p.stem for p in (publish_dirs / "parquet").glob("*.parquet")}
     assert names == set(bdb.TABLES) | set(bdb.VIEWS)
+
+
+def test_publish_is_byte_for_byte_repeatable(con, publish_dirs):
+    def snapshot():
+        bdb.export_parquet(con)
+        bdb.write_summaries(con)
+        return {p.name: p.read_bytes() for p in publish_dirs.rglob("*") if p.is_file()}
+    assert snapshot() == snapshot()
+    keys = {k for (k,) in duckdb.sql(
+        f"SELECT key FROM '{(publish_dirs / 'parquet' / 'build_info.parquet').as_posix()}'").fetchall()}
+    assert not keys & set(bdb.VOLATILE_INFO)
+
+
+def test_summaries_agree_with_headline_metrics(con, publish_dirs):
+    bdb.write_summaries(con)
+    states = json.loads(bdb.STATE_SUMMARY.read_text())
+    counties = json.loads(bdb.COUNTY_SUMMARY.read_text())
+    m = _metrics()
+    col = {c: i for i, c in enumerate(states["columns"])}
+    assert sum(r[col["restrictions"]] for r in states["rows"]) == \
+        m["restrictions"]["by_scope"]["renewables_only"]["instruments"]
+    col = {c: i for i, c in enumerate(counties["columns"])}
+    universe = [r for r in counties["rows"] if r[col["in_coverage_universe"]]]
+    assert len(universe) == m["county_coverage"]["counties"]
+    assert sum(r[col["coverage_status"]] == "not_examined" for r in universe) == \
+        m["county_coverage"]["with_neither"]

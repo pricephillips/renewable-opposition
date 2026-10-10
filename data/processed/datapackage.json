@@ -43,7 +43,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
-      "rows": 3627,
+      "rows": 3625,
       "schema": {
         "fields": [
           {
@@ -800,7 +800,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "State siting law, verified against the statute.",
-      "rows": 122,
+      "rows": 0,
       "schema": {
         "fields": [
           {
@@ -908,7 +908,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "State siting law rows held for review, with the reason.",
-      "rows": 3,
+      "rows": 74,
       "schema": {
         "fields": [
           {
@@ -1059,7 +1059,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "One row per cited source document, with its Internet Archive snapshot.",
-      "rows": 53,
+      "rows": 52,
       "schema": {
         "fields": [
           {
