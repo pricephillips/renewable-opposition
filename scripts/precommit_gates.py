@@ -14,7 +14,7 @@ exits 1 on any finding.
                          guard. A file whose committed (HEAD) version already
                          has CR is left alone; a new CSV must be LF. --fix
                          rewrites the offenders and still exits 1.
-  emdash FILE...         U+2014 in deliverables (the four pages, README.md,
+  emdash FILE...         U+2014 in deliverables (the pages, README.md,
                          docs/coverage_audit.md and content/*.md),
                          reported as path:line. Record text in the CSVs is
                          quoted from its source and is out of scope (A6).

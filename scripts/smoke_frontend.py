@@ -14,10 +14,11 @@ For each page in PAGES:
     contain a nonzero number) does not appear within the timeout.
 
 Map tiles and web fonts are blocked on purpose: they are decoration, and a
-tile outage is not a page defect. Leaflet itself is required. Where the CDN is
-unreachable (sandboxed sessions), pass --leaflet-dir pointing at a local copy
-(the directory holding leaflet/ and leaflet.markercluster/ from npm) and the
-CDN requests are served from it.
+tile outage is not a page defect. Leaflet itself is required, and so are
+d3-array, d3-geo and topojson-client for the national dashboard. Where the
+CDN is unreachable (sandboxed sessions), pass --leaflet-dir pointing at a
+local node_modules holding those packages (tests/ui/node_modules does) and
+the CDN requests are served from it.
 
 Usage
   python scripts/smoke_frontend.py
@@ -47,9 +48,11 @@ PAGES = {
     "renewable-opposition-map.html": ("#resultBadge", "restriction"),
     "map-audit.html": ("body", "Visible instruments"),
     "dashboard.html": ("#table-summary", "restriction"),
+    # Reads data/db/ (build_database.py --publish), not processed-data.js.
+    "national-dashboard.html": (".tile", "Restrictions on renewables"),
 }
 BLOCKED = re.compile(r"(tile\.openstreetmap|tiles\.openfreemap|basemaps\.cartocdn|arcgisonline|fontshare|fonts\.g)")
-CDN = re.compile(r"https://unpkg\.com/(leaflet(?:\.markercluster)?)@[^/]+/(.*)")
+CDN = re.compile(r"https://unpkg\.com/(leaflet(?:\.markercluster)?|d3-array|d3-geo|topojson-client)@[^/]+/(.*)")
 
 
 class _QuietHandler(http.server.SimpleHTTPRequestHandler):

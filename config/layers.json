@@ -159,6 +159,7 @@
     "data/db/parquet/*": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/state_summary.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/county_summary.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
+    "data/db/state/*": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
     "data/review/coverage_gaps.csv": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
     "docs/sabin_2026_reconciliation.md": {"layer": "derived", "writers": ["scripts/extract_sabin_edition.py"]},

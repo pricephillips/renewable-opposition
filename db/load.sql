@@ -11,11 +11,16 @@
 --   stg_county_adjacency (county_fips, neighbor_fips)
 --   stg_jurisdiction_key (state, jurisdiction_type, jurisdiction, jurisdiction_key, kind)
 --   stg_project_group (project_id, group_id)
+--   stg_county_pending (county_fips, candidates)
 
 CREATE MACRO split_list(s) AS
     list_filter(list_transform(string_split(coalesce(s, ''), ';'), x -> trim(x)), x -> x <> '');
 
 CREATE MACRO nullif_blank(s) AS nullif(trim(coalesce(s, '')), '');
+
+-- Aggregates over an instrument's rows use min(), never any_value(): the rows
+-- agree on these fields today, and min() keeps the database (and its
+-- committed Parquet) byte-identical across builds even if they stop agreeing.
 
 -- headline_metrics.source_of
 CREATE MACRO source_family(iid, edition) AS
@@ -54,40 +59,46 @@ WITH named AS (
         UNION ALL
         SELECT state, jurisdiction_type, jurisdiction, nullif_blank(county_fips) FROM stg_siting_standards
     ) r USING (state, jurisdiction_type, jurisdiction)
+), spelled AS (
+    SELECT jurisdiction_key, name, count(*) AS n FROM named GROUP BY ALL
 )
-SELECT jurisdiction_key,
-       any_value(state_code),
-       any_value(kind),
-       mode(name),
-       CASE WHEN count(DISTINCT county_fips) = 1 THEN any_value(county_fips) END
-FROM named
-GROUP BY jurisdiction_key;
+-- The key embeds state and kind, so min() is exact for those two. The
+-- display name is the most common spelling, ties broken alphabetically, so
+-- every build picks the same one.
+SELECT j.jurisdiction_key,
+       min(j.state_code),
+       min(j.kind),
+       (SELECT first(s.name ORDER BY s.n DESC, s.name) FROM spelled s
+         WHERE s.jurisdiction_key = j.jurisdiction_key),
+       CASE WHEN count(DISTINCT j.county_fips) = 1 THEN min(j.county_fips) END
+FROM named j
+GROUP BY j.jurisdiction_key;
 
 -- Restrictions ---------------------------------------------------------------
 
 INSERT INTO restriction_instrument
 SELECT
     r.instrument_id,
-    upper(any_value(r.state)),
-    any_value(k.jurisdiction_key),
-    any_value(nullif_blank(r.jurisdiction)),
-    any_value(nullif_blank(r.jurisdiction_type)),
-    any_value(r.scope),
-    any_value(nullif_blank(r.status)),
+    upper(min(r.state)),
+    min(k.jurisdiction_key),
+    min(nullif_blank(r.jurisdiction)),
+    min(nullif_blank(r.jurisdiction_type)),
+    min(r.scope),
+    min(nullif_blank(r.status)),
     max(TRY_CAST(r.severity_score AS INTEGER)),
     coalesce(max(TRY_CAST(r.severity_score AS INTEGER)) >= 3, false),
     list_sort(list_distinct(list(r.technology))),
     list_sort(list_distinct(list(r.restriction_type))),
-    any_value(r.evidence_level),
+    min(r.evidence_level),
     verification_name(max(verification_rank(r.verification))),
-    source_family(r.instrument_id, any_value(r.sabin_edition)),
-    any_value(nullif_blank(r.sabin_edition)),
-    any_value(nullif_blank(r.edition_status)),
-    any_value(nullif_blank(r.date_enacted_iso)),
-    TRY_CAST(any_value(nullif_blank(r.date_enacted_iso)) AS DATE),
-    any_value(nullif_blank(r.date_text)),
-    TRY_CAST(any_value(nullif_blank(r.current_end_date_iso)) AS DATE),
-    any_value(nullif_blank(r.county_fips)),
+    source_family(r.instrument_id, min(r.sabin_edition)),
+    min(nullif_blank(r.sabin_edition)),
+    min(nullif_blank(r.edition_status)),
+    min(nullif_blank(r.date_enacted_iso)),
+    TRY_CAST(min(nullif_blank(r.date_enacted_iso)) AS DATE),
+    min(nullif_blank(r.date_text)),
+    TRY_CAST(min(nullif_blank(r.current_end_date_iso)) AS DATE),
+    min(nullif_blank(r.county_fips)),
     max(nullif_blank(r.primary_source_url)),
     max(nullif_blank(r.primary_source_access)),
     count(*)
@@ -135,15 +146,15 @@ FROM stg_contested_projects;
 INSERT INTO legal_case
 SELECT
     instrument_id,
-    upper(any_value(nullif_blank(state))),
-    any_value(nullif_blank(case_name)),
-    any_value(nullif_blank(court)),
-    any_value(nullif_blank(court_level)),
-    any_value(nullif_blank(docket_number)),
-    coalesce(any_value(case_status), ''),
+    upper(min(nullif_blank(state))),
+    min(nullif_blank(case_name)),
+    min(nullif_blank(court)),
+    min(nullif_blank(court_level)),
+    min(nullif_blank(docket_number)),
+    coalesce(min(case_status), ''),
     list_sort(list_distinct(flatten(list(split_list(technology))))),
     max(nullif_blank(case_source_url)),
-    any_value(evidence_level),
+    min(evidence_level),
     verification_name(max(verification_rank(verification))),
     count(*)
 FROM stg_cases
@@ -196,7 +207,7 @@ WITH placed AS (
     FROM placed
 )
 SELECT e.entity, e.record_id, e.fips, bool_or(e.fips = coalesce(e.primary_fips, '')),
-       any_value(nullif_blank(e.county_fips_method))
+       min(nullif_blank(e.county_fips_method))
 FROM exploded e
 JOIN county c ON c.county_fips = e.fips
 GROUP BY e.entity, e.record_id, e.fips;
@@ -258,6 +269,9 @@ INSERT INTO negative_check
 SELECT lpad(trim(county_fips), 5, '0'), scope, split_list(sources_checked),
        CAST(checked_on AS DATE), result, nullif_blank(note), nullif_blank(reviewer)
 FROM stg_negative_checks;
+
+INSERT INTO county_pending_review
+SELECT county_fips, CAST(candidates AS INTEGER) FROM stg_county_pending;
 
 INSERT INTO data_center_event
 SELECT nullif_blank(county_fips), upper(nullif_blank(state)), nullif_blank(jurisdiction),

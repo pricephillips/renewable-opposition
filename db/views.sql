@@ -111,6 +111,7 @@ SELECT c.county_fips, c.state_code, c.county_name, c.in_coverage_universe,
        coalesce(p.verified_projects, 0)         AS verified_projects,
        coalesce(s.siting_standard_rows, 0)      AS siting_standard_rows,
        coalesce(d.data_center_events, 0)        AS data_center_events,
+       coalesce(q.candidates, 0)                AS pending_review,
        n.last_negative_check,
        CASE
            WHEN r.county_fips IS NOT NULL OR p.county_fips IS NOT NULL OR s.county_fips IS NOT NULL
@@ -123,7 +124,8 @@ LEFT JOIN r USING (county_fips)
 LEFT JOIN p USING (county_fips)
 LEFT JOIN s USING (county_fips)
 LEFT JOIN n USING (county_fips)
-LEFT JOIN d USING (county_fips);
+LEFT JOIN d USING (county_fips)
+LEFT JOIN county_pending_review q USING (county_fips);
 
 -- One row per state ----------------------------------------------------------
 

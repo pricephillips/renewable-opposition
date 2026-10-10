@@ -1,0 +1,20 @@
+{"state_code":"DC",
+"policies":[],
+"counties":[
+{"county_fips":"11001","county_name":"District of Columbia","neighbors":["24031","24033","51013","51510"]}
+],
+"negative_checks":[],
+"restrictions":[],
+"projects":[],
+"cases":[],
+"siting_standards":[],
+"data_center_events":[
+{"county_fips":"11001","event_date":"2025-10-01","event_type":"legislation","status":"active","summary":"NRDC published Building Data Centers Without Breaking PJM, documenting how data centers drove PJM capacity costs from $2.2B in 2023-24 to $14.7B in summer 2025 -- a sevenfold increase.","source_url":"https://www.nrdc.org/bio/tom-rutigliano/building-data-centers-without-breaking-pjm","opposition_groups":["NRDC","Citizens Utility Board"]},
+{"county_fips":"11001","event_date":"2025-12-15","event_type":"legislation","status":"active","summary":"Sens.","source_url":"https://www.warren.senate.gov/newsroom/press-releases/senator-warren-lawmakers-open-investigation-into-big-tech-data-centers-role-in-driving-up-families-utility-costs","opposition_groups":[]},
+{"county_fips":"11001","event_date":"2026-01-08","event_type":"legislation","status":"pending","summary":"Senator Tom Cotton (R-Ark.) introduced the DATA Act of 2026 on January 8, 2026, to exempt data centers and their power suppliers from federal energy regulations if they are fully isolated from the...","source_url":"https://www.cotton.senate.gov/news/press-releases/cotton-introduces-bill-to-lower-energy-costs-for-arkansans","opposition_groups":[]},
+{"county_fips":"11001","event_date":"2026-01-08","event_type":"legislation","status":"pending","summary":"HR 6984, the Data Center Transparency Act, was introduced January 8, 2026 by Rep.","source_url":"https://www.congress.gov/bill/119th-congress/house-bill/6984","opposition_groups":[]},
+{"county_fips":"11001","event_date":"2026-02-11","event_type":"legislation","status":"pending","summary":"Requires new data centers with 20+ MW demand to generate their own power off-grid, with a 10-year transition for existing facilities and $1 million/day penalties for violations.","source_url":"https://ctmirror.org/2026/02/26/blumenthal-data-bill-0224/","opposition_groups":[]},
+{"county_fips":"11001","event_date":"2026-03-15","event_type":"utility_regulation","status":"passed","summary":"The U.S.","source_url":"https://www.eenews.net/articles/army-corps-to-offer-streamlined-water-permits-for-data-centers/","opposition_groups":[]},
+{"county_fips":"11001","event_date":"2026-03-25","event_type":"legislation","status":"pending","summary":"Sen.","source_url":"https://www.sanders.senate.gov/press-releases/news-sanders-yes-we-need-a-moratorium-on-data-center-construction/","opposition_groups":["230+ environmental groups coalition"]},
+{"county_fips":"11001","event_date":"2026-03-26","event_type":"utility_regulation","status":"passed","summary":"On March 26, 2026, Sens.","source_url":"https://www.warren.senate.gov/newsroom/press-releases/warren-hawley-lead-bipartisan-push-for-mandatory-energy-use-reporting-requirements-for-data-centers","opposition_groups":[]}
+]}

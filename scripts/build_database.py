@@ -24,7 +24,8 @@ Usage
   python scripts/build_database.py              build data/db/renewable_opposition.duckdb
   python scripts/build_database.py --publish    also write the published files: one Parquet file per
                                                 table and view in data/db/parquet/, and
-                                                data/db/state_summary.json and county_summary.json
+                                                data/db/state_summary.json and county_summary.json,
+                                                and one detail file per state in data/db/state/
   python scripts/build_database.py --out /tmp/ro.duckdb   build somewhere else
 
 The Build dashboard data workflow runs it with --publish and commits the
@@ -48,6 +49,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import geo  # noqa: E402
 import group_registry  # noqa: E402
+import site_profile  # noqa: E402
 from common import PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, jurisdiction_key, jurisdiction_kind, read_csv  # noqa: E402
 
 DB_DIR = ROOT / "db"
@@ -57,6 +59,9 @@ DEFAULT_OUT = ROOT / "data" / "db" / "renewable_opposition.duckdb"
 PARQUET_DIR = ROOT / "data" / "db" / "parquet"
 STATE_SUMMARY = ROOT / "data" / "db" / "state_summary.json"
 COUNTY_SUMMARY = ROOT / "data" / "db" / "county_summary.json"
+# One detail file per state: what the dashboard's state and county views
+# list. Written from the same database, so they count the way it does.
+STATE_DIR = ROOT / "data" / "db" / "state"
 # build_info keys that change on every run. Left out of the Parquet so an
 # unchanged build rewrites identical bytes and commits nothing.
 VOLATILE_INFO = ("built_at", "git_commit")
@@ -92,7 +97,7 @@ EXTRA_STATE_NAMES = {"DC": "District of Columbia", "PR": "Puerto Rico"}
 TABLES = ("state", "county", "county_adjacency", "jurisdiction", "restriction_instrument", "restriction",
           "contested_project", "legal_case", "case_project", "siting_standard", "state_policy",
           "record_county", "source_document", "evidence_link", "opposition_group", "project_group",
-          "negative_check", "data_center_event", "build_info")
+          "negative_check", "county_pending_review", "data_center_event", "build_info")
 VIEWS = ("v_headline_restrictions", "v_headline_by_source", "v_county_coverage_totals", "v_county_summary",
          "v_state_summary", "v_restrictions_by_month")
 
@@ -147,6 +152,19 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
         for name in group_registry.split(p.get("opposition_groups")):
             links.append((p["instrument_id"], group_registry.canonical_id(group_registry.key(name))))
     _stage_rows(con, "stg_project_group", ["project_id", "group_id"], links)
+
+    # Pending review-queue candidates per county, matched the way site
+    # profiles match them. Only the count is kept; local knowledge is never
+    # read (local=False).
+    profile_data = site_profile.Data(local=False)
+    pending = []
+    if profile_data.queue:
+        for f in counties:
+            st = next((c for c, sf in STATE_FIPS.items() if sf == f[:2]), "")
+            n = len(site_profile.pending_for(profile_data, f, geo.name(f), st))
+            if n:
+                pending.append((f, str(n)))
+    _stage_rows(con, "stg_county_pending", ["county_fips", "candidates"], pending)
 
 
 def _git_commit() -> str:
@@ -299,6 +317,139 @@ def write_summaries(con: duckdb.DuckDBPyConnection) -> None:
     _write_bytes(COUNTY_SUMMARY, _summary(con, "v_county_summary", "county_fips").encode("utf-8"))
 
 
+# The per-state detail queries. Each takes the state code and its 2-digit FIPS
+# and must return the same rows in the same order on every run (no
+# any_value over values that differ), so an unchanged build rewrites
+# identical bytes. Siting standards group by the jurisdiction's own name, not
+# only its match key: the key folds "Binghamton City" and "Binghamton Town"
+# together, and they are two governments with two ordinances. A record
+# belongs to a state's file when its state is that state or it is placed in
+# one of the state's counties.
+STATE_QUERIES = {
+    "policies": """
+        SELECT * EXCLUDE (state_code) FROM state_policy WHERE state_code = $st ORDER BY id""",
+    "counties": """
+        SELECT c.county_fips, c.county_name,
+               coalesce(list(a.neighbor_fips ORDER BY a.neighbor_fips)
+                        FILTER (WHERE a.neighbor_fips IS NOT NULL), []) AS neighbors
+        FROM county c LEFT JOIN county_adjacency a USING (county_fips)
+        WHERE c.state_code = $st GROUP BY ALL ORDER BY c.county_fips""",
+    "negative_checks": """
+        SELECT county_fips, scope, checked_on, sources_checked FROM negative_check
+        WHERE substr(county_fips, 1, 2) = $sf ORDER BY county_fips, checked_on""",
+    "restrictions": """
+        SELECT ri.instrument_id, ri.state_code, ri.jurisdiction_name, ri.jurisdiction_type, ri.scope,
+               ri.status, ri.severity_score, ri.technologies, ri.restriction_types, ri.evidence_level,
+               ri.verification, ri.source_family, ri.date_enacted_iso, ri.date_text, ri.current_end_date,
+               (SELECT first(r.description ORDER BY r.id) FROM restriction r
+                 WHERE r.instrument_id = ri.instrument_id) AS description,
+               (SELECT first(r.severity_basis ORDER BY r.id) FROM restriction r
+                 WHERE r.instrument_id = ri.instrument_id) AS severity_basis,
+               coalesce((SELECT list(rc.county_fips ORDER BY rc.county_fips) FROM record_county rc
+                 WHERE rc.entity = 'restriction' AND rc.record_id = ri.instrument_id), []) AS counties,
+               coalesce((SELECT list({'role': e.role, 'url': e.url, 'access': e.access}
+                                     ORDER BY e.role, e.url) FROM evidence_link e
+                 WHERE e.entity = 'restriction' AND e.record_id = ri.instrument_id), []) AS evidence
+        FROM restriction_instrument ri
+        WHERE ri.state_code = $st OR ri.instrument_id IN (
+            SELECT record_id FROM record_county
+            WHERE entity = 'restriction' AND substr(county_fips, 1, 2) = $sf)
+        ORDER BY ri.instrument_id""",
+    "projects": """
+        SELECT cp.instrument_id, cp.state_code, cp.project_name, cp.technologies, cp.outcome,
+               cp.outcome_class, cp.outcome_confirmed, cp.finality_evidence, cp.status, cp.severity_score,
+               cp.has_litigation, cp.municipality, cp.event_date_text, cp.capacity_mw_text, cp.description,
+               cp.source_family, cp.evidence_level, cp.verification,
+               coalesce((SELECT list(rc.county_fips ORDER BY rc.county_fips) FROM record_county rc
+                 WHERE rc.entity = 'contested_project' AND rc.record_id = cp.instrument_id), []) AS counties,
+               coalesce((SELECT list(g.canonical_name ORDER BY g.canonical_name) FROM project_group pg
+                 JOIN opposition_group g USING (group_id) WHERE pg.project_id = cp.instrument_id), [])
+                 AS groups,
+               coalesce((SELECT list(k.case_id ORDER BY k.case_id) FROM case_project k
+                 WHERE k.project_id = cp.instrument_id), []) AS cases,
+               coalesce((SELECT list({'role': e.role, 'url': e.url, 'access': e.access}
+                                     ORDER BY e.role, e.url) FROM evidence_link e
+                 WHERE e.entity = 'contested_project' AND e.record_id = cp.instrument_id), []) AS evidence
+        FROM contested_project cp
+        WHERE cp.state_code = $st OR cp.instrument_id IN (
+            SELECT record_id FROM record_county
+            WHERE entity = 'contested_project' AND substr(county_fips, 1, 2) = $sf)
+        ORDER BY cp.instrument_id""",
+    "cases": """
+        SELECT lc.instrument_id, lc.case_name, lc.court, lc.court_level, lc.docket_number, lc.case_status,
+               lc.technologies, lc.case_source_url, lc.verification,
+               coalesce(list(k.project_id ORDER BY k.project_id)
+                        FILTER (WHERE k.project_id IS NOT NULL), []) AS projects
+        FROM legal_case lc LEFT JOIN case_project k ON k.case_id = lc.instrument_id
+        WHERE lc.state_code = $st GROUP BY ALL ORDER BY lc.instrument_id""",
+    "siting_standards": """
+        SELECT s.jurisdiction_key, s.jurisdiction, s.jurisdiction_type, s.technology,
+               coalesce(list(DISTINCT rc.county_fips ORDER BY rc.county_fips)
+                        FILTER (WHERE rc.county_fips IS NOT NULL), []) AS counties,
+               max(s.ordinance_year) AS ordinance_year, min(s.ordinance_url) AS ordinance_url,
+               count(DISTINCT s.id) AS features,
+               count(DISTINCT s.id) FILTER (WHERE s.restricting) AS restricting_features,
+               count(DISTINCT s.id) FILTER (WHERE s.verification = 'verified') AS verified_features,
+               list(DISTINCT {'feature': s.feature, 'value': s.value, 'units': s.units}
+                    ORDER BY {'feature': s.feature, 'value': s.value, 'units': s.units})
+                    FILTER (WHERE s.restricting) AS restricting
+        FROM siting_standard s
+        LEFT JOIN record_county rc ON rc.entity = 'siting_standard' AND rc.record_id = s.id
+        WHERE s.state_code = $st
+        GROUP BY s.jurisdiction_key, s.jurisdiction, s.jurisdiction_type, s.technology
+        ORDER BY s.jurisdiction_key, s.jurisdiction, s.jurisdiction_type, s.technology""",
+    "data_center_events": """
+        SELECT county_fips, event_date, event_type, status, summary, source_urls[1] AS source_url,
+               opposition_groups
+        FROM data_center_event WHERE state_code = $st
+        ORDER BY county_fips, event_date, dc_row_ref""",
+}
+
+
+def _plain(v):
+    if hasattr(v, "isoformat"):
+        return v.isoformat()
+    if isinstance(v, list):
+        return [_plain(x) for x in v]
+    if isinstance(v, dict):
+        return {k: _plain(x) for k, x in v.items()}
+    return v
+
+
+def state_detail(con: duckdb.DuckDBPyConnection, code: str) -> dict:
+    out: dict = {"state_code": code}
+    params = {"st": code, "sf": STATE_FIPS[code]}
+    for key, sql in STATE_QUERIES.items():
+        cur = con.execute(sql, {k: v for k, v in params.items() if f"${k}" in sql})
+        cols = [d[0] for d in cur.description]
+        out[key] = [{c: _plain(v) for c, v in zip(cols, row)} for row in cur.fetchall()]
+    return out
+
+
+def _detail_json(detail: dict) -> str:
+    """One record per line, so a rebuilt file diffs by record."""
+    dump = lambda v: json.dumps(v, ensure_ascii=False, separators=(",", ":"))  # noqa: E731
+    parts = []
+    for key, value in detail.items():
+        if isinstance(value, list) and value:
+            parts.append(f"{dump(key)}:[\n" + ",\n".join(dump(v) for v in value) + "\n]")
+        else:
+            parts.append(f"{dump(key)}:{dump(value)}")
+    return "{" + ",\n".join(parts) + "}\n"
+
+
+def write_state_files(con: duckdb.DuckDBPyConnection) -> list[Path]:
+    """data/db/state/<ST>.json for every state, DC and Puerto Rico. A file
+    for a state no longer in the table is removed."""
+    written = []
+    for (code,) in con.execute("SELECT state_code FROM state ORDER BY state_code").fetchall():
+        _write_bytes(STATE_DIR / f"{code}.json", _detail_json(state_detail(con, code)).encode("utf-8"))
+        written.append(STATE_DIR / f"{code}.json")
+    for stale in set(STATE_DIR.glob("*.json")) - set(written):
+        stale.unlink()
+    return written
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="DuckDB file to write")
@@ -325,6 +476,7 @@ def main(argv: list[str] | None = None) -> int:
             if args.publish:
                 export_parquet(con)
                 write_summaries(con)
+                write_state_files(con)
             counts = {t: con.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for t in TABLES}
         finally:
             con.close()
@@ -338,7 +490,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {t:<24} {n:>7}")
     if args.publish:
         print(f"  published: {len(TABLES) + len(VIEWS)} Parquet files in {rel(PARQUET_DIR)}, "
-              f"{STATE_SUMMARY.name}, {COUNTY_SUMMARY.name}")
+              f"{STATE_SUMMARY.name}, {COUNTY_SUMMARY.name}, {len(STATE_FIPS)} state files in {rel(STATE_DIR)}")
     print("  parity with headline_metrics.json: ok")
     return 0
 

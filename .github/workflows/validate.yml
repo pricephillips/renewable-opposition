@@ -112,14 +112,16 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
 
-      - name: Build data/processed from the seeds under test
+      - name: Build data/processed and data/db from the seeds under test
         # The build bot commits regenerated outputs with GITHUB_TOKEN, which
         # does not start this workflow, so the pages are tested against a
         # fresh build of this commit rather than whatever was last committed.
+        # national-dashboard.html reads data/db/ (build_database.py --publish).
         working-directory: .
         run: |
           uv pip install --system -c requirements/ci.txt -r requirements.txt
           python scripts/build_seed_outputs.py
+          python scripts/build_database.py --publish
 
       - name: Set up Node
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0

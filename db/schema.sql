@@ -284,6 +284,14 @@ CREATE TABLE negative_check (
     reviewer        VARCHAR
 );
 
+-- How many review-queue candidates still pending review name the county
+-- (site_profile.pending_for). A count only: the candidates themselves are
+-- never published.
+CREATE TABLE county_pending_review (
+    county_fips     VARCHAR PRIMARY KEY REFERENCES county (county_fips),
+    candidates      INTEGER NOT NULL
+);
+
 -- Data center events copied from pricephillips/data-center-map. Context for
 -- a county; never part of a renewable count.
 CREATE TABLE data_center_event (
