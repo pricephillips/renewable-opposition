@@ -8,6 +8,9 @@ __pycache__/
 data/review/local_knowledge.csv
 local_knowledge*
 
-# The national database (scripts/build_database.py). Rebuilt from
-# data/processed/ on demand; never committed.
-data/db/
+# The national database file (scripts/build_database.py), rebuilt from
+# data/processed/ on demand and never committed. Its Parquet export and the
+# summaries in data/db/ are committed by the Build dashboard data workflow.
+data/db/*.duckdb
+data/db/*.duckdb.wal
+data/db/tmp*/

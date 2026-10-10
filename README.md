@@ -238,10 +238,10 @@ Both formats are required. JSON is used by downstream apps and dashboards; CSV i
 
 ### National database
 
-`scripts/build_database.py` loads everything in `data/processed/`, with the county boundary file, the negative checks and the data center events, into one DuckDB file, `data/db/renewable_opposition.duckdb`, normalized around the instrument and the county (`db/schema.sql`, `db/load.sql`, `db/views.sql`). `--parquet <dir>` also writes one Parquet file per table and view. The database is derived and never committed. Before it writes, the script recomputes the headline numbers from the database and compares them with `headline_metrics.json`; any difference stops it. Its `v_county_summary` view gives every county a `coverage_status`: `has_records`, `checked_none` or `not_examined`. Design and roadmap: `docs/national_database_design.md`.
+`scripts/build_database.py` loads everything in `data/processed/`, with the county boundary file, the negative checks and the data center events, into one DuckDB file, `data/db/renewable_opposition.duckdb`, normalized around the instrument and the county (`db/schema.sql`, `db/load.sql`, `db/views.sql`). The database is derived, and the `.duckdb` file is never committed. `--publish` also writes one Parquet file per table and view in `data/db/parquet/`, and `data/db/state_summary.json` and `data/db/county_summary.json` (each view as `columns` and `rows`); the Build dashboard data workflow runs it and commits those files so GitHub Pages serves them. Their bytes depend only on the data, so a build that changes nothing commits nothing. Before it writes, the script recomputes the headline numbers from the database and compares them with `headline_metrics.json`; any difference stops it. Its `v_county_summary` view gives every county a `coverage_status`: `has_records`, `checked_none` or `not_examined`. Design and roadmap: `docs/national_database_design.md`.
 
 ```bash
-python scripts/build_database.py --parquet data/db/parquet
+python scripts/build_database.py --publish
 ```
 
 ---
@@ -280,7 +280,7 @@ renewable-opposition/
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   ├── processed/                          ← canonical CSV + JSON outputs
-│   └── db/                                 ← national database, built on demand, not committed (build_database.py)
+│   └── db/                                 ← national database: Parquet + state/county summaries (committed), .duckdb (not)
 ├── db/                                     ← national database schema, load and views (build_database.py)
 ├── docs/
 │   ├── coverage_audit.md                   ← Sabin vs Moratorium Nation recall
