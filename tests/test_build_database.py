@@ -66,6 +66,7 @@ def publish_dirs(monkeypatch, tmp_path):
     monkeypatch.setattr(bdb, "PARQUET_DIR", tmp_path / "parquet")
     monkeypatch.setattr(bdb, "STATE_SUMMARY", tmp_path / "state_summary.json")
     monkeypatch.setattr(bdb, "COUNTY_SUMMARY", tmp_path / "county_summary.json")
+    monkeypatch.setattr(bdb, "STATE_DIR", tmp_path / "state")
     return tmp_path
 
 
@@ -77,12 +78,14 @@ def test_main_publishes_parquet_and_summaries(publish_dirs):
     assert out.exists()
     names = {p.stem for p in (publish_dirs / "parquet").glob("*.parquet")}
     assert names == set(bdb.TABLES) | set(bdb.VIEWS)
+    assert {p.stem for p in (publish_dirs / "state").glob("*.json")} == set(bdb.STATE_FIPS)
 
 
 def test_publish_is_byte_for_byte_repeatable(con, publish_dirs):
     def snapshot():
         bdb.export_parquet(con)
         bdb.write_summaries(con)
+        bdb.write_state_files(con)
         return {p.name: p.read_bytes() for p in publish_dirs.rglob("*") if p.is_file()}
     assert snapshot() == snapshot()
     keys = {k for (k,) in duckdb.sql(
@@ -103,3 +106,40 @@ def test_summaries_agree_with_headline_metrics(con, publish_dirs):
     assert len(universe) == m["county_coverage"]["counties"]
     assert sum(r[col["coverage_status"]] == "not_examined" for r in universe) == \
         m["county_coverage"]["with_neither"]
+
+
+def test_every_record_is_in_its_own_state_file(con, publish_dirs):
+    bdb.write_state_files(con)
+    files = {p.stem: json.loads(p.read_text()) for p in bdb.STATE_DIR.glob("*.json")}
+    for entity, table in (("restrictions", "restriction_instrument"), ("projects", "contested_project")):
+        expected = dict(con.execute(f"SELECT instrument_id, state_code FROM {table}").fetchall())
+        for iid, st in expected.items():
+            assert iid in {r["instrument_id"] for r in files[st][entity]}, (entity, iid, st)
+    standards = sum(s["features"] for f in files.values() for s in f["siting_standards"])
+    assert standards == _metrics()["siting_standards"]["rows"]
+
+
+def test_siting_standards_keep_same_key_governments_apart(con):
+    # common.jurisdiction_key folds "<Name> City" and "<Name> Town" together;
+    # the state files list each government on its own.
+    rows = con.execute("""SELECT jurisdiction_key FROM siting_standard
+                          GROUP BY jurisdiction_key, technology
+                          HAVING count(DISTINCT jurisdiction) > 1""").fetchall()
+    if not rows:
+        pytest.skip("no shared match key in the current data")
+    key = rows[0][0]
+    st = key.split("::")[0]
+    detail = bdb.state_detail(con, st)
+    names = {s["jurisdiction"] for s in detail["siting_standards"] if s["jurisdiction_key"] == key}
+    assert len(names) > 1
+
+
+def test_pending_review_is_a_count_that_matches_site_profiles(con):
+    import site_profile
+    d = site_profile.Data(local=False)
+    for fips, n in con.execute("SELECT county_fips, candidates FROM county_pending_review").fetchall():
+        st, name = con.execute("SELECT state_code, county_name FROM county WHERE county_fips = ?",
+                               [fips]).fetchone()
+        assert n == len(site_profile.pending_for(d, fips, name, st))
+    detail_keys = set(bdb.state_detail(con, "IA"))
+    assert not any("pending" in k or "queue" in k for k in detail_keys)

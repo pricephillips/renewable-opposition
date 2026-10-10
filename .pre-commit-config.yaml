@@ -21,7 +21,7 @@ repos:
         name: No em-dashes in deliverables
         entry: python scripts/precommit_gates.py emdash
         language: system
-        files: ^(index|dashboard|renewable-opposition-map|map-audit)\.html$|^README\.md$|^docs/coverage_audit\.md$|^content/.*\.md$
+        files: ^(index|dashboard|renewable-opposition-map|map-audit|national-dashboard)\.html$|^national-dashboard\.js$|^README\.md$|^docs/coverage_audit\.md$|^content/.*\.md$
       - id: node-check
         name: node --check on inline scripts
         entry: python scripts/precommit_gates.py nodecheck

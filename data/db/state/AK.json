@@ -1,0 +1,54 @@
+{"state_code":"AK",
+"policies":[
+{"id":"AK-siting_authority-1","technology":"solar;wind","policy_type":"siting_authority","who_decides":"local_government","state_body":null,"threshold_mw":null,"summary":"Boroughs and cities with planning powers regulate land use, including permits that encourage or discourage specified uses; no state body issues a siting permit for wind or solar. A wind or solar plant that sells power to the public needs a certificate of public convenience and necessity from the Regulatory Commission of Alaska, but a renewable plant of up to 65 MW is exempt if it first entered commercial operation on or after August 31, 2010 and before July 1, 2028, sells only to commission-regulated utilities, and its owner or operator received no state grant used to generate the power and no state tax credit for that generation.","statute_citation":"Alaska Stat. 29.40.040; 42.05.221(a); 42.05.990(6); 42.05.711(r)","statute_url":"https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.40.040&secEnd=29.40.040","evidence_level":"primary_source","verification":"verified","reviewed_on":"2026-10-09"}
+],
+"counties":[
+{"county_fips":"02013","county_name":"Aleutians East","neighbors":["02164"]},
+{"county_fips":"02016","county_name":"Aleutians West","neighbors":[]},
+{"county_fips":"02020","county_name":"Anchorage","neighbors":["02063","02122","02170"]},
+{"county_fips":"02050","county_name":"Bethel","neighbors":["02070","02122","02158","02164","02170","02290"]},
+{"county_fips":"02060","county_name":"Bristol Bay","neighbors":["02164"]},
+{"county_fips":"02063","county_name":"Chugach","neighbors":["02020","02066","02122","02170","02282"]},
+{"county_fips":"02066","county_name":"Copper River","neighbors":["02063","02170","02240","02282"]},
+{"county_fips":"02068","county_name":"Denali","neighbors":["02090","02170","02240","02290"]},
+{"county_fips":"02070","county_name":"Dillingham","neighbors":["02050","02164"]},
+{"county_fips":"02090","county_name":"Fairbanks North Star","neighbors":["02068","02240","02290"]},
+{"county_fips":"02100","county_name":"Haines","neighbors":["02105","02110","02230"]},
+{"county_fips":"02105","county_name":"Hoonah-Angoon","neighbors":["02100","02110","02195","02220","02282"]},
+{"county_fips":"02110","county_name":"Juneau","neighbors":["02100","02105"]},
+{"county_fips":"02122","county_name":"Kenai Peninsula","neighbors":["02020","02050","02063","02150","02164","02170"]},
+{"county_fips":"02130","county_name":"Ketchikan Gateway","neighbors":["02198","02275"]},
+{"county_fips":"02150","county_name":"Kodiak Island","neighbors":["02122","02164"]},
+{"county_fips":"02158","county_name":"Kusilvak","neighbors":["02050","02180","02290"]},
+{"county_fips":"02164","county_name":"Lake and Peninsula","neighbors":["02013","02050","02060","02070","02122","02150"]},
+{"county_fips":"02170","county_name":"Matanuska-Susitna","neighbors":["02020","02050","02063","02066","02068","02122","02240","02290"]},
+{"county_fips":"02180","county_name":"Nome","neighbors":["02158","02188","02290"]},
+{"county_fips":"02185","county_name":"North Slope","neighbors":["02188","02290"]},
+{"county_fips":"02188","county_name":"Northwest Arctic","neighbors":["02180","02185","02290"]},
+{"county_fips":"02195","county_name":"Petersburg","neighbors":["02105","02198","02275"]},
+{"county_fips":"02198","county_name":"Prince of Wales-Hyder","neighbors":["02130","02195"]},
+{"county_fips":"02220","county_name":"Sitka","neighbors":["02105"]},
+{"county_fips":"02230","county_name":"Skagway","neighbors":["02100"]},
+{"county_fips":"02240","county_name":"Southeast Fairbanks","neighbors":["02066","02068","02090","02170","02290"]},
+{"county_fips":"02275","county_name":"Wrangell","neighbors":["02130","02195"]},
+{"county_fips":"02282","county_name":"Yakutat","neighbors":["02063","02066","02105"]},
+{"county_fips":"02290","county_name":"Yukon-Koyukuk","neighbors":["02050","02068","02090","02158","02170","02180","02185","02188","02240"]}
+],
+"negative_checks":[],
+"restrictions":[
+{"instrument_id":"sabin:S26R-6259","state_code":"AK","jurisdiction_name":"Anchorage Municipality","jurisdiction_type":"County","scope":"renewables_only","status":"active","severity_score":3,"technologies":["wind"],"restriction_types":["height_limit"],"evidence_level":"report_citation","verification":"unverified","source_family":"Sabin 2026","date_enacted_iso":null,"date_text":"2010","current_end_date":null,"description":"Anchorage County: Setback Restriction (wind) | Height Restriction (wind)","severity_basis":"wind height limit","counties":[],"evidence":[{"role":"compiled_source","url":"https://scholarship.law.columbia.edu/sabin_climate_change/280/","access":null}]}
+],
+"projects":[],
+"cases":[],
+"siting_standards":[
+{"jurisdiction_key":"AK::county::anchorage","jurisdiction":"Anchorage County","jurisdiction_type":"County","technology":"wind","counties":[],"ordinance_year":2010,"ordinance_url":"https://www.muni.org/Departments/Assembly/legislation/2010%20Ordinances/AO2010-050_(S).PDF","features":12,"restricting_features":3,"verified_features":0,"restricting":[{"feature":"Maximum Height","value":"200","units":"feet"},{"feature":"Noise","value":"50","units":"dBH"},{"feature":"Property Line (Non-Participating)","value":"3","units":"tip-height-multiplier"}]}
+],
+"data_center_events":[
+{"county_fips":"02020","event_date":"2026-01-01","event_type":"legislation","status":"dead","summary":"Alaska HB 259 (introduced January 2026 by Rep.","source_url":"https://www.adn.com/alaska-news/anchorage/2026/03/27/anchorage-assembly-preemptively-adopts-data-center-regulations/","opposition_groups":["The Alaska Center"]},
+{"county_fips":"02020","event_date":"2026-03-27","event_type":"zoning_restriction","status":"passed","summary":"The Anchorage Assembly adopted Ordinance AO 2026-27 on March 27, 2026, establishing a new land use and permitting framework for data centers before receiving any large-scale applications.","source_url":"https://www.dwt.com/blogs/energy--environmental-law-blog/2026/04/anchorage-adopts-data-center-framework","opposition_groups":["Northern Alaska Environmental Center","Alaska Public Interest Research Group"]},
+{"county_fips":"02090","event_date":"2026-06-09","event_type":"other_opposition; infrastructure_opposition","status":"active","summary":"The U.S.","source_url":"https://www.alaskasnewssource.com/2026/06/09/us-military-plans-lease-alaska-land-ai-data-centers-community-responds/","opposition_groups":[]},
+{"county_fips":"02170","event_date":"2026-03-11","event_type":"executive_order","status":"active","summary":"The Mat-Su Borough Assembly plan to help a private company find investors/developers for a large data center on borough-owned land was vetoed by Mayor Edna DeVries, but the Assembly voted 6-1 to ov...","source_url":"https://alaskapublic.org/news/politics/2026-03-11/mat-su-data-center-plan-in-doubt-after-mayors-veto","opposition_groups":["Susitna River Coalition"]},
+{"county_fips":"02185","event_date":"2025-06-03","event_type":"public_comment","status":"active","summary":"Hilcorp, one of Alaska's biggest oil producers, is working with Texas-based TA Infrastructure to place a small pilot data center at its Endicott field on the North Slope.","source_url":"https://alaskabeacon.com/2025/06/03/new-alaska-bitcoin-mine-would-use-as-much-power-as-the-states-largest-coal-plant-produces/","opposition_groups":[]},
+{"county_fips":"02185","event_date":"2026-07-07","event_type":"public_comment; other_opposition","status":"pending","summary":"More than 500 public comments were submitted to the Alaska Department of Natural Resources, the vast majority opposed, on a proposed data center/power plant occupying roughly one square mile of tun...","source_url":"https://www.adn.com/business-economy/2026/07/07/data-center-critics-flood-alaska-land-managers-with-opposition-to-north-slope-project/","opposition_groups":["Northern Alaska Environmental Center","Alaska Public Interest Research Group","Backcountry Hunters and Anglers (Alaska chapter)"]},
+{"county_fips":"02275","event_date":"2025-08-21","event_type":"public_comment","status":"active","summary":"Greensparc (CA-based) is pursuing a small-scale modular data center project at the former 6-Mile mill site in Wrangell, AK.","source_url":"https://wrangellsentinel.com/stories/borough-wants-to-pursue-possible-data-center-tenant-at-6-mile-mill-site,24587","opposition_groups":["The Alaska Center"]}
+]}
