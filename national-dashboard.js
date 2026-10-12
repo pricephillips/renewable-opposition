@@ -10,6 +10,10 @@
  *   data/db/state/<ST>.json                a state's records, for its state and county views
  *   data/geo/counties_2024.topojson        county shapes
  *   data/snapshots/manifest.csv            the date of the latest published data
+ *   data/db/record_index.json              which state file holds each record
+ *   data/db/worklists.json                 review worklist sizes (never their rows)
+ *   data/db/manifest.json, data/db/parquet/ the downloads, and the SQL console's tables
+ *   db/schema.sql                          the data dictionary
  *
  * Rules it keeps (README, "Counting and verification"):
  *   - counts are of instruments, never rows, and come from the files above,
@@ -26,7 +30,12 @@
  *   #/                      national
  *   #/state/IA              a state
  *   #/county/19113          a county
- *   ?m=<metric>             the map metric, on any route
+ *   #/explore/<entity>      restrictions, projects or cases, with filters as ?st=&tech=&q=…
+ *   #/restriction/<id>      one record (also #/project/<id>, #/case/<id>)
+ *   #/coverage              coverage, verification and worklist sizes
+ *   #/data                  downloads, data dictionary, example queries
+ *   #/sql?q=<sql>           SQL console (loads DuckDB-WASM, only here)
+ *   ?m=<metric>             the map metric, on the map routes
  */
 (function () {
   'use strict';
@@ -37,6 +46,10 @@
     counties: './data/db/county_summary.json',
     topo: './data/geo/counties_2024.topojson',
     snapshots: './data/snapshots/manifest.csv',
+    recordIndex: './data/db/record_index.json',
+    worklists: './data/db/worklists.json',
+    manifest: './data/db/manifest.json',
+    schema: './db/schema.sql',
     state: function (st) { return './data/db/state/' + st + '.json'; }
   };
 
@@ -159,6 +172,8 @@
 
   // ── Routing ───────────────────────────────────────────────────────────────
 
+  var ENTITIES = { restrictions: 'restriction', projects: 'project', cases: 'case' };
+
   function parseRoute() {
     var h = location.hash.replace(/^#/, '') || '/';
     var q = '';
@@ -169,21 +184,39 @@
     var m;
     if ((m = /^\/state\/([A-Z]{2})$/.exec(h))) return { view: 'state', st: m[1], metric: metric };
     if ((m = /^\/county\/(\d{5})$/.exec(h))) return { view: 'county', fips: m[1], metric: metric };
+    if ((m = /^\/explore(?:\/(restrictions|projects|cases))?$/.exec(h))) {
+      return { view: 'explore', entity: m[1] || 'restrictions', params: params, metric: metric };
+    }
+    if ((m = /^\/(restriction|project|case)\/(.+)$/.exec(h))) {
+      var id;
+      try { id = decodeURIComponent(m[2]); } catch (e) { id = m[2]; }
+      return { view: 'record', entity: m[1], id: id, metric: metric };
+    }
+    if (h === '/coverage') return { view: 'coverage', metric: metric };
+    if (h === '/data') return { view: 'data', metric: metric };
+    if (h === '/sql') return { view: 'sql', params: params, metric: metric };
     return { view: 'national', metric: metric };
   }
   function href(view, id, metric) {
     var m = metric && metric !== DEFAULT_METRIC ? '?m=' + metric : '';
     if (view === 'state') return '#/state/' + id + m;
     if (view === 'county') return '#/county/' + id + m;
+    if (view === 'restriction' || view === 'project' || view === 'case') {
+      return '#/' + view + '/' + encodeURIComponent(id);
+    }
     return '#/' + m;
   }
+  function recordLink(entity, id, text) { return link(href(entity, id), text); }
 
   // ── Loading ───────────────────────────────────────────────────────────────
 
   function loadBase() {
     if (base) return Promise.resolve(base);
+    // The county shapes are context: if they fail, the maps say so and every
+    // table still renders.
+    var topo = getJSON(PATHS.topo).catch(function () { return null; });
     return Promise.all([getJSON(PATHS.metrics), getJSON(PATHS.states), getJSON(PATHS.counties),
-                        getJSON(PATHS.topo), getText(PATHS.snapshots)])
+                        topo, getText(PATHS.snapshots)])
       .then(function (r) {
         var counties = objects(r[2]);
         var byFips = {};
@@ -191,11 +224,11 @@
         var states = objects(r[1]);
         var byState = {};
         states.forEach(function (s) { byState[s.state_code] = s; });
-        var features = topojson.feature(r[3], r[3].objects.counties).features;
+        var features = r[3] ? topojson.feature(r[3], r[3].objects.counties).features : [];
         var asOf = r[4].split('\n').slice(1).map(function (l) { return l.split(',')[0]; })
           .filter(function (d) { return /^\d{4}-\d{2}-\d{2}$/.test(d); }).sort().pop() || '';
         base = { metrics: r[0], states: states, byState: byState, counties: counties, byFips: byFips,
-                 topo: r[3], features: features, asOf: asOf };
+                 topo: r[3], geoError: !r[3], features: features, asOf: asOf };
         return base;
       });
   }
@@ -244,6 +277,12 @@
     var W = 960, H = opts.height || 600;
     var drawable = features.filter(function (f) { return f.id.slice(0, 2) !== '72'; });
     box.textContent = '';
+    if (base.geoError) {
+      box.setAttribute('data-painted', '0');
+      box.appendChild(el('p', { id: 'mapStatus', class: 'status error',
+        text: 'County boundaries could not be loaded, so no map is drawn. Every figure is in the tables on this page.' }));
+      return;
+    }
     if (!drawable.length) {
       box.appendChild(el('p', { class: 'muted', text: 'No map is drawn for Puerto Rico; its counties are in the table below.' }));
       return;
@@ -443,7 +482,7 @@
     var types = (r.restriction_types || []).map(words).join(', ');
     var title = (r.jurisdiction_name || 'Unnamed jurisdiction') + ': ' + types;
     return el('article', { class: 'record' },
-      el('h3', { text: title }),
+      el('h3', null, recordLink('restriction', r.instrument_id, title)),
       el('p', null, verificationPill('restriction', r.verification), ' ',
         r.scope === 'multi_sector_data_centers' ? el('span', { class: 'pill warn', text: 'also covers data centers' }) : null),
       r.description ? el('p', { text: r.description }) : null,
@@ -461,7 +500,7 @@
   function projectRecord(p, casesById) {
     var cases = (p.cases || []).map(function (id) { return casesById[id]; }).filter(Boolean);
     return el('article', { class: 'record' },
-      el('h3', { text: p.project_name || 'Unnamed project' }),
+      el('h3', null, recordLink('project', p.instrument_id, p.project_name || 'Unnamed project')),
       el('p', null, verificationPill('project', p.verification), ' ',
         el('span', { class: 'pill', text: OUTCOME_WORDS[p.outcome] || words(p.outcome) })),
       p.description ? el('p', { text: p.description }) : null,
@@ -608,7 +647,7 @@
     function restrictionRow(r) {
       var f = (r.counties || [])[0];
       return el('tr', null,
-        el('td', { text: r.jurisdiction_name || 'not named' }),
+        el('td', null, recordLink('restriction', r.instrument_id, r.jurisdiction_name || 'not named')),
         el('td', null, f ? link(href('county', f, route.metric), countyName(f)) : el('span', { class: 'muted', text: 'not placed' })),
         el('td', { text: (r.restriction_types || []).map(words).join(', ') }),
         el('td', { text: (r.technologies || []).map(words).join(', ') }),
@@ -631,7 +670,7 @@
       longTable('One row per project', ['Project', 'County', 'Technologies', 'Outcome', 'Evidence', 'Cases'], projects, function (p) {
         var f = (p.counties || [])[0];
         return el('tr', null,
-          el('td', { text: p.project_name || 'not named' }),
+          el('td', null, recordLink('project', p.instrument_id, p.project_name || 'not named')),
           el('td', null, f ? link(href('county', f, route.metric), countyName(f)) : el('span', { class: 'muted', text: 'not placed' })),
           el('td', { text: (p.technologies || []).map(words).join(', ') }),
           el('td', { text: OUTCOME_WORDS[p.outcome] || words(p.outcome) }),
@@ -642,9 +681,8 @@
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'casesHeading' },
       el('h2', { id: 'casesHeading', text: 'Court cases (' + n(detail.cases.length) + ')' }),
       longTable('Cases with a court record', ['Case', 'Court', 'Status'], detail.cases, function (k) {
-        var u = safeUrl(k.case_source_url);
         return el('tr', null,
-          el('td', null, u ? el('a', { href: u, rel: 'noopener', text: k.case_name || 'Case' }) : (k.case_name || 'Case')),
+          el('td', null, recordLink('case', k.instrument_id, k.case_name || 'Case')),
           el('td', { text: (k.court || '') + (k.court_level ? ' (' + words(k.court_level) + ')' : '') }),
           el('td', { text: CASE_WORDS[k.case_status || ''] || words(k.case_status) }));
       }, 'No court case is recorded for ' + s.state_name + '.')));
@@ -784,15 +822,662 @@
       })) : el('p', { class: 'muted', text: 'No data center event is recorded for this county.' }));
   }
 
+  // ── All records (explorer, record pages) ──────────────────────────────────
+
+  // Every state file, merged: one entry per instrument even when a record
+  // is listed in two states' files (placed across a state line).
+  function loadAllRecords() {
+    if (cache._all) return cache._all;
+    var codes = base.states.map(function (s) { return s.state_code; });
+    cache._all = Promise.all(codes.map(function (st) { return getJSON(PATHS.state(st)); })).then(function (files) {
+      var out = { restrictions: [], projects: [], cases: [] };
+      var seen = { restrictions: {}, projects: {}, cases: {} };
+      files.forEach(function (f) {
+        Object.keys(out).forEach(function (k) {
+          (f[k] || []).forEach(function (r) {
+            if (seen[k][r.instrument_id]) return;
+            seen[k][r.instrument_id] = true;
+            out[k].push(r);
+          });
+        });
+      });
+      return out;
+    });
+    return cache._all;
+  }
+
+  function countyLabel(fips) {
+    var c = base.byFips[fips];
+    return c ? c.county_name + ', ' + c.state_code : fips;
+  }
+  function firstCounty(r) { return (r.counties || [])[0] || ''; }
+
+  // ── Explorer ──────────────────────────────────────────────────────────────
+
+  // Each entity: its filters (param, label, value(record) -> string or list)
+  // and its columns (label, value(record) for CSV, cell(record) for the page).
+  var EXPLORE = {
+    restrictions: {
+      title: 'Restrictions', noun: ['restriction', 'restrictions'], kind: 'restriction',
+      filters: [
+        { p: 'st', label: 'State', value: function (r) { return r.state_code; } },
+        { p: 'scope', label: 'Scope', value: function (r) { return r.scope; }, def: 'renewables_only',
+          names: { renewables_only: 'Renewables only', multi_sector_data_centers: 'Also covers data centers' } },
+        { p: 'tech', label: 'Technology', value: function (r) { return r.technologies; } },
+        { p: 'type', label: 'Type', value: function (r) { return r.restriction_types; } },
+        { p: 'sev', label: 'Severity', value: function (r) { return r.severity_score ? String(r.severity_score) : ''; } },
+        { p: 'status', label: 'Status', value: function (r) { return r.status || 'not recorded'; } },
+        { p: 'ver', label: 'Verification', value: function (r) { return r.verification; } },
+        { p: 'src', label: 'Source', value: function (r) { return r.source_family; } }
+      ],
+      search: function (r) { return [r.jurisdiction_name, r.description, r.state_code].join(' '); },
+      columns: [
+        { label: 'State', value: function (r) { return r.state_code; } },
+        { label: 'Jurisdiction', value: function (r) { return r.jurisdiction_name || ''; },
+          cell: function (r) { return recordLink('restriction', r.instrument_id, r.jurisdiction_name || 'not named'); } },
+        { label: 'County', value: function (r) { return firstCounty(r) ? countyLabel(firstCounty(r)) : ''; },
+          cell: function (r) { var f = firstCounty(r); return f ? link(href('county', f), countyLabel(f)) : el('span', { class: 'muted', text: 'not placed' }); } },
+        { label: 'Type', value: function (r) { return (r.restriction_types || []).map(words).join('; '); } },
+        { label: 'Technologies', value: function (r) { return (r.technologies || []).map(words).join('; '); } },
+        { label: 'Status', value: function (r) { return words(r.status || ''); } },
+        { label: 'Severity', num: true, value: function (r) { return r.severity_score || ''; } },
+        { label: 'Evidence', value: function (r) { return r.verification; },
+          cell: function (r) { return verificationPill('restriction', r.verification); } },
+        { label: 'Source', value: function (r) { return r.source_family; } },
+        { label: 'Enacted', value: function (r) { return r.date_enacted_iso || r.date_text || ''; } }
+      ],
+      csvExtra: function (r) { return { instrument_id: r.instrument_id, scope: r.scope, description: r.description || '' }; }
+    },
+    projects: {
+      title: 'Contested projects', noun: ['project', 'projects'], kind: 'project',
+      filters: [
+        { p: 'st', label: 'State', value: function (r) { return r.state_code; } },
+        { p: 'tech', label: 'Technology', value: function (r) { return r.technologies; } },
+        { p: 'outcome', label: 'Outcome', value: function (r) { return r.outcome; }, names: OUTCOME_WORDS },
+        { p: 'ver', label: 'Verification', value: function (r) { return r.verification; } },
+        { p: 'src', label: 'Source', value: function (r) { return r.source_family; } }
+      ],
+      search: function (r) { return [r.project_name, r.description, r.municipality, r.state_code, (r.groups || []).join(' ')].join(' '); },
+      columns: [
+        { label: 'State', value: function (r) { return r.state_code; } },
+        { label: 'Project', value: function (r) { return r.project_name || ''; },
+          cell: function (r) { return recordLink('project', r.instrument_id, r.project_name || 'not named'); } },
+        { label: 'County', value: function (r) { return firstCounty(r) ? countyLabel(firstCounty(r)) : ''; },
+          cell: function (r) { var f = firstCounty(r); return f ? link(href('county', f), countyLabel(f)) : el('span', { class: 'muted', text: 'not placed' }); } },
+        { label: 'Technologies', value: function (r) { return (r.technologies || []).map(words).join('; '); } },
+        { label: 'Outcome', value: function (r) { return OUTCOME_WORDS[r.outcome] || words(r.outcome); } },
+        { label: 'Evidence', value: function (r) { return r.verification; },
+          cell: function (r) { return verificationPill('project', r.verification); } },
+        { label: 'Source', value: function (r) { return r.source_family; } },
+        { label: 'Cases', num: true, value: function (r) { return (r.cases || []).length || ''; } }
+      ],
+      csvExtra: function (r) { return { instrument_id: r.instrument_id, outcome: r.outcome, description: r.description || '' }; }
+    },
+    cases: {
+      title: 'Court cases', noun: ['case', 'cases'], kind: 'case',
+      filters: [
+        { p: 'st', label: 'State', value: function (r) { return r.state_code || ''; } },
+        { p: 'status', label: 'Status', value: function (r) { return r.case_status || ''; }, names: CASE_WORDS },
+        { p: 'level', label: 'Court level', value: function (r) { return r.court_level || ''; } }
+      ],
+      search: function (r) { return [r.case_name, r.court, r.docket_number, r.state_code].join(' '); },
+      columns: [
+        { label: 'Case', value: function (r) { return r.case_name || ''; },
+          cell: function (r) { return recordLink('case', r.instrument_id, r.case_name || 'Case'); } },
+        { label: 'State', value: function (r) { return r.state_code || ''; } },
+        { label: 'Court', value: function (r) { return r.court || ''; } },
+        { label: 'Level', value: function (r) { return words(r.court_level || ''); } },
+        { label: 'Docket', value: function (r) { return r.docket_number || ''; } },
+        { label: 'Status', value: function (r) { return CASE_WORDS[r.case_status || ''] || words(r.case_status); } },
+        { label: 'Projects', num: true, value: function (r) { return (r.projects || []).length || ''; } }
+      ],
+      csvExtra: function (r) { return { instrument_id: r.instrument_id, court_record: r.case_source_url || '' }; }
+    }
+  };
+
+  function asList(v) { return Array.isArray(v) ? v : [v]; }
+  function optionName(f, v) {
+    if (f.p === 'st') return stateName(v);
+    if (f.names && f.names[v]) return f.names[v];
+    if (f.p === 'ver') return v === 'verified' ? 'Verified' : v === 'located' ? 'Located' : 'Not verified';
+    if (f.p === 'sev') return v + ' of 4';
+    return words(v);
+  }
+
+  function renderExplore(route, all) {
+    var spec = EXPLORE[route.entity];
+    var records = all[route.entity];
+    var params = route.params;
+    var state = {};
+    spec.filters.forEach(function (f) {
+      var v = params.get(f.p);
+      state[f.p] = v === null ? (f.def || '') : v;
+    });
+    state.q = params.get('q') || '';
+
+    function matches(r) {
+      for (var i = 0; i < spec.filters.length; i++) {
+        var f = spec.filters[i];
+        var want = state[f.p];
+        if (want && asList(f.value(r)).indexOf(want) < 0) return false;
+      }
+      if (state.q) {
+        var hay = spec.search(r).toLowerCase();
+        var terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+        for (var j = 0; j < terms.length; j++) if (hay.indexOf(terms[j]) < 0) return false;
+      }
+      return true;
+    }
+
+    var view = el('div', { class: 'stack' });
+    view.appendChild(el('div', null,
+      el('h1', { text: 'Explore the records' }),
+      el('p', { class: 'lede', text: 'Every published restriction, contested project and court case, one row per instrument. Filter, follow a row to its record, or download what you see as CSV.' }),
+      el('div', { class: 'tabs', role: 'navigation', 'aria-label': 'Record type' },
+        Object.keys(EXPLORE).map(function (k) {
+          return el('a', { href: '#/explore/' + k, 'aria-current': k === route.entity ? 'page' : null,
+            text: EXPLORE[k].title });
+        }))));
+
+    var filters = el('form', { class: 'filters', role: 'search', 'aria-label': 'Filter ' + spec.title.toLowerCase(),
+      onsubmit: function (e) { e.preventDefault(); } });
+    var search = el('input', { type: 'search', id: 'exploreSearch', value: state.q, placeholder: 'Words in the name or description' });
+    filters.appendChild(el('label', { class: 'field', for: 'exploreSearch' }, 'Search', search));
+    spec.filters.forEach(function (f) {
+      var values = {};
+      records.forEach(function (r) { asList(f.value(r)).forEach(function (v) { if (v !== '' && v !== null && v !== undefined) values[v] = true; }); });
+      var sel = el('select', { id: 'f-' + f.p, 'data-param': f.p });
+      sel.appendChild(el('option', { value: '', text: f.p === 'scope' ? 'Both scopes' : 'All' }));
+      Object.keys(values).sort(function (a, b) { return optionName(f, a).localeCompare(optionName(f, b)); }).forEach(function (v) {
+        sel.appendChild(el('option', { value: v, text: optionName(f, v), selected: state[f.p] === v }));
+      });
+      filters.appendChild(el('label', { class: 'field', for: 'f-' + f.p }, f.label, sel));
+    });
+    var reset = el('button', { type: 'button', class: 'btn secondary', text: 'Clear filters' });
+    filters.appendChild(reset);
+
+    var line = el('p', { id: 'resultCount', role: 'status', 'aria-live': 'polite' });
+    var csvBtn = el('button', { type: 'button', class: 'btn secondary', id: 'csvBtn', text: 'Download CSV' });
+    var results = el('div', { id: 'results' });
+    var card = el('section', { class: 'card', 'aria-labelledby': 'exploreHeading' },
+      el('h2', { id: 'exploreHeading', class: 'skip', text: spec.title }),
+      filters, el('div', { class: 'result-line' }, line, csvBtn), results);
+    view.appendChild(card);
+
+    var filtered = [];
+    function update(pushHash) {
+      filtered = records.filter(matches);
+      var verified = filtered.filter(function (r) { return r.verification === 'verified'; }).length;
+      line.textContent = n(filtered.length) + ' ' + (filtered.length === 1 ? spec.noun[0] : spec.noun[1]) +
+        (route.entity === 'cases' ? '' : ' · ' + n(verified) + ' verified');
+      results.textContent = '';
+      results.appendChild(longTable(spec.title + ' matching the filters', spec.columns.map(function (c) {
+        return { label: c.label, num: c.num };
+      }), filtered, function (r) {
+        return el('tr', null, spec.columns.map(function (c) {
+          return el('td', { class: c.num ? 'num' : null }, c.cell ? c.cell(r) : c.value(r));
+        }));
+      }, 'Nothing matches these filters.'));
+      if (pushHash) {
+        var qp = new URLSearchParams();
+        if (state.q) qp.set('q', state.q);
+        spec.filters.forEach(function (f) {
+          if (state[f.p] !== (f.def || '')) qp.set(f.p, state[f.p]);
+        });
+        var qs = qp.toString();
+        // replaceState, not location.hash: no hashchange, so typing keeps focus.
+        history.replaceState(null, '', '#/explore/' + route.entity + (qs ? '?' + qs : ''));
+      }
+    }
+    filters.addEventListener('change', function (e) {
+      var p = e.target.getAttribute && e.target.getAttribute('data-param');
+      if (p) { state[p] = e.target.value; update(true); }
+    });
+    var timer = null;
+    search.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () { state.q = search.value.trim(); update(true); }, 200);
+    });
+    reset.addEventListener('click', function () {
+      spec.filters.forEach(function (f) {
+        state[f.p] = f.def || '';
+        filters.querySelector('#f-' + f.p).value = state[f.p];
+      });
+      state.q = '';
+      search.value = '';
+      update(true);
+    });
+    csvBtn.addEventListener('click', function () {
+      var cols = spec.columns.map(function (c) { return c.label; });
+      var extraKeys = filtered.length ? Object.keys(spec.csvExtra(filtered[0])) : [];
+      var lines = [cols.concat(extraKeys, ['link']).map(csvCell).join(',')];
+      var root = location.href.split('#')[0];
+      filtered.forEach(function (r) {
+        var extra = spec.csvExtra(r);
+        lines.push(spec.columns.map(function (c) { return csvCell(c.value(r)); })
+          .concat(extraKeys.map(function (k) { return csvCell(extra[k]); }),
+                  [csvCell(root + href(spec.kind, r.instrument_id))]).join(','));
+      });
+      download(route.entity + '.csv', lines.join('\r\n') + '\r\n', 'text/csv');
+    });
+    update(false);
+    return view;
+  }
+
+  function csvCell(v) {
+    var s = v === null || v === undefined ? '' : String(v);
+    // A leading =, +, - or @ would run as a formula in a spreadsheet.
+    if (/^[=+\-@]/.test(s)) s = "'" + s;
+    return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
+  function download(name, text, type) {
+    var url = URL.createObjectURL(new Blob([text], { type: type + ';charset=utf-8' }));
+    var a = el('a', { href: url, download: name });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  // ── Record pages ──────────────────────────────────────────────────────────
+
+  var METHOD_WORDS = {
+    name: 'the county named in the record', names: 'one of several counties the record names',
+    point: 'the record\'s coordinates fall inside it', place: 'a town that sits in this county alone',
+    place_text: 'a town in several counties, and the record\'s text names this one',
+    override: 'a reviewer\'s placement, with evidence', source_fips: 'the county code the source gives'
+  };
+
+  function renderRecord(route, rec) {
+    var r = rec.record;
+    var view = el('div', { class: 'stack' });
+    var st = r.state_code;
+    var trail = [['National', href('national')]];
+    if (st && base.byState[st]) trail.push([stateName(st), href('state', st)]);
+    var permalink = location.href.split('#')[0] + href(route.entity, r.instrument_id);
+
+    if (route.entity === 'restriction') {
+      trail.push([r.jurisdiction_name || 'Restriction']);
+      view.appendChild(el('div', null, crumbs(trail),
+        el('h1', { text: (r.jurisdiction_name || 'Unnamed jurisdiction') + ': ' + (r.restriction_types || []).map(words).join(', ') }),
+        el('p', null, verificationPill('restriction', r.verification), ' ',
+          r.scope === 'multi_sector_data_centers' ? el('span', { class: 'pill warn', text: 'also covers data centers' }) : null)));
+      view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'recHeading' },
+        el('h2', { id: 'recHeading', text: 'The instrument' }),
+        r.description ? el('p', { text: r.description }) : null,
+        r.long_description && r.long_description !== r.description ? el('p', { class: 'muted', text: r.long_description }) : null,
+        el('div', { class: 'record' }, el('dl', null,
+          dlRow('Jurisdiction', (r.jurisdiction_name || 'not named') + (r.jurisdiction_type ? ' (' + r.jurisdiction_type + ')' : '')),
+          dlRow('State', stateName(st)),
+          dlRow('Technologies', (r.technologies || []).map(words).join(', ')),
+          dlRow('Status', words(r.status || 'not recorded')),
+          dlRow('Severity', r.severity_score ? r.severity_score + ' of 4: ' + SEVERITY_WORDS[r.severity_score] : 'not scored'),
+          dlRow('Enacted', r.date_enacted_iso || r.date_text || 'date not recorded'),
+          r.current_end_date ? dlRow('Ends', r.current_end_date) : null,
+          dlRow('Scope', r.scope === 'multi_sector_data_centers' ? 'also covers data centers (counted separately)' : 'renewables only'),
+          dlRow('Evidence', VERIFICATION_WORDS.restriction[r.verification] || VERIFICATION_WORDS.restriction.unverified),
+          dlRow('Compiled from', r.source_family + (r.sabin_edition ? ' (edition ' + r.sabin_edition + ')' : '')),
+          dlRow('Record id', r.instrument_id)))));
+      view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'rowsHeading' },
+        el('h2', { id: 'rowsHeading', text: 'By technology' }),
+        el('p', { class: 'muted small', text: 'The instrument counts once; each technology it covers is one row here.' }),
+        el('div', { class: 'table-wrap' }, el('table', null,
+          el('caption', { text: 'Technology rows of this instrument' }),
+          el('thead', null, el('tr', null, ['Technology', 'Type', 'Severity', 'Basis', 'Mechanisms'].map(function (h) {
+            return el('th', { scope: 'col', text: h });
+          }))),
+          el('tbody', null, (r.rows || []).map(function (x) {
+            return el('tr', null, el('td', { text: words(x.technology) }), el('td', { text: words(x.restriction_type) }),
+              el('td', { text: x.severity_score || '' }), el('td', { text: x.severity_basis || '' }),
+              el('td', { text: x.mechanisms || '' }));
+          }))))));
+    } else if (route.entity === 'project') {
+      trail.push([r.project_name || 'Project']);
+      var cases = (r.cases || []).map(function (id) { return rec.casesById[id]; }).filter(Boolean);
+      view.appendChild(el('div', null, crumbs(trail),
+        el('h1', { text: r.project_name || 'Unnamed project' }),
+        el('p', null, verificationPill('project', r.verification), ' ',
+          el('span', { class: 'pill', text: OUTCOME_WORDS[r.outcome] || words(r.outcome) }))));
+      view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'recHeading' },
+        el('h2', { id: 'recHeading', text: 'The project' }),
+        r.description ? el('p', { text: r.description }) : null,
+        r.long_description && r.long_description !== r.description ? el('p', { class: 'muted', text: r.long_description }) : null,
+        el('div', { class: 'record' }, el('dl', null,
+          dlRow('State', stateName(st)),
+          r.municipality ? dlRow('Municipality', r.municipality) : null,
+          dlRow('Technologies', (r.technologies || []).map(words).join(', ')),
+          r.capacity_mw_text ? dlRow('Capacity', r.capacity_mw_text + (/mw/i.test(r.capacity_mw_text) ? '' : ' MW')) : null,
+          r.area_acres_text ? dlRow('Area', r.area_acres_text + ' acres') : null,
+          r.event_date_text ? dlRow('Date', r.event_date_text) : null,
+          dlRow('Outcome', (OUTCOME_WORDS[r.outcome] || words(r.outcome)) + (r.finality_evidence ? ' (' + r.finality_evidence + ')' : '')),
+          r.opposition_type ? dlRow('Opposition', words(r.opposition_type)) : null,
+          (r.groups || []).length ? dlRow('Groups named', r.groups.join('; ')) : null,
+          dlRow('Evidence', VERIFICATION_WORDS.project[r.verification] || VERIFICATION_WORDS.project.unverified),
+          dlRow('Compiled from', r.source_family + (r.sabin_edition ? ' (edition ' + r.sabin_edition + ')' : '')),
+          dlRow('Record id', r.instrument_id)))));
+      if (cases.length) {
+        view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'casesHeading' },
+          el('h2', { id: 'casesHeading', text: 'Court cases' }),
+          el('ul', null, cases.map(function (k) {
+            return el('li', null, recordLink('case', k.instrument_id, k.case_name || 'Case'),
+              ' · ' + (k.court || 'court not recorded') + ' · ' + (CASE_WORDS[k.case_status || ''] || words(k.case_status)));
+          }))));
+      }
+    } else {
+      trail.push([r.case_name || 'Case']);
+      view.appendChild(el('div', null, crumbs(trail),
+        el('h1', { text: r.case_name || 'Court case' }),
+        el('p', null, el('span', { class: 'pill ok', text: 'court record' }))));
+      view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'recHeading' },
+        el('h2', { id: 'recHeading', text: 'The case' }),
+        el('div', { class: 'record' }, el('dl', null,
+          dlRow('Court', (r.court || 'not recorded') + (r.court_level ? ' (' + words(r.court_level) + ')' : '')),
+          r.docket_number ? dlRow('Docket', r.docket_number) : null,
+          dlRow('Status', CASE_WORDS[r.case_status || ''] || words(r.case_status)),
+          dlRow('Technologies', (r.technologies || []).map(words).join(', ')),
+          dlRow('Record id', r.instrument_id))),
+        (r.projects || []).length ? el('div', null, el('h3', { style: 'margin-top:1rem', text: 'Concerns' }),
+          el('ul', null, r.projects.map(function (pid) {
+            var p = rec.projectsById[pid];
+            return el('li', null, recordLink('project', pid, p ? (p.project_name || 'Unnamed project') : pid));
+          }))) : null));
+    }
+
+    if (r.placements) {
+      view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'placeHeading' },
+        el('h2', { id: 'placeHeading', text: 'Where it is placed' }),
+        r.placements.length ? el('ul', null, r.placements.map(function (pl) {
+          return el('li', null, link(href('county', pl.county_fips), countyLabel(pl.county_fips)),
+            ': ' + (METHOD_WORDS[pl.method] || words(pl.method || 'method not recorded')) + (pl.is_primary ? ' (the county the map paints)' : ''));
+        })) : el('p', { class: 'muted', text: 'Not placed in any county: nothing in the record settles which county it is in.' })));
+    }
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'srcHeading' },
+      el('h2', { id: 'srcHeading', text: 'Sources' }),
+      route.entity === 'case' && safeUrl(r.case_source_url) ? el('p', null, 'Court record: ',
+        el('a', { href: r.case_source_url, rel: 'noopener', text: shortUrl(r.case_source_url) })) : null,
+      evidenceList(r.evidence),
+      el('p', { class: 'small muted' }, 'Link to this record: ', el('a', { href: permalink, id: 'permalink', text: permalink }))));
+    return view;
+  }
+
+  function dlRow(label, value) { return [el('dt', { text: label }), el('dd', null, value)]; }
+
+  function loadRecord(route) {
+    return getJSON(PATHS.recordIndex).then(function (idx) {
+      var hit = objects(idx).filter(function (x) { return x.entity === route.entity && x.instrument_id === route.id; })[0];
+      if (!hit) throw new Error('No ' + route.entity + ' with id ' + route.id + ' is published');
+      return getJSON(PATHS.state(hit.state_code)).then(function (detail) {
+        var key = { restriction: 'restrictions', project: 'projects', case: 'cases' }[route.entity];
+        var record = detail[key].filter(function (x) { return x.instrument_id === route.id; })[0];
+        if (!record) throw new Error('Record ' + route.id + ' is missing from its state file');
+        var casesById = {}, projectsById = {};
+        detail.cases.forEach(function (k) { casesById[k.instrument_id] = k; });
+        detail.projects.forEach(function (p) { projectsById[p.instrument_id] = p; });
+        return { record: record, casesById: casesById, projectsById: projectsById };
+      });
+    });
+  }
+
+  // ── Coverage ──────────────────────────────────────────────────────────────
+
+  function renderCoverage(route, worklists) {
+    var cov = base.metrics.county_coverage;
+    var view = el('div', { class: 'stack' });
+    view.appendChild(el('div', null,
+      el('h1', { text: 'Coverage and evidence' }),
+      el('p', { class: 'lede', text: 'Where the records are thin, and how much of what is published has been checked against its source. A county nobody has examined is a gap in the research, not evidence that nothing happened.' })));
+    view.appendChild(el('div', { class: 'tiles' },
+      tile('covRecords', 'Counties with published records', n(cov.with_any_record), 'of ' + n(cov.counties)),
+      tile('covChecked', 'Checked, none found', n(cov.with_negative_check_and_no_record), 'a documented search found nothing'),
+      tile('covNone', 'Not examined', n(cov.with_neither), 'nothing known either way')));
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'covStatesHeading' },
+      el('h2', { id: 'covStatesHeading', text: 'Counties not examined, by state' }),
+      sortableTable('Share of each state\'s counties with no record and no documented check. Select a column heading to sort.', [
+        { key: 'state_name', label: 'State', render: function (s) { return link(href('state', s.state_code), s.state_name); } },
+        { key: 'counties', label: 'Counties', num: true },
+        { key: 'counties_with_records', label: 'With records', num: true },
+        { key: 'counties_checked_none', label: 'Checked, none', num: true },
+        { key: 'counties_not_examined', label: 'Not examined', num: true },
+        { key: 'share', label: 'Share not examined', num: true,
+          render: function (s) { return s.counties ? Math.round(100 * s.counties_not_examined / s.counties) + '%' : ''; },
+          sort: function (s) { return s.counties ? s.counties_not_examined / s.counties : 0; } }
+      ], base.states.filter(function (s) {
+        // The coverage figures count the 50 states and DC; Puerto Rico apart.
+        return s.counties && s.state_code !== 'PR';
+      }), 'share')));
+    view.appendChild(sourcesCard(base.metrics));
+    var rows = objects(worklists);
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'worklistHeading' },
+      el('h2', { id: 'worklistHeading', text: 'Research still to do' }),
+      el('p', { class: 'muted small', text: 'How long each review list is. The lists themselves stay in the repository: this page shows their size, never their contents.' }),
+      el('div', { class: 'table-wrap' }, el('table', { id: 'worklistTable' },
+        el('caption', { text: 'Review worklists and their sizes' }),
+        el('thead', null, el('tr', null, el('th', { scope: 'col', text: 'List' }), el('th', { scope: 'col', class: 'num', text: 'Items' }))),
+        el('tbody', null, rows.map(function (w) {
+          return el('tr', null, el('td', { text: w.description }), el('td', { class: 'num', text: n(w.rows) }));
+        }))))));
+    return view;
+  }
+
+  // ── Data ──────────────────────────────────────────────────────────────────
+
+  var EXAMPLES = [
+    { title: 'Severe restrictions by state', sql:
+      "SELECT state_code, count(*) AS severe\nFROM restriction_instrument\nWHERE scope = 'renewables_only' AND is_severe\nGROUP BY state_code\nORDER BY severe DESC\nLIMIT 10;" },
+    { title: 'Counties next to a blocked project that nobody has examined', sql:
+      "SELECT DISTINCT n.county_fips, c.county_name, c.state_code\nFROM contested_project p\nJOIN record_county rc ON rc.entity = 'contested_project' AND rc.record_id = p.instrument_id\nJOIN county_adjacency n ON n.neighbor_fips = rc.county_fips\nJOIN v_county_summary c ON c.county_fips = n.county_fips\nWHERE p.outcome_class = 'blocked' AND c.coverage_status = 'not_examined'\nORDER BY c.state_code, c.county_name;" },
+    { title: 'How restrictions were verified, by source', sql:
+      "SELECT source_family, verification, count(*) AS instruments\nFROM restriction_instrument\nGROUP BY ALL\nORDER BY source_family, verification;" },
+    { title: 'NREL setbacks of 1,000 feet or more', sql:
+      "SELECT state_code, jurisdiction, technology, feature, min_setback_ft\nFROM siting_standard\nWHERE min_setback_ft >= 1000\nORDER BY min_setback_ft DESC\nLIMIT 50;" }
+  ];
+
+  function parseSchema(sql) {
+    var tables = [];
+    var re = /((?:--[^\n]*\n)*)CREATE TABLE (\w+) \(\n([\s\S]*?)\n\);/g;
+    var m;
+    while ((m = re.exec(sql))) {
+      var note = m[1].split('\n').map(function (l) { return l.replace(/^--\s?/, ''); }).join(' ').trim();
+      var cols = [];
+      m[3].split('\n').forEach(function (line) {
+        var c = /^\s{4}(\w+)\s+([A-Z]+(?:\[\])?)([^-]*?)(?:--\s*(.*))?$/.exec(line);
+        if (c && c[1] !== 'PRIMARY') {
+          cols.push({ name: c[1], type: c[2], notes: [/PRIMARY KEY/.test(c[3]) ? 'key' : '', (/REFERENCES (\w+)/.exec(c[3]) || [])[1] ? 'refers to ' + /REFERENCES (\w+)/.exec(c[3])[1] : '', c[4] || ''].filter(Boolean).join('; ') });
+        }
+      });
+      tables.push({ name: m[2], note: note, columns: cols });
+    }
+    return tables;
+  }
+
+  function renderData(route, manifest, schemaSql) {
+    var files = objects(manifest);
+    var tables = parseSchema(schemaSql || '');
+    var view = el('div', { class: 'stack' });
+    view.appendChild(el('div', null,
+      el('h1', { text: 'Data and downloads' }),
+      el('p', { class: 'lede', text: 'The national database as files you can download, what each table holds, and queries to start from. Everything is rebuilt from the published CSVs on every data build and checked against the headline numbers before it is published.' })));
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'dlHeading' },
+      el('h2', { id: 'dlHeading', text: 'Downloads' }),
+      el('p', { class: 'muted small' }, 'Parquet opens in DuckDB, pandas, R (arrow) and most data tools. The same data as CSV and JSON, one file per entity, is in ',
+        el('a', { href: 'https://github.com/pricephillips/renewable-opposition/tree/main/data/processed', text: 'data/processed' }), '.'),
+      el('div', { class: 'table-wrap' }, el('table', { id: 'downloadsTable' },
+        el('caption', { text: 'Published Parquet files' }),
+        el('thead', null, el('tr', null, ['File', 'Kind', 'Rows', 'Size'].map(function (h, i) {
+          return el('th', { scope: 'col', class: i >= 2 ? 'num' : null, text: h });
+        }))),
+        el('tbody', null, files.map(function (f) {
+          return el('tr', null, el('td', null, el('a', { href: './data/db/' + f.file, download: '', text: f.name + '.parquet' })),
+            el('td', { text: f.kind }), el('td', { class: 'num', text: n(f.rows) }),
+            el('td', { class: 'num', text: f.bytes >= 1048576 ? (f.bytes / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(f.bytes / 1024)) + ' KB' }));
+        }))))));
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'exHeading' },
+      el('h2', { id: 'exHeading', text: 'Example queries' }),
+      EXAMPLES.map(function (x) {
+        return el('div', null, el('h3', { text: x.title }), el('pre', { class: 'code', text: x.sql }),
+          el('p', { class: 'small' }, link('#/sql?q=' + encodeURIComponent(x.sql), 'Run it in the SQL console')));
+      })));
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'dictHeading' },
+      el('h2', { id: 'dictHeading', text: 'Data dictionary' }),
+      el('p', { class: 'muted small' }, 'Read from ', el('a', { href: './db/schema.sql', text: 'db/schema.sql' }),
+        '. Counts are of instruments: one ordinance, project or case, however many technology rows it has.'),
+      tables.length ? tables.map(function (t) {
+        return el('details', { class: 'dict' }, el('summary', { text: t.name }),
+          t.note ? el('p', { class: 'small muted', text: t.note }) : null,
+          el('div', { class: 'table-wrap' }, el('table', null,
+            el('caption', { text: 'Columns of ' + t.name }),
+            el('thead', null, el('tr', null, ['Column', 'Type', 'Notes'].map(function (h) { return el('th', { scope: 'col', text: h }); }))),
+            el('tbody', null, t.columns.map(function (c) {
+              return el('tr', null, el('td', null, el('code', { text: c.name })), el('td', { text: c.type }), el('td', { text: c.notes }));
+            })))));
+      }) : el('p', { class: 'muted', text: 'The schema file could not be read.' })));
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'licHeading' },
+      el('h2', { id: 'licHeading', text: 'Sources and licenses' }),
+      el('ul', null,
+        el('li', { text: 'Sabin Center for Climate Change Law, Opposition to Renewable Energy Facilities in the United States (September 2026 edition).' }),
+        el('li', { text: 'NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2025), CC BY 4.0.' }),
+        el('li', { text: 'Moratorium Nation (mjbommar/moratorium-data-2026), CC BY 4.0.' }),
+        el('li', { text: 'Data Center Tracker, via pricephillips/data-center-map, CC BY 4.0: county context only, never counted.' })),
+      el('p', { class: 'small muted', text: 'The SQL console loads DuckDB-WASM from cdn.jsdelivr.net and its Parquet reader from extensions.duckdb.org, in your browser only when you open it.' })));
+    return view;
+  }
+
+  // ── SQL console (DuckDB-WASM, loaded only here) ───────────────────────────
+
+  var DUCKDB = 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.29.0/dist/duckdb-browser.mjs';
+  var engine = null;
+  var SQL_ROWS_SHOWN = 500;
+
+  function loadEngine(onProgress) {
+    if (engine) return engine;
+    engine = getJSON(PATHS.manifest).then(function (manifest) {
+      onProgress('Loading the query engine (DuckDB-WASM, about 7 MB, once per visit)…');
+      return import(DUCKDB).then(function (duckdb) {
+        return duckdb.selectBundle(duckdb.getJsDelivrBundles()).then(function (bundle) {
+          var workerUrl = URL.createObjectURL(new Blob(['importScripts("' + bundle.mainWorker + '");'], { type: 'text/javascript' }));
+          var db = new duckdb.AsyncDuckDB(new duckdb.VoidLogger(), new Worker(workerUrl));
+          return db.instantiate(bundle.mainModule, bundle.pthreadWorker).then(function () {
+            URL.revokeObjectURL(workerUrl);
+            onProgress('Loading the database (' + objects(manifest).length + ' tables and views)…');
+            return Promise.all(objects(manifest).map(function (f) {
+              return fetch('./data/db/' + f.file).then(function (r) {
+                if (!r.ok) throw new Error(f.file + ' (HTTP ' + r.status + ')');
+                return r.arrayBuffer();
+              }).then(function (buf) { return db.registerFileBuffer(f.name + '.parquet', new Uint8Array(buf)); });
+            })).then(function () { return db.connect(); }).then(function (conn) {
+              return objects(manifest).reduce(function (p, f) {
+                return p.then(function () {
+                  return conn.query('CREATE VIEW "' + f.name + '" AS SELECT * FROM read_parquet(\'' + f.name + '.parquet\')');
+                });
+              }, Promise.resolve()).then(function () { return { conn: conn, tables: objects(manifest) }; });
+            });
+          });
+        });
+      });
+    });
+    engine.catch(function () { engine = null; });
+    return engine;
+  }
+
+  function cellValue(v) {
+    if (v === null || v === undefined) return '';
+    if (typeof v === 'bigint') return Number(v) <= Number.MAX_SAFE_INTEGER && Number(v) >= -Number.MAX_SAFE_INTEGER ? Number(v) : v.toString();
+    if (v instanceof Date) return v.toISOString().slice(0, 10);
+    if (typeof v === 'object') {
+      if (typeof v.toArray === 'function') return JSON.stringify(Array.from(v.toArray()).map(cellValue));
+      if (Array.isArray(v)) return JSON.stringify(v.map(cellValue));
+      if (v.toString !== Object.prototype.toString) return v.toString();
+      return JSON.stringify(v, function (k, x) { return typeof x === 'bigint' ? x.toString() : x; });
+    }
+    return v;
+  }
+
+  function renderSql(route) {
+    var initial = route.params.get('q') || EXAMPLES[0].sql;
+    var view = el('div', { class: 'stack' });
+    view.appendChild(el('div', null,
+      el('h1', { text: 'SQL console' }),
+      el('p', { class: 'lede', text: 'Query the whole national database in your browser. Every table and view on the data page is here by its name. Nothing you run leaves your browser or changes the published data.' })));
+    var box = el('textarea', { class: 'sql', id: 'sqlInput', spellcheck: 'false', 'aria-describedby': 'sqlHelp' });
+    box.value = initial;
+    var run = el('button', { type: 'button', class: 'btn', id: 'sqlRun', text: 'Run query' });
+    var csv = el('button', { type: 'button', class: 'btn secondary', id: 'sqlCsv', text: 'Download results as CSV', disabled: true });
+    var status = el('p', { id: 'sqlStatus', role: 'status', 'aria-live': 'polite', class: 'small muted' });
+    var out = el('div', { id: 'sqlResults' });
+    var last = null;
+    view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'sqlHeading' },
+      el('h2', { id: 'sqlHeading', class: 'skip', text: 'Query' }),
+      el('label', { for: 'sqlInput', class: 'field' }, 'SQL (DuckDB dialect)', box),
+      el('p', { id: 'sqlHelp', class: 'small muted' }, 'Ctrl+Enter runs the query. Examples and the data dictionary are on the ', link('#/data', 'data page'), '.'),
+      el('div', { class: 'result-line' }, el('div', null, run, ' ', csv), status),
+      out));
+
+    function execute() {
+      var sql = box.value.trim();
+      if (!sql) return;
+      run.disabled = true;
+      history.replaceState(null, '', '#/sql?q=' + encodeURIComponent(sql));
+      var t0 = performance.now();
+      loadEngine(function (msg) { status.textContent = msg; }).then(function (eng) {
+        status.textContent = 'Running…';
+        return eng.conn.query(sql);
+      }).then(function (result) {
+        var cols = result.schema.fields.map(function (f) { return f.name; });
+        var rows = result.toArray().map(function (row) {
+          return cols.map(function (c) { return cellValue(row[c]); });
+        });
+        last = { cols: cols, rows: rows };
+        csv.disabled = !rows.length;
+        status.textContent = plural(rows.length, 'row') + ' in ' + Math.round(performance.now() - t0) + ' ms' +
+          (rows.length > SQL_ROWS_SHOWN ? '; the first ' + n(SQL_ROWS_SHOWN) + ' are shown, the CSV has all of them' : '');
+        out.textContent = '';
+        out.appendChild(el('div', { class: 'table-wrap' }, el('table', { id: 'sqlTable' },
+          el('caption', { text: 'Query results' }),
+          el('thead', null, el('tr', null, cols.map(function (c) { return el('th', { scope: 'col', text: c }); }))),
+          el('tbody', null, rows.slice(0, SQL_ROWS_SHOWN).map(function (r) {
+            return el('tr', null, r.map(function (v) { return el('td', { class: typeof v === 'number' ? 'num' : null, text: v }); }));
+          })))));
+      }).catch(function (err) {
+        status.textContent = 'Error: ' + (err && err.message ? err.message : String(err));
+        out.textContent = '';
+      }).then(function () { run.disabled = false; });
+    }
+    run.addEventListener('click', execute);
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); execute(); }
+    });
+    csv.addEventListener('click', function () {
+      if (!last) return;
+      download('query.csv', [last.cols.map(csvCell).join(',')].concat(last.rows.map(function (r) {
+        return r.map(csvCell).join(',');
+      })).join('\r\n') + '\r\n', 'text/csv');
+    });
+    if (route.params.get('q')) setTimeout(execute, 0);
+    return view;
+  }
+
   // ── Router ────────────────────────────────────────────────────────────────
 
   function render() {
     var route = parseRoute();
     var root = document.getElementById('view');
     document.body.removeAttribute('data-ready');
+    document.querySelectorAll('[data-nav]').forEach(function (a) {
+      var v = a.getAttribute('data-nav');
+      var on = v === route.view || (v === 'national' && (route.view === 'state' || route.view === 'county')) ||
+        (v === 'explore' && route.view === 'record');
+      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
     loadBase().then(function () {
       document.getElementById('asOf').textContent = base.asOf ? 'Data as of ' + base.asOf + '.' : '';
       if (route.view === 'national') return renderNational(route);
+      if (route.view === 'explore') return loadAllRecords().then(function (all) { return renderExplore(route, all); });
+      if (route.view === 'record') return loadRecord(route).then(function (rec) { return renderRecord(route, rec); });
+      if (route.view === 'coverage') return getJSON(PATHS.worklists).then(function (w) { return renderCoverage(route, w); });
+      if (route.view === 'data') {
+        return Promise.all([getJSON(PATHS.manifest), getText(PATHS.schema)]).then(function (r) { return renderData(route, r[0], r[1]); });
+      }
+      if (route.view === 'sql') return renderSql(route);
       var st = route.view === 'state' ? route.st : (base.byFips[route.fips] || {}).state_code;
       if (!st) throw new Error('No county ' + route.fips + ' in the national database');
       return getJSON(PATHS.state(st)).then(function (detail) {

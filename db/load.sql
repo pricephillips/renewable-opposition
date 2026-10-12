@@ -12,6 +12,7 @@
 --   stg_jurisdiction_key (state, jurisdiction_type, jurisdiction, jurisdiction_key, kind)
 --   stg_project_group (project_id, group_id)
 --   stg_county_pending (county_fips, candidates)
+--   stg_worklist_size (worklist, description, rows)
 
 CREATE MACRO split_list(s) AS
     list_filter(list_transform(string_split(coalesce(s, ''), ';'), x -> trim(x)), x -> x <> '');
@@ -272,6 +273,9 @@ FROM stg_negative_checks;
 
 INSERT INTO county_pending_review
 SELECT county_fips, CAST(candidates AS INTEGER) FROM stg_county_pending;
+
+INSERT INTO worklist_size
+SELECT worklist, description, CAST(rows AS INTEGER) FROM stg_worklist_size;
 
 INSERT INTO data_center_event
 SELECT nullif_blank(county_fips), upper(nullif_blank(state)), nullif_blank(jurisdiction),

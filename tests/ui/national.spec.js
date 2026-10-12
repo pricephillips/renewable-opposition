@@ -121,3 +121,32 @@ test('phone width: no horizontal page scroll', async ({ page }) => {
     expect(over, `${hash} overflows by ${over}px`).toBeLessThanOrEqual(0);
   }
 });
+
+// Carried over from choropleth.spec.js, retired with renewable-opposition-map.html
+// in phase 4: every county the data names paints, a state view draws all of
+// its counties from the local TopoJSON, and a geometry failure says so while
+// the figures stay on the page.
+test('every county with a restriction is shaded, and only those', async ({ page }) => {
+  test.setTimeout(120000);
+  await open(page, '#/?m=restrictions', 'national');
+  await expect(page.locator('#map')).toHaveAttribute('data-painted', /^[1-9]/, { timeout: 30000 });
+  const shaded = await page.locator('#map path.county').evaluateAll(ps =>
+    ps.filter(p => /var\(--map-c[1-4]\)/.test(p.style.fill)).length);
+  expect(shaded).toBe(COUNTIES.filter(c => c.in_coverage_universe && c.restrictions > 0).length);
+  for (const st of ['IA', 'MN', 'CT']) {
+    await open(page, `#/state/${st}`, 'state');
+    await expect(page.locator('#map')).toHaveAttribute('data-painted',
+      String(COUNTIES.filter(c => c.state_code === st).length), { timeout: 30000 });
+  }
+  expect(page.requested.some(u => u.endsWith('/data/geo/counties_2024.topojson'))).toBe(true);
+  expect(page.requested.filter(u => /geojson-counties-fips/.test(u))).toEqual([]);
+});
+
+test('county boundaries failing to load still leaves every table', async ({ page }) => {
+  test.setTimeout(120000);
+  await page.route('**/counties_2024.topojson', route => route.fulfill({ status: 404, body: '' }));
+  await open(page, '#/', 'national');
+  await expect(page.locator('#mapStatus')).toContainText('County boundaries could not be loaded');
+  await expect(page.locator('#map')).toHaveAttribute('data-painted', '0');
+  await expect(page.locator('#statesHeading ~ .table-wrap tbody tr').first()).toBeVisible();
+});

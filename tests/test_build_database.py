@@ -67,6 +67,9 @@ def publish_dirs(monkeypatch, tmp_path):
     monkeypatch.setattr(bdb, "STATE_SUMMARY", tmp_path / "state_summary.json")
     monkeypatch.setattr(bdb, "COUNTY_SUMMARY", tmp_path / "county_summary.json")
     monkeypatch.setattr(bdb, "STATE_DIR", tmp_path / "state")
+    monkeypatch.setattr(bdb, "RECORD_INDEX", tmp_path / "record_index.json")
+    monkeypatch.setattr(bdb, "WORKLISTS_JSON", tmp_path / "worklists.json")
+    monkeypatch.setattr(bdb, "MANIFEST_JSON", tmp_path / "manifest.json")
     return tmp_path
 
 
@@ -83,9 +86,12 @@ def test_main_publishes_parquet_and_summaries(publish_dirs):
 
 def test_publish_is_byte_for_byte_repeatable(con, publish_dirs):
     def snapshot():
-        bdb.export_parquet(con)
+        parquet = bdb.export_parquet(con)
         bdb.write_summaries(con)
         bdb.write_state_files(con)
+        bdb.write_record_index(con)
+        bdb.write_worklists(con)
+        bdb.write_manifest(con, parquet)
         return {p.name: p.read_bytes() for p in publish_dirs.rglob("*") if p.is_file()}
     assert snapshot() == snapshot()
     keys = {k for (k,) in duckdb.sql(
@@ -143,3 +149,51 @@ def test_pending_review_is_a_count_that_matches_site_profiles(con):
         assert n == len(site_profile.pending_for(d, fips, name, st))
     detail_keys = set(bdb.state_detail(con, "IA"))
     assert not any("pending" in k or "queue" in k for k in detail_keys)
+
+
+def test_record_index_names_the_state_file_of_every_record(con, publish_dirs):
+    bdb.write_state_files(con)
+    bdb.write_record_index(con)
+    idx = json.loads(bdb.RECORD_INDEX.read_text())
+    rows = rowsof(idx)
+    key = {"restriction": "restrictions", "project": "projects", "case": "cases"}
+    files = {p.stem: json.loads(p.read_text()) for p in bdb.STATE_DIR.glob("*.json")}
+    for r in rows:
+        ids = {x["instrument_id"] for x in files[r["state_code"]][key[r["entity"]]]}
+        assert r["instrument_id"] in ids, r
+    m = _metrics()
+    counts = {e: sum(1 for r in rows if r["entity"] == e) for e in key}
+    assert counts == {"restriction": m["restrictions"]["instruments"],
+                      "project": m["contested_projects"]["projects"], "case": m["cases"]["cases"]}
+
+
+def test_state_file_records_carry_their_technology_rows(con):
+    detail = bdb.state_detail(con, "NY")
+    n = sum(len(r["rows"]) for r in detail["restrictions"] if r["state_code"] == "NY")
+    want = con.execute("SELECT count(*) FROM restriction JOIN restriction_instrument USING (instrument_id) "
+                       "WHERE state_code = 'NY'").fetchone()[0]
+    assert n == want
+
+
+def test_worklists_publish_sizes_only(con, publish_dirs):
+    bdb.write_worklists(con)
+    w = json.loads(bdb.WORKLISTS_JSON.read_text())
+    assert w["columns"] == ["worklist", "description", "rows"]
+    assert {r[0] for r in w["rows"]} == set(bdb.WORKLISTS)
+    path, only, _ = bdb.WORKLISTS["queue"]
+    from common import read_csv
+    assert dict((r[0], r[2]) for r in w["rows"])["queue"] == \
+        sum(1 for r in read_csv(path) if r.get(only[0]) in only[1])
+
+
+def test_manifest_lists_every_parquet_file(con, publish_dirs):
+    parquet = bdb.export_parquet(con)
+    bdb.write_manifest(con, parquet)
+    rows = rowsof(json.loads(bdb.MANIFEST_JSON.read_text()))
+    assert {r["name"] for r in rows} == set(bdb.TABLES) | set(bdb.VIEWS)
+    for r in rows:
+        assert (publish_dirs / r["file"]).stat().st_size == r["bytes"]
+
+
+def rowsof(t):
+    return [dict(zip(t["columns"], r)) for r in t["rows"]]

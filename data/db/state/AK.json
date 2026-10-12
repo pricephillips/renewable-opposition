@@ -36,7 +36,7 @@
 ],
 "negative_checks":[],
 "restrictions":[
-{"instrument_id":"sabin:S26R-6259","state_code":"AK","jurisdiction_name":"Anchorage Municipality","jurisdiction_type":"County","scope":"renewables_only","status":"active","severity_score":3,"technologies":["wind"],"restriction_types":["height_limit"],"evidence_level":"report_citation","verification":"unverified","source_family":"Sabin 2026","date_enacted_iso":null,"date_text":"2010","current_end_date":null,"description":"Anchorage County: Setback Restriction (wind) | Height Restriction (wind)","severity_basis":"wind height limit","counties":[],"evidence":[{"role":"compiled_source","url":"https://scholarship.law.columbia.edu/sabin_climate_change/280/","access":null}]}
+{"instrument_id":"sabin:S26R-6259","state_code":"AK","jurisdiction_name":"Anchorage Municipality","jurisdiction_type":"County","scope":"renewables_only","status":"active","severity_score":3,"technologies":["wind"],"restriction_types":["height_limit"],"evidence_level":"report_citation","verification":"unverified","source_family":"Sabin 2026","date_enacted_iso":null,"date_text":"2010","current_end_date":null,"description":"Anchorage County: Setback Restriction (wind) | Height Restriction (wind)","severity_basis":"wind height limit","long_description":null,"sabin_edition":"2026-09","edition_status":"in_latest_edition","primary_source_access":null,"rows":[{"technology":"wind","restriction_type":"height_limit","severity_score":3,"severity_basis":"wind height limit","mechanisms":"setback (wind), height limit (wind)"}],"placements":[],"counties":[],"evidence":[{"role":"compiled_source","url":"https://scholarship.law.columbia.edu/sabin_climate_change/280/"}]}
 ],
 "projects":[],
 "cases":[],

@@ -292,6 +292,14 @@ CREATE TABLE county_pending_review (
     candidates      INTEGER NOT NULL
 );
 
+-- How long each review worklist is (build_database.WORKLISTS). Sizes only:
+-- the worklists themselves stay in data/review/.
+CREATE TABLE worklist_size (
+    worklist        VARCHAR PRIMARY KEY,
+    description     VARCHAR NOT NULL,
+    rows            INTEGER NOT NULL
+);
+
 -- Data center events copied from pricephillips/data-center-map. Context for
 -- a county; never part of a renewable count.
 CREATE TABLE data_center_event (

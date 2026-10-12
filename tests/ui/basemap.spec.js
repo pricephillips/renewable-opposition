@@ -11,7 +11,9 @@ const STYLE = JSON.stringify({
   layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#f2efe9' } }]
 });
 
-for (const file of ['renewable-opposition-map.html', 'map-audit.html']) {
+// map-audit.html is the one page left on Leaflet and basemap.js
+// (renewable-opposition-map.html was retired in phase 4).
+for (const file of ['map-audit.html']) {
   test(`${file}: vector basemap renders when the OpenFreeMap style is reachable`, async ({ page }) => {
     await page.route('https://tiles.openfreemap.org/**', route =>
       route.fulfill({ status: 200, contentType: 'application/json', body: STYLE }));
