@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Renewable Opposition: National Dashboard</title>
   <meta name="description" content="Local restrictions, contested projects and court cases on renewable energy in the United States, by state and county, with how each record was verified." />
+  <!-- The SQL console's DuckDB-WASM imports apache-arrow, which imports
+       tslib and flatbuffers, by bare name. Versions are the ones
+       @duckdb/duckdb-wasm 1.29.0 resolves to (tests/ui/package-lock.json). -->
+  <script type="importmap">
+  {"imports": {
+    "apache-arrow": "https://cdn.jsdelivr.net/npm/apache-arrow@17.0.0/Arrow.dom.mjs",
+    "tslib": "https://cdn.jsdelivr.net/npm/tslib@2.8.1/tslib.es6.mjs",
+    "flatbuffers": "https://cdn.jsdelivr.net/npm/flatbuffers@24.12.23/mjs/flatbuffers.js"
+  }}
+  </script>
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
   <style>
@@ -125,9 +135,13 @@
 
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
     header.site { border-bottom: 1px solid var(--color-divider); background: var(--color-surface); }
-    header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-top: var(--space-3); padding-bottom: var(--space-3); }
+    header.site .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2) var(--space-4); padding-top: var(--space-3); padding-bottom: var(--space-3); }
     .brand { font-weight: 700; font-size: var(--text-base); color: var(--color-text); text-decoration: none; }
     .brand span { color: var(--color-text-muted); font-weight: 500; }
+    .site-nav { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); margin-left: auto; font-size: var(--text-sm); }
+    .site-nav a { color: var(--color-text-muted); text-decoration: none; padding: var(--space-2) 0; border-bottom: 2px solid transparent; }
+    .site-nav a:hover { color: var(--color-text); }
+    .site-nav a[aria-current="page"] { color: var(--color-text); border-bottom-color: var(--color-primary); font-weight: 600; }
     .icon-btn {
       border: 1px solid var(--color-border); background: var(--color-surface-2); color: var(--color-text);
       border-radius: var(--radius-md); min-width: 44px; min-height: 44px; font-size: 1.1rem; cursor: pointer;
@@ -211,6 +225,22 @@
     footer.site { border-top: 1px solid var(--color-divider); padding: var(--space-6) 0 var(--space-10); font-size: var(--text-sm); color: var(--color-text-muted); }
     footer.site p { max-width: 80ch; }
 
+    .filters { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: flex-end; margin-bottom: var(--space-4); }
+    .filters .field { min-width: 140px; }
+    .filters input[type="search"] { font: inherit; font-size: var(--text-sm); color: var(--color-text); background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); min-height: 44px; min-width: 220px; }
+    .tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+    .tabs a { padding: var(--space-2) var(--space-4); border: 1px solid var(--color-border); border-radius: 999px; text-decoration: none; color: var(--color-text-muted); min-height: 44px; display: inline-flex; align-items: center; }
+    .tabs a[aria-current="page"] { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-surface); }
+    .result-line { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3); }
+    textarea.sql { width: 100%; min-height: 160px; font: 0.9rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--color-text); background: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3); }
+    pre.code { font: 0.85rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--color-surface-offset); border-radius: var(--radius-md); padding: var(--space-3); overflow-x: auto; margin: var(--space-2) 0; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.9em; }
+    .btn { font: inherit; font-size: var(--text-sm); border: 1px solid var(--color-primary); background: var(--color-primary); color: var(--color-surface); border-radius: var(--radius-md); padding: var(--space-2) var(--space-4); min-height: 44px; cursor: pointer; }
+    .btn.secondary { background: var(--color-surface-2); color: var(--color-text); border-color: var(--color-border); }
+    .btn:disabled { opacity: 0.6; cursor: progress; }
+    details.dict { border-top: 1px solid var(--color-divider); padding: var(--space-2) 0; }
+    details.dict summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+
     @media (max-width: 600px) {
       .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .tile .value { font-size: var(--text-lg); }
@@ -227,6 +257,13 @@
   <header class="site">
     <div class="wrap">
       <a class="brand" href="#/">Renewable Opposition <span>National dashboard</span></a>
+      <nav class="site-nav" aria-label="Sections">
+        <a href="#/" data-nav="national">National</a>
+        <a href="#/explore/restrictions" data-nav="explore">Explore</a>
+        <a href="#/coverage" data-nav="coverage">Coverage</a>
+        <a href="#/data" data-nav="data">Data</a>
+        <a href="#/sql" data-nav="sql">SQL</a>
+      </nav>
       <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch between light and dark theme">◐</button>
     </div>
   </header>

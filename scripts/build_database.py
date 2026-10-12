@@ -62,10 +62,39 @@ COUNTY_SUMMARY = ROOT / "data" / "db" / "county_summary.json"
 # One detail file per state: what the dashboard's state and county views
 # list. Written from the same database, so they count the way it does.
 STATE_DIR = ROOT / "data" / "db" / "state"
+# Which record lives in which state file, for the dashboard's record pages.
+RECORD_INDEX = ROOT / "data" / "db" / "record_index.json"
+# How long each review worklist is: sizes only, never rows (README, "Closing
+# the gaps"; docs/national_database_design.md, decision 3).
+WORKLISTS_JSON = ROOT / "data" / "db" / "worklists.json"
+# Every published Parquet file with its row count and size, for the
+# dashboard's data page.
+MANIFEST_JSON = ROOT / "data" / "db" / "manifest.json"
 # build_info keys that change on every run. Left out of the Parquet so an
 # unchanged build rewrites identical bytes and commits nothing.
 VOLATILE_INFO = ("built_at", "git_commit")
 METRICS = PROCESSED_DIR / "headline_metrics.json"
+
+# name -> (file, the rows that count, what the list is for). The files are
+# written by the Build dashboard data workflow's steps before this one.
+WORKLISTS = {
+    "restriction_worklist": (REVIEW_DIR / "restriction_worklist.csv", None,
+                             "Restrictions whose instrument or adopting minutes nobody has read yet"),
+    "outcome_worklist": (REVIEW_DIR / "outcome_worklist.csv", None,
+                         "Contested-project outcomes not yet confirmed by a source someone read"),
+    "adjacency_worklist": (REVIEW_DIR / "adjacency_worklist.csv", None,
+                           "Counties next to a recent restriction that nobody has checked"),
+    "negative_check_worklist": (REVIEW_DIR / "negative_check_worklist.csv", None,
+                                "Profiled counties with no restriction and no documented check"),
+    "cases_candidates": (REVIEW_DIR / "cases_candidates.csv", ("review_status", {"lead", "needs_docket_research"}),
+                         "Litigated projects waiting for a court record"),
+    "queue": (REVIEW_DIR / "queue.csv", ("review_status", {"pending"}),
+              "Candidate records waiting for a reviewer"),
+    "group_review": (REVIEW_DIR / "group_review.csv", None,
+                     "Opposition groups held back until a source names them"),
+    "coverage_gaps": (REVIEW_DIR / "coverage_gaps.csv", None,
+                      "Moratoria found in only one of the two compiled sources"),
+}
 
 # Every input, as staging table -> file. Read with every column VARCHAR;
 # db/load.sql does the typing.
@@ -97,7 +126,7 @@ EXTRA_STATE_NAMES = {"DC": "District of Columbia", "PR": "Puerto Rico"}
 TABLES = ("state", "county", "county_adjacency", "jurisdiction", "restriction_instrument", "restriction",
           "contested_project", "legal_case", "case_project", "siting_standard", "state_policy",
           "record_county", "source_document", "evidence_link", "opposition_group", "project_group",
-          "negative_check", "county_pending_review", "data_center_event", "build_info")
+          "negative_check", "county_pending_review", "worklist_size", "data_center_event", "build_info")
 VIEWS = ("v_headline_restrictions", "v_headline_by_source", "v_county_coverage_totals", "v_county_summary",
          "v_state_summary", "v_restrictions_by_month")
 
@@ -165,6 +194,14 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
             if n:
                 pending.append((f, str(n)))
     _stage_rows(con, "stg_county_pending", ["county_fips", "candidates"], pending)
+
+    sizes = []
+    for name, (path, only, description) in WORKLISTS.items():
+        rows = read_csv(path) if path.exists() else []
+        if only:
+            rows = [r for r in rows if (r.get(only[0]) or "") in only[1]]
+        sizes.append((name, description, str(len(rows))))
+    _stage_rows(con, "stg_worklist_size", ["worklist", "description", "rows"], sizes)
 
 
 def _git_commit() -> str:
@@ -300,14 +337,19 @@ def export_parquet(con: duckdb.DuckDBPyConnection) -> list[Path]:
     return written
 
 
-def _summary(con: duckdb.DuckDBPyConnection, view: str, key: str) -> str:
-    """A view as {"columns": [...], "rows": [[...], ...]}, sorted by key, one
-    row per line: a third the size of an array of objects, and readable diffs."""
-    cur = con.execute(f"SELECT * FROM {view} ORDER BY {key}")
+def _query_json(con: duckdb.DuckDBPyConnection, sql: str) -> str:
+    """A query as {"columns": [...], "rows": [[...], ...]}, one row per line:
+    a third the size of an array of objects, and readable diffs."""
+    cur = con.execute(sql)
     cols = [d[0] for d in cur.description]
-    rows = [[v.isoformat() if hasattr(v, "isoformat") else v for v in r] for r in cur.fetchall()]
+    rows = [[_plain(v) for v in r] for r in cur.fetchall()]
     dump = lambda v: json.dumps(v, ensure_ascii=False, separators=(",", ":"))  # noqa: E731
     return ('{"columns":' + dump(cols) + ',"rows":[\n' + ",\n".join(dump(r) for r in rows) + "\n]}\n")
+
+
+def _summary(con: duckdb.DuckDBPyConnection, view: str, key: str) -> str:
+    """A view as columns and rows, sorted by key."""
+    return _query_json(con, f"SELECT * FROM {view} ORDER BY {key}")
 
 
 def write_summaries(con: duckdb.DuckDBPyConnection) -> None:
@@ -345,6 +387,18 @@ STATE_QUERIES = {
                  WHERE r.instrument_id = ri.instrument_id) AS description,
                (SELECT first(r.severity_basis ORDER BY r.id) FROM restriction r
                  WHERE r.instrument_id = ri.instrument_id) AS severity_basis,
+               (SELECT first(r.long_description ORDER BY r.id) FILTER (WHERE r.long_description IS NOT NULL)
+                 FROM restriction r WHERE r.instrument_id = ri.instrument_id) AS long_description,
+               ri.sabin_edition, ri.edition_status, ri.primary_source_access,
+               (SELECT list({'technology': r.technology, 'restriction_type': r.restriction_type,
+                             'severity_score': r.severity_score, 'severity_basis': r.severity_basis,
+                             'mechanisms': r.mechanisms, 'legal_basis': r.legal_basis, 'sectors': r.sectors,
+                             'nrel_id': r.nrel_id, 'conflicts_with': r.conflicts_with}
+                            ORDER BY r.technology, r.id)
+                 FROM restriction r WHERE r.instrument_id = ri.instrument_id) AS rows,
+               coalesce((SELECT list({'county_fips': rc.county_fips, 'method': rc.method,
+                                     'is_primary': rc.is_primary} ORDER BY rc.county_fips) FROM record_county rc
+                 WHERE rc.entity = 'restriction' AND rc.record_id = ri.instrument_id), []) AS placements,
                coalesce((SELECT list(rc.county_fips ORDER BY rc.county_fips) FROM record_county rc
                  WHERE rc.entity = 'restriction' AND rc.record_id = ri.instrument_id), []) AS counties,
                coalesce((SELECT list({'role': e.role, 'url': e.url, 'access': e.access}
@@ -360,6 +414,11 @@ STATE_QUERIES = {
                cp.outcome_class, cp.outcome_confirmed, cp.finality_evidence, cp.status, cp.severity_score,
                cp.has_litigation, cp.municipality, cp.event_date_text, cp.capacity_mw_text, cp.description,
                cp.source_family, cp.evidence_level, cp.verification,
+               cp.long_description, cp.opposition_type, cp.area_acres_text, cp.sabin_edition,
+               cp.edition_status,
+               coalesce((SELECT list({'county_fips': rc.county_fips, 'method': rc.method,
+                                     'is_primary': rc.is_primary} ORDER BY rc.county_fips) FROM record_county rc
+                 WHERE rc.entity = 'contested_project' AND rc.record_id = cp.instrument_id), []) AS placements,
                coalesce((SELECT list(rc.county_fips ORDER BY rc.county_fips) FROM record_county rc
                  WHERE rc.entity = 'contested_project' AND rc.record_id = cp.instrument_id), []) AS counties,
                coalesce((SELECT list(g.canonical_name ORDER BY g.canonical_name) FROM project_group pg
@@ -376,10 +435,13 @@ STATE_QUERIES = {
             WHERE entity = 'contested_project' AND substr(county_fips, 1, 2) = $sf)
         ORDER BY cp.instrument_id""",
     "cases": """
-        SELECT lc.instrument_id, lc.case_name, lc.court, lc.court_level, lc.docket_number, lc.case_status,
-               lc.technologies, lc.case_source_url, lc.verification,
+        SELECT lc.instrument_id, lc.state_code, lc.case_name, lc.court, lc.court_level, lc.docket_number,
+               lc.case_status, lc.technologies, lc.case_source_url, lc.evidence_level, lc.verification,
                coalesce(list(k.project_id ORDER BY k.project_id)
-                        FILTER (WHERE k.project_id IS NOT NULL), []) AS projects
+                        FILTER (WHERE k.project_id IS NOT NULL), []) AS projects,
+               coalesce((SELECT list({'role': e.role, 'url': e.url, 'access': e.access}
+                                     ORDER BY e.role, e.url) FROM evidence_link e
+                 WHERE e.entity = 'legal_case' AND e.record_id = lc.instrument_id), []) AS evidence
         FROM legal_case lc LEFT JOIN case_project k ON k.case_id = lc.instrument_id
         WHERE lc.state_code = $st GROUP BY ALL ORDER BY lc.instrument_id""",
     "siting_standards": """
@@ -411,8 +473,8 @@ def _plain(v):
         return v.isoformat()
     if isinstance(v, list):
         return [_plain(x) for x in v]
-    if isinstance(v, dict):
-        return {k: _plain(x) for k, x in v.items()}
+    if isinstance(v, dict):  # a nested struct: its null fields are left out
+        return {k: _plain(x) for k, x in v.items() if x is not None}
     return v
 
 
@@ -450,6 +512,34 @@ def write_state_files(con: duckdb.DuckDBPyConnection) -> list[Path]:
     return written
 
 
+def write_record_index(con: duckdb.DuckDBPyConnection) -> None:
+    """Which state file holds each record: restriction, project and case
+    instrument_ids with their entity and state."""
+    _write_bytes(RECORD_INDEX, _query_json(con, """
+        SELECT instrument_id, 'restriction' AS entity, state_code FROM restriction_instrument
+        UNION ALL SELECT instrument_id, 'project', state_code FROM contested_project
+        UNION ALL SELECT instrument_id, 'case', state_code FROM legal_case
+        ORDER BY entity, instrument_id""").encode("utf-8"))
+
+
+def write_worklists(con: duckdb.DuckDBPyConnection) -> None:
+    _write_bytes(WORKLISTS_JSON, _query_json(con, "SELECT * FROM worklist_size ORDER BY worklist").encode("utf-8"))
+
+
+def write_manifest(con: duckdb.DuckDBPyConnection, parquet: list[Path]) -> None:
+    """Every published Parquet file with its kind, rows and bytes."""
+    rows = []
+    for path in sorted(parquet):
+        name = path.stem
+        n = con.execute(f"SELECT count(*) FROM {name}").fetchone()[0]
+        kind = "view" if name in VIEWS else "table"
+        rows.append((f"parquet/{path.name}", name, kind, n, path.stat().st_size))
+    con.execute("CREATE OR REPLACE TEMP TABLE _manifest (file VARCHAR, name VARCHAR, kind VARCHAR, "
+                "rows BIGINT, bytes BIGINT)")
+    con.executemany("INSERT INTO _manifest VALUES (?, ?, ?, ?, ?)", rows)
+    _write_bytes(MANIFEST_JSON, _query_json(con, "SELECT * FROM _manifest ORDER BY file").encode("utf-8"))
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="DuckDB file to write")
@@ -474,9 +564,12 @@ def main(argv: list[str] | None = None) -> int:
                     print(f"  - {p}", file=sys.stderr)
                 return 1
             if args.publish:
-                export_parquet(con)
+                parquet = export_parquet(con)
                 write_summaries(con)
                 write_state_files(con)
+                write_record_index(con)
+                write_worklists(con)
+                write_manifest(con, parquet)
             counts = {t: con.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for t in TABLES}
         finally:
             con.close()

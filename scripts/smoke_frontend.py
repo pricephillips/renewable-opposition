@@ -44,12 +44,12 @@ ROOT = Path(__file__).resolve().parent.parent
 # Every page counts instruments (processed-data.js tallyText), so each badge
 # names restrictions; map-audit's metric card names instruments.
 PAGES = {
-    "index.html": ("#resultBadge, .result-badge, [id$='Badge']", "restriction"),
-    "renewable-opposition-map.html": ("#resultBadge", "restriction"),
     "map-audit.html": ("body", "Visible instruments"),
-    "dashboard.html": ("#table-summary", "restriction"),
     # Reads data/db/ (build_database.py --publish), not processed-data.js.
+    # index.html, dashboard.html and renewable-opposition-map.html redirect
+    # here since phase 4; tests/ui/pages.spec.js checks the redirects.
     "national-dashboard.html": (".tile", "Restrictions on renewables"),
+    "national-dashboard.html#/explore/restrictions": ("#resultCount", "restrictions"),
 }
 BLOCKED = re.compile(r"(tile\.openstreetmap|tiles\.openfreemap|basemaps\.cartocdn|arcgisonline|fontshare|fonts\.g)")
 CDN = re.compile(r"https://unpkg\.com/(leaflet(?:\.markercluster)?|d3-array|d3-geo|topojson-client)@[^/]+/(.*)")
@@ -101,7 +101,7 @@ def main() -> int:
         browser = pw.chromium.launch(
             executable_path=os.environ.get("SMOKE_CHROMIUM") or None)
         for name, (selector, expect) in PAGES.items():
-            if not (ROOT / name).exists():
+            if not (ROOT / name.split("#")[0]).exists():
                 continue
             page = browser.new_page(viewport={"width": 1400, "height": 1000})
             page.route(BLOCKED, lambda route: route.abort())
@@ -121,7 +121,8 @@ def main() -> int:
             problems = check_page(page, f"http://127.0.0.1:{port}/{name}", selector, expect, args.timeout)
             if args.screenshots:
                 args.screenshots.mkdir(parents=True, exist_ok=True)
-                page.screenshot(path=str(args.screenshots / f"{Path(name).stem}.png"))
+                shot = Path(name.split("#")[0]).stem + name.partition("#")[2].replace("/", "-")
+                page.screenshot(path=str(args.screenshots / f"{shot}.png"))
             status = "ok  " if not problems else "FAIL"
             print(f"{status} {name}")
             for p in problems:

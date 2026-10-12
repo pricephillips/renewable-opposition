@@ -1,6 +1,6 @@
 # National database and dashboard: design
 
-**Status:** 2026-10-10. Phases 1 to 3 are built: the database (`db/`, `scripts/build_database.py`, `tests/test_build_database.py`), its publication by the Build dashboard data workflow, and the national, state and county views (`national-dashboard.html`, `tests/ui/national.spec.js`). Phases 4 and 5 are proposals.
+**Status:** 2026-10-12. Phases 1 to 4 are built: the database (`db/`, `scripts/build_database.py`, `tests/test_build_database.py`), its publication by the Build dashboard data workflow, and the dashboard (`national-dashboard.html`: national, state, county, explorer, record, coverage, data and SQL views; `tests/ui/national.spec.js`, `tests/ui/explore.spec.js`). The three old pages redirect to it. Phase 5 is a proposal.
 
 This document designs one national database for everything the pipeline publishes, and one dashboard on top of it, to replace the four pages that read `data/processed/` today.
 
@@ -51,7 +51,8 @@ data/db/renewable_opposition.duckdb   +   data/db/parquet/<table>.parquet, state
                                            (committed by the Build dashboard data workflow)
         │
         ├── national-dashboard.html: national, state, county views (summaries + state files)
-        ├── explorer, phase 4 (DuckDB-WASM over the Parquet, loaded only there)
+        ├── explorer and record pages (all state files, plain JavaScript)
+        ├── SQL console (DuckDB-WASM over the Parquet, loaded only there)
         └── downloads (DuckDB file, Parquet, the existing CSVs)
 ```
 
@@ -66,6 +67,8 @@ data/db/renewable_opposition.duckdb   +   data/db/parquet/<table>.parquet, state
 **First paint.** The national view must not wait for the WASM engine. The build also writes two small JSON files, `data/db/state_summary.json` (52 rows, 3 KB) and `county_summary.json` (3,222 rows, 250 KB), from the views below, and the landing page draws from those plus `headline_metrics.json`.
 
 **Revised 2026-10-10: DuckDB-WASM is for the explorer only.** Measured in phase 3, the engine is 35.7 MB (`duckdb-eh.wasm` 1.29.0), about 7 MB gzipped, before any Parquet. Loading that to open one county would cost a phone reader far more than the county's data. So the build writes one detail file per state, `data/db/state/<ST>.json`, from the same database with the same queries every build: the state's restrictions, projects, cases, siting standards (summarized per jurisdiction and technology), data center events, negative checks and county adjacency. The largest, New York, is 800 KB raw and 84 KB gzipped as GitHub Pages serves it. The state and county views read only that file. DuckDB-WASM waits for phase 4's explorer and SQL console, where arbitrary queries are the point, and loads only when someone opens them.
+
+**Revised again 2026-10-12: only the SQL console uses DuckDB-WASM.** The explorer's filters (state, technology, type, severity, status, scope, source, verification, text) need no SQL, and the 52 state files already hold every record: about 1.1 MB gzipped together (8.1 MB raw), a sixth of the engine alone. So the explorer and the record pages read the state files in plain JavaScript (a record's state comes from `data/db/record_index.json`), and the engine loads only on `#/sql`. There it fetches every Parquet file in `data/db/manifest.json` and exposes each table and view by name. DuckDB-WASM reads Parquet through an extension it fetches from extensions.duckdb.org at run time (CORS open); the offline UI tests serve a copy pinned by SHA-256 (`tests/ui/fetch_duckdb_extension.sh`). The page's import map pins `apache-arrow`, `tslib` and `flatbuffers` to the versions `@duckdb/duckdb-wasm` 1.29.0 resolves to.
 
 ## 4. Data model
 
@@ -151,10 +154,11 @@ erDiagram
 | `#/` | **National** (built) | headline tiles from `headline_metrics.json`, counties examined among them; county map with a metric switch (severe restrictions, all restrictions, active moratoria, contested projects, blocked projects, coverage); sortable state table; records and verification by source. The enactment timeline waits for phase 5 (194 of 3,423 instruments are dated). |
 | `#/state/IA` | **State** (built) | state framework (`state_policy`; "not yet researched" while empty); the state's county map; sortable county table; restrictions (multi-sector ones listed apart), projects and cases |
 | `#/county/19113` | **County** (built) | coverage banner (records, checked with nothing found, or not examined); state framework; restrictions and projects in the county with their evidence and sources; the count of review candidates naming it, if any; NREL standards; adjacent counties with a map; data center activity (context, not counted) |
-| `#/restriction/<id>`, `#/project/<id>`, `#/case/<id>` | **Record** | every field, technologies, placement method, and the full `evidence_link` list with access labels |
-| `#/explore/<entity>` | **Explorer** | one table per entity with filters for state, technology, type, severity, status, scope, source, evidence level, verification and date; CSV export of the filtered rows |
-| `#/coverage` | **Coverage and evidence** | counties not examined, by state; verification by source; the worklists' sizes. Absorbs `map-audit.html`. |
-| `#/data` | **Data** | downloads (DuckDB, Parquet, CSV); a data dictionary generated from `db/schema.sql`; example queries; licenses and attribution (Sabin Center, NREL CC BY 4.0, Moratorium Nation CC BY 4.0, Data Center Tracker CC BY 4.0) |
+| `#/restriction/<id>`, `#/project/<id>`, `#/case/<id>` | **Record** (built) | every field; the instrument's technology rows; where it is placed and how (county named, coordinates, a town in one county, reviewer override); every source with how it was seen; linked cases or projects; a permalink |
+| `#/explore/<entity>` | **Explorer** (built) | restrictions, projects or cases, one row per instrument, with filters for state, scope, technology, type, severity, status, verification, source and text; the filters live in the URL; CSV export of the filtered rows (cells that would run as spreadsheet formulas are escaped) |
+| `#/coverage` | **Coverage and evidence** (built) | counties examined, checked with nothing found, or not examined; the share not examined by state; records and verification by source; each review worklist's size, never its rows (`data/db/worklists.json`) |
+| `#/data` | **Data** (built) | every Parquet file with rows and size (`data/db/manifest.json`); example queries that open in the SQL console; a data dictionary parsed from `db/schema.sql`; sources and licenses |
+| `#/sql` | **SQL console** (built) | DuckDB-WASM over every table and view; results table and CSV; the query lives in the URL |
 
 ### National view, wireframe
 
@@ -205,7 +209,7 @@ Placeholders in angle brackets; the layout, not the data, is the point.
 
 ### What happens to the current pages
 
-Decided 2026-10-10: `index.html`, `dashboard.html` and `renewable-opposition-map.html` redirect to the new dashboard once it has the explorer and record views that replace what they do (phase 4), and passes the smoke tests. Until then the four pages stay as they are, and the new dashboard sits beside them at `national-dashboard.html`. `map-audit.html` stays as an internal page until the coverage view covers its checks.
+Done 2026-10-12 (decided 2026-10-10): `index.html` and `renewable-opposition-map.html` redirect to `national-dashboard.html#/`, and `dashboard.html` to `#/explore/restrictions`, so old links keep working (`tests/ui/pages.spec.js` checks each). `map-audit.html` stays as the internal geography audit, the one page still on Leaflet, `basemap.js` and `processed-data.js`. What the retired map did that the dashboard does not: point markers on a basemap. The county is the unit here, and every record links to its county. `tests/ui/choropleth.spec.js` tested the retired map's Leaflet county layer; its checks that apply to the new map (every county the data names is shaded, a state view draws all its counties from the local TopoJSON, a geometry failure says so and leaves every table) moved to `tests/ui/national.spec.js`.
 
 ### Map encoding
 
@@ -218,7 +222,7 @@ The county map shades by fixed classes (0, 1, 2–4, 5–9, 10 or more) so a sha
 | **1. Database** (done) | `db/schema.sql`, `load.sql`, `views.sql`; `scripts/build_database.py`; parity with `headline_metrics.json`; tests | built, tested, parity holds |
 | **2. Publish** (done) | the Build dashboard data workflow runs `build_database.py --publish`, which writes `data/db/parquet/` (25 files, about 2.1 MB) and `data/db/state_summary.json` (3 KB) and `county_summary.json` (250 KB); the workflow commits them so GitHub Pages serves them | Parquet and summaries on the published site after each build |
 | **3. Dashboard shell** (done) | `national-dashboard.html`: national, state and county views from the summaries and `data/db/state/<ST>.json`; Playwright tests (`tests/ui/national.spec.js`: figures equal the published files, unexamined counties drawn as such, axe, phone width) and the frontend smoke test | totals match `headline_metrics.json` on every view |
-| **4. Explorer and records** | explorer and SQL console on DuckDB-WASM, record pages, coverage view (worklist sizes only), data page, downloads; old pages redirect | the four old pages retired |
+| **4. Explorer and records** (done) | explorer and record pages over the state files; SQL console on DuckDB-WASM; coverage view (worklist sizes only); data page; `data/db/record_index.json`, `worklists.json`, `manifest.json`; the three old pages redirect | the old pages retired; every view's counts match the published files |
 | **5. Depth** | Census GEOIDs for jurisdictions (places and county subdivisions) in place of the match key; NREL `ordinance_year` on the timeline; state siting law for all 50 states; build-to-build history from `data/snapshots/` so the dashboard can show what changed | |
 
 ## 7. Decisions for Price

@@ -133,6 +133,11 @@ jobs:
       - name: Install test dependencies
         run: npm ci
 
+      - name: Fetch the DuckDB-WASM Parquet extension (pinned by SHA-256)
+        # The SQL console loads it from extensions.duckdb.org at run time;
+        # the offline tests serve this copy instead (fixtures.js).
+        run: ./fetch_duckdb_extension.sh
+
       - name: Install Chromium
         # CI only. Claude sessions have Chromium at /opt/pw-browsers and must
         # never run this; they set SMOKE_CHROMIUM instead.

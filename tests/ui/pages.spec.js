@@ -11,11 +11,13 @@
 const { test, expect, processed } = require('./fixtures');
 const AxeBuilder = require('@axe-core/playwright').default;
 
+// index.html, dashboard.html and renewable-opposition-map.html were retired
+// in phase 4 (docs/national_database_design.md) and now redirect to
+// national-dashboard.html; national.spec.js and explore.spec.js check that
+// page's figures against headline_metrics.json, and the redirects are
+// checked below. map-audit.html stays as the internal geography audit.
 const PAGES = [
-  { file: 'index.html', ready: '#resultCountBadge', markers: '#mapSvg .marker' },
-  { file: 'renewable-opposition-map.html', ready: '#resultBadge', markers: '.leaflet-marker-icon' },
-  { file: 'map-audit.html', ready: '#resultBadge', markers: '.leaflet-marker-icon' },
-  { file: 'dashboard.html', ready: '#table-summary' }
+  { file: 'map-audit.html', ready: '#resultBadge', markers: '.leaflet-marker-icon' }
 ];
 
 const M = processed('headline_metrics.json');
@@ -64,40 +66,20 @@ for (const p of PAGES) {
   });
 }
 
-test('map pages count instruments, restriction scopes apart', async ({ page }) => {
-  for (const file of ['renewable-opposition-map.html', 'map-audit.html']) {
-    await loaded(page, { file, ready: '#resultBadge' });
-    await expect(page.locator('#resultBadge')).toHaveText(FULL_TALLY);
-  }
+test('map-audit.html counts instruments, restriction scopes apart', async ({ page }) => {
+  await loaded(page, { file: 'map-audit.html', ready: '#resultBadge' });
+  await expect(page.locator('#resultBadge')).toHaveText(FULL_TALLY);
   await expect(page.locator('#metricVisible')).toHaveText(fmt(H.renewables + H.multi + H.projects + H.cases));
 });
 
-test('renewable-opposition-map.html quotes headline_metrics.json', async ({ page }) => {
-  await loaded(page, { file: 'renewable-opposition-map.html', ready: '#resultBadge' });
-  await expect(page.locator('#headlineRenewables')).toHaveText(fmt(H.renewables));
-  await expect(page.locator('#headlineMultiSector')).toHaveText(fmt(H.multi));
-  await expect(page.locator('#headlineProjects')).toHaveText(fmt(H.projects));
-  await expect(page.locator('#headlineCases')).toHaveText(fmt(H.cases));
-  await page.selectOption('#scopeFilter', 'multi_sector_data_centers');
-  await expect(page.locator('#resultBadge')).toHaveText(`${fmt(H.multi)} also covering data centers`);
-});
-
-test('dashboard.html quotes headline_metrics.json and counts instruments', async ({ page }) => {
-  await loaded(page, { file: 'dashboard.html', ready: '#table-summary' });
-  const stat = id => page.locator(`[data-headline="${id}"] .stat-value`);
-  await expect(stat('renewables')).toHaveText(String(H.renewables));
-  await expect(stat('multi_sector')).toHaveText(String(H.multi));
-  await expect(stat('projects')).toHaveText(String(H.projects));
-  await expect(stat('cases')).toHaveText(String(H.cases));
-  await expect(page.locator('#cnt-r')).toHaveText(String(H.renewables));
-  await expect(page.locator('#cnt-rm')).toHaveText(`${H.multi} also data centers`);
-  await expect(page.locator('#cnt-c')).toHaveText(String(H.projects));
-  await expect(page.locator('#cnt-k')).toHaveText(String(H.cases));
-});
-
-test('index.html quotes headline_metrics.json', async ({ page }) => {
-  await loaded(page, { file: 'index.html', ready: '#resultCountBadge' });
-  await expect(page.locator('#metricSevere')).toHaveText(fmt(H.renewablesSevere));
-  await expect(page.locator('#metricContested')).toHaveText(fmt(H.projects));
-  await expect(page.locator('#metricCases')).toHaveText(fmt(H.cases));
-});
+// Old links keep working: each retired page lands on the view that replaced it.
+for (const [file, hash, view] of [['index.html', '#/', 'national'], ['', '#/', 'national'],
+                                   ['renewable-opposition-map.html', '#/', 'national'],
+                                   ['dashboard.html', '#/explore/restrictions', 'explore']]) {
+  test(`${file || '/'} redirects to national-dashboard.html${hash}`, async ({ page }) => {
+    await page.goto('/' + file);
+    await expect(page).toHaveURL(new RegExp('/national-dashboard\\.html' + hash.replace(/[/#]/g, m => '\\' + m) + '$'));
+    await expect(page.locator('body')).toHaveAttribute('data-ready', view, { timeout: 60000 });
+    expect(page.consoleErrors, 'console errors').toEqual([]);
+  });
+}

@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
+    "@duckdb/duckdb-wasm": "1.29.0",
     "@maplibre/maplibre-gl-leaflet": "0.1.4",
     "@playwright/test": "1.63.0",
     "d3-array": "3.2.4",

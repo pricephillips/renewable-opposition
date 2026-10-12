@@ -6,6 +6,8 @@
 //     and data/geo/ from the working tree under test;
 //   - pinned CDN library URLs (unpkg, jsdelivr npm) are served from
 //     tests/ui/node_modules, whose versions package.json pins to match;
+//   - DuckDB-WASM extensions (extensions.duckdb.org) are served from
+//     tests/ui/.cache/, filled by fetch_duckdb_extension.sh;
 //   - anything else (basemap styles and tiles, web fonts, third-party data) is
 //     aborted and recorded in page.blockedHosts.
 // Every URL requested is kept in page.requested. Console errors are collected
@@ -21,13 +23,21 @@ const NM = path.join(__dirname, 'node_modules');
 const TYPES = {
   '.js': 'application/javascript', '.mjs': 'application/javascript', '.css': 'text/css',
   '.json': 'application/json', '.topojson': 'application/json', '.csv': 'text/csv',
-  '.md': 'text/plain', '.png': 'image/png', '.svg': 'image/svg+xml'
+  '.md': 'text/plain', '.png': 'image/png', '.svg': 'image/svg+xml',
+  '.wasm': 'application/wasm', '.parquet': 'application/octet-stream'
 };
 
 // Map a CDN URL to a file inside node_modules, or null.
 function cdnToLocal(u) {
   const m = /^https:\/\/(?:unpkg\.com|cdn\.jsdelivr\.net\/npm)\/((?:@[^/]+\/)?[^@/]+)(?:@[^/]+)?\/(.+)$/.exec(u);
   return m ? path.join(NM, m[1], m[2]) : null;
+}
+
+// DuckDB-WASM extensions, fetched pinned by fetch_duckdb_extension.sh.
+const EXT = path.join(__dirname, '.cache', 'duckdb-extensions');
+function extensionToLocal(u) {
+  const m = /^https:\/\/extensions\.duckdb\.org\/(.+)$/.exec(u);
+  return m ? path.join(EXT, m[1]) : null;
 }
 
 async function fulfillFile(route, file) {
@@ -77,7 +87,7 @@ async function offline(page, overrides) {
         u.startsWith('data:') || u.startsWith('blob:')) {
       return route.continue();
     }
-    const local = cdnToLocal(u);
+    const local = cdnToLocal(u) || extensionToLocal(u);
     if (local) return fulfillFile(route, local);
     try { page.blockedHosts.add(new URL(u).host); } catch (e) { /* ignore */ }
     return route.abort();
