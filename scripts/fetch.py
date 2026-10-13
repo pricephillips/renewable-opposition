@@ -49,12 +49,18 @@ Optional fields in a sources.yaml entry (all fetch_method static or api):
                  of the uncompressed bytes. common.read_raw reads either form.
   watch          fetch on intake runs without an extractor.
   on_change      what to do when a watched source's content changed; printed
-                 in the run summary when a new copy is stored.
+                 in the run summary when a new copy replaces an earlier one
+                 (a first copy is only the baseline).
+
+--budget-s stops starting new requests once the run has taken that long: each
+request not made is recorded as a manifest error, so the workflow commits
+what it has well inside its job timeout and the next run starts afresh.
 
 Usage:
     python scripts/fetch.py                    # fetch all active sources
     python scripts/fetch.py --source <id>      # fetch one source (repeatable)
     python scripts/fetch.py --intake           # the sources live intake reads
+    python scripts/fetch.py --intake --budget-s 600
     python scripts/fetch.py --dry-run          # print plan, no network calls
 """
 
@@ -327,22 +333,31 @@ def fetch_request(source: dict, url: str, manifest: list[dict], sleep=time.sleep
     return record
 
 
+def skipped_row(sid: str, url: str, why: str) -> dict:
+    return {"source_id": sid, "url": url, "fetch_date": datetime.now(timezone.utc).isoformat(),
+            "content_type": "", "status_code": "", "content_hash": "", "local_path": "", "error": why}
+
+
 def process_source(source: dict, manifest: list[dict], dry_run: bool = False,
-                   delay: float = 2.0, sleep=time.sleep) -> list[dict]:
-    """Every request of one source, paced. Returns their manifest rows."""
+                   delay: float = 2.0, sleep=time.sleep, deadline: Optional[float] = None,
+                   clock=time.monotonic) -> list[dict]:
+    """Every request of one source, paced, until the deadline (a clock()
+    value) passes. Returns their manifest rows."""
     sid = source["source_id"]
     method = source.get("fetch_method", "static")
     if method not in RUNNABLE_METHODS:
         log.warning(f"{sid}: fetch_method='{method}' not yet implemented, skipping.")
-        return [{"source_id": sid, "url": source.get("url", ""),
-                 "fetch_date": datetime.now(timezone.utc).isoformat(), "content_type": "", "status_code": "",
-                 "content_hash": "", "local_path": "", "error": f"skipped: {method} not implemented"}]
+        return [skipped_row(sid, source.get("url", ""), f"skipped: {method} not implemented")]
     reqs = build_requests(source)
     interval = float(source.get("min_interval_s", delay))
     rows = []
     for i, (label, url) in enumerate(reqs):
         if dry_run:
             log.info(f"[dry-run] would fetch {sid} ({label}): {url}")
+            continue
+        if deadline is not None and clock() >= deadline:
+            log.warning(f"{sid} ({label}): run time budget reached; not fetched this run")
+            rows.append(skipped_row(sid, url, "skipped: run time budget reached"))
             continue
         if i:
             sleep(interval)
@@ -353,10 +368,13 @@ def process_source(source: dict, manifest: list[dict], dry_run: bool = False,
     return rows
 
 
-def summarize(rows: list[dict], sources: Optional[dict] = None) -> list[str]:
+def summarize(rows: list[dict], sources: Optional[dict] = None, prior: Optional[set] = None) -> list[str]:
     """One line per source: requests, stored, unchanged, failed; and, for a
-    watched source whose upstream changed, what to do about it (on_change)."""
+    watched source whose upstream changed, what to do about it (on_change).
+    `prior` holds the (source_id, url) pairs that had a stored copy before
+    this run: a first copy is a baseline, not a change."""
     by: dict[str, dict] = {}
+    changed: set = set()
     for r in rows:
         s = by.setdefault(r["source_id"], {"requests": 0, "stored": 0, "unchanged": 0, "failed": 0})
         s["requests"] += 1
@@ -366,13 +384,17 @@ def summarize(rows: list[dict], sources: Optional[dict] = None) -> list[str]:
             s["unchanged"] += 1
         else:
             s["stored"] += 1
+            if prior is None or (r["source_id"], r.get("url")) in prior:
+                changed.add(r["source_id"])
     lines = []
     for sid, s in by.items():
         lines.append(f"{sid}: {s['requests']} request(s), {s['stored']} stored, {s['unchanged']} unchanged, "
                      f"{s['failed']} failed")
         note = ((sources or {}).get(sid) or {}).get("on_change")
-        if note and s["stored"]:
+        if note and sid in changed:
             lines.append(f"  {note}")
+        elif note and s["stored"]:
+            lines.append("  first copy stored: the baseline for change detection")
     return lines
 
 
@@ -384,6 +406,8 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true", help="Print plan without fetching.")
     parser.add_argument("--delay", type=float, default=2.0,
                         help="Seconds to wait between requests (default: 2).")
+    parser.add_argument("--budget-s", type=float,
+                        help="Stop starting new requests after this many seconds (each one skipped is recorded).")
     args = parser.parse_args()
 
     if not CONFIG_PATH.exists():
@@ -398,17 +422,19 @@ def main() -> None:
 
     log.info(f"Fetching {len(targets)} source(s). dry_run={args.dry_run}")
     manifest = load_manifest(MANIFEST_PATH)
+    prior = {(r["source_id"], r.get("url")) for r in manifest if r.get("content_hash") and not r.get("error")}
+    deadline = time.monotonic() + args.budget_s if args.budget_s else None
 
     written = []
     for i, source in enumerate(targets):
-        if i and not args.dry_run:
+        if i and not args.dry_run and not (deadline and time.monotonic() >= deadline):
             time.sleep(args.delay)
-        rows = process_source(source, manifest, dry_run=args.dry_run, delay=args.delay)
+        rows = process_source(source, manifest, dry_run=args.dry_run, delay=args.delay, deadline=deadline)
         for rec in rows:
             append_manifest(MANIFEST_PATH, rec)
         written += rows
 
-    for line in summarize(written, {s["source_id"]: s for s in targets}):
+    for line in summarize(written, {s["source_id"]: s for s in targets}, prior):
         print(line)
     log.info("Done.")
 

@@ -62,13 +62,24 @@ jobs:
         run: python -m pytest -q -p no:cacheprovider tests/test_news_intake.py tests/test_intake_*.py
 
       - name: Fetch and parse the live sources
+        id: intake
         env:
           COURTLISTENER_API_TOKEN: ${{ secrets.COURTLISTENER_API_TOKEN }}
           GH_API_TOKEN: ${{ github.token }}
         run: python scripts/run_pipeline.py intake --summary "$GITHUB_STEP_SUMMARY"
 
-      - name: Commit raw copies and leads
+      # GitHub does not start validate.yml for this job's own push, so the
+      # queue it is about to commit is checked here: every lead meets the lead
+      # contract and every review row says how its evidence was seen.
+      - name: Check the queue before committing
+        id: check
         if: always()
+        run: python -m pytest -q -p no:cacheprovider tests/test_intake_registry.py tests/test_brain.py -k "lead_contract or queue_keeps or committed_review_row"
+
+      # Commits what the run wrote even when a source or an extractor failed,
+      # never a queue that failed the check.
+      - name: Commit raw copies and leads
+        if: always() && steps.check.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
