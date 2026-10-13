@@ -114,32 +114,32 @@
     }
   },
   "contested_projects": {
-    "rows": 576,
-    "projects": 576,
-    "confirmed_outcomes": 123,
+    "rows": 575,
+    "projects": 575,
+    "confirmed_outcomes": 125,
     "by_outcome": {
-      "advanced_confirmed": 53,
-      "advanced_unverified": 24,
+      "advanced_confirmed": 55,
+      "advanced_unverified": 23,
       "blocked_confirmed": 70,
       "blocked_unverified": 165,
       "needs_review": 34,
-      "pending": 230
+      "pending": 228
     },
     "by_evidence_level": {
-      "confirmed": 123,
-      "report_citation": 453
+      "confirmed": 125,
+      "report_citation": 450
     },
     "by_verification": {
-      "unverified": 451,
-      "verified": 125
+      "unverified": 449,
+      "verified": 126
     },
     "by_source": {
       "Sabin 2026": {
         "instruments": 568,
         "severe_instruments": 397,
         "by_verification": {
-          "unverified": 446,
-          "verified": 122
+          "unverified": 444,
+          "verified": 124
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
@@ -151,10 +151,10 @@
         }
       },
       "review queue": {
-        "instruments": 2,
+        "instruments": 1,
         "severe_instruments": 0,
         "by_verification": {
-          "verified": 2
+          "verified": 1
         }
       }
     },
@@ -162,21 +162,21 @@
       "canceled_or_postponed": 18,
       "operating": 72,
       "planned": 29,
-      "under_construction": 14
+      "under_construction": 13
     },
-    "facility_conflicts": 46,
+    "facility_conflicts": 44,
     "decided": {
       "guard_days": 90,
       "young_excluded": 3,
       "all": {
-        "projects": 309,
+        "projects": 310,
         "blocked": 234,
-        "blocked_share": 0.757
+        "blocked_share": 0.755
       },
       "confirmed_only": {
-        "projects": 122,
+        "projects": 124,
         "blocked": 70,
-        "blocked_share": 0.574
+        "blocked_share": 0.565
       },
       "by_technology": {
         "battery_storage": {
@@ -185,9 +185,9 @@
           "blocked_share": 0.647
         },
         "solar": {
-          "projects": 162,
+          "projects": 163,
           "blocked": 134,
-          "blocked_share": 0.827
+          "blocked_share": 0.822
         },
         "transmission": {
           "projects": 8,
@@ -202,16 +202,16 @@
       }
     },
     "by_concern": {
-      "farmland": 105,
+      "farmland": 104,
       "wildlife": 104,
-      "property_value": 78,
+      "property_value": 77,
       "viewshed": 63,
       "noise": 40,
       "tribal_cultural": 33,
       "water": 28,
       "fire_safety": 27,
       "health": 27,
-      "decommissioning": 19,
+      "decommissioning": 18,
       "wetlands": 13,
       "military_aviation": 8,
       "shadow_flicker": 5,

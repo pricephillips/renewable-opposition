@@ -233,6 +233,21 @@ JURISDICTION_OVERRIDES = {
     "REC-0462": ("county", "Grant County"),
 }
 
+# Restriction rows whose first-sentence description (the edition's text) misses
+# the rule that sets the row's severity. The replacement is written from the
+# instrument a reviewer read (data/review/restriction_sources.csv), never from the
+# report, and the report's text stays in long_description.
+DESCRIPTION_OVERRIDES = {
+    # Resolution No. 9-2022, opened 2026-10-07: the edition's first sentence names
+    # only the 2021 moratorium; the 5,250 ft setback that scores the row is in the
+    # second sentence.
+    "REC-0122": (
+        "Cherokee County, Kansas adopted Resolution No. 9-2022 on October 3, 2022, regulating industrial-scale "
+        "wind turbines: a 5,250 ft setback from the nearest property line, a 440 ft maximum turbine height and a "
+        "39 dBA noise limit from 10 p.m. to 7 a.m. It followed a one-year wind moratorium adopted in August 2021."
+    ),
+}
+
 # Mechanism spellings in the extraction -> restriction_type.
 MECHANISM_TYPE = {
     "ban/prohibition": "ban", "ban": "ban", "primary use prohibition": "ban",
@@ -669,7 +684,7 @@ def build_restrictions(records: list[dict], mn_index: dict) -> tuple[list[dict],
                 "technology": tech,
                 "restriction_type": driving_type(tech_types, basis),
                 "severity_score": severity,
-                "description": r["short_description"].strip(),
+                "description": DESCRIPTION_OVERRIDES.get(rid, r["short_description"]).strip(),
                 "status": status,
                 "jurisdiction": jurisdiction,
                 "jurisdiction_type": jurisdiction_type,

@@ -359,7 +359,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Project-level opposition, one row per technology of one project, with the plant the project matches in the federal inventories.",
-      "rows": 576,
+      "rows": 575,
       "schema": {
         "fields": [
           {
@@ -553,6 +553,26 @@
             "description": "Severe renewables-only restriction instruments for the same technology in any county the project touches. A fact about the county, not a link between the records."
           },
           {
+            "name": "resolution_url",
+            "type": "string",
+            "description": "The document a reviewer's outcome resolution rests on (data/review/outcome_resolutions.csv)."
+          },
+          {
+            "name": "resolution_access",
+            "type": "string",
+            "description": "How that document was seen: opened, archived or snippet."
+          },
+          {
+            "name": "resolution_archived_url",
+            "type": "string",
+            "description": "The Internet Archive copy read, when access is archived."
+          },
+          {
+            "name": "resolution_date",
+            "type": "string",
+            "description": "The date of the event the resolution's document records."
+          },
+          {
             "name": "facility_match",
             "type": "string",
             "description": "strong when the project matches one plant in EIA-860M, USWTDB or USPVDB by name, county and size (scripts/facility_matches.py). Never changes the outcome."
@@ -601,26 +621,6 @@
             "name": "facility_conflict",
             "type": "string",
             "description": "Set when the plant's status contradicts the published outcome."
-          },
-          {
-            "name": "resolution_url",
-            "type": "string",
-            "description": "The document a reviewer's outcome resolution rests on (data/review/outcome_resolutions.csv)."
-          },
-          {
-            "name": "resolution_access",
-            "type": "string",
-            "description": "How that document was seen: opened, archived or snippet."
-          },
-          {
-            "name": "resolution_archived_url",
-            "type": "string",
-            "description": "The Internet Archive copy read, when access is archived."
-          },
-          {
-            "name": "resolution_date",
-            "type": "string",
-            "description": "The date of the event the resolution's document records."
           }
         ]
       },
@@ -1254,7 +1254,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "One row per cited source document, with its Internet Archive snapshot.",
-      "rows": 61,
+      "rows": 60,
       "schema": {
         "fields": [
           {
