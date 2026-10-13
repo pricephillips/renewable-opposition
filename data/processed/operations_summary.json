@@ -223,5 +223,37 @@
   "sources": 53,
   "archived": 11,
   "archived_share": 0.208
+ },
+ "evidence_checks": {
+  "restriction_sources": {
+   "Moratorium Nation": {
+    "access_archived": 5,
+    "access_opened": 39,
+    "checked": 44,
+    "confirmed": 43,
+    "contradicts": 1
+   },
+   "NREL": {
+    "access_opened": 31,
+    "checked": 31,
+    "confirmed": 31
+   },
+   "Sabin": {
+    "access_opened": 1,
+    "checked": 1,
+    "confirmed": 1
+   }
+  },
+  "outcome_resolutions": {
+   "rows": 116,
+   "by_outcome": {
+    "blocked_confirmed": 66,
+    "advanced_confirmed": 50
+   },
+   "by_access": {
+    "archived": 7,
+    "opened": 109
+   }
+  }
  }
 }
