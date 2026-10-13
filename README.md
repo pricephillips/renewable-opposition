@@ -146,6 +146,7 @@ kept and its URL attached, but nothing moves:
 
 A snippet row stays on the worklists below, with its URL in `located_url`,
 until someone opens or archives the source and changes `access`.
+A scheduled routine works these lists every morning (`docs/VERIFICATION_ROUTINE.md`): `scripts/verification_batch.py` picks 20 instruments and 5 outcomes not attempted in the last 14 days, one agent reads each source and a second reopens it, and only rows both agree on are written, in one pull request per run. Every attempt is logged in `data/review/verification_log.csv`.
 In Claude Code, `/verify-evidence` (`.claude/commands/verify-evidence.md`)
 runs this process: it tries to read each snippet row's source, corrects the
 row against it, and then works the worklists.
