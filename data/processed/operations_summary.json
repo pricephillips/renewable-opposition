@@ -52,9 +52,9 @@
    "with_restriction": 1265,
    "with_contested_project": 456,
    "with_siting_standard": 1158,
-   "with_negative_check": 1,
-   "with_negative_check_and_no_record": 1,
-   "with_neither": 1732
+   "with_negative_check": 2,
+   "with_negative_check_and_no_record": 2,
+   "with_neither": 1731
   }
  },
  "quarantine": {
@@ -199,7 +199,7 @@
   "case_candidates_promoted": 39
  },
  "history": {
-  "snapshot_rows": 68,
+  "snapshot_rows": 69,
   "snapshot_files": 5,
   "headline_history_rows": 7,
   "headline_first_change": "2026-09-29",
@@ -216,7 +216,7 @@
    "siting_standard_rows": "23778",
    "state_policies": "122",
    "counties_with_records": "1411",
-   "counties_not_examined": "1732"
+   "counties_not_examined": "1731"
   }
  },
  "source_archive": {

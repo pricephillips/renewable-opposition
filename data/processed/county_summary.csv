@@ -1753,7 +1753,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 32005,NV,Douglas,record,1,1,0,0,0,0,0,0,0,0,1,,
 32007,NV,Elko,record,1,1,0,0,0,0,0,0,0,0,1,,
 32009,NV,Esmeralda,record,1,0,0,0,2,1,1,0,0,1,1,,
-32011,NV,Eureka,none,0,0,0,0,0,0,0,0,0,0,0,,
+32011,NV,Eureka,negative_check,0,0,0,0,0,0,0,0,0,0,0,2026-10-13,A
 32013,NV,Humboldt,record,1,0,0,0,0,0,0,0,0,0,1,,
 32015,NV,Lander,record,2,2,0,0,0,0,0,0,0,0,1,,
 32017,NV,Lincoln,record,0,0,0,0,1,1,0,0,0,0,0,,
