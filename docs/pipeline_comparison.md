@@ -123,6 +123,15 @@ yet), and its harvest-specific verification statuses.
 | **A concerns codebook independent of mechanism** (`CODEBOOK.md`: noise, water, light, energy cost, land use and the rest, by keyword triggers). | `classify.CONCERNS`: sixteen concerns matched in a project's own text, published with their patterns in `docs/codebook.md`, counted in the headline. What was raised, never why the project ended as it did. |
 | **The county label built from co-located events** (`county_aggregator.py`: a county is restrictive when a record of an enacted restriction sits in it). | `county_severe_restriction_ids` on each project: the severe instruments for its technology in any county it touches. Kept as a fact about the county, not a label and not a link between records. |
 
+## Round seven (2026-10-13): what is visible, what is linked, what was checked
+
+| Practice in data-center-map | Here |
+|---|---|
+| **A visibility audit** (`visibility_audit.py`, `configs/surfaces.json`: an output no surface reads is unclassified until someone says what it is for). | `config/surfaces.json` and `scripts/surface_audit.py`: every tracked output under `data/processed/`, `data/db/` and `data/snapshots/` is read by a page, a download, or internal with a reason; the audit also catches a declared read the page code no longer makes. Writes `docs/surfaces.md`; runs in `validate.yml`. |
+| **Link audits** (`link_disagreement_audit.py`, `project_resolution.py`: an event must resolve to a project). | `qc_gate.check_links`: a case whose `source_record_id` names no published project or restriction is reported (`LINK_MISSING`), with the release action in the CHECKS table. |
+| **A generated field dictionary** (the codebook's field tables). | Every column of every published table now has a `datapackage.json` description, and a test fails when a new column lacks one. |
+| **Validation samples and verdict counts** (`validation_sample.csv`, `verification_status_report.md`: source reliability measured on checked rows). | The operations summary's "What checking found": reviewers' verdicts on primary sources by source family, and outcome resolutions by outcome and access. Never extrapolated. |
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

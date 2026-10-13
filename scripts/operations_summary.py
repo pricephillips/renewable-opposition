@@ -14,7 +14,10 @@ module wrote, so it can be checked against that file.
 Reads   data/processed/headline_metrics.json, quarantine.json, sources.csv
         data/review/outcome_worklist.csv, restriction_worklist.csv,
         negative_check_worklist.csv, adjacency_worklist.csv, fips_misses.csv,
-        promotion_trail.csv, queue.csv, cases_candidates.csv
+        promotion_trail.csv, queue.csv, cases_candidates.csv,
+        restriction_sources.csv, outcome_resolutions.csv (what checking found,
+        by source family: how often a compiled row survived a reading of its
+        primary source)
         data/snapshots/manifest.csv, headline_history.csv (scripts/headline_history.py)
 Writes  data/processed/operations_summary.json, operations_summary.md
 
@@ -122,6 +125,29 @@ def history_section(manifest: list[dict], history: list[dict]) -> dict:
             "latest": {k: v for k, v in history[-1].items() if k != "date"} if history else None}
 
 
+def _family(instrument_id: str) -> str:
+    return {"mn": "Moratorium Nation", "sabin": "Sabin", "nrel": "NREL", "queue": "review queue"}.get(
+        _s(instrument_id).split(":")[0], "other")
+
+
+def evidence_checks_section(sources: list[dict], resolutions: list[dict]) -> dict:
+    """What reviewers found when they read primary sources: per source family,
+    how many instruments were checked, confirmed or contradicted, and how the
+    document was seen. A compiled source's reliability, measured on what was
+    checked, never extrapolated."""
+    by_family: dict[str, Counter] = {}
+    for r in sources:
+        c = by_family.setdefault(_family(r.get("instrument_id")), Counter())
+        c["checked"] += 1
+        c[_s(r.get("verdict")) or "no_verdict"] += 1
+        c[f"access_{_s(r.get('access')) or 'unknown'}"] += 1
+    outcomes = Counter(_s(r.get("outcome")) for r in resolutions)
+    access = Counter(_s(r.get("access")) or "unknown" for r in resolutions)
+    return {"restriction_sources": {fam: dict(sorted(c.items())) for fam, c in sorted(by_family.items())},
+            "outcome_resolutions": {"rows": len(resolutions), "by_outcome": dict(outcomes.most_common()),
+                                    "by_access": dict(sorted(access.items()))}}
+
+
 def archive_section(sources: list[dict]) -> dict:
     archived = sum(1 for s in sources if _s(s.get("archived_url")))
     return {"sources": len(sources), "archived": archived,
@@ -129,7 +155,7 @@ def archive_section(sources: list[dict]) -> dict:
 
 
 def summarize(*, today: str, metrics, held, outcomes, restrictions, negative, adjacency, misses, trail, queue,
-              candidates, manifest, history, sources) -> dict:
+              candidates, manifest, history, sources, restriction_sources=(), outcome_resolutions=()) -> dict:
     return {
         "generated": today,
         "note": "Every number counts rows another module wrote; check it against the file named in the key.",
@@ -140,6 +166,7 @@ def summarize(*, today: str, metrics, held, outcomes, restrictions, negative, ad
         "review": review_section(queue, candidates),
         "history": history_section(manifest, history),
         "source_archive": archive_section(sources),
+        "evidence_checks": evidence_checks_section(list(restriction_sources), list(outcome_resolutions)),
     }
 
 
@@ -185,6 +212,22 @@ def render(s: dict) -> str:
               "(new or changed decisions only): " + ", ".join(f"{n} {k}" for k, n in t["by_action"].items()) + ".",
               "", "| Date | File | Action | What | Reason |", "|---|---|---|---|---|"]
         L += [f"| {x['date']} | {x['file']} | {x['action']} | {x['what']} | {x['reason']} |" for x in t["recent"]]
+    ev = s.get("evidence_checks") or {}
+    if ev.get("restriction_sources") or (ev.get("outcome_resolutions") or {}).get("rows"):
+        L += ["", "## What checking found", "",
+              "Reviewers' verdicts on primary sources, by the source family of the instrument checked "
+              "(`data/review/restriction_sources.csv`). A reliability measured on what was checked, never extrapolated "
+              "to the rows nobody has read.", "",
+              "| Source family | Instruments checked | Confirmed | Contradicted | Opened | Archived | Snippet |",
+              "|---|---:|---:|---:|---:|---:|---:|"]
+        for fam, c in ev.get("restriction_sources", {}).items():
+            L.append(f"| {fam} | {c.get('checked', 0)} | {c.get('confirmed', 0)} | {c.get('contradicts', 0)} | "
+                     f"{c.get('access_opened', 0)} | {c.get('access_archived', 0)} | {c.get('access_snippet', 0)} |")
+        o = ev.get("outcome_resolutions", {})
+        if o.get("rows"):
+            L += ["", f"Outcome resolutions: {o['rows']} ("
+                  + ", ".join(f"{n} {k}" for k, n in o["by_outcome"].items()) + "; by access "
+                  + ", ".join(f"{n} {k}" for k, n in o["by_access"].items()) + ")."]
     L += ["", "## History and archive", "",
           f"{hi['snapshot_rows']} snapshot rows over {hi['snapshot_files']} published files; "
           f"{hi['headline_history_rows']} headline changes recorded"
@@ -209,6 +252,8 @@ def main() -> int:
         manifest=read_csv(SNAPSHOTS / "manifest.csv"),
         history=read_csv(SNAPSHOTS / "headline_history.csv"),
         sources=read_csv(PROCESSED_DIR / "sources.csv"),
+        restriction_sources=read_csv(REVIEW_DIR / "restriction_sources.csv"),
+        outcome_resolutions=read_csv(REVIEW_DIR / "outcome_resolutions.csv"),
     )
     OUT_JSON.write_text(json.dumps(s, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     OUT_MD.write_text(render(s), encoding="utf-8")

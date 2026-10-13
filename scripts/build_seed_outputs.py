@@ -366,6 +366,8 @@ def main() -> int:
         datasets[entity] = passed
         quarantine.extend({"entity": entity, **r} for r in held)
         findings.extend(found)
+    # Across entities, on what passed: a case must hang off a published record.
+    findings.extend(qc_gate.check_links(datasets))
 
     # Severe restrictions in the counties a project touches, for the same
     # technology (classify.co_located): a fact about the county, never a link.

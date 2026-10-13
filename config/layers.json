@@ -179,7 +179,8 @@
     "docs/sabin_2026_reconciliation.md": {"layer": "derived", "writers": ["scripts/extract_sabin_edition.py"]},
     "docs/nrel_sample_report.md": {"layer": "derived", "writers": ["scripts/nrel_sample.py"]},
     "docs/coverage_audit.md": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
-    "docs/codebook.md": {"layer": "derived", "writers": ["scripts/codebook.py"]}
+    "docs/codebook.md": {"layer": "derived", "writers": ["scripts/codebook.py"]},
+    "docs/surfaces.md": {"layer": "derived", "writers": ["scripts/surface_audit.py"]}
   },
   "crossings": {
     "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",

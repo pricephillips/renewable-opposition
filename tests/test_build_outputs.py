@@ -89,3 +89,20 @@ def test_every_record_with_a_county_has_a_fips_or_a_listed_miss(monkeypatch, tmp
             has = bool(r.get("county_fips"))
             assert has != ((entity, r["id"]) in missed), r["id"]
             assert not has or (len(r["county_fips"]) == 5 and r["county_fips"].isdigit())
+
+
+def test_every_published_column_has_a_data_dictionary_entry():
+    """datapackage.json is the dashboard's data dictionary; a column it cannot
+    explain is a column a reader cannot use."""
+    import datapackage as dp
+    from common import PROCESSED_DIR
+    missing = {}
+    for name in dp.RESOURCES:
+        path = PROCESSED_DIR / f"{name}.csv"
+        if not path.exists():
+            continue
+        header = path.read_text(encoding="utf-8").splitlines()[0].split(",")
+        gaps = [h for h in header if h not in dp.DESCRIPTIONS]
+        if gaps:
+            missing[name] = gaps
+    assert missing == {}, f"columns without a description: {missing}"

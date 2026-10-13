@@ -66,3 +66,20 @@ def test_render_names_every_section_and_tolerates_missing_inputs():
                           adjacency=[], misses=[], trail=[], queue=[], candidates=[], manifest=[], history=[], sources=[])
     assert empty["headline"] is None and empty["promotion_trail"] is None
     assert "## Published" not in ops.render(empty) and "0 rows quarantined" in ops.render(empty)
+
+
+def test_evidence_checks_count_verdicts_by_source_family():
+    s = ops.evidence_checks_section(
+        [{"instrument_id": "mn:a", "verdict": "confirmed", "access": "opened"},
+         {"instrument_id": "mn:b", "verdict": "contradicts", "access": "opened"},
+         {"instrument_id": "nrel:solar:1", "verdict": "confirmed", "access": "archived"},
+         {"instrument_id": "sabin:REC-1", "verdict": "confirmed", "access": "snippet"}],
+        [{"outcome": "blocked_confirmed", "access": "opened"}, {"outcome": "blocked_confirmed", "access": "archived"}])
+    assert s["restriction_sources"]["Moratorium Nation"] == {"access_opened": 2, "checked": 2, "confirmed": 1,
+                                                             "contradicts": 1}
+    assert s["restriction_sources"]["NREL"]["access_archived"] == 1 and s["restriction_sources"]["Sabin"]["checked"] == 1
+    assert s["outcome_resolutions"] == {"rows": 2, "by_outcome": {"blocked_confirmed": 2},
+                                        "by_access": {"archived": 1, "opened": 1}}
+    text = ops.render({**build(), "evidence_checks": s})
+    assert "| Moratorium Nation | 2 | 1 | 1 | 2 | 0 | 0 |" in text and "Outcome resolutions: 2 (" in text
+    assert "## What checking found" not in ops.render(build())
