@@ -1,0 +1,47 @@
+[
+ {
+  "MatterId": 22098,
+  "MatterGuid": "BBC2EC29-791A-423B-B574-27D332D4C0A5",
+  "MatterLastModifiedUtc": "2022-11-02T16:31:11.643",
+  "MatterFile": "15-18810",
+  "MatterName": null,
+  "MatterTitle": "Municipal Solar Energy Generating Systems",
+  "MatterTypeName": "Consent Item",
+  "MatterStatusName": "Approved",
+  "MatterBodyName": "City Council Business Meeting",
+  "MatterIntroDate": "2022-09-16T00:00:00",
+  "MatterAgendaDate": "2022-10-24T00:00:00",
+  "MatterPassedDate": "2022-10-24T00:00:00",
+  "MatterRestrictViewViaWeb": false
+ },
+ {
+  "MatterId": 17552,
+  "MatterGuid": "44BC9405-F3EB-407D-9524-FA367823EA25",
+  "MatterLastModifiedUtc": "2021-05-20T12:32:01.15",
+  "MatterFile": "15-15261",
+  "MatterName": null,
+  "MatterTitle": "City Facilities Solar Panel Installation Project",
+  "MatterTypeName": "Consent Item",
+  "MatterStatusName": "Agenda Ready",
+  "MatterBodyName": "City Council Business Meeting",
+  "MatterIntroDate": "2021-02-18T00:00:00",
+  "MatterAgendaDate": "2021-03-22T00:00:00",
+  "MatterPassedDate": null,
+  "MatterRestrictViewViaWeb": false
+ },
+ {
+  "MatterId": 5372,
+  "MatterGuid": "70F092C5-3F73-4B5A-9981-E513E480A32C",
+  "MatterLastModifiedUtc": "2019-10-14T16:06:20.26",
+  "MatterFile": "15-4359",
+  "MatterName": null,
+  "MatterTitle": "Solar Panel Ground Lease with Momentum, LLC",
+  "MatterTypeName": "Consent Item",
+  "MatterStatusName": "Approved",
+  "MatterBodyName": "City Council Business Meeting",
+  "MatterIntroDate": "2016-11-03T00:00:00",
+  "MatterAgendaDate": "2016-11-28T00:00:00",
+  "MatterPassedDate": "2016-11-28T00:00:00",
+  "MatterRestrictViewViaWeb": false
+ }
+]
