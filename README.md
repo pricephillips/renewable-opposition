@@ -290,7 +290,7 @@ class or a stale pair, C one stale class (`scripts/negative_checks.py`). Each en
 `web search:` and so on), and the kind decides the class: a web search is
 secondary whatever words it searched for. The
 grade describes the check, not the county, and travels as
-`negative_check_grade` in `county_summary.csv` and in site profiles.
+`negative_check_grade` in `county_summary.csv` and in county reports.
 
 **Examining a county.** `docs/COUNTY_CHECK.md` is the procedure: which
 governments a check must cover, what it must search, what counts as a
@@ -546,7 +546,7 @@ python scripts/sync_data_center_map.py --dc-map ../data-center-map/master_opposi
 
 Each row is placed by this repository's own county logic (`classify.county_fips_all`: the county named, a multi-county name, coordinates, the Census place index); a row that places nowhere is left out. Also left out: `signal_harvest_auto` rows with no state, no type, or a generic or unrelated headline (fewer than four words, or text that names no data center), and any row with no type whose text names no data center.
 
-Profiles have a "Data center activity" section for the county and its neighbors: date, type, status, a one-line summary and source links, labelled "verified" only when a source is the instrument or official minutes (a government host and a document path, or a municipal records host such as Legistar) and "reported" otherwise. These events never enter the renewable counts.
+County reports have a "Data center activity" section for the county and its neighbors: date, type, status, a one-line summary and source links, labelled "verified" only when a source is the instrument or official minutes (a government host and a document path, or a municipal records host such as Legistar) and "reported" otherwise. These events never enter the renewable counts.
 
 Attribution: most data-center-map rows come from Data Center Tracker (https://datacentertracker.org), whose data is licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). `data_center_events.csv` reuses those rows' summaries, sources and groups, shortened to one line and placed by this repository's county logic; that adaptation is the only change. Their opposition groups, with their source URLs, feed the group registry.
 
@@ -562,38 +562,42 @@ A group with no source URL is held for review, never published: the build blanks
 
 `data/review/group_candidates.csv` (hand-edited) holds groups named in the seeds' and Sabin records' text, one per row: `source_record_id`, `entity`, `state`, `record_name`, `group_name`, `excerpt`, `group_source_url`, `access`, `archived_url`, `note`. A row publishes once `group_source_url` is a news article naming the group and `access` is `opened` or `archived`; until then it is held.
 
-## Site profiles
+## County reports
 
-`scripts/site_profile.py` lists everything the data records about one county.
-It is descriptive only: no scores and no predictions.
+`scripts/site_profile.py` writes a county report: everything the data records
+about one county, in the shape of `pricephillips/data-center-map`'s location
+report. It is descriptive only: no scores and no predictions.
 
 ```bash
 python scripts/site_profile.py --state KS --county Cherokee
-python scripts/site_profile.py --fips 19113 --radius 40 --notes "what local contacts report"
-python scripts/site_profile.py --sites sites.csv --out profiles.md   # columns: name,state,county,fips,lat,lon,notes
-python scripts/site_profile.py --state KS --county Cherokee --no-local   # leaves out local knowledge
+python scripts/site_profile.py --fips 19113 --radius 40 --notes "two parcels, north of the river"
+python scripts/site_profile.py --sites sites.csv --out deliverables/county_reports/sites.md   # columns: name,state,county,fips,lat,lon,notes
+python scripts/site_profile.py --state KS --county Cherokee --no-local   # leaves out local reports and does not read the file
 python scripts/site_profile.py --fips 19113 --verified-only               # only restrictions verified against the instrument
 ```
 
-Each profile has these sections:
+The report's contract is `config/county_report.json` (hand-edited, after data-center-map's `templates/manifest.json` and `configs/definitions.json`): the section order, the terms a report defines in parentheses on their first use and uses bare afterwards, and the notices it prints. A definition or notice may not carry a digit, so every digit in a report traces to a record read at run time. A report has a title block (county, FIPS, data as of, commit, generated on), then these sections, each with a lead sentence, a table whose rows carry their own source, and a plain sentence where it is empty:
 
-- **State framework:** at the top, the state's siting law from `state_policies`: who decides and above what size, any local opt-out power, state setback standards and other state rules, each with its verification label. Rows still held for review are shown as not verified, with the reason.
-- **In the county:** published records whose `county_fips_all` includes the county.
-- **Local knowledge on file:** the county's rows in the local-knowledge file (outside the repository, see below), printed as entered, each labelled "reported, not verified".
-- **Adjacent counties:** the same for every county that shares a border, across state lines, plus one line for each pending review-queue candidate there.
-- **Local siting standards:** the NREL `siting_standards` rows for the county and its neighbors, one line per jurisdiction and technology, with NREL's attribution. Rows not checked against the ordinance are labelled unverified.
-- **Within a radius:** optional.
-- **Not published:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
-- **Named in the text:** records placed elsewhere whose text names the county.
-- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, and one "Evidence still to read" flag that counts the items the profile shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
+- **Summary:** in sentences: how many restriction instruments are on record and how many are verified, located or not verified; contested projects and cases; adjacent counties and how many have a record; who decides siting in the state; what is held back; evidence still to read; any notes supplied with the request; and how many local reports are on file.
+- **State siting law:** the state's rows from `state_policies`: who decides and above what size, preemption, local opt-out powers, state setbacks and other rules, each verified against the statute. Rows still held for review are shown as not verified, with the reason.
+- **Restrictions on record:** one row per published instrument whose `county_fips_all` includes the county: date, jurisdiction (and how it was placed), instrument and scope, technologies, severity with the rule that set it, status, verification, what it does, and its source with how it was seen.
+- **Contested projects on record:** one row per project: date, project, technology and size, outcome with litigation and finality, severity, verification, what happened (with the federal plant inventory's status where matched), groups with their sources, and the outcome source.
+- **Cases linked to those records:** one row per case, with the record it concerns.
+- **Adjacent counties:** one row per county that shares a border, across state lines: counts of restriction instruments, contested projects and pending candidates, and the newest negative check where nothing is published. Then the records themselves, with a County column, and each pending review-queue candidate on one line.
+- **Local siting standards:** the NREL `siting_standards` rows for the county and its neighbors, one row per jurisdiction and technology, with NREL's attribution. Rows not checked against the ordinance are labelled unverified.
+- **Within the radius:** optional, with a distance column.
+- **Data center activity:** data-center-map events for the county and its neighbors (see above), never counted.
+- **Opposition groups active nearby:** every sourced group on a record the report shows, where it was active, and its sources.
+- **Held back from publication:** rows the build held back that name the county (lifted or duplicate Sabin rows, QC quarantine, coverage gaps, case candidates), and every `data/review/queue.csv` candidate of any entity type with `review_status` = `pending` that concerns the county. A candidate concerns the county when its `county` is the county's name, its `municipality` is a town the place index puts in this county alone, or its text says "<Name> County". Each shows its entity type, technology, mechanisms and their values, adoption date and `access`, labelled "pending review, not published".
+- **Named in records placed elsewhere:** optional: records placed elsewhere whose text names the county.
+- **Flags:** moratoria past their end date, report-only evidence, same-name counties in other states, states with no contested-project coverage, stale checks, and one "Evidence still to read" flag that counts the items the report shows whose source was seen only as search-index text (a primary source, an outcome source, a county placement or a pending candidate with `access` = `snippet`).
+- **Sources and method:** the descriptive notice (the report says what the records hold, not what caused any decision, and predicts nothing), the evidence standard, the commit the report was built at, every repository file it read with the first twelve characters of its hash, and the state context: how many rows in the state are unplaced (nothing the build could match) and how many are ambiguous (a town name shared by several counties).
 
-Every restriction line says in plain words how it stands under the evidence standard: verified against the instrument or the minutes that adopted it, instrument located but not yet read, or not verified. Every contested-project line says whether a news article or court record that was read backs it. `--verified-only` leaves restrictions that are not verified out of the county and adjacent sections and states how many it left out, split into located and unverified. It also leaves out unverified siting standards and state framework rows still held for review, and counts them.
+Every restriction row says in plain words how it stands under the evidence standard: verified against the instrument or the minutes that adopted it, instrument located but not yet read, or not verified. Every contested-project row says whether a news article or court record that was read backs it. `--verified-only` leaves restrictions that are not verified out of the county and adjacent sections and states how many it left out, split into located and unverified. It also leaves out unverified siting standards and state law rows still held for review, and counts them.
 
-Each contested-project line lists its groups and the sources that name them, and each profile has a "Groups active nearby" line: every sourced group on a record the profile shows, where it was active, and its sources.
+A row's Source cell names its primary source with how it was seen ("located, not yet read" for `snippet`) and the compiled source it came from (the Sabin report or Moratorium Nation) as "Compiled from". A contested project with a resolution row prints its outcome source the same way. A record placed by a reviewer override says how that evidence was seen.
 
-Every record line names its sources. A record with a primary source prints it on the "Source" line with how it was seen ("located, not yet read" for `snippet`), and the compiled source it came from (the Sabin report or Moratorium Nation) as "Compiled from". A contested project with a resolution row also prints an "Outcome source" line the same way. A record placed by a reviewer override says how that evidence was seen.
-
-The state line under the flags counts unplaced rows (nothing the build could match) apart from ambiguous ones (a town name shared by several counties).
+A report for one site prints alone; `--sites` prints an overview table and then one report per site. A report meant for a client goes under `deliverables/county_reports/` (see `deliverables/README.md`), which the em-dash and Vale gates cover.
 
 An empty section means nothing is recorded. It does not mean nothing happened, unless someone checked: see below.
 
@@ -614,7 +618,7 @@ A town name shared by several counties, where the text does not settle it, is ma
 
 **Reviewer overrides.** `data/review/place_overrides.csv` is hand-edited, one row per instrument: `instrument_id`, `county_fips`, `evidence_url`, `evidence_note`, `reviewer`, `checked_on`, `access`, `archived_url`. Any `access` value places the record; the profile prints it. Add a row only when the evidence (the ordinance, minutes or a news story) names the town together with its county. `county_fips` may be a semicolon list for an instrument that covers several counties (New York City's Zoning Resolution, in its five). The build stops if `evidence_url` or `access` is blank, if any `county_fips` is not a 2024 county, or if no record has the `instrument_id`. An override sets `county_fips_all` and never `county_fips`, so it changes where a profile finds a record, not what the map paints. Connecticut rows get no overrides: a Connecticut record is placed in its 2022 planning region only when its own text or source names the town.
 
-**Local knowledge.** Reports from local contacts never go in this repository, which is public. `site_profile.py` reads them from the path in the `RO_LOCAL_KNOWLEDGE` environment variable, by default `~/.renewable-opposition/local_knowledge.csv`. The file records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. Pass `--no-local` for a profile that leaves THG; the section is omitted and the file is not read. `.gitignore` lists `data/review/local_knowledge.csv` and `local_knowledge*`, and the precommit gate `python scripts/precommit_gates.py private` refuses any staged file whose name starts with `local_knowledge`.
+**Local reports.** Reports from local contacts never go in this repository, which is public. `site_profile.py` reads them from the path in the `RO_LOCAL_KNOWLEDGE` environment variable, by default `~/.renewable-opposition/local_knowledge.csv`. The file records what people report about a county: `county_fips`, `state`, `county`, `topic` (`restriction`, `project`, `litigation`, `sentiment` or `other`), `claim`, `source_type` (`local_contact`, `meeting_attended` or `document_seen`), `source_note`, `date_reported` and `reporter`. It is hand-edited, never verified and never published: the build does not read it, and only `site_profile.py` prints it, matching rows on `county_fips` alone. A local report has no section of its own. It is incorporated as it comes in: printed inside the section its topic concerns (restrictions, contested projects or cases; sentiment and other in the Summary), labelled "reported, not verified", and a county with none says nothing about local reports. The report never names the file. Pass `--no-local` for a report that leaves THG; the file is not read. `.gitignore` lists `data/review/local_knowledge.csv` and `local_knowledge*`, and the precommit gate `python scripts/precommit_gates.py private` refuses any staged file whose name starts with `local_knowledge`.
 
 The place index is built with `python scripts/build_place_index.py`. The script downloads the Census 2024 Gazetteer and writes `data/place_county_index.json`. Without the index, town-level rows with no coordinates stay unplaced, and each profile says so.
 

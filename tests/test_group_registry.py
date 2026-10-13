@@ -53,7 +53,7 @@ def test_profiles_show_groups_with_their_sources_and_a_nearby_line():
     d.restrictions, d.projects, d.cases, d.queue = [], [row], [], []
     d.held, d.gaps, d.candidates, d.quarantine, d.checks, d.dc_events = [], [], [], [], {}, []
     text = sp.render(sp.profile(d, "20021", "Cherokee", "KS"))
-    assert "Groups: Synthetic Neighbors Alliance (sources: https://news.example.com/g)" in text
+    assert "| Synthetic Neighbors Alliance (sources: https://news.example.com/g) |" in text
     assert ("Groups active nearby: Synthetic Neighbors Alliance (Crawford, KS; sources: "
             "https://news.example.com/g)") in text
     d.projects = []

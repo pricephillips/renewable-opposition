@@ -5,7 +5,7 @@ argument-hint: "[file or id filter, e.g. place_overrides or sabin:REC-0122; blan
 
 Continue the evidence-verification process for this repository. Scope: $ARGUMENTS (when blank, take every item).
 
-Before changing anything, read `README.md` ("Counting and verification", "Reviewing candidates", "Site profiles"), `scripts/resolutions.py` (the `access` rules), `scripts/promote_reviewed.py` and `scripts/source_archive.py`.
+Before changing anything, read `README.md` ("Counting and verification", "Reviewing candidates", "County reports"), `scripts/resolutions.py` (the `access` rules), `scripts/promote_reviewed.py` and `scripts/source_archive.py`.
 
 ## Rules
 

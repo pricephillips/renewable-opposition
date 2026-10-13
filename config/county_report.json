@@ -1,0 +1,63 @@
+{
+  "_comment": "The county report contract for scripts/site_profile.py. Hand-edited; no process writes it. Adapted from pricephillips/data-center-map templates/manifest.json (section order) and configs/definitions.json (terms defined on first use). 'sections' is the report's section order; an optional section is left out when it has nothing to show. A term's definition prints in parentheses the first time the term is used and the bare term afterwards. Definitions and notices carry no digits, so every digit in a report traces to a record read at run time. Local reports have no section of their own: each prints inside the section it concerns, and a county with none says nothing about them.",
+  "version": "2026-10-13",
+  "sections": [
+    {"id": "summary", "heading": "Summary"},
+    {"id": "framework", "heading": "State siting law"},
+    {"id": "restrictions", "heading": "Restrictions on record"},
+    {"id": "projects", "heading": "Contested projects on record"},
+    {"id": "cases", "heading": "Cases linked to those records"},
+    {"id": "neighbors", "heading": "Adjacent counties"},
+    {"id": "standards", "heading": "Local siting standards"},
+    {"id": "radius", "heading": "Within the radius", "optional": true},
+    {"id": "data_centers", "heading": "Data center activity"},
+    {"id": "groups", "heading": "Opposition groups active nearby"},
+    {"id": "held", "heading": "Held back from publication"},
+    {"id": "mentions", "heading": "Named in records placed elsewhere", "optional": true},
+    {"id": "flags", "heading": "Flags"},
+    {"id": "sources", "heading": "Sources and method"}
+  ],
+  "terms": {
+    "restriction_instrument": {
+      "term": "restriction instrument",
+      "definition": "a local or state law that materially constrains wind, solar or battery storage: a moratorium, a ban, a setback, a height, noise or size limit, or a district where the use is prohibited; one instrument may cover several technologies and is counted once"
+    },
+    "severity": {
+      "term": "severity",
+      "definition": "a score from one to four: one for procedural friction, two for a material burden, three for a likely de facto ban, four for an explicit moratorium or ban; the rule that set each score is printed beside it"
+    },
+    "verification": {
+      "term": "verification",
+      "definition": "how a record stands under the evidence standard: verified when the instrument, or the minutes that adopted it, was read; located when a primary source is attached but was seen only as search-index text; not verified when only a news article or a compiled tracker is behind it"
+    },
+    "contested_project": {
+      "term": "contested project",
+      "definition": "a project-level opposition event, such as a hearing, a permit denial, a campaign or a cancellation, with an outcome on the shared ladder of blocked, restricted, advanced or pending; an outcome is confirmed only by independent evidence and is otherwise shown as unverified"
+    },
+    "negative_check": {
+      "term": "negative check",
+      "definition": "a reviewed record that someone searched the county's codes, minutes and news for a restriction and found none; its evidence grade runs from A, when independent kinds of source were read, to D, and it goes stale after a year"
+    },
+    "pending_candidate": {
+      "term": "pending candidate",
+      "definition": "a row in the review queue that no reviewer has decided on; it is shown for context and is never published"
+    },
+    "siting_standard": {
+      "term": "siting standard",
+      "definition": "one feature of a local wind or solar ordinance as NREL compiled it, such as a setback, a height limit or a prohibited district, labelled unverified until a reviewer checks it against the ordinance"
+    },
+    "local_report": {
+      "term": "local report",
+      "definition": "what a local contact, a meeting someone attended or a document someone saw says about the county; recorded outside the repository, never verified and never published"
+    },
+    "data_center_event": {
+      "term": "data center event",
+      "definition": "a government action on data centers recorded by the data-center-map platform for the same county or a neighbor; context only, never counted as a renewable restriction"
+    }
+  },
+  "notices": {
+    "descriptive": "This report describes what the records hold. It does not say what caused any decision, it scores nothing, and it does not predict the outcome of any project.",
+    "empty": "An empty section means nothing is recorded, not that nothing happened, unless a negative check says that someone looked.",
+    "evidence": "Every record line names its source and how it was seen. A news article or a compiled tracker locates an instrument but does not verify it; only the instrument or the minutes that adopted it do."
+  }
+}

@@ -91,10 +91,11 @@ def test_profiles_list_data_center_activity_and_its_groups():
         {"county_fips": "19113", "date": "2026-08-01", "summary": "Far away.", "source_urls": "",
          "dc_row_ref": "row 4"}]
     text = sp.render(sp.profile(d, "20021", "Cherokee", "KS"))
-    assert "### Data center activity (data-center-map): 2 event(s)" in text
-    assert ("- 2026-07-01, moratorium, status passed (verified: a source is the instrument or official "
-            "minutes): Here.") in text
-    assert "- Crawford (20037):" in text and "(reported): Next door." in text and "Far away" not in text
+    assert "## Data center activity" in text and "from pricephillips/data-center-map: 2 event(s)" in text
+    assert ("| 2026-07-01 | This county | moratorium | passed | verified: a source is the instrument or official "
+            "minutes | Here. |") in text
+    assert "| 2026-08-01 | Crawford (20037) | lawsuit | filed | reported | Next door. |" in text
+    assert "Far away" not in text
     assert "Synthetic Neighbors Alliance (in the county, data center activity; sources: " \
            "https://www.example.gov/minutes/1.pdf)" in text
     assert "—" not in text

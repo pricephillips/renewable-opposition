@@ -58,17 +58,27 @@ def synthetic(checks):
 def test_an_empty_county_prints_what_was_checked_and_flags_a_stale_check():
     fresh = {**GOOD, "checked_on": date.today().isoformat()}
     text = sp.render(sp.profile(synthetic({"20021": [fresh]}), "20021", "Cherokee", "KS"))
-    assert f"- Restrictions: Checked county code library; commission minutes 2023 to 2026; news search " \
-           f"for solar, wind and battery storage on {fresh['checked_on']}: none found" in text
-    assert "- Projects: Checked" in text and "Nothing published for this county" not in text
+    checked = (f"Checked county code library; commission minutes 2023 to 2026; news search "
+               f"for solar, wind and battery storage on {fresh['checked_on']}: none found")
+
+    def section(text, heading):
+        body = text.split(f"## {heading}\n", 1)[1]
+        return body.split("\n## ", 1)[0]
+
+    assert checked in section(text, "Restrictions on record") and checked in section(text, "Summary")
+    assert checked in section(text, "Contested projects on record")
+    assert "Nothing published" not in text and "says that anyone looked" not in text
     old = {**GOOD, "checked_on": "2024-01-01", "scope": "restrictions"}
     p = sp.profile(synthetic({"20021": [old]}), "20021", "Cherokee", "KS")
     text = sp.render(p)
     assert "on 2024-01-01: none found (stale: more than 12 months old)" in text
-    assert "- Projects:" not in text and any("stale" in f for f in p["flags"])
+    assert "Checked" not in section(text, "Contested projects on record") and any("stale" in f for f in p["flags"])
     neighbor = sp.render(sp.profile(synthetic({"20037": [fresh]}), "20021", "Cherokee", "KS"))
-    assert "Crawford (20037), nothing published: Checked" in neighbor
-    assert "Nothing published for this county." in sp.render(sp.profile(synthetic({}), "20021", "Cherokee", "KS"))
+    assert f"| Crawford | KS | 20037 | 0 | 0 | 0 | {checked}" in neighbor
+    assert "With a negative check and nothing on record: 1." in neighbor
+    nothing = sp.render(sp.profile(synthetic({}), "20021", "Cherokee", "KS"))
+    assert "is on record for Cherokee, Kansas, and no negative check (" in nothing
+    assert "says that anyone looked." in nothing
 
 
 def test_profiles_record_the_county_and_date_only(monkeypatch, tmp_path):

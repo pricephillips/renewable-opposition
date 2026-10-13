@@ -1,7 +1,11 @@
 """The local-knowledge file: what local contacts, meetings and documents report
 about a county. Hand-edited and unverified, kept outside this public repository
 ($RO_LOCAL_KNOWLEDGE), so the build never reads or publishes it; only
-site_profile.py prints it, and --no-local leaves it out."""
+site_profile.py prints it, and --no-local leaves it out.
+
+A local report has no section of its own in the county report. It prints
+inside the section its topic concerns, labelled reported and not verified,
+and a county with none says nothing about local reports at all."""
 import copy
 import sys
 from pathlib import Path
@@ -88,27 +92,52 @@ def local_data(rows):
     return d
 
 
-def test_a_profile_lists_the_county_rows_as_they_are_marked_unverified():
+def section(text: str, heading: str) -> str:
+    body = text.split(f"## {heading}\n", 1)[1]
+    return body.split("\n## ", 1)[0]
+
+
+def test_a_profile_prints_the_county_rows_inside_the_section_each_concerns():
     elsewhere = {**ROW, "county_fips": "21181", "claim": "Nicholas County claim"}
     named_only = {**ROW, "county_fips": "", "claim": "names Cherokee but has no FIPS"}
     d = local_data([ROW, elsewhere, named_only])
     p = sp.profile(d, "20021", "Cherokee", "KS")
     assert p["local_knowledge"] == [ROW]          # matched on county_fips only, no other logic
     text = sp.render(p)
-    head = text.index("### Local knowledge on file: 1 item(s)")
-    assert text.index("### In the county") < head < text.index("### Adjacent counties")
-    assert "Reported, not verified (restriction): Commissioners discussed" in text
+    assert "Local knowledge" not in text          # no section of its own
+    line = "- Reported, not verified (restriction): Commissioners discussed extending the wind rules to solar."
+    assert line in section(text, "Restrictions on record") and text.count("Commissioners discussed") == 1
+    assert "Source: local_contact, county clerk, by phone. Reported 2026-10-01 by PP." in text
+    # The term is defined once, in the Summary, and is bare where the row prints.
+    assert "1 local report (" in section(text, "Summary")
+    assert "Reported locally, not verified and not published (local report):" in text
+    assert text.count("(what a local contact") == 1
     assert "Nicholas County claim" not in text and "has no FIPS" not in text
+    assert "local_knowledge" not in text          # the file is never named in a report
     assert "—" not in text
 
 
-def test_an_empty_county_says_so_and_no_local_omits_the_section(tmp_path):
-    p = sp.profile(local_data([]), "20021", "Cherokee", "KS")
-    assert "- Nothing on file for this county." in sp.render(p)
+def test_each_topic_lands_in_its_own_section_and_the_rest_in_the_summary():
+    rows = [{**ROW, "topic": t, "claim": f"{t} claim."} for t in ("restriction", "project", "litigation",
+                                                                 "sentiment", "other", "")]
+    text = sp.render(sp.profile(local_data(rows), "20021", "Cherokee", "KS"))
+    assert "restriction claim." in section(text, "Restrictions on record")
+    assert "project claim." in section(text, "Contested projects on record")
+    assert "litigation claim." in section(text, "Cases linked to those records")
+    summary = section(text, "Summary")
+    assert "sentiment claim." in summary and "other claim." in summary and "(no topic):  claim." in summary
+    assert "6 local reports (" in summary
+    for claim in ("restriction", "project", "litigation", "sentiment", "other"):
+        assert text.count(f"{claim} claim.") == 1
+
+
+def test_a_county_with_no_local_reports_says_nothing_about_them():
+    text = sp.render(sp.profile(local_data([]), "20021", "Cherokee", "KS"))
+    assert "local report" not in text and "Reported locally" not in text and "Nothing on file" not in text
     d = copy.copy(local_data([ROW]))
     d.local = None
     text = sp.render(sp.profile(d, "20021", "Cherokee", "KS"))
-    assert "Local knowledge on file" not in text and "Commissioners discussed" not in text
+    assert "local report" not in text and "Commissioners discussed" not in text
 
 
 def test_no_local_does_not_read_the_file(monkeypatch, tmp_path, capsys):
@@ -119,6 +148,6 @@ def test_no_local_does_not_read_the_file(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr(sp, "_csv", lambda path: calls.append(path) or real(path))
     assert sp.main(["--state", "KS", "--county", "Cherokee", "--no-local"]) == 0
     assert missing not in calls
-    assert "Local knowledge on file" not in capsys.readouterr().out
+    assert "local report" not in capsys.readouterr().out
     assert sp.main(["--state", "KS", "--county", "Cherokee"]) == 0
-    assert missing in calls and "Local knowledge on file: 0 item(s)" in capsys.readouterr().out
+    assert missing in calls and "local report" not in capsys.readouterr().out
