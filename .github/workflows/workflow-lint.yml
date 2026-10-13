@@ -5,12 +5,16 @@ name: Workflow Lint
 #   actionlint  BLOCKING. Syntax, expressions, and shellcheck on run: blocks.
 #   zizmor      REPORT-ONLY. Security audit; findings go to the job summary.
 #               Unpinned actions were fixed when this was added. The
-#               remaining medium findings (artipacked on build-data.yml and
-#               source-archive.yml, which must keep credentials to push) are
-#               listed, not blocking.
+#               remaining medium findings (artipacked on build-data.yml,
+#               source-archive.yml and intake.yml, which must keep credentials
+#               to push) are listed, not blocking.
+# One job, and push runs on main only: a branch's workflow change is linted by
+# its pull request, so the same commit is not linted twice (as data-center-map
+# did in its 3643691 and ce7e194).
 
 on:
   push:
+    branches: [main]
     paths:
       - '.github/workflows/**'
   pull_request:
@@ -21,8 +25,12 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: workflow-lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  actionlint:
+  lint:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -32,17 +40,9 @@ jobs:
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
       - name: actionlint (with the runner's shellcheck)
         run: uvx --from actionlint-py actionlint
-
-  zizmor:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
       - name: zizmor (report-only)
+        if: always()
+        continue-on-error: true
         run: |
           uvx zizmor --offline --format plain .github/workflows > zizmor.txt || true
           {

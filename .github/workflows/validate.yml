@@ -8,9 +8,16 @@ on:
 permissions:
   contents: read
 
+# A new push to a pull request cancels that PR's run still in progress: only
+# the newest commit's result matters. Runs on main are never cancelled.
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Check out repository
@@ -62,38 +69,14 @@ jobs:
       - name: Vale (page and report prose)
         run: vale --no-wrap README.md docs/coverage_audit.md
 
-  frontend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: '3.11'
-
-      - name: Install Playwright
-        run: |
-          pip install playwright
-          python -m playwright install --with-deps chromium
-
-      - name: Load every page and fail on page errors
-        run: python scripts/smoke_frontend.py --screenshots smoke-screenshots
-
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: smoke-screenshots
-          path: smoke-screenshots/
-
   # Offline UI and accessibility tests (tests/ui, adapted from
   # pricephillips/data-center-map; passoff B7). Every request is served from
-  # the checkout or tests/ui/node_modules, or aborted.
+  # the checkout or tests/ui/node_modules, or aborted. They also carry the
+  # page-load gate scripts/smoke_frontend.py once ran as a separate job: every
+  # page loads with no page error or console error and shows nonzero counts
+  # (pages.spec.js, national.spec.js, explore.spec.js), on data built from this
+  # commit rather than whatever was last committed. smoke_frontend.py stays for
+  # local runs.
   ui:
     runs-on: ubuntu-latest
     timeout-minutes: 20

@@ -132,6 +132,21 @@ yet), and its harvest-specific verification statuses.
 | **A generated field dictionary** (the codebook's field tables). | Every column of every published table now has a `datapackage.json` description, and a test fails when a new column lacks one. |
 | **Validation samples and verdict counts** (`validation_sample.csv`, `verification_status_report.md`: source reliability measured on checked rows). | The operations summary's "What checking found": reviewers' verdicts on primary sources by source family, and outcome resolutions by outcome and access. Never extrapolated. |
 
+## Round eight (2026-10-13): live intake and Actions minutes
+
+Item 2 of "Recommended next" (an automatic intake queue) and passoff B8 (Legistar), built on the
+`fetch.py` -> `parse.py` -> review chain this repository already had. What data-center-map
+learned the hard way is built in from the start; its auto-promotion is not.
+
+| Practice in data-center-map | Here |
+|---|---|
+| **A nightly GDELT harvest** (`signal_harvest.py`). It sent its six queries back to back with no pause, and about a third of its runs came back empty from throttling. | `gdelt_renewable_news`: five queries a week, paced at one request per 6 s, a 429 retried after 20 s and then 60 s, and a body that is not JSON refused (GDELT answers a bad query with HTTP 200 and text). A throttled request is a manifest row with its error, never an empty result that overwrites anything. |
+| **Headline placement that refuses rather than guesses** (`locate()`, after 102 rows landed in Power County ID and 78 in a "Texas" County). | `scripts/news_place.py`: a county only from a literal "<Name> County" (with its state, unless the name is unique), a town only with its state named and a single county in the place index, a roundup of three or more places is state only. |
+| **Dedupe against every file** (4,099 duplicate rows in four days) and **MinHash clusters for syndication**. | `parse.py` checks the queue, the seeds and every review file that cites evidence, ignores click-tracking parameters, and drops a news headline already queued. |
+| **Auto-promotion by the QC gate** (2026-08-12), later walked back for off-topic rows, misplacements and 1,255 rows that needed correction. | Not adopted. Every harvested candidate is a `lead`: never promoted, never counted on a page, until a reviewer triages it. |
+| **Legistar clients verified by body name, slugs never guessed across states** (`legistar_probe.py`). It matched on matter titles only for data centers. | `legistar_renewable_matters`: the verified clients that hold renewable records here (`config/legistar_clients.json`), matter titles filtered for siting instruments and project decisions, the county's own energy purchases dropped. |
+| **Actions minutes** (spec 004 onwards, and seven efficiency PRs in October 2026). | The weekly intake job installs, checks its fixtures, fetches and commits in one job with a 15-minute cap and no artifacts. Validate cancels a pull request's superseded run, its page-load check moved into the `ui` job (which already loads every page on freshly built data), and every job has a timeout. The data build runs on `main` only, and Workflow Lint is one job that lints a branch once. |
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.
