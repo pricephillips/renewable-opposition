@@ -137,6 +137,10 @@ def render() -> str:
           f"{_code(qc_gate.FINALITY_PREFIXES)}. `lead: <url>` (a snippet resolution) and `outcome_label_only` "
           "do not."]
 
+    L += ["", "## Concerns named in a project's text (`classify.CONCERNS`)", "",
+          "A concern is named when its pattern matches the record's text (description, long description, notes). "
+          "It records what the text says was raised, never why the project ended as it did.", ""]
+    L += _table(["Concern", "Pattern"], [[f"`{n}`", f"`{p}`"] for n, p in classify.CONCERNS])
     L += ["", "## Derived fields (`scripts/classify.py`)", ""]
     L += _lines([
         f"`evidence_level`, best first: {_code(classify.EVIDENCE_ORDER)}.",
@@ -148,6 +152,11 @@ def render() -> str:
         "passed and no reviewer confirmed the instrument on or after it.",
         "`status_as_of` (restrictions): the latest of an 'as of YYYY-MM-DD' date in the text, the enactment "
         "date, or a reviewer's primary-source check.",
+        f"`state_limits_local` (restrictions below state level): {_code(classify.STATE_LIMITS)}, read off the "
+        "state's verified `state_policies` rows for the technology: yes when a local_preemption row or a size "
+        "threshold covers it or the state board decides outright, no when local government decides with no such "
+        "rule, unknown when no verified row covers the technology (or only a hybrid row with no threshold). "
+        f"Carried with {_code(classify.STATE_CONTEXT_FIELDS[:3])}. Context only; never says an instrument is void.",
         f"`source_kind` of a queue row: {_code(classify.SOURCE_KINDS)}; only {_code(classify.INSTRUMENT_KINDS)} "
         f"can verify a restriction; {_code(classify.EVENT_KINDS)} can verify a project outcome or event.",
         f"How evidence was seen (`access`): {_code(resolutions.ACCESS)}; only {_code(sorted(resolutions.READ_ACCESS))} "
@@ -157,7 +166,8 @@ def render() -> str:
     L += ["", "## QC checks (`scripts/qc_gate.py`)", "",
           f"A row with any {' or '.join(sorted(qc_gate.BLOCK_AT))} issue is quarantined in "
           "`data/processed/quarantine.json`; lower severities are reported in `data/processed/qc_report.md`.", ""]
-    L += _table(["Code", "Severity", "Meaning"], [[f"`{c}`", s, m] for c, s, m in qc_gate.CHECKS])
+    L += _table(["Code", "Severity", "Meaning", "What releases a held row"],
+                [[f"`{c}`", s, m, rel] for c, s, m, rel in qc_gate.CHECKS])
 
     L += ["", "## Counting (`scripts/headline_metrics.py`)", ""]
     L += _lines([
@@ -167,6 +177,11 @@ def render() -> str:
         "Restrictions are split by scope; the headline figure is renewables_only and multi_sector_data_centers is "
         "reported beside it, never folded in.",
         f"Source families: {_code(hm.SOURCES)}.",
+        f"Decided projects: an outcome in {_code(hm.DECIDED)}, with events younger than {hm.YOUNG_DAYS} days left "
+        "out (the right-censoring guard). The blocked share is reported for all decided projects and for confirmed "
+        "outcomes alone, and is conditional on opposition being tracked at all.",
+        f"`county_severe_restriction_ids`: severe (score {classify.SEVERE_SCORE} or more) renewables-only instruments "
+        "for the same technology in any county the project touches; counted as projects sharing a county with one.",
     ])
 
     L += ["", "## Worklists (`scripts/verification_worklist.py`)", "",
@@ -192,7 +207,12 @@ def render() -> str:
     L += [""]
     L += _table(["Grade", "Meaning"], [[f"`{g}`", nc.GRADE_MEANING[g]] for g in nc.GRADES])
 
-    L += ["", "## Promotion trail (`scripts/promote_reviewed.py`)", "",
+    L += ["", "## Operations summary (`scripts/operations_summary.py`)", "",
+          "`data/processed/operations_summary.json` and `.md` count the rows other modules wrote: the headline, "
+          "the quarantine by blocking code, each worklist's size and flags, the promotion trail by action, the review "
+          "queue by status, the snapshot and headline-history rows, and the share of sources with an archive copy. "
+          "Nothing in it is computed anywhere else first.", ""]
+    L += ["## Promotion trail (`scripts/promote_reviewed.py`)", "",
           "`data/review/promotion_trail.csv` records a decision only when it is new or has changed",
           f"(`scripts/promotion_trail.py`). Columns: {_code(pr.TRAIL_FIELDS)}. Actions: `promoted`, `held`",
           f"(with what the row lacks), `{pr.AWAITING}`, `rejected`, `error`. Review statuses that never promote: "

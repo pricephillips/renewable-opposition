@@ -39,7 +39,10 @@ Checks
                                 it first
 
 The table above is also CHECKS, which scripts/codebook.py publishes; a code
-emitted here that CHECKS does not list fails tests/test_brain.py.
+emitted here that CHECKS does not list fails tests/test_brain.py. Each entry
+also says what releases a row from quarantine, so qc_report.md's quarantine
+table reads as triage, not investigation (after pricephillips/data-center-map
+review_worklists.py's suggested_resolution).
 
 Usage
 -----
@@ -70,6 +73,7 @@ VOCAB = {
                            "report_citation"},
         "verification": {"verified", "located", "unverified"},
         "currency": {"in_force", "lapsed_unconfirmed", "pending", "unknown"},
+        "state_limits_local": {"yes", "no", "unknown", ""},
     },
     "contested_projects": {
         "outcome": {"blocked_confirmed", "blocked_unverified", "restricted_conditional",
@@ -82,24 +86,40 @@ VOCAB = {
         "verification": {"verified", "unverified"},
     },
 }
-DERIVED_FIELDS = {"scope", "evidence_level", "verification", "currency"}
-# (code, severity, what it means), the table in the module docstring. A
-# severity given as "MEDIUM or HIGH" varies with the row.
+DERIVED_FIELDS = {"scope", "evidence_level", "verification", "currency", "state_limits_local"}
+# (code, severity, what it means, what releases the row), the table in the
+# module docstring. A severity given as "MEDIUM or HIGH" varies with the row.
 CHECKS = (
-    ("COORD_OUTSIDE_STATE", "HIGH", "coordinates not inside the state the row names"),
-    ("SOURCE_URL_INVALID", "HIGH", "source_url, case_source_url or primary_source_url is not http(s)"),
-    ("STATUS_VOCAB", "HIGH", "status, outcome, case_status or a derived field outside the entity's vocabulary"),
-    ("DATE_IN_FUTURE", "HIGH", "an enactment or filing date after the build date"),
-    ("SEVERITY_STATUS", "MEDIUM", "a pending instrument scored above 2"),
-    ("CONFIRMED_NO_EVIDENCE", "HIGH", "a *_confirmed outcome with no independent finality evidence"),
+    ("COORD_OUTSIDE_STATE", "HIGH", "coordinates not inside the state the row names",
+     "correct the coordinates or the state in the seed (or the source's row) so they agree"),
+    ("SOURCE_URL_INVALID", "HIGH", "source_url, case_source_url or primary_source_url is not http(s)",
+     "replace the value with the document's http(s) address"),
+    ("STATUS_VOCAB", "HIGH", "status, outcome, case_status or a derived field outside the entity's vocabulary",
+     "map the source's value onto the vocabulary in the importer (build_sabin_seeds, fetch_moratorium_nation) "
+     "or the queue row"),
+    ("DATE_IN_FUTURE", "HIGH", "an enactment or filing date after the build date",
+     "check the date against the instrument or docket; a proposal date belongs in date_text, not date_enacted_iso"),
+    ("SEVERITY_STATUS", "MEDIUM", "a pending instrument scored above 2",
+     "nothing to do: reported only; the score is capped at 2 while pending"),
+    ("CONFIRMED_NO_EVIDENCE", "HIGH", "a *_confirmed outcome with no independent finality evidence",
+     "add a data/review/outcome_resolutions.csv row with the document that shows the outcome (access opened or "
+     "archived), or set the outcome back to *_unverified"),
     ("PRIMARY_SOURCE_CONTRADICTS", "MEDIUM or HIGH",
      "a reviewer found the primary source disagrees with the record; MEDIUM when that source was seen only "
-     "as search-index text (a lead to read), HIGH when it was opened or archived"),
-    ("SCOPE_DATA_CENTER_ONLY", "HIGH", "a restriction whose text names data centers and no renewable technology"),
-    ("DATE_UNPARSEABLE", "LOW", "an ISO date column that is not YYYY[-MM[-DD]]"),
+     "as search-index text (a lead to read), HIGH when it was opened or archived",
+     "correct the record to what the primary source says (a queue row, or a note to the upstream source), then "
+     "set the restriction_sources.csv verdict to confirmed"),
+    ("SCOPE_DATA_CENTER_ONLY", "HIGH", "a restriction whose text names data centers and no renewable technology",
+     "if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it "
+     "belongs to data-center-map and stays out"),
+    ("DATE_UNPARSEABLE", "LOW", "an ISO date column that is not YYYY[-MM[-DD]]",
+     "nothing to do: reported only; rewrite the date as YYYY, YYYY-MM or YYYY-MM-DD when touching the row"),
     ("END_DATE_PASSED", "MEDIUM", "an active or extended restriction whose own end date has passed with no "
-     "reviewer confirmation since; the source's status may be out of date"),
+     "reviewer confirmation since; the source's status may be out of date",
+     "nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv "
+     "row checked on or after the end date restores it to in_force"),
 )
+RELEASE = {code: release for code, _, _, release in CHECKS}
 DATE_FIELDS = ("date_enacted_iso", "current_end_date_iso", "filing_date")
 # Dates that record something that already happened. An end date is expected
 # to be in the future, so it is format-checked only.
@@ -216,7 +236,13 @@ def run(entity: str, rows: list[dict], today: date | None = None) -> tuple[list[
     return passed, quarantined, findings
 
 
-def render_report(findings: list[dict], totals: dict[str, int]) -> str:
+def _place(row: dict) -> str:
+    return _s(row.get("jurisdiction")) or _s(row.get("project_name")) or _s(row.get("county"))
+
+
+def render_report(findings: list[dict], totals: dict[str, int], quarantined: list[dict] | None = None) -> str:
+    """The QC findings by code, and (when given the quarantined rows) one line
+    per held row saying what would release it, so the list reads as triage."""
     from collections import Counter
     by_code = Counter((i["code"], i["severity"]) for f in findings for i in f["issues"])
     blocked = Counter(f["entity"] for f in findings if f["blocked"])
@@ -237,6 +263,16 @@ def render_report(findings: list[dict], totals: dict[str, int]) -> str:
         lines.append(f"| {code} | {sev} | {n} |")
     if not by_code:
         lines.append("| (none) | | 0 |")
+    if quarantined:
+        lines += ["", "## Quarantined rows", "",
+                  "Held out of the published data until the release action is done. The action comes from the "
+                  "check's entry in `qc_gate.CHECKS` (also in `docs/codebook.md`).", "",
+                  "| Entity | Id | State | Place | Blocking code(s) | What releases it |", "|---|---|---|---|---|---|"]
+        for row in sorted(quarantined, key=lambda r: (_s(r.get("entity")), _s(r.get("state")), _place(r), _s(r.get("id")))):
+            codes = sorted({i["code"] for i in row.get("qc_issues", []) if i["severity"] in BLOCK_AT})
+            release = " / ".join(RELEASE.get(c, "") for c in codes)
+            lines.append(f"| {_s(row.get('entity'))} | {_s(row.get('id'))} | {_s(row.get('state'))} | {_place(row)} | "
+                         f"{', '.join(codes)} | {release} |")
     return "\n".join(lines) + "\n"
 
 

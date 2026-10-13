@@ -7,7 +7,7 @@ import qc_gate
 def test_codebook_is_rendered_from_the_rules_and_is_deterministic():
     text = codebook.render()
     assert text == codebook.render()
-    for code, severity, _ in qc_gate.CHECKS:
+    for code, severity, *_ in qc_gate.CHECKS:
         assert f"`{code}` | {severity} |" in text
     assert "| Moratorium, pending | solar | pending | 2 |" in text
     assert "| Wind setback of half a mile | wind | active | 3 |" in text

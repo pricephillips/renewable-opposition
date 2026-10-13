@@ -351,6 +351,14 @@ def main() -> int:
         print(f"{len(errors)} validation error(s); nothing written.", file=sys.stderr)
         return 1
 
+    # What the state's verified siting law says about a local instrument's
+    # reach (classify.state_context), read off the published policy rows.
+    by_state: dict[str, list[dict]] = {}
+    for p in policies:
+        by_state.setdefault(p.get("state", ""), []).append(p)
+    for row in datasets.get("restrictions", []):
+        row.update(classify.state_context(row, by_state.get(row.get("state", ""), [])))
+
     quarantine, findings, totals = [], [], {}
     for entity in list(datasets):
         totals[entity] = len(datasets[entity])
@@ -358,6 +366,12 @@ def main() -> int:
         datasets[entity] = passed
         quarantine.extend({"entity": entity, **r} for r in held)
         findings.extend(found)
+
+    # Severe restrictions in the counties a project touches, for the same
+    # technology (classify.co_located): a fact about the county, never a link.
+    severe = classify.severe_index(datasets.get("restrictions", []))
+    for row in datasets.get("contested_projects", []):
+        row["county_severe_restriction_ids"] = classify.co_located(row, severe)
 
     # Federal plant inventories: a strong match is published on the project
     # row; every match goes to the worklist. Outcomes are never changed here.
@@ -373,7 +387,8 @@ def main() -> int:
     archive = archived_urls()
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     write_json(PROCESSED_DIR / "quarantine.json", quarantine)
-    (PROCESSED_DIR / "qc_report.md").write_text(qc_gate.render_report(findings, totals), encoding="utf-8")
+    (PROCESSED_DIR / "qc_report.md").write_text(qc_gate.render_report(findings, totals, quarantine),
+                                                encoding="utf-8")
     print(f"QC: {len(quarantine)} quarantined, "
           f"{sum(1 for f in findings if not f['blocked'])} with non-blocking findings")
     for entity, rows in datasets.items():

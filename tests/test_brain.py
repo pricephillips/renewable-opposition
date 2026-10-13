@@ -318,11 +318,18 @@ def test_a_lapsed_instrument_is_reported_by_qc_never_quarantined():
     issues = qc_gate.check_record("restrictions", row, T)
     assert [i.code for i in issues] == ["END_DATE_PASSED"] and not qc_gate.blocks(issues)
     assert all(code in {c[0] for c in qc_gate.CHECKS} for code, *_ in qc_gate.CHECKS)
+    held = [{"entity": "restrictions", "id": "res_1", "state": "KS", "jurisdiction": "Example County",
+             "qc_issues": [{"code": "SCOPE_DATA_CENTER_ONLY", "severity": "HIGH"},
+                           {"code": "DATE_UNPARSEABLE", "severity": "LOW"}]}]
+    report = qc_gate.render_report([], {"restrictions": 1}, held)
+    assert "| restrictions | res_1 | KS | Example County | SCOPE_DATA_CENTER_ONLY | if the instrument" in report
+    assert "DATE_UNPARSEABLE | nothing" not in report      # only the blocking code names a release action
 
 
 def test_every_qc_code_the_selftest_emits_is_in_the_checks_table():
     import qc_gate
-    listed = {code: sev for code, sev, _ in qc_gate.CHECKS}
+    listed = {code: sev for code, sev, *_ in qc_gate.CHECKS}
+    assert all(release for *_, release in qc_gate.CHECKS)
     rows = [
         ("restrictions", {"state": "PA", "latitude": 32.5, "longitude": -91.6, "status": "enacted", "source_url": "x",
                           "date_enacted_iso": "2099-01", "current_end_date_iso": "March", "severity_score": 4,
@@ -396,3 +403,136 @@ def test_decision_language_is_a_lead_only_when_nothing_says_the_step_was_not_fin
     # Inside the pending tier the row whose text already states the decision comes first.
     assert [r["source_record_id"] for r in rows] == ["C", "B", "A"]
     assert rows[1]["decision_language"] == "rejected" and rows[0]["decision_language"] == ""
+
+
+def test_county_impact_names_the_instruments_whose_check_would_move_a_county():
+    def r(iid, fips, sev, scope="renewables_only"):
+        return {"instrument_id": iid, "county_fips_all": fips, "severity_score": sev, "scope": scope,
+                "state": "KS", "technology": "wind", "status": "active", "evidence_level": "report_citation"}
+    rows = [r("a", "20001", 4), r("b", "20001", 2), r("c", "20003", 4), r("d", "20003", 4),
+            r("e", "20005", 2), r("f", "20007", 4, scope="multi_sector_data_centers")]
+    assert vw.county_impacts(rows) == {"a": "sole_severe", "b": "", "c": "", "d": "", "e": "sole_record"}
+    out = vw.restriction_rows(rows, checked=set(), today=T)
+    # Within the tier: renewables-only first, then the instruments whose check moves a county.
+    assert [x["instrument_id"] for x in out] == ["a", "e", "c", "d", "b", "f"]
+    assert out[0]["county_impact"] == "sole_severe" and out[1]["county_impact"] == "sole_record"
+
+
+POLICIES_OH = [
+    {"id": "OH-siting_authority-1", "state": "OH", "technology": "solar;wind", "policy_type": "siting_authority",
+     "who_decides": "state_board", "threshold_mw": "solar:50;wind:5"},
+    {"id": "OH-local_opt_out-1", "state": "OH", "technology": "solar;wind", "policy_type": "local_opt_out",
+     "who_decides": "", "threshold_mw": ""},
+]
+POLICIES_AL = [{"id": "AL-siting_authority-1", "state": "AL", "technology": "solar;wind",
+                "policy_type": "siting_authority", "who_decides": "local_government", "threshold_mw": ""}]
+POLICIES_MD = [{"id": "MD-siting_authority-1", "state": "MD", "technology": "solar;wind;battery_storage",
+                "policy_type": "siting_authority", "who_decides": "hybrid", "threshold_mw": ""},
+               {"id": "MD-local_preemption-1", "state": "MD", "technology": "solar",
+                "policy_type": "local_preemption", "who_decides": "local_government", "threshold_mw": ""}]
+
+
+def test_state_context_reads_the_verified_policy_rows_and_never_infers():
+    county = {"state": "OH", "technology": "wind", "jurisdiction_type": "County"}
+    assert classify.state_context(county, POLICIES_OH) == {
+        "state_siting_authority": "state_board", "state_threshold_mw": "5", "state_preemption_ids": "",
+        "state_limits_local": "yes"}
+    assert classify.state_context({**county, "technology": "solar"}, POLICIES_OH)["state_threshold_mw"] == "50"
+    # No verified row for the technology: unknown, with every other field blank.
+    assert classify.state_context({**county, "technology": "battery_storage"}, POLICIES_OH) == {
+        "state_siting_authority": "", "state_threshold_mw": "", "state_preemption_ids": "",
+        "state_limits_local": "unknown"}
+    assert classify.state_context({**county, "state": "AL"}, POLICIES_AL)["state_limits_local"] == "no"
+    md = classify.state_context({**county, "state": "MD", "technology": "solar"}, POLICIES_MD)
+    assert (md["state_limits_local"], md["state_preemption_ids"], md["state_siting_authority"]) == \
+        ("yes", "MD-local_preemption-1", "hybrid")
+    # Hybrid with no threshold and no preemption rule for the technology: unknown, not a guess.
+    assert classify.state_context({**county, "state": "MD"}, POLICIES_MD)["state_limits_local"] == "unknown"
+    # A state-level row, or one with no technology, carries nothing.
+    assert classify.state_context({**county, "jurisdiction_type": "State"}, POLICIES_OH)["state_limits_local"] == ""
+    assert classify.state_context({**county}, [])["state_limits_local"] == "unknown"
+    assert classify.threshold_for("solar:50;wind:5", "wind") == "5" and classify.threshold_for("", "wind") == ""
+
+
+def test_headline_reports_severe_instruments_in_limiting_states_beside_the_count():
+    rows = [classify.stamp("restrictions", {**mn("wind", "wind", moratorium_id=f"oh-{i}"), "state": "OH",
+                                            "state_limits_local": lim}, T)
+            for i, lim in enumerate(["yes", "no", "yes"])]
+    rows[2]["severity_score"] = 2
+    ren = hm.compute({"restrictions": rows})["restrictions"]["by_scope"]["renewables_only"]
+    assert ren["severe_instruments"] == 2 and ren["severe_where_state_limits_local"] == 1
+    assert "sit in a state whose verified siting law limits" in hm.render(hm.compute({"restrictions": rows}))
+
+
+def test_a_verified_sibling_instrument_lends_its_primary_source_as_a_lead():
+    verified = classify.stamp("restrictions", {
+        "source_record_id": "REC-7", "state": "KS", "jurisdiction": "Cherokee County", "jurisdiction_type": "County",
+        "technology": "wind", "status": "active", "severity_score": 3, "primary_source_url": "https://ck.gov/o.pdf",
+        "primary_source_verdict": "confirmed", "primary_source_access": "opened"}, T)
+    unverified = classify.stamp("restrictions", mn("wind", "wind", jurisdiction="Cherokee", jurisdiction_type="County",
+                                                   state="KS"), T)
+    other = classify.stamp("restrictions", mn("solar", "solar", moratorium_id="ks-y", jurisdiction="Cherokee",
+                                              jurisdiction_type="County", state="KS"), T)
+    assert vw.sibling_sources([verified, unverified, other]) == {"mn:ks-x-2026": ("sabin:REC-7", "https://ck.gov/o.pdf")}
+    out = {r["instrument_id"]: r for r in vw.restriction_rows([verified, unverified, other], checked=set(), today=T)}
+    assert out["mn:ks-x-2026"]["located_url"] == "https://ck.gov/o.pdf"
+    assert "primary source held by sabin:REC-7" in out["mn:ks-x-2026"]["flags"]
+    assert out["mn:ks-y"]["located_url"] == "" and "sabin:REC-7" not in out["mn:ks-y"]["flags"]
+
+
+def test_concerns_come_from_the_text_by_a_fixed_table_with_word_boundaries():
+    assert classify.concerns({"description": "Neighbors cited prime farmland, property values and shadow flicker."}) \
+        == "farmland;property_value;shadow_flicker"
+    # "fired" is not fire_safety and "in view of" is not viewshed; a bare "water" is not a water concern.
+    assert classify.concerns({"description": "The board fired its consultant in view of the water treatment plan."}) == ""
+    assert classify.concerns({"description": "A thermal runaway fire at the battery site; groundwater wells nearby."}) \
+        == "fire_safety;water"
+    assert classify.concerns({"description": ""}) == ""
+    row = classify.stamp("contested_projects", {"outcome": "pending", "description": "Bats and eagles."})
+    assert row["concerns"] == "wildlife"
+    assert [n for n, _ in classify.CONCERNS] == sorted({n for n, _ in classify.CONCERNS}, key=[n for n, _ in classify.CONCERNS].index)
+
+
+def test_co_located_lists_severe_instruments_for_the_same_technology_in_any_county_touched():
+    restrictions = [
+        {"instrument_id": "mn:a", "county_fips_all": "20001", "technology": "wind", "severity_score": "4",
+         "scope": "renewables_only"},
+        {"instrument_id": "mn:b", "county_fips_all": "20001", "technology": "solar", "severity_score": "4",
+         "scope": "renewables_only"},
+        {"instrument_id": "mn:c", "county_fips_all": "20003;20005", "technology": "wind", "severity_score": "2",
+         "scope": "renewables_only"},
+        {"instrument_id": "mn:d", "county_fips_all": "20005", "technology": "wind", "severity_score": "4",
+         "scope": "multi_sector_data_centers"},
+        {"instrument_id": "sabin:e", "county_fips_all": "20005", "technology": "wind", "severity_score": "3",
+         "scope": "renewables_only"},
+    ]
+    index = classify.severe_index(restrictions)
+    assert classify.co_located({"county_fips_all": "20001;20005", "technology": "wind"}, index) == "mn:a;sabin:e"
+    assert classify.co_located({"county_fips_all": "20003", "technology": "wind"}, index) == ""   # severity 2 only
+    assert classify.co_located({"county_fips_all": "20005", "technology": "solar"}, index) == ""  # other technology
+    assert classify.co_located({"county_fips_all": "", "technology": "wind"}, index) == ""
+
+
+def test_decided_rate_excludes_young_records_and_reports_confirmed_only_apart():
+    def proj(rid, outcome, when, tech="solar", concerns=""):
+        return classify.stamp("contested_projects", {"source_record_id": rid, "outcome": outcome,
+                                                     "event_date_text": when, "technology": tech,
+                                                     "description": concerns})
+    rows = [proj("A", "blocked_confirmed", "2024"), proj("B", "blocked_unverified", "2025-03"),
+            proj("C", "advanced_confirmed", "2023", "wind"), proj("D", "advanced_unverified", "September 2026"),
+            proj("E", "pending", "2024"), proj("F", "needs_review", "2024"),
+            proj("G", "blocked_unverified", "2026-10-01", concerns="Noise and farmland.")]
+    rows[0]["county_severe_restriction_ids"] = "mn:a"
+    c = hm.compute({"contested_projects": rows}, today=T)["contested_projects"]
+    d = c["decided"]
+    assert d["young_excluded"] == 2 and d["guard_days"] == 90          # D (2026-09-30) and G are younger than 90 days
+    assert d["all"] == {"projects": 3, "blocked": 2, "blocked_share": 0.667}
+    assert d["confirmed_only"] == {"projects": 2, "blocked": 1, "blocked_share": 0.5}
+    assert d["by_technology"]["wind"] == {"projects": 1, "blocked": 0, "blocked_share": 0.0}
+    assert c["by_concern"] == {"farmland": 1, "noise": 1} and c["with_no_concern_named"] == 6
+    assert c["in_county_with_severe_restriction"] == 1
+    text = hm.render(hm.compute({"contested_projects": rows}, today=T))
+    assert "| All decided | 3 | 2 | 67% |" in text and "| Confirmed outcomes only | 2 | 1 | 50% |" in text
+    assert "absent by construction" in text and "| farmland | 1 |" in text
+    empty = hm.compute({"contested_projects": []}, today=T)["contested_projects"]["decided"]
+    assert empty["all"]["blocked_share"] is None

@@ -25,6 +25,8 @@ however many technologies it covers. Quote these, not row counts.
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
+Of the severe instruments, 942 (renewables only) and 33 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
+
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
 3627 published rows describe 3424 instruments.
@@ -52,6 +54,46 @@ Currency: in_force means the status is active or extended and no end date has pa
 | under_construction | 14 |
 
 46 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
+
+### Decided projects
+
+This dataset holds projects because they drew opposition, so every rate below is conditional on a fight visible enough to enter the record; projects that proceeded without tracked opposition are absent by construction. Decided means an outcome of blocked_confirmed, blocked_unverified, advanced_confirmed, advanced_unverified, restricted_conditional; a project whose event is younger than 90 days is left out (3 today), since the freshest decisions are the least likely to be final.
+
+| | Decided projects | Blocked | Blocked share |
+|---|---:|---:|---:|
+| All decided | 309 | 234 | 76% |
+| Confirmed outcomes only | 122 | 70 | 57% |
+| battery_storage | 17 | 11 | 65% |
+| solar | 162 | 134 | 83% |
+| transmission | 8 | 3 | 38% |
+| wind | 136 | 93 | 68% |
+
+Quote the confirmed-only figure when the claim is about what happened; the all-decided figure rests partly on the source's label alone.
+
+### Concerns named in the record
+
+What the record's own text names, by a fixed keyword table (`docs/codebook.md`); 230 projects name none. A concern is what was raised, not why the project ended as it did.
+
+| Concern | Projects |
+|---|---:|
+| farmland | 105 |
+| wildlife | 104 |
+| property_value | 78 |
+| viewshed | 63 |
+| noise | 40 |
+| tribal_cultural | 33 |
+| water | 28 |
+| fire_safety | 27 |
+| health | 27 |
+| decommissioning | 19 |
+| wetlands | 13 |
+| military_aviation | 8 |
+| shadow_flicker | 5 |
+| glare | 3 |
+| traffic | 3 |
+| grid_cost | 1 |
+
+221 projects share a county with a severe renewables-only restriction for the same technology (`county_severe_restriction_ids`); a fact about the county, not a link between the records.
 
 ## Cases
 

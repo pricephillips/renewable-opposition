@@ -99,6 +99,61 @@ status_as_of    restrictions only. The latest date on which the record's
                 Blank when the record carries no date at all. The worklist
                 measures a pending instrument's age from it (STALE_PENDING).
 
+state_limits_local, state_siting_authority, state_threshold_mw, state_preemption_ids
+                restrictions below state level only. What the state's verified
+                siting law (data/processed/state_policies.csv) says about how
+                far a local instrument reaches for the row's technology, read
+                off the published policy rows and never inferred:
+                  state_siting_authority  who_decides of the state's
+                                          siting_authority row covering the
+                                          technology: local_government,
+                                          state_board or hybrid; blank when
+                                          no verified row covers it
+                  state_threshold_mw      the MW size above which the state
+                                          body decides, from that row's
+                                          threshold_mw ("solar:50;wind:5")
+                  state_preemption_ids    ids of local_preemption rows covering
+                                          the technology, semicolon-joined
+                  state_limits_local      yes       a preemption row or a size
+                                                    threshold covers the
+                                                    technology, or the state
+                                                    board decides outright:
+                                                    the instrument does not
+                                                    reach every project
+                                          no        the siting authority is
+                                                    local_government and no
+                                                    preemption row covers it
+                                          unknown   no verified policy covers
+                                                    the technology, or only a
+                                                    hybrid row with no
+                                                    threshold
+                A "yes" says the state has a verified law that limits local
+                reach; it never says this instrument is void or how a court
+                would read it. The headline reports how many severe
+                instruments sit in such states, beside the count, never
+                subtracted. State-level rows carry all four blank.
+
+concerns        contested_projects. The concerns the record's own text names,
+                from a fixed keyword table (CONCERNS, published in the
+                codebook with every trigger): farmland, wildlife,
+                property_value, viewshed, water, noise, tribal_cultural,
+                traffic, health, fire_safety, decommissioning, grid_cost,
+                wetlands, military_aviation, shadow_flicker, glare.
+                Semicolon-joined, sorted; blank when the text names none.
+                After pricephillips/data-center-map's concerns codebook
+                (grievances, independent of mechanism and outcome). A
+                concern is what the text says was raised, never why the
+                project ended as it did.
+
+county_severe_restriction_ids
+                contested_projects. The severe (severity 3 or 4)
+                renewables-only restriction instruments for the same
+                technology in any county the project touches
+                (county_fips_all), semicolon-joined. A fact about the
+                county, not a link between the two records: the text of
+                either may or may not mention the other. The headline counts
+                projects that share a county with such an instrument.
+
 county_fips     contested_projects, and restrictions whose jurisdiction_type is
                 County, Parish or Borough: the 5-digit county FIPS of the state
                 plus the county name (a restriction's jurisdiction), looked up
@@ -135,6 +190,7 @@ county_fips_all Every 2024 county a record touches, for finding records by
 """
 from __future__ import annotations
 
+import calendar
 import re
 from datetime import date
 
@@ -151,6 +207,37 @@ READ_ACCESS = ("opened", "archived")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
 VERIFICATION = ("verified", "located", "unverified")
 CURRENCY = ("in_force", "lapsed_unconfirmed", "pending", "unknown")
+STATE_LIMITS = ("yes", "no", "unknown")
+# (name, pattern) in a fixed order; a concern is named when its pattern
+# matches the record's text. Word boundaries keep "fired" out of fire_safety
+# and "in view of" out of viewshed.
+CONCERNS = (
+    ("farmland", r"\b(farmland|farm land|agricultur\w*|prime farm\w*|cropland|rural character)\b"),
+    ("wildlife", r"\b(wildlife|birds?|bats?|eagles?|habitats?|endangered|migrat\w*|whales?|fisher(y|ies|men))\b"),
+    ("property_value", r"\b(property|home|land) values?\b"),
+    ("viewshed", r"\b(viewshed|visual impacts?|aesthetic\w*|scenic|eyesore|views? (of|from|across) the "
+                 r"(lake|mountains?|ridge\w*|valley|ocean|bay|sound|landscape|countryside|hills?|river|shore\w*))\b"),
+    ("water", r"\b(water (use|usage|supply|quality|table|rights)|aquifers?|groundwater|runoff|drainage|wells)\b"),
+    ("noise", r"\b(noise|decibels?|dba|sound (levels?|limits?))\b"),
+    ("tribal_cultural", r"\b(tribal|tribes?|sacred|cultural resources?|archaeolog\w*|historic (district|site|"
+                        r"preservation|resources?))\b"),
+    ("traffic", r"\b(traffic|truck traffic|road damage|haul routes?)\b"),
+    ("health", r"\b(health|infrasound|cancer|asthma)\b"),
+    ("fire_safety", r"\b(fire|fires|thermal runaway|explosions?|toxic (gas|fumes|smoke)|emergency respon\w*)\b"),
+    ("decommissioning", r"\bdecommission\w*\b"),
+    ("grid_cost", r"\b(ratepayers?|electric(ity)? (bills?|rates|prices)|utility bills?|rate increases?)\b"),
+    ("wetlands", r"\b(wetlands?|floodplains?|erosion)\b"),
+    ("military_aviation", r"\b(radar|military|aviation|airports?|faa)\b"),
+    ("shadow_flicker", r"\b(shadow )?flicker\b"),
+    ("glare", r"\bglare\b"),
+)
+_CONCERN_RX = [(name, re.compile(pattern, re.I)) for name, pattern in CONCERNS]
+_MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september",
+           "october", "november", "december"]
+_DATE_TOKEN = re.compile(r"\b(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?\b")
+_MONTH_YEAR = re.compile(r"\b(" + "|".join(_MONTHS) + r")\s+(\d{4})\b", re.I)
+SEVERE_SCORE = 3
+STATE_CONTEXT_FIELDS = ("state_siting_authority", "state_threshold_mw", "state_preemption_ids", "state_limits_local")
 IN_FORCE_STATUSES = ("active", "extended")
 # YYYY-MM-DD, or YYYY-MM when a source gives only the month.
 _ISO_DATE = re.compile(r"\d{4}-\d{2}(?:-\d{2})?")
@@ -278,6 +365,102 @@ def status_as_of(row: dict) -> str:
     dates += [_s(row.get(f)) for f in ("date_enacted_iso", "primary_source_checked_on")]
     dates = [d for d in dates if _ISO_DATE.fullmatch(d)]
     return max(dates) if dates else ""
+
+
+def latest_date(text: str) -> date | None:
+    """The latest date named in free text, at the end of its precision:
+    "2023" -> 2023-12-31, "2021-04" -> 2021-04-30, "June 2023" -> 2023-06-30.
+    None when the text names no year. A year read as part of "June 2023" is
+    not also a bare year."""
+    found: list[date] = []
+    text = text or ""
+    for name, y in _MONTH_YEAR.findall(text):
+        mm = _MONTHS.index(name.lower()) + 1
+        found.append(date(int(y), mm, calendar.monthrange(int(y), mm)[1]))
+    for y, m, d in _DATE_TOKEN.findall(_MONTH_YEAR.sub(" ", text)):
+        y = int(y)
+        if not 1900 <= y <= 2100:
+            continue
+        mm = int(m) if m else 12
+        if not 1 <= mm <= 12:
+            continue
+        try:
+            found.append(date(y, mm, int(d) if d else calendar.monthrange(y, mm)[1]))
+        except ValueError:
+            continue
+    return max(found) if found else None
+
+
+def concerns(row: dict) -> str:
+    """The concerns the record's text names (CONCERNS), sorted and
+    semicolon-joined; "" when none."""
+    text = _text(row)
+    return ";".join(sorted(name for name, rx in _CONCERN_RX if rx.search(text)))
+
+
+def severe_index(restrictions: list[dict]) -> dict[tuple[str, str], set[str]]:
+    """(county_fips, technology) -> severe renewables-only instrument ids, over
+    every county each published restriction touches."""
+    index: dict[tuple[str, str], set[str]] = {}
+    for r in restrictions:
+        try:
+            severe = int(r.get("severity_score") or 0) >= SEVERE_SCORE
+        except (TypeError, ValueError):
+            severe = False
+        if not severe or _s(r.get("scope")) != "renewables_only":
+            continue
+        for f in _s(r.get("county_fips_all") or r.get("county_fips")).split(";"):
+            if f:
+                index.setdefault((f, _s(r.get("technology"))), set()).add(_s(r.get("instrument_id")))
+    return index
+
+
+def co_located(project: dict, index: dict[tuple[str, str], set[str]]) -> str:
+    """Severe restriction instruments for the project's technology in any
+    county it touches, sorted and semicolon-joined; "" when none."""
+    counties = [f for f in _s(project.get("county_fips_all") or project.get("county_fips")).split(";") if f]
+    techs = [t for t in _s(project.get("technology")).split(";") if t]
+    ids = set().union(*(index.get((f, t), set()) for f in counties for t in techs)) if counties else set()
+    return ";".join(sorted(i for i in ids if i))
+
+
+def _policy_techs(policy: dict) -> set[str]:
+    return {t.strip() for t in _s(policy.get("technology")).split(";") if t.strip()}
+
+
+def threshold_for(threshold_mw: str, tech: str) -> str:
+    """'solar:50;wind:5' -> '50' for solar, '' when the technology has none."""
+    for part in _s(threshold_mw).split(";"):
+        name, _, mw = part.partition(":")
+        if name.strip() == tech and mw.strip():
+            return mw.strip()
+    return ""
+
+
+def state_context(row: dict, policies: list[dict]) -> dict:
+    """The four state-context fields (module docstring) for one restriction,
+    from the published state_policies rows of its state. Pure: the caller
+    passes the rows."""
+    blank = {f: "" for f in STATE_CONTEXT_FIELDS}
+    tech = _s(row.get("technology"))
+    if _s(row.get("jurisdiction_type")).lower() == "state" or not tech:
+        return blank
+    relevant = [p for p in policies if tech in _policy_techs(p)]
+    if not relevant:
+        return {**blank, "state_limits_local": "unknown"}
+    authority = next((p for p in relevant if _s(p.get("policy_type")) == "siting_authority"), None)
+    who = _s(authority.get("who_decides")) if authority else ""
+    threshold = threshold_for(authority.get("threshold_mw"), tech) if authority else ""
+    preemption = [_s(p.get("id") or p.get("policy_id")) for p in relevant
+                  if _s(p.get("policy_type")) == "local_preemption"]
+    if preemption or threshold or who == "state_board":
+        limits = "yes"
+    elif who == "local_government":
+        limits = "no"
+    else:
+        limits = "unknown"
+    return {"state_siting_authority": who, "state_threshold_mw": threshold,
+            "state_preemption_ids": ";".join(p for p in preemption if p), "state_limits_local": limits}
 
 
 def county_name(entity: str, row: dict) -> str | None:
@@ -525,6 +708,8 @@ def stamp(entity: str, row: dict, today: date | None = None) -> dict:
         row["scope"] = scope(row)
         row["currency"] = currency(row, today)
         row["status_as_of"] = status_as_of(row)
+    if entity == "contested_projects":
+        row["concerns"] = concerns(row)
     row["evidence_level"] = evidence_level(entity, row)
     row["verification"] = verification(entity, row)
     return row

@@ -97,6 +97,32 @@ model), its Google News follow-up search (`status_followup.py`, which needs a
 network the build does not have and an intake queue this repo does not run
 yet), and its harvest-specific verification statuses.
 
+## Round four (2026-10-13): closing loops
+
+| Practice in data-center-map | Here |
+|---|---|
+| **Rank re-verification by what it would change** (`stale_pending_audit.py`'s `label_moving`: a stale row whose confirmation would flip a county label goes first). | `county_impact` on the restriction worklist: `sole_severe` (the county's only severe renewables-only instrument) and `sole_record` (its only restriction) sort first within a tier. |
+| **Suggested resolution on every review row** (`review_worklists.py`: "so the review pass is triage, not investigation"). | `qc_gate.CHECKS` names what releases a row for each code, and `qc_report.md` lists every quarantined row with that action. The codebook carries the column. |
+| **Dated change logs** (`change_log.csv`, `calibration_history.csv`: a number quoted on a day can be found by date). | `data/snapshots/headline_history.csv`, kept by `scripts/headline_history.py` (Phase 5, PR #41, which also backfilled it from git history and charts it on the national view). Round four's own version of the file was dropped in favour of it when the two branches met. |
+| **Dedupe against every file, not just the clean one** (Part C lesson 1 of the 2026-09-29 passoff: 4,099 duplicate rows in four days). | `parse.py` checks each candidate against the queue and all three seeds by source document and by name before queueing it; a same-document candidate is dropped and logged, a same-name one is queued with a "possible duplicate" note. |
+
+## Round five (2026-10-13): context and self-description
+
+| Practice in data-center-map | Here |
+|---|---|
+| **Preemption as a coded stance** (`outcome_defensibility.py` codes preemption of local control as a legislative stance; `bill_taxonomy.py` classes bills by what they do to local authority). | `classify.state_context`: every local restriction carries `state_limits_local` (yes, no, unknown) with the siting authority, size threshold and preemption-rule ids read off the verified `state_policies` rows for its technology. The headline reports severe instruments in limiting states beside the count. Never a judgment on a given ordinance. |
+| **Staleness as a property of every claim** (`stale_pending_audit.py`). | A negative check older than a year puts its county back on `negative_check_worklist.csv` with the reason, beside counties never checked. |
+| **Corroboration from a sibling record** (`triage_accelerator.py` scores a candidate by evidence the first pass did not consult). | A verified instrument for the same jurisdiction and technology lends its primary-source URL to an unverified sibling on the restriction worklist, as a lead to read, never as verification. |
+| **One self-description file** (`operations_summary.py`: "the platform's strongest claim, that it maintains itself and records how, could only be made by assertion"). | `scripts/operations_summary.py` writes `data/processed/operations_summary.json` and `.md` from the quarantine, worklists, promotion trail, review queue, snapshots, headline history and source archive. Counts only; nothing computed anywhere else first. |
+
+## Round six (2026-10-13): what the records say
+
+| Practice in data-center-map | Here |
+|---|---|
+| **The decided-case block rate with a right-censoring guard** (`headline_metrics.md`: incidents younger than 90 days excluded; the scope note that every rate is conditional on a conflict being visible enough to enter the tracker). | `headline_metrics.decided_rate`: the blocked share of decided projects, all and confirmed-only, by technology, with the same 90-day guard and the same scope note. |
+| **A concerns codebook independent of mechanism** (`CODEBOOK.md`: noise, water, light, energy cost, land use and the rest, by keyword triggers). | `classify.CONCERNS`: sixteen concerns matched in a project's own text, published with their patterns in `docs/codebook.md`, counted in the headline. What was raised, never why the project ended as it did. |
+| **The county label built from co-located events** (`county_aggregator.py`: a county is restrictive when a record of an enacted restriction sits in it). | `county_severe_restriction_ids` on each project: the severe instruments for its technology in any county it touches. Kept as a fact about the county, not a label and not a link between records. |
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

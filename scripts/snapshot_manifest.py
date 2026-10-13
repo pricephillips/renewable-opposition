@@ -8,10 +8,6 @@ records is visible after the fact.
 A row is appended only when a file's hash differs from the last row recorded
 for it, so a nightly run that changes nothing writes nothing. The manifest is
 append-only; never rewrite it.
-
-Usage
-  python scripts/snapshot_manifest.py            append changed files
-  python scripts/snapshot_manifest.py --dry-run  print what would be appended
 """
 from __future__ import annotations
 
@@ -28,6 +24,14 @@ from common import PROCESSED_DIR, ROOT, read_csv  # noqa: E402
 MANIFEST = ROOT / "data" / "snapshots" / "manifest.csv"
 FIELDS = ["date", "file", "rows", "sha256"]
 TRACKED = ["restrictions.csv", "contested_projects.csv", "cases.csv", "sources.csv", "county_summary.csv"]
+def append_rows(path, fields: list[str], rows: list[dict]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    new = not path.exists()
+    with path.open("a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=fields, lineterminator="\n")
+        if new:
+            w.writeheader()
+        w.writerows(rows)
 
 
 def file_rows(path: Path) -> int:
@@ -52,20 +56,15 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
-    rows = pending_rows(date.today().isoformat())
+    today = date.today().isoformat()
+    rows = pending_rows(today)
     for r in rows:
         print(f"{r['date']} {r['file']}: {r['rows']} rows, sha256 {r['sha256'][:12]}")
     if not rows:
         print("no published file changed; manifest untouched")
     if args.dry_run or not rows:
         return 0
-    MANIFEST.parent.mkdir(parents=True, exist_ok=True)
-    new = not MANIFEST.exists()
-    with MANIFEST.open("a", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=FIELDS, lineterminator="\n")
-        if new:
-            w.writeheader()
-        w.writerows(rows)
+    append_rows(MANIFEST, FIELDS, rows)
     return 0
 
 
