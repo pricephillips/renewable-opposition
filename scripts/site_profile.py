@@ -31,11 +31,31 @@ parentheses on their first use and bare afterwards.
                         matched, and the outcome source.
   Cases linked to those records
                         litigation linked to the records shown, once each.
+  How this county compares
+                        data-center-map's "compared to what?" without its
+                        model: reference groups from county_summary.csv (all
+                        counties, the county's state), counts of counties
+                        with any, a severe, a verified instrument, a contested
+                        project, or any examination; where this county sits.
   Adjacent counties     one row per county sharing a boundary, across state
                         lines (data/geo/counties_2024.topojson): counts, and
                         its newest negative check when nothing is published;
                         then the records themselves and each pending
                         review-queue candidate, one line each.
+  Diffusion from adjacent counties
+                        the adjacency ladder (data-center-map
+                        adjacency_scan.py): neighbors with an instrument on
+                        record, which enacted within the neighbor watch's
+                        18-month window, the nearest, the tier (1 to 4, or
+                        0), and whether the county is on the neighbor watch.
+  Comparable decided projects
+                        decided contested projects within 100 miles or in
+                        the state, nearest first, with mechanism, concerns
+                        and verification; the state's decided-case figure
+                        with headline_metrics' 90-day guard.
+  Activity nearby in the last two years
+                        records within 25 miles by the age of their date,
+                        the count within 50 miles as context, the newest.
   Local siting standards
                         NREL's ordinance features for the county and its
                         neighbors (data/processed/siting_standards.csv), one
@@ -197,6 +217,10 @@ class Data:
         # Review-queue candidates nobody has decided on yet: shown, never published.
         self.queue = [r for r in read(review / "queue.csv") if r.get("review_status") == "pending"]
         self.dc_events = read(dc_events)
+        # Reference groups (county_summary.py) and the neighbor watch
+        # (adjacency_worklist.py), for the report's readings.
+        self.county_summary = read(processed / "county_summary.csv")
+        self.adjacency = read(review / "adjacency_worklist.csv")
         # "Checked, nothing found" rows (never published), by county.
         self.checks: dict[str, list[dict]] = {}
         for r in negative_checks.counted(read(review / negative_checks.CHECKS_PATH.name)):
@@ -448,11 +472,16 @@ def profile(d: Data, fips: str, name: str, st: str, *, site: str = "", lat=None,
                    for k in ("restrictions", "contested_projects") for r in g[k] if r.get("source_record_id")}
     for c in cases:
         c["_concerns"] = concerns_of.get(c.get("source_record_id"), "")
+    in_county_ids = {r["id"] for r in here["contested_projects"]}
+    readings = {"comparison": comparison(d, fips, st),
+                "diffusion": diffusion(d, fips, neighbors, here, pending, date.today()),
+                "comparables": comparables(d, st, origin, in_county_ids, date.today()),
+                "recent_activity": recent_activity(d, origin, date.today())}
     report = {"title": f"{site or name + ', ' + STATE_NAMES.get(st, st)}: county report", "fips": fips,
               "county_name": name, "state_name": STATE_NAMES.get(st, st), "as_of": d.as_of,
               "generated": today, "commit": commit_label(d.files), "files": source_files(d)}
     return {"site": site or f"{name}, {st}", "notes": notes, "state": st, "county": name, "fips": fips,
-            "report": report,
+            "report": report, "readings": readings,
             "neighbors": [{"fips": n, "name": geo.name(n), "state": state_of(d, n)} for n in neighbors],
             "in_county": here, "local_knowledge": local, "adjacent": near, "within_radius": radius_rows, "radius_mi": radius,
             "cases": cases, "not_published": {"held_back": held, "coverage_gaps": gaps,
@@ -570,6 +599,183 @@ def state_of(d: Data, fips: str) -> str:
         if any(v == fips and k.endswith("|" + nm.lower()) for k, v in d.lookup.items()):
             return code
     return ""
+
+
+# ── Readings: compared to what, diffusion, comparables, recency ──────────────
+#
+# How pricephillips/data-center-map reads a county, carried over without its
+# model: county_benchmarks.py ("a single county's numbers are not
+# interpretable on their own: compared to what?"), adjacency_scan.py (a
+# pre-registered ordering of the counties next to an enactment, which
+# "concentrates attention where a cheap confirmation exists; it does not
+# claim the tail is safe"), site_screener.py (comparable decided projects
+# within 100 miles or in the state; activity within 25 miles, with 50 miles
+# as context) and headline_metrics.md (every figure carries its unit and the
+# scope note that the data holds what was visible enough to be recorded).
+# Everything here is a count, a date or a distance from the published files.
+# No score, no weighting and no model: this repository describes what is
+# recorded (README, "Deliberately not adopted").
+
+ADJACENCY_WINDOW_MONTHS = 18        # adjacency_worklist.WINDOW_MONTHS; tests keep them equal
+RADIUS_MI = 25.0                    # activity nearby (data-center-map site_screener.RADIUS_MI)
+CONTEXT_RADIUS_MI = 50.0            # context count (site_screener.CONTEXT_RADIUS_MI)
+COMPARABLE_RADIUS_MI = 100.0        # comparable decided projects (site_screener.COMPARABLE_RADIUS_MI)
+COMPARABLES_MAX = 12
+RECENT_WINDOWS = ((12, "the last 12 months"), (24, "12 to 24 months ago"))
+CLUSTER_NEIGHBORS = 3               # adjacency_scan.py tier 2: three or more enacted neighbours
+
+DIFFUSION_TIERS = {
+    1: "a neighbor enacted within the window and this county already carries an unresolved record (a "
+       "pending candidate, or an instrument located or not verified), so one primary source resolves it",
+    2: "three or more adjacent counties have an instrument on record: a cluster",
+    3: "a neighbor enacted within the window and this county has nothing unresolved: a fresh trigger",
+    4: "an adjacent county has an instrument on record, none of them within the window",
+    0: "no adjacent county has an instrument on record",
+}
+
+
+def months_before(d: date, n: int) -> date:
+    """Copied from scripts/adjacency_worklist.py."""
+    import calendar
+    y, m = divmod(d.year * 12 + d.month - 1 - n, 12)
+    m += 1
+    return date(y, m, min(d.day, calendar.monthrange(y, m)[1]))
+
+
+def enacted_on(r: dict) -> date | None:
+    """The latest day an instrument's enactment date can mean, or None."""
+    return classify.latest_date(r.get("date_enacted_iso") or r.get("date_text") or "")
+
+
+def event_on(r: dict) -> date | None:
+    """The latest day a contested project's event can mean, or None."""
+    return classify.latest_date(r.get("resolution_date") or r.get("event_date_text") or "")
+
+
+def _n(v) -> int:
+    try:
+        return int(float(v or 0))
+    except (TypeError, ValueError):
+        return 0
+
+
+def comparison(d: Data, fips: str, st: str) -> dict:
+    """Reference groups from data/processed/county_summary.csv: every county,
+    and the county's state. Counts of counties, never rates."""
+    rows = getattr(d, "county_summary", []) or []
+
+    def frame(group: list[dict]) -> dict:
+        return {"counties": len(group),
+                "any_instrument": sum(1 for r in group
+                                      if _n(r.get("restrictions_renewables")) + _n(r.get("restrictions_multi_sector")) > 0),
+                "severe": sum(1 for r in group if _n(r.get("restrictions_renewables_severe")) > 0),
+                "verified": sum(1 for r in group if _n(r.get("restrictions_renewables_verified")) > 0),
+                "projects": sum(1 for r in group if _n(r.get("contested_projects")) > 0),
+                "examined": sum(1 for r in group if (r.get("coverage") or "none") != "none")}
+
+    me = next((r for r in rows if (r.get("county_fips") or "").zfill(5) == fips), None)
+    return {"available": bool(rows), "national": frame(rows),
+            "state": frame([r for r in rows if (r.get("state") or "").upper() == st]),
+            "county": me and frame([me])}
+
+
+def diffusion(d: Data, fips: str, neighbors: list[str], here: dict, pending: list[dict],
+              today: date) -> dict:
+    """What the adjacent counties' instruments say about this one, on
+    data-center-map's adjacency ladder: which neighbors have an instrument on
+    record (not counting one shared with this county), which enacted within
+    the window, the nearest, and the tier the county falls in."""
+    since = months_before(today, ADJACENCY_WINDOW_MONTHS)
+    origin = geo.centroid(fips)
+    rows = []
+    for nb in neighbors:
+        groups = _instruments([r for r in d.restrictions if nb in fips_set(r) and fips not in fips_set(r)])
+        if not groups:
+            continue
+        dates = [dt for g in groups if (dt := enacted_on(g[0]))]
+        newest = max(dates) if dates else None
+        c = geo.centroid(nb)
+        rows.append({"fips": nb, "name": geo.name(nb), "state": state_of(d, nb), "instruments": len(groups),
+                     "newest": newest.isoformat() if newest else "",
+                     "within_window": bool(newest and newest >= since),
+                     "recent": [g[0]["jurisdiction"] + " " + g[0]["restriction_type"] + " " + dt.isoformat()
+                                for g in groups if (dt := enacted_on(g[0])) and dt >= since],
+                     "miles": round(miles(origin, c), 1) if origin and c else None})
+    rows.sort(key=lambda r: (r["miles"] is None, r["miles"] or 0))
+    unresolved = bool(pending) or any(_verification(r) != "verified" for r in here["restrictions"])
+    recent = [r for r in rows if r["within_window"]]
+    if recent and unresolved:
+        tier = 1
+    elif len(rows) >= CLUSTER_NEIGHBORS:
+        tier = 2
+    elif recent:
+        tier = 3
+    elif rows:
+        tier = 4
+    else:
+        tier = 0
+    worklist = [r for r in getattr(d, "adjacency", []) or [] if (r.get("county_fips") or "").zfill(5) == fips]
+    return {"window_months": ADJACENCY_WINDOW_MONTHS, "since": since.isoformat(), "neighbors": rows,
+            "recent": len(recent), "nearest": rows[0] if rows else None, "unresolved_here": unresolved,
+            "tier": tier, "reading": DIFFUSION_TIERS[tier], "worklist": worklist}
+
+
+def comparables(d: Data, st: str, origin, in_county_ids: set[str], today: date) -> dict:
+    """Decided contested projects within COMPARABLE_RADIUS_MI of the site or
+    in the state, nearest first, the county's own left out; and the state's
+    decided-case figure with headline_metrics' young-record guard."""
+    import headline_metrics as hm
+    out = []
+    for r in d.projects:
+        if r.get("outcome") not in hm.DECIDED or r["id"] in in_county_ids:
+            continue
+        pt = where(r)
+        dist = miles(origin, pt) if origin and pt else None
+        in_state = (r.get("state") or "").upper() == st
+        if (dist is not None and dist <= COMPARABLE_RADIUS_MI) or in_state:
+            out.append({**r, "_miles": round(dist, 1) if dist is not None else None})
+    out.sort(key=lambda r: (r["_miles"] is None, r["_miles"] or 0))
+    state_rows = [r for r in d.projects if (r.get("state") or "").upper() == st]
+    rate = hm.decided_rate(hm._instruments(state_rows), today) if state_rows else None
+    return {"radius_mi": COMPARABLE_RADIUS_MI, "projects": out[:COMPARABLES_MAX], "found": len(out),
+            "state_rate": rate}
+
+
+def recent_activity(d: Data, origin, today: date) -> dict:
+    """Records within RADIUS_MI of the site by how old their date is, with
+    the count within CONTEXT_RADIUS_MI as context and the newest few. A
+    record with no coordinates sits at its county's centroid."""
+    items = []
+    if origin:
+        for g in _instruments(d.restrictions):
+            pt = where(g[0])
+            if pt:
+                items.append(("restriction", g[0], enacted_on(g[0]), miles(origin, pt)))
+        for r in d.projects:
+            pt = where(r)
+            if pt:
+                items.append(("project", r, event_on(r), miles(origin, pt)))
+    near = [i for i in items if i[3] <= RADIUS_MI]
+    context = sum(1 for i in items if i[3] <= CONTEXT_RADIUS_MI)
+    b12, b24 = months_before(today, RECENT_WINDOWS[0][0]), months_before(today, RECENT_WINDOWS[1][0])
+
+    def count(kind, test) -> int:
+        return sum(1 for k, _, dt, _ in near if k == kind and test(dt))
+
+    windows = []
+    for label, test in ((RECENT_WINDOWS[0][1], lambda dt: dt is not None and dt >= b12),
+                        (RECENT_WINDOWS[1][1], lambda dt: dt is not None and b24 <= dt < b12),
+                        ("older", lambda dt: dt is not None and dt < b24),
+                        ("undated", lambda dt: dt is None)):
+        windows.append({"label": label, "restrictions": count("restriction", test), "projects": count("project", test)})
+    dated = sorted((i for i in near if i[2]), key=lambda i: i[2], reverse=True)
+    newest = [{"kind": k, "label": _label(r), "date": dt.isoformat(), "miles": round(m, 1),
+               "what": r.get("restriction_type") or r.get("outcome") or "", "technology": r.get("technology", ""),
+               "verification": _verification(r)} for k, r, dt, m in dated[:8]]
+    return {"radius_mi": RADIUS_MI, "context_radius_mi": CONTEXT_RADIUS_MI, "available": origin is not None,
+            "within_radius": len(near), "within_context": context, "windows": windows, "newest": newest,
+            "recent_24": {"restrictions": sum(w["restrictions"] for w in windows[:2]),
+                          "projects": sum(w["projects"] for w in windows[:2])}}
 
 
 # ── Rendering ────────────────────────────────────────────────────────────────
@@ -709,7 +915,8 @@ def _restriction_row(g: list[dict]) -> list[str]:
         "Moratorium Nation rule: active or extended moratorium scores 4, pending 2"
         if (r.get("instrument_id") or "").startswith("mn:") else "n/a")
     return [when, f"{r['jurisdiction']} ({r['jurisdiction_type']}{_placed(r)})",
-            f"{r['restriction_type']}; scope {r.get('scope') or 'n/a'}", techs,
+            f"{r['restriction_type']}; scope {r.get('scope') or 'n/a'}; state limits local rules: "
+            f"{r.get('state_limits_local') or 'unknown'}", techs,
             f"{r['severity_score']} ({basis})", r.get("status") or "n/a",
             f"{verification_words('restrictions', r)}; evidence {r['evidence_level']}",
             r["description"][:280], _source_text(r)]
@@ -726,6 +933,8 @@ def _finality(r: dict) -> str:
 def _project_row(r: dict) -> list[str]:
     tech = r["technology"] + (f", {r['capacity_mw']} MW" if r.get("capacity_mw") else "")
     what = r["description"][:280]
+    if r.get("concerns"):
+        what += f" Concerns raised: {r['concerns']}."
     if r.get("facility_match"):
         what += f" Federal plant inventory: {r.get('facility_status') or 'status n/a'}."
         if r.get("facility_conflict"):
@@ -1002,6 +1211,8 @@ def sec_summary(p: dict, define: Definer) -> list[str]:
              f"{sum(1 for g in adj.values() if g['contested_projects'])}. With a negative check and nothing on "
              f"record: {len(p.get('neighbor_checks') or {})}.")
     L.append(_who_decides(p))
+    if p.get("readings"):
+        L += [comparison_reading(p), diffusion_reading(p), comparables_reading(p), recent_reading(p)]
     np_ = p["not_published"]
     held = sum(len(v) for v in np_.values())
     if held:
@@ -1210,6 +1421,7 @@ def sec_sources(p: dict, define: Definer) -> list[str]:
          f"{rpt['as_of']}. Reports from local contacts are read from a file outside the repository and are not "
          "listed.", ""]
     L += _table(["File", "Hash (first twelve characters)"], [[f["path"], f["sha"]] for f in rpt["files"]])
+    L += ["", "Standing limits. " + cfg["notices"]["selection"] + " " + cfg["notices"]["limits"]]
     L += ["", f"State context ({p['state']}): {s['restriction_instruments']} restriction instruments "
           f"({s['severe_instruments']} severe), {s['contested_projects']} contested projects, {s['cases']} cases. "
           f"{s['unplaced_rows']} {p['state']} row(s) are unplaced (no county, town or coordinates "
@@ -1220,9 +1432,157 @@ def sec_sources(p: dict, define: Definer) -> list[str]:
     return L
 
 
+def _yes(v) -> str:
+    return "yes" if v else "no"
+
+
+def comparison_reading(p: dict) -> str:
+    c = p["readings"]["comparison"]
+    if not c["available"] or not c["county"]:
+        return "County reference groups are not available: data/processed/county_summary.csv is not built."
+    me, s, n, st = c["county"], c["state"], c["national"], p["state"]
+    if me["severe"]:
+        what, key = "a severe restriction instrument on record", "severe"
+    elif me["any_instrument"]:
+        what, key = "a restriction instrument on record", "any_instrument"
+    elif me["examined"]:
+        what, key = "a negative check and no instrument on record", "examined"
+    else:
+        return (f"This county has no record and no negative check, as is true of "
+                f"{s['counties'] - s['examined']} of {s['counties']} counties in {st} and "
+                f"{n['counties'] - n['examined']} of {n['counties']} nationally: unexamined, which is an inference "
+                "from silence, not a finding.")
+    return (f"This county has {what}, as do {s[key]} of {s['counties']} counties in {st} and "
+            f"{n[key]} of {n['counties']} nationally (counties, not rates).")
+
+
+def sec_comparison(p: dict, define: Definer) -> list[str]:
+    c = p["readings"]["comparison"]
+    L = [f"A county's figures are not interpretable on their own. Each {define('reference_group')} below counts "
+         "counties, never rates: a county is one row whatever its size, and this repository builds no peer set on "
+         "population or politics.", ""]
+    if not c["available"]:
+        return L + ["Reference groups are not available: data/processed/county_summary.csv is not built."]
+    heads = ["Group", "Counties", "With any instrument", "With a severe instrument", "With a verified instrument",
+             "With a contested project", "Examined (record or check)"]
+    rows = []
+    for label, f in (("All counties", c["national"]), (f"{p['state']} counties", c["state"])):
+        rows.append([label, f["counties"], f["any_instrument"], f["severe"], f["verified"], f["projects"],
+                     f["examined"]])
+    me = c["county"]
+    if me:
+        rows.append(["This county", 1, _yes(me["any_instrument"]), _yes(me["severe"]), _yes(me["verified"]),
+                     _yes(me["projects"]), _yes(me["examined"])])
+    L += _table(heads, rows) + ["", comparison_reading(p)]
+    L.append("Siting, zoning and preemption are set at the state level, so the state row is usually the fair "
+             "comparison. Examined means a published record or a reviewed negative check; the rest of the frame "
+             "has not been looked at.")
+    return L
+
+
+def diffusion_reading(p: dict) -> str:
+    g = p["readings"]["diffusion"]
+    return (f"Adjacent counties with an instrument on record: {len(g['neighbors'])}, of which {g['recent']} enacted "
+            f"within the last {g['window_months']} months. Diffusion reading: tier {g['tier']}, {g['reading']}.")
+
+
+def sec_diffusion(p: dict, define: Definer) -> list[str]:
+    g = p["readings"]["diffusion"]
+    L = [f"A restriction next door is a reason to look, not a forecast. The {define('diffusion_reading')} counts "
+         f"the adjacent counties with an instrument on record (an instrument shared with this county is not "
+         f"counted) and which of them enacted since {g['since']}, the last {g['window_months']} months.", ""]
+    if g["neighbors"]:
+        L += _table(["County", "Instruments on record", "Newest enactment", "Within the window", "Miles between centroids"],
+                    [[f"{r['name']}, {r['state']} ({r['fips']})", r["instruments"], r["newest"] or "undated",
+                      _yes(r["within_window"]), "n/a" if r["miles"] is None else r["miles"]] for r in g["neighbors"]])
+        L.append("")
+    L.append(f"Tier {g['tier']}: {g['reading']}." + (f" The nearest is {g['nearest']['name']}, {g['nearest']['state']}"
+                                                     + (f", {g['nearest']['miles']} miles between centroids." if g["nearest"]["miles"] is not None else ".")
+                                                     if g["nearest"] else ""))
+    recent = [x for r in g["neighbors"] for x in r["recent"]]
+    if recent:
+        L.append("Enacted within the window: " + "; ".join(recent) + ".")
+    if g["worklist"]:
+        w = g["worklist"][0]
+        L.append(f"This county is on the neighbor watch (data/review/adjacency_worklist.csv): triggered by "
+                 f"{w.get('trigger_jurisdiction')} {w.get('trigger_type')} ({w.get('trigger_date')}), with no published "
+                 f"restriction and no negative check of its own. Suggested search: {w.get('suggested_query')}")
+    L.append("The ladder concentrates attention where a cheap confirmation exists. It does not say that a county "
+             "outside it is clear, and it is not a prediction that this county will act.")
+    return L
+
+
+def comparables_reading(p: dict) -> str:
+    c = p["readings"]["comparables"]
+    return (f"Comparable decided projects within {c['radius_mi']:g} miles or in {p['state']}: {c['found']}"
+            + (f" (the nearest {len(c['projects'])} shown)." if c["found"] > len(c["projects"]) else "."))
+
+
+def _rate_words(rate: dict | None, st: str) -> str:
+    if not rate or not rate["all"]["projects"]:
+        return f"No decided project is recorded in {st}, so there is no state figure to compare with."
+    a, c = rate["all"], rate["confirmed_only"]
+    share = "" if a["blocked_share"] is None else f" ({a['blocked_share']:.0%})"
+    return (f"Decided projects recorded in {st} (outcome blocked, advanced or restricted, events older than "
+            f"{rate['guard_days']} days): {a['projects']}, of which {a['blocked']} were blocked{share}; "
+            f"confirmed outcomes only: {c['blocked']} blocked of {c['projects']}. {rate['young_excluded']} younger "
+            "decision(s) left out. The unit is the project; the figure is conditional on opposition being recorded "
+            "at all.")
+
+
+def sec_comparables(p: dict, define: Definer) -> list[str]:
+    c = p["readings"]["comparables"]
+    L = [f"Each {define('comparable_decided_project')} within {c['radius_mi']:g} miles of the site or in "
+         f"{p['state']}, nearest first, the county's own projects left out. An outcome is paired with the mechanism "
+         "behind it and shown as recorded; unverified outcomes are labelled.", ""]
+    if c["projects"]:
+        L += _table(["Project", "County, state", "Technology", "Outcome", "Mechanism", "Concerns raised", "Date",
+                     "Miles", "Verification"],
+                    [[r["project_name"], f"{r.get('county') or 'county n/a'}, {r.get('state', '')}", r["technology"],
+                      f"{r['outcome']}; finality {_finality(r)}", r.get("opposition_type") or "not recorded",
+                      r.get("concerns") or "none recorded", r.get("resolution_date") or r.get("event_date_text") or "n/a",
+                      "n/a" if r["_miles"] is None else r["_miles"], verification_words("contested_projects", r)]
+                     for r in c["projects"]])
+    else:
+        L.append(f"No decided project is recorded within {c['radius_mi']:g} miles or in {p['state']}.")
+    L += ["", _rate_words(c["state_rate"], p["state"])]
+    return L
+
+
+def recent_reading(p: dict) -> str:
+    a = p["readings"]["recent_activity"]
+    if not a["available"]:
+        return "Activity nearby could not be placed: the county has no centroid."
+    r = a["recent_24"]
+    return (f"Within {a['radius_mi']:g} miles, records dated in the last 24 months: {r['restrictions']} restriction "
+            f"instrument(s) and {r['projects']} contested project(s), out of {a['within_radius']} records within that "
+            f"radius and {a['within_context']} within {a['context_radius_mi']:g} miles.")
+
+
+def sec_recent_activity(p: dict, define: Definer) -> list[str]:
+    a = p["readings"]["recent_activity"]
+    if not a["available"]:
+        return ["Activity nearby could not be placed: the county has no centroid."]
+    L = [f"Records within {a['radius_mi']:g} miles of the site by the age of their date, with the count within "
+         f"{a['context_radius_mi']:g} miles as context. A record with no coordinates sits at its county's centroid, "
+         "so distances inside a county read as zero. Counts by window, not a weighted score.", ""]
+    L += _table(["Window", "Restriction instruments", "Contested projects"],
+                [[w["label"], w["restrictions"], w["projects"]] for w in a["windows"]]
+                + [[f"Total within {a['radius_mi']:g} miles", sum(w["restrictions"] for w in a["windows"]),
+                    sum(w["projects"] for w in a["windows"])]])
+    L += ["", f"Records within {a['context_radius_mi']:g} miles, any date: {a['within_context']}."]
+    if a["newest"]:
+        L += ["", "Newest dated records within the radius:"]
+        L += [f"- {n['date']}: {n['label']} ({n['kind']}, {n['technology']}, {n['what']}; {n['miles']} mi; "
+              f"{n['verification']})" for n in a["newest"]]
+    return L
+
+
 SECTIONS = {
     "summary": sec_summary, "framework": sec_framework, "restrictions": sec_restrictions,
-    "projects": sec_projects, "cases": sec_cases, "neighbors": sec_neighbors, "standards": sec_standards,
+    "projects": sec_projects, "cases": sec_cases, "comparison": sec_comparison, "neighbors": sec_neighbors,
+    "diffusion": sec_diffusion, "comparables": sec_comparables, "recent_activity": sec_recent_activity,
+    "standards": sec_standards,
     "radius": sec_radius, "data_centers": sec_data_centers, "groups": sec_groups, "held": sec_held,
     "mentions": sec_mentions, "flags": sec_flags, "sources": sec_sources,
 }

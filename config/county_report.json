@@ -1,21 +1,81 @@
 {
-  "_comment": "The county report contract for scripts/site_profile.py. Hand-edited; no process writes it. Adapted from pricephillips/data-center-map templates/manifest.json (section order) and configs/definitions.json (terms defined on first use). 'sections' is the report's section order; an optional section is left out when it has nothing to show. A term's definition prints in parentheses the first time the term is used and the bare term afterwards. Definitions and notices carry no digits, so every digit in a report traces to a record read at run time. Local reports have no section of their own: each prints inside the section it concerns, and a county with none says nothing about them.",
+  "_comment": "The county report contract for scripts/site_profile.py. Hand-edited; no process writes it. Adapted from pricephillips/data-center-map templates/manifest.json (section order) and configs/definitions.json (terms defined on first use). 'sections' is the report's section order; an optional section is left out when it has nothing to show. A term's definition prints in parentheses the first time the term is used and the bare term afterwards. Definitions and notices carry no digits, so every digit in a report traces to a record read at run time. Local reports have no section of their own: each prints inside the section it concerns, and a county with none says nothing about them. The readings (How this county compares, Diffusion from adjacent counties, Comparable decided projects, Activity nearby) carry data-center-map's way of reading a county without its model: counts, dates and distances only.",
   "version": "2026-10-13",
   "sections": [
-    {"id": "summary", "heading": "Summary"},
-    {"id": "framework", "heading": "State siting law"},
-    {"id": "restrictions", "heading": "Restrictions on record"},
-    {"id": "projects", "heading": "Contested projects on record"},
-    {"id": "cases", "heading": "Cases linked to those records"},
-    {"id": "neighbors", "heading": "Adjacent counties"},
-    {"id": "standards", "heading": "Local siting standards"},
-    {"id": "radius", "heading": "Within the radius", "optional": true},
-    {"id": "data_centers", "heading": "Data center activity"},
-    {"id": "groups", "heading": "Opposition groups active nearby"},
-    {"id": "held", "heading": "Held back from publication"},
-    {"id": "mentions", "heading": "Named in records placed elsewhere", "optional": true},
-    {"id": "flags", "heading": "Flags"},
-    {"id": "sources", "heading": "Sources and method"}
+    {
+      "id": "summary",
+      "heading": "Summary"
+    },
+    {
+      "id": "framework",
+      "heading": "State siting law"
+    },
+    {
+      "id": "restrictions",
+      "heading": "Restrictions on record"
+    },
+    {
+      "id": "projects",
+      "heading": "Contested projects on record"
+    },
+    {
+      "id": "cases",
+      "heading": "Cases linked to those records"
+    },
+    {
+      "id": "comparison",
+      "heading": "How this county compares"
+    },
+    {
+      "id": "neighbors",
+      "heading": "Adjacent counties"
+    },
+    {
+      "id": "diffusion",
+      "heading": "Diffusion from adjacent counties"
+    },
+    {
+      "id": "comparables",
+      "heading": "Comparable decided projects"
+    },
+    {
+      "id": "recent_activity",
+      "heading": "Activity nearby in the last two years"
+    },
+    {
+      "id": "standards",
+      "heading": "Local siting standards"
+    },
+    {
+      "id": "radius",
+      "heading": "Within the radius",
+      "optional": true
+    },
+    {
+      "id": "data_centers",
+      "heading": "Data center activity"
+    },
+    {
+      "id": "groups",
+      "heading": "Opposition groups active nearby"
+    },
+    {
+      "id": "held",
+      "heading": "Held back from publication"
+    },
+    {
+      "id": "mentions",
+      "heading": "Named in records placed elsewhere",
+      "optional": true
+    },
+    {
+      "id": "flags",
+      "heading": "Flags"
+    },
+    {
+      "id": "sources",
+      "heading": "Sources and method"
+    }
   ],
   "terms": {
     "restriction_instrument": {
@@ -53,11 +113,25 @@
     "data_center_event": {
       "term": "data center event",
       "definition": "a government action on data centers recorded by the data-center-map platform for the same county or a neighbor; context only, never counted as a renewable restriction"
+    },
+    "reference_group": {
+      "term": "reference group",
+      "definition": "a set of counties a county is read against: every county in the frame, or the counties of its own state, where siting law is set; counts of counties, never rates"
+    },
+    "diffusion_reading": {
+      "term": "diffusion reading",
+      "definition": "where a county sits on a fixed ladder of reasons to look next door, from a neighbor that enacted recently while this county holds an unresolved record, through a cluster of restricting neighbors, to a single neighbor with an old instrument; a pattern to check, not a prediction"
+    },
+    "comparable_decided_project": {
+      "term": "comparable decided project",
+      "definition": "a contested project within a hundred miles of the site or in the same state whose outcome is terminal on the ladder, blocked, advanced or restricted, shown with the mechanism behind it and with unverified outcomes labelled as recorded"
     }
   },
   "notices": {
     "descriptive": "This report describes what the records hold. It does not say what caused any decision, it scores nothing, and it does not predict the outcome of any project.",
     "empty": "An empty section means nothing is recorded, not that nothing happened, unless a negative check says that someone looked.",
-    "evidence": "Every record line names its source and how it was seen. A news article or a compiled tracker locates an instrument but does not verify it; only the instrument or the minutes that adopted it do."
+    "evidence": "Every record line names its source and how it was seen. A news article or a compiled tracker locates an instrument but does not verify it; only the instrument or the minutes that adopted it do.",
+    "selection": "The records exist because an ordinance, a fight or a lawsuit was visible enough to be compiled; projects that proceeded without a recorded fight and quiet counties are absent by construction, so every count is a floor and no figure here is a rate of opposition.",
+    "limits": "Severity is a rule applied to the instrument's own terms, not a graded intensity. NREL's siting standards were compiled with language models and are unverified until a reviewer reads the ordinance. A record without coordinates is placed at its county's centroid. Cases are only those linked to the records shown. Nothing here is scored, weighted or modelled."
   }
 }
