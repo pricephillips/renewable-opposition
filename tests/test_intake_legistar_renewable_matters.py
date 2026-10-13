@@ -118,6 +118,7 @@ EXPECTED = {
         60668: "contested_project",   # EIR and well permits for the Desert Stateline, LLC solar project
         7063: "restriction",          # ordinance on commercial solar energy generation facilities
         36762: "restriction",         # interim urgency ordinance: temporary moratorium on commercial solar
+        59753: "",                    # grant application to prepare the REC Element and code amendments
         59017: "contested_project",   # resolution opposing the Black Lava Butte Wind Project
         58658: "",                    # donated solar powered message board trailer
         55252: "",                    # contract with Desert Stateline for preparing an EIR
@@ -171,6 +172,7 @@ def test_relevance_and_classification(ex, client):
     (80437, "customer"), (72105, "customer"), (55252, "customer"), (78826, "small-scale"),
     (72440, "no renewable facility"), (14198, "no renewable facility"), (58658, "no renewable facility"),
     (69260, "undoes something"), (16106, "closed-session"), (59619, "renewable energy named generally"),
+    (59753, "customer, landlord or funder (grant or funding)"),
 ])
 def test_drop_reasons(ex, matter_id, reason):
     reasons = {m["MatterId"]: r for m, _, r in ex.explain(fixture("sanbernardino"))}
@@ -185,6 +187,75 @@ def test_a_contest_overrides_customer_and_scale_words(ex):
     # "Zoning Board of Appeals" is a board, not an appeal: the text amendment stays a restriction.
     lake = by_id(leads(ex, "lakecounty"))
     assert lake[17151]["entity_type"] == "restriction"
+
+
+def edited_matter(tmp_path: Path, client: str, title: str) -> Path:
+    """A one-matter raw file: a copy of a real kept matter with another title."""
+    real = json.loads(fixture("sanbernardino").read_text(encoding="utf-8"))
+    m = copy.deepcopy(next(m for m in real if m["MatterId"] == 80838))
+    m["MatterTitle"] = title
+    path = tmp_path / f"{client}_edited.json"
+    path.write_text(json.dumps([m]), encoding="utf-8")
+    return path
+
+
+# A moratorium or prohibition is kept whatever incidental customer word its
+# title carries (review finding: these were dropped as the county's research,
+# leases, county property or contracts).
+@pytest.mark.parametrize("title", [
+    "Interim Urgency Ordinance establishing a temporary moratorium on commercial solar energy facilities to allow "
+    "time to research and study land use impacts",
+    "Resolution adopting a 12-month moratorium on battery energy storage facilities pending a feasibility review",
+    "Moratorium on the acceptance of applications for commercial solar energy facilities and solar leases",
+    "Ordinance prohibiting utility-scale solar on prime farmland and county-owned property",
+    "Resolution establishing a moratorium on utility-scale solar energy facilities and authorizing a contract with "
+    "a consultant to draft zoning regulations",
+])
+def test_a_moratorium_or_prohibition_outweighs_incidental_customer_words(ex, tmp_path, title):
+    entity, reason, _ = ex.classify(ex.clean(title))
+    assert entity == "restriction", reason
+    (row,) = leads(ex, "sanbernardino", edited_matter(tmp_path, "sanbernardino", title))
+    assert row["entity_type"] == "restriction" and row["status"] == "" and row["mechanisms"] == ""
+
+
+def test_the_county_s_own_installations_and_devices_still_drop_a_moratorium_title(ex):
+    for title in ("Approve purchase of solar powered message signs to announce the solar moratorium",
+                  "Installation of solar panels at the County Government Center during the pause"):
+        entity, reason, _ = ex.classify(ex.clean(title))
+        assert entity == "" and "customer" in reason, (title, reason)
+    # A code amendment alone does not outweigh them: the real 2013 grant
+    # application to prepare the REC Element and its Development Code amendments.
+    reasons = {m["MatterId"]: (e, r) for m, e, r in ex.explain(fixture("sanbernardino"))}
+    assert reasons[59753] == ("", "county as customer, landlord or funder (grant or funding)")
+
+
+# Appeal, deny and protest words of a non-siting proceeding, or of support,
+# are not a contest (review finding: each became a contested_project lead).
+@pytest.mark.parametrize("title,reason", [
+    ("Bid Protest - Solar Energy System installation at the High Desert Government Center", "bid protest"),
+    ("Deny claim of Solar Energy Partners LLC for damages", "claim"),
+    ("Approve the denial of the property tax appeal for the commercial solar energy facility at 123 Main",
+     "tax appeal"),
+    ("Appeal of Assessment Appeals Board decision for Mojave Solar Project property tax", "tax appeal"),
+    ("Resolution in support of the Foo Solar Project and opposing delays", "no siting instrument"),
+])
+def test_bid_protests_claims_tax_appeals_and_support_are_not_contests(ex, tmp_path, title, reason):
+    entity, why, _ = ex.classify(ex.clean(title))
+    assert entity == "" and reason in why, why
+    assert ex.contest_words(ex.clean(title)) == []
+    assert leads(ex, "sanbernardino", edited_matter(tmp_path, "sanbernardino", title)) == []
+
+
+@pytest.mark.parametrize("title,words", [
+    ("Resolution in support of residents opposing the Foo Solar Project", ["opposing"]),
+    ("Resolution in support of the appeal of the Foo Solar Project conditional use permit", ["appeal"]),
+    ("Resolution in support of the Planning Commission denial of the Foo Solar Project", ["denial"]),
+    ("Appeal of the Planning Commission approval of the Foo Solar Project; letter in support of the applicant",
+     ["appeal"]),
+])
+def test_support_for_a_contest_is_still_a_contest(ex, title, words):
+    assert ex.contest_words(ex.clean(title)) == words
+    assert ex.classify(ex.clean(title))[0] == "contested_project"
 
 
 def test_project_names_come_from_the_title(ex):
@@ -286,6 +357,51 @@ def test_a_title_naming_another_county_is_not_placed_in_a_county(ex, tmp_path):
     assert "names Kern County besides San Bernardino County" in row["reviewer_notes"]
 
 
+# Review finding: the client's state was kept for facilities across the border.
+@pytest.mark.parametrize("client,title,named", [
+    ("sanbernardino", "Adopt Resolution opposing the Gemini Solar Project proposed near Las Vegas, Nevada", "Nevada"),
+    ("lakecounty", "Resolution in opposition to the proposed Kenosha wind energy project in Wisconsin", "Wisconsin"),
+    ("sanbernardino", "Adopt Resolution opposing the Silver State South Solar Project in Clark County, Nevada",
+     "Nevada"),
+])
+def test_a_title_naming_another_state_places_nothing(ex, tmp_path, client, title, named):
+    (row,) = leads(ex, client, edited_matter(tmp_path, client, title))
+    assert row["entity_type"] == "contested_project"
+    assert (row["state"], row["county"], row["municipality"], row["jurisdiction_type"]) == ("", "", "", "")
+    assert f"not placed: the title names {named} besides" in row["reviewer_notes"]
+
+
+def test_a_title_naming_an_out_of_state_county_places_nothing(ex, tmp_path):
+    # Kenosha County is in Wisconsin, not Illinois: neither state nor county is certain.
+    title = "Resolution opposing the Foo Solar Project in Kenosha County"
+    (row,) = leads(ex, "lakecounty", edited_matter(tmp_path, "lakecounty", title))
+    assert (row["state"], row["county"], row["municipality"], row["jurisdiction_type"]) == ("", "", "", "")
+    assert "Kenosha County is no county of Illinois" in row["reviewer_notes"]
+    # Clark County, without its state, is no county of California either.
+    loc, note = ex.placement("sanbernardino", ex.load_clients()["sanbernardino"],
+                             "Resolution opposing the Silver State South Solar Project in Clark County")
+    assert loc["state"] == "" and "Clark County is no county of California" in note
+    # A neighbouring county of the client's own state keeps the state (Kern, above; McHenry here).
+    loc, _ = ex.placement("lakecounty", ex.load_clients()["lakecounty"], "Wind farm appeal in McHenry County")
+    assert (loc["state"], loc["county"]) == ("IL", "")
+
+
+@pytest.mark.parametrize("client,text", [
+    ("sanbernardino", "Solar Project near the Colorado River"),
+    ("sanbernardino", "Solar Project in the Sierra Nevada"),
+    ("lakecounty", "Wind energy ordinance for the Lake Michigan shoreline"),
+    ("lakecounty", "Commercial solar facility CUP for Foo Solar, a Delaware limited liability company"),
+    ("dane", "SOLAR ARRAY BETWEEN DANE COUNTY AND WISCONSIN POWER AND LIGHT COMPANY"),
+    ("sanbernardino", "Southern California Edison solar energy facility in the University of California study"),
+])
+def test_a_state_name_that_is_not_a_place_does_not_unplace(ex, client, text):
+    loc, note = ex.placement(client, ex.load_clients()[client], text)
+    assert loc["state"] and loc["county"], note
+    # Nevada County is a California county: county blank, state kept.
+    loc, _ = ex.placement("sanbernardino", ex.load_clients()["sanbernardino"], "Solar facility in Nevada County")
+    assert (loc["state"], loc["county"]) == ("CA", "")
+
+
 def test_a_client_missing_from_the_config_places_nothing(ex):
     rows = ex.extract(fixture("sanbernardino"),
                       {"url": "https://webapi.legistar.com/v1/sanbernardino/matters?%24top=200"}, clients={})
@@ -302,7 +418,7 @@ def all_leads(ex) -> list[dict]:
 def test_every_lead_keeps_the_queue_contract(ex):
     rows = all_leads(ex)
     assert len(rows) == 25
-    url_rx = re.compile(r"https://[a-z0-9]+\.legistar\.com/LegislationDetail\.aspx\?ID=\d+&GUID=[0-9A-Fa-f-]{36}")
+    url_rx = re.compile(r"https://[a-z0-9]+\.legistar\.com/Gateway\.aspx\?M=L&ID=\d+")
     for r in rows:
         assert set(r) <= set(parse.QUEUE_FIELDS)
         assert not set(r) & set(parse.OWN_FIELDS)
@@ -325,6 +441,22 @@ def test_every_lead_keeps_the_queue_contract(ex):
         for k, v in r.items():
             assert EM_DASH not in v and EN_DASH not in v, (k, v)
             assert not re.search(r"<[a-z/][^>]*>", v, re.I), (k, v)
+
+
+def test_source_url_is_the_gateway_link_to_the_public_matter_page(ex):
+    # Review finding: LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}
+    # answers "Invalid parameters!" (the site numbers matters with its own ID
+    # and GUID); Gateway.aspx?M=L&ID={MatterId} redirects to the matter's page
+    # (checked live on 2026-10-13: San Bernardino 80838 lands on file 14372).
+    sb = by_id(leads(ex, "sanbernardino"))
+    assert sb[80838]["source_url"] == "https://sanbernardino.legistar.com/Gateway.aspx?M=L&ID=80838"
+    assert by_id(leads(ex, "unioncountync"))[1641]["source_url"] == \
+        "https://unioncountync.legistar.com/Gateway.aspx?M=L&ID=1641"
+    for r in all_leads(ex):
+        assert "LegislationDetail" not in r["source_url"] and "GUID" not in r["source_url"]
+    src = next(s for s in fetch.load_sources(fetch.CONFIG_PATH) if s["source_id"] == SOURCE_ID)
+    assert "Gateway.aspx?M=L&ID={MatterId}" in src["parser_hint"]
+    assert "Gateway.aspx" in (ex.__doc__ or "")
 
 
 def test_evidence_is_the_title_with_dashes_replaced(ex):

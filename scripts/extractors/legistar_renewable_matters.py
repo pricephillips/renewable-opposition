@@ -9,9 +9,11 @@ raw file belongs to the client named in the manifest row's url
 government it is: state, county, jurisdiction and jurisdiction_type.
 
 After pricephillips/data-center-map legistar_probe.py: its INSTRUMENT, UNDO and
-ADOPTED_STATUS patterns, the public LegislationDetail link and the rule that a
-client is trusted only once its body names match its government are copied
-here (with attribution, never imported).
+ADOPTED_STATUS patterns and the rule that a client is trusted only once its
+body names match its government are copied here (with attribution, never
+imported). Its public link, LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid},
+is not: the public site numbers matters with its own ID and GUID, and answers
+that link with HTTP 200 and the 19-byte body "Invalid parameters!".
 
 Output: leads (parse.py sets review_status 'lead') for matters whose title is
 about SITING solar, wind or battery storage facilities. A matter is read on its
@@ -36,7 +38,17 @@ MatterTitle plus MatterName, and kept only when all of these hold:
      installations of solar at county buildings, solar-powered devices, EV
      charging, buses, memberships, MOUs and endorsements are dropped
      (CUSTOMER). A contest (below) overrides this, since "Grant the appeal"
-     is not a grant.
+     is not a grant, and so does a moratorium, ban or prohibition
+     (data-center-map's INSTRUMENT) for every label but installations at a
+     county site and devices: "a temporary moratorium on commercial solar ...
+     to allow time to research and study land use impacts" is not a research
+     membership. A code amendment alone does not override it: "submittal of a
+     ... Planning Grant application ... for preparation of a Renewable Energy
+     and Conservation Element ... and associated Development Code amendments"
+     (San Bernardino, 2013) funds an instrument and is not one. A bid
+     protest, a claim for damages and a property-tax or assessment appeal
+     (NOT_A_CONTEST) are dropped too, unless they carry a moratorium, ban or
+     prohibition.
   3. It does not only undo something: pricephillips/data-center-map
      legistar_probe.py UNDO (repeal, rescind, lift, terminate, end the
      moratorium; copied, not imported) drops a matter unless it also adopts
@@ -51,7 +63,10 @@ MatterTitle plus MatterName, and kept only when all of these hold:
        contest      appeal, denial, opposing, objection, protest, or public
                     comments regarding a facility: contested_project, named
                     or not. (Names such as "Zoning Board of Appeals" are
-                    removed before matching.)
+                    removed before matching, and so is an "in support of"
+                    clause unless what it supports is a contest: "in
+                    support of the Foo Solar Project and opposing delays" is
+                    not one. A bid protest, claim or tax appeal has none.)
        decision     conditional or special use permit, use permit, special
                     exception, rezoning or zone change, site plan,
                     environmental impact report, negative declaration,
@@ -85,18 +100,29 @@ the same title (a work session and the regular meeting, a hearing continued
 to a later date) become one lead: the one with a passed date and the latest
 introduction, the others listed in reviewer_notes.
 
-Fields. source_url is the matter's public page,
-https://{client}.legistar.com/LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid},
-through common.strip_tracking. evidence_text is the title verbatim (plus
+Fields. source_url is the matter's public page as the site's own gateway
+links it from an API MatterId, https://{client}.legistar.com/Gateway.aspx?M=L&ID={MatterId}
+(through common.strip_tracking, which leaves it unchanged). It redirects to
+LegislationDetail.aspx with the site's ID and GUID (checked live on
+2026-10-13 for matters of all five clients with leads: San Bernardino 80838
+lands on file 14372, Bear Valley Solar Project); it is the bridge
+opencivicdata's python-legistar-scraper uses, and it is built from the API
+record alone, so the same matter keeps the same URL from run to run. evidence_text is the title verbatim (plus
 MatterName when it adds words), whitespace collapsed, em and en dashes
 replaced, HTML removed, at most 1000 characters. description is one sentence
 from the title's own words. state, county, municipality and jurisdiction_type
 come from the client's entry: a county client places every lead in its county
 (the client was verified against its body names), a city client in its city
 and county. A title that names another county ("... of Riverside County" in a
-San Bernardino matter) keeps the state but gets county '' and a reviewer note,
-and a client missing from config/legistar_clients.json places nothing. No
-town is filled from the title; a "Town of X" it names is noted instead.
+San Bernardino matter) keeps the state only when data/county_fips_lookup.json
+(read-only) lists that county in the client's state, and gets county '' and a
+reviewer note either way. A title that names another US state as a place
+("near Las Vegas, Nevada"; not "Nevada County", "Colorado River", "Lake
+Michigan" or "a Delaware limited liability company") places nothing: San
+Bernardino borders Nevada and Arizona, and Lake County, Illinois borders
+Wisconsin, so a resolution on a project across the border is to be expected.
+A client missing from config/legistar_clients.json places nothing. No town is
+filled from the title; a "Town of X" it names is noted instead.
 
 status is always '': the matter status (Agenda Ready, Passed, Filed) is the
 clerk's record of this file, not the instrument's status or the project's
@@ -128,7 +154,8 @@ reviewer_notes: "Legistar <client> matter <MatterFile> (<MatterTypeName>,
 signal that kept the matter and its words, how the lead was placed, and any
 hints (mechanism words, appellants named, data centers named, matters merged).
 
-Reads only: the raw file and config/legistar_clients.json. Writes nothing.
+Reads only: the raw file, config/legistar_clients.json and
+data/county_fips_lookup.json. Writes nothing.
 """
 from __future__ import annotations
 
@@ -139,10 +166,13 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-from common import ROOT, read_raw, strip_tracking
+from common import ROOT, STATE_ABBREV, STATE_NAMES, read_raw, strip_tracking
 
 CLIENTS_PATH = ROOT / "config" / "legistar_clients.json"
-WEB = "https://{client}.legistar.com/LegislationDetail.aspx?ID={id}&GUID={guid}"
+COUNTY_LOOKUP_PATH = ROOT / "data" / "county_fips_lookup.json"
+# The public matter page from an API MatterId (not data-center-map's
+# LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}, which the site rejects).
+WEB = "https://{client}.legistar.com/Gateway.aspx?M=L&ID={id}"
 CLIENT_IN_URL = re.compile(r"^https?://webapi\.legistar\.com/v1/([A-Za-z0-9_-]+)/matters\b", re.I)
 MAX_EVIDENCE = 1000
 MAX_SUMMARY = 240
@@ -207,6 +237,24 @@ CONTEST = re.compile(
     r"\bappeal(?:s|ed|ing)?\b|\bappellants?\b|\bden(?:y|ies|ied|ying|ial)\b|\boppos(?:e|es|ed|ing|ition)\b|"
     r"\bobjections?\b|\bprotests?\b|\bcomments?\s+(?:made\s+|received\s+)?(?:by|from|regarding|concerning|on)\b",
     re.I)
+# Proceedings whose appeal, denial or protest is not about siting: a bid
+# protest, a claim for damages, a property-tax or assessment appeal. Removing
+# the phrase is not enough ("Deny claim of ...", "the denial of the property
+# tax appeal for ...", "Appeal of Assessment Appeals Board decision"), so such a
+# matter has no contest and is dropped unless it carries a moratorium, ban or
+# prohibition.
+NOT_A_CONTEST = re.compile(
+    r"\bbid\s+protests?\b|\b(?:den(?:y|ies|ied|ying)|denial\s+of|reject\w*|settle\w*)\s+(?:the\s+|a\s+)?claims?\b|"
+    r"\bclaims?\s+(?:of|for|against|by|from)\b[^.;|]{0,100}?\bdamages?\b|\bclaims?\s+against\s+the\s+county\b|"
+    r"\b(?:property\s+)?tax\s+(?:appeals?|assessments?)\b|\bassessment\s+appeals?\b|"
+    r"\bboard\s+of\s+(?:review|equalization)\b", re.I)
+# An "in support of" clause: its words are the county's support, not a contest
+# ("in support of the Foo Solar Project and opposing delays"), unless what it
+# supports is itself one ("in support of the residents' appeal"). Removed to
+# the end of its clause before contest words are read.
+SUPPORT_CLAUSE = re.compile(
+    r"\bin\s+support\s+of\b(?!(?:\s+(?!(?:solar|wind|battery|project|facility)\b)[\w'’-]+){0,4}?\s+"
+    r"(?:appeal|appellant|oppos|objection|protest|den(?:y|ial))\w*)[^.;|]*", re.I)
 DECISION = re.compile(
     r"\bconditional\s+use\b|\bspecial\s+use\b|\buse\s+permits?\b|\bCUP\b|\bSUP\b|\bspecial\s+exceptions?\b|"
     r"\brezon(?:e|es|ed|ing)\b|\bzone\s+change\b|\bzoning\s+(?:map\s+)?amendment\b|\bsite\s+plans?\b|"
@@ -284,6 +332,12 @@ CUSTOMER = [
                                       re.I)),
     ("fee waiver", re.compile(r"\bwaiv\w*\b[^.;]{0,60}\bfees?\b", re.I)),
 ]
+# With a moratorium, ban or prohibition (DCM_INSTRUMENT) in the title, the
+# county's other roles are incidental ("a moratorium ... to research and study
+# land use impacts", "... and solar leases", "... county-owned property"): only
+# these still drop it. A code amendment alone does not: a grant application to
+# prepare one is funding, not an instrument.
+CUSTOMER_DESPITE_BAN = {"installation at a county site", "device or vehicle"}
 # "Installation" is the county's own project unless the title is about the
 # rules for installing ("an ordinance regulating solar installations").
 SITING_RULE = re.compile(r"\b(?:zoning|development\s+code|land\s+use|setbacks?|siting|moratori\w+|"
@@ -430,10 +484,47 @@ def other_counties(text: str, own_county: str) -> list[str]:
     return out
 
 
+# A US state named as a place. Not a mention of one: a state name that is part
+# of a county, river or street name ("Nevada County", "Colorado River",
+# "Washington Street"), of a lake or range ("Lake Michigan", "Sierra Nevada"),
+# or a company's state of organization ("a Delaware limited liability company").
+_STATE_NAMED = re.compile(
+    r"(?<![\w-])(" + "|".join(n.replace(" ", r"\s+") for n in sorted(STATE_ABBREV, key=len, reverse=True)) +
+    r")(?![\w-])", re.I)
+_NOT_STATE_BEFORE = re.compile(r"\b(?:lake|sierra|mount|mt\.?)\s+$", re.I)
+_NOT_STATE_AFTER = re.compile(
+    r"^\s+(?:county|parish|borough|river|street|st\b|avenue|ave\b|road|rd\b|boulevard|blvd\b|drive|highway|"
+    r"limited\s+liability|corporation|limited\s+partnership|llc|l\.l\.c\.|lp\b|l\.p\.|non-?profit)", re.I)
+_UNPLACED = {"state": "", "county": "", "municipality": "", "jurisdiction_type": ""}
+
+
+def other_states(text: str, own_state: str) -> list[str]:
+    """States (two-letter codes) the text names as places, other than the client's."""
+    out = []
+    for m in _STATE_NAMED.finditer(text):
+        if _NOT_STATE_BEFORE.search(text[:m.start()]) or _NOT_STATE_AFTER.match(text[m.end():]):
+            continue
+        code = STATE_ABBREV[" ".join(m.group(1).lower().split())]
+        if code != own_state and code not in out:
+            out.append(code)
+    return out
+
+
+@lru_cache(maxsize=1)
+def county_lookup() -> frozenset[str]:
+    """'<name> county|<state name>' keys of data/county_fips_lookup.json (read-only)."""
+    return frozenset(json.loads(COUNTY_LOOKUP_PATH.read_text(encoding="utf-8")))
+
+
+def county_in_state(county: str, state: str) -> bool:
+    name = STATE_NAMES.get(state, "")
+    return bool(name) and f"{' '.join(county.lower().split())}|{name.lower()}" in county_lookup()
+
+
 def placement(client: str, cfg: dict | None, text: str) -> tuple[dict, str]:
     """Location fields for a lead and the note that says how they were set."""
     if cfg is None:
-        return ({"state": "", "county": "", "municipality": "", "jurisdiction_type": ""},
+        return (dict(_UNPLACED),
                 f"not placed: client {client} is not in config/legistar_clients.json, so its government is unverified")
     jtype = (cfg.get("jurisdiction_type") or "").strip()
     juris = (cfg.get("jurisdiction") or "").strip()
@@ -446,12 +537,23 @@ def placement(client: str, cfg: dict | None, text: str) -> tuple[dict, str]:
     fields = {"state": (cfg.get("state") or "").strip().upper(), "county": county, "municipality": municipality,
               "jurisdiction_type": jtype[:1].upper() + jtype[1:]}
     verified = cfg.get("verified_on") or "not yet verified"
-    note = f"placed in {juris or county} ({fields['state']}) from config/legistar_clients.json (client checked {verified})"
+    state, state_name = fields["state"], STATE_NAMES.get(fields["state"], "the client's state")
+    note = f"placed in {juris or county} ({state}) from config/legistar_clients.json (client checked {verified})"
+    # Another state named in the title: the place may lie outside the client's
+    # state (a resolution on a project across the border), so nothing is placed.
+    states = other_states(text, state)
+    if states:
+        return (dict(_UNPLACED), f"not placed: the title names {', '.join(STATE_NAMES[s] for s in states)} "
+                                 f"besides {state_name}, so the place may lie outside {juris or county} ({state})")
     others = other_counties(text, county)
     if others:
+        outside = [c for c in others if not county_in_state(c, state)]
+        if outside:
+            return (dict(_UNPLACED), f"not placed: the title names {', '.join(others)} besides "
+                                     f"{county or 'the client'}, and {', '.join(outside)} is no county of {state_name}")
         fields["county"] = ""
         note = (f"county left blank: the title names {', '.join(others)} besides {county or 'the client'}; "
-                f"state {fields['state']} from config/legistar_clients.json")
+                f"state {state} from config/legistar_clients.json")
     return fields, note
 
 
@@ -482,6 +584,15 @@ def _words(rx: re.Pattern, text: str) -> list[str]:
     return out
 
 
+def contest_words(text: str) -> list[str]:
+    """The contest words of a matter's cleaned title text: none for a bid
+    protest, claim or tax appeal, and none from board names or an "in support
+    of" clause."""
+    if NOT_A_CONTEST.search(text):
+        return []
+    return _words(CONTEST, SUPPORT_CLAUSE.sub(" ", BOARD_NAMES.sub(" ", text)))
+
+
 def classify(text: str) -> tuple[str, str, dict]:
     """(entity_type or '', reason, details) for a matter's cleaned title text.
     entity_type '' means drop, and reason says why."""
@@ -491,9 +602,15 @@ def classify(text: str) -> tuple[str, str, dict]:
         return "", "no renewable facility technology named", {}
     if CLOSED_SESSION.search(sig):
         return "", "closed-session list of litigation (the county's position is not stated)", {}
-    contest = _words(CONTEST, sig)
+    ban = _words(DCM_INSTRUMENT, sig)
+    proceeding = NOT_A_CONTEST.search(text)
+    if proceeding and not ban:
+        return "", f"bid protest, claim or tax appeal, not siting ({' '.join(proceeding.group(0).split())})", {}
+    contest = contest_words(text)
     if not contest:
         for label, rx in CUSTOMER:
+            if ban and label not in CUSTOMER_DESPITE_BAN:
+                continue
             if rx.search(sig) and not (label.startswith("installation") and SITING_RULE.search(sig)):
                 return "", f"county as customer, landlord or funder ({label})", {}
     undo = _words(UNDO, sig)
@@ -502,7 +619,7 @@ def classify(text: str) -> tuple[str, str, dict]:
     if not contest and SMALL_SCALE.search(sig):
         return "", "accessory, rooftop, residential or small-scale systems", {}
     decision = _words(DECISION, sig)
-    strong = _words(DCM_INSTRUMENT, sig) + _words(STRONG_INSTRUMENT, sig)
+    strong = ban + _words(STRONG_INSTRUMENT, sig)
     instrument = strong + [w for w in _words(INSTRUMENT, sig) if w not in strong]
     name, how = facility_name(text)
     details = {"techs": techs, "generic": generic, "name": name, "name_how": how, "undo": undo}
@@ -596,7 +713,7 @@ def lead(m: dict, client: str, cfg: dict | None, entity: str, reason: str, detai
         notes.append("title names " + ", ".join(towns) + " (not used to place the lead)")
     if DATA_CENTER.search(text):
         notes.append("also names data centers (multi-sector scope)")
-    if entity == "contested_project" and not CONTEST.search(BOARD_NAMES.sub(" ", text)):
+    if entity == "contested_project" and not contest_words(text):
         notes.append("a permit or approval is not by itself opposition: find the record of it")
     adopted = ""
     if entity == "restriction" and passed and ADOPTED_STATUS.search(status) and not NOT_AN_ADOPTION.search(
@@ -607,7 +724,7 @@ def lead(m: dict, client: str, cfg: dict | None, entity: str, reason: str, detai
         notes.append("same title as " + ", ".join(
             f"matter {clean(str(o.get('MatterFile') or o.get('MatterId')))} (ID {o.get('MatterId')}, "
             f"introduced {_date(o.get('MatterIntroDate')) or 'no date'})" for o in merged))
-    url = strip_tracking(WEB.format(client=client, id=m.get("MatterId"), guid=m.get("MatterGuid") or ""))
+    url = strip_tracking(WEB.format(client=client, id=m.get("MatterId")))
     row = {
         "entity_type": entity,
         **loc,

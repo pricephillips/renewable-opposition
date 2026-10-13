@@ -288,7 +288,10 @@ sources:
       on a facility, or a permit decision on a named one, is a
       contested-project lead; the county buying, leasing, funding or
       installing solar is dropped. The public link is
-      https://{client}.legistar.com/LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}.
+      https://{client}.legistar.com/Gateway.aspx?M=L&ID={MatterId}, which
+      redirects to the matter page (LegislationDetail.aspx built from the
+      API's MatterId and MatterGuid answers "Invalid parameters!": the public
+      site numbers matters with its own ID and GUID).
     active: true
     notes: >
       Clients and their counties are listed in config/legistar_clients.json
