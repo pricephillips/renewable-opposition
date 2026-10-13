@@ -164,7 +164,63 @@
       "planned": 29,
       "under_construction": 14
     },
-    "facility_conflicts": 46
+    "facility_conflicts": 46,
+    "decided": {
+      "guard_days": 90,
+      "young_excluded": 3,
+      "all": {
+        "projects": 309,
+        "blocked": 234,
+        "blocked_share": 0.757
+      },
+      "confirmed_only": {
+        "projects": 122,
+        "blocked": 70,
+        "blocked_share": 0.574
+      },
+      "by_technology": {
+        "battery_storage": {
+          "projects": 17,
+          "blocked": 11,
+          "blocked_share": 0.647
+        },
+        "solar": {
+          "projects": 162,
+          "blocked": 134,
+          "blocked_share": 0.827
+        },
+        "transmission": {
+          "projects": 8,
+          "blocked": 3,
+          "blocked_share": 0.375
+        },
+        "wind": {
+          "projects": 136,
+          "blocked": 93,
+          "blocked_share": 0.684
+        }
+      }
+    },
+    "by_concern": {
+      "farmland": 105,
+      "wildlife": 104,
+      "property_value": 78,
+      "viewshed": 63,
+      "noise": 40,
+      "tribal_cultural": 33,
+      "water": 28,
+      "fire_safety": 27,
+      "health": 27,
+      "decommissioning": 19,
+      "wetlands": 13,
+      "military_aviation": 8,
+      "shadow_flicker": 5,
+      "glare": 3,
+      "traffic": 3,
+      "grid_cost": 1
+    },
+    "with_no_concern_named": 230,
+    "in_county_with_severe_restriction": 221
   },
   "cases": {
     "rows": 39,

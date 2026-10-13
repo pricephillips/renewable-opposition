@@ -14,6 +14,7 @@ What the last build changed in `data/processed/`, compared with the previous com
 ## Column changes
 
 - restrictions: added `state_siting_authority`, `state_threshold_mw`, `state_preemption_ids`, `state_limits_local`
+- contested_projects: added `concerns`, `county_severe_restriction_ids`
 
 ## Tracked field changes
 

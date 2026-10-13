@@ -454,6 +454,11 @@
             "description": "One ordinance, moratorium, project or case. Count these, not rows."
           },
           {
+            "name": "concerns",
+            "type": "string",
+            "description": "The concerns the record's own text names, from a fixed keyword table (docs/codebook.md): farmland, wildlife, property_value, viewshed, water, noise and the rest; semicolon-separated. What was raised, never why the project ended as it did."
+          },
+          {
             "name": "evidence_level",
             "type": "string",
             "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
@@ -477,6 +482,11 @@
             "name": "county_fips_method",
             "type": "string",
             "description": "How county_fips_all was found: name, names, point, place, place_text, override."
+          },
+          {
+            "name": "county_severe_restriction_ids",
+            "type": "string",
+            "description": "Severe renewables-only restriction instruments for the same technology in any county the project touches. A fact about the county, not a link between the records."
           },
           {
             "name": "facility_match",

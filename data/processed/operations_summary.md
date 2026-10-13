@@ -6,6 +6,8 @@ Generated 2026-10-13 by `scripts/operations_summary.py`. Every number counts row
 
 3341 renewables-only restriction instruments (1362 severe, 74 verified, 1 past their end date with no confirmed extension, 942 severe ones in states whose siting law limits local reach); 576 contested projects (123 confirmed); 38 cases.
 
+Decided projects (events older than 90 days): 309, of which 234 blocked; confirmed outcomes only: 122, 70 blocked. Conditional on opposition being tracked; see headline_metrics.md.
+
 ## Held back
 
 9 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 1 PRIMARY_SOURCE_CONTRADICTS.
@@ -39,4 +41,4 @@ Promotion trail: 62 decisions from 2026-10-13 to 2026-10-13 (new or changed deci
 
 ## History and archive
 
-63 snapshot rows over 5 published files; 1 headline changes recorded (2026-10-13 to 2026-10-13). Sources: 53, of which 11 have an Internet Archive snapshot.
+64 snapshot rows over 5 published files; 1 headline changes recorded (2026-10-13 to 2026-10-13). Sources: 53, of which 11 have an Internet Archive snapshot.
