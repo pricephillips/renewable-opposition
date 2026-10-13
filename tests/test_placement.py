@@ -124,7 +124,8 @@ def test_the_committed_overrides_all_carry_evidence():
     rows = read_csv(resolutions.PLACE_OVERRIDE_PATH)
     assert list(rows[0].keys()) == resolutions.PLACE_OVERRIDE_FIELDS if rows else True
     for r in rows:
-        assert r["evidence_url"].startswith("http") and geo.known(r["county_fips"]), r["instrument_id"]
+        assert r["evidence_url"].startswith("http"), r["instrument_id"]
+        assert all(geo.known(f.strip()) for f in r["county_fips"].split(";")), r["instrument_id"]
 
 
 # ── Connecticut: the town a record names ─────────────────────────────────────
@@ -142,3 +143,16 @@ def test_a_connecticut_project_is_placed_by_the_town_its_text_names():
     assert place(seed[0], "contested_projects", places) == (["09110"], "place")
     with pytest.raises(ValueError, match="not named"):
         b.build_contested([{**rec, "long_description": "A solar facility on Carter Street."}])
+
+
+def test_an_override_can_place_an_instrument_in_several_counties(tmp_path):
+    # A citywide New York City rule covers all five of its counties.
+    path = tmp_path / "place_overrides.csv"
+    path.write_text(HEADER + 'sabin:REC-0201,"36005; 36047;36061;36081;36085",https://example.org/zr.pdf,'
+                    "citywide,x,2026-10-13,opened\n", encoding="utf-8")
+    d = datasets()
+    assert resolutions.apply_place_overrides(d, geo.known, path) == []
+    assert d["restrictions"][0]["county_fips_all"] == "36005;36047;36061;36081;36085"
+    path.write_text(HEADER + 'sabin:REC-0201,"36005;99999",https://example.org/zr.pdf,x,x,,opened\n', encoding="utf-8")
+    errors = resolutions.apply_place_overrides(datasets(), geo.known, path)
+    assert len(errors) == 1 and "is not a 2024 county" in errors[0]

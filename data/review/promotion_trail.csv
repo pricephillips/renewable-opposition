@@ -61,3 +61,13 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-13,cases_candidates.csv,REC-0220|contested_project|Minnesota Court of Appeals|A20-1043,case,MN,Hale Township Community Solar Garden,promoted,
 2026-10-13,cases_candidates.csv,REC-0367|contested_project|Oregon Land Use Board of Appeals|,case,OR,Beehive Solar Project,held,"missing case_name, case_source_url"
 2026-10-13,cases_candidates.csv,REC-0374|contested_project|Oregon Court of Appeals|A166360,case,OR,Origis Energy Solar Project,promoted,
+2026-10-13,queue.csv,q_1a6f96a453,restriction,NY,New York City,promoted,
+2026-10-13,queue.csv,q_5c803c765d,restriction,DC,District of Columbia,promoted,
+2026-10-13,queue.csv,q_960c8c741a,restriction,MD,Prince George's County,promoted,
+2026-10-13,queue.csv,q_7f3a4ed2f2,restriction,MD,Prince George's County,promoted,
+2026-10-13,queue.csv,q_8e14f90e9f,restriction,DE,New Castle County,promoted,
+2026-10-13,queue.csv,q_85e38fb80b,restriction,NH,Belmont,promoted,
+2026-10-13,queue.csv,q_02baa5bea1,restriction,NH,Durham,promoted,
+2026-10-13,queue.csv,q_70dcd29cb0,restriction,NH,Moultonborough,promoted,
+2026-10-13,queue.csv,q_e81e120bcb,restriction,WY,Carbon County,promoted,
+2026-10-13,queue.csv,q_6af54adafb,restriction,WY,Carbon County,promoted,

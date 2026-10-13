@@ -2,9 +2,9 @@
  "generated": "2026-10-13",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3341,
-  "severe": 1362,
-  "verified": 74,
+  "restriction_instruments": 3350,
+  "severe": 1364,
+  "verified": 83,
   "lapsed_unconfirmed": 1,
   "severe_where_state_limits_local": 942,
   "projects": 576,
@@ -48,13 +48,13 @@
   "cases": 38,
   "county_coverage": {
    "counties": 3144,
-   "with_any_record": 1403,
-   "with_restriction": 1255,
+   "with_any_record": 1412,
+   "with_restriction": 1266,
    "with_contested_project": 456,
    "with_siting_standard": 1158,
-   "with_negative_check": 1,
-   "with_negative_check_and_no_record": 1,
-   "with_neither": 1740
+   "with_negative_check": 2,
+   "with_negative_check_and_no_record": 2,
+   "with_neither": 1730
   }
  },
  "quarantine": {
@@ -89,9 +89,9 @@
    },
    "lapsed": 2,
    "by_county_impact": {
-    "none": 2563,
+    "none": 2564,
     "sole_severe": 431,
-    "sole_record": 349
+    "sole_record": 348
    },
    "with_located_url": 13,
    "flagged": 469
@@ -113,14 +113,14 @@
   }
  },
  "promotion_trail": {
-  "decisions": 62,
+  "decisions": 72,
   "by_action": {
-   "promoted": 51,
+   "promoted": 61,
    "held": 10,
    "awaiting_review": 1
   },
   "by_file": {
-   "queue.csv": 16,
+   "queue.csv": 26,
    "cases_candidates.csv": 46
   },
   "first": "2026-10-13",
@@ -128,70 +128,70 @@
   "recent": [
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "OR Origis Energy Solar Project",
+    "what": "WY Carbon County",
     "reason": ""
    },
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
-    "action": "held",
-    "what": "OR Beehive Solar Project",
-    "reason": "missing case_name, case_source_url"
-   },
-   {
-    "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "MN Hale Township Community Solar Garden",
+    "what": "WY Carbon County",
     "reason": ""
    },
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "WY Rock Creek Gen-Tie Line",
+    "what": "NH Moultonborough",
     "reason": ""
    },
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "WY Rail Tie Wind Project",
+    "what": "NH Durham",
     "reason": ""
    },
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "WY Rail Tie Wind Project",
+    "what": "NH Belmont",
     "reason": ""
    },
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "WY Pioneer Wind Parks I and II",
+    "what": "DE New Castle County",
     "reason": ""
    },
    {
     "date": "2026-10-13",
-    "file": "cases_candidates.csv",
+    "file": "queue.csv",
     "action": "promoted",
-    "what": "WV Mount Storm Wind Project",
+    "what": "MD Prince George's County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "MD Prince George's County",
     "reason": ""
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 12,
+   "promoted": 22,
    "pending": 3,
    "awaiting_review": 1
   },
   "queue_by_entity": {
-   "restriction": 14,
+   "restriction": 24,
    "contested_project": 2
   },
   "case_candidates": 230,
@@ -199,30 +199,30 @@
   "case_candidates_promoted": 39
  },
  "history": {
-  "snapshot_rows": 65,
+  "snapshot_rows": 72,
   "snapshot_files": 5,
-  "headline_history_rows": 6,
+  "headline_history_rows": 7,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-10",
+  "headline_last_change": "2026-10-13",
   "latest": {
-   "restrictions": "3341",
-   "severe_restrictions": "1362",
-   "verified_restrictions": "74",
-   "multi_sector_restrictions": "83",
+   "restrictions": "3350",
+   "severe_restrictions": "1364",
+   "verified_restrictions": "83",
+   "multi_sector_restrictions": "84",
    "contested_projects": "576",
    "confirmed_outcomes": "123",
    "verified_projects": "125",
    "cases": "38",
    "siting_standard_rows": "23778",
    "state_policies": "122",
-   "counties_with_records": "1403",
-   "counties_not_examined": "1740"
+   "counties_with_records": "1412",
+   "counties_not_examined": "1730"
   }
  },
  "source_archive": {
-  "sources": 53,
+  "sources": 61,
   "archived": 11,
-  "archived_share": 0.208
+  "archived_share": 0.18
  },
  "evidence_checks": {
   "restriction_sources": {

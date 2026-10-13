@@ -175,8 +175,9 @@ test('history: the tiles show the latest build and the change line names the one
   await expect(page.locator('#historyChange')).toContainText(`as of ${last.date}`);
   await expect(page.locator('#history .tile').first().locator('.value')).toHaveText(fmt(last.restrictions));
   await expect(page.locator('#historyTable tbody tr')).toHaveCount(rows.length);
-  // The history is written from headline_metrics.json by the same build.
-  expect(last.restrictions).toBe(M.restrictions.by_scope.renewables_only.instruments);
+  // The tiles follow the published history, not headline_metrics.json: CI
+  // rebuilds the metrics from the seeds under test, and the history gains its
+  // row for that build only when the data workflow runs headline_history.py.
 });
 
 test('a record names its Census government and GEOID', async ({ page }) => {
