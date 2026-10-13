@@ -258,11 +258,15 @@ sources:
     parser_hint: >
       Static HTML, one table per section (Notices of Intent, pending
       completeness, incomplete, complete under review, permitted, withdrawn or
-      relinquished, denied). Each row: case number, project name, and a
-      description with capacity, towns and county. Denied and withdrawn
-      applications are contested-project leads.
+      relinquished, denied, request for declaratory ruling). Each row: case
+      number, project name, and a description with capacity, towns and county.
+      Denied and withdrawn applications are contested-project leads, and so is
+      an application in any section whose name matches a New York seed project
+      (scripts/extractors/ny_ores_permit_applications.py).
     active: true
-    notes: Replaces ny_ocs_article10, whose URL now answers 404.
+    notes: Replaces ny_ocs_article10, whose URL now answers 404. expect_contains
+      checked against the live page 2026-10-13 (the table header "Project Permit
+      Application Number").
 
   - source_id: legistar_renewable_matters
     url: https://webapi.legistar.com/v1/{client}/matters
