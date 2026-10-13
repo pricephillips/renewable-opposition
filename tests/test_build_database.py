@@ -73,6 +73,7 @@ def publish_dirs(monkeypatch, tmp_path):
     monkeypatch.setattr(bdb, "GEOID_WORKLIST", tmp_path / "geoid_worklist.csv")
     monkeypatch.setattr(bdb, "TIMELINE_JSON", tmp_path / "timeline.json")
     monkeypatch.setattr(bdb, "HISTORY_JSON", tmp_path / "history.json")
+    monkeypatch.setattr(bdb, "EXAMINATION_WORKLIST", tmp_path / "examination_worklist.csv")
     return tmp_path
 
 
@@ -184,7 +185,7 @@ def test_worklists_publish_sizes_only(con, publish_dirs):
     bdb.write_worklists(con)
     w = json.loads(bdb.WORKLISTS_JSON.read_text())
     assert w["columns"] == ["worklist", "description", "rows"]
-    assert {r[0] for r in w["rows"]} == set(bdb.WORKLISTS) | {"geoid_worklist"}
+    assert {r[0] for r in w["rows"]} == set(bdb.WORKLISTS) | {"geoid_worklist", "examination_worklist"}
     path, only, _ = bdb.WORKLISTS["queue"]
     from common import read_csv
     assert dict((r[0], r[2]) for r in w["rows"])["queue"] == \
@@ -245,3 +246,49 @@ def test_timeline_counts_every_instrument_once(con, publish_dirs):
         assert sum(r["instruments"] for r in rows if r["scope"] == scope) == m[scope]["instruments"]
     assert {r["basis"] for r in rows} <= {"enacted", "year_reported", "ordinance_year", "undated"}
     assert all((r["year"] is None) == (r["basis"] == "undated") for r in rows)
+
+
+def test_examination_worklist_lists_every_unexamined_county_nearest_states_first(con, publish_dirs):
+    bdb.write_examination_worklist(con)
+    from common import read_csv
+    rows = read_csv(publish_dirs / "examination_worklist.csv")
+    todo = {f for (f,) in con.execute("SELECT county_fips FROM v_county_summary "
+                                      "WHERE in_coverage_universe AND coverage_status = 'not_examined'").fetchall()}
+    assert {r["county_fips"] for r in rows if r["reason"] in ("not_examined", "check_held")} == todo
+    assert [int(r["rank"]) for r in rows] == list(range(1, len(rows) + 1))
+    remaining = [int(r["state_remaining"]) for r in rows]
+    assert remaining == sorted(remaining)
+    assert not any(r["county_fips"].startswith("72") for r in rows), "Puerto Rico is outside the coverage universe"
+    size = con.execute("SELECT rows FROM worklist_size WHERE worklist = 'examination_worklist'").fetchone()[0]
+    assert size == len(rows)
+
+
+def test_a_drafted_check_counts_only_once_reviewed(con, monkeypatch, tmp_path):
+    import negative_checks as nc
+    from common import write_csv
+    fips, st = con.execute("SELECT county_fips, state_code FROM v_county_summary WHERE in_coverage_universe "
+                           "AND coverage_status = 'not_examined' ORDER BY county_fips LIMIT 1").fetchone()
+    draft = {"county_fips": fips, "state": st, "county": "x", "scope": "restrictions",
+             "governments_checked": "the county", "checked_on": nc.PROTOCOL_START, "result": "none_found",
+             "sources_checked": "code: zoning code (https://example.org); minutes: board 2023 to 2026; "
+                                "news search: solar moratorium",
+             "drafted_by": "agent:checker-1", "reviewer": ""}
+
+    def build_with(check):
+        path = tmp_path / "negative_checks.csv"
+        write_csv(path, nc.load() + [check], nc.CHECK_FIELDS)
+        monkeypatch.setattr(nc, "CHECKS_PATH", path)
+        c = duckdb.connect()
+        bdb.build(c)
+        return c
+
+    held = build_with(draft)
+    assert held.execute("SELECT coverage_status FROM v_county_summary WHERE county_fips = ?", [fips]).fetchone() \
+        == ("not_examined",)
+    assert held.execute("SELECT reason, drafted_by FROM examination_worklist WHERE county_fips = ?",
+                        [fips]).fetchone() == ("check_held", "agent:checker-1")
+    reviewed = build_with({**draft, "reviewer": "agent:reviewer-1"})
+    assert reviewed.execute("SELECT coverage_status, negative_check_grade FROM v_county_summary "
+                            "WHERE county_fips = ?", [fips]).fetchone() == ("checked_none", "A")
+    assert reviewed.execute("SELECT count(*) FROM examination_worklist WHERE county_fips = ?",
+                            [fips]).fetchone() == (0,)

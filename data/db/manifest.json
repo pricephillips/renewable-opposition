@@ -1,5 +1,5 @@
 {"columns":["file","name","kind","rows","bytes"],"rows":[
-["parquet/build_info.parquet","build_info","table",14,2555],
+["parquet/build_info.parquet","build_info","table",14,2556],
 ["parquet/case_project.parquet","case_project","table",39,1609],
 ["parquet/contested_project.parquet","contested_project","table",576,181590],
 ["parquet/county.parquet","county","table",3222,17949],
@@ -12,7 +12,7 @@
 ["parquet/jurisdiction.parquet","jurisdiction","table",2485,34504],
 ["parquet/jurisdiction_match.parquet","jurisdiction_match","table",2796,34079],
 ["parquet/legal_case.parquet","legal_case","table",38,7091],
-["parquet/negative_check.parquet","negative_check","table",1,3068],
+["parquet/negative_check.parquet","negative_check","table",1,3778],
 ["parquet/opposition_group.parquet","opposition_group","table",802,162220],
 ["parquet/project_group.parquet","project_group","table",30,746],
 ["parquet/record_county.parquet","record_county","table",27739,139439],
@@ -23,12 +23,12 @@
 ["parquet/state.parquet","state","table",52,1115],
 ["parquet/state_policy.parquet","state_policy","table",122,26983],
 ["parquet/v_county_coverage_totals.parquet","v_county_coverage_totals","view",1,1174],
-["parquet/v_county_summary.parquet","v_county_summary","view",3222,29795],
+["parquet/v_county_summary.parquet","v_county_summary","view",3222,30284],
 ["parquet/v_geoid_coverage.parquet","v_geoid_coverage","view",13,807],
 ["parquet/v_headline_by_source.parquet","v_headline_by_source","view",8,1485],
 ["parquet/v_headline_restrictions.parquet","v_headline_restrictions","view",2,1210],
 ["parquet/v_restrictions_by_month.parquet","v_restrictions_by_month","view",47,1120],
 ["parquet/v_restrictions_by_year.parquet","v_restrictions_by_year","view",61,1481],
 ["parquet/v_state_summary.parquet","v_state_summary","view",52,4572],
-["parquet/worklist_size.parquet","worklist_size","table",9,1193]
+["parquet/worklist_size.parquet","worklist_size","table",10,1237]
 ]}

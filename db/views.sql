@@ -53,9 +53,9 @@ SELECT
     (SELECT count(DISTINCT county_fips) FROM rec WHERE entity = 'siting_standard'
         AND county_fips IN (SELECT * FROM u)) AS with_siting_standard,
     (SELECT count(DISTINCT county_fips) FROM negative_check
-        WHERE county_fips IN (SELECT * FROM u)) AS with_negative_check,
+        WHERE NOT held AND county_fips IN (SELECT * FROM u)) AS with_negative_check,
     (SELECT count(*) FROM u WHERE county_fips NOT IN (SELECT county_fips FROM rec)
-        AND county_fips NOT IN (SELECT county_fips FROM negative_check)) AS with_neither;
+        AND county_fips NOT IN (SELECT county_fips FROM negative_check WHERE NOT held)) AS with_neither;
 
 -- One row per county: the map's and the county page's spine ----------------
 
@@ -94,7 +94,11 @@ WITH r AS (
     SELECT county_fips, count(*) AS siting_standard_rows
     FROM record_county WHERE entity = 'siting_standard' GROUP BY county_fips
 ), n AS (
-    SELECT county_fips, max(checked_on) AS last_negative_check FROM negative_check GROUP BY county_fips
+    -- Held checks (drafted, not yet reviewed) never count.
+    SELECT county_fips, max(checked_on) AS last_negative_check,
+           arg_max(grade, (checked_on, grade)) AS negative_check_grade,
+           max(recheck_by) AS negative_check_recheck_by
+    FROM negative_check WHERE NOT held GROUP BY county_fips
 ), d AS (
     SELECT county_fips, count(*) AS data_center_events FROM data_center_event GROUP BY county_fips
 )
@@ -113,6 +117,8 @@ SELECT c.county_fips, c.state_code, c.county_name, c.in_coverage_universe,
        coalesce(d.data_center_events, 0)        AS data_center_events,
        coalesce(q.candidates, 0)                AS pending_review,
        n.last_negative_check,
+       n.negative_check_grade,
+       n.negative_check_recheck_by,
        CASE
            WHEN r.county_fips IS NOT NULL OR p.county_fips IS NOT NULL OR s.county_fips IS NOT NULL
                THEN 'has_records'

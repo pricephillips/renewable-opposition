@@ -286,7 +286,9 @@ JOIN contested_project p ON p.instrument_id = pg.project_id;
 
 INSERT INTO negative_check
 SELECT lpad(trim(county_fips), 5, '0'), scope, split_list(sources_checked),
-       CAST(checked_on AS DATE), result, nullif_blank(note), nullif_blank(reviewer)
+       CAST(checked_on AS DATE), result, nullif_blank(note), nullif_blank(reviewer),
+       nullif_blank(governments_checked), nullif_blank(drafted_by), grade, split_list(classes),
+       CAST(nullif_blank(recheck_by) AS DATE), held = 'true'
 FROM stg_negative_checks;
 
 INSERT INTO county_pending_review

@@ -164,3 +164,33 @@ test('DuckDB-WASM, Arrow and their imports are pinned to the resolved versions',
   expect(v('@duckdb/duckdb-wasm')).toMatch(/^1\.29\./);
   expect(fs.readFileSync(path.join(__dirname, 'fetch_duckdb_extension.sh'), 'utf8')).toContain('v1.1.1/wasm_eh/');
 });
+
+test('coverage: states with every county examined, and each negative check with its grade', async ({ page }) => {
+  test.setTimeout(120000);
+  const counties = rowsOf(db('county_summary.json'));
+  const inScope = STATES.filter(s => s.counties && s.state_code !== 'PR');
+  await open(page, '#/coverage', 'coverage');
+  await expect(page.locator('#covStatesDone')).toHaveText(fmt(inScope.filter(s => !s.counties_not_examined).length));
+  const checked = counties.filter(c => c.last_negative_check);
+  await expect(page.locator('#checksTable tbody tr')).toHaveCount(checked.length);
+  for (const c of checked) {
+    await expect(page.locator('#checksTable tbody')).toContainText(`${c.county_name}, ${c.state_code}`);
+  }
+  // A checked county's page names the grade and when to check it again.
+  const none = counties.find(c => c.coverage_status === 'checked_none');
+  if (none) {
+    await open(page, '#/county/' + none.county_fips, 'county');
+    await expect(page.locator('#coverageBanner')).toContainText(`Evidence grade ${none.negative_check_grade}`);
+    await expect(page.locator('#coverageBanner')).toContainText(none.negative_check_recheck_by);
+  }
+});
+
+test('the map can show verified restrictions only', async ({ page }) => {
+  test.setTimeout(120000);
+  await open(page, '#/?m=verified_restrictions', 'national');
+  await expect(page.locator('#metric')).toHaveValue('verified_restrictions');
+  const counties = rowsOf(db('county_summary.json'));
+  const shaded = await page.locator('#map path.county').evaluateAll(ps =>
+    ps.filter(p => /var\(--map-c[1-4]\)/.test(p.style.fill)).length);
+  expect(shaded).toBe(counties.filter(c => c.in_coverage_universe && c.verified_restrictions > 0).length);
+});
