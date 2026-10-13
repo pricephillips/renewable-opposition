@@ -201,22 +201,22 @@
  "history": {
   "snapshot_rows": 64,
   "snapshot_files": 5,
-  "headline_history_rows": 1,
-  "headline_first_change": "2026-10-13",
-  "headline_last_change": "2026-10-13",
+  "headline_history_rows": 6,
+  "headline_first_change": "2026-09-29",
+  "headline_last_change": "2026-10-10",
   "latest": {
-   "restriction_instruments": "3341",
-   "restriction_severe": "1362",
-   "restriction_verified": "74",
-   "restriction_lapsed": "1",
-   "multi_sector_instruments": "83",
-   "projects": "576",
-   "projects_confirmed": "123",
-   "projects_verified": "125",
+   "restrictions": "3341",
+   "severe_restrictions": "1362",
+   "verified_restrictions": "74",
+   "multi_sector_restrictions": "83",
+   "contested_projects": "576",
+   "confirmed_outcomes": "123",
+   "verified_projects": "125",
    "cases": "38",
-   "counties_with_record": "1403",
-   "counties_with_negative_check": "1",
-   "counties_with_neither": "1740"
+   "siting_standard_rows": "23778",
+   "state_policies": "122",
+   "counties_with_records": "1403",
+   "counties_not_examined": "1740"
   }
  },
  "source_archive": {

@@ -41,4 +41,4 @@ Promotion trail: 62 decisions from 2026-10-13 to 2026-10-13 (new or changed deci
 
 ## History and archive
 
-64 snapshot rows over 5 published files; 1 headline changes recorded (2026-10-13 to 2026-10-13). Sources: 53, of which 11 have an Internet Archive snapshot.
+64 snapshot rows over 5 published files; 6 headline changes recorded (2026-09-29 to 2026-10-10). Sources: 53, of which 11 have an Internet Archive snapshot.
