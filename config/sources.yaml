@@ -282,22 +282,34 @@ sources:
     expect: json
     compress: true
     params:
-      $filter: "substringof('solar energy',MatterTitle) or substringof('solar farm',MatterTitle) or substringof('solar facilit',MatterTitle) or substringof('solar power',MatterTitle) or substringof('solar project',MatterTitle) or substringof('photovoltaic',MatterTitle) or substringof('wind energy',MatterTitle) or substringof('wind farm',MatterTitle) or substringof('wind turbine',MatterTitle) or substringof('battery energy storage',MatterTitle) or substringof('energy storage system',MatterTitle) or substringof('renewable energy',MatterTitle)"
+      $filter: "substringof('solar',MatterTitle) or substringof('photovoltaic',MatterTitle) or substringof('wind energy',MatterTitle) or substringof('wind farm',MatterTitle) or substringof('wind turbine',MatterTitle) or substringof('wind power',MatterTitle) or substringof('wind project',MatterTitle) or substringof('wind facilit',MatterTitle) or substringof('battery storage',MatterTitle) or substringof('energy storage',MatterTitle) or substringof('renewable energy',MatterTitle)"
       $top: 200
       $orderby: MatterIntroDate desc
     parser_hint: >
       JSON list of matters: MatterId, MatterGuid, MatterFile, MatterTitle,
       MatterTypeName, MatterStatusName, MatterIntroDate, MatterPassedDate,
       MatterBodyName. A moratorium, ordinance or zoning amendment on solar,
-      wind or storage is a restriction lead; an appeal or permit decision on a
-      named project is a contested-project lead. The public link is
-      https://{client}.legistar.com/LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}.
+      wind or storage is a restriction lead; an appeal, denial or opposition
+      on a facility, or a permit decision on a named one, is a
+      contested-project lead; the county buying, leasing, funding or
+      installing solar is dropped. The public link is
+      https://{client}.legistar.com/Gateway.aspx?M=L&ID={MatterId}, which
+      redirects to the matter page (LegislationDetail.aspx built from the
+      API's MatterId and MatterGuid answers "Invalid parameters!": the public
+      site numbers matters with its own ID and GUID).
     active: true
     notes: >
       Clients and their counties are listed in config/legistar_clients.json
       (verified clients from pricephillips/data-center-map's legistar_probe
       that hold renewable records). A matter is the legislative record, not
       the instrument: access stays snippet until someone opens the attachment.
+      The filter takes 'solar' alone (substringof is case-insensitive), since
+      named projects ("Rezoning Case CZ-2021-007 Blue Star Solar", "Lockhart
+      Solar Zoning Amendment") carry no other term; the extractor drops the
+      county's own solar purchases, leases and devices. No bare 'wind' or
+      'battery': they match Windsor, windows and liquor-license batteries.
+      On 2026-10-13 this filter returned 258 matters across the 11 clients
+      (the earlier phrase list: 194), and 50 leads (44).
 
   # Change detection only (watch: true): nothing parses these. A stored copy
   # means the upstream changed, and the intake summary says what to run.
