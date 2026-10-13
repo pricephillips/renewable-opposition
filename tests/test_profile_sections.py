@@ -58,10 +58,10 @@ def test_profile_shows_the_state_framework_and_local_standards(tmp_path):
     d = sp.Data(local=False, root=tree(tmp_path))
     p = sp.profile(d, FIPS, "Cherokee", "KS")
     text = sp.render(p)
-    assert text.index("### State framework (KS)") < text.index("### In the county")
+    assert text.index("## State siting law") < text.index("## Restrictions on record")
     assert "**Who decides** (solar, wind): local government." in text and "verified against the statute" in text
     assert "Not verified, held for review: Other state rule (K.S.A. 66-1,177): no recorded review" in text
-    assert "### Local siting standards (NREL): 2 feature(s) in the county, 1 in adjacent counties" in text
+    assert "## Local siting standards" in text and "2 feature(s) in the county, 1 in adjacent counties" in text
     assert "1 verified against the ordinance, 1 unverified" in text
     assert "all unverified: NREL's reading" in text and "CC BY 4.0" in text
 
@@ -70,7 +70,7 @@ def test_verified_only_applies_to_the_new_sections(tmp_path):
     d = sp.Data(local=False, root=tree(tmp_path))
     p = sp.profile(d, FIPS, "Cherokee", "KS", verified_only=True)
     text = sp.render(p)
-    assert "held for review" not in text.split("### In the county")[0].replace("1 row(s) still held for review", "")
+    assert "Not verified, held for review" not in text
     assert "1 row(s) still held for review were left out" in text
     assert [r["id"] for g in p["local_standards"].values() for r in g] == ["s2"]
     assert "2 unverified feature(s) were left out" in text

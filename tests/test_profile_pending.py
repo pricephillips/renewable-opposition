@@ -104,19 +104,18 @@ def test_pending_candidates_next_door_are_one_line_each(tree):
     (pending,) = p["adjacent"][NEXT]["pending"]
     assert pending["description"] == "Synthetic moratorium."
     lines = [x for x in sp.render(p).splitlines() if "Synthetic" not in x and "Bourbon, solar" in x]
-    assert lines == ["  - Pending review, not published: restriction, Bourbon, solar; moratorium; 2025-09; "
-                     "source located, not yet read"]
+    assert lines == ["- Bourbon, KS (20011): Pending review, not published: restriction, Bourbon, solar; "
+                     "moratorium; 2025-09; source located, not yet read"]
 
 
 def test_source_lines_show_the_primary_source_and_how_it_was_seen(tree):
     text = sp.render(run(tree))
-    assert ("Source: https://allen.example.gov/o.pdf (located, not yet read). "
-            "Compiled from Sabin Center report, https://report.example.org/r.pdf") in text
-    assert "Source: https://allen.example.gov/solar.pdf (opened). Compiled from Sabin Center report" in text
-    assert "Source: no primary source attached. Compiled from Moratorium Nation, https://mn.example.org/inv.csv" \
-        in text
+    assert ("| https://allen.example.gov/o.pdf (located, not yet read). "
+            "Compiled from Sabin Center report, https://report.example.org/r.pdf |") in text
+    assert "| https://allen.example.gov/solar.pdf (opened). Compiled from Sabin Center report" in text
+    assert "| No primary source attached. Compiled from Moratorium Nation, https://mn.example.org/inv.csv |" in text
     assert "placed by override (located, not yet read)" in text
-    assert "Outcome source: https://news.example.org/syn (located, not yet read)" in text
+    assert "| Outcome: https://news.example.org/syn (located, not yet read). " in text
 
 
 def test_one_flag_counts_the_evidence_still_to_read(tree):
