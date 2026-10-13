@@ -258,5 +258,70 @@
     "opened": 111
    }
   }
+ },
+ "intake": {
+  "nrel_solar_ordinances_2025": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-09",
+   "last_changed": "2026-10-09",
+   "last_error": null
+  },
+  "nrel_wind_ordinances_2025": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-09",
+   "last_changed": "2026-10-09",
+   "last_error": null
+  },
+  "sabin_2026_09_landing_html": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-09",
+   "last_changed": "2026-10-09",
+   "last_error": null
+  },
+  "sabin_2026_09_projects_csv": {
+   "requests": 2,
+   "stored": 1,
+   "unchanged": 1,
+   "failed": 0,
+   "last_fetch": "2026-10-09",
+   "last_changed": "2026-10-09",
+   "last_error": null
+  },
+  "sabin_2026_09_report_html": {
+   "requests": 2,
+   "stored": 2,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-09",
+   "last_changed": "2026-10-09",
+   "last_error": null
+  },
+  "sabin_2026_09_report_pdf": {
+   "requests": 2,
+   "stored": 0,
+   "unchanged": 0,
+   "failed": 2,
+   "last_fetch": "2026-10-09",
+   "last_changed": null,
+   "last_error": "2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change"
+  },
+  "sabin_2026_09_restrictions_csv": {
+   "requests": 2,
+   "stored": 1,
+   "unchanged": 1,
+   "failed": 0,
+   "last_fetch": "2026-10-09",
+   "last_changed": "2026-10-09",
+   "last_error": null
+  }
  }
 }
