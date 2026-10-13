@@ -8,17 +8,17 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3341 | 83 |
-| Severe (severity 3 or 4) | 1362 | 75 |
-| States | 50 | 26 |
+| Instruments | 3348 | 84 |
+| Severe (severity 3 or 4) | 1363 | 75 |
+| States | 51 | 27 |
 | Evidence: compiled_flagged | 2392 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 74 | 7 |
+| Evidence: primary_source | 81 | 8 |
 | Evidence: report_citation | 814 | 0 |
-| Verification: verified | 74 | 7 |
+| Verification: verified | 81 | 8 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 3267 | 76 |
-| Currency: in_force | 942 | 74 |
+| Currency: in_force | 949 | 75 |
 | Currency: lapsed_unconfirmed | 1 | 1 |
 | Currency: pending | 5 | 8 |
 | Currency: unknown | 2393 | 0 |
@@ -29,7 +29,7 @@ Of the severe instruments, 942 (renewables only) and 33 (also covering data cent
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3627 published rows describe 3424 instruments.
+3637 published rows describe 3432 instruments.
 
 ## Contested projects
 
@@ -118,7 +118,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 0 | 0 | 55 |
 | Restrictions | NREL | 2393 | 663 | 31 | 0 | 2362 |
 | Restrictions | Moratorium Nation | 210 | 199 | 43 | 0 | 167 |
-| Restrictions | review queue | 10 | 3 | 6 | 0 | 4 |
+| Restrictions | review queue | 18 | 4 | 14 | 0 | 4 |
 | Contested projects | Sabin 2026 | 568 |  | 122 | 0 | 446 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 1 | 0 | 5 |
 | Contested projects | review queue | 2 |  | 2 | 0 | 0 |
@@ -137,12 +137,12 @@ Of 3144 counties and county equivalents (50 states and DC):
 
 | | Counties |
 |---|---:|
-| Any published record | 1403 |
-| A restriction | 1255 |
+| Any published record | 1411 |
+| A restriction | 1265 |
 | A contested project | 456 |
 | An NREL siting standard | 1158 |
 | A documented negative check | 1 |
 | A negative check and no record | 1 |
-| Neither a record nor a check | 1740 |
+| Neither a record nor a check | 1732 |
 
 A county with neither has not been looked at; it is not evidence that nothing happened.

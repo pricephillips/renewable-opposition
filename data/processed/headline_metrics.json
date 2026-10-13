@@ -1,35 +1,35 @@
 {
   "restrictions": {
-    "rows": 3627,
-    "instruments": 3424,
+    "rows": 3637,
+    "instruments": 3432,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3341,
-        "severe_instruments": 1362,
-        "states": 50,
+        "instruments": 3348,
+        "severe_instruments": 1363,
+        "states": 51,
         "by_status": {
-          "active": 885,
+          "active": 892,
           "extended": 58,
           "pending": 5,
           "unknown": 2393
         },
         "by_technology": {
-          "battery_storage": 138,
-          "solar": 1658,
-          "wind": 1705
+          "battery_storage": 139,
+          "solar": 1664,
+          "wind": 1707
         },
         "by_evidence_level": {
           "compiled_flagged": 2392,
           "compiled_record": 61,
-          "primary_source": 74,
+          "primary_source": 81,
           "report_citation": 814
         },
         "by_verification": {
           "unverified": 3267,
-          "verified": 74
+          "verified": 81
         },
         "by_currency": {
-          "in_force": 942,
+          "in_force": 949,
           "lapsed_unconfirmed": 1,
           "pending": 5,
           "unknown": 2393
@@ -37,30 +37,30 @@
         "severe_where_state_limits_local": 942
       },
       "multi_sector_data_centers": {
-        "instruments": 83,
+        "instruments": 84,
         "severe_instruments": 75,
-        "states": 26,
+        "states": 27,
         "by_status": {
-          "active": 66,
+          "active": 67,
           "extended": 9,
           "pending": 8
         },
         "by_technology": {
           "battery_storage": 72,
-          "solar": 36,
+          "solar": 37,
           "wind": 18
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
           "compiled_record": 67,
-          "primary_source": 7
+          "primary_source": 8
         },
         "by_verification": {
           "unverified": 76,
-          "verified": 7
+          "verified": 8
         },
         "by_currency": {
-          "in_force": 74,
+          "in_force": 75,
           "lapsed_unconfirmed": 1,
           "pending": 8
         },
@@ -100,17 +100,17 @@
         }
       },
       "review queue": {
-        "instruments": 10,
-        "severe_instruments": 3,
+        "instruments": 18,
+        "severe_instruments": 4,
         "by_verification": {
           "unverified": 4,
-          "verified": 6
+          "verified": 14
         }
       }
     },
     "by_verification": {
       "unverified": 3343,
-      "verified": 81
+      "verified": 89
     }
   },
   "contested_projects": {
@@ -267,12 +267,12 @@
   },
   "county_coverage": {
     "counties": 3144,
-    "with_any_record": 1403,
-    "with_restriction": 1255,
+    "with_any_record": 1411,
+    "with_restriction": 1265,
     "with_contested_project": 456,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
     "with_negative_check_and_no_record": 1,
-    "with_neither": 1740
+    "with_neither": 1732
   }
 }
