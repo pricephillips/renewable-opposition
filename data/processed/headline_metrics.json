@@ -1,35 +1,35 @@
 {
   "restrictions": {
-    "rows": 3637,
-    "instruments": 3432,
+    "rows": 3639,
+    "instruments": 3434,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3348,
-        "severe_instruments": 1363,
+        "instruments": 3350,
+        "severe_instruments": 1364,
         "states": 51,
         "by_status": {
-          "active": 892,
+          "active": 894,
           "extended": 58,
           "pending": 5,
           "unknown": 2393
         },
         "by_technology": {
           "battery_storage": 139,
-          "solar": 1664,
-          "wind": 1707
+          "solar": 1665,
+          "wind": 1708
         },
         "by_evidence_level": {
           "compiled_flagged": 2392,
           "compiled_record": 61,
-          "primary_source": 81,
+          "primary_source": 83,
           "report_citation": 814
         },
         "by_verification": {
           "unverified": 3267,
-          "verified": 81
+          "verified": 83
         },
         "by_currency": {
-          "in_force": 949,
+          "in_force": 951,
           "lapsed_unconfirmed": 1,
           "pending": 5,
           "unknown": 2393
@@ -100,17 +100,17 @@
         }
       },
       "review queue": {
-        "instruments": 18,
-        "severe_instruments": 4,
+        "instruments": 20,
+        "severe_instruments": 5,
         "by_verification": {
           "unverified": 4,
-          "verified": 14
+          "verified": 16
         }
       }
     },
     "by_verification": {
       "unverified": 3343,
-      "verified": 89
+      "verified": 91
     }
   },
   "contested_projects": {
@@ -267,12 +267,12 @@
   },
   "county_coverage": {
     "counties": 3144,
-    "with_any_record": 1411,
-    "with_restriction": 1265,
+    "with_any_record": 1412,
+    "with_restriction": 1266,
     "with_contested_project": 456,
     "with_siting_standard": 1158,
     "with_negative_check": 2,
     "with_negative_check_and_no_record": 2,
-    "with_neither": 1731
+    "with_neither": 1730
   }
 }

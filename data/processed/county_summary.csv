@@ -3123,7 +3123,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 56001,WY,Albany,record,2,0,0,0,2,0,1,1,1,3,2,,
 56003,WY,Big Horn,none,0,0,0,0,0,0,0,0,0,0,0,,
 56005,WY,Campbell,record,1,0,0,0,0,0,0,0,0,0,1,,
-56007,WY,Carbon,none,0,0,0,0,0,0,0,0,0,0,0,,
+56007,WY,Carbon,record,2,1,2,0,0,0,0,0,0,0,0,,
 56009,WY,Converse,record,2,1,0,0,2,0,1,1,1,1,2,,
 56011,WY,Crook,record,1,1,0,0,0,0,0,0,0,0,1,,
 56013,WY,Fremont,record,3,1,0,0,0,0,0,0,0,0,2,,

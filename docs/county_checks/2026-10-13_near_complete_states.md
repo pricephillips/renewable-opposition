@@ -8,7 +8,7 @@ agents (`agent:county-reviewer-*`) re-opened every document under
 `docs/AGENT_REVIEW.md`. A row that a review contradicted went back to its
 drafter and got a fresh review by another agent before it was recorded.
 
-## Results so far
+## Results
 
 | County | FIPS | Result |
 |---|---|---|
@@ -25,9 +25,14 @@ drafter and got a fresh review by another agent before it was recorded.
 | Hawaii, HI | 15001 | Lead. Zoning Code 25-4-22(e) (Ord. 96-160) lets wind machines exceed district height limits only with a property-line setback equal to their height, and a 1999 variance shows it applied to the Kamaoa Wind Farm. The reviewer could not open the current Chapter 25 (the county site returns 403) to confirm the section is unchanged, so it was not recorded (unverifiable). Opening the current code in a browser would settle it. |
 | Kauai, HI | 15007 | Lead. The zoning ordinance is only on eCode360. A 2026 Planning Commission decision quotes a 10 percent or 20 acre limit on solar on B and C soils, which the reviewer read as a by-right tier copying state law, not a county cap. |
 | Kalawao, HI | 15005 | Lead. No county government and no zoning: under HRS 326-34 the state Department of Health administers it. The procedure assumes a local government that zones, so it has no way to examine this county; see below. |
-| Big Horn, Carbon, Johnson, Teton, Washakie and Weston, WY | 56003, 56007, 56019, 56039, 56043, 56045 | Drafting in progress. |
+| Carbon, WY | 56007 | Two restrictions from the Zoning Resolution, Chapter 6, created by Resolution 2019-05 (ZRA Case 2019-01, adopted 2019-03-05). Wind (6.2): towers 5.5 times their height and at least 1,000 ft from dwellings, 5.5 times (never under 1.10 times) from primary structures, 110 percent of height from property lines, half a mile from residential zones and towns. Solar (6.3): 35 ft height, 40 ft boundary setback. Both barred from sage-grouse core areas (6.1.C). The first review contradicted the adoption date (the drafted 2015-10-06 was the resolution's readoption, before Chapter 6 existed); corrected and confirmed on a fresh review. Most of the wind setbacks first appeared in a 2011 wind overlay (Resolution 2011-09). |
+| Big Horn, WY | 56003 | Lead. No countywide zoning and no wind or solar rules. The "rescinded" solar rules in the 2023 minutes were a 1981 solar access rights resolution, repealed 2017-03-07, which protected a homeowner's solar access and is not a restriction. Seven of the nine towns' codes were not found. |
+| Johnson, WY | 56019 | Lead. No zoning (2014 draft regulations never adopted); county and planning minutes 2023 to 2026 have no wind or solar item. Buffalo's site returns 403 and Kaycee's code was not found. |
+| Teton, WY | 56039 | Lead. The land development regulations have no wind, solar or storage rules and the county meetings show none. Only the Town of Jackson's minutes are missing for a negative check. |
+| Washakie, WY | 56043 | Lead. No zoning; county minutes are posted only for 2025 and 2026, and Ten Sleep's code and both towns' minutes were not found. |
+| Weston, WY | 56045 | Lead. No zoning and nothing in the county's, Newcastle's or Upton's minutes from 2023 to 2026, but neither town's zoning ordinance was found. |
 
-The eight confirmed instruments are in `data/review/queue.csv` as
+The ten confirmed rows are in `data/review/queue.csv` as
 `confirmed`, source `county_check_2026-10-13`, with the drafter's and the
 reviewer's notes in `reviewer_notes`. The data build promotes them; each
 publishes as `verified`, because the instrument itself was opened.
@@ -62,4 +67,7 @@ maintainer's decision; until then it stays on the worklist.
 
 Open the eCode360-only codes from a browser (Conway, Wolfeboro, Dover,
 Stratford, Kauai), search the Lamoille towns' minutes and the Vermont PUC
-docket, and find Bridgeport's and Easton's zoning regulations.
+docket, and find Bridgeport's and Easton's zoning regulations. In Wyoming,
+open the Town of Jackson's minutes (Teton is one source from a negative
+check), the Newcastle and Upton zoning ordinances (Weston), and the Buffalo,
+Kaycee, Ten Sleep and Big Horn town codes.

@@ -3123,7 +3123,7 @@
 ["56001","WY","Albany",true,2,0,0,0,0,2,2,0,1,1,20,2,0,null,null,null,"has_records"],
 ["56003","WY","Big Horn",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["56005","WY","Campbell",true,1,0,0,0,0,2,0,0,0,0,3,0,0,null,null,null,"has_records"],
-["56007","WY","Carbon",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
+["56007","WY","Carbon",true,2,1,2,0,0,3,0,0,0,0,0,0,0,null,null,null,"has_records"],
 ["56009","WY","Converse",true,2,1,0,0,0,3,2,0,1,1,9,0,0,null,null,null,"has_records"],
 ["56011","WY","Crook",true,1,1,0,0,0,3,0,0,0,0,5,0,0,null,null,null,"has_records"],
 ["56013","WY","Fremont",true,3,1,0,0,0,3,0,0,0,0,14,0,0,null,null,null,"has_records"],
