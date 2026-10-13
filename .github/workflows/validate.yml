@@ -8,9 +8,66 @@ on:
 permissions:
   contents: read
 
+# A new push to a pull request cancels that PR's run still in progress: only
+# the newest commit's result matters. Each push to main gets its own group
+# (keyed by commit), so no main run is ever cancelled or replaced: GitHub keeps
+# only one waiting run per group.
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  validate:
+  # A merge to main usually contains exactly the tree its pull request's last
+  # green run tested (25 of 35 push runs in one week). This job finds that
+  # case and the jobs below skip it: the merge commit has two parents, the
+  # second (the PR head) has a successful pull_request run of this workflow,
+  # and that run started more than two minutes after main moved to the first
+  # parent, so GitHub's test merge was built on the same base. A squash merge,
+  # a direct push, any doubt or any API error gives a full run. With no branch
+  # protection on a private repository, the run on main is the only check of
+  # merged code, so it is skipped only when that exact tree was tested.
+  covered:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      covered: ${{ steps.covered.outputs.covered }}
+    steps:
+      - name: Already tested by the pull request?
+        id: covered
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          WORKFLOW: validate.yml
+        run: |
+          covered=false
+          probe() {
+            local p1 p2 landed tested
+            read -r p1 p2 _ <<< "$(gh api "repos/$REPO/commits/$SHA" --jq '[.parents[].sha] | join(" ")')"
+            [ -n "$p2" ] || { echo "Not a two-parent merge: full run."; return 1; }
+            landed=$(gh api "repos/$REPO/activity?ref=refs/heads/main&per_page=100" \
+                       --jq "[.[] | select(.after == \"$p1\")][0].timestamp // empty")
+            [ -n "$landed" ] || { echo "No push record for $p1: full run."; return 1; }
+            tested=$(gh api "repos/$REPO/actions/workflows/$WORKFLOW/runs?event=pull_request&status=success&head_sha=$p2&per_page=1" \
+                       --jq '.workflow_runs[0].run_started_at // empty')
+            [ -n "$tested" ] || { echo "No green pull_request run on $p2: full run."; return 1; }
+            [ "$(date -d "$tested" +%s)" -gt $(( $(date -d "$landed" +%s) + 120 )) ] \
+              || { echo "Main moved after the PR run started: full run."; return 1; }
+            echo "::notice::The pull request run of $tested on $p2 tested this exact tree (main at $p1 since $landed); skipping."
+          }
+          probe && covered=true
+          echo "covered=$covered" >> "$GITHUB_OUTPUT"
+
+  validate:
+    needs: covered
+    if: ${{ !cancelled() && needs.covered.outputs.covered != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Check out repository
@@ -62,39 +119,15 @@ jobs:
       - name: Vale (page and report prose)
         run: vale --no-wrap README.md docs/coverage_audit.md
 
-  frontend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: '3.11'
-
-      - name: Install Playwright
-        run: |
-          pip install playwright
-          python -m playwright install --with-deps chromium
-
-      - name: Load every page and fail on page errors
-        run: python scripts/smoke_frontend.py --screenshots smoke-screenshots
-
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: smoke-screenshots
-          path: smoke-screenshots/
-
   # Offline UI and accessibility tests (tests/ui, adapted from
   # pricephillips/data-center-map; passoff B7). Every request is served from
-  # the checkout or tests/ui/node_modules, or aborted.
+  # the checkout or tests/ui/node_modules, or aborted. The page smoke check
+  # (scripts/smoke_frontend.py) runs here too, on the same Chromium and the
+  # same freshly built data, instead of in a job of its own that installed a
+  # second browser and kept 670 KB of screenshots for 90 days on every run.
   ui:
+    needs: covered
+    if: ${{ !cancelled() && needs.covered.outputs.covered != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
@@ -144,7 +177,18 @@ jobs:
       - name: Install Chromium
         # CI only. Claude sessions have Chromium at /opt/pw-browsers and must
         # never run this; they set SMOKE_CHROMIUM instead.
+        timeout-minutes: 5
         run: npx playwright install --with-deps chromium
+
+      - name: Load every page and fail on page errors (scripts/smoke_frontend.py)
+        # Python Playwright pinned to tests/ui's @playwright/test version, so
+        # it drives the Chromium installed above (tests/test_ci_workflows.py
+        # checks the two agree). Leaflet, d3 and topojson come from
+        # tests/ui/node_modules, so the check is offline like the specs.
+        working-directory: .
+        run: |
+          uv pip install --system "playwright==1.63.0"
+          python scripts/smoke_frontend.py --leaflet-dir tests/ui/node_modules --screenshots smoke-screenshots
 
       - name: Geometry coverage gate
         run: node check_geometry.js --selftest && node check_geometry.js
@@ -166,5 +210,7 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ui-test-results
-          path: tests/ui/test-results/
+          path: |
+            tests/ui/test-results/
+            smoke-screenshots/
           retention-days: 7

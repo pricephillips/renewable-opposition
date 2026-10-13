@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
 import re
 from pathlib import Path
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ROOT = Path(__file__).resolve().parent.parent
 SEED_DIR = ROOT / "data" / "seed"
@@ -72,6 +73,29 @@ def normalize_url(url: str) -> str:
 def source_id_for(url: str) -> str:
     """Stable 12-hex-char id derived from the normalized URL."""
     return "src_" + hashlib.sha256(normalize_url(url).encode("utf-8")).hexdigest()[:12]
+
+
+# Query parameters that track a click, not the document. normalize_url keeps
+# the query (it often identifies the document, and source ids hash it), so
+# harvested links are cleaned with strip_tracking before they are queued or
+# compared, and the published source ids never change.
+TRACKING_PARAMS = re.compile(r"^(utm_\w+|fbclid|gclid|dclid|msclkid|mc_cid|mc_eid|cmpid|ocid|"
+                             r"taid|smid|outputtype|__twitter_impression)$", re.I)
+
+
+def strip_tracking(url: str) -> str:
+    """The URL without click-tracking query parameters and its fragment."""
+    parts = urlsplit((url or "").strip())
+    query = [(k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True) if not TRACKING_PARAMS.match(k)]
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), ""))
+
+
+def read_raw(path: Path) -> bytes:
+    """The bytes of a stored raw file. fetch.py may store a large text response
+    gzipped (<sha256><ext>.gz, the hash taken before compression); this reads
+    either form."""
+    data = Path(path).read_bytes()
+    return gzip.decompress(data) if str(path).endswith(".gz") else data
 
 
 def read_csv(path: Path) -> list[dict]:

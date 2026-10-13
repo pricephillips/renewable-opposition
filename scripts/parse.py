@@ -8,18 +8,34 @@ Responsibilities:
   2. For each unprocessed raw file, dispatch to a source-specific extractor.
   3. Each extractor returns a list of CandidateRecord dicts.
   4. Drop candidates the repository already holds (dedupe below), then
-     append the rest to data/review/queue.csv for human confirmation.
+     append the rest to data/review/queue.csv as leads for triage.
   5. Track which manifest rows have been parsed in data/raw/parse_state.csv
-     so re-runs are idempotent (skip already-parsed files).
+     so re-runs are idempotent (skip already-parsed files). A raw file whose
+     extractor raised is not recorded, so the next run tries it again.
+
+Leads. Every candidate an extractor finds enters the queue with review_status
+'lead': machine-harvested, not yet triaged. promote_reviewed.py never promotes
+a lead, the county reports and the public dashboard count only 'pending' rows,
+so a lead changes nothing anyone reads until a reviewer triages it: 'pending'
+once it is on topic and placed (it then counts as a candidate awaiting review
+for its county), 'rejected' otherwise. Each lead gets its queue_id here, from
+its source document, so two leads from one raw file never share a key.
 
 Dedupe (lesson from pricephillips/data-center-map, whose harvester checked
 new URLs against the cleaned feed only and re-promoted the same articles
 every night: 4,099 duplicate rows in four days). A candidate is checked
 against EVERY file that could already hold it, the review queue (any
-review_status) and the three seeds:
+review_status), the three seeds and the review files that cite evidence:
   - the same entity_type and the same source document (common.normalize_url
-    of source_url) is a duplicate and is dropped, logged with what it
-    duplicates; so is a second copy inside one batch;
+    of source_url, click-tracking parameters removed) is a duplicate and is
+    dropped, logged with what it duplicates; so is a second copy inside one
+    batch;
+  - a source document already cited anywhere else (a seed's primary source,
+    ordinance, group or case source; an outcome resolution, restriction
+    source, group candidate, place override or case candidate) is dropped
+    whatever the entity: someone has already read it against a record;
+  - a news candidate whose headline is already queued (syndication: one
+    story on many mastheads) is dropped;
   - the same entity_type, state and name (project_name, or municipality or
     county) under a different URL is kept, with "possible duplicate of ..."
     prepended to reviewer_notes, because new coverage of a known record is
@@ -46,8 +62,10 @@ Usage:
 
 import argparse
 import csv
+import hashlib
 import importlib.util
 import logging
+import re
 import sys
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -55,7 +73,7 @@ from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import SEED_DIR, normalize_url, read_csv  # noqa: E402
+from common import REVIEW_DIR, SEED_DIR, normalize_url, read_csv, strip_tracking  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = REPO_ROOT / "data" / "raw" / "manifest.csv"
@@ -68,6 +86,18 @@ SEED_PATHS = {
     "contested_project": SEED_DIR / "contested_projects_seed.csv",
     "case": SEED_DIR / "cases_seed.csv",
 }
+# Read only, for dedupe: review files whose URL columns cite evidence someone
+# has read against a record. (file, URL column)
+CITED_PATHS = [
+    (REVIEW_DIR / "outcome_resolutions.csv", "evidence_url"),
+    (REVIEW_DIR / "restriction_sources.csv", "primary_source_url"),
+    (REVIEW_DIR / "group_candidates.csv", "group_source_url"),
+    (REVIEW_DIR / "place_overrides.csv", "evidence_url"),
+    (REVIEW_DIR / "cases_candidates.csv", "case_source_url"),
+]
+# Seed columns, other than source_url, that cite a source document.
+SEED_CITED_COLUMNS = ("primary_source_url", "ordinance_url", "group_sources", "case_source_url")
+LEAD = "lead"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -90,9 +120,11 @@ class CandidateRecord:
     enrichment pass. Required fields: entity_type, source_id, raw_path.
 
     entity_type must be one of: restriction | contested_project | case | unknown
-    review_status starts as 'pending'. promote_reviewed.py promotes the row on
-    the next data build once its seed's required fields are filled; 'rejected'
-    keeps it out.
+    review_status starts as 'lead': harvested by a machine, not yet triaged.
+    promote_reviewed.py never promotes a lead. A reviewer sets 'pending' once
+    the lead is on topic and placed (promote_reviewed.py then promotes it on
+    the next data build once its seed's required fields are filled and its
+    source was opened), or 'rejected' to keep it out.
     """
     # Provenance
     source_id: str = ""
@@ -101,7 +133,7 @@ class CandidateRecord:
 
     # Classification
     entity_type: str = "unknown"          # restriction | contested_project | case | unknown
-    review_status: str = "pending"        # pending | confirmed | rejected | promoted
+    review_status: str = LEAD             # lead | pending | confirmed | awaiting_review | rejected | promoted
     reviewer_notes: str = ""
 
     # Jurisdiction
@@ -112,7 +144,7 @@ class CandidateRecord:
 
     # Project / restriction shared
     project_name: str = ""
-    technology: str = ""                  # solar | wind | battery | offshore_wind | mixed
+    technology: str = ""                  # ;-separated common.TECH_ORDER tokens: solar;wind;battery_storage
     severity_score: str = ""             # 1-4; restrictions: computed on promotion, a typed one must agree
     description: str = ""
     source_url: str = ""
@@ -142,7 +174,8 @@ class CandidateRecord:
     archived_url: str = ""              # the Internet Archive copy read, when access is archived
     source_kind: str = ""               # what source_url is (classify.SOURCE_KINDS): instrument | minutes |
                                         # official_copy | court_record | news | tracker | other
-    queue_id: str = ""                  # set by promote_reviewed.py on promotion; links the row to its seed rows
+    queue_id: str = ""                  # set by parse.py when queued (promote_reviewed.py for hand-added
+                                        # rows); links the row to its seed rows once promoted
 
 
 QUEUE_FIELDS = list(CandidateRecord.__dataclass_fields__.keys())
@@ -194,54 +227,102 @@ def append_queue(path: Path, candidates: list[CandidateRecord]) -> None:
 # Dedupe against the queue and the seeds
 # ---------------------------------------------------------------------------
 
+def url_key(url: str) -> str:
+    """Source identity for dedupe: normalize_url without click tracking."""
+    return normalize_url(strip_tracking(url))
+
+
 def _name_key(entity: str, state: str, *names: str) -> tuple:
     name = next((n for n in names if (n or "").strip()), "")
     return (entity, (state or "").strip().upper(), " ".join(name.lower().split()))
 
 
+def headline_key(text: str) -> str:
+    """A news headline folded for comparison: lowercase words only."""
+    return " ".join(re.findall(r"[a-z0-9]+", (text or "").lower()))[:200]
+
+
+def _urls(value: str) -> list[str]:
+    return [u for u in re.split(r"[;\s]+", value or "") if u.startswith(("http://", "https://"))]
+
+
 class Known:
     """What the repository already holds, keyed for dedupe: by source document
-    (entity, normalized URL) and by name (entity, state, name). Each value
-    says where it was seen, for the log and the reviewer note."""
+    (entity, normalized URL), by any other citation of a document (URL alone),
+    by news headline, and by name (entity, state, name). Each value says where
+    it was seen, for the log and the reviewer note."""
 
-    def __init__(self, queue_rows: list[dict], seeds: dict[str, list[dict]]):
+    def __init__(self, queue_rows: list[dict], seeds: dict[str, list[dict]],
+                 cited: list[tuple[str, str]] | None = None):
         self.by_url: dict[tuple, str] = {}
         self.by_name: dict[tuple, str] = {}
+        self.cited: dict[str, str] = {}
+        self.headlines: dict[str, str] = {}
         for r in queue_rows:
             where = f"queue row from {r.get('source_id', '')}".strip()
             self.add(r.get("entity_type", ""), r.get("source_url", ""), r.get("state", ""),
                      (r.get("project_name"), r.get("municipality"), r.get("county")), where)
+            if (r.get("source_kind") or "").strip() == "news" and headline_key(r.get("evidence_text", "")):
+                self.headlines.setdefault(headline_key(r["evidence_text"]), where)
         for entity, rows in seeds.items():
             for r in rows:
                 where = f"seed {r.get('pinned_id') or r.get('id') or r.get('source', '')}".strip()
                 self.add(entity, r.get("source_url", ""), r.get("state", ""),
                          (r.get("project_name"), r.get("jurisdiction"), r.get("municipality"), r.get("county")), where)
+                for col in SEED_CITED_COLUMNS:
+                    for u in _urls(r.get(col, "")):
+                        self.cited.setdefault(url_key(u), f"{col} of {where}")
+        for url, where in cited or []:
+            self.cited.setdefault(url_key(url), where)
 
     def add(self, entity: str, url: str, state: str, names, where: str) -> None:
         if (url or "").strip():
-            self.by_url.setdefault((entity, normalize_url(url)), where)
+            self.by_url.setdefault((entity, url_key(url)), where)
         key = _name_key(entity, state, *names)
         if key[1] and key[2]:
             self.by_name.setdefault(key, where)
 
 
-def load_known(queue_path: Path, seed_paths: dict[str, Path]) -> Known:
-    return Known(read_csv(queue_path), {e: read_csv(p) for e, p in seed_paths.items()})
+def load_cited(paths: list[tuple[Path, str]]) -> list[tuple[str, str]]:
+    """(url, where) for every URL a review file cites as evidence."""
+    out = []
+    for path, column in paths:
+        for i, r in enumerate(read_csv(path), start=2):
+            out += [(u, f"{path.name} row {i}") for u in _urls(r.get(column, ""))]
+    return out
+
+
+def load_known(queue_path: Path, seed_paths: dict[str, Path],
+               cited_paths: list[tuple[Path, str]] | None = None) -> Known:
+    return Known(read_csv(queue_path), {e: read_csv(p) for e, p in seed_paths.items()},
+                 load_cited(cited_paths or []))
 
 
 def dedupe(candidates: list[CandidateRecord], known: Known) -> tuple[list[CandidateRecord], list[str]]:
     """(candidates to queue, one line per candidate dropped). A candidate
-    whose source document is already queued or seeded for the same entity is
+    whose source document is already queued or seeded for the same entity, or
+    cited as evidence anywhere, or whose news headline is already queued, is
     dropped; one that only shares a name is kept and noted."""
     kept, dropped = [], []
     for c in candidates:
         label = c.project_name or c.municipality or c.county or c.source_url
         if c.source_url.strip():
-            key = (c.entity_type, normalize_url(c.source_url))
+            ukey = url_key(c.source_url)
+            key = (c.entity_type, ukey)
             if key in known.by_url:
                 dropped.append(f"{c.entity_type} {label!r}: same source document as {known.by_url[key]}")
                 continue
-            known.by_url[key] = f"queue row from {c.source_id}"
+            if ukey in known.cited:
+                dropped.append(f"{c.entity_type} {label!r}: source document already cited as {known.cited[ukey]}")
+                continue
+        hkey = headline_key(c.evidence_text) if c.source_kind == "news" else ""
+        if hkey and hkey in known.headlines:
+            dropped.append(f"{c.entity_type} {label!r}: same headline as {known.headlines[hkey]}")
+            continue
+        if c.source_url.strip():
+            known.by_url[(c.entity_type, url_key(c.source_url))] = f"queue row from {c.source_id}"
+        if hkey:
+            known.headlines[hkey] = f"queue row from {c.source_id}"
         key = _name_key(c.entity_type, c.state, c.project_name, c.municipality, c.county)
         if key[1] and key[2]:
             if key in known.by_name:
@@ -251,6 +332,27 @@ def dedupe(candidates: list[CandidateRecord], known: Known) -> tuple[list[Candid
                 known.by_name[key] = f"queue row from {c.source_id}"
         kept.append(c)
     return kept, dropped
+
+
+def assign_queue_ids(candidates: list[CandidateRecord], taken: set[str]) -> None:
+    """Give each lead a queue_id from its source, source document and place,
+    unique within the queue (a numeric suffix settles a collision). The
+    promotion trail and the seeds key on it, so two leads from one raw file
+    must never share one."""
+    for c in candidates:
+        if c.queue_id:
+            taken.add(c.queue_id)
+            continue
+        raw = "|".join((v or "").strip().lower() for v in (
+            c.source_id, c.entity_type, url_key(c.source_url) if c.source_url.strip() else "",
+            c.state, c.county, c.municipality, c.project_name, c.technology, c.evidence_text[:200]))
+        base = "q_" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+        qid, n = base, 1
+        while qid in taken:
+            n += 1
+            qid = f"{base}-{n}"
+        c.queue_id = qid
+        taken.add(qid)
 
 
 # ---------------------------------------------------------------------------
@@ -281,21 +383,30 @@ def load_extractor(source_id: str):
         return None
 
 
-def run_extractor(mod, raw_path: Path, source: dict) -> list[CandidateRecord]:
+# Set by parse.py itself; an extractor that returns one of these is ignored on that key.
+OWN_FIELDS = ("source_id", "raw_path", "extracted_at")
+
+
+def run_extractor(mod, raw_path: Path, source: dict, rel_path: str = "") -> Optional[list[CandidateRecord]]:
+    """The extractor's candidates, or None when it raised (the raw file is then
+    not marked parsed, so the next run tries it again)."""
     now = datetime.now(timezone.utc).isoformat()
     try:
         raw_records = mod.extract(raw_path, source)
     except Exception as exc:
-        log.error(f"  Extractor {source['source_id']} raised: {exc}")
-        return []
+        log.error(f"  Extractor {source['source_id']} raised on {raw_path.name}: {type(exc).__name__}: {exc}")
+        return None
 
     candidates = []
     for r in raw_records:
+        clash = [k for k in OWN_FIELDS if k in r]
+        if clash:
+            log.warning(f"  Extractor {source['source_id']} returned {clash}; parse.py sets those itself")
         c = CandidateRecord(
             source_id=source["source_id"],
-            raw_path=str(raw_path),
+            raw_path=rel_path or str(raw_path),
             extracted_at=now,
-            **{k: v for k, v in r.items() if k in QUEUE_FIELDS},
+            **{k: v for k, v in r.items() if k in QUEUE_FIELDS and k not in OWN_FIELDS},
         )
         candidates.append(c)
     return candidates
@@ -341,7 +452,7 @@ def parseable_rows(
 # Main
 # ---------------------------------------------------------------------------
 
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(description="Parse raw fetched files into candidate records.")
     parser.add_argument("--source", help="Parse only this source_id.")
     parser.add_argument("--dry-run", action="store_true", help="Print plan without writing.")
@@ -355,7 +466,7 @@ def main() -> None:
 
     if not MANIFEST_PATH.exists():
         log.warning(f"Manifest not found at {MANIFEST_PATH}. Run fetch.py first.")
-        return
+        return 0
 
     manifest = load_manifest(MANIFEST_PATH)
     parsed = load_parse_state(PARSE_STATE_PATH)
@@ -366,11 +477,13 @@ def main() -> None:
 
     if not targets:
         log.info("No unprocessed manifest rows found.")
-        return
+        return 0
 
     log.info(f"Parsing {len(targets)} manifest row(s). dry_run={args.dry_run}")
-    total_candidates = 0
-    known = load_known(QUEUE_PATH, SEED_PATHS)
+    known = load_known(QUEUE_PATH, SEED_PATHS, CITED_PATHS)
+    taken = {r.get("queue_id") for r in read_csv(QUEUE_PATH) if r.get("queue_id")}
+    per_source: dict[str, list[int]] = {}
+    failed = []
 
     for row in targets:
         sid = row["source_id"]
@@ -378,7 +491,7 @@ def main() -> None:
 
         mod = load_extractor(sid)
         if mod is None:
-            log.info(f"  {sid}: no extractor found — skipping. (Add scripts/extractors/{sid}.py to enable.)")
+            log.info(f"  {sid}: no extractor found, skipping. (Add scripts/extractors/{sid}.py to enable.)")
             continue
 
         if args.dry_run:
@@ -386,11 +499,15 @@ def main() -> None:
             continue
 
         log.info(f"  Parsing {sid}: {raw_path.name}")
-        candidates = run_extractor(mod, raw_path, row)
+        candidates = run_extractor(mod, raw_path, row, rel_path=row["local_path"])
+        if candidates is None:
+            failed.append(f"{sid}: {row['local_path']}")
+            continue
         candidates, dropped = dedupe(candidates, known)
+        assign_queue_ids(candidates, taken)
         for line in dropped:
             log.info(f"    dropped {line}")
-        log.info(f"    -> {len(candidates)} candidate(s) queued, {len(dropped)} already held")
+        log.info(f"    -> {len(candidates)} lead(s) queued, {len(dropped)} already held")
 
         append_queue(QUEUE_PATH, candidates)
         append_parse_state(PARSE_STATE_PATH, {
@@ -400,10 +517,18 @@ def main() -> None:
             "parsed_at": datetime.now(timezone.utc).isoformat(),
             "candidate_count": len(candidates),
         })
-        total_candidates += len(candidates)
+        counts = per_source.setdefault(sid, [0, 0, 0])
+        counts[0] += 1
+        counts[1] += len(candidates)
+        counts[2] += len(dropped)
 
-    log.info(f"Done. {total_candidates} total candidate(s) queued at {QUEUE_PATH}")
+    for sid, (files, queued, held) in per_source.items():
+        print(f"{sid}: {files} raw file(s) parsed, {queued} lead(s) queued, {held} already held")
+    for f in failed:
+        print(f"{f}: extractor raised; not marked parsed, retried next run", file=sys.stderr)
+    log.info(f"Done. {sum(v[1] for v in per_source.values())} total lead(s) queued at {QUEUE_PATH}")
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

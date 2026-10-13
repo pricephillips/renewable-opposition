@@ -6,6 +6,9 @@
                                                   one input, then build
   python scripts/run_pipeline.py refresh --only fetch_facilities --skip-build
                                                   that input alone
+  python scripts/run_pipeline.py intake           live intake: fetch the sources an extractor reads
+                                                  (or that are watched), then parse new raw files
+                                                  into review-queue leads; no build
   python scripts/run_pipeline.py --list           print the stages
   python scripts/run_pipeline.py --dry-run        print what would run
 
@@ -13,7 +16,10 @@ The build stages are exactly what the Build dashboard data workflow runs
 (.github/workflows/build-data.yml calls this script), so a local run and CI
 cannot drift apart. The refresh stages fetch from the network and rewrite the
 seeds and the reference files; run them on purpose, and read
-data/processed/diff_summary.md afterwards.
+data/processed/diff_summary.md afterwards. The intake stages are what the
+Live intake workflow runs (.github/workflows/intake.yml): they write only
+data/raw/ and review-queue leads, which nothing publishes until a reviewer
+triages them, so intake never runs the build.
 
 Stops at the first stage that fails and exits with its code. With --summary
 FILE (the workflow passes $GITHUB_STEP_SUMMARY), each stage's output that a
@@ -53,7 +59,12 @@ BUILD = [
     ("processed_diff", ["scripts/processed_diff.py"], "what this build changed", False),
     ("operations_summary", ["scripts/operations_summary.py"], "what the pipeline did and holds, in one file", False),
 ]
-STAGES = {"build": BUILD, "refresh": REFRESH + BUILD}
+INTAKE = [
+    ("fetch_intake", ["scripts/fetch.py", "--intake"],
+     "live sources an extractor reads, and watched upstreams, into data/raw/", True),
+    ("parse", ["scripts/parse.py"], "new raw files into review-queue leads (review_status lead)", True),
+]
+STAGES = {"build": BUILD, "refresh": REFRESH + BUILD, "intake": INTAKE}
 
 
 def run(stage: tuple, summary: Path | None, dry_run: bool) -> int:
@@ -91,7 +102,7 @@ def main() -> int:
             ap.error(f"unknown refresh stage(s) {bad}; choose from {sorted(known)}")
         stages = [s for s in REFRESH if s[0] in args.only] + ([] if args.skip_build else BUILD)
     if args.list:
-        for mode, group in (("refresh", REFRESH), ("build", BUILD)):
+        for mode, group in (("refresh", REFRESH), ("build", BUILD), ("intake", INTAKE)):
             for name, _, what, _ in group:
                 print(f"{mode:8} {name:26} {what}")
         return 0

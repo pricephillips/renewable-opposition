@@ -10,11 +10,18 @@
 #                   docket | tracker | siting_board | report
 #   jurisdiction_type : state | county | municipality | national
 #   state         : two-letter FIPS code, or "US" for national
-#   fetch_method  : static | js_render (static = requests; js_render = playwright, later)
+#   fetch_method  : static | api | js_render (static and api = requests; js_render = playwright, later)
 #   schedule      : how often to re-fetch (daily | weekly | monthly)
 #   parser_hint   : free-text note for the extraction layer
 #   active        : true/false — set false to disable without removing the entry
 #   notes         : optional context
+#
+# Live intake (scripts/run_pipeline.py intake, .github/workflows/intake.yml)
+# fetches every active source that something reads: one with an extractor in
+# scripts/extractors/<source_id>.py, or one marked watch: true. scripts/fetch.py
+# documents the optional request fields (requests, params, expand_from,
+# min_interval_s, expect, expect_contains, retry, auth_env, compress, watch,
+# on_change).
 
 sources:
 
@@ -93,8 +100,11 @@ sources:
       Article 10 / Article 94-c case list. Contains project name,
       developer, capacity, county, status. Intervenor filings indicate
       contested projects.
-    active: true
-    notes: NY consolidated siting under OCS; Article 94-c applies to large renewables.
+    active: false
+    notes: >
+      NY consolidated siting under OCS; Article 94-c applies to large renewables.
+      This URL answers 404 (checked 2026-10-13); the case list now lives at
+      dps.ny.gov/ores-permit-applications (ny_ores_permit_applications below).
 
   - source_id: mi_egle_wind_solar
     url: https://www.michigan.gov/egle/about/organization/Materials-Management/renewable-energy
@@ -168,8 +178,15 @@ sources:
     document_type: docket
     jurisdiction_type: national
     state: US
-    fetch_method: static
+    fetch_method: api
     schedule: weekly
+    expect: json
+    compress: true
+    # Anonymous use is capped at 125 requests a day per IP. A token (free with
+    # an account) in the COURTLISTENER_API_TOKEN repository secret is sent when
+    # set; one request a week fits either way.
+    auth_env: COURTLISTENER_API_TOKEN
+    auth_prefix: "Token "
     parser_hint: >
       Free full-text search of federal and state court opinions.
       Filter by: filed_after, jurisdiction, keyword clusters
@@ -181,6 +198,149 @@ sources:
     notes: >
       Best free-tier court data source. Covers opinions but not all
       docket entries. Supplement with PACER for full dockets later.
+
+  # ── Live intake ──────────────────────────────────────────────────────────
+  # Fetched weekly by .github/workflows/intake.yml. Every candidate an
+  # extractor finds enters data/review/queue.csv as a lead (review_status
+  # lead, access snippet): never promoted, never counted on a page, until a
+  # reviewer triages it (README, "Live intake").
+
+  - source_id: gdelt_renewable_news
+    url: https://api.gdeltproject.org/api/v2/doc/doc
+    publisher: The GDELT Project (DOC 2.0 API)
+    document_type: news
+    jurisdiction_type: national
+    state: US
+    fetch_method: api
+    schedule: weekly
+    # GDELT asks for one request every 5 seconds and answers a malformed query
+    # with HTTP 200 and a line of text, so the pace is 6 s, a non-JSON body is
+    # refused, and a 429 is retried after 20 s, then 60 s.
+    min_interval_s: 6
+    expect: json
+    retry: {statuses: [429], backoff_s: [20, 60]}
+    compress: true
+    requests:
+      - label: moratorium
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: zoning
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: denial
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: litigation
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: organizing
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+    parser_hint: >
+      ArtList JSON: url, title, seendate (a crawl date, never an event date),
+      domain, language, sourcecountry. GDELT matches full text, so the
+      extractor keeps a headline only if it names a renewable technology and
+      an opposition mechanism, and places it only when the headline names the
+      county (and its state, unless the name is unique).
+    active: true
+    notes: >
+      Discovery only: a headline locates a story; the article must be opened
+      before anything is promoted. Practice ported from
+      pricephillips/data-center-map signal_harvest.py, with its fixes (pacing,
+      no bare county names, dedupe against every cited URL).
+
+  - source_id: ny_ores_permit_applications
+    url: https://dps.ny.gov/ores-permit-applications
+    publisher: New York Office of Renewable Energy Siting and Electric Transmission (ORES)
+    document_type: siting_board
+    jurisdiction_type: state
+    state: NY
+    fetch_method: static
+    schedule: weekly
+    expect: html
+    expect_contains: Permit Application
+    compress: true
+    parser_hint: >
+      Static HTML, one table per section (Notices of Intent, pending
+      completeness, incomplete, complete under review, permitted, withdrawn or
+      relinquished, denied). Each row: case number, project name, and a
+      description with capacity, towns and county. Denied and withdrawn
+      applications are contested-project leads.
+    active: true
+    notes: Replaces ny_ocs_article10, whose URL now answers 404.
+
+  - source_id: legistar_renewable_matters
+    url: https://webapi.legistar.com/v1/{client}/matters
+    publisher: Granicus Legistar Web API (county and city legislative records)
+    document_type: meeting_minutes
+    jurisdiction_type: county
+    state: US
+    fetch_method: api
+    schedule: weekly
+    expand_from: config/legistar_clients.json
+    min_interval_s: 1
+    expect: json
+    compress: true
+    params:
+      $filter: "substringof('solar energy',MatterTitle) or substringof('solar farm',MatterTitle) or substringof('solar facilit',MatterTitle) or substringof('solar power',MatterTitle) or substringof('solar project',MatterTitle) or substringof('photovoltaic',MatterTitle) or substringof('wind energy',MatterTitle) or substringof('wind farm',MatterTitle) or substringof('wind turbine',MatterTitle) or substringof('battery energy storage',MatterTitle) or substringof('energy storage system',MatterTitle) or substringof('renewable energy',MatterTitle)"
+      $top: 200
+      $orderby: MatterIntroDate desc
+    parser_hint: >
+      JSON list of matters: MatterId, MatterGuid, MatterFile, MatterTitle,
+      MatterTypeName, MatterStatusName, MatterIntroDate, MatterPassedDate,
+      MatterBodyName. A moratorium, ordinance or zoning amendment on solar,
+      wind or storage is a restriction lead; an appeal or permit decision on a
+      named project is a contested-project lead. The public link is
+      https://{client}.legistar.com/LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}.
+    active: true
+    notes: >
+      Clients and their counties are listed in config/legistar_clients.json
+      (verified clients from pricephillips/data-center-map's legistar_probe
+      that hold renewable records). A matter is the legislative record, not
+      the instrument: access stays snippet until someone opens the attachment.
+
+  # Change detection only (watch: true): nothing parses these. A stored copy
+  # means the upstream changed, and the intake summary says what to run.
+  - source_id: moratorium_nation_upstream
+    url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1
+    publisher: Moratorium Nation (GitHub commits API)
+    document_type: tracker
+    jurisdiction_type: national
+    state: US
+    fetch_method: api
+    schedule: weekly
+    expect: json
+    auth_env: GH_API_TOKEN
+    auth_prefix: "Bearer "
+    watch: true
+    on_change: "Moratorium Nation changed upstream: run python scripts/run_pipeline.py refresh --only fetch_moratorium_nation and read data/processed/diff_summary.md"
+    active: true
+    notes: The newest commit to the inventory file that fetch_moratorium_nation.py reads from main.
+
+  - source_id: sabin_web_database_restrictions
+    url: https://oppositionreport.org/wp-load.php?security_key=04611eaf3d6d15e6&export_id=7&action=get_data
+    publisher: Columbia Sabin Center for Climate Change Law (oppositionreport.org export)
+    document_type: report
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: weekly
+    expect: csv
+    compress: true
+    watch: true
+    on_change: "The Sabin web database's restrictions export changed: compare it with data/raw/sabin_2026_09_restrictions_csv/ before running the Sabin refresh stages"
+    active: true
+    notes: The same export fetch_sabin_edition.py stores for the September 2026 edition; the web database is updated monthly.
+
+  - source_id: sabin_web_database_projects
+    url: https://oppositionreport.org/wp-load.php?security_key=bec1e2337cf73fbe&export_id=8&action=get_data
+    publisher: Columbia Sabin Center for Climate Change Law (oppositionreport.org export)
+    document_type: report
+    jurisdiction_type: national
+    state: US
+    fetch_method: static
+    schedule: weekly
+    expect: csv
+    compress: true
+    watch: true
+    on_change: "The Sabin web database's contested-projects export changed: compare it with data/raw/sabin_2026_09_projects_csv/ before running the Sabin refresh stages"
+    active: true
+    notes: Companion to sabin_web_database_restrictions.
 
   # ── NGO / Advocacy Trackers ──────────────────────────────────────────────
   - source_id: clean_grid_alliance_tracker

@@ -14,3 +14,6 @@ local_knowledge*
 data/db/*.duckdb
 data/db/*.duckdb.wal
 data/db/tmp*/
+
+# Git worktrees that Claude Code sessions create for parallel agents.
+.claude/worktrees/
