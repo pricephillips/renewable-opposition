@@ -21,7 +21,10 @@ drafter and got a fresh review by another agent before it was recorded.
 | Carroll, NH | 33003 | Restriction: Moultonborough Zoning Ordinance Art. 10.2: larger solar classes prohibited in named districts, a 150-acre cap on stations over 30 MW, lot-line setbacks. Confirmed. |
 | Greater Bridgeport, CT | 09120 | Lead. Monroe and Trumbull (opened) and Fairfield (a 2021 copy) have no restriction on principal-use facilities; Stratford was seen only on a third-party copy, and its use table keeps "power plants" 500 ft from residential and commercial districts without defining them. Bridgeport's and Easton's regulations were not found, and no minutes or Siting Council dockets were searched. |
 | Lamoille, VT | 50015 | Lead. Every bylaw opened (Stowe, Wolcott, Morristown, Hyde Park, Elmore, Johnson) exempts state-permitted (30 V.S.A. 248) facilities and requires only screening. Four towns, the current Morristown bylaws, all minutes and the PUC docket were not covered. |
-| Hawaii, Kauai and Kalawao, HI; Eureka, NV | 15001, 15007, 15005, 32011 | Drafted; review in progress. |
+| Eureka, NV | 32011 | Negative check, grade A: the pilot's first. The county has no zoning and no incorporated town (its 2026 hazard plan, 2010 master plan, 2024-12-03 minutes and the District Attorney at the 2026-06-18 meeting say so). Its code titles, all 138 commission minutes from 2022-01 to 2026-09 (five scanned ones read by OCR), the 2026 agenda packets and the PUCN dockets naming the county hold no restriction. A 2023-02-21 resolution saying the county does not support large wind projects is policy only. Only two Planning Commission minutes are posted; the commission is advisory and reviews land divisions, so a siting rule would come through the commissioners' records, which were covered. Accepted on review. |
+| Hawaii, HI | 15001 | Lead. Zoning Code 25-4-22(e) (Ord. 96-160) lets wind machines exceed district height limits only with a property-line setback equal to their height, and a 1999 variance shows it applied to the Kamaoa Wind Farm. The reviewer could not open the current Chapter 25 (the county site returns 403) to confirm the section is unchanged, so it was not recorded (unverifiable). Opening the current code in a browser would settle it. |
+| Kauai, HI | 15007 | Lead. The zoning ordinance is only on eCode360. A 2026 Planning Commission decision quotes a 10 percent or 20 acre limit on solar on B and C soils, which the reviewer read as a by-right tier copying state law, not a county cap. |
+| Kalawao, HI | 15005 | Lead. No county government and no zoning: under HRS 326-34 the state Department of Health administers it. The procedure assumes a local government that zones, so it has no way to examine this county; see below. |
 | Big Horn, Carbon, Johnson, Teton, Washakie and Weston, WY | 56003, 56007, 56019, 56039, 56043, 56045 | Drafting in progress. |
 
 The eight confirmed instruments are in `data/review/queue.csv` as
@@ -38,6 +41,14 @@ publishes as `verified`, because the instrument itself was opened.
   clearance): section 3, land-use rule.
 - One restriction examines a county; a negative check needs every
   government that zones.
+
+## Open question
+
+Kalawao County has no local government, so no check under section 1 can
+cover it. It could be examined by searching the bodies that do govern its
+land (the Land Use Commission, DLNR, Hawaiian Home Lands, the National Park
+Service), or left outside the coverage universe as Puerto Rico is. That is a
+maintainer's decision; until then it stays on the worklist.
 
 ## What blocked the pass
 
