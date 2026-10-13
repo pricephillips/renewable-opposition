@@ -21,3 +21,5 @@ data/processed/** -merge
 data/db/** -merge
 *.parquet binary
 docs/coverage_audit.md -merge
+# Generated from the code by scripts/codebook.py; resolve by rerunning it.
+docs/codebook.md -merge

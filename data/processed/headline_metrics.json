@@ -27,6 +27,12 @@
         "by_verification": {
           "unverified": 3267,
           "verified": 74
+        },
+        "by_currency": {
+          "in_force": 942,
+          "lapsed_unconfirmed": 1,
+          "pending": 5,
+          "unknown": 2393
         }
       },
       "multi_sector_data_centers": {
@@ -51,6 +57,11 @@
         "by_verification": {
           "unverified": 76,
           "verified": 7
+        },
+        "by_currency": {
+          "in_force": 74,
+          "lapsed_unconfirmed": 1,
+          "pending": 8
         }
       }
     },

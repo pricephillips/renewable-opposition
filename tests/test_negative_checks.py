@@ -80,3 +80,29 @@ def test_the_committed_files_have_their_columns():
     assert header == nc.CHECK_FIELDS
     assert nc.validate(read_csv(nc.CHECKS_PATH), geo.known) == []
     assert nc.REQUESTS_PATH.read_text(encoding="utf-8").splitlines()[0] == "county_fips,date"
+
+
+def test_a_check_is_graded_by_independence_classes_not_by_source_count():
+    today = date(2026, 10, 13)
+    assert nc.independence_classes(GOOD) == ["primary_law", "proceeding", "secondary"]
+    assert nc.grade(GOOD, today) == "A"
+    # Three news searches are one class: they can all be wrong together.
+    news = {**GOOD, "sources_checked": "Google News search; local newspaper archive; Moratorium Nation tracker"}
+    assert nc.independence_classes(news) == ["secondary"] and nc.grade(news, today) == "B"
+    assert nc.grade({**news, "checked_on": "2025-01-01"}, today) == "C"
+    assert nc.grade({**GOOD, "checked_on": "2025-01-01"}, today) == "B"
+    assert nc.grade({**GOOD, "sources_checked": ""}, today) == "U"
+    assert nc.family_of("county code library") == "primary_law"
+    assert nc.family_of("commission minutes 2023 to 2026") == "proceeding"
+    assert nc.family_of("state PSC dockets") == "proceeding"
+    assert nc.family_of("news search for solar") == "secondary"
+    assert all(g in nc.GRADE_MEANING for g in nc.GRADES)
+
+
+def test_the_county_summary_and_profile_carry_the_grade():
+    import county_summary
+    rows = county_summary.build({}, [], [GOOD], ["20021", "20023"], lambda f: "X", lambda f: "KS")
+    by = {r["county_fips"]: r for r in rows}
+    assert by["20021"]["coverage"] == "negative_check" and by["20021"]["negative_check_grade"] == "A"
+    assert by["20023"]["negative_check_grade"] == "" and list(rows[0]) == county_summary.FIELDS
+    assert "Evidence grade A (primary_law, proceeding, secondary)" in sp.checked_line(GOOD)

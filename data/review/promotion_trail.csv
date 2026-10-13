@@ -1,0 +1,63 @@
+decided_on,file,key,entity_type,state,place,action,reason
+2026-10-13,queue.csv,q_82dfad9133,restriction,IA,Linn County,promoted,
+2026-10-13,queue.csv,q_67b7708fa1,contested_project,IA,Linn County,promoted,
+2026-10-13,queue.csv,q_f98baf41f4,restriction,KS,Cherokee County,held,"status expired: the instrument is no longer in force, so it is not published"
+2026-10-13,queue.csv,q_011039b3ee,restriction,KS,Cherokee County,promoted,
+2026-10-13,queue.csv,q_f58162735a,contested_project,KS,Cherokee County,promoted,
+2026-10-13,queue.csv,q_4083158e5e,restriction,IA,Clarke County,promoted,
+2026-10-13,queue.csv,q_66e43b721a,restriction,IA,Mitchell County,held,"status expired: the instrument is no longer in force, so it is not published"
+2026-10-13,queue.csv,q_eaadf5f81d,restriction,CO,Logan County,held,"status lifted: the instrument is no longer in force, so it is not published"
+2026-10-13,queue.csv,q_f4af916a9c,restriction,IN,Jay County,promoted,
+2026-10-13,queue.csv,q_638b6a7c48,restriction,AZ,Goodyear,promoted,
+2026-10-13,queue.csv,q_12cdffb64f,restriction,ID,Ada County,promoted,
+2026-10-13,queue.csv,q_e5bd336a9e,restriction,KY,Breckinridge County,promoted,
+2026-10-13,queue.csv,q_d3c8aa136e,restriction,IN,Jay County,promoted,
+2026-10-13,queue.csv,q_7a0536c48c,restriction,IN,Jay County,promoted,
+2026-10-13,queue.csv,q_3897eb252a,restriction,OH,Huron County,promoted,
+2026-10-13,queue.csv,q_ae4d4afc24,restriction,OH,Sandusky County,awaiting_review,awaiting review by someone other than its drafter
+2026-10-13,cases_candidates.csv,REC-0013|contested_project|U.S. District Court for the District of Arizona|4:24-cv-00034,case,AZ,SunZia Transmission Line,promoted,
+2026-10-13,cases_candidates.csv,"REC-0023|contested_project|California Court of Appeal, First Appellate District|A116362",case,CA,Altamont Pass Wind Resource Area First-Generation Wind Farms,promoted,
+2026-10-13,cases_candidates.csv,REC-0026|contested_project|U.S. District Court for the Central District of California|5:14-cv-02504,case,CA,Blythe Mesa Solar Power Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0027|contested_project|U.S. District Court for the Southern District of California|3:20-cv-02343,case,CA,Boulder Brush Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0044|contested_project|Delaware Court of Chancery|2022-0287-NAC,case,DE,Cedar Creek Solar,promoted,
+2026-10-13,cases_candidates.csv,REC-0044|contested_project|Delaware Superior Court|N23C-03-196 VLM,case,DE,Cedar Creek Solar,promoted,
+2026-10-13,cases_candidates.csv,REC-0047|contested_project|Delaware Court of Chancery|7939-VCG,case,DE,University of Delaware Wind Turbine,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,REC-0048|contested_project|Delaware Court of Chancery|,case,DE,US Wind Substation Project,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,REC-0067|contested_project|Supreme Court of Hawai'i|SCAP-19-0000449,case,HI,Kahuku Pua Makani Wind Project,promoted,
+2026-10-13,cases_candidates.csv,"REC-0085|contested_project|Illinois Circuit Court, Sixth Judicial Circuit (DeWitt County)|21-MR-36",case,IL,Alta Wind Farm,promoted,
+2026-10-13,cases_candidates.csv,"REC-0154|contested_project|Louisiana Court of Appeal, Third Circuit|25-650",case,LA,Cajun Crescent Energy Center,promoted,
+2026-10-13,cases_candidates.csv,REC-0193|contested_project|U.S. Court of Appeals for the D.C. Circuit|14-5301,case,MA,Cape Wind,promoted,
+2026-10-13,cases_candidates.csv,REC-0189|restriction|Massachusetts Land Court|,case,MA,Town of Shutesbury ban,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,"REC-0180|contested_project|Court of Special Appeals of Maryland|No. 804, September Term 2016",case,MD,Dan’s Mountain Wind Farm,promoted,
+2026-10-13,cases_candidates.csv,"REC-0180|contested_project|Court of Special Appeals of Maryland|No. 1177, September Term 2020",case,MD,Dan’s Mountain Wind Farm,promoted,
+2026-10-13,cases_candidates.csv,"REC-0210|contested_project|Michigan Circuit Court, Van Buren County|",case,MI,Southwest Michigan Solar Project,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,"REC-0231|contested_project|Missouri Court of Appeals, Western District|WD86613",case,MO,Grain Belt Express Tiger Connector Expansion,promoted,
+2026-10-13,cases_candidates.csv,REC-0236|contested_project|Supreme Court of Montana|DA 19-0594,case,MT,Crazy Mountain Wind Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0319|contested_project|North Carolina Court of Appeals|COA24-108,case,NC,Coastal Pine,promoted,
+2026-10-13,cases_candidates.csv,REC-0268|contested_project|Supreme Court of New Hampshire|2017-0313,case,NH,Antrim Wind Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0269|contested_project|Supreme Court of New Hampshire|2022-0122,case,NH,Franklin Solar Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0276|contested_project|U.S. District Court for the District of New Jersey|3:24-cv-09377,case,NJ,Atlantic Shores South Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0279|contested_project|U.S. District Court for the District of Columbia|22-cv-55 (DLF),case,NJ,New York Bight Offshore Wind Area,promoted,
+2026-10-13,cases_candidates.csv,REC-0281|contested_project|U.S. District Court for the District of New Jersey|1:23-cv-21201,case,NJ,Ocean Wind 1,promoted,
+2026-10-13,cases_candidates.csv,REC-0259|contested_project|U.S. District Court for the District of Nevada|2:23-cv-02009,case,NV,Clark County Solar Development,promoted,
+2026-10-13,cases_candidates.csv,REC-0261|contested_project|U.S. District Court for the District of Nevada|,case,NV,Dixie Valley Geothermal Project,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,REC-0263|contested_project|Supreme Court of Nevada|58609,case,NV,Forest Hills Subdivision Wind Turbine,promoted,
+2026-10-13,cases_candidates.csv,REC-0264|contested_project|U.S. District Court for the District of Nevada|3:23-cv-00013,case,NV,Gerlach Geothermal ExploraDon Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0265|contested_project|U.S. District Court for the District of Nevada|2:25-cv-00929,case,NV,Greenlink West Transmission Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0363|contested_project|U.S. Court of Appeals for the Tenth Circuit|15-5121,case,OK,Osage Wind,promoted,
+2026-10-13,cases_candidates.csv,REC-0368|contested_project|Supreme Court of Oregon|S069919,case,OR,Boardman-to-Hemingway Transmission Line,promoted,
+2026-10-13,cases_candidates.csv,REC-0369|contested_project|U.S. Court of Appeals for the Ninth Circuit|13-36078,case,OR,Echanis Wind Farm,promoted,
+2026-10-13,cases_candidates.csv,REC-0375|contested_project|U.S. Court of Appeals for the Ninth Circuit|13-36078,case,OR,Steens Wind,promoted,
+2026-10-13,cases_candidates.csv,"REC-0403|contested_project|South Dakota Circuit Court, Third Circuit|12CIV17-0017",case,SD,Crocker Wind Farm,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,REC-0404|contested_project|Supreme Court of South Dakota|29334,case,SD,Crowned Ridge Wind Project,promoted,
+2026-10-13,cases_candidates.csv,"REC-0435|contested_project|Texas Court of Appeals, Eleventh District (Eastland)|11-07-00074-CV",case,TX,Horse Hollow Wind Energy Center,promoted,
+2026-10-13,cases_candidates.csv,REC-0440|contested_project|Vermont Supreme Court|22-AP-286,case,VT,"Apple Hill Solar and Willow Road Solar, f/k/a Chelsea Solar",promoted,
+2026-10-13,cases_candidates.csv,REC-0473|contested_project|U.S. District Court for the District of Maryland|8:09-cv-01519,case,WV,Beech Ridge Wind Farm,promoted,
+2026-10-13,cases_candidates.csv,REC-0474|contested_project|Supreme Court of Appeals of West Virginia|33201,case,WV,Mount Storm Wind Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0493|contested_project|Supreme Court of Wyoming|S-12-0060,case,WY,Pioneer Wind Parks I and II,promoted,
+2026-10-13,cases_candidates.csv,"REC-0494|contested_project|Supreme Court of Wyoming|S-22-0127, S-22-0128",case,WY,Rail Tie Wind Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0494|contested_project|U.S. District Court for the District of Wyoming|1:24-cv-00271,case,WY,Rail Tie Wind Project,promoted,
+2026-10-13,cases_candidates.csv,REC-0495|contested_project|U.S. District Court for the District of Wyoming|2:23-cv-00134,case,WY,Rock Creek Gen-Tie Line,promoted,
+2026-10-13,cases_candidates.csv,REC-0220|contested_project|Minnesota Court of Appeals|A20-1043,case,MN,Hale Township Community Solar Garden,promoted,
+2026-10-13,cases_candidates.csv,REC-0367|contested_project|Oregon Land Use Board of Appeals|,case,OR,Beehive Solar Project,held,"missing case_name, case_source_url"
+2026-10-13,cases_candidates.csv,REC-0374|contested_project|Oregon Court of Appeals|A166360,case,OR,Origis Energy Solar Project,promoted,

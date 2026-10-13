@@ -18,8 +18,14 @@ however many technologies it covers. Quote these, not row counts.
 | Verification: verified | 74 | 7 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 3267 | 76 |
+| Currency: in_force | 942 | 74 |
+| Currency: lapsed_unconfirmed | 1 | 1 |
+| Currency: pending | 5 | 8 |
+| Currency: unknown | 2393 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
+
+Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
 3627 published rows describe 3424 instruments.
 

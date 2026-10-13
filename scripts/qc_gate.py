@@ -30,6 +30,16 @@ Checks
                                 no renewable technology (classify.scope): the
                                 source's sector tag is not supported by the record
   DATE_UNPARSEABLE      LOW     an ISO date column that is not YYYY[-MM[-DD]]
+  END_DATE_PASSED       MEDIUM  an active or extended restriction whose own end
+                                date is before the build date and that no
+                                reviewer re-confirmed since (classify.currency
+                                lapsed_unconfirmed): the source's status may be
+                                out of date. Reported, never quarantined; the
+                                headline counts it apart and the worklist ranks
+                                it first
+
+The table above is also CHECKS, which scripts/codebook.py publishes; a code
+emitted here that CHECKS does not list fails tests/test_brain.py.
 
 Usage
 -----
@@ -59,6 +69,7 @@ VOCAB = {
         "evidence_level": {"primary_source", "compiled_record", "compiled_flagged",
                            "report_citation"},
         "verification": {"verified", "located", "unverified"},
+        "currency": {"in_force", "lapsed_unconfirmed", "pending", "unknown"},
     },
     "contested_projects": {
         "outcome": {"blocked_confirmed", "blocked_unverified", "restricted_conditional",
@@ -71,7 +82,24 @@ VOCAB = {
         "verification": {"verified", "unverified"},
     },
 }
-DERIVED_FIELDS = {"scope", "evidence_level", "verification"}
+DERIVED_FIELDS = {"scope", "evidence_level", "verification", "currency"}
+# (code, severity, what it means), the table in the module docstring. A
+# severity given as "MEDIUM or HIGH" varies with the row.
+CHECKS = (
+    ("COORD_OUTSIDE_STATE", "HIGH", "coordinates not inside the state the row names"),
+    ("SOURCE_URL_INVALID", "HIGH", "source_url, case_source_url or primary_source_url is not http(s)"),
+    ("STATUS_VOCAB", "HIGH", "status, outcome, case_status or a derived field outside the entity's vocabulary"),
+    ("DATE_IN_FUTURE", "HIGH", "an enactment or filing date after the build date"),
+    ("SEVERITY_STATUS", "MEDIUM", "a pending instrument scored above 2"),
+    ("CONFIRMED_NO_EVIDENCE", "HIGH", "a *_confirmed outcome with no independent finality evidence"),
+    ("PRIMARY_SOURCE_CONTRADICTS", "MEDIUM or HIGH",
+     "a reviewer found the primary source disagrees with the record; MEDIUM when that source was seen only "
+     "as search-index text (a lead to read), HIGH when it was opened or archived"),
+    ("SCOPE_DATA_CENTER_ONLY", "HIGH", "a restriction whose text names data centers and no renewable technology"),
+    ("DATE_UNPARSEABLE", "LOW", "an ISO date column that is not YYYY[-MM[-DD]]"),
+    ("END_DATE_PASSED", "MEDIUM", "an active or extended restriction whose own end date has passed with no "
+     "reviewer confirmation since; the source's status may be out of date"),
+)
 DATE_FIELDS = ("date_enacted_iso", "current_end_date_iso", "filing_date")
 # Dates that record something that already happened. An end date is expected
 # to be in the future, so it is format-checked only.
@@ -142,6 +170,17 @@ def check_record(entity: str, row: dict, today: date | None = None) -> list[Issu
         issues.append(Issue("PRIMARY_SOURCE_CONTRADICTS", "MEDIUM" if unread else "HIGH", "primary_source_url",
                             ("primary source located, not yet read, may disagree: " if unread
                              else "primary source disagrees: ") + _s(row.get('primary_source_url'))[:80]))
+
+    if entity == "restrictions" and _s(row.get("status")) in ("active", "extended"):
+        end = _s(row.get("current_end_date_iso"))
+        if _ISO.match(end) and end < today.isoformat()[: len(end)]:
+            checked = _s(row.get("primary_source_checked_on"))
+            reconfirmed = _s(row.get("primary_source_verdict")) == "confirmed" and _ISO.match(checked) \
+                and checked[: len(end)] >= end
+            if not reconfirmed:
+                issues.append(Issue("END_DATE_PASSED", "MEDIUM", "current_end_date_iso",
+                                    f"end date {end} is before {today.isoformat()} and nothing confirms an "
+                                    "extension; the source's status may be out of date"))
 
     if entity == "restrictions" and _s(row.get("scope")) == "data_center_only":
         issues.append(Issue("SCOPE_DATA_CENTER_ONLY", "HIGH", "scope",
@@ -220,6 +259,16 @@ def selftest() -> int:
                           "date_enacted_iso": "March 2024"}, {"DATE_UNPARSEABLE"}),
         ("restrictions", {"state": "VA", "status": "active", "source_url": "https://x.org",
                           "current_end_date_iso": "2027-06-01"}, set()),
+        ("restrictions", {"state": "VA", "status": "extended", "source_url": "https://x.org",
+                          "current_end_date_iso": "2026-09-01"}, {"END_DATE_PASSED"}),
+        ("restrictions", {"state": "VA", "status": "active", "source_url": "https://x.org",
+                          "current_end_date_iso": "2026-09", "primary_source_url": "https://x.gov/o.pdf",
+                          "primary_source_verdict": "confirmed", "primary_source_checked_on": "2026-09-20"},
+         set()),
+        ("restrictions", {"state": "VA", "status": "pending", "source_url": "https://x.org",
+                          "current_end_date_iso": "2026-09-01"}, set()),
+        ("restrictions", {"state": "VA", "status": "active", "source_url": "https://x.org",
+                          "currency": "stale"}, {"STATUS_VOCAB"}),
         ("contested_projects", {"state": "VA", "outcome": "blocked_confirmed",
                                 "finality_evidence": "outcome_label_only",
                                 "source_url": "https://x.org"}, {"CONFIRMED_NO_EVIDENCE"}),

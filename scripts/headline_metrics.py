@@ -12,6 +12,11 @@ Rules
   - Restrictions are split by scope. The headline figure is renewables_only;
     multi_sector_data_centers is reported beside it, never folded in.
     data_center_only instruments are quarantined by qc_gate and never counted.
+  - Each scope is also broken down by currency (classify.currency): how many
+    instruments are in force today, how many are past their own end date with
+    no confirmed extension (lapsed_unconfirmed), pending, or of unknown status.
+    A lapsed instrument stays in the instrument count with the status its
+    source gave it; the breakdown is what lets a reader subtract it.
   - Every count is also broken down by evidence_level, so a reader can see how
     much of a number rests on a primary source, and by verification
     (classify.verification): verified, located or unverified under the
@@ -139,6 +144,7 @@ def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None
             "by_technology": dict(sorted(Counter(t for i in group for t in i["_techs"]).items())),
             "by_evidence_level": _counter(group, lambda i: i.get("evidence_level")),
             "by_verification": _counter(group, lambda i: i.get("verification")),
+            "by_currency": _counter(group, lambda i: i.get("currency")),
         }
     out["restrictions"] = {"rows": len(rows), "instruments": len(inst), "by_scope": by_scope,
                            "by_source": by_source(inst),
@@ -216,11 +222,19 @@ def render(m: dict) -> str:
     for v in ("verified", "located", "unverified"):
         lines.append(f"| Verification: {v} | {ren['by_verification'].get(v, 0)} | "
                      f"{multi['by_verification'].get(v, 0)} |")
+    for cur in ("in_force", "lapsed_unconfirmed", "pending", "unknown"):
+        lines.append(f"| Currency: {cur} | {ren.get('by_currency', {}).get(cur, 0)} | "
+                     f"{multi.get('by_currency', {}).get(cur, 0)} |")
     lines += [
         "",
         "Verified: checked against the instrument itself or the minutes that adopted it, opened or "
         "read in an archived copy. Located: that document is found but not yet read. Unverified: "
         "a news article or a compiled tracker locates the instrument but does not verify it.",
+        "",
+        "Currency: in_force means the status is active or extended and no end date has passed. "
+        "lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer "
+        "has confirmed an extension; it keeps its source status and severity, so subtract it before "
+        "quoting what is in force today. unknown is a row with no status (NREL ordinance features).",
         "",
         f"{r['rows']} published rows describe {r['instruments']} instruments.",
         "",

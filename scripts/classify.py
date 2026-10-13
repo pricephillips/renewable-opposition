@@ -69,6 +69,36 @@ verification    The evidence standard, in one word per row:
                     verified    a court record (case_source_url) is attached
                     unverified  otherwise
 
+currency        restrictions only. Whether the instrument is known to be in
+                force today, judged from the source's own dates rather than its
+                status word alone (a status is a snapshot; an end date is a
+                fact about the instrument). Adapted from the staleness rules
+                of pricephillips/data-center-map stale_pending_audit.py:
+                  in_force            status active or extended, and no end
+                                      date has passed
+                  lapsed_unconfirmed  status active or extended, but
+                                      current_end_date_iso is before today and
+                                      no reviewer confirmed the instrument
+                                      against its primary source on or after
+                                      that date. A moratorium past its end
+                                      date is not known to be in force;
+                                      nothing confirms an extension either.
+                                      Severity and status are left as the
+                                      source gave them; the headline reports
+                                      the count beside the in-force figure,
+                                      qc_gate notes it (END_DATE_PASSED) and
+                                      the restriction worklist ranks it first.
+                  pending             status pending
+                  unknown             any other status (NREL ordinance rows
+                                      carry no status)
+
+status_as_of    restrictions only. The latest date on which the record's
+                status is known to have held: the latest "as of YYYY-MM-DD"
+                in its text (Moratorium Nation's convention), the enactment
+                date, or the date a reviewer checked the primary source.
+                Blank when the record carries no date at all. The worklist
+                measures a pending instrument's age from it (STALE_PENDING).
+
 county_fips     contested_projects, and restrictions whose jurisdiction_type is
                 County, Parish or Borough: the 5-digit county FIPS of the state
                 plus the county name (a restriction's jurisdiction), looked up
@@ -106,6 +136,7 @@ county_fips_all Every 2024 county a record touches, for finding records by
 from __future__ import annotations
 
 import re
+from datetime import date
 
 RENEWABLE_TEXT = re.compile(
     r"solar|photovolt|\bpv\b|\bwind(?:s|farms?|mills?|power)?\b|turbine|batter|energy storage|\bbess\b|renewable", re.I)
@@ -119,6 +150,11 @@ EVIDENCE_ORDER = ("primary_source", "confirmed", "court_record", "compiled_recor
 READ_ACCESS = ("opened", "archived")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
 VERIFICATION = ("verified", "located", "unverified")
+CURRENCY = ("in_force", "lapsed_unconfirmed", "pending", "unknown")
+IN_FORCE_STATUSES = ("active", "extended")
+# YYYY-MM-DD, or YYYY-MM when a source gives only the month.
+_ISO_DATE = re.compile(r"\d{4}-\d{2}(?:-\d{2})?")
+_AS_OF = re.compile(r"\bas of (\d{4}-\d{2}-\d{2})\b", re.I)
 # What a promoted queue row's source_url is (queue column source_kind). The
 # first three are the instrument or its official record; only they can verify
 # a restriction. News can verify opposition activity, never an instrument.
@@ -214,6 +250,34 @@ def verification(entity: str, row: dict) -> str:
     if entity == "cases":
         return "verified" if _s(row.get("case_source_url")) else "unverified"
     return "unverified"
+
+
+def currency(row: dict, today: date | None = None) -> str:
+    """in_force | lapsed_unconfirmed | pending | unknown; see the module docstring."""
+    status = _s(row.get("status"))
+    if status == "pending":
+        return "pending"
+    if status not in IN_FORCE_STATUSES:
+        return "unknown"
+    end = _s(row.get("current_end_date_iso"))
+    if not _ISO_DATE.fullmatch(end):
+        return "in_force"
+    today_s = (today or date.today()).isoformat()
+    if end >= today_s[: len(end)]:
+        return "in_force"
+    checked = _s(row.get("primary_source_checked_on"))
+    if _s(row.get("primary_source_verdict")) == "confirmed" and _ISO_DATE.fullmatch(checked) \
+            and checked[: len(end)] >= end:
+        return "in_force"
+    return "lapsed_unconfirmed"
+
+
+def status_as_of(row: dict) -> str:
+    """The latest date the record's status is known to have held, or ""."""
+    dates = _AS_OF.findall(_text(row))
+    dates += [_s(row.get(f)) for f in ("date_enacted_iso", "primary_source_checked_on")]
+    dates = [d for d in dates if _ISO_DATE.fullmatch(d)]
+    return max(dates) if dates else ""
 
 
 def county_name(entity: str, row: dict) -> str | None:
@@ -453,11 +517,14 @@ def county_fips(entity: str, row: dict, lookup: dict[str, str], state_names: dic
     return fips, ""
 
 
-def stamp(entity: str, row: dict) -> dict:
-    """Add the derived fields to row in place and return it."""
+def stamp(entity: str, row: dict, today: date | None = None) -> dict:
+    """Add the derived fields to row in place and return it. ``today`` is the
+    build date the currency rule compares end dates with."""
     row["instrument_id"] = instrument_id(entity, row)
     if entity == "restrictions":
         row["scope"] = scope(row)
+        row["currency"] = currency(row, today)
+        row["status_as_of"] = status_as_of(row)
     row["evidence_level"] = evidence_level(entity, row)
     row["verification"] = verification(entity, row)
     return row

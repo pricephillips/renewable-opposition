@@ -75,6 +75,28 @@ joined on that code (items 6 and 8 above). Both maps use `basemap.js`
 (OpenFreeMap with a raster fallback chain), and `tests/ui` runs Playwright with
 axe in the `ui` job of `validate.yml`.
 
+## Round three (2026-10-13): the rules layer
+
+The third round takes data-center-map's practices for keeping records
+current and auditable, adapted to this repo's pure rules layer
+(`classify.py`, `qc_gate.py`, `headline_metrics.py`, `verification_worklist.py`,
+`negative_checks.py`), with tests in `tests/test_brain.py`. Copied in spirit
+with an attribution line in each module, never imported.
+
+| Practice in data-center-map | Here |
+|---|---|
+| **Mechanism-aware staleness** (`stale_pending_audit.py`): a moratorium proposal is stale after 120 days, anything else after a year, and the list ranks what re-verifying would change. Hamilton County TN sat as "proposing a pause" for four months after it enacted one. | `classify.currency` on every restriction (`in_force`, `lapsed_unconfirmed`, `pending`, `unknown`) from the instrument's own dates, with `status_as_of`. Two Moratorium Nation rows were already past their end dates with no confirmed extension. The headline counts them apart, QC reports `END_DATE_PASSED`, and the restriction worklist lists them first; a pending instrument is flagged after 120 days and a pending project after 365. |
+| **Status resolution from the record's own text** (`status_resolution.py`): a pending row whose headline already reports a completed adoption, with FINAL and NOT_FINAL word patterns. Found four Florida counties adopted while every row said pending. | `decision_language` on the outcome worklist: the decision words in a pending or needs_review project's text when nothing says the step was not final. Thirteen such leads on the first run; they sort first within their tier. Proposes only. |
+| **A decision trail that records changes only** (`promotion_trail.py`; item 3 above). One trail reached 7,342 rows for 1,947 decisions before the rule. | `scripts/promotion_trail.py`, and `promote_reviewed.py` writes `data/review/promotion_trail.csv`: each queue row's and started case candidate's decision, once, and again only when it changes. |
+| **Evidence grades by independence class** (`restriction_evidence.py`; item 4 above): grades count distinct classes (primary law, proceeding, secondary), never distinct sources, because two compilations reading the same press can be wrong together. | `negative_checks.grade`: A to C from the classes a check's `sources_checked` span and its age; `negative_check_grade` in `county_summary.csv` and in site profiles. The frame is the negative check, not the county label, since this repo has no county label to defend. |
+| **A generated codebook** (`CODEBOOK.md`, rebuilt by `build_clean_feed.py`; item 7 above). | `scripts/codebook.py` renders `docs/codebook.md` from the constants the code runs on, with severity as truth tables produced by calling the scoring functions; `tests/test_codebook.py` fails when the committed copy is stale. `qc_gate.CHECKS` now lists every check code with its severity, and a test checks the gate emits nothing outside it. |
+
+Not taken from the same modules: data-center-map's county label and its
+model-driven ranking of what to re-verify (this repo has no county label or
+model), its Google News follow-up search (`status_followup.py`, which needs a
+network the build does not have and an intake queue this repo does not run
+yet), and its harvest-specific verification statuses.
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

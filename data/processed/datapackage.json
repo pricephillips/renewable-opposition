@@ -217,6 +217,16 @@
             "description": "renewables_only, or multi_sector_data_centers when the instrument also covers data centers."
           },
           {
+            "name": "currency",
+            "type": "string",
+            "description": "in_force, lapsed_unconfirmed (the instrument's own end date has passed with no confirmed extension), pending or unknown (no status); derived from the source's dates, not its status word."
+          },
+          {
+            "name": "status_as_of",
+            "type": "string",
+            "description": "The latest date the status is known to have held: an 'as of' date in the text, the enactment date or a reviewer's check."
+          },
+          {
             "name": "evidence_level",
             "type": "string",
             "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
@@ -1020,6 +1030,11 @@
           {
             "name": "negative_check_on",
             "type": "string"
+          },
+          {
+            "name": "negative_check_grade",
+            "type": "string",
+            "description": "A to C: how many independence classes (instrument, proceeding, secondary) the county's newest negative check spans, and whether it is stale. Grades the check, not the county."
           }
         ]
       },
