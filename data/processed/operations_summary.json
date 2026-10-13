@@ -9,42 +9,6 @@
   "severe_where_state_limits_local": 942,
   "projects": 576,
   "projects_confirmed": 123,
-  "decided": {
-   "guard_days": 90,
-   "young_excluded": 3,
-   "all": {
-    "projects": 309,
-    "blocked": 234,
-    "blocked_share": 0.757
-   },
-   "confirmed_only": {
-    "projects": 122,
-    "blocked": 70,
-    "blocked_share": 0.574
-   },
-   "by_technology": {
-    "battery_storage": {
-     "projects": 17,
-     "blocked": 11,
-     "blocked_share": 0.647
-    },
-    "solar": {
-     "projects": 162,
-     "blocked": 134,
-     "blocked_share": 0.827
-    },
-    "transmission": {
-     "projects": 8,
-     "blocked": 3,
-     "blocked_share": 0.375
-    },
-    "wind": {
-     "projects": 136,
-     "blocked": 93,
-     "blocked_share": 0.684
-    }
-   }
-  },
   "cases": 38,
   "county_coverage": {
    "counties": 3144,
@@ -199,7 +163,7 @@
   "case_candidates_promoted": 39
  },
  "history": {
-  "snapshot_rows": 64,
+  "snapshot_rows": 63,
   "snapshot_files": 5,
   "headline_history_rows": 1,
   "headline_first_change": "2026-10-13",

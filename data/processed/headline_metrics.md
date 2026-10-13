@@ -25,6 +25,8 @@ however many technologies it covers. Quote these, not row counts.
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
+Of the severe instruments, 942 (renewables only) and 33 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
+
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
 3627 published rows describe 3424 instruments.

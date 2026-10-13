@@ -33,7 +33,8 @@
           "lapsed_unconfirmed": 1,
           "pending": 5,
           "unknown": 2393
-        }
+        },
+        "severe_where_state_limits_local": 942
       },
       "multi_sector_data_centers": {
         "instruments": 83,
@@ -62,7 +63,8 @@
           "in_force": 74,
           "lapsed_unconfirmed": 1,
           "pending": 8
-        }
+        },
+        "severe_where_state_limits_local": 33
       }
     },
     "by_source": {
