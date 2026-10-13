@@ -4,9 +4,9 @@ Generated 2026-10-13 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3350 renewables-only restriction instruments (1364 severe, 83 verified, 1 past their end date with no confirmed extension, 942 severe ones in states whose siting law limits local reach); 576 contested projects (123 confirmed); 38 cases.
+3350 renewables-only restriction instruments (1364 severe, 83 verified, 1 past their end date with no confirmed extension, 942 severe ones in states whose siting law limits local reach); 575 contested projects (125 confirmed); 39 cases.
 
-Decided projects (events older than 90 days): 309, of which 234 blocked; confirmed outcomes only: 122, 70 blocked. Conditional on opposition being tracked; see headline_metrics.md.
+Decided projects (events older than 90 days): 310, of which 234 blocked; confirmed outcomes only: 124, 70 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
@@ -16,7 +16,7 @@ Decided projects (events older than 90 days): 309, of which 234 blocked; confirm
 
 | Worklist | Rows | Notes |
 |---|---:|---|
-| outcome_worklist.csv | 452 | 160 overdue, 13 with decision language in their text, 0 with a located source |
+| outcome_worklist.csv | 450 | 158 overdue, 13 with decision language in their text, 0 with a located source |
 | restriction_worklist.csv | 3343 | 2 lapsed, 431 sole severe in a county, 13 with a located source |
 | negative_check_worklist.csv | 0 |  |
 | adjacency_worklist.csv | 235 | neighbours of blocked projects not yet examined |
@@ -24,20 +24,20 @@ Decided projects (events older than 90 days): 309, of which 234 blocked; confirm
 
 ## Review and promotion
 
-Queue: 22 promoted, 3 pending, 1 awaiting_review. Case candidates: 230 (39 promoted, 7 started by a reviewer).
+Queue: 21 promoted, 1 rejected, 1 confirmed, 2 pending, 1 awaiting_review. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 72 decisions from 2026-10-13 to 2026-10-13 (new or changed decisions only): 61 promoted, 10 held, 1 awaiting_review.
+Promotion trail: 75 decisions from 2026-10-13 to 2026-10-13 (new or changed decisions only): 62 promoted, 11 held, 1 awaiting_review, 1 rejected.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
+| 2026-10-13 | cases_candidates.csv | held | IA Duane Arnold Solar Projects I and II | missing case_source_url |
+| 2026-10-13 | cases_candidates.csv | promoted | IA Coggon Solar |  |
+| 2026-10-13 | queue.csv | rejected | IA Linn County |  |
 | 2026-10-13 | queue.csv | promoted | WY Carbon County |  |
 | 2026-10-13 | queue.csv | promoted | WY Carbon County |  |
 | 2026-10-13 | queue.csv | promoted | NH Moultonborough |  |
 | 2026-10-13 | queue.csv | promoted | NH Durham |  |
 | 2026-10-13 | queue.csv | promoted | NH Belmont |  |
-| 2026-10-13 | queue.csv | promoted | DE New Castle County |  |
-| 2026-10-13 | queue.csv | promoted | MD Prince George's County |  |
-| 2026-10-13 | queue.csv | promoted | MD Prince George's County |  |
 
 ## What checking found
 
@@ -49,8 +49,8 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 | NREL | 31 | 31 | 0 | 31 | 0 | 0 |
 | Sabin | 1 | 1 | 0 | 1 | 0 | 0 |
 
-Outcome resolutions: 116 (66 blocked_confirmed, 50 advanced_confirmed; by access 7 archived, 109 opened).
+Outcome resolutions: 118 (66 blocked_confirmed, 52 advanced_confirmed; by access 7 archived, 111 opened).
 
 ## History and archive
 
-72 snapshot rows over 5 published files; 7 headline changes recorded (2026-09-29 to 2026-10-13). Sources: 61, of which 11 have an Internet Archive snapshot.
+77 snapshot rows over 5 published files; 7 headline changes recorded (2026-09-29 to 2026-10-13). Sources: 61, of which 11 have an Internet Archive snapshot.

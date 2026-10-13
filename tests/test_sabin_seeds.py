@@ -110,3 +110,20 @@ def test_rebuild_keeps_contested_rows_from_other_writers(monkeypatch, tmp_path):
     assert [r["project_name"] for r in rows if r["source"] == "review queue: src_x"] == ["Promoted Solar"]
     sabin = [r for r in rows if r["source"].startswith(b.SOURCE_PREFIX)]
     assert sabin and all(r["source"] in (b.SOURCE_LABEL, b.SOURCE_LABEL_2025) for r in sabin)
+
+
+def test_description_override_is_applied_and_keeps_the_edition_text():
+    """A DESCRIPTION_OVERRIDES entry replaces the edition's first sentence in the
+    committed seed row and names a record that exists; long_description still
+    carries the report's own text, so nothing the edition said is lost."""
+    rows = read_csv(b.RESTRICTIONS_PATH)
+    by_id = {}
+    for r in rows:
+        by_id.setdefault(r.get("source_record_id", ""), []).append(r)
+    for rid, text in b.DESCRIPTION_OVERRIDES.items():
+        assert rid in by_id, f"{rid}: override names no seed row"
+        for r in by_id[rid]:
+            assert r["description"] == text
+            assert r["long_description"] and r["long_description"] != text
+    rec = by_id["REC-0122"][0]
+    assert "5,250 ft" in rec["description"] and rec["severity_basis"] == "wind setback 5250 ft"
