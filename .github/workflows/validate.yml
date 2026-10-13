@@ -19,10 +19,11 @@ concurrency:
 jobs:
   # A merge to main usually contains exactly the tree its pull request's last
   # green run tested (25 of 35 push runs in one week). This job finds that
-  # case and the jobs below skip it: the merge commit has two parents, the
-  # second (the PR head) has a successful pull_request run of this workflow,
-  # and that run started more than two minutes after main moved to the first
-  # parent, so GitHub's test merge was built on the same base. A squash merge,
+  # case and the jobs below skip it: the push is GitHub's merge of a pull
+  # request, the merge commit has exactly two parents, the second (the PR
+  # head) has a successful pull_request run of this workflow, and that run was
+  # created more than two minutes after main moved to the first parent, so
+  # GitHub's test merge was built on the same base. A squash merge,
   # a direct push, any doubt or any API error gives a full run. With no branch
   # protection on a private repository, the run on main is the only check of
   # merged code, so it is skipped only when that exact tree was tested.
@@ -36,8 +37,18 @@ jobs:
     outputs:
       covered: ${{ steps.covered.outputs.covered }}
     steps:
+      # created_at, not run_started_at: a re-run keeps the original run's
+      # merge commit but gets a new run_started_at, and a run queued past a
+      # main move would look newer than the merge it tested. The push must be
+      # GitHub's pull request merge of p2 onto p1 (activity type pr_merge): a
+      # merge made locally and pushed, or an octopus merge, gets a full run.
+      # gh api prints the error body on stdout and exits 1 on an HTTP error,
+      # so every call's exit status and every value is checked: any failure
+      # means a full run. (Ported with data-center-map's ui-check.yml fix, whose
+      # review found the first version skipped a merge when /activity failed.)
       - name: Already tested by the pull request?
         id: covered
+        timeout-minutes: 2
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
@@ -47,17 +58,27 @@ jobs:
         run: |
           covered=false
           probe() {
-            local p1 p2 landed tested
-            read -r p1 p2 _ <<< "$(gh api "repos/$REPO/commits/$SHA" --jq '[.parents[].sha] | join(" ")')"
-            [ -n "$p2" ] || { echo "Not a two-parent merge: full run."; return 1; }
-            landed=$(gh api "repos/$REPO/activity?ref=refs/heads/main&per_page=100" \
-                       --jq "[.[] | select(.after == \"$p1\")][0].timestamp // empty")
+            local parents p1 p2 extra activity landed tested landed_s tested_s
+            parents=$(gh api "repos/$REPO/commits/$SHA" --jq '[.parents[].sha] | join(" ")') \
+              || { echo "Commit lookup failed: full run."; return 1; }
+            read -r p1 p2 extra <<< "$parents"
+            [[ $p1 =~ ^[0-9a-f]{40}$ && $p2 =~ ^[0-9a-f]{40}$ && -z $extra ]] \
+              || { echo "Not a two-parent merge: full run."; return 1; }
+            activity=$(gh api "repos/$REPO/activity?ref=refs/heads/main&per_page=100") \
+              || { echo "Activity lookup failed: full run."; return 1; }
+            jq -e --arg s "$SHA" --arg p "$p1" \
+              'any(.[]; .after == $s and .before == $p and .activity_type == "pr_merge")' <<< "$activity" > /dev/null \
+              || { echo "Not a pull request merge onto $p1: full run."; return 1; }
+            landed=$(jq -r --arg p "$p1" '[.[] | select(.after == $p)][0].timestamp // empty' <<< "$activity")
             [ -n "$landed" ] || { echo "No push record for $p1: full run."; return 1; }
             tested=$(gh api "repos/$REPO/actions/workflows/$WORKFLOW/runs?event=pull_request&status=success&head_sha=$p2&per_page=1" \
-                       --jq '.workflow_runs[0].run_started_at // empty')
+                       --jq '.workflow_runs[0].created_at // empty') \
+              || { echo "Run lookup failed: full run."; return 1; }
             [ -n "$tested" ] || { echo "No green pull_request run on $p2: full run."; return 1; }
-            [ "$(date -d "$tested" +%s)" -gt $(( $(date -d "$landed" +%s) + 120 )) ] \
-              || { echo "Main moved after the PR run started: full run."; return 1; }
+            landed_s=$(date -d "$landed" +%s) || { echo "Unreadable timestamp: full run."; return 1; }
+            tested_s=$(date -d "$tested" +%s) || { echo "Unreadable timestamp: full run."; return 1; }
+            [ "$tested_s" -gt $(( landed_s + 120 )) ] \
+              || { echo "Main moved after the PR run: full run."; return 1; }
             echo "::notice::The pull request run of $tested on $p2 tested this exact tree (main at $p1 since $landed); skipping."
           }
           probe && covered=true
@@ -177,7 +198,9 @@ jobs:
       - name: Install Chromium
         # CI only. Claude sessions have Chromium at /opt/pw-browsers and must
         # never run this; they set SMOKE_CHROMIUM instead.
-        timeout-minutes: 5
+        # Usually about 20 s; data-center-map saw a 413 s install succeed
+        # and a 20-minute hang.
+        timeout-minutes: 8
         run: npx playwright install --with-deps chromium
 
       - name: Load every page and fail on page errors (scripts/smoke_frontend.py)

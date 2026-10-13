@@ -11,10 +11,17 @@ Responsibilities:
      append the rest to data/review/queue.csv as leads for triage.
   5. Track which manifest rows have been parsed in data/raw/parse_state.csv
      so re-runs are idempotent (skip already-parsed files). A raw file whose
-     extractor raised is not recorded, so the next run tries it again.
+     extractor raised is recorded with its error and tried again on the next
+     run, up to MAX_ATTEMPTS times; after that it is skipped and reported, so
+     one bad file does not fail every weekly run.
 
 Leads. Every candidate an extractor finds enters the queue with review_status
-'lead': machine-harvested, not yet triaged. promote_reviewed.py never promotes
+'lead' and access 'snippet' (parse.py sets both, whatever the extractor
+returned): machine-harvested, not yet triaged, its source not yet read.
+Before queueing, sanitize() blanks any value outside the vocabulary the
+promotion and the build accept (state code, technology, status, mechanisms,
+source_kind) and every machine-typed severity_score, and says so in
+reviewer_notes, so no extractor bug can publish a row or stop the build. promote_reviewed.py never promotes
 a lead, the county reports and the public dashboard count only 'pending' rows,
 so a lead changes nothing anyone reads until a reviewer triages it: 'pending'
 once it is on topic and placed (it then counts as a candidate awaiting review
@@ -73,7 +80,10 @@ from pathlib import Path
 from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import REVIEW_DIR, SEED_DIR, normalize_url, read_csv, strip_tracking  # noqa: E402
+from build_sabin_seeds import MECHANISM_TYPE, OUTCOME, RESTRICTION_TECH  # noqa: E402
+from classify import SOURCE_KINDS  # noqa: E402
+from common import (REVIEW_DIR, SEED_DIR, STATE_CODES, normalize_url, read_csv, strip_tracking,  # noqa: E402
+                    technology_tokens)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = REPO_ROOT / "data" / "raw" / "manifest.csv"
@@ -98,6 +108,11 @@ CITED_PATHS = [
 # Seed columns, other than source_url, that cite a source document.
 SEED_CITED_COLUMNS = ("primary_source_url", "ordinance_url", "group_sources", "case_source_url")
 LEAD = "lead"
+ENTITY_TYPES = ("restriction", "contested_project", "case")
+# promote_reviewed.QUEUE_RESTRICTION_STATUS (tests/test_intake_framework.py keeps them equal).
+RESTRICTION_STATUS = ("active", "extended", "pending", "lifted", "expired")
+# A raw file whose extractor keeps raising is skipped after this many tries.
+MAX_ATTEMPTS = 3
 
 logging.basicConfig(
     level=logging.INFO,
@@ -185,7 +200,7 @@ QUEUE_FIELDS = list(CandidateRecord.__dataclass_fields__.keys())
 # Parse state — tracks which (source_id, content_hash) pairs are done
 # ---------------------------------------------------------------------------
 
-PARSE_STATE_FIELDS = ["source_id", "content_hash", "raw_path", "parsed_at", "candidate_count"]
+PARSE_STATE_FIELDS = ["source_id", "content_hash", "raw_path", "parsed_at", "candidate_count", "error"]
 
 
 def load_parse_state(path: Path) -> set[tuple[str, str]]:
@@ -193,7 +208,19 @@ def load_parse_state(path: Path) -> set[tuple[str, str]]:
     if not path.exists():
         return set()
     with open(path, newline="", encoding="utf-8") as f:
-        return {(r["source_id"], r["content_hash"]) for r in csv.DictReader(f)}
+        return {(r["source_id"], r["content_hash"]) for r in csv.DictReader(f) if not r.get("error")}
+
+
+def load_parse_failures(path: Path) -> dict[tuple[str, str], int]:
+    """How many times each (source_id, content_hash) failed to parse."""
+    out: dict[tuple[str, str], int] = {}
+    if path.exists():
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if r.get("error"):
+                    key = (r["source_id"], r["content_hash"])
+                    out[key] = out.get(key, 0) + 1
+    return out
 
 
 def append_parse_state(path: Path, record: dict) -> None:
@@ -228,8 +255,13 @@ def append_queue(path: Path, candidates: list[CandidateRecord]) -> None:
 # ---------------------------------------------------------------------------
 
 def url_key(url: str) -> str:
-    """Source identity for dedupe: normalize_url without click tracking."""
-    return normalize_url(strip_tracking(url))
+    """Source identity for dedupe: normalize_url without click tracking, with
+    http folded into https and a leading www. dropped (the same article is
+    linked both ways). Only for comparison: published source ids still hash
+    common.normalize_url."""
+    key = normalize_url(strip_tracking(url))
+    key = re.sub(r"^http://", "https://", key)
+    return re.sub(r"^https://www\.", "https://", key)
 
 
 def _name_key(entity: str, state: str, *names: str) -> tuple:
@@ -269,7 +301,7 @@ class Known:
                 where = f"seed {r.get('pinned_id') or r.get('id') or r.get('source', '')}".strip()
                 self.add(entity, r.get("source_url", ""), r.get("state", ""),
                          (r.get("project_name"), r.get("jurisdiction"), r.get("municipality"), r.get("county")), where)
-                for col in SEED_CITED_COLUMNS:
+                for col in ("source_url",) + SEED_CITED_COLUMNS:
                     for u in _urls(r.get(col, "")):
                         self.cited.setdefault(url_key(u), f"{col} of {where}")
         for url, where in cited or []:
@@ -334,6 +366,66 @@ def dedupe(candidates: list[CandidateRecord], known: Known) -> tuple[list[Candid
     return kept, dropped
 
 
+def _undash(value: str) -> str:
+    """Em dash, or a spaced en dash, to a comma; an en dash in a range to a hyphen."""
+    value = re.sub(r"\s*\u2014\s*", ", ", value)
+    value = re.sub(r"\s+\u2013\s+", ", ", value)
+    return value.replace("\u2013", "-")
+
+
+def sanitize(c: CandidateRecord) -> bool:
+    """Hold a machine candidate to the lead contract, in place: review_status
+    lead and access snippet always; every value outside the vocabulary the
+    promotion and the build accept is blanked, every machine-typed severity
+    dropped, em and en dashes replaced (county reports refuse them), and each
+    change named in reviewer_notes. False when the row cannot be a candidate
+    at all (an unknown entity_type)."""
+    if c.entity_type not in ENTITY_TYPES:
+        return False
+    fixed = []
+    for name in QUEUE_FIELDS:
+        value = getattr(c, name)
+        if isinstance(value, str) and ("\u2014" in value or "\u2013" in value):
+            setattr(c, name, _undash(value))
+    c.review_status, c.access, c.archived_url = LEAD, "snippet", ""
+    state = c.state.strip().upper()
+    if state and state not in STATE_CODES:
+        fixed.append(f"state {c.state!r}")
+        state = ""
+    c.state = state
+    if c.technology.strip():
+        try:
+            tokens = technology_tokens(c.technology)
+        except ValueError:
+            tokens = []
+        kept = [t for t in tokens if t in RESTRICTION_TECH] if c.entity_type == "restriction" else tokens
+        if not kept or kept != tokens:
+            fixed.append(f"technology {c.technology!r}")
+        c.technology = ";".join(kept)
+    if c.source_kind and c.source_kind not in SOURCE_KINDS:
+        fixed.append(f"source_kind {c.source_kind!r}")
+        c.source_kind = ""
+    allowed = {"restriction": RESTRICTION_STATUS, "contested_project": tuple(OUTCOME)}.get(c.entity_type, ())
+    if c.status and c.status not in allowed:
+        fixed.append(f"status {c.status!r}")
+        c.status = ""
+    if c.mechanisms.strip():
+        tokens = [t.strip() for t in c.mechanisms.split(";") if t.strip()]
+        if any(t not in MECHANISM_TYPE for t in tokens):
+            fixed.append(f"mechanisms {c.mechanisms!r}")
+            c.mechanisms = ""
+    if c.severity_score.strip():
+        fixed.append(f"severity_score {c.severity_score!r}")
+        c.severity_score = ""
+    if c.source_url and not re.match(r"^https?://[^\s/]+\.[^\s]+$", c.source_url.strip()):
+        fixed.append(f"source_url {c.source_url!r}")
+        c.source_url = ""
+    if fixed:
+        note = "intake blanked values outside the vocabulary: " + ", ".join(fixed)
+        c.reviewer_notes = "; ".join(x for x in (c.reviewer_notes, note) if x)
+    return True
+
+
 def assign_queue_ids(candidates: list[CandidateRecord], taken: set[str]) -> None:
     """Give each lead a queue_id from its source, source document and place,
     unique within the queue (a numeric suffix settles a collision). The
@@ -384,7 +476,7 @@ def load_extractor(source_id: str):
 
 
 # Set by parse.py itself; an extractor that returns one of these is ignored on that key.
-OWN_FIELDS = ("source_id", "raw_path", "extracted_at")
+OWN_FIELDS = ("source_id", "raw_path", "extracted_at", "queue_id")
 
 
 def run_extractor(mod, raw_path: Path, source: dict, rel_path: str = "") -> Optional[list[CandidateRecord]]:
@@ -406,8 +498,11 @@ def run_extractor(mod, raw_path: Path, source: dict, rel_path: str = "") -> Opti
             source_id=source["source_id"],
             raw_path=rel_path or str(raw_path),
             extracted_at=now,
-            **{k: v for k, v in r.items() if k in QUEUE_FIELDS and k not in OWN_FIELDS},
+            **{k: ("" if v is None else str(v)) for k, v in r.items() if k in QUEUE_FIELDS and k not in OWN_FIELDS},
         )
+        if not sanitize(c):
+            log.warning(f"  Extractor {source['source_id']} returned entity_type {c.entity_type!r}; row dropped")
+            continue
         candidates.append(c)
     return candidates
 
@@ -428,10 +523,12 @@ def parseable_rows(
     parsed: set[tuple[str, str]],
     source_id_filter: Optional[str],
     reparse: bool,
+    failures: Optional[dict] = None,
 ) -> list[dict]:
     """
     Return manifest rows that should be parsed this run.
-    Skips: error rows, unchanged-marker rows, already-parsed (unless --reparse).
+    Skips: error rows, unchanged-marker rows, already-parsed (unless --reparse),
+    and files whose extractor already failed MAX_ATTEMPTS times (unless --reparse).
     """
     rows = []
     for row in manifest:
@@ -443,6 +540,10 @@ def parseable_rows(
             continue
         key = (row["source_id"], row["content_hash"])
         if not reparse and key in parsed:
+            continue
+        if not reparse and (failures or {}).get(key, 0) >= MAX_ATTEMPTS:
+            log.warning(f"  {row['source_id']}: {row['local_path']} failed {MAX_ATTEMPTS} times; skipped "
+                        f"(fix the extractor, then --reparse {row['source_id']})")
             continue
         rows.append(row)
     return rows
@@ -473,7 +574,7 @@ def main() -> int:
 
     source_filter = args.source or args.reparse
     reparse = bool(args.reparse)
-    targets = parseable_rows(manifest, parsed, source_filter, reparse)
+    targets = parseable_rows(manifest, parsed, source_filter, reparse, load_parse_failures(PARSE_STATE_PATH))
 
     if not targets:
         log.info("No unprocessed manifest rows found.")
@@ -502,6 +603,11 @@ def main() -> int:
         candidates = run_extractor(mod, raw_path, row, rel_path=row["local_path"])
         if candidates is None:
             failed.append(f"{sid}: {row['local_path']}")
+            append_parse_state(PARSE_STATE_PATH, {
+                "source_id": sid, "content_hash": row["content_hash"], "raw_path": row["local_path"],
+                "parsed_at": datetime.now(timezone.utc).isoformat(), "candidate_count": "",
+                "error": "extractor raised (see the run log)",
+            })
             continue
         candidates, dropped = dedupe(candidates, known)
         assign_queue_ids(candidates, taken)
@@ -525,7 +631,7 @@ def main() -> int:
     for sid, (files, queued, held) in per_source.items():
         print(f"{sid}: {files} raw file(s) parsed, {queued} lead(s) queued, {held} already held")
     for f in failed:
-        print(f"{f}: extractor raised; not marked parsed, retried next run", file=sys.stderr)
+        print(f"{f}: extractor raised; recorded, retried next run (up to {MAX_ATTEMPTS} tries)", file=sys.stderr)
     log.info(f"Done. {sum(v[1] for v in per_source.values())} total lead(s) queued at {QUEUE_PATH}")
     return 1 if failed else 0
 

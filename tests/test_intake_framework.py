@@ -268,10 +268,61 @@ def _intake_tree(monkeypatch, tmp_path, extractor_src):
     return raw, review
 
 
-def test_a_raw_file_whose_extractor_raised_is_retried_next_run(monkeypatch, tmp_path):
+def test_a_raw_file_whose_extractor_raised_is_retried_then_skipped(monkeypatch, tmp_path):
     raw, review = _intake_tree(monkeypatch, tmp_path, "def extract(raw_path, source):\n    raise ValueError('bad')\n")
-    assert parse.main() == 1
-    assert not (raw / "parse_state.csv").exists() and not (review / "queue.csv").exists()
+    for _ in range(parse.MAX_ATTEMPTS):
+        assert parse.main() == 1          # each failure is recorded and reported
+    assert parse.load_parse_state(raw / "parse_state.csv") == set()
+    assert parse.load_parse_failures(raw / "parse_state.csv") == {("broken_src", "abc"): parse.MAX_ATTEMPTS}
+    assert parse.main() == 0              # then skipped, so the weekly run is not red forever
+    assert not (review / "queue.csv").exists()
+    # Fixed and re-parsed on purpose, it is parsed and marked done.
+    (tmp_path / "extractors" / "broken_src.py").write_text(
+        "def extract(raw_path, source):\n    return [{'entity_type': 'case', 'source_url': 'https://a.example.org/c'}]\n")
+    monkeypatch.setattr("sys.argv", ["parse.py", "--reparse", "broken_src"])
+    assert parse.main() == 0
+    assert parse.load_parse_state(raw / "parse_state.csv") == {("broken_src", "abc")}
+    assert len(common.read_csv(review / "queue.csv")) == 1
+
+
+def test_sanitize_holds_every_machine_row_to_the_lead_contract():
+    c = _cand(review_status="pending", access="opened", archived_url="https://web.archive.org/x",
+              state="iowa", technology="solar;offshore_wind;hydro", status="adopted",
+              mechanisms="moratorium;solar ban", severity_score="4", source_kind="press release",
+              description="Board \u2014 votes 3\u20132", source_url="not a url")
+    assert parse.sanitize(c)
+    assert (c.review_status, c.access, c.archived_url) == ("lead", "snippet", "")
+    assert c.state == "" and c.technology == "solar;wind" and c.status == "" and c.mechanisms == ""
+    assert c.severity_score == "" and c.source_kind == "" and c.source_url == ""
+    assert c.description == "Board, votes 3-2"
+    assert "intake blanked values outside the vocabulary" in c.reviewer_notes
+    for field in ("state 'iowa'", "technology 'solar;offshore_wind;hydro'", "status 'adopted'", "mechanisms",
+                  "severity_score", "source_kind", "source_url"):
+        assert field in c.reviewer_notes, field
+    ok = _cand(state="ia", technology="Solar", mechanisms="moratorium", status="pending")
+    assert parse.sanitize(ok) and ok.state == "IA" and ok.technology == "solar" and ok.mechanisms == "moratorium"
+    assert "intake blanked" not in ok.reviewer_notes
+    assert not parse.sanitize(_cand(entity_type="unknown"))
+    project = _cand(entity_type="contested_project", status="rejected", technology="battery")
+    assert parse.sanitize(project) and project.status == "rejected" and project.technology == "battery_storage"
+
+
+def test_parse_keeps_the_promotion_vocabulary():
+    assert parse.RESTRICTION_STATUS == promote_reviewed.QUEUE_RESTRICTION_STATUS
+
+
+def test_url_key_folds_scheme_www_and_tracking():
+    assert parse.url_key("http://www.News.example.org/a/?utm_source=x") == parse.url_key("https://news.example.org/a")
+    assert parse.url_key("https://county.example.gov/doc?id=1") != parse.url_key("https://county.example.gov/doc?id=2")
+
+
+def test_a_seed_source_url_is_cited_for_every_entity():
+    known = parse.Known([], {"restriction": [{"state": "IA", "jurisdiction": "Linn County", "pinned_id": "res_1",
+                                              "source_url": "https://paper.example.org/linn"}],
+                             "contested_project": [], "case": []})
+    kept, dropped = parse.dedupe([_cand(entity_type="contested_project",
+                                        source_url="http://www.paper.example.org/linn/")], known)
+    assert not kept and "source_url of seed res_1" in dropped[0]
 
 
 def test_extractor_keys_parse_sets_itself_are_ignored_not_fatal(monkeypatch, tmp_path):
@@ -308,3 +359,33 @@ def test_promote_holds_leads_and_leaves_no_trail(monkeypatch, tmp_path, capsys):
     assert "2 live-intake lead(s) await triage" in out and "courtlistener_renewables 1" in out
     assert not common.read_csv(seed / "cases_seed.csv")
     assert not common.read_csv(review / "promotion_trail.csv")
+
+
+def test_the_run_budget_stops_new_requests_and_records_each_one_skipped(monkeypatch, raw_store):
+    queue_responses(monkeypatch, [FakeResponse(200, b'{"a":1}')])
+    ticks = iter([0, 100])                      # the second request starts after the deadline
+    src = {"source_id": "l", "url": "https://w.example.com/v1/{client}/m", "min_interval_s": 0,
+           "requests": [{"label": "a", "url": "https://w.example.com/v1/a/m"},
+                        {"label": "b", "url": "https://w.example.com/v1/b/m"}]}
+    rows = fetch.process_source(src, [], sleep=lambda s: None, deadline=50, clock=lambda: next(ticks))
+    assert rows[0]["error"] == "" and rows[1]["error"] == "skipped: run time budget reached"
+    assert rows[1]["url"] == "https://w.example.com/v1/b/m"
+
+
+def test_a_watched_sources_first_copy_is_a_baseline_not_a_change():
+    src = {"w": {"source_id": "w", "on_change": "upstream changed: rerun"}}
+    stored = [{"source_id": "w", "url": "https://u.example.org", "local_path": "data/raw/w/x.json", "error": ""}]
+    assert fetch.summarize(stored, src, prior=set())[1] == "  first copy stored: the baseline for change detection"
+    assert fetch.summarize(stored, src, prior={("w", "https://u.example.org")})[1] == "  upstream changed: rerun"
+    unchanged = [{**stored[0], "local_path": "unchanged"}]
+    assert fetch.summarize(unchanged, src, prior={("w", "https://u.example.org")}) == [
+        "w: 1 request(s), 0 stored, 1 unchanged, 0 failed"]
+
+
+def test_run_pipeline_streams_a_summary_stage(tmp_path, capsys):
+    import run_pipeline
+    script = tmp_path / "stage.py"
+    script.write_text("print('one')\nprint('two')\nraise SystemExit(3)\n")
+    summary = tmp_path / "summary.md"
+    code = run_pipeline.run(("s", [str(script)], "a stage", True), summary, False)
+    assert code == 3 and summary.read_text() == "one\ntwo\n" and "one\ntwo\n" in capsys.readouterr().out

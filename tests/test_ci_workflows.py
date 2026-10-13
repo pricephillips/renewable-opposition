@@ -68,3 +68,21 @@ def test_intake_runs_the_intake_stages_and_commits_only_their_files():
     assert "git add data/raw/ data/review/queue.csv\n" in runs
     assert "run_pipeline.py build" not in runs and "build_database" not in runs
     assert not any("upload-artifact" in s.get("uses", "") for s in job["steps"])
+
+
+def test_the_already_tested_probe_fails_closed():
+    """Every GitHub API call in validate.yml's skip probe checks its own exit
+    status: gh api prints an error body on stdout and exits 1, and the first
+    version read that body as a timestamp and skipped an untested merge."""
+    job = load("validate.yml")["jobs"]["covered"]
+    step = job["steps"][0]
+    assert step.get("continue-on-error") is True and int(step["timeout-minutes"]) <= 3
+    script = step["run"]
+    calls = re.findall(r"gh api (?:[^\n]*\\\n)*[^\n]*", script)   # a call and its continued lines
+    assert len(calls) == 3
+    for call in calls:
+        assert "|| {" in call and "full run" in call, call
+    assert '-z $extra' in script and 'activity_type == "pr_merge"' in script and "created_at" in script
+    for job_name in ("validate", "ui"):
+        cond = load("validate.yml")["jobs"][job_name]["if"]
+        assert "needs.covered.outputs.covered != 'true'" in cond and "!cancelled()" in cond
