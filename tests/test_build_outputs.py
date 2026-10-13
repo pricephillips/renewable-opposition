@@ -26,10 +26,10 @@ def test_record_id_is_stable_and_technology_specific():
     assert bso.record_id("restrictions", row) != bso.record_id("restrictions", {**row, "technology": "wind"})
 
 
-def test_full_build_writes_csv_json_and_sources(monkeypatch, tmp_path):
-    monkeypatch.setattr(bso, "PROCESSED_DIR", tmp_path)
-    monkeypatch.setattr(bso, "FIPS_MISSES", tmp_path / "fips_misses.csv")
-    assert bso.main() == 0
+def test_full_build_writes_csv_json_and_sources(seed_build):
+    # The build (bso.main into a temp dir) is conftest's seed_build, shared.
+    tmp_path = seed_build.processed
+    assert seed_build.returncode == 0
     restrictions = json.loads((tmp_path / "restrictions.json").read_text())
     assert len(restrictions) == len(read_csv(tmp_path / "restrictions.csv"))
     ids = [r["id"] for r in restrictions]
@@ -74,11 +74,10 @@ def test_archived_snapshot_joins_sources_and_record_links(tmp_path):
     assert bso.archived_urls(tmp_path / "missing.csv") == {}
 
 
-def test_every_record_with_a_county_has_a_fips_or_a_listed_miss(monkeypatch, tmp_path):
+def test_every_record_with_a_county_has_a_fips_or_a_listed_miss(seed_build):
     import classify
-    monkeypatch.setattr(bso, "PROCESSED_DIR", tmp_path)
-    monkeypatch.setattr(bso, "FIPS_MISSES", tmp_path / "fips_misses.csv")
-    assert bso.main() == 0
+    tmp_path = seed_build.processed   # conftest's shared seed_build
+    assert seed_build.returncode == 0
     missed = {(m["entity"], m["id"]) for m in read_csv(tmp_path / "fips_misses.csv")}
     for entity in ("contested_projects", "restrictions"):
         rows = json.loads((tmp_path / f"{entity}.json").read_text())
