@@ -51,6 +51,8 @@ on:
       - 'scripts/resolutions.py'
       - 'scripts/verification_worklist.py'
       - 'scripts/coverage_delta.py'
+      - 'scripts/promotion_trail.py'
+      - 'scripts/codebook.py'
       - 'data/county_fips_lookup.json'
       - 'data/place_county_index.json'
       - 'data/geo/counties_2024.topojson'
@@ -132,7 +134,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/processed/ data/snapshots/manifest.csv data/reference/facilities.csv data/reference/facilities_manifest.csv data/review/facility_matches.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
-          git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv
+          git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv data/review/promotion_trail.csv docs/codebook.md
           git add data/db/
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"

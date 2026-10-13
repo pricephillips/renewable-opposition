@@ -266,3 +266,133 @@ NAMES = {"AL": "Alabama", "CT": "Connecticut", "AK": "Alaska", "MI": "Michigan"}
 ])
 def test_county_fips_is_an_exact_lookup_or_a_named_miss(entity, row, expected):
     assert classify.county_fips(entity, row, LOOKUP, NAMES) == expected
+
+
+# Currency: an instrument's own dates, not its status word, say whether it is in force.
+T = __import__("datetime").date(2026, 10, 13)
+
+
+def test_currency_follows_the_end_date_not_the_status_word():
+    assert classify.currency(mn("solar", "solar", current_end_date_iso="2027-01-01"), T) == "in_force"
+    assert classify.currency(mn("solar", "solar"), T) == "in_force"
+    assert classify.currency(mn("solar", "solar", current_end_date_iso="2026-10-01"), T) == "lapsed_unconfirmed"
+    assert classify.currency(mn("solar", "solar", status="extended", current_end_date_iso="2026-09"), T) \
+        == "lapsed_unconfirmed"
+    assert classify.currency(mn("solar", "solar", status="pending", current_end_date_iso="2026-10-01"), T) == "pending"
+    assert classify.currency({"status": "unknown"}, T) == "unknown"
+    assert classify.currency({"status": ""}, T) == "unknown"
+    # A month-precision end date that is this month has not passed.
+    assert classify.currency(mn("solar", "solar", current_end_date_iso="2026-10"), T) == "in_force"
+
+
+def test_a_reviewer_who_confirmed_the_instrument_after_its_end_date_keeps_it_in_force():
+    row = mn("solar", "solar", current_end_date_iso="2026-10-01", primary_source_url="https://x.gov/o.pdf",
+             primary_source_verdict="confirmed", primary_source_checked_on="2026-10-05")
+    assert classify.currency(row, T) == "in_force"
+    assert classify.currency({**row, "primary_source_checked_on": "2026-09-20"}, T) == "lapsed_unconfirmed"
+    assert classify.currency({**row, "primary_source_verdict": "contradicts"}, T) == "lapsed_unconfirmed"
+
+
+def test_status_as_of_is_the_latest_date_the_status_is_known_to_hold():
+    assert classify.status_as_of(mn("solar", "solar", desc="Pending as of 2026-09-23; vote set for later.")) \
+        == "2026-09-23"
+    assert classify.status_as_of(mn("solar", "solar", date_enacted_iso="2026-01-13",
+                                    primary_source_checked_on="2026-03-01")) == "2026-03-01"
+    assert classify.status_as_of(mn("solar", "solar")) == ""
+
+
+def test_stamp_carries_currency_and_the_headline_counts_it_apart():
+    rows = [classify.stamp("restrictions", mn(t, "solar;wind", current_end_date_iso="2026-10-01"), T)
+            for t in ("solar", "wind")]
+    assert all(r["currency"] == "lapsed_unconfirmed" for r in rows)
+    rows.append(classify.stamp("restrictions", {**mn("solar", "solar"), "moratorium_id": "ks-y"}, T))
+    s = hm.compute({"restrictions": rows})["restrictions"]["by_scope"]["renewables_only"]
+    assert s["instruments"] == 2 and s["by_currency"] == {"in_force": 1, "lapsed_unconfirmed": 1}
+    assert "lapsed_unconfirmed | 1 |" in hm.render(hm.compute({"restrictions": rows}))
+
+
+def test_a_lapsed_instrument_is_reported_by_qc_never_quarantined():
+    import qc_gate
+    row = classify.stamp("restrictions", {**mn("solar", "solar", current_end_date_iso="2026-10-01"),
+                                          "source_url": "https://x.org/a"}, T)
+    issues = qc_gate.check_record("restrictions", row, T)
+    assert [i.code for i in issues] == ["END_DATE_PASSED"] and not qc_gate.blocks(issues)
+    assert all(code in {c[0] for c in qc_gate.CHECKS} for code, *_ in qc_gate.CHECKS)
+
+
+def test_every_qc_code_the_selftest_emits_is_in_the_checks_table():
+    import qc_gate
+    listed = {code: sev for code, sev, _ in qc_gate.CHECKS}
+    rows = [
+        ("restrictions", {"state": "PA", "latitude": 32.5, "longitude": -91.6, "status": "enacted", "source_url": "x",
+                          "date_enacted_iso": "2099-01", "current_end_date_iso": "March", "severity_score": 4,
+                          "primary_source_url": "https://t.gov/o", "primary_source_verdict": "contradicts",
+                          "scope": "data_center_only"}),
+        ("restrictions", {"state": "PA", "status": "pending", "severity_score": 4, "source_url": "https://x.org"}),
+        ("restrictions", {"state": "PA", "status": "active", "current_end_date_iso": "2020-01-01",
+                          "source_url": "https://x.org"}),
+        ("contested_projects", {"state": "PA", "outcome": "blocked_confirmed", "source_url": "https://x.org"}),
+    ]
+    seen = set()
+    for entity, row in rows:
+        for i in qc_gate.check_record(entity, row, T):
+            seen.add(i.code)
+            assert i.severity in listed[i.code].split(" or "), i.code
+    assert seen == set(listed)
+
+
+def test_lapsed_instruments_lead_the_restriction_worklist_even_when_checked_before():
+    lapsed = classify.stamp("restrictions", mn("solar", "solar", current_end_date_iso="2026-10-01",
+                                               primary_source_url="https://x.gov/o.pdf",
+                                               primary_source_verdict="confirmed", primary_source_access="opened",
+                                               primary_source_checked_on="2026-05-01"), T)
+    assert lapsed["evidence_level"] == "primary_source"       # verified, and still lapsed
+    other = classify.stamp("restrictions", {"source_record_id": "REC-1", "state": "KS", "technology": "wind",
+                                            "status": "active", "severity_score": 4}, T)
+    out = vw.restriction_rows([other, lapsed], checked={"mn:ks-x-2026"}, today=T)
+    assert [r["instrument_id"] for r in out] == ["mn:ks-x-2026", "sabin:REC-1"]
+    assert out[0]["currency"] == "lapsed_unconfirmed" and "end date 2026-10-01 passed" in out[0]["flags"]
+    assert out[1]["flags"] == ""
+
+
+def test_an_old_pending_restriction_is_flagged_stale():
+    row = classify.stamp("restrictions", mn("solar", "solar", status="pending", severity_score=2,
+                                            desc="Pending as of 2026-04-01; a vote was expected in May."), T)
+    (out,) = vw.restriction_rows([row], checked=set(), today=T)
+    assert out["status_as_of"] == "2026-04-01" and "pending 195 days (since 2026-04-01), past 120" in out["flags"]
+    fresh = classify.stamp("restrictions", mn("solar", "solar", status="pending", severity_score=2,
+                                              desc="Pending as of 2026-09-23."), T)
+    assert vw.restriction_rows([fresh], checked=set(), today=T)[0]["flags"] == ""
+
+
+def test_outcome_worklist_measures_age_and_flags_overdue_pending_projects():
+    projects = [
+        {"source_record_id": "A", "outcome": "pending", "event_date_text": "2023", "state": "OH",
+         "description": "The county is considering the application."},
+        {"source_record_id": "B", "outcome": "pending", "event_date_text": "2026-09", "state": "OH"},
+        {"source_record_id": "C", "outcome": "needs_review", "event_date_text": "January 2015, June 2023", "state": "OH"},
+    ]
+    rows = {r["source_record_id"]: r for r in vw.outcome_rows(projects, resolved=set(), today=T)}
+    assert rows["A"]["age_days"] == (T - __import__("datetime").date(2023, 12, 31)).days
+    assert rows["A"]["recheck"].startswith("overdue: pending 1017 days")
+    assert rows["B"]["recheck"] == "" and rows["B"]["age_days"] == 13
+    assert rows["C"]["recheck"] == "" and rows["C"]["age_days"] == (T - __import__("datetime").date(2023, 6, 30)).days
+
+
+def test_decision_language_is_a_lead_only_when_nothing_says_the_step_was_not_final():
+    assert vw.decision_language("In 2023 the board denied the permit and the developer withdrew.") == "denied; withdrew"
+    assert vw.decision_language("The board approved the permit; residents have appealed.") == ""
+    assert vw.decision_language("A hearing on the proposed project is set for June.") == ""
+    assert vw.decision_language("Residents packed the meeting.") == ""
+    projects = [
+        {"source_record_id": "A", "outcome": "pending", "event_date_text": "2024", "state": "OH",
+         "description": "Residents object to the project."},
+        {"source_record_id": "B", "outcome": "pending", "event_date_text": "2024", "state": "OH",
+         "description": "Commissioners rejected the rezoning in May 2024."},
+        {"source_record_id": "C", "outcome": "blocked_unverified", "event_date_text": "2024", "state": "OH",
+         "description": "Commissioners rejected the rezoning in May 2024."},
+    ]
+    rows = vw.outcome_rows(projects, resolved=set(), today=T)
+    # Inside the pending tier the row whose text already states the decision comes first.
+    assert [r["source_record_id"] for r in rows] == ["C", "B", "A"]
+    assert rows[1]["decision_language"] == "rejected" and rows[0]["decision_language"] == ""

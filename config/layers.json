@@ -88,6 +88,10 @@
       "reason": "Opposition groups named in the seeds' or Sabin text, one per row, awaiting a news URL that was opened (group_source_url, access). group_registry.py publishes a group only once that is filled; until then it is held in data/review/group_review.csv."
     },
     "data/review/profile_requests.csv": {"layer": "review", "writers": ["scripts/site_profile.py"]},
+    "data/review/promotion_trail.csv": {
+      "layer": "derived", "writers": ["scripts/promote_reviewed.py"],
+      "reason": "Append-only record of promotion decisions, new or changed ones only (scripts/promotion_trail.py, after pricephillips/data-center-map). Never published; committed by build-data.yml."
+    },
     "data/seed/restrictions_seed.csv": {
       "layer": "seed",
       "writers": ["scripts/fetch_moratorium_nation.py", "scripts/build_sabin_seeds.py", "scripts/promote_reviewed.py",
@@ -167,7 +171,8 @@
     "data/review/coverage_gaps.csv": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
     "docs/sabin_2026_reconciliation.md": {"layer": "derived", "writers": ["scripts/extract_sabin_edition.py"]},
     "docs/nrel_sample_report.md": {"layer": "derived", "writers": ["scripts/nrel_sample.py"]},
-    "docs/coverage_audit.md": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]}
+    "docs/coverage_audit.md": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
+    "docs/codebook.md": {"layer": "derived", "writers": ["scripts/codebook.py"]}
   },
   "crossings": {
     "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",
@@ -175,7 +180,7 @@
     "scripts/extract_sabin_edition.py": "Writes the edition's extraction (seed) and its count reconciliation (derived).",
     "scripts/nrel_ordinances.py": "Writes NREL's restriction rows (seed) and the conflicts they raise with other sources (review).",
     "scripts/nrel_sample.py": "Draws the accuracy sample and records passing instruments (review), and reports the error rates (derived).",
-    "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row."
+    "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row and records its decisions (derived)."
   },
   "dynamic": {
     "scripts/promote_reviewed.py": {

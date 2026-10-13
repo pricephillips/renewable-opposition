@@ -44,6 +44,7 @@ REFRESH = [
 BUILD = [
     ("promote_reviewed", ["scripts/promote_reviewed.py"], "complete review rows into the seeds", True),
     ("build_seed_outputs", ["scripts/build_seed_outputs.py"], "validate, QC and write data/processed/", False),
+    ("codebook", ["scripts/codebook.py"], "docs/codebook.md from the rules' own constants", False),
     ("verification_worklist", ["scripts/verification_worklist.py"], "rank what to verify next", False),
     ("adjacency_worklist", ["scripts/adjacency_worklist.py"], "neighbor watch", False),
     ("coverage_delta", ["scripts/coverage_delta.py"], "column coverage gate", False),

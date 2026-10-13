@@ -35,3 +35,11 @@ def _no_real_facility_worklist(monkeypatch, tmp_path):
     """A build run by a test writes the facility match worklist to a temp dir."""
     import facility_matches
     monkeypatch.setattr(facility_matches, "WORKLIST_PATH", tmp_path / "facility_matches.csv")
+
+
+@pytest.fixture(autouse=True)
+def _no_real_promotion_trail(monkeypatch, tmp_path):
+    """A promotion run by a test records its decisions in a temp dir, never in
+    the real data/review/promotion_trail.csv."""
+    import promote_reviewed
+    monkeypatch.setattr(promote_reviewed, "TRAIL_PATH", tmp_path / "promotion_trail.csv")

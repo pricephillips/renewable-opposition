@@ -79,6 +79,15 @@ scored by build_sabin_seeds.project_severity from the outcome its status maps to
 Case severity: a reviewer may set severity_score on a candidate; otherwise it
 defaults to 3, the contested-projects score for "litigation filed".
 
+Decision trail. Every run appends to data/review/promotion_trail.csv the
+decisions that are new or changed since the last run (scripts/promotion_trail.py,
+after pricephillips/data-center-map): a queue row promoted, held (with what it
+lacks), awaiting review, rejected, or stopped by an error; a case candidate
+promoted, held or rejected once a reviewer has started on it. Re-deciding a
+row the same way is not recorded, so the trail reads as a history of events,
+not of runs. Case candidates no reviewer has touched (no case field filled)
+are not decisions and are left out. Nothing in the trail is published.
+
 Usage:
     python scripts/promote_reviewed.py [--dry-run]
 """
@@ -97,12 +106,16 @@ from build_sabin_seeds import (  # noqa: E402
     project_severity, restriction_severity, text_about,
 )
 from build_seed_outputs import REQUIRED, normalize_row, record_id  # noqa: E402
+from promotion_trail import new_decisions  # noqa: E402
 from classify import INSTRUMENT_KINDS, SOURCE_KINDS  # noqa: E402
 from common import REVIEW_DIR, SEED_DIR, read_csv, technology_tokens, write_csv  # noqa: E402
 from resolutions import access_error, is_read  # noqa: E402
 
 QUEUE_PATH = REVIEW_DIR / "queue.csv"
 CANDIDATES_PATH = REVIEW_DIR / "cases_candidates.csv"
+TRAIL_PATH = REVIEW_DIR / "promotion_trail.csv"
+TRAIL_FIELDS = ["decided_on", "file", "key", "entity_type", "state", "place", "action", "reason"]
+TRAIL_KEY, TRAIL_STATE = ("file", "key"), ("action", "reason")
 
 SEED_FOR = {
     "restriction": ("restrictions", SEED_DIR / "restrictions_seed.csv"),
@@ -417,10 +430,42 @@ def resync(entity: str, where: str, qrow: dict, seeds: list[dict]) -> tuple[list
     return changes, []
 
 
+def decision(file: str, key: str, row: dict, action: str, reason: str = "", today: str | None = None) -> dict:
+    """One trail row. The key is what the decision is about; action and reason
+    are the decision (promotion_trail.new_decisions compares those)."""
+    place = (row.get("municipality") or row.get("county") or row.get("jurisdiction")
+             or row.get("project_name") or "").strip()
+    return {"decided_on": today or date.today().isoformat(), "file": file, "key": key,
+            "entity_type": (row.get("entity_type") or ("case" if file == CANDIDATES_PATH.name else "")).strip(),
+            "state": (row.get("state") or "").strip(), "place": place, "action": action, "reason": reason}
+
+
+def candidate_key(row: dict) -> str:
+    """A case candidate: the record it concerns plus the court and docket a
+    reviewer fills in first, so two candidates for one project do not share a
+    key and re-decide each other every run."""
+    return "|".join((row.get(k) or "").strip() for k in ("source_record_id", "linked_entity", "court",
+                                                          "docket_number"))
+
+
+def record_trail(decisions: list[dict]) -> tuple[int, int]:
+    """Append the new or changed decisions to TRAIL_PATH (a module constant,
+    so the layer audit sees the write; tests patch it with setattr); return
+    (recorded, suppressed)."""
+    existing = read_csv(TRAIL_PATH)
+    fresh, suppressed = new_decisions(existing, decisions, TRAIL_KEY, TRAIL_STATE)
+    # Always leave a file (at least its header): build-data.yml stages the
+    # path, and git add fails on a path that was never written.
+    if fresh or not TRAIL_PATH.exists():
+        write_csv(TRAIL_PATH, existing + fresh, TRAIL_FIELDS)
+    return len(fresh), suppressed
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
+    decisions: list[dict] = []
 
     seeds: dict[str, list[dict]] = {}
     headers: dict[str, list[str]] = {}
@@ -438,23 +483,31 @@ def main() -> int:
     for i, row in enumerate(queue, start=2):
         where = f"queue.csv row {i}"
         status = (row.get("review_status") or "").strip()
+        key = row.get("queue_id") or queue_id(row)
         if status == "promoted":
             resync_rows.append((where, row))
+            decisions.append(decision(QUEUE_PATH.name, key, row, "promoted"))
             continue
         if status in NEVER:
+            decisions.append(decision(QUEUE_PATH.name, key, row, status))
             continue
         if status == AWAITING:
             problems.append(f"{where}: awaiting review by someone other than its drafter (docs/AGENT_REVIEW.md); "
                             "set review_status to confirmed once reviewed")
+            decisions.append(decision(QUEUE_PATH.name, key, row, AWAITING,
+                                      "awaiting review by someone other than its drafter"))
             continue
         try:
             seed_rows, why = seed_rows_for(row)
         except PromotionError as exc:
             errors.append(f"{where}: {exc}")
+            decisions.append(decision(QUEUE_PATH.name, key, row, "error", str(exc)))
             continue
         if why:
             problems += [f"{where}: {w}" for w in why]
+            decisions.append(decision(QUEUE_PATH.name, key, row, "held", "; ".join(why)))
             continue
+        decisions.append(decision(QUEUE_PATH.name, key, row, "promoted"))
         etype = row["entity_type"]
         qid = row.get("queue_id") or queue_id(row, taken)
         taken.add(qid)
@@ -484,16 +537,21 @@ def main() -> int:
     candidates = read_csv(CANDIDATES_PATH) if CANDIDATES_PATH.exists() else []
     waiting = 0
     for i, row in enumerate(candidates, start=2):
-        if (row.get("review_status") or "").strip() in NEVER:
+        status = (row.get("review_status") or "").strip()
+        if status in NEVER:
+            decisions.append(decision(CANDIDATES_PATH.name, candidate_key(row), row, status))
             continue
         need = [f for f in ("case_name", "court", "court_level", "case_source_url") if not row.get(f, "").strip()]
         if not need and not _URL.match(row["case_source_url"].strip()):
             need = ["case_source_url (not http(s))"]
         if need:
             # Most candidates await docket research; count them, list only the
-            # ones a reviewer has started on.
+            # ones a reviewer has started on. An untouched candidate is not a
+            # decision and leaves no trail.
             if len(need) < 4:
                 problems.append(f"cases_candidates.csv row {i}: missing {', '.join(need)}")
+                decisions.append(decision(CANDIDATES_PATH.name, candidate_key(row), row, "held",
+                                          "missing " + ", ".join(need)))
             else:
                 waiting += 1
             continue
@@ -502,6 +560,7 @@ def main() -> int:
             seeds["case"].append(case)
             added["case"] += 1
         row["review_status"] = "promoted"
+        decisions.append(decision(CANDIDATES_PATH.name, candidate_key(row), row, "promoted"))
 
     for p in problems:
         print(p)
@@ -512,6 +571,10 @@ def main() -> int:
     print(f"Re-sync of promoted queue rows: {len(changes)} field change(s)")
     for c in changes:
         print(f"  {c}")
+    if not args.dry_run:
+        recorded, unchanged = record_trail(decisions)
+        print(f"Promotion trail: {recorded} new or changed decision(s) recorded, {unchanged} unchanged "
+              f"(data/review/{TRAIL_PATH.name})")
     if args.dry_run or not (total or changes):
         return 0
 

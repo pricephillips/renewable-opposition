@@ -230,3 +230,29 @@ def test_a_row_awaiting_review_is_held_until_someone_else_confirms_it(queue, cap
                                      mechanism_detail="setback 1,000 feet"))
     assert code == 0 and seed == [] and statuses == ["awaiting_review"]
     assert "awaiting review by someone other than its drafter" in capsys.readouterr().out
+
+
+def test_the_trail_records_each_decision_once_and_every_change(queue, tmp_path):
+    from common import read_csv
+    trail = tmp_path / "promotion_trail.csv"   # conftest points pr.TRAIL_PATH here
+    held = row(mechanisms="setback", mechanism_detail="500 ft", access="snippet", source_id="held_src")
+    code, _, status = queue(held, row(mechanisms="setback", mechanism_detail="500 ft", source_id="ok_src"))
+    assert code == 0 and status == ["confirmed", "promoted"]
+    rows = read_csv(trail)
+    assert [(r["file"], r["action"]) for r in rows] == [("queue.csv", "held"), ("queue.csv", "promoted")]
+    assert "snippet" in rows[0]["reason"] and rows[0]["place"] == "Example County" and rows[0]["state"] == "KS"
+    # The same run again: the promoted row re-syncs, the held row is held again; nothing new is recorded.
+    code, _, _ = queue(held, row(mechanisms="setback", mechanism_detail="500 ft", source_id="ok_src",
+                                 review_status="promoted"))
+    assert code == 0 and len(read_csv(trail)) == 2
+    # The hold is lifted: that is an event, and the trail now has three rows.
+    code, _, status = queue({**held, "access": "opened"})
+    assert code == 0 and status == ["promoted"]
+    rows = read_csv(trail)
+    assert len(rows) == 3 and rows[-1]["action"] == "promoted" and rows[-1]["key"] == rows[0]["key"]
+
+
+def test_a_dry_run_leaves_no_trail(queue, tmp_path, monkeypatch):
+    monkeypatch.setattr("sys.argv", ["promote_reviewed.py", "--dry-run"])
+    code, seeds, _ = queue(row(mechanisms="setback", mechanism_detail="500 ft"))
+    assert code == 0 and seeds == [] and not (tmp_path / "promotion_trail.csv").exists()

@@ -761,10 +761,13 @@ NREL_ATTRIBUTION = ("Source: NREL, U.S. Wind and U.S. Solar Siting Regulation an
 
 
 def checked_line(c: dict) -> str:
-    """'Checked <sources> on <date>: none found', flagged when stale."""
+    """'Checked <sources> on <date>: none found', with the check's evidence
+    grade and the independence classes behind it, flagged when stale."""
     srcs = "; ".join(negative_checks.sources(c))
     stale = " (stale: more than 12 months old)" if negative_checks.is_stale(c) else ""
-    return f"Checked {srcs} on {c.get('checked_on')}: none found{stale}"
+    classes = ", ".join(negative_checks.independence_classes(c))
+    return (f"Checked {srcs} on {c.get('checked_on')}: none found{stale}. "
+            f"Evidence grade {negative_checks.grade(c)} ({classes})")
 
 
 def record_request(fips: str, today: str | None = None) -> None:

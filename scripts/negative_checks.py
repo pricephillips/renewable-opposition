@@ -17,6 +17,25 @@ data/review/negative_checks.csv          hand-edited, never published as a recor
   A row that breaks one of these rules stops the build (build_seed_outputs.py),
   as a broken seed does. A check older than STALE_DAYS prints as stale.
 
+Evidence grade. Adapted from pricephillips/data-center-map
+restriction_evidence.py (copied in spirit, not imported): a check is graded by
+how many INDEPENDENCE CLASSES its sources_checked span, never by how many
+sources it lists, because two compilations that both read the same press
+coverage can be wrong together. Each source named is classed by its words:
+  primary_law   the instrument itself: a code library, ordinance page,
+                zoning text, statute or resolution
+  proceeding    the record of the body that would adopt one: minutes, agendas,
+                commission or council or board records, dockets, hearings
+  secondary     anything else: a news search, a tracker, a compiled database
+and the grade (GRADES) is
+  A   two or more classes, and the check is not stale
+  B   one class and not stale, or two or more classes but stale
+  C   one class, stale
+  U   no source classed (cannot happen for a valid row; kept for completeness)
+The grade describes the strength of the CHECK, not of the county: a grade A
+negative check still says only that these sources, on that date, held nothing.
+county_summary.csv carries it as negative_check_grade and site profiles print it.
+
 data/review/profile_requests.csv         written by scripts/site_profile.py
   county_fips, date. One row per county a profile is run for, per day. Never
   the requester or the purpose.
@@ -48,6 +67,21 @@ STALE_DAYS = 365
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 SUGGESTED = ("county code library or ordinance page; commission minutes for the last 3 years; "
              "news search for solar, wind and battery storage; state PSC or siting dockets")
+# Independence classes, matched in order; a source no pattern names is secondary.
+FAMILIES = (
+    ("primary_law", re.compile(r"\b(code|codes|ordinance|ordinances|zoning|municode|ecode360|statute|statutes|"
+                               r"regulation|regulations|resolution|resolutions|law|laws|bylaws?)\b", re.I)),
+    ("proceeding", re.compile(r"\b(minutes|agendas?|commission|commissioners|council|board|supervisors|dockets?|"
+                              r"psc|puc|siting|hearings?|planning)\b", re.I)),
+)
+SECONDARY = "secondary"
+GRADES = ("A", "B", "C", "U")
+GRADE_MEANING = {
+    "A": "two or more independence classes checked, not stale",
+    "B": "one class checked and not stale, or two or more classes but stale",
+    "C": "one class checked, stale",
+    "U": "no source classed",
+}
 
 
 def _s(v) -> str:
@@ -61,6 +95,30 @@ def sources(row: dict) -> list[str]:
 def covers(row: dict, scope: str) -> bool:
     """Whether a check covers 'restrictions' or 'projects'."""
     return _s(row.get("scope")) in (scope, "both")
+
+
+def family_of(source: str) -> str:
+    """primary_law | proceeding | secondary for one entry of sources_checked."""
+    for name, pattern in FAMILIES:
+        if pattern.search(source or ""):
+            return name
+    return SECONDARY
+
+
+def independence_classes(row: dict) -> list[str]:
+    return sorted({family_of(src) for src in sources(row)})
+
+
+def grade(row: dict, today: date | None = None) -> str:
+    """A to U; see the module docstring. Counts classes, not sources."""
+    n, stale = len(independence_classes(row)), is_stale(row, today)
+    if n >= 2 and not stale:
+        return "A"
+    if n >= 2 or (n == 1 and not stale):
+        return "B"
+    if n == 1:
+        return "C"
+    return "U"
 
 
 def is_stale(row: dict, today: date | None = None) -> bool:

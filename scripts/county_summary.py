@@ -19,19 +19,24 @@ ordinances), not feature rows.
 `coverage` says how the county stands: `record` (anything published),
 `negative_check` (nothing published, and a documented "checked, nothing
 found" row in data/review/negative_checks.csv) or `none` (neither: nobody has
-looked, which is not evidence that nothing happened).
+looked, which is not evidence that nothing happened). `negative_check_grade`
+is the newest check's evidence grade (negative_checks.grade: A to C by the
+independence classes its sources span and its age), blank without a check.
 """
 from __future__ import annotations
 
 from collections import defaultdict
+
+import negative_checks
 
 FIELDS = [
     "county_fips", "state", "county", "coverage",
     "restrictions_renewables", "restrictions_renewables_severe", "restrictions_renewables_verified",
     "restrictions_multi_sector", "contested_projects", "projects_blocked", "projects_advanced",
     "projects_pending", "projects_matched_to_plant", "cases", "siting_standard_jurisdictions",
-    "negative_check_on",
+    "negative_check_on", "negative_check_grade",
 ]
+COUNTED = FIELDS[4:FIELDS.index("negative_check_on")]
 
 
 def _fips(row: dict) -> list[str]:
@@ -90,17 +95,20 @@ def build(datasets: dict[str, list[dict]], standards: list[dict], checks: list[d
     for f, p in pairs.items():
         tally[f]["siting_standard_jurisdictions"] = len(p)
     newest: dict[str, str] = {}
-    for c in checks:
+    grades: dict[str, str] = {}
+    for c in sorted(checks, key=lambda c: c.get("checked_on") or ""):
         f = c.get("county_fips") or ""
         newest[f] = max(newest.get(f, ""), c.get("checked_on") or "")
+        grades[f] = negative_checks.grade(c)
 
     out = []
     for f in sorted(counties):
         t = tally.get(f, {})
-        row = {k: t.get(k, 0) for k in FIELDS[4:-1]}
+        row = {k: t.get(k, 0) for k in COUNTED}
         published = any(row[k] for k in ("restrictions_renewables", "restrictions_multi_sector",
                                           "contested_projects", "siting_standard_jurisdictions"))
         coverage = "record" if published else ("negative_check" if newest.get(f) else "none")
         out.append({"county_fips": f, "state": county_state(f), "county": county_name(f),
-                    "coverage": coverage, **row, "negative_check_on": newest.get(f, "")})
+                    "coverage": coverage, **row, "negative_check_on": newest.get(f, ""),
+                    "negative_check_grade": grades.get(f, "")})
     return out

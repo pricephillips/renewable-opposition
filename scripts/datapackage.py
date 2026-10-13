@@ -82,6 +82,13 @@ DESCRIPTIONS = {
     "facility_note": "The inventory entry the match rests on, in words.",
     "facility_conflict": "Set when the plant's status contradicts the published outcome.",
     "coverage": "record (anything published), negative_check (checked, nothing found) or none (not looked at).",
+    "currency": "in_force, lapsed_unconfirmed (the instrument's own end date has passed with no confirmed "
+                "extension), pending or unknown (no status); derived from the source's dates, not its status word.",
+    "status_as_of": "The latest date the status is known to have held: an 'as of' date in the text, the "
+                    "enactment date or a reviewer's check.",
+    "negative_check_grade": "A to C: how many independence classes (instrument, proceeding, secondary) the "
+                            "county's newest negative check spans, and whether it is stale. Grades the check, "
+                            "not the county.",
 }
 
 
