@@ -4,7 +4,7 @@
 -- VARCHAR, one per input file:
 --   stg_restrictions, stg_contested_projects, stg_cases, stg_siting_standards,
 --   stg_state_policies, stg_sources, stg_group_registry, stg_negative_checks,
---   stg_data_center_events
+--   stg_data_center_events, stg_headline_history
 -- plus the ones it computes in Python with the pipeline's own helpers:
 --   stg_state (state_code, state_name, state_fips)
 --   stg_county (county_fips, county_name)
@@ -13,6 +13,8 @@
 --   stg_project_group (project_id, group_id)
 --   stg_county_pending (county_fips, candidates)
 --   stg_worklist_size (worklist, description, rows)
+--   stg_jurisdiction_match (state, jurisdiction_type, jurisdiction, counties, geoid, geoid_kind, method, candidates)
+--   stg_government (geoid, kind, state_code, county_fips, census_name, funcstat)
 
 CREATE MACRO split_list(s) AS
     list_filter(list_transform(string_split(coalesce(s, ''), ';'), x -> trim(x)), x -> x <> '');
@@ -75,6 +77,15 @@ SELECT j.jurisdiction_key,
 FROM named j
 GROUP BY j.jurisdiction_key;
 
+INSERT INTO government
+SELECT geoid, kind, state_code, nullif_blank(county_fips), census_name, nullif_blank(funcstat)
+FROM stg_government;
+
+INSERT INTO jurisdiction_match
+SELECT upper(state), jurisdiction_type, jurisdiction, counties, nullif_blank(geoid), method,
+       CAST(candidates AS INTEGER)
+FROM stg_jurisdiction_match;
+
 -- Restrictions ---------------------------------------------------------------
 
 INSERT INTO restriction_instrument
@@ -102,9 +113,13 @@ SELECT
     min(nullif_blank(r.county_fips)),
     max(nullif_blank(r.primary_source_url)),
     max(nullif_blank(r.primary_source_access)),
-    count(*)
+    count(*),
+    min(nullif_blank(g.geoid))
 FROM stg_restrictions r
 LEFT JOIN stg_jurisdiction_key k USING (state, jurisdiction_type, jurisdiction)
+LEFT JOIN stg_jurisdiction_match g
+       ON g.state = r.state AND g.jurisdiction_type = r.jurisdiction_type AND g.jurisdiction = r.jurisdiction
+      AND g.counties = coalesce(nullif_blank(r.county_fips_all), nullif_blank(r.county_fips), '')
 GROUP BY r.instrument_id;
 
 INSERT INTO restriction
@@ -177,9 +192,12 @@ SELECT s.id, upper(s.state), k.jurisdiction_key, nullif_blank(s.jurisdiction),
        nullif_blank(s.section), TRY_CAST(s.ordinance_year AS INTEGER), nullif_blank(s.ordinance_url),
        coalesce(s.restricting = 'yes', false), nullif_blank(s.restriction_instrument_id),
        nullif_blank(s.evidence_level), coalesce(nullif_blank(s.verification), 'unverified'),
-       nullif_blank(s.verified_by)
+       nullif_blank(s.verified_by), nullif_blank(g.geoid)
 FROM stg_siting_standards s
-LEFT JOIN stg_jurisdiction_key k USING (state, jurisdiction_type, jurisdiction);
+LEFT JOIN stg_jurisdiction_key k USING (state, jurisdiction_type, jurisdiction)
+LEFT JOIN stg_jurisdiction_match g
+       ON g.state = s.state AND g.jurisdiction_type = s.jurisdiction_type AND g.jurisdiction = s.jurisdiction
+      AND g.counties = coalesce(nullif_blank(s.county_fips_all), nullif_blank(s.county_fips), '');
 
 INSERT INTO state_policy
 SELECT id, upper(state), nullif_blank(technology), nullif_blank(policy_type), nullif_blank(who_decides),
@@ -276,6 +294,15 @@ SELECT county_fips, CAST(candidates AS INTEGER) FROM stg_county_pending;
 
 INSERT INTO worklist_size
 SELECT worklist, description, CAST(rows AS INTEGER) FROM stg_worklist_size;
+
+INSERT INTO headline_history
+SELECT CAST(date AS DATE), TRY_CAST(restrictions AS INTEGER), TRY_CAST(severe_restrictions AS INTEGER),
+       TRY_CAST(verified_restrictions AS INTEGER), TRY_CAST(multi_sector_restrictions AS INTEGER),
+       TRY_CAST(contested_projects AS INTEGER), TRY_CAST(confirmed_outcomes AS INTEGER),
+       TRY_CAST(verified_projects AS INTEGER), TRY_CAST(cases AS INTEGER), TRY_CAST(siting_standard_rows AS INTEGER),
+       TRY_CAST(state_policies AS INTEGER), TRY_CAST(counties_with_records AS INTEGER),
+       TRY_CAST(counties_not_examined AS INTEGER)
+FROM stg_headline_history;
 
 INSERT INTO data_center_event
 SELECT nullif_blank(county_fips), upper(nullif_blank(state)), nullif_blank(jurisdiction),
