@@ -650,7 +650,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Litigation and formal proceedings with a court record.",
-      "rows": 39,
+      "rows": 40,
       "schema": {
         "fields": [
           {
@@ -1254,7 +1254,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "One row per cited source document, with its Internet Archive snapshot.",
-      "rows": 60,
+      "rows": 61,
       "schema": {
         "fields": [
           {

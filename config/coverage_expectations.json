@@ -8,12 +8,12 @@
   ],
   "contested_projects.csv": {
     "county_fips": {
-      "min_filled": 520,
-      "reason": "Derived by classify.county_fips from state plus county. 520 of 576 rows on 2026-10-09, up from 149 of 165: the Sabin September 2026 edition (568 projects) gives a county for nearly every project. The 56 misses are multi-county projects (several_counties) and Connecticut's pre-2022 counties, in data/review/fips_misses.csv."
+      "min_filled": 519,
+      "reason": "Derived by classify.county_fips from state plus county. 520 of 576 rows on 2026-10-09, up from 149 of 165: the Sabin September 2026 edition (568 projects) gives a county for nearly every project. The 56 misses are multi-county projects (several_counties) and Connecticut's pre-2022 counties, in data/review/fips_misses.csv. Lowered to 519 on 2026-10-13: one Linn County, IA row (a review-queue duplicate of Sabin record S26P-3938, Coggon Solar) was removed, so the file has 575 rows; no value was lost."
     },
     "county_fips_all": {
-      "min_filled": 570,
-      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 570 of 576 on 2026-10-09, up from 163 of 165, with the Sabin September 2026 edition."
+      "min_filled": 569,
+      "reason": "Every county a project touches (classify.county_fips_all), multi-county names included. 570 of 576 on 2026-10-09, up from 163 of 165, with the Sabin September 2026 edition. Lowered to 569 on 2026-10-13 for the same removed duplicate row (575 rows); no value was lost."
     }
   },
   "restrictions.csv": {

@@ -97,14 +97,14 @@ What the record's own text names, by a fixed keyword table (`docs/codebook.md`);
 
 ## Cases
 
-38 cases; 38 with a court record.
+39 cases; 39 with a court record.
 
 | Status | Cases |
 |---|---:|
 | (blank) | 1 |
 | dismissed | 5 |
 | pending | 4 |
-| ruled_for_developer | 16 |
+| ruled_for_developer | 17 |
 | ruled_for_opposition | 11 |
 | withdrawn | 1 |
 

@@ -7,20 +7,20 @@
   "verified": 83,
   "lapsed_unconfirmed": 1,
   "severe_where_state_limits_local": 942,
-  "projects": 576,
-  "projects_confirmed": 123,
+  "projects": 575,
+  "projects_confirmed": 125,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 309,
+    "projects": 310,
     "blocked": 234,
-    "blocked_share": 0.757
+    "blocked_share": 0.755
    },
    "confirmed_only": {
-    "projects": 122,
+    "projects": 124,
     "blocked": 70,
-    "blocked_share": 0.574
+    "blocked_share": 0.565
    },
    "by_technology": {
     "battery_storage": {
@@ -29,9 +29,9 @@
      "blocked_share": 0.647
     },
     "solar": {
-     "projects": 162,
+     "projects": 163,
      "blocked": 134,
-     "blocked_share": 0.827
+     "blocked_share": 0.822
     },
     "transmission": {
      "projects": 8,
@@ -45,7 +45,7 @@
     }
    }
   },
-  "cases": 38,
+  "cases": 39,
   "county_coverage": {
    "counties": 3144,
    "with_any_record": 1412,
@@ -69,14 +69,14 @@
  },
  "worklists": {
   "outcomes": {
-   "rows": 452,
+   "rows": 450,
    "by_tier": {
     "blocked_unverified": 165,
     "needs_review": 34,
-    "pending": 229,
-    "advanced_unverified": 24
+    "pending": 228,
+    "advanced_unverified": 23
    },
-   "overdue": 160,
+   "overdue": 158,
    "with_decision_language": 13,
    "with_located_url": 0
   },
@@ -113,19 +113,41 @@
   }
  },
  "promotion_trail": {
-  "decisions": 72,
+  "decisions": 75,
   "by_action": {
-   "promoted": 61,
-   "held": 10,
-   "awaiting_review": 1
+   "promoted": 62,
+   "held": 11,
+   "awaiting_review": 1,
+   "rejected": 1
   },
   "by_file": {
-   "queue.csv": 26,
-   "cases_candidates.csv": 46
+   "queue.csv": 27,
+   "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
   "last": "2026-10-13",
   "recent": [
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "held",
+    "what": "IA Duane Arnold Solar Projects I and II",
+    "reason": "missing case_source_url"
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "IA Coggon Solar",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "queue.csv",
+    "action": "rejected",
+    "what": "IA Linn County",
+    "reason": ""
+   },
    {
     "date": "2026-10-13",
     "file": "queue.csv",
@@ -160,34 +182,15 @@
     "action": "promoted",
     "what": "NH Belmont",
     "reason": ""
-   },
-   {
-    "date": "2026-10-13",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "DE New Castle County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-13",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "MD Prince George's County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-13",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "MD Prince George's County",
-    "reason": ""
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 22,
-   "pending": 3,
+   "promoted": 21,
+   "rejected": 1,
+   "confirmed": 1,
+   "pending": 2,
    "awaiting_review": 1
   },
   "queue_by_entity": {
@@ -195,11 +198,11 @@
    "contested_project": 2
   },
   "case_candidates": 230,
-  "case_candidates_started": 7,
-  "case_candidates_promoted": 39
+  "case_candidates_started": 8,
+  "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 72,
+  "snapshot_rows": 77,
   "snapshot_files": 5,
   "headline_history_rows": 7,
   "headline_first_change": "2026-09-29",
@@ -209,10 +212,10 @@
    "severe_restrictions": "1364",
    "verified_restrictions": "83",
    "multi_sector_restrictions": "84",
-   "contested_projects": "576",
-   "confirmed_outcomes": "123",
-   "verified_projects": "125",
-   "cases": "38",
+   "contested_projects": "575",
+   "confirmed_outcomes": "125",
+   "verified_projects": "126",
+   "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
    "counties_with_records": "1412",
@@ -245,14 +248,14 @@
    }
   },
   "outcome_resolutions": {
-   "rows": 116,
+   "rows": 118,
    "by_outcome": {
     "blocked_confirmed": 66,
-    "advanced_confirmed": 50
+    "advanced_confirmed": 52
    },
    "by_access": {
     "archived": 7,
-    "opened": 109
+    "opened": 111
    }
   }
  }

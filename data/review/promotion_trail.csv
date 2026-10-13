@@ -71,3 +71,6 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-13,queue.csv,q_70dcd29cb0,restriction,NH,Moultonborough,promoted,
 2026-10-13,queue.csv,q_e81e120bcb,restriction,WY,Carbon County,promoted,
 2026-10-13,queue.csv,q_6af54adafb,restriction,WY,Carbon County,promoted,
+2026-10-13,queue.csv,q_67b7708fa1,contested_project,IA,Linn County,rejected,
+2026-10-13,cases_candidates.csv,S26P-3938|contested_project|Iowa Court of Appeals|23-0705,case,IA,Coggon Solar,promoted,
+2026-10-13,cases_candidates.csv,S26P-3939|contested_project|Iowa District Court for Linn County|,case,IA,Duane Arnold Solar Projects I and II,held,missing case_source_url

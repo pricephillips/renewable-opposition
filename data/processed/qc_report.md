@@ -8,7 +8,7 @@ and left out of the published outputs; lower severities are reported only.
 |---|---:|---:|
 | restrictions | 3648 | 9 |
 | contested_projects | 575 | 0 |
-| cases | 39 | 0 |
+| cases | 40 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|

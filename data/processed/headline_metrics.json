@@ -223,18 +223,18 @@
     "in_county_with_severe_restriction": 221
   },
   "cases": {
-    "rows": 39,
-    "cases": 38,
+    "rows": 40,
+    "cases": 39,
     "by_case_status": {
       "": 1,
       "dismissed": 5,
       "pending": 4,
-      "ruled_for_developer": 16,
+      "ruled_for_developer": 17,
       "ruled_for_opposition": 11,
       "withdrawn": 1
     },
     "by_verification": {
-      "verified": 38
+      "verified": 39
     }
   },
   "siting_standards": {
