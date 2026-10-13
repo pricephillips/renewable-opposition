@@ -252,6 +252,26 @@
             "description": "How county_fips_all was found: name, names, point, place, place_text, override."
           },
           {
+            "name": "state_siting_authority",
+            "type": "string",
+            "description": "who_decides of the state's siting_authority row for the technology."
+          },
+          {
+            "name": "state_threshold_mw",
+            "type": "number",
+            "description": "The MW size above which the state body decides, from that row's threshold_mw."
+          },
+          {
+            "name": "state_preemption_ids",
+            "type": "string",
+            "description": "state_policies ids of local_preemption rows covering the technology."
+          },
+          {
+            "name": "state_limits_local",
+            "type": "string",
+            "description": "yes when the state's verified siting law (state_policies) limits how far a local instrument reaches for the row's technology (a size threshold, a preemption rule, or a state board that decides outright), no when local government decides with no such rule, unknown when no verified policy covers the technology. Context only; never says an instrument is void."
+          },
+          {
             "name": "primary_source_checked_on",
             "type": "string"
           },
@@ -434,6 +454,11 @@
             "description": "One ordinance, moratorium, project or case. Count these, not rows."
           },
           {
+            "name": "concerns",
+            "type": "string",
+            "description": "The concerns the record's own text names, from a fixed keyword table (docs/codebook.md): farmland, wildlife, property_value, viewshed, water, noise and the rest; semicolon-separated. What was raised, never why the project ended as it did."
+          },
+          {
             "name": "evidence_level",
             "type": "string",
             "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
@@ -457,6 +482,11 @@
             "name": "county_fips_method",
             "type": "string",
             "description": "How county_fips_all was found: name, names, point, place, place_text, override."
+          },
+          {
+            "name": "county_severe_restriction_ids",
+            "type": "string",
+            "description": "Severe renewables-only restriction instruments for the same technology in any county the project touches. A fact about the county, not a link between the records."
           },
           {
             "name": "facility_match",

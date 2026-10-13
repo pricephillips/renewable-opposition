@@ -34,9 +34,17 @@ def test_the_worklist_lists_unchecked_unrestricted_counties_newest_first():
                 {"county_fips": "20021", "date": "2026-10-03"}]
     checks = [{**GOOD, "county_fips": "20037", "scope": "restrictions"},
               {**GOOD, "county_fips": "21181", "scope": "projects"}]   # projects only: still to check
-    out = nc.worklist(requests, checks, {"19113"}, lambda f: f"name {f}", lambda f: "ST")
+    today = date(2026, 10, 13)
+    out = nc.worklist(requests, checks, {"19113"}, lambda f: f"name {f}", lambda f: "ST", today)
     assert [(r["county_fips"], r["last_requested"], r["requests"]) for r in out] == [
         ("20021", "2026-10-03", 2), ("21181", "2026-10-02", 1)]
+    assert {r["reason"] for r in out} == {"no check on record"} and list(out[0]) == nc.WORKLIST_FIELDS
+    # A stale check puts the county back on the list, saying so; a fresh one keeps it off.
+    stale = [{**GOOD, "county_fips": "20021", "scope": "both", "checked_on": "2025-01-01"}]
+    (row,) = nc.worklist(requests[:1], stale, set(), lambda f: "", lambda f: "KS", today)
+    assert row["reason"] == f"check of 2025-01-01 is stale (more than {nc.STALE_DAYS} days old)"
+    assert nc.worklist(requests[:1], [{**GOOD, "county_fips": "20021", "scope": "both"}], set(),
+                       lambda f: "", lambda f: "KS", today) == []
 
 
 def synthetic(checks):

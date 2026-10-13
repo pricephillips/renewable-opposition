@@ -27,6 +27,7 @@ Fields marked derived are stamped by `scripts/classify.py` on every build and ne
 | restrictions | `evidence_level` (derived) | `compiled_flagged`, `compiled_record`, `primary_source`, `report_citation` |
 | restrictions | `verification` (derived) | `located`, `unverified`, `verified` |
 | restrictions | `currency` (derived) | `in_force`, `lapsed_unconfirmed`, `pending`, `unknown` |
+| restrictions | `state_limits_local` (derived) | `(blank)`, `no`, `unknown`, `yes` |
 | contested_projects | `outcome` | `advanced_confirmed`, `advanced_unverified`, `blocked_confirmed`, `blocked_unverified`, `needs_review`, `pending`, `restricted_conditional` |
 | contested_projects | `verification` (derived) | `unverified`, `verified` |
 | cases | `case_status` | `(blank)`, `dismissed`, `pending`, `ruled_for_developer`, `ruled_for_opposition`, `settled`, `withdrawn` |
@@ -115,6 +116,29 @@ reviewer's resolution whose evidence was opened or archived (`scripts/resolution
 
 Finality evidence that satisfies the QC gate: a value starting with `court_ruling`, `resolution`. `lead: <url>` (a snippet resolution) and `outcome_label_only` do not.
 
+## Concerns named in a project's text (`classify.CONCERNS`)
+
+A concern is named when its pattern matches the record's text (description, long description, notes). It records what the text says was raised, never why the project ended as it did.
+
+| Concern | Pattern |
+|---|---|
+| `farmland` | `\b(farmland|farm land|agricultur\w*|prime farm\w*|cropland|rural character)\b` |
+| `wildlife` | `\b(wildlife|birds?|bats?|eagles?|habitats?|endangered|migrat\w*|whales?|fisher(y|ies|men))\b` |
+| `property_value` | `\b(property|home|land) values?\b` |
+| `viewshed` | `\b(viewshed|visual impacts?|aesthetic\w*|scenic|eyesore|views? (of|from|across) the (lake|mountains?|ridge\w*|valley|ocean|bay|sound|landscape|countryside|hills?|river|shore\w*))\b` |
+| `water` | `\b(water (use|usage|supply|quality|table|rights)|aquifers?|groundwater|runoff|drainage|wells)\b` |
+| `noise` | `\b(noise|decibels?|dba|sound (levels?|limits?))\b` |
+| `tribal_cultural` | `\b(tribal|tribes?|sacred|cultural resources?|archaeolog\w*|historic (district|site|preservation|resources?))\b` |
+| `traffic` | `\b(traffic|truck traffic|road damage|haul routes?)\b` |
+| `health` | `\b(health|infrasound|cancer|asthma)\b` |
+| `fire_safety` | `\b(fire|fires|thermal runaway|explosions?|toxic (gas|fumes|smoke)|emergency respon\w*)\b` |
+| `decommissioning` | `\bdecommission\w*\b` |
+| `grid_cost` | `\b(ratepayers?|electric(ity)? (bills?|rates|prices)|utility bills?|rate increases?)\b` |
+| `wetlands` | `\b(wetlands?|floodplains?|erosion)\b` |
+| `military_aviation` | `\b(radar|military|aviation|airports?|faa)\b` |
+| `shadow_flicker` | `\b(shadow )?flicker\b` |
+| `glare` | `\bglare\b` |
+
 ## Derived fields (`scripts/classify.py`)
 
 - `evidence_level`, best first: `primary_source`, `confirmed`, `court_record`, `compiled_record`, `compiled_flagged`, `report_citation`.
@@ -122,6 +146,7 @@ Finality evidence that satisfies the QC gate: a value starting with `court_rulin
 - `scope` (restrictions): `renewables_only`, `multi_sector_data_centers`, `data_center_only`. `data_center_only` is quarantined.
 - `currency` (restrictions): `in_force`, `lapsed_unconfirmed`, `pending`, `unknown`. In force means status `active`, `extended` with no end date passed; lapsed_unconfirmed means the end date passed and no reviewer confirmed the instrument on or after it.
 - `status_as_of` (restrictions): the latest of an 'as of YYYY-MM-DD' date in the text, the enactment date, or a reviewer's primary-source check.
+- `state_limits_local` (restrictions below state level): `yes`, `no`, `unknown`, read off the state's verified `state_policies` rows for the technology: yes when a local_preemption row or a size threshold covers it or the state board decides outright, no when local government decides with no such rule, unknown when no verified row covers the technology (or only a hybrid row with no threshold). Carried with `state_siting_authority`, `state_threshold_mw`, `state_preemption_ids`. Context only; never says an instrument is void.
 - `source_kind` of a queue row: `instrument`, `minutes`, `official_copy`, `court_record`, `news`, `tracker`, `other`; only `instrument`, `minutes`, `official_copy` can verify a restriction; `instrument`, `minutes`, `official_copy`, `court_record`, `news` can verify a project outcome or event.
 - How evidence was seen (`access`): `opened`, `archived`, `snippet`; only `archived`, `opened` upgrade a record. Primary-source verdicts: `confirmed`, `contradicts`.
 
@@ -129,18 +154,18 @@ Finality evidence that satisfies the QC gate: a value starting with `court_rulin
 
 A row with any CRITICAL or HIGH issue is quarantined in `data/processed/quarantine.json`; lower severities are reported in `data/processed/qc_report.md`.
 
-| Code | Severity | Meaning |
-|---|---|---|
-| `COORD_OUTSIDE_STATE` | HIGH | coordinates not inside the state the row names |
-| `SOURCE_URL_INVALID` | HIGH | source_url, case_source_url or primary_source_url is not http(s) |
-| `STATUS_VOCAB` | HIGH | status, outcome, case_status or a derived field outside the entity's vocabulary |
-| `DATE_IN_FUTURE` | HIGH | an enactment or filing date after the build date |
-| `SEVERITY_STATUS` | MEDIUM | a pending instrument scored above 2 |
-| `CONFIRMED_NO_EVIDENCE` | HIGH | a *_confirmed outcome with no independent finality evidence |
-| `PRIMARY_SOURCE_CONTRADICTS` | MEDIUM or HIGH | a reviewer found the primary source disagrees with the record; MEDIUM when that source was seen only as search-index text (a lead to read), HIGH when it was opened or archived |
-| `SCOPE_DATA_CENTER_ONLY` | HIGH | a restriction whose text names data centers and no renewable technology |
-| `DATE_UNPARSEABLE` | LOW | an ISO date column that is not YYYY[-MM[-DD]] |
-| `END_DATE_PASSED` | MEDIUM | an active or extended restriction whose own end date has passed with no reviewer confirmation since; the source's status may be out of date |
+| Code | Severity | Meaning | What releases a held row |
+|---|---|---|---|
+| `COORD_OUTSIDE_STATE` | HIGH | coordinates not inside the state the row names | correct the coordinates or the state in the seed (or the source's row) so they agree |
+| `SOURCE_URL_INVALID` | HIGH | source_url, case_source_url or primary_source_url is not http(s) | replace the value with the document's http(s) address |
+| `STATUS_VOCAB` | HIGH | status, outcome, case_status or a derived field outside the entity's vocabulary | map the source's value onto the vocabulary in the importer (build_sabin_seeds, fetch_moratorium_nation) or the queue row |
+| `DATE_IN_FUTURE` | HIGH | an enactment or filing date after the build date | check the date against the instrument or docket; a proposal date belongs in date_text, not date_enacted_iso |
+| `SEVERITY_STATUS` | MEDIUM | a pending instrument scored above 2 | nothing to do: reported only; the score is capped at 2 while pending |
+| `CONFIRMED_NO_EVIDENCE` | HIGH | a *_confirmed outcome with no independent finality evidence | add a data/review/outcome_resolutions.csv row with the document that shows the outcome (access opened or archived), or set the outcome back to *_unverified |
+| `PRIMARY_SOURCE_CONTRADICTS` | MEDIUM or HIGH | a reviewer found the primary source disagrees with the record; MEDIUM when that source was seen only as search-index text (a lead to read), HIGH when it was opened or archived | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| `SCOPE_DATA_CENTER_ONLY` | HIGH | a restriction whose text names data centers and no renewable technology | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
+| `DATE_UNPARSEABLE` | LOW | an ISO date column that is not YYYY[-MM[-DD]] | nothing to do: reported only; rewrite the date as YYYY, YYYY-MM or YYYY-MM-DD when touching the row |
+| `END_DATE_PASSED` | MEDIUM | an active or extended restriction whose own end date has passed with no reviewer confirmation since; the source's status may be out of date | nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv row checked on or after the end date restores it to in_force |
 
 ## Counting (`scripts/headline_metrics.py`)
 
@@ -148,6 +173,8 @@ A row with any CRITICAL or HIGH issue is quarantined in `data/processed/quaranti
 - Severe means a severity score in `3`, `4`.
 - Restrictions are split by scope; the headline figure is renewables_only and multi_sector_data_centers is reported beside it, never folded in.
 - Source families: `Sabin 2026`, `Sabin 2025 (not in 2026 edition)`, `NREL`, `Moratorium Nation`, `review queue`, `other`.
+- Decided projects: an outcome in `blocked_confirmed`, `blocked_unverified`, `advanced_confirmed`, `advanced_unverified`, `restricted_conditional`, with events younger than 90 days left out (the right-censoring guard). The blocked share is reported for all decided projects and for confirmed outcomes alone, and is conditional on opposition being tracked at all.
+- `county_severe_restriction_ids`: severe (score 3 or more) renewables-only instruments for the same technology in any county the project touches; counted as projects sharing a county with one.
 
 ## Worklists (`scripts/verification_worklist.py`)
 
@@ -177,6 +204,10 @@ Restriction tiers, weakest evidence first: `compiled_flagged`, `compiled_record`
 | `B` | one class checked and not stale, or two or more classes but stale |
 | `C` | one class checked, stale |
 | `U` | no source classed |
+
+## Operations summary (`scripts/operations_summary.py`)
+
+`data/processed/operations_summary.json` and `.md` count the rows other modules wrote: the headline, the quarantine by blocking code, each worklist's size and flags, the promotion trail by action, the review queue by status, the snapshot and headline-history rows, and the share of sources with an archive copy. Nothing in it is computed anywhere else first.
 
 ## Promotion trail (`scripts/promote_reviewed.py`)
 

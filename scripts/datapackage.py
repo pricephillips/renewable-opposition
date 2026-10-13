@@ -86,6 +86,20 @@ DESCRIPTIONS = {
                 "extension), pending or unknown (no status); derived from the source's dates, not its status word.",
     "status_as_of": "The latest date the status is known to have held: an 'as of' date in the text, the "
                     "enactment date or a reviewer's check.",
+    "state_limits_local": "yes when the state's verified siting law (state_policies) limits how far a local "
+                          "instrument reaches for the row's technology (a size threshold, a preemption rule, or a "
+                          "state board that decides outright), no when local government decides with no such rule, "
+                          "unknown when no verified policy covers the technology. Context only; never says an "
+                          "instrument is void.",
+    "state_siting_authority": "who_decides of the state's siting_authority row for the technology.",
+    "state_threshold_mw": "The MW size above which the state body decides, from that row's threshold_mw.",
+    "state_preemption_ids": "state_policies ids of local_preemption rows covering the technology.",
+    "concerns": "The concerns the record's own text names, from a fixed keyword table (docs/codebook.md): "
+                "farmland, wildlife, property_value, viewshed, water, noise and the rest; semicolon-separated. "
+                "What was raised, never why the project ended as it did.",
+    "county_severe_restriction_ids": "Severe renewables-only restriction instruments for the same technology in "
+                                     "any county the project touches. A fact about the county, not a link "
+                                     "between the records.",
     "negative_check_grade": "A to C: how many independence classes (instrument, proceeding, secondary) the "
                             "county's newest negative check spans, and whether it is stale. Grades the check, "
                             "not the county.",

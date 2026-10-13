@@ -175,3 +175,29 @@ def test_the_data_build_promotes_before_it_builds_and_commits_the_seeds():
     for path in ("data/review/queue.csv", "data/review/cases_candidates.csv",
                  "data/review/place_overrides.csv", "scripts/promote_reviewed.py"):
         assert f"- '{path}'" in wf, path
+
+
+def test_a_candidate_the_repository_already_holds_is_not_queued_twice():
+    def cand(**kw):
+        base = dict(source_id="src_a", entity_type="restriction", state="KS", county="Cherokee County",
+                    source_url="https://county.gov/ordinance.pdf", description="d")
+        return parse.CandidateRecord(**{**base, **kw})
+
+    queue = [{"entity_type": "restriction", "state": "KS", "county": "Cherokee County", "source_id": "web_x",
+              "source_url": "https://COUNTY.gov/ordinance.pdf/", "review_status": "promoted"}]
+    seeds = {"contested_project": [{"state": "KS", "project_name": "Rainbow Springs Solar",
+                                    "source_url": "https://news.example.org/a", "pinned_id": "con_1"}],
+             "restriction": [], "case": []}
+    known = parse.Known(queue, seeds)
+    kept, dropped = parse.dedupe([
+        cand(),                                                        # same document as the queue row
+        cand(county="Elk County", source_url="https://elk.gov/o.pdf"),  # new
+        cand(county="Elk County", source_url="https://elk.gov/o.pdf"),  # a second copy in the batch
+        cand(entity_type="contested_project", county="", project_name="rainbow springs solar",
+             source_url="https://other.example.org/b"),                # the seed's project, another URL
+        cand(entity_type="case", county="", project_name="X v. Y", source_url=""),   # no URL: kept
+    ], known)
+    assert [c.county or c.project_name for c in kept] == ["Elk County", "rainbow springs solar", "X v. Y"]
+    assert len(dropped) == 2 and "queue row from web_x" in dropped[0] and "src_a" in dropped[1]
+    assert kept[1].reviewer_notes.startswith("possible duplicate of seed con_1")
+    assert kept[0].reviewer_notes == ""

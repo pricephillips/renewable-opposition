@@ -51,6 +51,10 @@
     "county_fips": "08121",
     "county_fips_all": "08121",
     "county_fips_method": "name",
+    "state_siting_authority": "local_government",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "no",
     "qc_issues": [
       {
         "code": "PRIMARY_SOURCE_CONTRADICTS",
@@ -110,6 +114,10 @@
     "county_fips": "20111",
     "county_fips_all": "20111",
     "county_fips_method": "name",
+    "state_siting_authority": "",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "unknown",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -169,6 +177,10 @@
     "county_fips": "20121",
     "county_fips_all": "20121",
     "county_fips_method": "name",
+    "state_siting_authority": "",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "unknown",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -228,6 +240,10 @@
     "county_fips": "20121",
     "county_fips_all": "20121",
     "county_fips_method": "name",
+    "state_siting_authority": "local_government",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "no",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -287,6 +303,10 @@
     "county_fips": "20121",
     "county_fips_all": "20121",
     "county_fips_method": "name",
+    "state_siting_authority": "local_government",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "no",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -346,6 +366,10 @@
     "county_fips": null,
     "county_fips_all": "20177",
     "county_fips_method": "point",
+    "state_siting_authority": "",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "unknown",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -405,6 +429,10 @@
     "county_fips": "31113",
     "county_fips_all": "31113",
     "county_fips_method": "name",
+    "state_siting_authority": "local_government",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "no",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -464,6 +492,10 @@
     "county_fips": "31113",
     "county_fips_all": "31113",
     "county_fips_method": "name",
+    "state_siting_authority": "local_government",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "no",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",
@@ -523,6 +555,10 @@
     "county_fips": "31113",
     "county_fips_all": "31113",
     "county_fips_method": "name",
+    "state_siting_authority": "local_government",
+    "state_threshold_mw": "",
+    "state_preemption_ids": "",
+    "state_limits_local": "no",
     "qc_issues": [
       {
         "code": "SCOPE_DATA_CENTER_ONLY",

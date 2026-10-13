@@ -45,6 +45,20 @@ reports the decision:
                 status_as_of is more than STALE_PENDING_DAYS old is flagged
                 stale: a vote follows a proposal within weeks to months, so
                 an old "pending" has most likely been decided.
+  County impact (restrictions; after data-center-map's label_moving rank):
+                re-verifying some instruments would change what a county
+                shows, and those come first within their group. county_impact
+                is sole_severe when the instrument is the only severe
+                renewables-only instrument in one of its counties (settling
+                it moves the county between severe and not), sole_record when
+                it is the only restriction of any kind there, else blank.
+  Sibling source (restrictions): when another instrument for the same
+                jurisdiction and technology (any source family) is verified
+                against a primary source, that document almost certainly
+                covers this one too. Its URL goes in located_url when the
+                row has none, and flags says which instrument holds it. A
+                lead for the reviewer: the row stays unverified until someone
+                reads the document against it.
   Outcomes      age_days counts from the latest date in event_date_text (the
                 end of its precision, so "2023" is measured from 2023-12-31).
                 A pending project older than STALE_OUTCOME_DAYS is flagged
@@ -60,7 +74,6 @@ Usage
 """
 from __future__ import annotations
 
-import calendar
 import json
 import re
 import sys
@@ -68,7 +81,10 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import PROCESSED_DIR, REVIEW_DIR, STATE_NAMES, read_csv, write_csv  # noqa: E402
+from classify import latest_date  # noqa: E402
+from common import (  # noqa: E402
+    PROCESSED_DIR, REVIEW_DIR, STATE_NAMES, jurisdiction_key, jurisdiction_kind, read_csv, write_csv,
+)
 
 OUTCOME_WORKLIST = REVIEW_DIR / "outcome_worklist.csv"
 RESTRICTION_WORKLIST = REVIEW_DIR / "restriction_worklist.csv"
@@ -89,6 +105,8 @@ EVIDENCE_TIERS = ("compiled_flagged", "compiled_record", "report_citation")
 STALE_PENDING_DAYS = 120
 STALE_OUTCOME_DAYS = 365
 LAPSED = "lapsed_unconfirmed"
+IMPACT_RANK = {"sole_severe": 0, "sole_record": 1, "": 2}
+SEVERE = 3
 # A completed decision stated in the past tense, and the words that mean the
 # step was not final (or that the decision is being contested).
 DECISION = re.compile(
@@ -100,10 +118,6 @@ NOT_FINAL = re.compile(
     r"set to|plans? to|propos(e|es|ed|al)|draft(s|ing)?|move[sd]? toward|towards?|hearing|could|may|seeks?|"
     r"push(es)? for|calls? for|urge[sd]?|asks?|appeal(s|ed|ing)?|pending|lawsuit|sue[sd]?|suit|"
     r"challeng(e|es|ed|ing)|petition(s|ed)?|intervene[sd]?|remand(s|ed)?)\b", re.I)
-_DATE_TOKEN = re.compile(r"\b(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?\b")
-_MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september",
-           "october", "november", "december"]
-_MONTH_YEAR = re.compile(r"\b(" + "|".join(_MONTHS) + r")\s+(\d{4})\b", re.I)
 # "May 2024" or "May 7" is a date, not the modal verb NOT_FINAL looks for.
 _MAY_DATE = re.compile(r"\bMay\s+(?=\d)")
 STATUS_ORDER = {"active": 0, "extended": 1, "pending": 2}
@@ -115,7 +129,8 @@ OUTCOME_FIELDS = ["priority", "tier", "source_record_id", "state", "county", "mu
                   "what_would_confirm", "located_url", "search_query", "facility_status",
                   "facility_conflict"]
 RESTRICTION_FIELDS = ["priority", "tier", "instrument_id", "state", "jurisdiction",
-                      "jurisdiction_type", "scope", "technologies", "status", "currency", "status_as_of",
+                      "jurisdiction_type", "scope", "county_impact", "technologies", "status", "currency",
+                      "status_as_of",
                       "severity_score", "date_enacted_iso", "current_end_date_iso", "legal_basis",
                       "located_url", "search_query", "flags"]
 
@@ -135,31 +150,6 @@ def _techs(value: str) -> list[str]:
 
 def _state_name(code: str) -> str:
     return STATE_NAMES.get(code, code)
-
-
-def latest_date(text: str) -> date | None:
-    """The latest date named in free text, at the end of its precision:
-    "2023" -> 2023-12-31, "2021-04" -> 2021-04-30, "June 2023" -> 2023-06-30.
-    None when the text names no year."""
-    found: list[date] = []
-    text = text or ""
-    for name, y in _MONTH_YEAR.findall(text):
-        mm = _MONTHS.index(name.lower()) + 1
-        found.append(date(int(y), mm, calendar.monthrange(int(y), mm)[1]))
-    # A year already read as part of "June 2023" is not also a bare year.
-    for y, m, d in _DATE_TOKEN.findall(_MONTH_YEAR.sub(" ", text)):
-        y = int(y)
-        if not 1900 <= y <= 2100:
-            continue
-        mm = int(m) if m else 12
-        if not 1 <= mm <= 12:
-            continue
-        try:
-            dd = int(d) if d else calendar.monthrange(y, mm)[1]
-            found.append(date(y, mm, dd))
-        except ValueError:
-            continue
-    return max(found) if found else None
 
 
 def age_days(text: str, today: date) -> int | None:
@@ -221,10 +211,78 @@ def outcome_rows(projects: list[dict], resolved: set[str], located: dict[str, st
     return rows
 
 
+def _fips(row: dict) -> list[str]:
+    return [f for f in _s(row.get("county_fips_all") or row.get("county_fips")).split(";") if f]
+
+
+def _severity(row: dict) -> int:
+    try:
+        return int(row.get("severity_score") or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def county_impacts(restrictions: list[dict]) -> dict[str, str]:
+    """instrument_id -> sole_severe | sole_record | "" over every published
+    renewables-only restriction (the map's figure), by county_fips_all."""
+    per_county: dict[str, set[str]] = {}
+    severe_per_county: dict[str, set[str]] = {}
+    severity: dict[str, int] = {}
+    counties: dict[str, set[str]] = {}
+    for r in restrictions:
+        iid = _s(r.get("instrument_id"))
+        if not iid or _s(r.get("scope")) != "renewables_only":
+            continue
+        severity[iid] = max(severity.get(iid, 0), _severity(r))
+        for f in _fips(r):
+            counties.setdefault(iid, set()).add(f)
+            per_county.setdefault(f, set()).add(iid)
+    for iid, sev in severity.items():
+        if sev >= SEVERE:
+            for f in counties.get(iid, ()):
+                severe_per_county.setdefault(f, set()).add(iid)
+    out: dict[str, str] = {}
+    for iid, fs in counties.items():
+        if severity[iid] >= SEVERE and any(len(severe_per_county.get(f, ())) == 1 for f in fs):
+            out[iid] = "sole_severe"
+        elif any(len(per_county.get(f, ())) == 1 for f in fs):
+            out[iid] = "sole_record"
+        else:
+            out[iid] = ""
+    return out
+
+
+def _place_key(row: dict) -> tuple | None:
+    try:
+        return (jurisdiction_key(_s(row.get("state")), jurisdiction_kind(_s(row.get("jurisdiction_type"))),
+                                 _s(row.get("jurisdiction"))), _s(row.get("technology")))
+    except ValueError:
+        return None
+
+
+def sibling_sources(restrictions: list[dict]) -> dict[str, tuple[str, str]]:
+    """instrument_id -> (sibling instrument_id, its primary_source_url) for
+    every unverified instrument that shares jurisdiction and technology with a
+    verified one from another instrument."""
+    held: dict[tuple, tuple[str, str]] = {}
+    for r in restrictions:
+        key = _place_key(r)
+        if key and _s(r.get("verification")) == "verified" and _s(r.get("primary_source_url")):
+            held.setdefault(key, (_s(r.get("instrument_id")), _s(r.get("primary_source_url"))))
+    out: dict[str, tuple[str, str]] = {}
+    for r in restrictions:
+        key, iid = _place_key(r), _s(r.get("instrument_id"))
+        if key in held and held[key][0] != iid and _s(r.get("verification")) != "verified":
+            out.setdefault(iid, held[key])
+    return out
+
+
 def restriction_rows(restrictions: list[dict], checked: set[str],
                      located: dict[str, str] | None = None, sample: dict[str, list[str]] | None = None,
                      today: date | None = None) -> list[dict]:
     today = today or date.today()
+    impact = county_impacts(restrictions)
+    siblings = sibling_sources(restrictions)
     inst: dict[str, dict] = {}
     for r in restrictions:
         iid = _s(r.get("instrument_id"))
@@ -241,10 +299,13 @@ def restriction_rows(restrictions: list[dict], checked: set[str],
         currency, as_of = _s(r.get("currency")), _s(r.get("status_as_of"))
         age = age_days(as_of, today) if as_of else None
         stale = _s(r.get("status")) == "pending" and age is not None and age > STALE_PENDING_DAYS
+        sibling = siblings.get(iid)
+        located_url = (located or {}).get(iid, "") or (sibling[1] if sibling else "")
         currency_flags = [
             f"end date {_s(r.get('current_end_date_iso'))} passed with no confirmed extension" if currency == LAPSED
             else "",
             f"pending {age} days (since {as_of}), past {STALE_PENDING_DAYS}" if stale else "",
+            f"primary source held by {sibling[0]} (same jurisdiction and technology)" if sibling else "",
         ]
         place = _s(r.get("jurisdiction")) or _s(r.get("county"))
         query = " ".join(x for x in (f'"{place}"' if place else "", _state_name(_s(r.get("state"))),
@@ -253,12 +314,13 @@ def restriction_rows(restrictions: list[dict], checked: set[str],
         rows.append({
             "tier": r.get("evidence_level"), "instrument_id": iid, "state": r.get("state"),
             "jurisdiction": place, "jurisdiction_type": r.get("jurisdiction_type"),
-            "scope": r.get("scope"), "technologies": ";".join(techs), "status": r.get("status"),
+            "scope": r.get("scope"), "county_impact": impact.get(iid, ""),
+            "technologies": ";".join(techs), "status": r.get("status"),
             "currency": currency, "status_as_of": as_of,
             "severity_score": r.get("severity_score"),
             "date_enacted_iso": r.get("date_enacted_iso"),
             "current_end_date_iso": r.get("current_end_date_iso"),
-            "legal_basis": r.get("legal_basis"), "located_url": (located or {}).get(iid, ""),
+            "legal_basis": r.get("legal_basis"), "located_url": located_url,
             "search_query": query,
             "flags": "; ".join(x for x in (
                 *currency_flags,
@@ -268,6 +330,7 @@ def restriction_rows(restrictions: list[dict], checked: set[str],
     rows.sort(key=lambda r: (r["currency"] != LAPSED,
                              EVIDENCE_TIERS.index(r["tier"]) if r["tier"] in EVIDENCE_TIERS else len(EVIDENCE_TIERS),
                              _s(r["scope"]) != "renewables_only",
+                             IMPACT_RANK.get(r["county_impact"], 2),
                              -int(r["severity_score"] or 0),
                              STATUS_ORDER.get(_s(r["status"]), 9), r["state"], r["jurisdiction"]))
     for i, r in enumerate(rows, 1):

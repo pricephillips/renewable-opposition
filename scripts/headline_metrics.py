@@ -34,8 +34,22 @@ Rules
 from __future__ import annotations
 
 from collections import Counter
+from datetime import date
+
+from classify import latest_date
 
 SEVERE = {3, 4}
+# The decided-outcome rate (after pricephillips/data-center-map's headline:
+# "decided-case confirmed-block rate ... incidents younger than 90 days
+# excluded (right-censoring guard)"). A project counts as decided when its
+# outcome is one of DECIDED; one whose event is younger than YOUNG_DAYS is
+# left out, since a decision that fresh is the least likely to be final or
+# fully reported. The rate is conditional on opposition being tracked at all:
+# this dataset holds projects because they drew opposition, so it says
+# nothing about projects that proceeded without a recorded fight.
+DECIDED = ("blocked_confirmed", "blocked_unverified", "advanced_confirmed", "advanced_unverified",
+           "restricted_conditional")
+YOUNG_DAYS = 90
 
 
 def _instruments(rows: list[dict]) -> dict[str, dict]:
@@ -125,9 +139,39 @@ def county_coverage(datasets: dict[str, list[dict]], standards: list[dict], chec
     }
 
 
+def _share(n: int, d: int) -> float | None:
+    return round(n / d, 3) if d else None
+
+
+def decided_rate(inst: dict[str, dict], today: date) -> dict:
+    """Blocked share of decided projects, with the young-record guard, for all
+    decided projects and for the confirmed ones alone."""
+    decided, young = [], 0
+    for i in inst.values():
+        if str(i.get("outcome") or "") not in DECIDED:
+            continue
+        when = latest_date(str(i.get("event_date_text") or ""))
+        if when and (today - when).days < YOUNG_DAYS:
+            young += 1
+            continue
+        decided.append(i)
+
+    def block(group):
+        blocked = sum(1 for i in group if str(i.get("outcome") or "").startswith("blocked"))
+        return {"projects": len(group), "blocked": blocked, "blocked_share": _share(blocked, len(group))}
+
+    confirmed = [i for i in decided if str(i.get("outcome") or "").endswith("_confirmed")]
+    by_tech: dict[str, dict] = {}
+    for t in sorted({t for i in decided for t in i["_techs"]}):
+        by_tech[t] = block([i for i in decided if t in i["_techs"]])
+    return {"guard_days": YOUNG_DAYS, "young_excluded": young, "all": block(decided),
+            "confirmed_only": block(confirmed), "by_technology": by_tech}
+
+
 def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None,
             policies: list[dict] | None = None, checks: list[dict] | None = None,
-            all_counties: list[str] | None = None) -> dict:
+            all_counties: list[str] | None = None, today: date | None = None) -> dict:
+    today = today or date.today()
     out: dict = {}
     rows = datasets.get("restrictions", [])
     inst = _instruments(rows)
@@ -145,6 +189,11 @@ def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None
             "by_evidence_level": _counter(group, lambda i: i.get("evidence_level")),
             "by_verification": _counter(group, lambda i: i.get("verification")),
             "by_currency": _counter(group, lambda i: i.get("currency")),
+            # Severe instruments in states whose verified siting law limits
+            # local reach for the technology (classify.state_context): a
+            # context for the count, never a subtraction from it.
+            "severe_where_state_limits_local": sum(
+                1 for i in group if i["severity_score"] in SEVERE and i.get("state_limits_local") == "yes"),
         }
     out["restrictions"] = {"rows": len(rows), "instruments": len(inst), "by_scope": by_scope,
                            "by_source": by_source(inst),
@@ -166,6 +215,13 @@ def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None
         "facility_matches": _counter((i for i in inst.values() if i.get("facility_match")),
                                      lambda i: i.get("facility_status")),
         "facility_conflicts": sum(1 for i in inst.values() if i.get("facility_conflict")),
+        "decided": decided_rate(inst, today),
+        "by_concern": dict(sorted(Counter(c for i in inst.values()
+                                          for c in str(i.get("concerns") or "").split(";") if c).items(),
+                                  key=lambda kv: (-kv[1], kv[0]))),
+        "with_no_concern_named": sum(1 for i in inst.values() if not i.get("concerns")),
+        "in_county_with_severe_restriction": sum(1 for i in inst.values()
+                                                 if i.get("county_severe_restriction_ids")),
     }
 
     rows = datasets.get("cases", [])
@@ -231,6 +287,12 @@ def render(m: dict) -> str:
         "read in an archived copy. Located: that document is found but not yet read. Unverified: "
         "a news article or a compiled tracker locates the instrument but does not verify it.",
         "",
+        f"Of the severe instruments, {ren.get('severe_where_state_limits_local', 0)} (renewables only) and "
+        f"{multi.get('severe_where_state_limits_local', 0)} (also covering data centers) sit in a state whose "
+        "verified siting law limits how far a local instrument reaches for that technology (a size threshold "
+        "above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count "
+        "is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.",
+        "",
         "Currency: in_force means the status is active or extended and no end date has passed. "
         "lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer "
         "has confirmed an extension; it keeps its source status and severity, so subtract it before "
@@ -257,6 +319,33 @@ def render(m: dict) -> str:
         lines += ["", f"{c.get('facility_conflicts', 0)} of them carry an outcome the plant's status contradicts "
                   "(see `data/review/facility_matches.csv`). A plant's status says what became of it, not "
                   "whether opposition had anything to do with it; no outcome is changed by a match."]
+    d = c.get("decided")
+    if d:
+        a, co = d["all"], d["confirmed_only"]
+        pct = (lambda x: f"{round(100 * x)}%" if x is not None else "n/a")
+        lines += ["", "### Decided projects", "",
+                  "This dataset holds projects because they drew opposition, so every rate below is conditional "
+                  "on a fight visible enough to enter the record; projects that proceeded without tracked "
+                  "opposition are absent by construction. Decided means an outcome of "
+                  f"{', '.join(DECIDED)}; a project whose event is younger than {d['guard_days']} days is left out "
+                  f"({d['young_excluded']} today), since the freshest decisions are the least likely to be final.", "",
+                  "| | Decided projects | Blocked | Blocked share |", "|---|---:|---:|---:|",
+                  f"| All decided | {a['projects']} | {a['blocked']} | {pct(a['blocked_share'])} |",
+                  f"| Confirmed outcomes only | {co['projects']} | {co['blocked']} | {pct(co['blocked_share'])} |"]
+        for t, g in d["by_technology"].items():
+            lines.append(f"| {t} | {g['projects']} | {g['blocked']} | {pct(g['blocked_share'])} |")
+        lines += ["", "Quote the confirmed-only figure when the claim is about what happened; the all-decided figure "
+                  "rests partly on the source's label alone."]
+    bc = c.get("by_concern")
+    if bc is not None:
+        lines += ["", "### Concerns named in the record", "",
+                  f"What the record's own text names, by a fixed keyword table (`docs/codebook.md`); "
+                  f"{c.get('with_no_concern_named', 0)} projects name none. A concern is what was raised, not why "
+                  "the project ended as it did.", "", "| Concern | Projects |", "|---|---:|"]
+        lines += [f"| {k2} | {n} |" for k2, n in bc.items()]
+        lines += ["", f"{c.get('in_county_with_severe_restriction', 0)} projects share a county with a severe "
+                  "renewables-only restriction for the same technology (`county_severe_restriction_ids`); a fact "
+                  "about the county, not a link between the records."]
     lines += ["", "## Cases", "", f"{k['cases']} cases; {k['by_verification'].get('verified', 0)} "
               "with a court record.", "", "| Status | Cases |", "|---|---:|"]
     lines += [f"| {s or '(blank)'} | {n} |" for s, n in k["by_case_status"].items()]
