@@ -98,7 +98,8 @@ jobs:
           echo "::error::push failed after 3 attempts"; exit 1
 
       - name: Open an issue on failure (main only)
-        if: failure() && github.ref == 'refs/heads/main'
+        # A job that hits timeout-minutes ends cancelled, not failed.
+        if: (failure() || cancelled()) && github.ref == 'refs/heads/main'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
