@@ -1,0 +1,227 @@
+{
+ "generated": "2026-10-13",
+ "note": "Every number counts rows another module wrote; check it against the file named in the key.",
+ "headline": {
+  "restriction_instruments": 3341,
+  "severe": 1362,
+  "verified": 74,
+  "lapsed_unconfirmed": 1,
+  "severe_where_state_limits_local": 942,
+  "projects": 576,
+  "projects_confirmed": 123,
+  "decided": {
+   "guard_days": 90,
+   "young_excluded": 3,
+   "all": {
+    "projects": 309,
+    "blocked": 234,
+    "blocked_share": 0.757
+   },
+   "confirmed_only": {
+    "projects": 122,
+    "blocked": 70,
+    "blocked_share": 0.574
+   },
+   "by_technology": {
+    "battery_storage": {
+     "projects": 17,
+     "blocked": 11,
+     "blocked_share": 0.647
+    },
+    "solar": {
+     "projects": 162,
+     "blocked": 134,
+     "blocked_share": 0.827
+    },
+    "transmission": {
+     "projects": 8,
+     "blocked": 3,
+     "blocked_share": 0.375
+    },
+    "wind": {
+     "projects": 136,
+     "blocked": 93,
+     "blocked_share": 0.684
+    }
+   }
+  },
+  "cases": 38,
+  "county_coverage": {
+   "counties": 3144,
+   "with_any_record": 1403,
+   "with_restriction": 1255,
+   "with_contested_project": 456,
+   "with_siting_standard": 1158,
+   "with_negative_check": 1,
+   "with_negative_check_and_no_record": 1,
+   "with_neither": 1740
+  }
+ },
+ "quarantine": {
+  "rows": 9,
+  "by_entity": {
+   "restrictions": 9
+  },
+  "by_blocking_code": {
+   "SCOPE_DATA_CENTER_ONLY": 8,
+   "PRIMARY_SOURCE_CONTRADICTS": 1
+  }
+ },
+ "worklists": {
+  "outcomes": {
+   "rows": 452,
+   "by_tier": {
+    "blocked_unverified": 165,
+    "needs_review": 34,
+    "pending": 229,
+    "advanced_unverified": 24
+   },
+   "overdue": 160,
+   "with_decision_language": 13,
+   "with_located_url": 0
+  },
+  "restrictions": {
+   "rows": 3343,
+   "by_tier": {
+    "compiled_record": 128,
+    "compiled_flagged": 2401,
+    "report_citation": 814
+   },
+   "lapsed": 2,
+   "by_county_impact": {
+    "none": 2563,
+    "sole_severe": 431,
+    "sole_record": 349
+   },
+   "with_located_url": 13,
+   "flagged": 469
+  },
+  "negative_checks": {
+   "rows": 0,
+   "by_reason": {}
+  },
+  "adjacency": {
+   "rows": 235
+  },
+  "fips_misses": {
+   "rows": 63,
+   "by_reason": {
+    "several_counties": 50,
+    "not_a_2024_county": 9,
+    "not_in_lookup": 4
+   }
+  }
+ },
+ "promotion_trail": {
+  "decisions": 62,
+  "by_action": {
+   "promoted": 51,
+   "held": 10,
+   "awaiting_review": 1
+  },
+  "by_file": {
+   "queue.csv": 16,
+   "cases_candidates.csv": 46
+  },
+  "first": "2026-10-13",
+  "last": "2026-10-13",
+  "recent": [
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "OR Origis Energy Solar Project",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "held",
+    "what": "OR Beehive Solar Project",
+    "reason": "missing case_name, case_source_url"
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "MN Hale Township Community Solar Garden",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "WY Rock Creek Gen-Tie Line",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "WY Rail Tie Wind Project",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "WY Rail Tie Wind Project",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "WY Pioneer Wind Parks I and II",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-13",
+    "file": "cases_candidates.csv",
+    "action": "promoted",
+    "what": "WV Mount Storm Wind Project",
+    "reason": ""
+   }
+  ]
+ },
+ "review": {
+  "queue_by_status": {
+   "promoted": 12,
+   "pending": 3,
+   "awaiting_review": 1
+  },
+  "queue_by_entity": {
+   "restriction": 14,
+   "contested_project": 2
+  },
+  "case_candidates": 230,
+  "case_candidates_started": 7,
+  "case_candidates_promoted": 39
+ },
+ "history": {
+  "snapshot_rows": 64,
+  "snapshot_files": 5,
+  "headline_history_rows": 1,
+  "headline_first_change": "2026-10-13",
+  "headline_last_change": "2026-10-13",
+  "latest": {
+   "restriction_instruments": "3341",
+   "restriction_severe": "1362",
+   "restriction_verified": "74",
+   "restriction_lapsed": "1",
+   "multi_sector_instruments": "83",
+   "projects": "576",
+   "projects_confirmed": "123",
+   "projects_verified": "125",
+   "cases": "38",
+   "counties_with_record": "1403",
+   "counties_with_negative_check": "1",
+   "counties_with_neither": "1740"
+  }
+ },
+ "source_archive": {
+  "sources": 53,
+  "archived": 11,
+  "archived_share": 0.208
+ }
+}

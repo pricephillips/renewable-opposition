@@ -236,6 +236,32 @@ trail by action, the review queue by status, the snapshot and headline-history
 rows, and the share of sources with an Internet Archive copy. Every number can
 be checked against the file it counts.
 
+**A decided-outcome rate, with a guard against fresh records.** The headline
+reports the blocked share of decided projects (an outcome of `blocked_*`,
+`advanced_*` or `restricted_conditional`), leaving out any project whose event
+is younger than 90 days, since the freshest decisions are the least likely to
+be final or fully reported, and reports the confirmed-only figure beside it.
+Quote the confirmed-only figure when the claim is about what happened. Every
+such rate is conditional on opposition being tracked: this dataset holds
+projects because they drew opposition, so it says nothing about projects that
+proceeded without a recorded fight. The design, including the 90-day guard,
+is data-center-map's decided-case rate.
+
+**Concerns are read from the record, by a fixed table.** Each contested
+project carries `concerns`: the grievances its own text names (farmland,
+wildlife, property values, viewshed, water, noise, tribal and cultural
+resources, traffic, health, fire safety, decommissioning, ratepayer cost,
+wetlands, military and aviation, shadow flicker, glare), matched by the
+patterns `docs/codebook.md` prints. A concern is what the text says was
+raised, never why the project ended as it did, and the headline counts
+projects by concern. After data-center-map's concerns codebook.
+
+**Projects that share a county with a severe restriction.** Each project also
+carries `county_severe_restriction_ids`, the severe renewables-only instruments
+for its technology in any county it touches. It is a fact about the county,
+not a link between the two records, and the headline counts how many projects
+have one.
+
 **Negative checks are graded by independence, not by count.** A "checked,
 nothing found" row (`data/review/negative_checks.csv`) earns a grade from how
 many independence classes its `sources_checked` span: the instrument itself

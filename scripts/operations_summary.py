@@ -57,6 +57,7 @@ def headline_section(metrics: dict | None) -> dict | None:
         "lapsed_unconfirmed": ren.get("by_currency", {}).get("lapsed_unconfirmed", 0),
         "severe_where_state_limits_local": ren.get("severe_where_state_limits_local", 0),
         "projects": proj["projects"], "projects_confirmed": proj["confirmed_outcomes"],
+        "decided": proj.get("decided"),
         "cases": metrics["cases"]["cases"],
         "county_coverage": metrics.get("county_coverage"),
     }
@@ -153,6 +154,13 @@ def render(s: dict) -> str:
               f"{h['verified']} verified, {h['lapsed_unconfirmed']} past their end date with no confirmed extension, "
               f"{h['severe_where_state_limits_local']} severe ones in states whose siting law limits local reach); "
               f"{h['projects']} contested projects ({h['projects_confirmed']} confirmed); {h['cases']} cases.", ""]
+        d = h.get("decided")
+        if d:
+            every, confirmed = d["all"], d["confirmed_only"]
+            L += [f"Decided projects (events older than {d['guard_days']} days): {every['projects']}, of which "
+                  f"{every['blocked']} blocked; confirmed outcomes only: {confirmed['projects']}, "
+                  f"{confirmed['blocked']} blocked. Conditional on opposition being tracked; see headline_metrics.md.",
+                  ""]
     L += ["## Held back", "",
           f"{q['rows']} rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): "
           + (", ".join(f"{n} {c}" for c, n in q["by_blocking_code"].items()) or "none") + ".", ""]

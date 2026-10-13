@@ -116,6 +116,29 @@ reviewer's resolution whose evidence was opened or archived (`scripts/resolution
 
 Finality evidence that satisfies the QC gate: a value starting with `court_ruling`, `resolution`. `lead: <url>` (a snippet resolution) and `outcome_label_only` do not.
 
+## Concerns named in a project's text (`classify.CONCERNS`)
+
+A concern is named when its pattern matches the record's text (description, long description, notes). It records what the text says was raised, never why the project ended as it did.
+
+| Concern | Pattern |
+|---|---|
+| `farmland` | `\b(farmland|farm land|agricultur\w*|prime farm\w*|cropland|rural character)\b` |
+| `wildlife` | `\b(wildlife|birds?|bats?|eagles?|habitats?|endangered|migrat\w*|whales?|fisher(y|ies|men))\b` |
+| `property_value` | `\b(property|home|land) values?\b` |
+| `viewshed` | `\b(viewshed|visual impacts?|aesthetic\w*|scenic|eyesore|views? (of|from|across) the (lake|mountains?|ridge\w*|valley|ocean|bay|sound|landscape|countryside|hills?|river|shore\w*))\b` |
+| `water` | `\b(water (use|usage|supply|quality|table|rights)|aquifers?|groundwater|runoff|drainage|wells)\b` |
+| `noise` | `\b(noise|decibels?|dba|sound (levels?|limits?))\b` |
+| `tribal_cultural` | `\b(tribal|tribes?|sacred|cultural resources?|archaeolog\w*|historic (district|site|preservation|resources?))\b` |
+| `traffic` | `\b(traffic|truck traffic|road damage|haul routes?)\b` |
+| `health` | `\b(health|infrasound|cancer|asthma)\b` |
+| `fire_safety` | `\b(fire|fires|thermal runaway|explosions?|toxic (gas|fumes|smoke)|emergency respon\w*)\b` |
+| `decommissioning` | `\bdecommission\w*\b` |
+| `grid_cost` | `\b(ratepayers?|electric(ity)? (bills?|rates|prices)|utility bills?|rate increases?)\b` |
+| `wetlands` | `\b(wetlands?|floodplains?|erosion)\b` |
+| `military_aviation` | `\b(radar|military|aviation|airports?|faa)\b` |
+| `shadow_flicker` | `\b(shadow )?flicker\b` |
+| `glare` | `\bglare\b` |
+
 ## Derived fields (`scripts/classify.py`)
 
 - `evidence_level`, best first: `primary_source`, `confirmed`, `court_record`, `compiled_record`, `compiled_flagged`, `report_citation`.
@@ -150,6 +173,8 @@ A row with any CRITICAL or HIGH issue is quarantined in `data/processed/quaranti
 - Severe means a severity score in `3`, `4`.
 - Restrictions are split by scope; the headline figure is renewables_only and multi_sector_data_centers is reported beside it, never folded in.
 - Source families: `Sabin 2026`, `Sabin 2025 (not in 2026 edition)`, `NREL`, `Moratorium Nation`, `review queue`, `other`.
+- Decided projects: an outcome in `blocked_confirmed`, `blocked_unverified`, `advanced_confirmed`, `advanced_unverified`, `restricted_conditional`, with events younger than 90 days left out (the right-censoring guard). The blocked share is reported for all decided projects and for confirmed outcomes alone, and is conditional on opposition being tracked at all.
+- `county_severe_restriction_ids`: severe (score 3 or more) renewables-only instruments for the same technology in any county the project touches; counted as projects sharing a county with one.
 
 ## Worklists (`scripts/verification_worklist.py`)
 

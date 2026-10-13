@@ -367,6 +367,12 @@ def main() -> int:
         quarantine.extend({"entity": entity, **r} for r in held)
         findings.extend(found)
 
+    # Severe restrictions in the counties a project touches, for the same
+    # technology (classify.co_located): a fact about the county, never a link.
+    severe = classify.severe_index(datasets.get("restrictions", []))
+    for row in datasets.get("contested_projects", []):
+        row["county_severe_restriction_ids"] = classify.co_located(row, severe)
+
     # Federal plant inventories: a strong match is published on the project
     # row; every match goes to the worklist. Outcomes are never changed here.
     facility_work = facility_matches.stamp(datasets.get("contested_projects", []), facility_matches.load())

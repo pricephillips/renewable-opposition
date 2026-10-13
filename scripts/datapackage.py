@@ -94,6 +94,12 @@ DESCRIPTIONS = {
     "state_siting_authority": "who_decides of the state's siting_authority row for the technology.",
     "state_threshold_mw": "The MW size above which the state body decides, from that row's threshold_mw.",
     "state_preemption_ids": "state_policies ids of local_preemption rows covering the technology.",
+    "concerns": "The concerns the record's own text names, from a fixed keyword table (docs/codebook.md): "
+                "farmland, wildlife, property_value, viewshed, water, noise and the rest; semicolon-separated. "
+                "What was raised, never why the project ended as it did.",
+    "county_severe_restriction_ids": "Severe renewables-only restriction instruments for the same technology in "
+                                     "any county the project touches. A fact about the county, not a link "
+                                     "between the records.",
     "negative_check_grade": "A to C: how many independence classes (instrument, proceeding, secondary) the "
                             "county's newest negative check spans, and whether it is stale. Grades the check, "
                             "not the county.",

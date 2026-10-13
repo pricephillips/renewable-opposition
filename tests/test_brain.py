@@ -478,3 +478,61 @@ def test_a_verified_sibling_instrument_lends_its_primary_source_as_a_lead():
     assert out["mn:ks-x-2026"]["located_url"] == "https://ck.gov/o.pdf"
     assert "primary source held by sabin:REC-7" in out["mn:ks-x-2026"]["flags"]
     assert out["mn:ks-y"]["located_url"] == "" and "sabin:REC-7" not in out["mn:ks-y"]["flags"]
+
+
+def test_concerns_come_from_the_text_by_a_fixed_table_with_word_boundaries():
+    assert classify.concerns({"description": "Neighbors cited prime farmland, property values and shadow flicker."}) \
+        == "farmland;property_value;shadow_flicker"
+    # "fired" is not fire_safety and "in view of" is not viewshed; a bare "water" is not a water concern.
+    assert classify.concerns({"description": "The board fired its consultant in view of the water treatment plan."}) == ""
+    assert classify.concerns({"description": "A thermal runaway fire at the battery site; groundwater wells nearby."}) \
+        == "fire_safety;water"
+    assert classify.concerns({"description": ""}) == ""
+    row = classify.stamp("contested_projects", {"outcome": "pending", "description": "Bats and eagles."})
+    assert row["concerns"] == "wildlife"
+    assert [n for n, _ in classify.CONCERNS] == sorted({n for n, _ in classify.CONCERNS}, key=[n for n, _ in classify.CONCERNS].index)
+
+
+def test_co_located_lists_severe_instruments_for_the_same_technology_in_any_county_touched():
+    restrictions = [
+        {"instrument_id": "mn:a", "county_fips_all": "20001", "technology": "wind", "severity_score": "4",
+         "scope": "renewables_only"},
+        {"instrument_id": "mn:b", "county_fips_all": "20001", "technology": "solar", "severity_score": "4",
+         "scope": "renewables_only"},
+        {"instrument_id": "mn:c", "county_fips_all": "20003;20005", "technology": "wind", "severity_score": "2",
+         "scope": "renewables_only"},
+        {"instrument_id": "mn:d", "county_fips_all": "20005", "technology": "wind", "severity_score": "4",
+         "scope": "multi_sector_data_centers"},
+        {"instrument_id": "sabin:e", "county_fips_all": "20005", "technology": "wind", "severity_score": "3",
+         "scope": "renewables_only"},
+    ]
+    index = classify.severe_index(restrictions)
+    assert classify.co_located({"county_fips_all": "20001;20005", "technology": "wind"}, index) == "mn:a;sabin:e"
+    assert classify.co_located({"county_fips_all": "20003", "technology": "wind"}, index) == ""   # severity 2 only
+    assert classify.co_located({"county_fips_all": "20005", "technology": "solar"}, index) == ""  # other technology
+    assert classify.co_located({"county_fips_all": "", "technology": "wind"}, index) == ""
+
+
+def test_decided_rate_excludes_young_records_and_reports_confirmed_only_apart():
+    def proj(rid, outcome, when, tech="solar", concerns=""):
+        return classify.stamp("contested_projects", {"source_record_id": rid, "outcome": outcome,
+                                                     "event_date_text": when, "technology": tech,
+                                                     "description": concerns})
+    rows = [proj("A", "blocked_confirmed", "2024"), proj("B", "blocked_unverified", "2025-03"),
+            proj("C", "advanced_confirmed", "2023", "wind"), proj("D", "advanced_unverified", "September 2026"),
+            proj("E", "pending", "2024"), proj("F", "needs_review", "2024"),
+            proj("G", "blocked_unverified", "2026-10-01", concerns="Noise and farmland.")]
+    rows[0]["county_severe_restriction_ids"] = "mn:a"
+    c = hm.compute({"contested_projects": rows}, today=T)["contested_projects"]
+    d = c["decided"]
+    assert d["young_excluded"] == 2 and d["guard_days"] == 90          # D (2026-09-30) and G are younger than 90 days
+    assert d["all"] == {"projects": 3, "blocked": 2, "blocked_share": 0.667}
+    assert d["confirmed_only"] == {"projects": 2, "blocked": 1, "blocked_share": 0.5}
+    assert d["by_technology"]["wind"] == {"projects": 1, "blocked": 0, "blocked_share": 0.0}
+    assert c["by_concern"] == {"farmland": 1, "noise": 1} and c["with_no_concern_named"] == 6
+    assert c["in_county_with_severe_restriction"] == 1
+    text = hm.render(hm.compute({"contested_projects": rows}, today=T))
+    assert "| All decided | 3 | 2 | 67% |" in text and "| Confirmed outcomes only | 2 | 1 | 50% |" in text
+    assert "absent by construction" in text and "| farmland | 1 |" in text
+    empty = hm.compute({"contested_projects": []}, today=T)["contested_projects"]["decided"]
+    assert empty["all"]["blocked_share"] is None

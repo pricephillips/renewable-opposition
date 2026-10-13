@@ -137,6 +137,10 @@ def render() -> str:
           f"{_code(qc_gate.FINALITY_PREFIXES)}. `lead: <url>` (a snippet resolution) and `outcome_label_only` "
           "do not."]
 
+    L += ["", "## Concerns named in a project's text (`classify.CONCERNS`)", "",
+          "A concern is named when its pattern matches the record's text (description, long description, notes). "
+          "It records what the text says was raised, never why the project ended as it did.", ""]
+    L += _table(["Concern", "Pattern"], [[f"`{n}`", f"`{p}`"] for n, p in classify.CONCERNS])
     L += ["", "## Derived fields (`scripts/classify.py`)", ""]
     L += _lines([
         f"`evidence_level`, best first: {_code(classify.EVIDENCE_ORDER)}.",
@@ -173,6 +177,11 @@ def render() -> str:
         "Restrictions are split by scope; the headline figure is renewables_only and multi_sector_data_centers is "
         "reported beside it, never folded in.",
         f"Source families: {_code(hm.SOURCES)}.",
+        f"Decided projects: an outcome in {_code(hm.DECIDED)}, with events younger than {hm.YOUNG_DAYS} days left "
+        "out (the right-censoring guard). The blocked share is reported for all decided projects and for confirmed "
+        "outcomes alone, and is conditional on opposition being tracked at all.",
+        f"`county_severe_restriction_ids`: severe (score {classify.SEVERE_SCORE} or more) renewables-only instruments "
+        "for the same technology in any county the project touches; counted as projects sharing a county with one.",
     ])
 
     L += ["", "## Worklists (`scripts/verification_worklist.py`)", "",

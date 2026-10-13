@@ -115,6 +115,14 @@ yet), and its harvest-specific verification statuses.
 | **Corroboration from a sibling record** (`triage_accelerator.py` scores a candidate by evidence the first pass did not consult). | A verified instrument for the same jurisdiction and technology lends its primary-source URL to an unverified sibling on the restriction worklist, as a lead to read, never as verification. |
 | **One self-description file** (`operations_summary.py`: "the platform's strongest claim, that it maintains itself and records how, could only be made by assertion"). | `scripts/operations_summary.py` writes `data/processed/operations_summary.json` and `.md` from the quarantine, worklists, promotion trail, review queue, snapshots, headline history and source archive. Counts only; nothing computed anywhere else first. |
 
+## Round six (2026-10-13): what the records say
+
+| Practice in data-center-map | Here |
+|---|---|
+| **The decided-case block rate with a right-censoring guard** (`headline_metrics.md`: incidents younger than 90 days excluded; the scope note that every rate is conditional on a conflict being visible enough to enter the tracker). | `headline_metrics.decided_rate`: the blocked share of decided projects, all and confirmed-only, by technology, with the same 90-day guard and the same scope note. |
+| **A concerns codebook independent of mechanism** (`CODEBOOK.md`: noise, water, light, energy cost, land use and the rest, by keyword triggers). | `classify.CONCERNS`: sixteen concerns matched in a project's own text, published with their patterns in `docs/codebook.md`, counted in the headline. What was raised, never why the project ended as it did. |
+| **The county label built from co-located events** (`county_aggregator.py`: a county is restrictive when a record of an enacted restriction sits in it). | `county_severe_restriction_ids` on each project: the severe instruments for its technology in any county it touches. Kept as a fact about the county, not a label and not a link between records. |
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

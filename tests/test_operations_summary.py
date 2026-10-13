@@ -7,7 +7,12 @@ import operations_summary as ops
 METRICS = {"restrictions": {"by_scope": {"renewables_only": {
     "instruments": 10, "severe_instruments": 4, "by_verification": {"verified": 1},
     "by_currency": {"lapsed_unconfirmed": 1}, "severe_where_state_limits_local": 2}}},
-    "contested_projects": {"projects": 5, "confirmed_outcomes": 2}, "cases": {"cases": 1}}
+    "contested_projects": {"projects": 5, "confirmed_outcomes": 2,
+                           "decided": {"guard_days": 90, "young_excluded": 1,
+                                       "all": {"projects": 3, "blocked": 2, "blocked_share": 0.667},
+                                       "confirmed_only": {"projects": 2, "blocked": 1, "blocked_share": 0.5},
+                                       "by_technology": {}}},
+    "cases": {"cases": 1}}
 HELD = [{"entity": "restrictions", "qc_issues": [{"code": "SCOPE_DATA_CENTER_ONLY", "severity": "HIGH"},
                                                 {"code": "DATE_UNPARSEABLE", "severity": "LOW"}]}]
 TRAIL = [{"decided_on": "2026-10-13", "file": "queue.csv", "key": "q1", "state": "KS", "place": "X", "action": "held",
@@ -55,6 +60,8 @@ def test_render_names_every_section_and_tolerates_missing_inputs():
     for heading in ("## Published", "## Held back", "## Worklists", "## Review and promotion", "## History and archive"):
         assert heading in text
     assert "| 2026-10-14 | queue.csv | promoted | KS X |  |" in text
+    assert "Decided projects (events older than 90 days): 3, of which 2 blocked" in text
+    assert "Sources: 2, of which 1 have an Internet Archive snapshot" in text
     empty = ops.summarize(today="2026-10-14", metrics=None, held=None, outcomes=[], restrictions=[], negative=[],
                           adjacency=[], misses=[], trail=[], queue=[], candidates=[], manifest=[], history=[], sources=[])
     assert empty["headline"] is None and empty["promotion_trail"] is None

@@ -74,7 +74,6 @@ Usage
 """
 from __future__ import annotations
 
-import calendar
 import json
 import re
 import sys
@@ -82,6 +81,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from classify import latest_date  # noqa: E402
 from common import (  # noqa: E402
     PROCESSED_DIR, REVIEW_DIR, STATE_NAMES, jurisdiction_key, jurisdiction_kind, read_csv, write_csv,
 )
@@ -118,10 +118,6 @@ NOT_FINAL = re.compile(
     r"set to|plans? to|propos(e|es|ed|al)|draft(s|ing)?|move[sd]? toward|towards?|hearing|could|may|seeks?|"
     r"push(es)? for|calls? for|urge[sd]?|asks?|appeal(s|ed|ing)?|pending|lawsuit|sue[sd]?|suit|"
     r"challeng(e|es|ed|ing)|petition(s|ed)?|intervene[sd]?|remand(s|ed)?)\b", re.I)
-_DATE_TOKEN = re.compile(r"\b(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?\b")
-_MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september",
-           "october", "november", "december"]
-_MONTH_YEAR = re.compile(r"\b(" + "|".join(_MONTHS) + r")\s+(\d{4})\b", re.I)
 # "May 2024" or "May 7" is a date, not the modal verb NOT_FINAL looks for.
 _MAY_DATE = re.compile(r"\bMay\s+(?=\d)")
 STATUS_ORDER = {"active": 0, "extended": 1, "pending": 2}
@@ -154,31 +150,6 @@ def _techs(value: str) -> list[str]:
 
 def _state_name(code: str) -> str:
     return STATE_NAMES.get(code, code)
-
-
-def latest_date(text: str) -> date | None:
-    """The latest date named in free text, at the end of its precision:
-    "2023" -> 2023-12-31, "2021-04" -> 2021-04-30, "June 2023" -> 2023-06-30.
-    None when the text names no year."""
-    found: list[date] = []
-    text = text or ""
-    for name, y in _MONTH_YEAR.findall(text):
-        mm = _MONTHS.index(name.lower()) + 1
-        found.append(date(int(y), mm, calendar.monthrange(int(y), mm)[1]))
-    # A year already read as part of "June 2023" is not also a bare year.
-    for y, m, d in _DATE_TOKEN.findall(_MONTH_YEAR.sub(" ", text)):
-        y = int(y)
-        if not 1900 <= y <= 2100:
-            continue
-        mm = int(m) if m else 12
-        if not 1 <= mm <= 12:
-            continue
-        try:
-            dd = int(d) if d else calendar.monthrange(y, mm)[1]
-            found.append(date(y, mm, dd))
-        except ValueError:
-            continue
-    return max(found) if found else None
 
 
 def age_days(text: str, today: date) -> int | None:
