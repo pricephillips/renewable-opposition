@@ -38,6 +38,13 @@ Checks
                                 headline counts it apart and the worklist ranks
                                 it first
 
+  LINK_MISSING          MEDIUM  a case whose source_record_id names no published
+                                project or restriction (check_links, across
+                                entities after the row checks): the case is
+                                published but hangs off nothing a page can show.
+                                After pricephillips/data-center-map
+                                link_disagreement_audit.py
+
 The table above is also CHECKS, which scripts/codebook.py publishes; a code
 emitted here that CHECKS does not list fails tests/test_brain.py. Each entry
 also says what releases a row from quarantine, so qc_report.md's quarantine
@@ -114,6 +121,9 @@ CHECKS = (
      "belongs to data-center-map and stays out"),
     ("DATE_UNPARSEABLE", "LOW", "an ISO date column that is not YYYY[-MM[-DD]]",
      "nothing to do: reported only; rewrite the date as YYYY, YYYY-MM or YYYY-MM-DD when touching the row"),
+    ("LINK_MISSING", "MEDIUM", "a case whose source_record_id names no published project or restriction",
+     "set the case's source_record_id to the published record it concerns, or restore that record (it may be "
+     "quarantined or held); the case stays published meanwhile"),
     ("END_DATE_PASSED", "MEDIUM", "an active or extended restriction whose own end date has passed with no "
      "reviewer confirmation since; the source's status may be out of date",
      "nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv "
@@ -238,6 +248,23 @@ def run(entity: str, rows: list[dict], today: date | None = None) -> tuple[list[
 
 def _place(row: dict) -> str:
     return _s(row.get("jurisdiction")) or _s(row.get("project_name")) or _s(row.get("county"))
+
+
+def check_links(datasets: dict[str, list[dict]]) -> list[dict]:
+    """Cross-entity findings on the rows that passed the row checks: a case
+    whose source_record_id matches no published project or restriction.
+    Reported only (MEDIUM); nothing is quarantined for a broken link."""
+    known = {_s(r.get("source_record_id")) for e in ("contested_projects", "restrictions")
+             for r in datasets.get(e, [])} - {""}
+    findings = []
+    for row in datasets.get("cases", []):
+        rid = _s(row.get("source_record_id"))
+        if rid and rid not in known:
+            issue = Issue("LINK_MISSING", "MEDIUM", "source_record_id",
+                          f"no published project or restriction has source_record_id {rid!r}")
+            findings.append({"entity": "cases", "id": row.get("id"), "state": row.get("state"),
+                             "blocked": False, "issues": [asdict(issue)]})
+    return findings
 
 
 def render_report(findings: list[dict], totals: dict[str, int], quarantined: list[dict] | None = None) -> str:

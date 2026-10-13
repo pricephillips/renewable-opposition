@@ -1,0 +1,60 @@
+{
+  "_comment": [
+    "Which page reads which published output, and what every output nobody",
+    "reads is for. scripts/surface_audit.py checks this against the page code",
+    "and the tracked files under data/processed, data/db and data/snapshots:",
+    "an output no page reads and no entry explains is a finding, and so is an",
+    "entry for a file that is gone or a read the page code no longer makes.",
+    "Ported in spirit from pricephillips/data-center-map visibility_audit.py",
+    "and configs/surfaces.json. Paths are repository-relative."
+  ],
+  "pages": {
+    "national-dashboard.js": {
+      "what": "The dashboard (national-dashboard.html): national, state and county views, explorer, record pages, coverage, downloads, data dictionary and SQL console.",
+      "reads": [
+        "data/db/county_summary.json", "data/db/history.json", "data/db/manifest.json",
+        "data/db/record_index.json", "data/db/state_summary.json", "data/db/timeline.json",
+        "data/db/worklists.json", "data/processed/headline_metrics.json", "data/snapshots/manifest.csv"
+      ],
+      "prefixes": {
+        "data/db/state/": "one detail file per state, chosen by the route",
+        "data/db/parquet/": "every file data/db/manifest.json lists: the downloads page and the SQL console's tables"
+      }
+    },
+    "processed-data.js": {
+      "what": "The shared loader for data/processed/ used by map-audit.html (the internal geography audit).",
+      "reads": [
+        "data/processed/restrictions.json", "data/processed/contested_projects.json",
+        "data/processed/cases.json", "data/processed/headline_metrics.json"
+      ]
+    }
+  },
+  "downloads": {
+    "_what": "Published for people and other programs to fetch; no page loads them.",
+    "data/processed/restrictions.csv": "the restrictions table; the JSON twin feeds map-audit",
+    "data/processed/contested_projects.csv": "the contested projects table",
+    "data/processed/cases.csv": "the cases table",
+    "data/processed/siting_standards.csv": "NREL ordinance features; the Parquet copy feeds the SQL console",
+    "data/processed/siting_standards.json": "the same, one record per line",
+    "data/processed/state_policies.csv": "state siting law; the Parquet copy feeds the SQL console",
+    "data/processed/state_policies.json": "the same, as JSON",
+    "data/processed/county_summary.csv": "one row per county; the dashboard reads data/db/county_summary.json instead",
+    "data/processed/county_summary.json": "the same, one record per line",
+    "data/processed/sources.csv": "one row per source document with its archive snapshot",
+    "data/processed/sources.json": "the same, one record per line",
+    "data/processed/group_registry.csv": "opposition groups with their sources",
+    "data/processed/datapackage.json": "the Frictionless data package: every table, its fields and what they mean",
+    "data/processed/headline_metrics.md": "the headline numbers as prose; the JSON twin feeds the pages",
+    "data/snapshots/headline_history.csv": "the headline figures by day; the dashboard reads data/db/history.json, built from it"
+  },
+  "internal": {
+    "_what": "For reviewers and the Actions summary; never loaded by a page and not a deliverable.",
+    "data/processed/qc_report.md": "QC findings by code and the quarantine table with release actions",
+    "data/processed/quarantine.json": "held rows with their issues",
+    "data/processed/diff_summary.md": "what the last build changed, keyed on id",
+    "data/processed/coverage_delta.md": "column fill rates against the previous commit",
+    "data/processed/operations_summary.json": "what the pipeline did and holds; a page may read it later",
+    "data/processed/operations_summary.md": "the same, for a reader",
+    "data/processed/state_policies_held.csv": "state policy rows held back, with the reason"
+  }
+}

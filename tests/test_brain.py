@@ -345,6 +345,11 @@ def test_every_qc_code_the_selftest_emits_is_in_the_checks_table():
         for i in qc_gate.check_record(entity, row, T):
             seen.add(i.code)
             assert i.severity in listed[i.code].split(" or "), i.code
+    # The one cross-entity check runs on the datasets, not a row.
+    for f in qc_gate.check_links({"cases": [{"id": "c", "source_record_id": "REC-none"}]}):
+        for i in f["issues"]:
+            seen.add(i["code"])
+            assert i["severity"] in listed[i["code"]].split(" or "), i["code"]
     assert seen == set(listed)
 
 

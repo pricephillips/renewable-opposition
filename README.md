@@ -198,6 +198,86 @@ renewable technology the instrument covers), and `data/processed/qc_report.md`
 lists every quarantined row with that action, so the list reads as triage
 rather than investigation.
 
+**What the state's law says about a local instrument's reach.** Every
+restriction below state level carries `state_limits_local`, read off the
+state's verified `state_policies` rows for its technology and never inferred:
+`yes` when a local-preemption row or a size threshold (above which a state body
+decides) covers the technology, or the state board decides outright; `no` when
+local government decides with no such rule; `unknown` when no verified row
+covers the technology. The row also carries `state_siting_authority`,
+`state_threshold_mw` and `state_preemption_ids` so a reader can see which law.
+The headline reports how many severe instruments sit in a state that limits
+local reach, beside the count and never subtracted from it: whether a given
+ordinance survives that law is a reading of the statute, not a derived field.
+
+**A stale negative check goes back on the list.** "Checked, nothing found"
+ages like any other claim, so `data/review/negative_check_worklist.csv` lists a
+profiled county again once its newest covering check is more than a year old,
+with `reason` saying so, beside the counties never checked.
+
+**A verified sibling lends its source.** When another instrument for the same
+jurisdiction and technology (from any source) has been verified against a
+primary source, the restriction worklist puts that document's URL in
+`located_url` for the unverified one and says which instrument holds it. The
+row stays unverified until someone reads the document against it.
+
+**One file says what the pipeline did.** `data/processed/operations_summary.json`
+and `.md` (`scripts/operations_summary.py`, after data-center-map's
+`operations_summary.py`) count the rows the other trails wrote: the headline,
+the quarantine by blocking code, each worklist's size and flags, the promotion
+trail by action, the review queue by status, the snapshot and headline-history
+rows, and the share of sources with an Internet Archive copy. Every number can
+be checked against the file it counts.
+
+**A decided-outcome rate, with a guard against fresh records.** The headline
+reports the blocked share of decided projects (an outcome of `blocked_*`,
+`advanced_*` or `restricted_conditional`), leaving out any project whose event
+is younger than 90 days, since the freshest decisions are the least likely to
+be final or fully reported, and reports the confirmed-only figure beside it.
+Quote the confirmed-only figure when the claim is about what happened. Every
+such rate is conditional on opposition being tracked: this dataset holds
+projects because they drew opposition, so it says nothing about projects that
+proceeded without a recorded fight. The design, including the 90-day guard,
+is data-center-map's decided-case rate.
+
+**Concerns are read from the record, by a fixed table.** Each contested
+project carries `concerns`: the grievances its own text names (farmland,
+wildlife, property values, viewshed, water, noise, tribal and cultural
+resources, traffic, health, fire safety, decommissioning, ratepayer cost,
+wetlands, military and aviation, shadow flicker, glare), matched by the
+patterns `docs/codebook.md` prints. A concern is what the text says was
+raised, never why the project ended as it did, and the headline counts
+projects by concern. After data-center-map's concerns codebook.
+
+**Projects that share a county with a severe restriction.** Each project also
+carries `county_severe_restriction_ids`, the severe renewables-only instruments
+for its technology in any county it touches. It is a fact about the county,
+not a link between the two records, and the headline counts how many projects
+have one.
+
+**Every output is read by a page, a download, or internal with a reason.**
+`config/surfaces.json` declares which page reads which published file (by
+path or by prefix), which files are downloads for people and other programs,
+and which are internal to reviewers and the Actions summary, each with a
+reason. `scripts/surface_audit.py` checks it both ways against the page code
+and the tracked files under `data/processed/`, `data/db/` and
+`data/snapshots/`, writes `docs/surfaces.md`, and fails CI on an output nobody
+reads and nothing explains, or on a declared read the page no longer makes.
+After data-center-map's visibility audit.
+
+**A case must hang off a published record.** After the row checks, the QC gate
+runs across entities: a case whose `source_record_id` names no published
+project or restriction is reported (`LINK_MISSING`, never quarantined) with
+what would fix it. `data/processed/datapackage.json` describes every published
+column, and a test fails when a new column has no entry.
+
+**What checking found.** The operations summary also reports reviewers'
+verdicts on primary sources by the source family of the instrument checked
+(how many Moratorium Nation, Sabin or NREL instruments were read, confirmed or
+contradicted, and how the document was seen), and the outcome resolutions by
+outcome and access. A reliability measured on what was checked, never
+extrapolated to the rows nobody has read.
+
 **Negative checks are graded by independence, not by count.** A "checked,
 nothing found" row (`data/review/negative_checks.csv`) earns a grade from how
 many independence classes its `sources_checked` span: the instrument itself
@@ -370,6 +450,7 @@ renewable-opposition/
 │   ├── promotion_trail.py                  ← decision trail rule: record new or changed decisions only (after data-center-map)
 │   ├── codebook.py                         ← docs/codebook.md from the rules' own constants
 │   ├── operations_summary.py               ← data/processed/operations_summary.json/.md from the trails (after data-center-map)
+│   ├── surface_audit.py                    ← every published output read by a page, a download or internal (config/surfaces.json -> docs/surfaces.md)
 │   ├── qc_gate.py                          ← record-level QC gate + quarantine (run by the build)
 │   ├── state_bounds.py                     ← state bounding boxes (copied from data-center-map)
 │   ├── snapshot_manifest.py                ← dated, hashed record of each published output

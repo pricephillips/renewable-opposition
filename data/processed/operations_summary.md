@@ -39,6 +39,18 @@ Promotion trail: 62 decisions from 2026-10-13 to 2026-10-13 (new or changed deci
 | 2026-10-13 | cases_candidates.csv | promoted | WY Pioneer Wind Parks I and II |  |
 | 2026-10-13 | cases_candidates.csv | promoted | WV Mount Storm Wind Project |  |
 
+## What checking found
+
+Reviewers' verdicts on primary sources, by the source family of the instrument checked (`data/review/restriction_sources.csv`). A reliability measured on what was checked, never extrapolated to the rows nobody has read.
+
+| Source family | Instruments checked | Confirmed | Contradicted | Opened | Archived | Snippet |
+|---|---:|---:|---:|---:|---:|---:|
+| Moratorium Nation | 44 | 43 | 1 | 39 | 5 | 0 |
+| NREL | 31 | 31 | 0 | 31 | 0 | 0 |
+| Sabin | 1 | 1 | 0 | 1 | 0 | 0 |
+
+Outcome resolutions: 116 (66 blocked_confirmed, 50 advanced_confirmed; by access 7 archived, 109 opened).
+
 ## History and archive
 
 64 snapshot rows over 5 published files; 6 headline changes recorded (2026-09-29 to 2026-10-10). Sources: 53, of which 11 have an Internet Archive snapshot.

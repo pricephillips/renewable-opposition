@@ -50,6 +50,9 @@ jobs:
       - name: Layer audit (declared writers, config/layers.json)
         run: python scripts/layer_audit.py
 
+      - name: Surface audit (who reads each output, config/surfaces.json)
+        run: python scripts/surface_audit.py --check
+
       - name: Inline script syntax
         run: python scripts/check_inline_js.py
 
