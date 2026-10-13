@@ -41,6 +41,8 @@ def _patch_paths(monkeypatch, tmp_path):
     monkeypatch.setattr(parse, "MANIFEST_PATH", raw / "manifest.csv")
     monkeypatch.setattr(parse, "PARSE_STATE_PATH", raw / "parse_state.csv")
     monkeypatch.setattr(parse, "QUEUE_PATH", review / "queue.csv")
+    monkeypatch.setattr(parse, "SEED_PATHS", {e: seed / f"{e}.csv" for e in ("restriction", "contested_project", "case")})
+    monkeypatch.setattr(parse, "CITED_PATHS", [])
     monkeypatch.setattr(promote_reviewed, "QUEUE_PATH", review / "queue.csv")
     monkeypatch.setattr(promote_reviewed, "CANDIDATES_PATH", review / "cases_candidates.csv")
     monkeypatch.setattr(promote_reviewed, "SEED_FOR", {
@@ -63,9 +65,13 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
                     "local_path": "data/raw/courtlistener_renewables/abc.json", "error": ""})
 
     monkeypatch.setattr("sys.argv", ["parse.py"])
-    parse.main()
+    assert parse.main() == 0
     queue = common.read_csv(review / "queue.csv")
-    assert len(queue) == 2 and {q["review_status"] for q in queue} == {"pending"}
+    # Machine-harvested rows enter as leads, each with its own queue_id, and
+    # the raw file is recorded relative to the repository.
+    assert len(queue) == 2 and {q["review_status"] for q in queue} == {"lead"}
+    assert len({q["queue_id"] for q in queue}) == 2 and all(q["queue_id"].startswith("q_") for q in queue)
+    assert {q["raw_path"] for q in queue} == {"data/raw/courtlistener_renewables/abc.json"}
 
     parse.main()  # already parsed: nothing new is queued
     assert len(common.read_csv(review / "queue.csv")) == 2
@@ -73,9 +79,15 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
     # Search API results are index text: they wait until the opinion is opened, and
     # no one confirms anything; filling the fields the API lacks is the rest.
     assert {q["access"] for q in queue} == {"snippet"}
-    queue[0].update(state="IA", severity_score="3")
+    queue[0].update(state="IA", severity_score="3", access="opened")
     common.write_csv(review / "queue.csv", queue)
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py"])
+    # A lead is never promoted, however complete, until someone triages it.
+    assert promote_reviewed.main() == 0
+    assert not common.read_csv(seed / "cases_seed.csv")
+
+    queue[0].update(review_status="pending", access="snippet")
+    common.write_csv(review / "queue.csv", queue)
     assert promote_reviewed.main() == 0
     assert not common.read_csv(seed / "cases_seed.csv")
 
@@ -91,8 +103,10 @@ def test_parse_then_promote_round_trip(monkeypatch, tmp_path):
     # Only the evidence and link columns are added to the seed.
     assert header[:n] == promote_reviewed.CASE_FIELDS
     assert set(header[n:]) <= set(promote_reviewed.EVIDENCE_COLUMNS)
-    # The second extractor row has no state or severity: it waits, never guessed.
-    assert [q["review_status"] for q in common.read_csv(review / "queue.csv")] == ["promoted", "pending"]
+    # The second extractor row is still an untriaged lead: it waits, never guessed.
+    after = common.read_csv(review / "queue.csv")
+    assert [q["review_status"] for q in after] == ["promoted", "lead"]
+    assert after[0]["queue_id"] == queue[0]["queue_id"]  # the intake key is kept on promotion
 
     assert promote_reviewed.main() == 0  # idempotent
     assert len(common.read_csv(seed / "cases_seed.csv")) == 1

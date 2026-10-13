@@ -3,9 +3,10 @@
 Input: one raw JSON page of opinion search results, as stored by fetch.py.
 Output: one ``case`` candidate per result that mentions a renewable technology
 in its case name or snippet. Candidates land in data/review/queue.csv with
-review_status 'pending'. The API gives no state or severity, so a candidate
-stays queued until those are filled; scripts/promote_reviewed.py then moves it
-into cases_seed.csv on the next data build.
+review_status 'lead' (parse.py). The API gives no state or severity, so a
+candidate stays queued until a reviewer triages it and fills those;
+scripts/promote_reviewed.py then moves it into cases_seed.csv on the next data
+build once the opinion has been opened.
 
 Only facts present in the API response are filled: case name, court,
 docket number, filing date and the opinion URL. Nothing is inferred beyond
@@ -16,6 +17,8 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+
+from common import read_raw
 
 SITE = "https://www.courtlistener.com"
 
@@ -57,7 +60,7 @@ def _snippet(result: dict) -> str:
 
 
 def extract(raw_path: Path, source: dict) -> list[dict]:
-    payload = json.loads(Path(raw_path).read_text(encoding="utf-8"))
+    payload = json.loads(read_raw(Path(raw_path)).decode("utf-8"))
     out = []
     for r in payload.get("results", []):
         name = r.get("caseName") or r.get("case_name") or ""

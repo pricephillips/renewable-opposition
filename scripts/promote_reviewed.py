@@ -10,8 +10,12 @@ review_status only ever holds a row back:
              drafted by an agent or person and not yet reviewed by someone
              else (docs/AGENT_REVIEW.md): held and listed until a reviewer
              sets it to confirmed
-  anything else (pending, confirmed, lead, needs_docket_research, blank)
-             promoted once complete
+  lead       (queue.csv) harvested by live intake (parse.py) and not yet
+             triaged: held, counted and never promoted, however complete,
+             until a reviewer sets it to pending (on topic and placed) or
+             rejected. An untriaged lead is not a decision and leaves no trail.
+  anything else (pending, confirmed, needs_docket_research, blank; and lead
+             in cases_candidates.csv) promoted once complete
 
 Two review files feed this:
 
@@ -97,6 +101,7 @@ import argparse
 import hashlib
 import re
 import sys
+from collections import Counter
 from datetime import date
 from pathlib import Path
 
@@ -141,6 +146,8 @@ QUEUE_SPECIFIC = {
 NEVER = {"rejected", "promoted"}
 # Drafted rows waiting for a reviewer other than their drafter.
 AWAITING = "awaiting_review"
+# Queue rows harvested by live intake (parse.py) and not yet triaged.
+LEAD = "lead"
 # Statuses a restriction candidate may carry; blank stops promotion. Lifted and
 # expired instruments are not in force and are not published.
 QUEUE_RESTRICTION_STATUS = ("active", "extended", "pending", "lifted", "expired")
@@ -480,6 +487,7 @@ def main() -> int:
     errors: list[str] = []
     taken = {r.get("queue_id") for r in queue if r.get("queue_id")}
     resync_rows = []
+    leads: Counter = Counter()
     for i, row in enumerate(queue, start=2):
         where = f"queue.csv row {i}"
         status = (row.get("review_status") or "").strip()
@@ -490,6 +498,9 @@ def main() -> int:
             continue
         if status in NEVER:
             decisions.append(decision(QUEUE_PATH.name, key, row, status))
+            continue
+        if status == LEAD:
+            leads[row.get("source_id") or "?"] += 1
             continue
         if status == AWAITING:
             problems.append(f"{where}: awaiting review by someone other than its drafter (docs/AGENT_REVIEW.md); "
@@ -564,6 +575,9 @@ def main() -> int:
 
     for p in problems:
         print(p)
+    if leads:
+        print(f"{sum(leads.values())} live-intake lead(s) await triage (review_status lead; set pending or "
+              "rejected): " + ", ".join(f"{k} {v}" for k, v in sorted(leads.items())))
     if waiting:
         print(f"{waiting} case candidate(s) still await docket research (no case fields yet)")
     total = sum(added.values())
