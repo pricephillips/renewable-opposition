@@ -141,8 +141,8 @@ Of 3144 counties and county equivalents (50 states and DC):
 | A restriction | 1265 |
 | A contested project | 456 |
 | An NREL siting standard | 1158 |
-| A documented negative check | 1 |
-| A negative check and no record | 1 |
-| Neither a record nor a check | 1732 |
+| A documented negative check | 2 |
+| A negative check and no record | 2 |
+| Neither a record nor a check | 1731 |
 
 A county with neither has not been looked at; it is not evidence that nothing happened.

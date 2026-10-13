@@ -1753,7 +1753,7 @@
 ["32005","NV","Douglas",true,1,1,0,0,0,3,0,0,0,0,10,0,0,null,null,null,"has_records"],
 ["32007","NV","Elko",true,1,1,0,0,0,3,0,0,0,0,12,0,0,null,null,null,"has_records"],
 ["32009","NV","Esmeralda",true,1,0,0,0,0,2,2,1,1,1,2,0,0,null,null,null,"has_records"],
-["32011","NV","Eureka",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
+["32011","NV","Eureka",true,0,0,0,0,0,null,0,0,0,0,0,0,0,"2026-10-13","A","2027-10-13","checked_none"],
 ["32013","NV","Humboldt",true,1,0,0,0,0,2,0,0,0,0,4,1,0,null,null,null,"has_records"],
 ["32015","NV","Lander",true,2,2,0,0,0,4,0,0,0,0,15,0,0,null,null,null,"has_records"],
 ["32017","NV","Lincoln",true,0,0,0,0,0,null,1,1,0,0,0,0,0,null,null,null,"has_records"],

@@ -271,8 +271,8 @@
     "with_restriction": 1265,
     "with_contested_project": 456,
     "with_siting_standard": 1158,
-    "with_negative_check": 1,
-    "with_negative_check_and_no_record": 1,
-    "with_neither": 1732
+    "with_negative_check": 2,
+    "with_negative_check_and_no_record": 2,
+    "with_neither": 1731
   }
 }

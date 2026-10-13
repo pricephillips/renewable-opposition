@@ -53,4 +53,4 @@ Outcome resolutions: 116 (66 blocked_confirmed, 50 advanced_confirmed; by access
 
 ## History and archive
 
-68 snapshot rows over 5 published files; 7 headline changes recorded (2026-09-29 to 2026-10-13). Sources: 60, of which 11 have an Internet Archive snapshot.
+69 snapshot rows over 5 published files; 7 headline changes recorded (2026-09-29 to 2026-10-13). Sources: 60, of which 11 have an Internet Archive snapshot.
