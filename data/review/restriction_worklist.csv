@@ -383,7 +383,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 382,compiled_flagged,nrel:wind:31035,NE,Clay County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Clay County"" Nebraska wind setback",
 383,compiled_flagged,nrel:wind:31049,NE,Deuel County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Deuel County"" Nebraska wind setback",
 384,compiled_flagged,nrel:wind:31055,NE,Douglas County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Douglas County"" Nebraska wind setback",
-385,compiled_flagged,nrel:wind:31065,NE,Furnas County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Furnas County"" Nebraska wind setback",values conflict with mn:ne-furnas-county-2025
+385,compiled_flagged,nrel:wind:31065,NE,Furnas County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,https://furnascounty.ne.gov/wp-content/uploads/sites/47/2025/08/MINUTES-8-26-25.pdf,"""Furnas County"" Nebraska wind setback",primary source held by mn:ne-furnas-county-2025 (same jurisdiction and technology); values conflict with mn:ne-furnas-county-2025
 386,compiled_flagged,nrel:wind:31079,NE,Hall County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Hall County"" Nebraska wind setback",
 387,compiled_flagged,nrel:wind:31085,NE,Hayes County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Hayes County"" Nebraska wind setback",
 388,compiled_flagged,nrel:wind:31097,NE,Johnson County,County,renewables_only,sole_record,wind,unknown,unknown,,2,,,,,"""Johnson County"" Nebraska wind setback",
@@ -781,7 +781,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 780,compiled_flagged,nrel:wind:3601923921,NY,Ellenburg Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Ellenburg Town"" New York wind height_limit",
 781,compiled_flagged,nrel:wind:3601324053,NY,Ellington Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Ellington Town"" New York wind height_limit",
 782,compiled_flagged,nrel:wind:3605726308,NY,Florida Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Florida Town"" New York wind setback",values conflict with sabin:REC-0304
-783,compiled_flagged,nrel:solar:3604327199,NY,Frankfort Town,Municipality,renewables_only,,solar,unknown,unknown,,3,,,,,"""Frankfort Town"" New York solar setback",values conflict with mn:ny-frankfort-undated
+783,compiled_flagged,nrel:solar:3604327199,NY,Frankfort Town,Municipality,renewables_only,,solar,unknown,unknown,,3,,,,https://www.townoffrankfortny.gov/download/document/370,"""Frankfort Town"" New York solar setback",primary source held by mn:ny-frankfort-undated (same jurisdiction and technology); values conflict with mn:ny-frankfort-undated
 784,compiled_flagged,nrel:wind:3603327243,NY,Franklin Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Franklin Town"" New York wind setback",
 785,compiled_flagged,nrel:wind:3600927441,NY,Freedom Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Freedom Town"" New York wind height_limit",
 786,compiled_flagged,nrel:wind:3610127551,NY,Fremont Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Fremont Town"" New York wind height_limit",values conflict with sabin:S26R-5688; sabin:S26R-5697
@@ -950,7 +950,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 949,compiled_flagged,nrel:wind:4400536820,RI,Jamestown Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Jamestown Town"" Rhode Island wind height_limit",
 950,compiled_flagged,nrel:wind:4400545460,RI,Middletown Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Middletown Town"" Rhode Island wind height_limit",
 951,compiled_flagged,nrel:wind:4400950500,RI,New Shoreham Town,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""New Shoreham Town"" Rhode Island wind height_limit",
-952,compiled_flagged,nrel:wind:46103,SD,Pennington County,County,renewables_only,,wind,unknown,unknown,,3,,,,,"""Pennington County"" South Dakota wind setback",values conflict with mn:sd-pennington-county-2024
+952,compiled_flagged,nrel:wind:46103,SD,Pennington County,County,renewables_only,,wind,unknown,unknown,,3,,,,https://www.pennco.org/government/ordinances/ordinance_741.php,"""Pennington County"" South Dakota wind setback",primary source held by mn:sd-pennington-county-2024 (same jurisdiction and technology); values conflict with mn:sd-pennington-county-2024
 953,compiled_flagged,nrel:wind:4849790445,TX,Bridgeport City,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Bridgeport City"" Texas wind height_limit",values conflict with sabin:S26R-5484
 954,compiled_flagged,nrel:wind:4806190480,TX,Brownsville City,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Brownsville City"" Texas wind height_limit",values conflict with sabin:REC-0421
 955,compiled_flagged,nrel:wind:4825190750,TX,Cleburne City,Municipality,renewables_only,,wind,unknown,unknown,,3,,,,,"""Cleburne City"" Texas wind height_limit",
@@ -1044,7 +1044,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 1043,compiled_flagged,nrel:solar:19023,IA,Butler County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Butler County"" Iowa solar height_limit",
 1044,compiled_flagged,nrel:wind:19031,IA,Cedar County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Cedar County"" Iowa wind setback",
 1045,compiled_flagged,nrel:wind:19037,IA,Chickasaw County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Chickasaw County"" Iowa wind setback",
-1046,compiled_flagged,nrel:solar:19039,IA,Clarke County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Clarke County"" Iowa solar size_cap",values conflict with queue:q_4083158e5e
+1046,compiled_flagged,nrel:solar:19039,IA,Clarke County,County,renewables_only,,solar,unknown,unknown,,2,,,,https://clarkecounty.iowa.gov/wp-content/uploads/2025/01/12-16-2024.pdf,"""Clarke County"" Iowa solar size_cap",primary source held by queue:q_4083158e5e (same jurisdiction and technology); values conflict with queue:q_4083158e5e
 1047,compiled_flagged,nrel:solar:19045,IA,Clinton County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Clinton County"" Iowa solar setback",
 1048,compiled_flagged,nrel:wind:19045,IA,Clinton County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Clinton County"" Iowa wind setback",values conflict with sabin:REC-0107
 1049,compiled_flagged,nrel:solar:19057,IA,Des Moines County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Des Moines County"" Iowa solar height_limit",
@@ -1874,7 +1874,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 1873,compiled_flagged,nrel:solar:3611755013,NY,Ontario Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Ontario Town"" New York solar height_limit",
 1874,compiled_flagged,nrel:solar:3602955277,NY,Orchard Park Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Orchard Park Town"" New York solar zoning_restriction",
 1875,compiled_flagged,nrel:solar:3604955497,NY,Osceola Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Osceola Town"" New York solar setback",values conflict with sabin:S26R-5732
-1876,compiled_flagged,nrel:solar:3607555574,NY,Oswego City,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Oswego City"" New York solar setback",values conflict with mn:ny-oswego-city-2025
+1876,compiled_flagged,nrel:solar:3607555574,NY,Oswego City,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,"https://oswegony.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=1952,plainText=false)","""Oswego City"" New York solar setback",primary source held by mn:ny-oswego-city-2025 (same jurisdiction and technology); values conflict with mn:ny-oswego-city-2025
 1877,compiled_flagged,nrel:solar:3607755695,NY,Otsego Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Otsego Town"" New York solar height_limit",
 1878,compiled_flagged,nrel:solar:3601155871,NY,Owasco Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Owasco Town"" New York solar height_limit",
 1879,compiled_flagged,nrel:wind:3601155871,NY,Owasco Town,Municipality,renewables_only,,wind,unknown,unknown,,2,,,,,"""Owasco Town"" New York wind size_cap",
@@ -1908,7 +1908,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 1907,compiled_flagged,nrel:solar:3608365541,NY,Schodack Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Schodack Town"" New York solar height_limit",
 1908,compiled_flagged,nrel:wind:3608365541,NY,Schodack Town,Municipality,renewables_only,,wind,unknown,unknown,,2,,,,,"""Schodack Town"" New York wind setback",
 1909,compiled_flagged,nrel:solar:3609565596,NY,Schoharie Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Schoharie Town"" New York solar setback",
-1910,compiled_flagged,nrel:solar:3607565618,NY,Schroeppel Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Schroeppel Town"" New York solar height_limit",values conflict with mn:ny-schroeppel-2026
+1910,compiled_flagged,nrel:solar:3607565618,NY,Schroeppel Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,https://www.schroeppelny.gov/tfiles/folder3450/2026-02-10%20Town%20Board%20Meeting.pdf,"""Schroeppel Town"" New York solar height_limit",primary source held by mn:ny-schroeppel-2026 (same jurisdiction and technology); values conflict with mn:ny-schroeppel-2026
 1911,compiled_flagged,nrel:wind:3601165816,NY,Scipio Town,Municipality,renewables_only,,wind,unknown,unknown,,2,,,,,"""Scipio Town"" New York wind setback",
 1912,compiled_flagged,nrel:solar:3609966333,NY,Seneca Falls Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Seneca Falls Town"" New York solar height_limit",
 1913,compiled_flagged,nrel:solar:3609566641,NY,Sharon Town,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Sharon Town"" New York solar height_limit",
@@ -1961,7 +1961,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 1960,compiled_flagged,nrel:solar:39029,OH,Columbiana County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Columbiana County"" Ohio solar zoning_restriction",values conflict with sabin:REC-0345
 1961,compiled_flagged,nrel:wind:39047,OH,Fayette County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Fayette County"" Ohio wind zoning_restriction",values conflict with sabin:REC-0349
 1962,compiled_flagged,nrel:solar:39057,OH,Greene County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Greene County"" Ohio solar size_cap",values conflict with sabin:REC-0350
-1963,compiled_flagged,nrel:solar:39077,OH,Huron County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Huron County"" Ohio solar height_limit",
+1963,compiled_flagged,nrel:solar:39077,OH,Huron County,County,renewables_only,,solar,unknown,unknown,,2,,,,"https://www.huroncounty-oh.gov/Documents/Government/Commissioners/Agendas%20and%20Minutes/Minutes/2026/April%207,%202026%20Signatures%20on%20File%20.pdf","""Huron County"" Ohio solar height_limit",primary source held by queue:q_3897eb252a (same jurisdiction and technology)
 1964,compiled_flagged,nrel:solar:39083,OH,Knox County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Knox County"" Ohio solar height_limit",
 1965,compiled_flagged,nrel:wind:39083,OH,Knox County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Knox County"" Ohio wind setback",values conflict with sabin:REC-0353
 1966,compiled_flagged,nrel:wind:39097,OH,Madison County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Madison County"" Ohio wind zoning_restriction",values conflict with sabin:S26R-5614
@@ -2261,7 +2261,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 2260,compiled_flagged,nrel:solar:4209184624,PA,Whitemarsh Township,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Whitemarsh Township"" Pennsylvania solar setback",NREL sample: Property Line (Non-Participating) unverifiable
 2261,compiled_flagged,nrel:solar:4209585256,PA,Williams Township,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Williams Township"" Pennsylvania solar height_limit",
 2262,compiled_flagged,nrel:solar:4202985352,PA,Willistown Township,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Willistown Township"" Pennsylvania solar setback",
-2263,compiled_flagged,nrel:wind:4213385728,PA,Windsor Borough,Municipality,renewables_only,,wind,unknown,unknown,,2,,,,,"""Windsor Borough"" Pennsylvania wind setback",
+2263,compiled_flagged,nrel:wind:4213385728,PA,Windsor Borough,Municipality,renewables_only,,wind,unknown,unknown,,2,,,,http://www.windsortwp.com/wp-content/uploads/Ordinances/WindsorTownshipZoningOrdinance2012.pdf,"""Windsor Borough"" Pennsylvania wind setback",primary source held by nrel:wind:4213385736 (same jurisdiction and technology)
 2264,compiled_flagged,nrel:solar:4213385736,PA,Windsor Township,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Windsor Township"" Pennsylvania solar height_limit",
 2265,compiled_flagged,nrel:solar:4208185984,PA,Wolf Township,Municipality,renewables_only,,solar,unknown,unknown,,2,,,,,"""Wolf Township"" Pennsylvania solar height_limit",
 2266,compiled_flagged,nrel:wind:4203986168,PA,Woodcock Township,Municipality,renewables_only,,wind,unknown,unknown,,2,,,,,"""Woodcock Township"" Pennsylvania wind size_cap",
@@ -2663,7 +2663,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 2662,report_citation,sabin:REC-0414,TN,Franklin County,County,renewables_only,sole_severe,solar;wind,active,in_force,,4,,,,,"""Franklin County"" Tennessee solar OR wind ban",
 2663,report_citation,sabin:REC-0420,TX,City of Benbrook,Municipality,renewables_only,sole_severe,wind,active,in_force,,4,,,,,"""City of Benbrook"" Texas wind ban",
 2664,report_citation,sabin:S26R-5496,TX,Corpus Christi,Municipality,renewables_only,sole_severe,wind,active,in_force,,4,,,,,"""Corpus Christi"" Texas wind ban",
-2665,report_citation,sabin:S26R-5499,TX,Hallsville,Municipality,renewables_only,sole_severe,wind,active,in_force,,4,,,,,"""Hallsville"" Texas wind ban",
+2665,report_citation,sabin:S26R-5499,TX,Hallsville,Municipality,renewables_only,sole_severe,wind,active,in_force,,4,,,,https://cityofhallsvilletx.com/wp-content/uploads/2018/02/Ordinance-2016-06-Zoning-Ordinance-web.pdf,"""Hallsville"" Texas wind ban",primary source held by nrel:wind:4820391685 (same jurisdiction and technology)
 2666,report_citation,sabin:S26R-5501,TX,Plainview,Municipality,renewables_only,sole_severe,solar;wind,active,in_force,,4,,,,,"""Plainview"" Texas solar OR wind ban",
 2667,report_citation,sabin:S26R-5485,TX,Wichita Falls,Municipality,renewables_only,sole_severe,wind,active,in_force,,4,,,,,"""Wichita Falls"" Texas wind ban",
 2668,report_citation,sabin:REC-0447,VA,Accomack County,County,renewables_only,sole_severe,wind,active,in_force,,4,,,,,"""Accomack County"" Virginia wind ban",
@@ -3153,7 +3153,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 3152,report_citation,sabin:S26R-6112,IA,Chickasaw County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Chickasaw County"" Iowa solar setback",
 3153,report_citation,sabin:S26R-6108,IA,Des Moines County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Des Moines County"" Iowa wind setback",
 3154,report_citation,sabin:S26R-6107,IA,Dubuque County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Dubuque County"" Iowa solar setback",
-3155,report_citation,sabin:S26R-6103,IA,Fremont County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Fremont County"" Iowa wind setback",
+3155,report_citation,sabin:S26R-6103,IA,Fremont County,County,renewables_only,,wind,active,in_force,,2,,,,https://fremontia.socs.net/vimages/shared/vnews/stories/5cad3edf734e1/Wind_Energy_Conversion_Systems_-_Final_Draft.pdf,"""Fremont County"" Iowa wind setback",primary source held by nrel:wind:19071 (same jurisdiction and technology)
 3156,report_citation,sabin:REC-0111,IA,Greene County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Greene County"" Iowa solar setback",
 3157,report_citation,sabin:S26R-6090,IA,Mahaska County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Mahaska County"" Iowa wind setback",
 3158,report_citation,sabin:S26R-6088,IA,Monona County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Monona County"" Iowa wind size_cap",
@@ -3183,7 +3183,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 3182,report_citation,sabin:REC-0123,KS,Douglas County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Douglas County"" Kansas wind setback",
 3183,report_citation,sabin:REC-0128,KS,Labette,County,renewables_only,,wind,active,in_force,,2,,,,,"""Labette"" Kansas wind other",
 3184,report_citation,sabin:S26R-6048,KS,Pratt County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Pratt County"" Kansas wind setback",
-3185,report_citation,sabin:S26R-6041,KY,Breckinridge County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Breckinridge County"" Kentucky solar setback",
+3185,report_citation,sabin:S26R-6041,KY,Breckinridge County,County,renewables_only,,solar,active,in_force,,2,,,,https://breckinridgeky.com/wp-content/uploads/2025/12/Solar-Energy-Systems-Ordinance-2025-0121.pdf,"""Breckinridge County"" Kentucky solar setback",primary source held by queue:q_e5bd336a9e (same jurisdiction and technology)
 3186,report_citation,sabin:S26R-6039,KY,Calloway County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Calloway County"" Kentucky solar setback",
 3187,report_citation,sabin:REC-0141,KY,Mason County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Mason County"" Kentucky solar setback",
 3188,report_citation,sabin:REC-0142,KY,Meade County,County,renewables_only,,solar,active,in_force,,2,,,,,"""Meade County"" Kentucky solar setback",
@@ -3280,7 +3280,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 3279,report_citation,sabin:S26R-5730,NY,Lowville,Municipality,renewables_only,,solar;wind,active,in_force,,2,,,,,"""Lowville"" New York solar OR wind size_cap",
 3280,report_citation,sabin:S26R-5687,NY,Mamakating,Municipality,renewables_only,,solar,active,in_force,,2,,,,,"""Mamakating"" New York solar size_cap",
 3281,report_citation,sabin:REC-0296,NY,Niagara,County,renewables_only,,solar,active,in_force,,2,,,,,"""Niagara"" New York solar other",
-3282,report_citation,sabin:S26R-5684,NY,Nichols,Municipality,renewables_only,,solar,active,in_force,,2,,,,,"""Nichols"" New York solar size_cap",
+3282,report_citation,sabin:S26R-5684,NY,Nichols,Municipality,renewables_only,,solar,active,in_force,,2,,,,https://townofnicholsny.gov/post/_docs/SolarEnergySystemsLocalLaw.pdf,"""Nichols"" New York solar size_cap",primary source held by nrel:solar:3610751121 (same jurisdiction and technology)
 3283,report_citation,sabin:S26R-5732,NY,Osceola,Municipality,renewables_only,,solar;wind,active,in_force,,2,,,,,"""Osceola"" New York solar OR wind size_cap",
 3284,report_citation,sabin:S26R-5676,NY,Plattekill,Municipality,renewables_only,,solar,active,in_force,,2,,,,,"""Plattekill"" New York solar size_cap",
 3285,report_citation,sabin:S26R-5698,NY,Town of Dix,Municipality,renewables_only,,wind,active,in_force,,2,,,,,"""Town of Dix"" New York wind setback",
@@ -3338,7 +3338,7 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 3337,report_citation,sabin:S26R-5407,WI,Trempealeau County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Trempealeau County"" Wisconsin wind noise_limit",
 3338,report_citation,sabin:S26R-5404,WY,Fremont County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Fremont County"" Wyoming wind setback",
 3339,report_citation,sabin:S26R-5403,WY,Goshen County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Goshen County"" Wyoming wind setback",
-3340,report_citation,sabin:S26R-5401,WY,Sweetwater County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Sweetwater County"" Wyoming wind setback",
+3340,report_citation,sabin:S26R-5401,WY,Sweetwater County,County,renewables_only,,wind,active,in_force,,2,,,,https://cms7files.revize.com/sweetwaterwy24/document_center/Land%20Use/Development%20Codes/2015%20Zoning%20Resolution%20Amended%202.18.25.pdf,"""Sweetwater County"" Wyoming wind setback",primary source held by nrel:wind:56037 (same jurisdiction and technology)
 3341,report_citation,sabin:S26R-5400,WY,Uinta County,County,renewables_only,,wind,active,in_force,,2,,,,,"""Uinta County"" Wyoming wind setback",
 3342,report_citation,sabin:REC-0392,RI,Foster,Municipality,renewables_only,,wind,pending,pending,,2,,,,,"""Foster"" Rhode Island wind ban",
 3343,report_citation,sabin:REC-0439,VT,"Caledonia, Essex, Orleans Counties",County,renewables_only,,wind,pending,pending,,2,,,,,"""Caledonia, Essex, Orleans Counties"" Vermont wind ban",

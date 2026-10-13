@@ -252,6 +252,26 @@
             "description": "How county_fips_all was found: name, names, point, place, place_text, override."
           },
           {
+            "name": "state_siting_authority",
+            "type": "string",
+            "description": "who_decides of the state's siting_authority row for the technology."
+          },
+          {
+            "name": "state_threshold_mw",
+            "type": "number",
+            "description": "The MW size above which the state body decides, from that row's threshold_mw."
+          },
+          {
+            "name": "state_preemption_ids",
+            "type": "string",
+            "description": "state_policies ids of local_preemption rows covering the technology."
+          },
+          {
+            "name": "state_limits_local",
+            "type": "string",
+            "description": "yes when the state's verified siting law (state_policies) limits how far a local instrument reaches for the row's technology (a size threshold, a preemption rule, or a state board that decides outright), no when local government decides with no such rule, unknown when no verified policy covers the technology. Context only; never says an instrument is void."
+          },
+          {
             "name": "primary_source_checked_on",
             "type": "string"
           },
