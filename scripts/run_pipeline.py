@@ -50,6 +50,7 @@ BUILD = [
     ("coverage_delta", ["scripts/coverage_delta.py"], "column coverage gate", False),
     ("snapshot_manifest", ["scripts/snapshot_manifest.py"], "dated, hashed record of each output", False),
     ("processed_diff", ["scripts/processed_diff.py"], "what this build changed", False),
+    ("operations_summary", ["scripts/operations_summary.py"], "what the pipeline did and holds, in one file", False),
 ]
 STAGES = {"build": BUILD, "refresh": REFRESH + BUILD}
 

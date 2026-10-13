@@ -106,6 +106,15 @@ yet), and its harvest-specific verification statuses.
 | **Dated change logs** (`change_log.csv`, `calibration_history.csv`: a number quoted on a day can be found by date). | `data/snapshots/headline_history.csv`, one row per build date on which a headline figure changed, appended by `snapshot_manifest.py`. |
 | **Dedupe against every file, not just the clean one** (Part C lesson 1 of the 2026-09-29 passoff: 4,099 duplicate rows in four days). | `parse.py` checks each candidate against the queue and all three seeds by source document and by name before queueing it; a same-document candidate is dropped and logged, a same-name one is queued with a "possible duplicate" note. |
 
+## Round five (2026-10-13): context and self-description
+
+| Practice in data-center-map | Here |
+|---|---|
+| **Preemption as a coded stance** (`outcome_defensibility.py` codes preemption of local control as a legislative stance; `bill_taxonomy.py` classes bills by what they do to local authority). | `classify.state_context`: every local restriction carries `state_limits_local` (yes, no, unknown) with the siting authority, size threshold and preemption-rule ids read off the verified `state_policies` rows for its technology. The headline reports severe instruments in limiting states beside the count. Never a judgment on a given ordinance. |
+| **Staleness as a property of every claim** (`stale_pending_audit.py`). | A negative check older than a year puts its county back on `negative_check_worklist.csv` with the reason, beside counties never checked. |
+| **Corroboration from a sibling record** (`triage_accelerator.py` scores a candidate by evidence the first pass did not consult). | A verified instrument for the same jurisdiction and technology lends its primary-source URL to an unverified sibling on the restriction worklist, as a lead to read, never as verification. |
+| **One self-description file** (`operations_summary.py`: "the platform's strongest claim, that it maintains itself and records how, could only be made by assertion"). | `scripts/operations_summary.py` writes `data/processed/operations_summary.json` and `.md` from the quarantine, worklists, promotion trail, review queue, snapshots, headline history and source archive. Counts only; nothing computed anywhere else first. |
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

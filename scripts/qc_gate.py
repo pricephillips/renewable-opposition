@@ -73,6 +73,7 @@ VOCAB = {
                            "report_citation"},
         "verification": {"verified", "located", "unverified"},
         "currency": {"in_force", "lapsed_unconfirmed", "pending", "unknown"},
+        "state_limits_local": {"yes", "no", "unknown", ""},
     },
     "contested_projects": {
         "outcome": {"blocked_confirmed", "blocked_unverified", "restricted_conditional",
@@ -85,7 +86,7 @@ VOCAB = {
         "verification": {"verified", "unverified"},
     },
 }
-DERIVED_FIELDS = {"scope", "evidence_level", "verification", "currency"}
+DERIVED_FIELDS = {"scope", "evidence_level", "verification", "currency", "state_limits_local"}
 # (code, severity, what it means, what releases the row), the table in the
 # module docstring. A severity given as "MEDIUM or HIGH" varies with the row.
 CHECKS = (

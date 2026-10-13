@@ -145,6 +145,11 @@ def compute(datasets: dict[str, list[dict]], standards: list[dict] | None = None
             "by_evidence_level": _counter(group, lambda i: i.get("evidence_level")),
             "by_verification": _counter(group, lambda i: i.get("verification")),
             "by_currency": _counter(group, lambda i: i.get("currency")),
+            # Severe instruments in states whose verified siting law limits
+            # local reach for the technology (classify.state_context): a
+            # context for the count, never a subtraction from it.
+            "severe_where_state_limits_local": sum(
+                1 for i in group if i["severity_score"] in SEVERE and i.get("state_limits_local") == "yes"),
         }
     out["restrictions"] = {"rows": len(rows), "instruments": len(inst), "by_scope": by_scope,
                            "by_source": by_source(inst),
@@ -230,6 +235,12 @@ def render(m: dict) -> str:
         "Verified: checked against the instrument itself or the minutes that adopted it, opened or "
         "read in an archived copy. Located: that document is found but not yet read. Unverified: "
         "a news article or a compiled tracker locates the instrument but does not verify it.",
+        "",
+        f"Of the severe instruments, {ren.get('severe_where_state_limits_local', 0)} (renewables only) and "
+        f"{multi.get('severe_where_state_limits_local', 0)} (also covering data centers) sit in a state whose "
+        "verified siting law limits how far a local instrument reaches for that technology (a size threshold "
+        "above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count "
+        "is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.",
         "",
         "Currency: in_force means the status is active or extended and no end date has passed. "
         "lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer "

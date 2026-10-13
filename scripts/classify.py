@@ -99,6 +99,40 @@ status_as_of    restrictions only. The latest date on which the record's
                 Blank when the record carries no date at all. The worklist
                 measures a pending instrument's age from it (STALE_PENDING).
 
+state_limits_local, state_siting_authority, state_threshold_mw, state_preemption_ids
+                restrictions below state level only. What the state's verified
+                siting law (data/processed/state_policies.csv) says about how
+                far a local instrument reaches for the row's technology, read
+                off the published policy rows and never inferred:
+                  state_siting_authority  who_decides of the state's
+                                          siting_authority row covering the
+                                          technology: local_government,
+                                          state_board or hybrid; blank when
+                                          no verified row covers it
+                  state_threshold_mw      the MW size above which the state
+                                          body decides, from that row's
+                                          threshold_mw ("solar:50;wind:5")
+                  state_preemption_ids    ids of local_preemption rows covering
+                                          the technology, semicolon-joined
+                  state_limits_local      yes       a preemption row or a size
+                                                    threshold covers the
+                                                    technology, or the state
+                                                    board decides outright:
+                                                    the instrument does not
+                                                    reach every project
+                                          no        the siting authority is
+                                                    local_government and no
+                                                    preemption row covers it
+                                          unknown   no verified policy covers
+                                                    the technology, or only a
+                                                    hybrid row with no
+                                                    threshold
+                A "yes" says the state has a verified law that limits local
+                reach; it never says this instrument is void or how a court
+                would read it. The headline reports how many severe
+                instruments sit in such states, beside the count, never
+                subtracted. State-level rows carry all four blank.
+
 county_fips     contested_projects, and restrictions whose jurisdiction_type is
                 County, Parish or Borough: the 5-digit county FIPS of the state
                 plus the county name (a restriction's jurisdiction), looked up
@@ -151,6 +185,8 @@ READ_ACCESS = ("opened", "archived")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
 VERIFICATION = ("verified", "located", "unverified")
 CURRENCY = ("in_force", "lapsed_unconfirmed", "pending", "unknown")
+STATE_LIMITS = ("yes", "no", "unknown")
+STATE_CONTEXT_FIELDS = ("state_siting_authority", "state_threshold_mw", "state_preemption_ids", "state_limits_local")
 IN_FORCE_STATUSES = ("active", "extended")
 # YYYY-MM-DD, or YYYY-MM when a source gives only the month.
 _ISO_DATE = re.compile(r"\d{4}-\d{2}(?:-\d{2})?")
@@ -278,6 +314,45 @@ def status_as_of(row: dict) -> str:
     dates += [_s(row.get(f)) for f in ("date_enacted_iso", "primary_source_checked_on")]
     dates = [d for d in dates if _ISO_DATE.fullmatch(d)]
     return max(dates) if dates else ""
+
+
+def _policy_techs(policy: dict) -> set[str]:
+    return {t.strip() for t in _s(policy.get("technology")).split(";") if t.strip()}
+
+
+def threshold_for(threshold_mw: str, tech: str) -> str:
+    """'solar:50;wind:5' -> '50' for solar, '' when the technology has none."""
+    for part in _s(threshold_mw).split(";"):
+        name, _, mw = part.partition(":")
+        if name.strip() == tech and mw.strip():
+            return mw.strip()
+    return ""
+
+
+def state_context(row: dict, policies: list[dict]) -> dict:
+    """The four state-context fields (module docstring) for one restriction,
+    from the published state_policies rows of its state. Pure: the caller
+    passes the rows."""
+    blank = {f: "" for f in STATE_CONTEXT_FIELDS}
+    tech = _s(row.get("technology"))
+    if _s(row.get("jurisdiction_type")).lower() == "state" or not tech:
+        return blank
+    relevant = [p for p in policies if tech in _policy_techs(p)]
+    if not relevant:
+        return {**blank, "state_limits_local": "unknown"}
+    authority = next((p for p in relevant if _s(p.get("policy_type")) == "siting_authority"), None)
+    who = _s(authority.get("who_decides")) if authority else ""
+    threshold = threshold_for(authority.get("threshold_mw"), tech) if authority else ""
+    preemption = [_s(p.get("id") or p.get("policy_id")) for p in relevant
+                  if _s(p.get("policy_type")) == "local_preemption"]
+    if preemption or threshold or who == "state_board":
+        limits = "yes"
+    elif who == "local_government":
+        limits = "no"
+    else:
+        limits = "unknown"
+    return {"state_siting_authority": who, "state_threshold_mw": threshold,
+            "state_preemption_ids": ";".join(p for p in preemption if p), "state_limits_local": limits}
 
 
 def county_name(entity: str, row: dict) -> str | None:

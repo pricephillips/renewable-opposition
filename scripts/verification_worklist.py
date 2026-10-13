@@ -52,6 +52,13 @@ reports the decision:
                 renewables-only instrument in one of its counties (settling
                 it moves the county between severe and not), sole_record when
                 it is the only restriction of any kind there, else blank.
+  Sibling source (restrictions): when another instrument for the same
+                jurisdiction and technology (any source family) is verified
+                against a primary source, that document almost certainly
+                covers this one too. Its URL goes in located_url when the
+                row has none, and flags says which instrument holds it. A
+                lead for the reviewer: the row stays unverified until someone
+                reads the document against it.
   Outcomes      age_days counts from the latest date in event_date_text (the
                 end of its precision, so "2023" is measured from 2023-12-31).
                 A pending project older than STALE_OUTCOME_DAYS is flagged
@@ -75,7 +82,9 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import PROCESSED_DIR, REVIEW_DIR, STATE_NAMES, read_csv, write_csv  # noqa: E402
+from common import (  # noqa: E402
+    PROCESSED_DIR, REVIEW_DIR, STATE_NAMES, jurisdiction_key, jurisdiction_kind, read_csv, write_csv,
+)
 
 OUTCOME_WORKLIST = REVIEW_DIR / "outcome_worklist.csv"
 RESTRICTION_WORKLIST = REVIEW_DIR / "restriction_worklist.csv"
@@ -272,11 +281,37 @@ def county_impacts(restrictions: list[dict]) -> dict[str, str]:
     return out
 
 
+def _place_key(row: dict) -> tuple | None:
+    try:
+        return (jurisdiction_key(_s(row.get("state")), jurisdiction_kind(_s(row.get("jurisdiction_type"))),
+                                 _s(row.get("jurisdiction"))), _s(row.get("technology")))
+    except ValueError:
+        return None
+
+
+def sibling_sources(restrictions: list[dict]) -> dict[str, tuple[str, str]]:
+    """instrument_id -> (sibling instrument_id, its primary_source_url) for
+    every unverified instrument that shares jurisdiction and technology with a
+    verified one from another instrument."""
+    held: dict[tuple, tuple[str, str]] = {}
+    for r in restrictions:
+        key = _place_key(r)
+        if key and _s(r.get("verification")) == "verified" and _s(r.get("primary_source_url")):
+            held.setdefault(key, (_s(r.get("instrument_id")), _s(r.get("primary_source_url"))))
+    out: dict[str, tuple[str, str]] = {}
+    for r in restrictions:
+        key, iid = _place_key(r), _s(r.get("instrument_id"))
+        if key in held and held[key][0] != iid and _s(r.get("verification")) != "verified":
+            out.setdefault(iid, held[key])
+    return out
+
+
 def restriction_rows(restrictions: list[dict], checked: set[str],
                      located: dict[str, str] | None = None, sample: dict[str, list[str]] | None = None,
                      today: date | None = None) -> list[dict]:
     today = today or date.today()
     impact = county_impacts(restrictions)
+    siblings = sibling_sources(restrictions)
     inst: dict[str, dict] = {}
     for r in restrictions:
         iid = _s(r.get("instrument_id"))
@@ -293,10 +328,13 @@ def restriction_rows(restrictions: list[dict], checked: set[str],
         currency, as_of = _s(r.get("currency")), _s(r.get("status_as_of"))
         age = age_days(as_of, today) if as_of else None
         stale = _s(r.get("status")) == "pending" and age is not None and age > STALE_PENDING_DAYS
+        sibling = siblings.get(iid)
+        located_url = (located or {}).get(iid, "") or (sibling[1] if sibling else "")
         currency_flags = [
             f"end date {_s(r.get('current_end_date_iso'))} passed with no confirmed extension" if currency == LAPSED
             else "",
             f"pending {age} days (since {as_of}), past {STALE_PENDING_DAYS}" if stale else "",
+            f"primary source held by {sibling[0]} (same jurisdiction and technology)" if sibling else "",
         ]
         place = _s(r.get("jurisdiction")) or _s(r.get("county"))
         query = " ".join(x for x in (f'"{place}"' if place else "", _state_name(_s(r.get("state"))),
@@ -311,7 +349,7 @@ def restriction_rows(restrictions: list[dict], checked: set[str],
             "severity_score": r.get("severity_score"),
             "date_enacted_iso": r.get("date_enacted_iso"),
             "current_end_date_iso": r.get("current_end_date_iso"),
-            "legal_basis": r.get("legal_basis"), "located_url": (located or {}).get(iid, ""),
+            "legal_basis": r.get("legal_basis"), "located_url": located_url,
             "search_query": query,
             "flags": "; ".join(x for x in (
                 *currency_flags,

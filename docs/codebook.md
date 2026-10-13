@@ -27,6 +27,7 @@ Fields marked derived are stamped by `scripts/classify.py` on every build and ne
 | restrictions | `evidence_level` (derived) | `compiled_flagged`, `compiled_record`, `primary_source`, `report_citation` |
 | restrictions | `verification` (derived) | `located`, `unverified`, `verified` |
 | restrictions | `currency` (derived) | `in_force`, `lapsed_unconfirmed`, `pending`, `unknown` |
+| restrictions | `state_limits_local` (derived) | `(blank)`, `no`, `unknown`, `yes` |
 | contested_projects | `outcome` | `advanced_confirmed`, `advanced_unverified`, `blocked_confirmed`, `blocked_unverified`, `needs_review`, `pending`, `restricted_conditional` |
 | contested_projects | `verification` (derived) | `unverified`, `verified` |
 | cases | `case_status` | `(blank)`, `dismissed`, `pending`, `ruled_for_developer`, `ruled_for_opposition`, `settled`, `withdrawn` |
@@ -122,6 +123,7 @@ Finality evidence that satisfies the QC gate: a value starting with `court_rulin
 - `scope` (restrictions): `renewables_only`, `multi_sector_data_centers`, `data_center_only`. `data_center_only` is quarantined.
 - `currency` (restrictions): `in_force`, `lapsed_unconfirmed`, `pending`, `unknown`. In force means status `active`, `extended` with no end date passed; lapsed_unconfirmed means the end date passed and no reviewer confirmed the instrument on or after it.
 - `status_as_of` (restrictions): the latest of an 'as of YYYY-MM-DD' date in the text, the enactment date, or a reviewer's primary-source check.
+- `state_limits_local` (restrictions below state level): `yes`, `no`, `unknown`, read off the state's verified `state_policies` rows for the technology: yes when a local_preemption row or a size threshold covers it or the state board decides outright, no when local government decides with no such rule, unknown when no verified row covers the technology (or only a hybrid row with no threshold). Carried with `state_siting_authority`, `state_threshold_mw`, `state_preemption_ids`. Context only; never says an instrument is void.
 - `source_kind` of a queue row: `instrument`, `minutes`, `official_copy`, `court_record`, `news`, `tracker`, `other`; only `instrument`, `minutes`, `official_copy` can verify a restriction; `instrument`, `minutes`, `official_copy`, `court_record`, `news` can verify a project outcome or event.
 - How evidence was seen (`access`): `opened`, `archived`, `snippet`; only `archived`, `opened` upgrade a record. Primary-source verdicts: `confirmed`, `contradicts`.
 
@@ -177,6 +179,10 @@ Restriction tiers, weakest evidence first: `compiled_flagged`, `compiled_record`
 | `B` | one class checked and not stale, or two or more classes but stale |
 | `C` | one class checked, stale |
 | `U` | no source classed |
+
+## Operations summary (`scripts/operations_summary.py`)
+
+`data/processed/operations_summary.json` and `.md` count the rows other modules wrote: the headline, the quarantine by blocking code, each worklist's size and flags, the promotion trail by action, the review queue by status, the snapshot and headline-history rows, and the share of sources with an archive copy. Nothing in it is computed anywhere else first.
 
 ## Promotion trail (`scripts/promote_reviewed.py`)
 

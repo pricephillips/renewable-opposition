@@ -351,6 +351,14 @@ def main() -> int:
         print(f"{len(errors)} validation error(s); nothing written.", file=sys.stderr)
         return 1
 
+    # What the state's verified siting law says about a local instrument's
+    # reach (classify.state_context), read off the published policy rows.
+    by_state: dict[str, list[dict]] = {}
+    for p in policies:
+        by_state.setdefault(p.get("state", ""), []).append(p)
+    for row in datasets.get("restrictions", []):
+        row.update(classify.state_context(row, by_state.get(row.get("state", ""), [])))
+
     quarantine, findings, totals = [], [], {}
     for entity in list(datasets):
         totals[entity] = len(datasets[entity])

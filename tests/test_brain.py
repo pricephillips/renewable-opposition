@@ -416,3 +416,65 @@ def test_county_impact_names_the_instruments_whose_check_would_move_a_county():
     # Within the tier: renewables-only first, then the instruments whose check moves a county.
     assert [x["instrument_id"] for x in out] == ["a", "e", "c", "d", "b", "f"]
     assert out[0]["county_impact"] == "sole_severe" and out[1]["county_impact"] == "sole_record"
+
+
+POLICIES_OH = [
+    {"id": "OH-siting_authority-1", "state": "OH", "technology": "solar;wind", "policy_type": "siting_authority",
+     "who_decides": "state_board", "threshold_mw": "solar:50;wind:5"},
+    {"id": "OH-local_opt_out-1", "state": "OH", "technology": "solar;wind", "policy_type": "local_opt_out",
+     "who_decides": "", "threshold_mw": ""},
+]
+POLICIES_AL = [{"id": "AL-siting_authority-1", "state": "AL", "technology": "solar;wind",
+                "policy_type": "siting_authority", "who_decides": "local_government", "threshold_mw": ""}]
+POLICIES_MD = [{"id": "MD-siting_authority-1", "state": "MD", "technology": "solar;wind;battery_storage",
+                "policy_type": "siting_authority", "who_decides": "hybrid", "threshold_mw": ""},
+               {"id": "MD-local_preemption-1", "state": "MD", "technology": "solar",
+                "policy_type": "local_preemption", "who_decides": "local_government", "threshold_mw": ""}]
+
+
+def test_state_context_reads_the_verified_policy_rows_and_never_infers():
+    county = {"state": "OH", "technology": "wind", "jurisdiction_type": "County"}
+    assert classify.state_context(county, POLICIES_OH) == {
+        "state_siting_authority": "state_board", "state_threshold_mw": "5", "state_preemption_ids": "",
+        "state_limits_local": "yes"}
+    assert classify.state_context({**county, "technology": "solar"}, POLICIES_OH)["state_threshold_mw"] == "50"
+    # No verified row for the technology: unknown, with every other field blank.
+    assert classify.state_context({**county, "technology": "battery_storage"}, POLICIES_OH) == {
+        "state_siting_authority": "", "state_threshold_mw": "", "state_preemption_ids": "",
+        "state_limits_local": "unknown"}
+    assert classify.state_context({**county, "state": "AL"}, POLICIES_AL)["state_limits_local"] == "no"
+    md = classify.state_context({**county, "state": "MD", "technology": "solar"}, POLICIES_MD)
+    assert (md["state_limits_local"], md["state_preemption_ids"], md["state_siting_authority"]) == \
+        ("yes", "MD-local_preemption-1", "hybrid")
+    # Hybrid with no threshold and no preemption rule for the technology: unknown, not a guess.
+    assert classify.state_context({**county, "state": "MD"}, POLICIES_MD)["state_limits_local"] == "unknown"
+    # A state-level row, or one with no technology, carries nothing.
+    assert classify.state_context({**county, "jurisdiction_type": "State"}, POLICIES_OH)["state_limits_local"] == ""
+    assert classify.state_context({**county}, [])["state_limits_local"] == "unknown"
+    assert classify.threshold_for("solar:50;wind:5", "wind") == "5" and classify.threshold_for("", "wind") == ""
+
+
+def test_headline_reports_severe_instruments_in_limiting_states_beside_the_count():
+    rows = [classify.stamp("restrictions", {**mn("wind", "wind", moratorium_id=f"oh-{i}"), "state": "OH",
+                                            "state_limits_local": lim}, T)
+            for i, lim in enumerate(["yes", "no", "yes"])]
+    rows[2]["severity_score"] = 2
+    ren = hm.compute({"restrictions": rows})["restrictions"]["by_scope"]["renewables_only"]
+    assert ren["severe_instruments"] == 2 and ren["severe_where_state_limits_local"] == 1
+    assert "sit in a state whose verified siting law limits" in hm.render(hm.compute({"restrictions": rows}))
+
+
+def test_a_verified_sibling_instrument_lends_its_primary_source_as_a_lead():
+    verified = classify.stamp("restrictions", {
+        "source_record_id": "REC-7", "state": "KS", "jurisdiction": "Cherokee County", "jurisdiction_type": "County",
+        "technology": "wind", "status": "active", "severity_score": 3, "primary_source_url": "https://ck.gov/o.pdf",
+        "primary_source_verdict": "confirmed", "primary_source_access": "opened"}, T)
+    unverified = classify.stamp("restrictions", mn("wind", "wind", jurisdiction="Cherokee", jurisdiction_type="County",
+                                                   state="KS"), T)
+    other = classify.stamp("restrictions", mn("solar", "solar", moratorium_id="ks-y", jurisdiction="Cherokee",
+                                              jurisdiction_type="County", state="KS"), T)
+    assert vw.sibling_sources([verified, unverified, other]) == {"mn:ks-x-2026": ("sabin:REC-7", "https://ck.gov/o.pdf")}
+    out = {r["instrument_id"]: r for r in vw.restriction_rows([verified, unverified, other], checked=set(), today=T)}
+    assert out["mn:ks-x-2026"]["located_url"] == "https://ck.gov/o.pdf"
+    assert "primary source held by sabin:REC-7" in out["mn:ks-x-2026"]["flags"]
+    assert out["mn:ks-y"]["located_url"] == "" and "sabin:REC-7" not in out["mn:ks-y"]["flags"]

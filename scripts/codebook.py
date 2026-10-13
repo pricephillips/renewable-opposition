@@ -148,6 +148,11 @@ def render() -> str:
         "passed and no reviewer confirmed the instrument on or after it.",
         "`status_as_of` (restrictions): the latest of an 'as of YYYY-MM-DD' date in the text, the enactment "
         "date, or a reviewer's primary-source check.",
+        f"`state_limits_local` (restrictions below state level): {_code(classify.STATE_LIMITS)}, read off the "
+        "state's verified `state_policies` rows for the technology: yes when a local_preemption row or a size "
+        "threshold covers it or the state board decides outright, no when local government decides with no such "
+        "rule, unknown when no verified row covers the technology (or only a hybrid row with no threshold). "
+        f"Carried with {_code(classify.STATE_CONTEXT_FIELDS[:3])}. Context only; never says an instrument is void.",
         f"`source_kind` of a queue row: {_code(classify.SOURCE_KINDS)}; only {_code(classify.INSTRUMENT_KINDS)} "
         f"can verify a restriction; {_code(classify.EVENT_KINDS)} can verify a project outcome or event.",
         f"How evidence was seen (`access`): {_code(resolutions.ACCESS)}; only {_code(sorted(resolutions.READ_ACCESS))} "
@@ -193,7 +198,12 @@ def render() -> str:
     L += [""]
     L += _table(["Grade", "Meaning"], [[f"`{g}`", nc.GRADE_MEANING[g]] for g in nc.GRADES])
 
-    L += ["", "## Promotion trail (`scripts/promote_reviewed.py`)", "",
+    L += ["", "## Operations summary (`scripts/operations_summary.py`)", "",
+          "`data/processed/operations_summary.json` and `.md` count the rows other modules wrote: the headline, "
+          "the quarantine by blocking code, each worklist's size and flags, the promotion trail by action, the review "
+          "queue by status, the snapshot and headline-history rows, and the share of sources with an archive copy. "
+          "Nothing in it is computed anywhere else first.", ""]
+    L += ["## Promotion trail (`scripts/promote_reviewed.py`)", "",
           "`data/review/promotion_trail.csv` records a decision only when it is new or has changed",
           f"(`scripts/promotion_trail.py`). Columns: {_code(pr.TRAIL_FIELDS)}. Actions: `promoted`, `held`",
           f"(with what the row lacks), `{pr.AWAITING}`, `rejected`, `error`. Review statuses that never promote: "
