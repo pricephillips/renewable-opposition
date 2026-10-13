@@ -14,10 +14,30 @@ Output: ``contested_project`` leads (state NY), only for
   - every row under Denied, and every row under Withdrawn / Relinquished, and
   - a row in any section whose project name matches a New York project in
     data/seed/contested_projects_seed.csv (read only): its ORES status may
-    update that record's outcome.
+    update that record's outcome. A match from a live section (Notice of
+    Intent through Permitted) is left out when its status gives the outcome
+    the seed already holds (build_sabin_seeds.OUTCOME[status] equals the
+    seed's outcome, e.g. an application under review, 'pending', against a
+    pending seed): it adds nothing and would use up the case's URL (below).
 Every other row is left out: an application is not opposition. The page never
 shows opposition, so every lead says so in reviewer_notes and a reviewer must
 find the record of opposition before setting it pending.
+
+One lead per case. parse.dedupe drops a lead whose source document (here the
+case page) is already in the queue, whatever its review_status, so once a case
+is queued a later move of that case to another section (a permitted project
+relinquished, an application under review denied) is dropped as "same source
+document" and shows only in the parse log. That is why a seed match that adds
+nothing is not queued. Re-queuing a case on a section change would need
+parse.py to key docket pages on their status too.
+
+The page changed shape, and extract() raises ValueError (so parse.py leaves the
+raw file unparsed and tries it again) when it has no table rows, when no row
+sits under a heading this extractor knows (the h2 headings gone: every row
+would fall into section 'other' and the Denied and Withdrawn leads would vanish
+without a trace), or when no row sits under Permitted Applications, a section
+that has always had rows (36 on 2026-10-13). A heading it does not know is
+logged, and its rows yield only seed matches, with status blank.
 
 Seed matching follows scripts/facility_matches.py: names are compared on their
 distinctive words (facility_matches.core: generic words such as solar, wind,
@@ -88,6 +108,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urljoin, urlsplit
 
+from build_sabin_seeds import OUTCOME
 from classify import lookup_county, place_key
 from common import ROOT, SEED_DIR, normalize_url, read_csv, read_raw, strip_tracking, technology_tokens
 from facility_matches import core
@@ -510,6 +531,12 @@ def extract(raw_path: Path, source: dict) -> list[dict]:
     apps = applications(html, page_url)
     if not apps:
         raise ValueError("no application rows found: the ORES page changed shape")
+    if all(a["section"] == "other" for a in apps):
+        raise ValueError("ORES page changed shape: no row under a known section")
+    if not any(a["section"] == "permitted" for a in apps):
+        raise ValueError("ORES page changed shape: no row under Permitted Applications")
+    for heading in sorted({a["heading"] for a in apps if a["section"] == "other"}):
+        log.warning("ORES section %r is not one this extractor knows: only seed matches are taken from it", heading)
     lookup, place_index, seeds = load_lookup(), load_places(), load_seeds()
 
     out, seen = [], set()
@@ -519,7 +546,14 @@ def extract(raw_path: Path, source: dict) -> list[dict]:
         conflict = bool(name_techs and desc_techs and not set(name_techs) & set(desc_techs))
         located = places(a["desc"], lookup)
         matches = seed_matches(a["name"], set(techs), {p["fips"] for p in located if p["fips"]}, seeds)
+        # A live-section match whose status gives the seed's own outcome adds nothing.
+        held = [(s, how) for s, how in matches
+                if a["section"] in LIVE and OUTCOME.get(a["status"]) == s["outcome"]]
+        matches = [m for m in matches if m not in held]
         if a["section"] not in TERMINAL and not matches:
+            if held:
+                log.info("ORES case %s (%s): seed outcome already %s, left out", a["case"], a["name"],
+                         held[0][0]["outcome"])
             continue
 
         url = strip_tracking(a["case_link"] or page_url)
@@ -533,6 +567,8 @@ def extract(raw_path: Path, source: dict) -> list[dict]:
                  "find the record of it before promoting"]
         notes += [f"matches seed {s['id']} ({plain(s['name'])}, outcome {s['outcome'] or 'blank'}) "
                   f"on {how}: its ORES status may update that outcome" for s, how in matches]
+        notes += [f"also matches seed {s['id']} ({plain(s['name'])}, outcome {s['outcome']}) on {how}, "
+                  "an outcome its ORES status already gives" for s, how in held]
         others = [o for o in apps if o is not a and _same_project(a, o)]
         status, action, status_notes = _status(a, others)
         notes += status_notes

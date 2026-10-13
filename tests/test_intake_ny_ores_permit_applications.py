@@ -102,6 +102,32 @@ def test_a_page_with_no_tables_raises(ores, tmp_path, monkeypatch):
         run(ores, tmp_path, monkeypatch, html="<html><body><h2>Denied Applications</h2><p>None.</p></body></html>")
 
 
+def test_section_headings_that_stop_being_h2_raise(ores, tmp_path, monkeypatch):
+    # A theme change that drops the h2 headings would put every row under
+    # section 'other': no Denied or Withdrawn lead, and no error, so parse.py
+    # would mark the file parsed and the loss would go unseen.
+    html = FIXTURE.read_text(encoding="utf-8").replace("<h2", "<h3").replace("</h2>", "</h3>")
+    assert {a["section"] for a in ores.applications(html)} == {"other"}
+    with pytest.raises(ValueError, match="no row under a known section"):
+        run(ores, tmp_path, monkeypatch, html=html)
+
+
+def test_a_page_with_no_permitted_row_raises(ores, tmp_path, monkeypatch):
+    html = FIXTURE.read_text(encoding="utf-8").replace("Permitted Applications", "Issued Siting Permits")
+    with pytest.raises(ValueError, match="no row under Permitted Applications"):
+        run(ores, tmp_path, monkeypatch, html=html)
+
+
+def test_an_unknown_heading_is_logged_and_its_rows_give_seed_matches_only(ores, tmp_path, monkeypatch, caplog):
+    html = FIXTURE.read_text(encoding="utf-8").replace("Request for Declaratory Ruling", "Petitions")
+    with caplog.at_level("WARNING"):
+        rows = run(ores, tmp_path, monkeypatch, html=html, seeds=[
+            ["NY", "Howard Wind Farm", "wind", "", "", "operational", "operational", "HYPO-3"]])
+    assert "'Petitions' is not one this extractor knows" in caplog.text
+    row = by_case(rows)["24-03058"]
+    assert row["status"] == "" and "section 'Petitions' is not one this extractor knows" in row["reviewer_notes"]
+
+
 def test_gzipped_and_plain_raw_files_read_the_same(ores, tmp_path, monkeypatch):
     rows_gz = run(ores, tmp_path, monkeypatch)
     plain = tmp_path / "page.html"
@@ -113,15 +139,17 @@ def test_gzipped_and_plain_raw_files_read_the_same(ores, tmp_path, monkeypatch):
 
 def test_denied_withdrawn_and_seed_matches_only(ores, tmp_path, monkeypatch):
     rows = run(ores, tmp_path, monkeypatch)
+    # 24-03041 (Shepherd's Run, under review) matches the pending seed S26P-4194
+    # and is left out: 'pending' is the outcome the seed already holds.
     assert sorted(by_case(rows)) == ["21-00752", "21-02104", "21-02553", "22-02969", "23-02972", "23-02992",
-                                     "24-03041", "24-03042"]
+                                     "24-03042"]
     names = {case_of(r): r["project_name"] for r in rows}
     assert names["23-02992"] == "Flat Creek Solar" and names["24-03042"] == "Moss Ridge Solar"
-    assert names["21-02553"] == names["24-03041"] == "Shepherd's Run Solar"
+    assert names["21-02553"] == "Shepherd's Run Solar"
     seeds = {case_of(r): r["reviewer_notes"].split("matches seed ")[1].split(" ")[0]
              for r in rows if "matches seed" in r["reviewer_notes"]}
     assert seeds == {"21-00752": "S26P-4370", "21-02104": "S26P-4159", "22-02969": "S26P-4192",
-                     "23-02972": "S26P-4183", "21-02553": "S26P-4194", "24-03041": "S26P-4194"}
+                     "23-02972": "S26P-4183", "21-02553": "S26P-4194"}
     # Without the seeds only the denied and withdrawn applications remain.
     rows = run(ores, tmp_path, monkeypatch, seeds=[])
     assert sorted(by_case(rows)) == ["21-02553", "23-02992", "24-03042"]
@@ -134,11 +162,12 @@ def test_a_shared_name_word_needs_the_technology_and_county_too(ores, tmp_path, 
     # County, nor Garnet Energy Center (Cayuga County) by Cayuga Solar.
     rows = run(ores, tmp_path, monkeypatch)
     assert "23-03030" not in by_case(rows) and "23-03014" not in by_case(rows)
-    # Hypothetical seeds: the same name in its own county matches; the same
-    # name and technology in another county does not.
+    # Hypothetical seeds (outcomes the ORES sections do not give, so a match
+    # is emitted): the same name in its own county matches; the same name and
+    # technology in another county does not.
     rows = run(ores, tmp_path, monkeypatch, seeds=[
-        ["NY", "Bliss Wind Project", "wind", "Wyoming County", "", "pending", "pending", "HYPO-1"],
-        ["NY", "Heritage Wind", "wind", "Erie County", "", "pending", "pending", "HYPO-2"],
+        ["NY", "Bliss Wind Project", "wind", "Wyoming County", "", "blocked_unverified", "cancelled", "HYPO-1"],
+        ["NY", "Heritage Wind", "wind", "Erie County", "", "blocked_unverified", "cancelled", "HYPO-2"],
     ])
     found = by_case(rows)
     assert "HYPO-1" in found["23-03030"]["reviewer_notes"] and found["23-03030"]["status"] == "pending"
@@ -160,7 +189,7 @@ def test_a_seed_with_no_county_matches_on_name_and_technology(ores, tmp_path, mo
 def test_status_only_where_the_section_states_it(ores, tmp_path, monkeypatch):
     found = by_case(run(ores, tmp_path, monkeypatch))
     assert found["21-00752"]["status"] == "approved"           # Permitted, seed match
-    assert found["24-03041"]["status"] == "pending"            # Complete Applications Under Review
+    assert "24-03041" not in found                             # under review, as its pending seed says
     assert found["23-02992"]["status"] == "" and found["24-03042"]["status"] == ""   # Withdrawn / Relinquished
     assert "not a stated cancellation" in found["23-02992"]["reviewer_notes"]
     # Denied, but refiled: the same project is under review again.
@@ -180,6 +209,25 @@ def test_a_denial_with_no_later_application_is_rejected(ores, tmp_path, monkeypa
     assert "24-03041" not in found
     assert found["21-02553"]["status"] == "rejected"
     assert "denied without prejudice, so the applicant may refile" in found["21-02553"]["reviewer_notes"]
+
+
+def test_a_live_seed_match_is_emitted_only_when_its_status_adds_something(ores, tmp_path, monkeypatch, caplog):
+    # Real seed S26P-4194 (Shepherd's Run, outcome pending): 24-03041 is under
+    # review, OUTCOME['pending'] == 'pending', so it is left out and logged.
+    with caplog.at_level("INFO"):
+        found = by_case(run(ores, tmp_path, monkeypatch))
+    assert "24-03041" not in found and "seed outcome already pending, left out" in caplog.text
+    # The Permitted matches (approved -> advanced_unverified) do add something.
+    assert {found[c]["status"] for c in ("21-00752", "21-02104", "22-02969", "23-02972")} == {"approved"}
+    # Hypothetical seed calling the project cancelled: a live application now
+    # says otherwise, so the lead is emitted; the real seed's match is noted.
+    rows = run(ores, tmp_path, monkeypatch, seeds=REAL_SEEDS + [
+        ["NY", "Shepherd's Run Solar", "solar", "Columbia County", "", "blocked_unverified", "cancelled", "HYPO-7"]])
+    row = by_case(rows)["24-03041"]
+    assert row["status"] == "pending"
+    assert "matches seed HYPO-7" in row["reviewer_notes"]
+    assert "also matches seed S26P-4194 (Shepherd's Run Solar Project, outcome pending) on name, technology and " \
+           "county, an outcome its ORES status already gives" in row["reviewer_notes"]
 
 
 def test_vocabulary_and_field_rules(ores, tmp_path, monkeypatch):
@@ -275,7 +323,7 @@ def test_a_name_and_description_that_disagree_keep_both_and_say_so(ores, tmp_pat
     # The page's own Bull Run Wind row describes "a 449-Megawatt (MW) Solar
     # Energy Facility". Hypothetical seed, to bring the row out.
     rows = run(ores, tmp_path, monkeypatch, seeds=[
-        ["NY", "Bull Run Wind Energy Center", "wind", "Clinton County", "", "pending", "pending", "HYPO-6"]])
+        ["NY", "Bull Run Wind Energy Center", "wind", "Clinton County", "", "needs_review", "unknown", "HYPO-6"]])
     row = by_case(rows)["23-02975"]
     assert row["technology"] == "solar;wind" and row["status"] == "proposed"
     assert "technology conflict: the name says wind, the description says solar" in row["reviewer_notes"]
@@ -297,25 +345,58 @@ def test_round_trip_through_parse_dedupe(ores, tmp_path, monkeypatch):
     monkeypatch.setattr(ores, "SEED_PATH", write_seed(tmp_path / "seed.csv", REAL_SEEDS))
     raw = raw_copy(tmp_path)
     candidates = parse.run_extractor(ores, raw, SOURCE, rel_path=SOURCE["local_path"])
-    assert len(candidates) == 8 and all(c.review_status == "lead" for c in candidates)
+    assert len(candidates) == 7 and all(c.review_status == "lead" for c in candidates)
     assert all(c.source_id == "ny_ores_permit_applications" and c.raw_path == SOURCE["local_path"]
                for c in candidates)
 
     # Against the real seeds and review files: nothing is already held.
     known = parse.load_known(tmp_path / "no_queue.csv", parse.SEED_PATHS, parse.CITED_PATHS)
     kept, dropped = parse.dedupe(candidates, known)
-    assert len(kept) == 8 and dropped == []
-    # The two Shepherd's Run cases share a name: the second is kept and noted.
-    shepherd = [c for c in kept if c.project_name == "Shepherd's Run Solar"]
-    assert len(shepherd) == 2 and "possible duplicate of" in shepherd[1].reviewer_notes
+    assert len(kept) == 7 and dropped == []
+    # Only Mill Point Solar I carries its seed's exact name: kept and noted.
+    assert [c.project_name for c in kept if "possible duplicate of seed" in c.reviewer_notes] == ["Mill Point Solar I"]
     parse.assign_queue_ids(kept, set())
-    assert len({c.queue_id for c in kept}) == 8
+    assert len({c.queue_id for c in kept}) == 7
 
     # The next run of the same page queues nothing new.
     again = parse.run_extractor(ores, raw, SOURCE, rel_path=SOURCE["local_path"])
     known = parse.Known([asdict(c) for c in kept], {}, [])
     kept2, dropped2 = parse.dedupe(again, known)
-    assert kept2 == [] and len(dropped2) == 8 and all("same source document" in d for d in dropped2)
+    assert kept2 == [] and len(dropped2) == 7 and all("same source document" in d for d in dropped2)
+
+
+def test_a_case_that_moves_to_denied_after_the_first_run_still_reaches_the_queue(ores, tmp_path, monkeypatch):
+    # parse.dedupe drops a lead whose case page is already queued, whatever
+    # its review_status. Day 1 must not spend 24-03041's URL on a lead that
+    # adds nothing, or its denial on day 2 is dropped as "same source document".
+    monkeypatch.setattr(ores, "SEED_PATH", write_seed(tmp_path / "seed.csv", REAL_SEEDS))
+    day1 = parse.run_extractor(ores, raw_copy(tmp_path), SOURCE, rel_path=SOURCE["local_path"])
+    known = parse.load_known(tmp_path / "no_queue.csv", parse.SEED_PATHS, parse.CITED_PATHS)
+    kept1, _ = parse.dedupe(day1, known)
+    queue = [asdict(c) for c in kept1]
+    for q in queue:                     # triaged: every day-1 lead rejected
+        q["review_status"] = "rejected"
+
+    # Day 2 (hypothetical): 24-03041's row moves into the Denied table.
+    html = FIXTURE.read_text(encoding="utf-8")
+    start = html.index('<tr><td><a href="https://documents.dps.ny.gov/public/MatterManagement/CaseMaster.aspx?'
+                       'MatterSeq=85385&amp;MNO=24-03041"')
+    end = html.index("</tr>", start) + len("</tr>")
+    row = html[start:end].replace("COLUMBIA COUNTY.</td>", "COLUMBIA COUNTY has been denied.</td>")
+    assert row != html[start:end]
+    html = html[:start] + html[end:]
+    at = html.index("</tbody>", html.index("Denied Applications"))
+    html = html[:at] + row + html[at:]
+    raw2 = tmp_path / "day2.html"
+    raw2.write_text(html, encoding="utf-8")
+    day2 = parse.run_extractor(ores, raw2, SOURCE, rel_path=SOURCE["local_path"])
+    kept2, dropped2 = parse.dedupe(day2, parse.Known(queue, {}, []))
+    assert [(case_of(asdict(c)), c.status) for c in kept2] == [("24-03041", "rejected")]
+    assert "possible duplicate of queue row" in kept2[0].reviewer_notes
+    assert kept2[0].description.endswith("under Denied Applications, case 24-03041 (denied).")
+    # 21-02553's own change (blank -> rejected) is still dropped: one lead per
+    # case page, as the module docstring says.
+    assert len(dropped2) == 7 and all("same source document" in d for d in dropped2)
 
 
 def test_the_registry_entry_and_the_page(ores):
