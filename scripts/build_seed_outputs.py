@@ -342,8 +342,13 @@ def main() -> int:
     # Reviewer counties go last, over whatever classify.county_fips_all found.
     errors += resolutions.apply_place_overrides(datasets, geo.known)
     states = fips_states(fips_lookup)
-    checks = negative_checks.load()
-    errors += negative_checks.validate(checks, geo.known, states.get)
+    all_checks = negative_checks.load()
+    errors += negative_checks.validate(all_checks, geo.known, states.get)
+    # A drafted check counts only once someone else has reviewed it.
+    checks = negative_checks.counted(all_checks)
+    held_checks = len(all_checks) - len(checks)
+    if held_checks:
+        print(f"Negative checks: {held_checks} drafted and awaiting review, not counted")
     policies, held_policies, policy_errors = state_policies.build()
     errors += policy_errors
     if errors:

@@ -172,6 +172,7 @@
     "data/db/manifest.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/timeline.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/review/geoid_worklist.csv": {"layer": "derived", "writers": ["scripts/build_database.py"]},
+    "data/review/examination_worklist.csv": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
     "data/snapshots/headline_history.csv": {"layer": "derived", "writers": ["scripts/headline_history.py"]},
     "data/db/history.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},

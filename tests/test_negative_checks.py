@@ -114,3 +114,33 @@ def test_the_county_summary_and_profile_carry_the_grade():
     assert by["20021"]["coverage"] == "negative_check" and by["20021"]["negative_check_grade"] == "A"
     assert by["20023"]["negative_check_grade"] == "" and list(rows[0]) == county_summary.FIELDS
     assert "Evidence grade A (primary_law, proceeding, secondary)" in sp.checked_line(GOOD)
+
+
+def test_a_source_s_kind_decides_its_class_and_a_web_search_is_never_law():
+    assert nc.family_of("code: Alton Zoning Ordinance searched for solar (https://example.org)") == "primary_law"
+    assert nc.family_of("minutes: board of commissioners 2023 to 2026") == "proceeding"
+    assert nc.family_of("docket: Siting Council, Fairfield") == "proceeding"
+    # The words of the query do not make a search the instrument.
+    assert nc.family_of("web search: Nicholas County ordinance moratorium minutes") == "secondary"
+    assert nc.family_of("news search: solar moratorium") == "secondary"
+
+
+def test_a_drafted_check_is_held_until_someone_else_reviews_it():
+    new = {**GOOD, "checked_on": nc.PROTOCOL_START, "governments_checked": "Cherokee County",
+           "drafted_by": "agent:checker-1", "reviewer": ""}
+    assert errors(**{k: new[k] for k in ("checked_on", "governments_checked", "drafted_by", "reviewer")}) == []
+    assert nc.held(new) and nc.counted([new]) == []
+    reviewed = {**new, "reviewer": "agent:reviewer-1"}
+    assert not nc.held(reviewed) and nc.counted([reviewed]) == [reviewed]
+    # Rows from before the protocol have no drafter and count as they did.
+    assert nc.counted([GOOD]) == [GOOD]
+    assert "reviewer is the drafter" in errors(checked_on=nc.PROTOCOL_START, governments_checked="x",
+                                               drafted_by="agent:checker-1", reviewer="Agent:Checker-1")[0]
+    missing = errors(checked_on=nc.PROTOCOL_START, reviewer="agent:reviewer-1")
+    assert any("drafted_by is required" in e for e in missing)
+    assert any("governments_checked is required" in e for e in missing)
+
+
+def test_a_check_is_due_again_a_year_after_it_ran():
+    assert nc.recheck_by({"checked_on": "2026-10-13"}) == "2027-10-13"
+    assert nc.recheck_by({"checked_on": "soon"}) == ""

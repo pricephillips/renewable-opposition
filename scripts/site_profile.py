@@ -178,7 +178,7 @@ class Data:
         self.dc_events = _csv(dc_events)
         # "Checked, nothing found" rows (never published), by county.
         self.checks: dict[str, list[dict]] = {}
-        for r in _csv(review / negative_checks.CHECKS_PATH.name):
+        for r in negative_checks.counted(_csv(review / negative_checks.CHECKS_PATH.name)):
             self.checks.setdefault(r.get("county_fips", "").strip().zfill(5), []).append(r)
         # None, not [], when left out, so the profile omits the section.
         self.local = _csv(local_knowledge_path()) if local else None

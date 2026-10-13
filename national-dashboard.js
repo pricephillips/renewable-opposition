@@ -59,6 +59,7 @@
   var METRICS = {
     severe_restrictions: { label: 'Severe restrictions', noun: 'severe restrictions (severity 3 or 4)' },
     restrictions: { label: 'All restrictions', noun: 'restrictions (renewables only)' },
+    verified_restrictions: { label: 'Verified restrictions', noun: 'restrictions verified against the instrument or its minutes' },
     active_moratoria: { label: 'Active moratoria', noun: 'active or extended moratoria' },
     contested_projects: { label: 'Contested projects', noun: 'contested projects' },
     blocked_projects: { label: 'Blocked projects', noun: 'blocked projects (confirmed or not)' },
@@ -80,6 +81,16 @@
     checked_none: 'Checked, none found',
     not_examined: 'Not examined: nothing known either way'
   };
+  // scripts/negative_checks.py GRADE_MEANING: how strong a "checked, none
+  // found" search was, never how strong the county's case is.
+  var GRADE_WORDS = {
+    A: 'two or more kinds of source checked, not stale',
+    B: 'one kind of source checked and not stale, or two or more but stale',
+    C: 'one kind of source checked, stale',
+    U: 'no source classed'
+  };
+  function today() { return new Date().toISOString().slice(0, 10); }
+
   // scripts/site_profile.py VERIFICATION_WORDS, so profiles and pages agree.
   var VERIFICATION_WORDS = {
     restriction: {
@@ -975,7 +986,8 @@
     var projects = detail.projects.filter(here);
     var standards = detail.siting_standards.filter(here);
     var dc = detail.data_center_events.filter(function (e) { return e.county_fips === c.county_fips; });
-    var checks = detail.negative_checks.filter(function (k) { return k.county_fips === c.county_fips; });
+    // A drafted check counts only once someone else has reviewed it.
+    var checks = detail.negative_checks.filter(function (k) { return k.county_fips === c.county_fips && !k.held; });
     var casesById = {};
     detail.cases.forEach(function (k) { casesById[k.instrument_id] = k; });
     var county = (detail.counties || []).filter(function (x) { return x.county_fips === c.county_fips; })[0] || {};
@@ -991,7 +1003,11 @@
       bannerText = 'Not examined. Nobody has searched this county\'s records yet, so an empty profile means nothing is known, not that nothing happened.';
     } else if (c.coverage_status === 'checked_none') {
       var k = checks[checks.length - 1];
-      bannerText = 'Checked ' + (k ? (k.sources_checked || []).join('; ') + ' on ' + k.checked_on : '') + ': none found.';
+      bannerText = k ? 'Checked on ' + k.checked_on + ', none found' +
+        (k.governments_checked ? ', covering ' + k.governments_checked : '') + '. Searched: ' +
+        (k.sources_checked || []).join('; ') + '. Evidence grade ' + k.grade + ' (' + (GRADE_WORDS[k.grade] || '') + '); ' +
+        (k.recheck_by && k.recheck_by < today() ? 'due to be checked again since ' : 'check again by ') + k.recheck_by + '.'
+        : 'Checked, none found.';
     } else {
       bannerText = 'Published records are placed in this county.' + (checks.length ? ' Last negative check: ' + checks[checks.length - 1].checked_on + '.' : '');
     }
@@ -1487,6 +1503,9 @@
 
   function renderCoverage(route, worklists) {
     var cov = base.metrics.county_coverage;
+    // The coverage figures count the 50 states and DC; Puerto Rico apart.
+    var inScope = base.states.filter(function (s) { return s.counties && s.state_code !== 'PR'; });
+    var done = inScope.filter(function (s) { return !s.counties_not_examined; });
     var view = el('div', { class: 'stack' });
     view.appendChild(el('div', null,
       el('h1', { text: 'Coverage and evidence' }),
@@ -1494,22 +1513,26 @@
     view.appendChild(el('div', { class: 'tiles' },
       tile('covRecords', 'Counties with published records', n(cov.with_any_record), 'of ' + n(cov.counties)),
       tile('covChecked', 'Checked, none found', n(cov.with_negative_check_and_no_record), 'a documented search found nothing'),
-      tile('covNone', 'Not examined', n(cov.with_neither), 'nothing known either way')));
+      tile('covNone', 'Not examined', n(cov.with_neither), 'nothing known either way'),
+      tile('covStatesDone', 'States with every county examined', n(done.length), 'of ' + n(inScope.length) + ' (the states and DC)')));
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'covStatesHeading' },
-      el('h2', { id: 'covStatesHeading', text: 'Counties not examined, by state' }),
-      sortableTable('Share of each state\'s counties with no record and no documented check. Select a column heading to sort.', [
+      el('h2', { id: 'covStatesHeading', text: 'Examination progress by state' }),
+      el('p', { class: 'muted small' }, 'A county is examined once it has a published record or a reviewed search that found nothing. How a county is checked: ',
+        el('a', { href: 'https://github.com/pricephillips/renewable-opposition/blob/main/docs/COUNTY_CHECK.md', text: 'the county check' }), '.'),
+      sortableTable('Each state\'s counties by what is known about them. Select a column heading to sort.', [
         { key: 'state_name', label: 'State', render: function (s) { return link(href('state', s.state_code), s.state_name); } },
         { key: 'counties', label: 'Counties', num: true },
         { key: 'counties_with_records', label: 'With records', num: true },
         { key: 'counties_checked_none', label: 'Checked, none', num: true },
         { key: 'counties_not_examined', label: 'Not examined', num: true },
+        { key: 'examined', label: 'Share examined', num: true,
+          render: function (s) { return s.counties ? Math.round(100 * (s.counties - s.counties_not_examined) / s.counties) + '%' : ''; },
+          sort: function (s) { return s.counties ? (s.counties - s.counties_not_examined) / s.counties : 0; } },
         { key: 'share', label: 'Share not examined', num: true,
           render: function (s) { return s.counties ? Math.round(100 * s.counties_not_examined / s.counties) + '%' : ''; },
           sort: function (s) { return s.counties ? s.counties_not_examined / s.counties : 0; } }
-      ], base.states.filter(function (s) {
-        // The coverage figures count the 50 states and DC; Puerto Rico apart.
-        return s.counties && s.state_code !== 'PR';
-      }), 'share')));
+      ], inScope, 'share')));
+    view.appendChild(checksCard());
     view.appendChild(sourcesCard(base.metrics));
     var rows = objects(worklists);
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'worklistHeading' },
@@ -1522,6 +1545,32 @@
           return el('tr', null, el('td', { text: w.description }), el('td', { class: 'num', text: n(w.rows) }));
         }))))));
     return view;
+  }
+
+  // Every county whose latest reviewed check found nothing, with how strong
+  // the check was and when it is due again.
+  function checksCard() {
+    var rows = base.counties.filter(function (c) { return c.last_negative_check; })
+      .sort(function (a, b) { return a.county_fips < b.county_fips ? -1 : 1; });
+    var due = rows.filter(function (c) { return c.negative_check_recheck_by && c.negative_check_recheck_by < today(); });
+    return el('section', { class: 'card', 'aria-labelledby': 'checksHeading' },
+      el('h2', { id: 'checksHeading', text: 'Searches that found nothing' }),
+      el('p', { class: 'muted small', text: 'A negative check says only that the sources it names held nothing on the day it ran. It is graded by how many independent kinds of source it covered (the codes, the minutes or dockets, the news), and it is due to be run again a year later. ' +
+        'Counties with one: ' + n(rows.length) + '; due to be run again: ' + n(due.length) + '.' }),
+      el('div', { class: 'table-wrap' }, el('table', { id: 'checksTable' },
+        el('caption', { text: 'Negative checks, by county' }),
+        el('thead', null, el('tr', null, ['County', 'Checked on', 'Grade', 'Check again by', 'Status'].map(function (h, i) {
+          return el('th', { scope: 'col', text: h });
+        }))),
+        el('tbody', null, rows.map(function (c) {
+          var stale = c.negative_check_recheck_by && c.negative_check_recheck_by < today();
+          return el('tr', null,
+            el('td', null, link(href('county', c.county_fips), c.county_name + ', ' + c.state_code)),
+            el('td', { text: c.last_negative_check }),
+            el('td', { title: GRADE_WORDS[c.negative_check_grade] || '', text: c.negative_check_grade || '' }),
+            el('td', { text: c.negative_check_recheck_by || '' }),
+            el('td', { text: c.coverage_status === 'has_records' ? 'records since published' : (stale ? 'due again' : 'current') }));
+        })))));
   }
 
   // ── Data ──────────────────────────────────────────────────────────────────

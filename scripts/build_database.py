@@ -50,6 +50,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import geo  # noqa: E402
 import geoid_match  # noqa: E402
 import group_registry  # noqa: E402
+import negative_checks  # noqa: E402
 import site_profile  # noqa: E402
 from common import (PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, jurisdiction_key, jurisdiction_kind,  # noqa: E402
                     read_csv, write_csv)
@@ -87,6 +88,62 @@ CENSUS_GOVERNMENTS = ROOT / "data" / "census_governments_2024.csv"
 # Jurisdictions no single Census government fits, for a reviewer. Written on
 # every --publish run; never published as data.
 GEOID_WORKLIST = REVIEW_DIR / "geoid_worklist.csv"
+EXAMINATION_WORKLIST = REVIEW_DIR / "examination_worklist.csv"
+EXAMINATION_WORKLIST_FIELDS = [
+    "rank", "state", "county_fips", "county", "reason", "next_step", "state_remaining", "state_counties",
+    "who_decides", "census_local_governments", "neighbors_with_restrictions", "neighbor_projects",
+    "last_negative_check", "negative_check_grade", "drafted_by"]
+# The counties still to examine (docs/COUNTY_CHECK.md), ranked: states nearest
+# to finished first, then within a state the counties next to the most
+# restricted ones. A temporary view, so it is never exported to Parquet: the
+# public site shows the worklist's size only (decision 3).
+EXAMINATION_SQL = """
+CREATE TEMP VIEW examination_worklist AS
+WITH cs AS (
+    SELECT * FROM v_county_summary WHERE in_coverage_universe
+), held AS (
+    SELECT county_fips, min(drafted_by) AS drafted_by FROM negative_check WHERE held GROUP BY county_fips
+), todo AS (
+    SELECT cs.*, h.drafted_by,
+           CASE WHEN h.county_fips IS NOT NULL AND cs.coverage_status = 'not_examined' THEN 'check_held'
+                WHEN cs.coverage_status = 'not_examined' THEN 'not_examined'
+                ELSE 'recheck' END AS reason
+    FROM cs LEFT JOIN held h USING (county_fips)
+    WHERE cs.coverage_status = 'not_examined'
+       OR (cs.coverage_status = 'checked_none' AND cs.negative_check_grade <> 'A')
+), st AS (
+    SELECT state_code, count(*) AS state_counties,
+           count(*) FILTER (WHERE coverage_status = 'not_examined') AS state_remaining
+    FROM cs GROUP BY state_code
+), sp AS (
+    SELECT state_code, string_agg(DISTINCT who_decides, '; ' ORDER BY who_decides) AS who_decides
+    FROM state_policy WHERE policy_type = 'siting_authority' GROUP BY state_code
+), nb AS (
+    SELECT a.county_fips, count(*) FILTER (WHERE n.restrictions > 0) AS neighbors_with_restrictions,
+           sum(n.contested_projects) AS neighbor_projects
+    FROM county_adjacency a JOIN v_county_summary n ON n.county_fips = a.neighbor_fips
+    GROUP BY a.county_fips
+)
+SELECT row_number() OVER (ORDER BY st.state_remaining, t.state_code,
+                                   CASE t.reason WHEN 'check_held' THEN 0 WHEN 'not_examined' THEN 1 ELSE 2 END,
+                                   coalesce(nb.neighbors_with_restrictions, 0) DESC, t.county_fips) AS rank,
+       t.state_code AS state, t.county_fips, t.county_name AS county, t.reason,
+       CASE t.reason
+           WHEN 'check_held' THEN 'review the drafted negative check (docs/COUNTY_CHECK.md, section 4)'
+           WHEN 'not_examined' THEN 'run the county check (docs/COUNTY_CHECK.md)'
+           ELSE 'check again: the last check is grade ' || t.negative_check_grade
+       END AS next_step,
+       st.state_remaining, st.state_counties, sp.who_decides,
+       coalesce(CAST(lg.n AS INTEGER), 0) AS census_local_governments,
+       coalesce(nb.neighbors_with_restrictions, 0) AS neighbors_with_restrictions,
+       coalesce(nb.neighbor_projects, 0) AS neighbor_projects,
+       t.last_negative_check, t.negative_check_grade, t.drafted_by
+FROM todo t
+JOIN st USING (state_code)
+LEFT JOIN sp USING (state_code)
+LEFT JOIN nb USING (county_fips)
+LEFT JOIN stg_local_governments lg USING (county_fips)
+"""
 GEOID_WORKLIST_FIELDS = ["state", "jurisdiction_type", "jurisdiction", "counties", "method", "candidates",
                          "candidate_names", "records"]
 
@@ -121,7 +178,6 @@ STAGING = {
     "stg_state_policies": PROCESSED_DIR / "state_policies.csv",
     "stg_sources": PROCESSED_DIR / "sources.csv",
     "stg_group_registry": PROCESSED_DIR / "group_registry.csv",
-    "stg_negative_checks": REVIEW_DIR / "negative_checks.csv",
     "stg_data_center_events": ROOT / "data" / "reference" / "data_center_events.csv",
     "stg_headline_history": ROOT / "data" / "snapshots" / "headline_history.csv",
 }
@@ -169,6 +225,9 @@ def _stage_rows(con: duckdb.DuckDBPyConnection, table: str, columns: list[str], 
         con.executemany(f"INSERT INTO {table} VALUES ({marks})", rows)
 
 
+NEGATIVE_CHECK_FIELDS = negative_checks.CHECK_FIELDS + ["grade", "classes", "recheck_by", "held"]
+
+
 def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
     """Staging tables computed with the pipeline's own helpers, so the
     database places, keys and links records exactly as the build does."""
@@ -200,6 +259,25 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
     _stage_rows(con, "stg_jurisdiction_key",
                 ["state", "jurisdiction_type", "jurisdiction", "jurisdiction_key", "kind"], keys)
     _stage_geoids(con, combos, records, counties)
+
+    # Negative checks with what the pipeline derives from them: the evidence
+    # grade, the re-check date, and whether the check is held for review
+    # (drafted, not reviewed, so not counted).
+    checks = []
+    for c in negative_checks.load():
+        checks.append(tuple(c.get(f) or "" for f in NEGATIVE_CHECK_FIELDS[:-4]) + (
+            negative_checks.grade(c), ";".join(negative_checks.independence_classes(c)),
+            negative_checks.recheck_by(c), "true" if negative_checks.held(c) else "false"))
+    _stage_rows(con, "stg_negative_checks", NEGATIVE_CHECK_FIELDS, checks)
+
+    # Census local governments per county (places by their internal point),
+    # for the examination worklist: how many governments a check may need to
+    # cover. Not every one zones.
+    local: dict[str, int] = {}
+    for g in read_csv(CENSUS_GOVERNMENTS):
+        if g.get("county_fips"):
+            local[g["county_fips"]] = local.get(g["county_fips"], 0) + 1
+    _stage_rows(con, "stg_local_governments", ["county_fips", "n"], sorted((f, str(n)) for f, n in local.items()))
 
     links = []
     for p in read_csv(STAGING["stg_contested_projects"]):
@@ -277,6 +355,13 @@ def _stage_geoids(con: duckdb.DuckDBPyConnection, combos: dict[tuple, set[str]],
                 [tuple(str(r[f]) for f in GEOID_WORKLIST_FIELDS) for r in worklist])
 
 
+def write_examination_worklist(con: duckdb.DuckDBPyConnection) -> None:
+    """data/review/examination_worklist.csv (EXAMINATION_SQL)."""
+    cur = con.execute("SELECT * FROM examination_worklist ORDER BY rank")
+    cols = [d[0] for d in cur.description]
+    write_csv(EXAMINATION_WORKLIST, [dict(zip(cols, r)) for r in cur.fetchall()], EXAMINATION_WORKLIST_FIELDS)
+
+
 def write_geoid_worklist(con: duckdb.DuckDBPyConnection) -> None:
     """data/review/geoid_worklist.csv: every jurisdiction with no single
     Census match, most records first, with the governments of that name."""
@@ -301,6 +386,10 @@ def build(con: duckdb.DuckDBPyConnection) -> None:
     con.execute(_sql("schema.sql"))
     con.execute(_sql("load.sql"))
     con.execute(_sql("views.sql"))
+    con.execute(EXAMINATION_SQL)
+    con.execute("INSERT INTO worklist_size SELECT 'examination_worklist', "
+                "'Counties to examine, check again, or whose drafted check awaits review', count(*) "
+                "FROM examination_worklist")
     info = {
         "built_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "git_commit": _git_commit(),
@@ -309,6 +398,8 @@ def build(con: duckdb.DuckDBPyConnection) -> None:
     for table, path in STAGING.items():
         info[f"input:{table}"] = str(path.relative_to(ROOT))
     info["input:census_governments"] = str(CENSUS_GOVERNMENTS.relative_to(ROOT))
+    checks = negative_checks.CHECKS_PATH
+    info["input:negative_checks"] = str(checks.relative_to(ROOT) if checks.is_relative_to(ROOT) else checks)
     con.executemany("INSERT INTO build_info VALUES (?, ?)", sorted(info.items()))
 
 
@@ -460,7 +551,8 @@ STATE_QUERIES = {
         FROM county c LEFT JOIN county_adjacency a USING (county_fips)
         WHERE c.state_code = $st GROUP BY ALL ORDER BY c.county_fips""",
     "negative_checks": """
-        SELECT county_fips, scope, checked_on, sources_checked FROM negative_check
+        SELECT county_fips, scope, checked_on, governments_checked, sources_checked, grade, recheck_by, held,
+               drafted_by, reviewer, note FROM negative_check
         WHERE substr(county_fips, 1, 2) = $sf ORDER BY county_fips, checked_on""",
     "restrictions": """
         SELECT ri.instrument_id, ri.state_code, ri.jurisdiction_name, ri.jurisdiction_type, ri.scope,
@@ -668,6 +760,7 @@ def main(argv: list[str] | None = None) -> int:
                 write_history(con)
                 write_manifest(con, parquet)
                 write_geoid_worklist(con)
+                write_examination_worklist(con)
             counts = {t: con.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for t in TABLES}
         finally:
             con.close()

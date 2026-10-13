@@ -97,7 +97,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     today = date.fromisoformat(a.today) if a.today else date.today()
     states = fips_states(load_fips_lookup())
-    rows = build(read_csv(RESTRICTIONS), negative_checks.load(), today, geo.neighbors, geo.name,
+    rows = build(read_csv(RESTRICTIONS), negative_checks.counted(negative_checks.load()), today, geo.neighbors, geo.name,
                  lambda f: states.get(f, ""))
     write_csv(OUT, rows, FIELDS)
     print(f"Wrote data/review/adjacency_worklist.csv ({len(rows)} neighbor(s) to check, "

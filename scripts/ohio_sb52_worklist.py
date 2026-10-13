@@ -44,6 +44,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import geo  # noqa: E402
 from common import PROCESSED_DIR, REVIEW_DIR, ROOT, read_csv, write_csv  # noqa: E402
+import negative_checks  # noqa: E402
 
 OUT_PATH = REVIEW_DIR / "ohio_sb52_worklist.csv"
 FIELDS = ["priority", "county_fips", "county", "restriction_instruments", "sb52_records", "contested_projects",
@@ -106,7 +107,7 @@ def main() -> int:
     counties = [f for f in geo.all_counties() if f.startswith("39")]
     rows = build(read_csv(PROCESSED_DIR / "restrictions.csv"), read_csv(PROCESSED_DIR / "contested_projects.csv"),
                  read_csv(PROCESSED_DIR / "siting_standards.csv"), read_csv(REVIEW_DIR / "queue.csv"),
-                 read_csv(REVIEW_DIR / "negative_checks.csv"), counties)
+                 negative_checks.counted(read_csv(REVIEW_DIR / "negative_checks.csv")), counties)
     write_csv(OUT_PATH, rows, FIELDS)
     done = sum(1 for r in rows if r["first_pass"])
     print(f"Wrote {OUT_PATH.relative_to(ROOT)}: {len(rows)} Ohio counties, {done} with a first pass")

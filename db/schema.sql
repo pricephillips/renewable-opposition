@@ -312,7 +312,13 @@ CREATE TABLE negative_check (
     checked_on      DATE NOT NULL,
     result          VARCHAR NOT NULL,
     note            VARCHAR,
-    reviewer        VARCHAR
+    reviewer        VARCHAR,
+    governments_checked VARCHAR,           -- every government covered (docs/COUNTY_CHECK.md)
+    drafted_by      VARCHAR,
+    grade           VARCHAR NOT NULL,      -- A to U (scripts/negative_checks.py)
+    classes         VARCHAR[] NOT NULL,    -- primary_law, proceeding, secondary
+    recheck_by      DATE,                  -- stale after this day
+    held            BOOLEAN NOT NULL       -- drafted, not yet reviewed: not counted
 );
 
 -- How many review-queue candidates still pending review name the county

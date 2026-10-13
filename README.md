@@ -285,9 +285,21 @@ many independence classes its `sources_checked` span: the instrument itself
 one (minutes, agendas, dockets) and secondary sources (news searches,
 trackers, compiled databases). Three news searches are one class, because
 they can all be wrong together. A is two or more classes and not stale, B one
-class or a stale pair, C one stale class (`scripts/negative_checks.py`). The
+class or a stale pair, C one stale class (`scripts/negative_checks.py`). Each entry of
+`sources_checked` starts with its kind (`code:`, `minutes:`, `docket:`,
+`web search:` and so on), and the kind decides the class: a web search is
+secondary whatever words it searched for. The
 grade describes the check, not the county, and travels as
 `negative_check_grade` in `county_summary.csv` and in site profiles.
+
+**Examining a county.** `docs/COUNTY_CHECK.md` is the procedure: which
+governments a check must cover, what it must search, what counts as a
+restriction, and how results are recorded. A check drafted from 2026-10-13 on
+names its `drafted_by` and its `governments_checked`, and is held (not
+counted) until someone else signs `reviewer`. The national database writes
+`data/review/examination_worklist.csv`: every county not yet examined, plus
+checks held for review or graded below A, states nearest to finished first.
+Each pass gets a note in `docs/county_checks/`.
 
 **The codebook is generated.** `docs/codebook.md` is rendered by
 `scripts/codebook.py` from the constants the code runs on: vocabularies, the
@@ -415,6 +427,7 @@ renewable-opposition/
 │   │   ├── negative_checks.csv             ← "checked, nothing found" results per county (hand-edited)
 │   │   ├── profile_requests.csv            ← county code and date of every profile run (site_profile.py)
 │   │   ├── negative_check_worklist.csv     ← profiled counties still to check (written by the build)
+│   │   ├── examination_worklist.csv        ← every county still to examine, nearest-to-finished states first (build_database.py)
 │   │   ├── adjacency_worklist.csv          ← unchecked neighbors of a new restriction (adjacency_worklist.py)
 │   │   ├── facility_matches.csv            ← projects matched to federal plant inventories, conflicts first (written by the build)
 │   │   └── queue.csv                       ← extractor candidates (written by parse.py)
@@ -584,7 +597,7 @@ The state line under the flags counts unplaced rows (nothing the build could mat
 
 An empty section means nothing is recorded. It does not mean nothing happened, unless someone checked: see below.
 
-**Checked, nothing found.** `data/review/negative_checks.csv` is hand-edited, one row per check: `county_fips`, `state`, `county`, `scope` (`restrictions`, `projects` or `both`), `sources_checked` (a semicolon list of exactly what was searched, such as the county code library, the commission minutes archive for a date range, a named news search, or state PSC dockets), `checked_on` (YYYY-MM-DD), `result` (always `none_found`), `note` and `reviewer`. The build validates it (a 2024 county whose state matches, a date, at least one source checked) and stops on a bad row; it is never published as a record. When a county's restrictions or projects are empty and a matching check exists, the profile prints "Checked <sources> on <date>: none found" instead of "Nothing published", with a "stale" flag once the check is more than 12 months old. An adjacent county with nothing published prints its newest check the same way.
+**Checked, nothing found.** `data/review/negative_checks.csv` is hand-edited, one row per check: `county_fips`, `state`, `county`, `scope` (`restrictions`, `projects` or `both`), `sources_checked` (a semicolon list of exactly what was searched, such as the county code library, the commission minutes archive for a date range, a named news search, or state PSC dockets), `checked_on` (YYYY-MM-DD), `result` (always `none_found`), `note`, `drafted_by`, `reviewer` and `governments_checked` (see `docs/COUNTY_CHECK.md`). The build validates it (a 2024 county whose state matches, a date, at least one source checked, a reviewer who is not the drafter, and from 2026-10-13 a drafter and the governments covered) and stops on a bad row; a drafted row with no reviewer is held and counts nowhere; it is never published as a record. When a county's restrictions or projects are empty and a matching check exists, the profile prints "Checked <sources> on <date>: none found" instead of "Nothing published", with a "stale" flag once the check is more than 12 months old. An adjacent county with nothing published prints its newest check the same way.
 
 Every profile run records the county code and the date, and nothing else (not who asked or why), in `data/review/profile_requests.csv`. Each build writes `data/review/negative_check_worklist.csv` from it: the profiled counties with no published restriction and no check covering restrictions, most recent request first, with the sources a check should cover.
 
