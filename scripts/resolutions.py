@@ -48,7 +48,9 @@ data/review/restriction_sources.csv      restrictions, keyed on instrument_id
      source is "located, not yet read" and the level does not change.
 
 data/review/place_overrides.csv          restrictions and contested projects, keyed on instrument_id
-  county_fips      required: the 2024 county the evidence places the record in
+  county_fips      required: the 2024 county the evidence places the record in,
+                   or a semicolon list of them for an instrument that covers
+                   several (a citywide rule in New York City's five counties)
   evidence_url     required: the ordinance, minutes or news story that names the
                    town (or project) together with its county
   evidence_note    one line: what the document says
@@ -234,9 +236,12 @@ def apply_place_overrides(datasets: dict[str, list[dict]], known, path: Path | N
         if not _URL.match(url):
             errors.append(f"{where}: evidence_url is required and must be http(s)")
             continue
-        if not (re.fullmatch(r"\d{5}", fips) and known(fips)):
+        codes = [f.strip() for f in fips.split(";") if f.strip()]
+        bad_codes = [f for f in codes if not (re.fullmatch(r"\d{5}", f) and known(f))]
+        if not codes or bad_codes:
             errors.append(f"{where}: county_fips {fips!r} is not a 2024 county")
             continue
+        fips = ";".join(codes)
         if checked and not _ISO.match(checked):
             errors.append(f"{where}: checked_on {checked!r} is not YYYY[-MM[-DD]]")
             continue

@@ -1,6 +1,6 @@
 # National database and dashboard: design
 
-**Status:** 2026-10-13. Phases 1 to 5 are built: the database (`db/`, `scripts/build_database.py`, `tests/test_build_database.py`), its publication by the Build dashboard data workflow, and the dashboard (`national-dashboard.html`: national, state, county, explorer, record, coverage, data and SQL views; `tests/ui/national.spec.js`, `tests/ui/explore.spec.js`). The three old pages redirect to it. Phase 5 added Census GEOIDs for every named jurisdiction, a timeline that uses NREL's ordinance years, and the headline figures from build to build (section 9). State siting law arrived separately (`state_policy`, 122 rows).
+**Status:** 2026-10-13. Phases 1 to 5 are built, and phase 6 (coverage and verification, section 10) is under way: the database (`db/`, `scripts/build_database.py`, `tests/test_build_database.py`), its publication by the Build dashboard data workflow, and the dashboard (`national-dashboard.html`: national, state, county, explorer, record, coverage, data and SQL views; `tests/ui/national.spec.js`, `tests/ui/explore.spec.js`). The three old pages redirect to it. Phase 5 added Census GEOIDs for every named jurisdiction, a timeline that uses NREL's ordinance years, and the headline figures from build to build (section 9). State siting law arrived separately (`state_policy`, 122 rows).
 
 This document designs one national database for everything the pipeline publishes, and one dashboard on top of it, to replace the four pages that read `data/processed/` today.
 
@@ -118,7 +118,7 @@ erDiagram
 | `evidence_link` | record × role × URL | 6,669 | every URL behind a record, with its job (compiled source, primary source, ordinance, outcome evidence, placement, court record) and how it was seen (opened, archived, snippet) |
 | `source_document` | source document | 52 | `sources.csv` as is |
 | `opposition_group` / `project_group` | group / project × group | 802 / 30 | |
-| `negative_check` | check | 1 | |
+| `negative_check` | check | 1 | with its `grade`, evidence `classes`, `recheck_by`, `drafted_by`, `governments_checked`, and `held` (drafted, not yet reviewed: counted nowhere) |
 | `county_pending_review` | county | 3 | how many pending review-queue candidates name the county (`site_profile.pending_for`): the count only, never the candidates |
 | `data_center_event` | event | 2,252 | from `data/reference/`, never counted |
 | `build_info` | key/value | | build time, commit, the `headline_metrics.json` it was checked against |
@@ -229,6 +229,7 @@ The county map shades by fixed classes (0, 1, 2–4, 5–9, 10 or more) so a sha
 | **3. Dashboard shell** (done) | `national-dashboard.html`: national, state and county views from the summaries and `data/db/state/<ST>.json`; Playwright tests (`tests/ui/national.spec.js`: figures equal the published files, unexamined counties drawn as such, axe, phone width) and the frontend smoke test | totals match `headline_metrics.json` on every view |
 | **4. Explorer and records** (done) | explorer and record pages over the state files; SQL console on DuckDB-WASM; coverage view (worklist sizes only); data page; `data/db/record_index.json`, `worklists.json`, `manifest.json`; the three old pages redirect | the old pages retired; every view's counts match the published files |
 | **5. Depth** (done) | Census GEOIDs for jurisdictions (places and county subdivisions) beside the match key; NREL `ordinance_year` on the timeline; build-to-build history in `data/snapshots/headline_history.csv` so the dashboard shows what changed. State siting law came in separately. | 99.1% of instruments and 99.9% of siting-standard rows carry a GEOID, the rest listed in `data/review/geoid_worklist.csv`; the timeline's years and its undated count add up to the headline figure |
+| **6. Coverage and verification** (under way) | a county check anyone can repeat (`docs/COUNTY_CHECK.md`); negative checks held until a second reviewer signs them, graded by the kind of each source, due again after a year; `data/review/examination_worklist.csv`; examination progress on the dashboard; passes recorded in `docs/county_checks/` | every county examined: a published record or a reviewed negative check |
 
 ## 7. Decisions for Price
 
@@ -267,3 +268,15 @@ The build reads only files the pipeline already publishes (and `data/review/nega
 ### History
 
 `scripts/headline_history.py` runs after each processed build (`scripts/run_pipeline.py build`). It adds the day's headline figures to `data/snapshots/headline_history.csv` when they differ from the last row, and replaces the row if a build already ran that day. `--backfill` rebuilt the file from the git history of `headline_metrics.json` and needs a full clone. A figure the metrics did not yet carry stays blank and is never set to zero. The national view shows four figures as step lines, a sentence naming what changed since the build before, and a table. A jump can mean a source was added, not that restrictions were passed: NREL's databases arrived on 2026-10-09.
+
+## 10. Phase 6: coverage and verification
+
+Most of the dashboard's map was unknown, not empty: 1,740 of 3,144 counties had no record and no documented search, and one county had a "checked, nothing found" result. Phase 6 makes examining a county a repeatable job and puts its progress on the dashboard.
+
+- **The procedure.** `docs/COUNTY_CHECK.md` says which governments a check covers (the county and every municipality that zones), what it must search (each government's code and its minutes or the state docket, opened, plus a news search), what counts as a restriction (the rules every source already follows, applied only to land-use instruments that reach commercial, utility-scale or principal-use facilities), and how results are recorded: a restriction as a review-queue row a second reviewer confirms, a negative check as a row with its drafter and a different reviewer, anything else as a lead in the pass note.
+- **Negative checks.** A drafted check with no reviewer is held and counts nowhere. Each source's leading kind (`code:`, `minutes:`, `web search:`) decides its evidence class, so a web search is never graded as primary law; the one earlier check, built from web searches, moved from grade A to B and is listed for a re-check. A check is due again a year after it ran (`recheck_by`).
+- **The worklist.** `build_database.py` writes `data/review/examination_worklist.csv` from a temporary view (never exported): every unexamined county, plus held and below-grade-A checks, nearest-to-finished states first, with the state's siting authority, the county's Census local governments and its neighbors with restrictions. The dashboard shows its size.
+- **The dashboard.** The coverage view shows states with every county examined, the share examined per state, and every negative check with its grade and re-check date; a county page states what its check covered; the map has a verified-restrictions metric.
+- **Placement.** A reviewer's place override can list several counties, for an instrument that covers more than one (New York City's Zoning Resolution, in its five counties).
+
+Passes are recorded in `docs/county_checks/`. The first (2026-10-13) covered the 20 unexamined counties in DC and nine nearly finished states.
