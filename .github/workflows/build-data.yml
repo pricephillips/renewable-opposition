@@ -21,6 +21,9 @@ on:
       - 'data/seed/*.csv'
       - 'scripts/build_seed_outputs.py'
       - 'scripts/build_database.py'
+      - 'scripts/geoid_match.py'
+      - 'scripts/headline_history.py'
+      - 'data/census_governments_2024.csv'
       - 'db/*.sql'
       - 'scripts/qc_gate.py'
       - 'scripts/state_bounds.py'
@@ -105,7 +108,8 @@ jobs:
       # promote complete review rows (nothing is promoted by hand; incomplete
       # rows stay queued and the summary lists them), build, rank what to
       # verify next, the neighbor watch, the column coverage gate (blocks a
-      # collapsed column), the snapshot manifest and the processed-data diff.
+      # collapsed column), the snapshot manifest, the headline history and the
+      # processed-data diff.
       - name: Build
         run: python scripts/run_pipeline.py build --summary "$GITHUB_STEP_SUMMARY"
 
@@ -133,7 +137,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed/ data/snapshots/manifest.csv data/reference/facilities.csv data/reference/facilities_manifest.csv data/review/facility_matches.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
+          git add data/processed/ data/snapshots/manifest.csv data/snapshots/headline_history.csv data/reference/facilities.csv data/reference/facilities_manifest.csv data/review/facility_matches.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
           git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv data/review/promotion_trail.csv docs/codebook.md
           git add data/db/
           git diff --cached --quiet && exit 0

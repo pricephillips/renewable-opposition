@@ -50,7 +50,7 @@ test('national view: headline figures, states table and coverage-aware map', asy
   await expect(map).toHaveAttribute('data-painted', String(cov.counties), { timeout: 30000 });
   const none = await page.locator('#map path.county').evaluateAll(ps => ps.filter(p => p.style.fill === 'var(--map-none)').length);
   expect(none).toBe(cov.with_neither);
-  await expect(page.locator('.legend')).toContainText('Not examined');
+  await expect(page.locator('#mapLegend')).toContainText('Not examined');
 
   // The page reads the small published files, never the 8 MB record JSON.
   expect(page.requested.some(u => /\/data\/processed\/restrictions\.json$/.test(u))).toBe(false);
@@ -64,7 +64,7 @@ test('the metric choice is in the URL and repaints the legend', async ({ page })
   await page.selectOption('#metric', 'coverage');
   await expect(page).toHaveURL(/#\/\?m=coverage$/);
   await expect(page.locator('body')).toHaveAttribute('data-ready', 'national', { timeout: 60000 });
-  await expect(page.locator('.legend')).toContainText('Checked, none found');
+  await expect(page.locator('#mapLegend')).toContainText('Checked, none found');
 });
 
 test('state view: figures equal the state summary', async ({ page }) => {
@@ -149,4 +149,40 @@ test('county boundaries failing to load still leaves every table', async ({ page
   await expect(page.locator('#mapStatus')).toContainText('County boundaries could not be loaded');
   await expect(page.locator('#map')).toHaveAttribute('data-painted', '0');
   await expect(page.locator('#statesHeading ~ .table-wrap tbody tr').first()).toBeVisible();
+});
+
+test('timeline: the dated bars and the undated count add up to the headline figure', async ({ page }) => {
+  test.setTimeout(120000);
+  await open(page, '#/', 'national');
+  await expect(page.locator('#timelineUndated')).toBeVisible({ timeout: 30000 });
+  const ren = M.restrictions.by_scope.renewables_only;
+  const undated = Number((await page.locator('#timelineUndated').textContent()).match(/[\d,]+/)[0].replace(/,/g, ''));
+  const all = await page.locator('#timelineTable tbody tr td:last-child').allTextContents();
+  const dated = all.reduce((a, t) => a + Number(t.replace(/,/g, '')), 0);
+  expect(dated + undated).toBe(ren.instruments);
+  // One rect or path per year and basis that has instruments.
+  const segs = rowsOf(db('timeline.json')).filter(r => r.scope === 'renewables_only' && r.basis !== 'undated');
+  await expect(page.locator('#timeline .seg')).toHaveCount(segs.length);
+  expect(page.consoleErrors, 'console errors').toEqual([]);
+});
+
+test('history: the tiles show the latest build and the change line names the one before', async ({ page }) => {
+  test.setTimeout(120000);
+  const rows = rowsOf(db('history.json'));
+  const last = rows[rows.length - 1], prev = rows[rows.length - 2];
+  await open(page, '#/', 'national');
+  await expect(page.locator('#historyChange')).toContainText(`Since the build of ${prev.date}`, { timeout: 30000 });
+  await expect(page.locator('#historyChange')).toContainText(`as of ${last.date}`);
+  await expect(page.locator('#history .tile').first().locator('.value')).toHaveText(fmt(last.restrictions));
+  await expect(page.locator('#historyTable tbody tr')).toHaveCount(rows.length);
+  // The history is written from headline_metrics.json by the same build.
+  expect(last.restrictions).toBe(M.restrictions.by_scope.renewables_only.instruments);
+});
+
+test('a record names its Census government and GEOID', async ({ page }) => {
+  test.setTimeout(120000);
+  const ny = db('state/NY.json');
+  const r = ny.restrictions.find(x => x.state_code === 'NY' && x.geoid && x.census_name);
+  await open(page, '#/restriction/' + encodeURIComponent(r.instrument_id), 'record');
+  await expect(page.locator('dt:text-is("Census government") + dd')).toHaveText(`${r.census_name} · GEOID ${r.geoid}`);
 });
