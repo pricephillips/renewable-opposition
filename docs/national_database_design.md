@@ -1,6 +1,6 @@
 # National database and dashboard: design
 
-**Status:** 2026-10-12. Phases 1 to 4 are built: the database (`db/`, `scripts/build_database.py`, `tests/test_build_database.py`), its publication by the Build dashboard data workflow, and the dashboard (`national-dashboard.html`: national, state, county, explorer, record, coverage, data and SQL views; `tests/ui/national.spec.js`, `tests/ui/explore.spec.js`). The three old pages redirect to it. Phase 5 is a proposal.
+**Status:** 2026-10-13. Phases 1 to 5 are built: the database (`db/`, `scripts/build_database.py`, `tests/test_build_database.py`), its publication by the Build dashboard data workflow, and the dashboard (`national-dashboard.html`: national, state, county, explorer, record, coverage, data and SQL views; `tests/ui/national.spec.js`, `tests/ui/explore.spec.js`). The three old pages redirect to it. Phase 5 added Census GEOIDs for every named jurisdiction, a timeline that uses NREL's ordinance years, and the headline figures from build to build (section 9). State siting law arrived separately (`state_policy`, 122 rows).
 
 This document designs one national database for everything the pipeline publishes, and one dashboard on top of it, to replace the four pages that read `data/processed/` today.
 
@@ -104,13 +104,16 @@ erDiagram
 | `state` | state, DC, PR | 52 | |
 | `county` | 2024 county | 3,222 | `in_coverage_universe` excludes Puerto Rico, as `headline_metrics` does (3,144). |
 | `county_adjacency` | county pair | 17,908 | from `geo.neighbors`, across state lines |
-| `jurisdiction` | local government | 2,485 | matched on `common.jurisdiction_key`. A match key, not an authority file (phase 5). |
+| `jurisdiction` | local government | 2,485 | matched on `common.jurisdiction_key`. A match key, not an authority file: records and standards also carry a Census `geoid` (section 9). |
+| `government` | Census government a record names | 2,522 | `geoid` (2 digits a state, 5 a county, 7 a place, 10 a county subdivision), kind, county, Census name, FUNCSTAT; from `data/census_governments_2024.csv` and the county table |
+| `jurisdiction_match` | state × type × name × counties | 2,796 | how each named jurisdiction got its GEOID, or why it got none (section 9) |
+| `headline_history` | day | 6 | the headline figures on each day a build changed them (`data/snapshots/headline_history.csv`) |
 | `restriction_instrument` | instrument | 3,423 | technologies and types as arrays; severity is the highest of its rows; verification is the weakest |
 | `restriction` | instrument × technology | 3,625 | the published rows, typed |
 | `contested_project` | project | 576 | adds `outcome_class` (blocked, advanced, restricted, pending, needs_review) and `outcome_confirmed` |
 | `legal_case` / `case_project` | case / case × project | 38 / 39 | one case can concern two projects |
 | `siting_standard` | jurisdiction × technology × feature | 23,778 | NREL 2025, with `restriction_instrument_id` where a feature restricts |
-| `state_policy` | state × policy | 0 | empty until state siting law is researched |
+| `state_policy` | state × policy | 122 | state siting law |
 | `record_county` | record × county | 27,738 | from `county_fips_all`, with the placement method |
 | `evidence_link` | record × role × URL | 6,669 | every URL behind a record, with its job (compiled source, primary source, ordinance, outcome evidence, placement, court record) and how it was seen (opened, archived, snippet) |
 | `source_document` | source document | 52 | `sources.csv` as is |
@@ -128,7 +131,9 @@ erDiagram
   - `checked_none`: a documented negative check and no record (1)
   - `not_examined`: neither; nothing is known either way (1,740)
 - `v_state_summary`: the same per state, plus case and state-policy counts and the three coverage counts.
-- `v_restrictions_by_month`: enactments by month, with an undated row per scope, because only 194 of 3,423 instruments carry an enactment date. All 2,393 NREL instruments are undated; NREL's `ordinance_year` (2001 to 2025, on 1,247 jurisdictions) can fill part of that in phase 5.
+- `v_restrictions_by_month`: enactments by month, with an undated row per scope, because only 194 of 3,423 instruments carry an enactment date. All 2,393 NREL instruments are undated; NREL's `ordinance_year` (2001 to 2025, on 1,247 jurisdictions) can fill part of that.
+- `v_restrictions_by_year`: instruments by year and by how the year is known (`basis`): `enacted` (the enactment date), `ordinance_year` (NREL's, for an instrument built from NREL standards), `year_reported` (a year in the source's date text, Sabin's editions) or `undated`. The dashboard's timeline (section 9).
+- `v_geoid_coverage`: named jurisdictions by kind and match method, matched or not.
 
 ### Rules the database keeps
 
@@ -151,7 +156,7 @@ erDiagram
 
 | Route | View | Contents |
 |---|---|---|
-| `#/` | **National** (built) | headline tiles from `headline_metrics.json`, counties examined among them; county map with a metric switch (severe restrictions, all restrictions, active moratoria, contested projects, blocked projects, coverage); sortable state table; records and verification by source. The enactment timeline waits for phase 5 (194 of 3,423 instruments are dated). |
+| `#/` | **National** (built) | headline tiles from `headline_metrics.json`, counties examined among them; county map with a metric switch (severe restrictions, all restrictions, active moratoria, contested projects, blocked projects, coverage); sortable state table; records and verification by source; the restrictions timeline by year and how each year is known; the headline figures from build to build (section 9). |
 | `#/state/IA` | **State** (built) | state framework (`state_policy`; "not yet researched" while empty); the state's county map; sortable county table; restrictions (multi-sector ones listed apart), projects and cases |
 | `#/county/19113` | **County** (built) | coverage banner (records, checked with nothing found, or not examined); state framework; restrictions and projects in the county with their evidence and sources; the count of review candidates naming it, if any; NREL standards; adjacent counties with a map; data center activity (context, not counted) |
 | `#/restriction/<id>`, `#/project/<id>`, `#/case/<id>` | **Record** (built) | every field; the instrument's technology rows; where it is placed and how (county named, coordinates, a town in one county, reviewer override); every source with how it was seen; linked cases or projects; a permalink |
@@ -223,7 +228,7 @@ The county map shades by fixed classes (0, 1, 2–4, 5–9, 10 or more) so a sha
 | **2. Publish** (done) | the Build dashboard data workflow runs `build_database.py --publish`, which writes `data/db/parquet/` (25 files, about 2.1 MB) and `data/db/state_summary.json` (3 KB) and `county_summary.json` (250 KB); the workflow commits them so GitHub Pages serves them | Parquet and summaries on the published site after each build |
 | **3. Dashboard shell** (done) | `national-dashboard.html`: national, state and county views from the summaries and `data/db/state/<ST>.json`; Playwright tests (`tests/ui/national.spec.js`: figures equal the published files, unexamined counties drawn as such, axe, phone width) and the frontend smoke test | totals match `headline_metrics.json` on every view |
 | **4. Explorer and records** (done) | explorer and record pages over the state files; SQL console on DuckDB-WASM; coverage view (worklist sizes only); data page; `data/db/record_index.json`, `worklists.json`, `manifest.json`; the three old pages redirect | the old pages retired; every view's counts match the published files |
-| **5. Depth** | Census GEOIDs for jurisdictions (places and county subdivisions) in place of the match key; NREL `ordinance_year` on the timeline; state siting law for all 50 states; build-to-build history from `data/snapshots/` so the dashboard can show what changed | |
+| **5. Depth** (done) | Census GEOIDs for jurisdictions (places and county subdivisions) beside the match key; NREL `ordinance_year` on the timeline; build-to-build history in `data/snapshots/headline_history.csv` so the dashboard shows what changed. State siting law came in separately. | 99.1% of instruments and 99.9% of siting-standard rows carry a GEOID, the rest listed in `data/review/geoid_worklist.csv`; the timeline's years and its undated count add up to the headline figure |
 
 ## 7. Decisions for Price
 
@@ -242,3 +247,23 @@ duckdb -readonly data/db/renewable_opposition.duckdb \
 ```
 
 The build reads only files the pipeline already publishes (and `data/review/negative_checks.csv`, `data/reference/data_center_events.csv` and the county boundary file), takes about 15 seconds, and exits 1 without writing if any headline number differs from `headline_metrics.json`.
+
+## 9. Phase 5: GEOIDs, the timeline and the history
+
+### Census GEOIDs
+
+`common.jurisdiction_key` folds "Binghamton City" and "Binghamton Town" into one key, though they are two governments. Each record and each NREL siting standard now also carries the Census GEOID of the government it names, so the two stay apart.
+
+- `scripts/build_census_governments.py` writes `data/census_governments_2024.csv` from the Census 2024 Gazetteer (the files `build_place_index.py` reads): every incorporated place and county subdivision with a functioning government (FUNCSTAT A, B or C), 35,670 in all. CDPs, CCDs and other statistical areas are left out, because they are not governments. A place's county is the county containing its internal point.
+- `scripts/geoid_match.py` matches one named jurisdiction, given its state, type and counties. It assigns a GEOID only when exactly one government fits on name, kind of government (when the record says it) and county (when the record has one). Two or more fits are `ambiguous`, none is `no_match`, and a single fit in another county is `county_differs`. Each narrow fallback has its own method name: another kind of government with the same name in the record's own county, a place over a county line, and a name that contains its kind ("Ponca City" is Census "Ponca City city"). The module docstring lists them all.
+- `build_database.py` matches each distinct (state, type, name, counties) once and records the outcome in `jurisdiction_match`. Records without a GEOID go to `data/review/geoid_worklist.csv`, with the candidates' GEOIDs and names (30 rows now). The coverage view shows only its size.
+- Coverage now: 3,393 of 3,424 instruments and 23,759 of 23,778 siting-standard rows.
+- **Check against NREL's own codes.** NREL gives a 10-digit FIPS code for 1,267 municipal jurisdictions. 1,067 match exactly. 165 more name the same government under its other Census code (a city that is also a county subdivision, where the place code is preferred). The other 32 are NREL codes for CCDs, which are statistical areas rather than governments. 2 are left unmatched and 1 code is missing from the 2024 Gazetteer. The comparison found one error, "Rogers City", MI, which had been matched to Rogers township. It is fixed and covered by a test.
+
+### Timeline
+
+`v_restrictions_by_year` gives each renewables-only instrument one year and labels where that year comes from. Its enactment date comes first, then NREL's `ordinance_year`, then a year in the source's date text, and otherwise the instrument is counted as undated. The three kinds of year are different measurements, so the dashboard keeps them as separate colors in a stacked bar and states the undated count beside the chart rather than leaving it out: 120 enacted, 1,329 NREL ordinance years, 806 years from the report, 1,086 undated. A table under the chart gives every number.
+
+### History
+
+`scripts/headline_history.py` runs after each processed build (`scripts/run_pipeline.py build`). It adds the day's headline figures to `data/snapshots/headline_history.csv` when they differ from the last row, and replaces the row if a build already ran that day. `--backfill` rebuilt the file from the git history of `headline_metrics.json` and needs a full clone. A figure the metrics did not yet carry stays blank and is never set to zero. The national view shows four figures as step lines, a sentence naming what changed since the build before, and a table. A jump can mean a source was added, not that restrictions were passed: NREL's databases arrived on 2026-10-09.

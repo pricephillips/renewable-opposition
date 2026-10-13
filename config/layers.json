@@ -24,6 +24,7 @@
     "data/raw/*/*": {"layer": "raw", "writers": ["scripts/fetch.py"]},
     "data/source_archive.csv": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
     "data/source_archive_manifest.json": {"layer": "raw", "writers": ["scripts/source_archive.py"]},
+    "data/census_governments_2024.csv": {"layer": "raw", "writers": ["scripts/build_census_governments.py"]},
     "data/place_county_index.json": {"layer": "raw", "writers": ["scripts/build_place_index.py"]},
 
     "data/reference/data_center_events.csv": {
@@ -169,11 +170,11 @@
     "data/db/record_index.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/worklists.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/manifest.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
+    "data/db/timeline.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
+    "data/review/geoid_worklist.csv": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
-    "data/snapshots/headline_history.csv": {
-      "layer": "derived", "writers": ["scripts/snapshot_manifest.py"],
-      "reason": "Append-only: one row per build date on which a headline number changed, so a figure quoted on a day can be found by date. Never rewritten."
-    },
+    "data/snapshots/headline_history.csv": {"layer": "derived", "writers": ["scripts/headline_history.py"]},
+    "data/db/history.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/review/coverage_gaps.csv": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
     "docs/sabin_2026_reconciliation.md": {"layer": "derived", "writers": ["scripts/extract_sabin_edition.py"]},
     "docs/nrel_sample_report.md": {"layer": "derived", "writers": ["scripts/nrel_sample.py"]},

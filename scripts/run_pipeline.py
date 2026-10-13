@@ -49,6 +49,7 @@ BUILD = [
     ("adjacency_worklist", ["scripts/adjacency_worklist.py"], "neighbor watch", False),
     ("coverage_delta", ["scripts/coverage_delta.py"], "column coverage gate", False),
     ("snapshot_manifest", ["scripts/snapshot_manifest.py"], "dated, hashed record of each output", False),
+    ("headline_history", ["scripts/headline_history.py"], "headline figures by day, for the history", False),
     ("processed_diff", ["scripts/processed_diff.py"], "what this build changed", False),
     ("operations_summary", ["scripts/operations_summary.py"], "what the pipeline did and holds, in one file", False),
 ]

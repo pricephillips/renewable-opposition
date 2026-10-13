@@ -1,0 +1,8 @@
+{"columns":["date","restrictions","severe_restrictions","verified_restrictions","multi_sector_restrictions","contested_projects","confirmed_outcomes","verified_projects","cases","siting_standard_rows","state_policies","counties_with_records","counties_not_examined"],"rows":[
+["2026-09-29",390,332,null,82,165,9,null,26,null,null,null,null],
+["2026-10-06",390,332,null,82,165,10,null,26,null,null,null,null],
+["2026-10-07",391,332,null,82,165,37,null,34,null,null,null,null],
+["2026-10-08",390,331,null,82,165,125,null,38,null,null,null,null],
+["2026-10-09",3340,1362,69,83,576,123,125,38,23778,0,1403,1740],
+["2026-10-10",3341,1362,74,83,576,123,125,38,23778,122,1403,1740]
+]}

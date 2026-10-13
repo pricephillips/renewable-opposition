@@ -15,7 +15,7 @@ Reads   data/processed/headline_metrics.json, quarantine.json, sources.csv
         data/review/outcome_worklist.csv, restriction_worklist.csv,
         negative_check_worklist.csv, adjacency_worklist.csv, fips_misses.csv,
         promotion_trail.csv, queue.csv, cases_candidates.csv
-        data/snapshots/manifest.csv, headline_history.csv
+        data/snapshots/manifest.csv, headline_history.csv (scripts/headline_history.py)
 Writes  data/processed/operations_summary.json, operations_summary.md
 
 Usage

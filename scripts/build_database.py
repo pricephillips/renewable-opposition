@@ -48,9 +48,11 @@ import duckdb
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import geo  # noqa: E402
+import geoid_match  # noqa: E402
 import group_registry  # noqa: E402
 import site_profile  # noqa: E402
-from common import PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, jurisdiction_key, jurisdiction_kind, read_csv  # noqa: E402
+from common import (PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, jurisdiction_key, jurisdiction_kind,  # noqa: E402
+                    read_csv, write_csv)
 
 DB_DIR = ROOT / "db"
 DEFAULT_OUT = ROOT / "data" / "db" / "renewable_opposition.duckdb"
@@ -70,10 +72,23 @@ WORKLISTS_JSON = ROOT / "data" / "db" / "worklists.json"
 # Every published Parquet file with its row count and size, for the
 # dashboard's data page.
 MANIFEST_JSON = ROOT / "data" / "db" / "manifest.json"
+# Restrictions by year and dating basis (v_restrictions_by_year), for the
+# national timeline.
+TIMELINE_JSON = ROOT / "data" / "db" / "timeline.json"
+# The headline figures as each build published them (headline_history.py).
+HISTORY_JSON = ROOT / "data" / "db" / "history.json"
 # build_info keys that change on every run. Left out of the Parquet so an
 # unchanged build rewrites identical bytes and commits nothing.
 VOLATILE_INFO = ("built_at", "git_commit")
 METRICS = PROCESSED_DIR / "headline_metrics.json"
+# Every functioning local government with its Census GEOID
+# (scripts/build_census_governments.py), for geoid_match.
+CENSUS_GOVERNMENTS = ROOT / "data" / "census_governments_2024.csv"
+# Jurisdictions no single Census government fits, for a reviewer. Written on
+# every --publish run; never published as data.
+GEOID_WORKLIST = REVIEW_DIR / "geoid_worklist.csv"
+GEOID_WORKLIST_FIELDS = ["state", "jurisdiction_type", "jurisdiction", "counties", "method", "candidates",
+                         "candidate_names", "records"]
 
 # name -> (file, the rows that count, what the list is for). The files are
 # written by the Build dashboard data workflow's steps before this one.
@@ -108,6 +123,7 @@ STAGING = {
     "stg_group_registry": PROCESSED_DIR / "group_registry.csv",
     "stg_negative_checks": REVIEW_DIR / "negative_checks.csv",
     "stg_data_center_events": ROOT / "data" / "reference" / "data_center_events.csv",
+    "stg_headline_history": ROOT / "data" / "snapshots" / "headline_history.csv",
 }
 
 # 2-digit state FIPS for the 50 states, DC and Puerto Rico (the 2024 county
@@ -123,12 +139,14 @@ STATE_FIPS = {
 }
 EXTRA_STATE_NAMES = {"DC": "District of Columbia", "PR": "Puerto Rico"}
 
-TABLES = ("state", "county", "county_adjacency", "jurisdiction", "restriction_instrument", "restriction",
+TABLES = ("state", "county", "county_adjacency", "jurisdiction", "government", "jurisdiction_match",
+          "restriction_instrument", "restriction",
           "contested_project", "legal_case", "case_project", "siting_standard", "state_policy",
           "record_county", "source_document", "evidence_link", "opposition_group", "project_group",
-          "negative_check", "county_pending_review", "worklist_size", "data_center_event", "build_info")
+          "negative_check", "county_pending_review", "worklist_size", "data_center_event", "headline_history",
+          "build_info")
 VIEWS = ("v_headline_restrictions", "v_headline_by_source", "v_county_coverage_totals", "v_county_summary",
-         "v_state_summary", "v_restrictions_by_month")
+         "v_state_summary", "v_restrictions_by_month", "v_geoid_coverage", "v_restrictions_by_year")
 
 
 def _sql(name: str) -> str:
@@ -164,17 +182,24 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
     _stage_rows(con, "stg_county_adjacency", ["county_fips", "neighbor_fips"],
                 [(f, n) for f in counties for n in geo.neighbors(f)])
 
-    combos = set()
+    combos: dict[tuple, set[str]] = {}
+    records: dict[tuple, int] = {}
     for path in (STAGING["stg_restrictions"], STAGING["stg_siting_standards"]):
         for r in read_csv(path):
             if (r.get("jurisdiction") or "").strip():
-                combos.add((r.get("state") or "", r.get("jurisdiction_type") or "", r["jurisdiction"]))
+                # The counties are part of the key: Pennsylvania has many
+                # Washington Townships, and each row names one of them.
+                fips = r.get("county_fips_all") or r.get("county_fips") or ""
+                k = (r.get("state") or "", r.get("jurisdiction_type") or "", r["jurisdiction"], fips)
+                combos.setdefault(k, set()).update(f for f in fips.split(";") if f)
+                records[k] = records.get(k, 0) + 1
     keys = []
-    for state, jtype, name in sorted(combos):
+    for state, jtype, name in sorted({k[:3] for k in combos}):
         kind = jurisdiction_kind(jtype)
         keys.append((state, jtype, name, jurisdiction_key(state, kind, name), kind))
     _stage_rows(con, "stg_jurisdiction_key",
                 ["state", "jurisdiction_type", "jurisdiction", "jurisdiction_key", "kind"], keys)
+    _stage_geoids(con, combos, records, counties)
 
     links = []
     for p in read_csv(STAGING["stg_contested_projects"]):
@@ -201,7 +226,64 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
         if only:
             rows = [r for r in rows if (r.get(only[0]) or "") in only[1]]
         sizes.append((name, description, str(len(rows))))
+    sizes.append(("geoid_worklist", "Named jurisdictions no single Census government fits",
+                  str(con.execute("SELECT count(*) FROM stg_geoid_worklist").fetchone()[0])))
     _stage_rows(con, "stg_worklist_size", ["worklist", "description", "rows"], sizes)
+
+
+def _stage_geoids(con: duckdb.DuckDBPyConnection, combos: dict[tuple, set[str]], records: dict[tuple, int],
+                  counties: list[str]) -> None:
+    """Match every named jurisdiction, with the counties its rows are placed
+    in, to a Census GEOID (geoid_match) and
+    stage the matches, the governments matched, and the worklist of the
+    rest (stg_geoid_worklist, for write_geoid_worklist)."""
+    census = read_csv(CENSUS_GOVERNMENTS) if CENSUS_GOVERNMENTS.exists() else []
+    idx = geoid_match.index(census)
+    by_geoid = {g["geoid"]: g for g in census}
+    code_of = {fips: code for code, fips in STATE_FIPS.items()}
+    county_names: dict[str, dict[str, str]] = {}
+    for f in counties:
+        county_names.setdefault(code_of.get(f[:2], ""), {})[f] = geo.name(f)
+    neighbors = {f: set(geo.neighbors(f)) for f in counties}
+    matches, governments, worklist = [], {}, []
+    for (state, jtype, name, fips), placed in sorted(combos.items()):
+        st = state.upper()
+        m = geoid_match.match(idx, st, jtype, name, placed, county_names.get(st, {}), STATE_FIPS.get(st, ""),
+                              neighbors)
+        matches.append((state, jtype, name, fips, m["geoid"], m["kind"], m["method"], str(m["candidates"])))
+        g = m["geoid"]
+        if g and g not in governments:
+            if m["kind"] == "state":
+                governments[g] = (g, "state", st, "", STATE_NAMES.get(st, st), "")
+            elif m["kind"] == "county":
+                governments[g] = (g, "county", st, g, geo.name(g), "")
+            else:
+                c = by_geoid[g]
+                governments[g] = (g, c["kind"], st, c["county_fips"], c["name"], c["funcstat"])
+        if not g:
+            base, kind, _ = geoid_match.record_split(name, jtype)
+            near = idx.get(st, {}).get(base, [])
+            worklist.append({"state": st, "jurisdiction_type": jtype, "jurisdiction": name,
+                             "counties": ";".join(sorted(placed)), "method": m["method"],
+                             "candidates": m["candidates"],
+                             "candidate_names": "; ".join(sorted(f"{c['name']} ({c['geoid']}, county {c['county_fips'] or 'unknown'})"
+                                                                  for c in near)),
+                             "records": records.get((state, jtype, name, fips), 0)})
+    _stage_rows(con, "stg_jurisdiction_match", ["state", "jurisdiction_type", "jurisdiction", "counties", "geoid",
+                                                "geoid_kind", "method", "candidates"], matches)
+    _stage_rows(con, "stg_government", ["geoid", "kind", "state_code", "county_fips", "census_name", "funcstat"],
+                sorted(governments.values()))
+    _stage_rows(con, "stg_geoid_worklist", GEOID_WORKLIST_FIELDS,
+                [tuple(str(r[f]) for f in GEOID_WORKLIST_FIELDS) for r in worklist])
+
+
+def write_geoid_worklist(con: duckdb.DuckDBPyConnection) -> None:
+    """data/review/geoid_worklist.csv: every jurisdiction with no single
+    Census match, most records first, with the governments of that name."""
+    cur = con.execute("SELECT * FROM stg_geoid_worklist ORDER BY CAST(records AS INTEGER) DESC, state, "
+                      "jurisdiction, jurisdiction_type")
+    cols = [d[0] for d in cur.description]
+    write_csv(GEOID_WORKLIST, [dict(zip(cols, r)) for r in cur.fetchall()], GEOID_WORKLIST_FIELDS)
 
 
 def _git_commit() -> str:
@@ -226,6 +308,7 @@ def build(con: duckdb.DuckDBPyConnection) -> None:
     }
     for table, path in STAGING.items():
         info[f"input:{table}"] = str(path.relative_to(ROOT))
+    info["input:census_governments"] = str(CENSUS_GOVERNMENTS.relative_to(ROOT))
     con.executemany("INSERT INTO build_info VALUES (?, ?)", sorted(info.items()))
 
 
@@ -389,7 +472,8 @@ STATE_QUERIES = {
                  WHERE r.instrument_id = ri.instrument_id) AS severity_basis,
                (SELECT first(r.long_description ORDER BY r.id) FILTER (WHERE r.long_description IS NOT NULL)
                  FROM restriction r WHERE r.instrument_id = ri.instrument_id) AS long_description,
-               ri.sabin_edition, ri.edition_status, ri.primary_source_access,
+               ri.sabin_edition, ri.edition_status, ri.primary_source_access, ri.geoid,
+               (SELECT g.census_name FROM government g WHERE g.geoid = ri.geoid) AS census_name,
                (SELECT list({'technology': r.technology, 'restriction_type': r.restriction_type,
                              'severity_score': r.severity_score, 'severity_basis': r.severity_basis,
                              'mechanisms': r.mechanisms, 'legal_basis': r.legal_basis, 'sectors': r.sectors,
@@ -446,6 +530,7 @@ STATE_QUERIES = {
         WHERE lc.state_code = $st GROUP BY ALL ORDER BY lc.instrument_id""",
     "siting_standards": """
         SELECT s.jurisdiction_key, s.jurisdiction, s.jurisdiction_type, s.technology,
+               min(s.geoid) AS geoid, min(g.census_name) AS census_name,
                coalesce(list(DISTINCT rc.county_fips ORDER BY rc.county_fips)
                         FILTER (WHERE rc.county_fips IS NOT NULL), []) AS counties,
                max(s.ordinance_year) AS ordinance_year, min(s.ordinance_url) AS ordinance_url,
@@ -456,6 +541,7 @@ STATE_QUERIES = {
                     ORDER BY {'feature': s.feature, 'value': s.value, 'units': s.units})
                     FILTER (WHERE s.restricting) AS restricting
         FROM siting_standard s
+        LEFT JOIN government g ON g.geoid = s.geoid
         LEFT JOIN record_county rc ON rc.entity = 'siting_standard' AND rc.record_id = s.id
         WHERE s.state_code = $st
         GROUP BY s.jurisdiction_key, s.jurisdiction, s.jurisdiction_type, s.technology
@@ -522,6 +608,15 @@ def write_record_index(con: duckdb.DuckDBPyConnection) -> None:
         ORDER BY entity, instrument_id""").encode("utf-8"))
 
 
+def write_timeline(con: duckdb.DuckDBPyConnection) -> None:
+    _write_bytes(TIMELINE_JSON, _query_json(con, "SELECT * FROM v_restrictions_by_year "
+                                                 "ORDER BY scope, year NULLS LAST, basis").encode("utf-8"))
+
+
+def write_history(con: duckdb.DuckDBPyConnection) -> None:
+    _write_bytes(HISTORY_JSON, _query_json(con, "SELECT * FROM headline_history ORDER BY date").encode("utf-8"))
+
+
 def write_worklists(con: duckdb.DuckDBPyConnection) -> None:
     _write_bytes(WORKLISTS_JSON, _query_json(con, "SELECT * FROM worklist_size ORDER BY worklist").encode("utf-8"))
 
@@ -569,7 +664,10 @@ def main(argv: list[str] | None = None) -> int:
                 write_state_files(con)
                 write_record_index(con)
                 write_worklists(con)
+                write_timeline(con)
+                write_history(con)
                 write_manifest(con, parquet)
+                write_geoid_worklist(con)
             counts = {t: con.execute(f"SELECT count(*) FROM {t}").fetchone()[0] for t in TABLES}
         finally:
             con.close()

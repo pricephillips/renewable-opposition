@@ -49,6 +49,8 @@
     recordIndex: './data/db/record_index.json',
     worklists: './data/db/worklists.json',
     manifest: './data/db/manifest.json',
+    timeline: './data/db/timeline.json',
+    history: './data/db/history.json',
     schema: './db/schema.sql',
     state: function (st) { return './data/db/state/' + st + '.json'; }
   };
@@ -362,7 +364,7 @@
     Object.keys(METRICS).forEach(function (k) {
       select.appendChild(el('option', { value: k, text: METRICS[k].label, selected: k === route.metric }));
     });
-    var legend = el('ul', { class: 'legend', 'aria-label': 'Map legend' });
+    var legend = el('ul', { class: 'legend', id: 'mapLegend', 'aria-label': 'Map legend' });
     legendItems(route.metric).forEach(function (it) {
       var sw = el('span', { class: 'swatch', 'aria-hidden': 'true' });
       sw.style.background = it.fill;
@@ -567,8 +569,259 @@
       sortableTable('Restrictions count renewables-only instruments; verified means checked against the instrument or the minutes that adopted it. Select a column heading to sort.',
         cols, stateRows, 'restrictions')));
 
+    view.appendChild(historyCard());
+    view.appendChild(timelineCard());
     view.appendChild(sourcesCard(M));
     return view;
+  }
+
+  // ── History ───────────────────────────────────────────────────────────────
+
+  // headline_history: the headline figures as each data build published
+  // them, one row per day on which they changed. Each figure has its own
+  // scale, so each gets its own small chart (never two on one axis).
+  var HISTORY_FIGURES = [
+    { key: 'restrictions', label: 'Restrictions on renewables' },
+    { key: 'verified_restrictions', label: 'Verified restrictions' },
+    { key: 'contested_projects', label: 'Contested projects' },
+    { key: 'counties_with_records', label: 'Counties with records' }
+  ];
+
+  function historyCard() {
+    var grid = el('div', { class: 'tiles', id: 'history' });
+    var change = el('p', { id: 'historyChange', class: 'small' });
+    var table = el('div');
+    var card = el('section', { class: 'card', 'aria-labelledby': 'historyHeading' },
+      el('h2', { id: 'historyHeading', text: 'How the figures have changed' }),
+      el('p', { class: 'muted small', text: 'The headline figures as each data build published them, on each day they changed. A jump can mean a source was added (NREL\'s ordinance databases arrived on 2026-10-09), not that restrictions were passed that day.' }),
+      change, grid, table);
+    getJSON(PATHS.history).then(function (t) { drawHistory(grid, change, table, objects(t)); })
+      .catch(function () { grid.appendChild(el('p', { class: 'muted', text: 'The history could not be loaded.' })); });
+    return card;
+  }
+
+  function drawHistory(grid, change, table, rows) {
+    if (!rows.length) { grid.appendChild(el('p', { class: 'muted', text: 'No history is recorded yet.' })); return; }
+    var last = rows[rows.length - 1], prev = rows.length > 1 ? rows[rows.length - 2] : null;
+    if (prev) {
+      var parts = HISTORY_FIGURES.filter(function (f) { return prev[f.key] !== null && last[f.key] !== prev[f.key]; })
+        .map(function (f) {
+          var d = last[f.key] - prev[f.key];
+          return (d > 0 ? '+' : '−') + n(Math.abs(d)) + ' ' + f.label.toLowerCase();
+        });
+      change.textContent = 'Since the build of ' + prev.date + ': ' + (parts.length ? parts.join(', ') : 'none of these changed') +
+        ' (as of ' + last.date + ').';
+    }
+    var NS = 'http://www.w3.org/2000/svg';
+    var t0 = Date.parse(rows[0].date), t1 = Date.parse(last.date);
+    HISTORY_FIGURES.forEach(function (f) {
+      var pts = rows.filter(function (r) { return r[f.key] !== null && r[f.key] !== undefined; });
+      var cell = el('div', { class: 'tile' }, el('div', { class: 'label', text: f.label }),
+        el('div', { class: 'value', text: last[f.key] === null ? 'not recorded' : n(last[f.key]) }));
+      if (pts.length) {
+        var W = 240, H = 64, P = 6;
+        var lo = Math.min.apply(null, pts.map(function (r) { return r[f.key]; }));
+        var hi = Math.max.apply(null, pts.map(function (r) { return r[f.key]; }));
+        if (hi === lo) { hi = lo + 1; }
+        var x = function (r) { return P + (W - 2 * P) * (t1 === t0 ? 1 : (Date.parse(r.date) - t0) / (t1 - t0)); };
+        var y = function (v) { return H - P - (H - 2 * P) * (v - lo) / (hi - lo); };
+        var svg = document.createElementNS(NS, 'svg');
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', f.label + ': ' + n(pts[0][f.key]) + ' on ' + pts[0].date + ' to ' +
+          n(last[f.key]) + ' on ' + last.date + '. Every value is in the table below.');
+        // Steps, not slopes: a figure holds until the next build changes it.
+        var d = '';
+        pts.forEach(function (r, i) {
+          d += (i ? 'H' + x(r).toFixed(1) + 'V' : 'M' + x(r).toFixed(1) + ',') + y(r[f.key]).toFixed(1);
+        });
+        var line = document.createElementNS(NS, 'path');
+        line.setAttribute('d', d + 'H' + (W - P));
+        line.setAttribute('fill', 'none');
+        line.setAttribute('stroke', 'var(--series-1)');
+        line.setAttribute('stroke-width', '2');
+        svg.appendChild(line);
+        pts.forEach(function (r) {
+          var c = document.createElementNS(NS, 'circle');
+          c.setAttribute('cx', x(r).toFixed(1));
+          c.setAttribute('cy', y(r[f.key]).toFixed(1));
+          c.setAttribute('r', '4');
+          c.setAttribute('fill', 'var(--series-1)');
+          c.setAttribute('stroke', 'var(--color-surface)');
+          c.setAttribute('stroke-width', '2');
+          var tt = document.createElementNS(NS, 'title');
+          tt.textContent = r.date + ': ' + n(r[f.key]);
+          c.appendChild(tt);
+          svg.appendChild(c);
+        });
+        cell.appendChild(el('div', { class: 'chart-box' }, svg));
+        cell.appendChild(el('div', { class: 'sub', text: (pts[0].date === rows[0].date ? 'since ' : 'recorded since ') +
+          pts[0].date + ': ' + n(pts[0][f.key]) }));
+      }
+      grid.appendChild(cell);
+    });
+    table.appendChild(el('details', null, el('summary', { text: 'Show the numbers' }),
+      el('div', { class: 'table-wrap' }, el('table', { id: 'historyTable' },
+        el('caption', { text: 'Headline figures on each day they changed (blank: not recorded yet)' }),
+        el('thead', null, el('tr', null, el('th', { scope: 'col', text: 'Date' }),
+          HISTORY_FIGURES.map(function (f) { return el('th', { scope: 'col', class: 'num', text: f.label }); }))),
+        el('tbody', null, rows.map(function (r) {
+          return el('tr', null, el('td', { text: r.date }), HISTORY_FIGURES.map(function (f) {
+            return el('td', { class: 'num', text: r[f.key] === null ? '' : n(r[f.key]) });
+          }));
+        }))))));
+  }
+
+  // ── Timeline ──────────────────────────────────────────────────────────────
+
+  // v_restrictions_by_year: one basis per instrument. Bottom to top in each
+  // bar, in the order the build prefers them.
+  var BASES = [
+    { key: 'enacted', label: 'Enactment date', color: 'var(--series-1)',
+      note: 'the date the instrument was enacted (Moratorium Nation, review queue)' },
+    { key: 'ordinance_year', label: 'NREL ordinance year', color: 'var(--series-3)',
+      note: 'the year of the ordinance version NREL read, which can be an amendment' },
+    { key: 'year_reported', label: 'Year the report gives', color: 'var(--series-2)',
+      note: 'the year in the Sabin report\'s entry' }
+  ];
+
+  function timelineCard() {
+    var box = el('div', { class: 'chart-box', id: 'timeline' });
+    var legend = el('ul', { class: 'legend', id: 'timelineLegend', 'aria-label': 'Timeline legend' });
+    var table = el('div');
+    var card = el('section', { class: 'card', 'aria-labelledby': 'timelineHeading' },
+      el('h2', { id: 'timelineHeading', text: 'When the restrictions date from' }),
+      el('p', { class: 'muted small', text: 'Renewables-only restrictions by year, as each source dates them. The three kinds of year are not the same measurement, so each keeps its own color. The latest year is not over yet.' }),
+      box, legend, table);
+    getJSON(PATHS.timeline).then(function (t) {
+      drawTimeline(box, legend, table, objects(t).filter(function (r) { return r.scope === 'renewables_only'; }));
+    }).catch(function () {
+      box.appendChild(el('p', { class: 'muted', text: 'The timeline could not be loaded.' }));
+    });
+    return card;
+  }
+
+  function drawTimeline(box, legend, table, rows) {
+    var byYear = {};
+    var totals = {};
+    var undated = 0;
+    rows.forEach(function (r) {
+      if (r.basis === 'undated') { undated += r.instruments; return; }
+      (byYear[r.year] = byYear[r.year] || {})[r.basis] = r.instruments;
+      totals[r.basis] = (totals[r.basis] || 0) + r.instruments;
+    });
+    var years = Object.keys(byYear).map(Number).sort(function (a, b) { return a - b; });
+    if (!years.length) { box.appendChild(el('p', { class: 'muted', text: 'No restriction is dated.' })); return; }
+    var all = [];
+    for (var y = years[0]; y <= years[years.length - 1]; y++) all.push(y);
+    var sum = function (y) { var v = byYear[y] || {}; return BASES.reduce(function (t, b) { return t + (v[b.key] || 0); }, 0); };
+    var max = Math.max.apply(null, all.map(sum));
+    var step = Math.pow(10, Math.floor(Math.log10(max)));
+    var top = Math.ceil(max / step) * step;
+    if (top / step < 4) { step = step / 2; top = Math.ceil(max / step) * step; }
+
+    var W = 960, H = 300, L = 44, R = 8, T = 10, B = 28;
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Stacked bars of restrictions by year, ' + all[0] + ' to ' + all[all.length - 1] +
+      '. The numbers are in the table below.');
+    var band = (W - L - R) / all.length;
+    var bw = Math.max(2, band * 0.72);
+    var yScale = function (v) { return T + (H - T - B) * (1 - v / top); };
+    function node(tag, attrs) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      return e;
+    }
+    var grid = node('g', { class: 'grid' });
+    var axis = node('g', { class: 'axis' });
+    for (var v = 0; v <= top + 1e-9; v += step) {
+      var yy = yScale(v);
+      if (v > 0) grid.appendChild(node('line', { x1: L, x2: W - R, y1: yy, y2: yy }));
+      var lab = node('text', { x: L - 6, y: yy + 4, 'text-anchor': 'end' });
+      lab.textContent = n(v);
+      axis.appendChild(lab);
+    }
+    all.forEach(function (yr, i) {
+      // The last year is labelled too, unless a five-year label sits too close.
+      if (yr % 5 === 0 || (i === all.length - 1 && yr % 5 > 2)) {
+        var t = node('text', { x: L + band * i + band / 2, y: H - 8, 'text-anchor': 'middle' });
+        t.textContent = String(yr);
+        axis.appendChild(t);
+      }
+    });
+    svg.appendChild(grid);
+    svg.appendChild(axis);
+    var bars = node('g', {});
+    all.forEach(function (yr, i) {
+      var x = L + band * i + (band - bw) / 2;
+      var base = 0;
+      var stack = BASES.filter(function (b) { return (byYear[yr] || {})[b.key]; });
+      stack.forEach(function (b, j) {
+        var val = byYear[yr][b.key];
+        var y0 = yScale(base), y1 = yScale(base + val);
+        var h = Math.max(1, y0 - y1 - (j > 0 ? 2 : 0));
+        var yTop = y0 - (j > 0 ? 2 : 0) - h;
+        var seg;
+        if (j === stack.length - 1) {
+          // The bar's data end is rounded; its baseline end stays square.
+          var r = Math.min(4, bw / 2, h);
+          seg = node('path', { d: 'M' + x + ',' + (yTop + h) + 'V' + (yTop + r) + 'Q' + x + ',' + yTop + ' ' + (x + r) + ',' + yTop +
+            'H' + (x + bw - r) + 'Q' + (x + bw) + ',' + yTop + ' ' + (x + bw) + ',' + (yTop + r) + 'V' + (yTop + h) + 'Z' });
+        } else {
+          seg = node('rect', { x: x, y: yTop, width: bw, height: h });
+        }
+        seg.setAttribute('class', 'seg');
+        seg.style.fill = b.color;
+        seg.setAttribute('data-year', yr);
+        seg.setAttribute('data-basis', b.key);
+        bars.appendChild(seg);
+        base += val;
+      });
+    });
+    svg.appendChild(bars);
+    svg.appendChild(node('line', { class: 'baseline', x1: L, x2: W - R, y1: yScale(0), y2: yScale(0) }));
+    box.appendChild(svg);
+
+    var tip = el('div', { class: 'tooltip', hidden: true, 'aria-hidden': 'true' });
+    box.appendChild(tip);
+    svg.addEventListener('pointermove', function (evt) {
+      var t = evt.target;
+      var yr = t.getAttribute && t.getAttribute('data-year');
+      if (!yr) { tip.hidden = true; return; }
+      var b = BASES.filter(function (x) { return x.key === t.getAttribute('data-basis'); })[0];
+      tip.textContent = '';
+      tip.appendChild(el('strong', { text: n(byYear[yr][b.key]) + ' dated by ' + b.label.toLowerCase() }));
+      tip.appendChild(el('div', { text: yr + ' · ' + n(sum(yr)) + ' in all that year' }));
+      var rect = box.getBoundingClientRect();
+      var x = evt.clientX - rect.left + 12;
+      tip.hidden = false;
+      if (x + tip.offsetWidth > rect.width) x = Math.max(0, evt.clientX - rect.left - tip.offsetWidth - 12);
+      tip.style.left = x + 'px';
+      tip.style.top = (evt.clientY - rect.top + 12) + 'px';
+    });
+    svg.addEventListener('pointerleave', function () { tip.hidden = true; });
+
+    BASES.forEach(function (b) {
+      var key = el('span', { class: 'line-key', 'aria-hidden': 'true' });
+      key.style.background = b.color;
+      legend.appendChild(el('li', { title: b.note }, key, b.label + ': ' + n(totals[b.key] || 0)));
+    });
+    legend.appendChild(el('li', { id: 'timelineUndated' }, 'Undated: ' + n(undated) + ' (no year in any source)'));
+
+    table.appendChild(el('details', null, el('summary', { text: 'Show the numbers' }),
+      el('div', { class: 'table-wrap' }, el('table', { id: 'timelineTable' },
+        el('caption', { text: 'Renewables-only restrictions by year and how the year is known' }),
+        el('thead', null, el('tr', null, el('th', { scope: 'col', text: 'Year' }),
+          BASES.map(function (b) { return el('th', { scope: 'col', class: 'num', text: b.label }); }),
+          el('th', { scope: 'col', class: 'num', text: 'All' }))),
+        el('tbody', null, all.filter(function (y) { return sum(y); }).map(function (yr) {
+          return el('tr', null, el('td', { text: String(yr) }),
+            BASES.map(function (b) { return el('td', { class: 'num', text: n((byYear[yr] || {})[b.key] || 0) }); }),
+            el('td', { class: 'num', text: n(sum(yr)) }));
+        }))))));
   }
 
   function sourcesCard(M) {
@@ -781,6 +1034,7 @@
         var u = safeUrl(s.ordinance_url);
         return el('article', { class: 'record' },
           el('h3', { text: s.jurisdiction + ': ' + words(s.technology) }),
+          s.geoid ? el('p', { class: 'small muted', text: 'Census: ' + (s.census_name || '') + ' (GEOID ' + s.geoid + ')' }) : null,
           el('p', { class: 'small' }, plural(s.features, 'feature') + ', ' + n(s.restricting_features) + ' restricting · ' +
             (s.verified_features ? n(s.verified_features) + ' verified against the ordinance' : 'not verified') +
             (s.ordinance_year ? ' · ordinance year ' + s.ordinance_year : '') + ' · ',
@@ -1108,6 +1362,7 @@
         r.long_description && r.long_description !== r.description ? el('p', { class: 'muted', text: r.long_description }) : null,
         el('div', { class: 'record' }, el('dl', null,
           dlRow('Jurisdiction', (r.jurisdiction_name || 'not named') + (r.jurisdiction_type ? ' (' + r.jurisdiction_type + ')' : '')),
+          dlRow('Census government', censusLine(r)),
           dlRow('State', stateName(st)),
           dlRow('Technologies', (r.technologies || []).map(words).join(', ')),
           dlRow('Status', words(r.status || 'not recorded')),
@@ -1201,6 +1456,16 @@
   }
 
   function dlRow(label, value) { return [el('dt', { text: label }), el('dd', null, value)]; }
+
+  // The Census's own identifier for the government a record names
+  // (build_database.py, geoid_match.py): 2 digits a state, 5 a county, 7 a
+  // place, 10 a county subdivision.
+  function censusLine(r) {
+    if (!r.geoid) {
+      return el('span', { class: 'muted', text: 'no single Census government fits this name, so none is assigned' });
+    }
+    return (r.census_name || '') + ' · GEOID ' + r.geoid;
+  }
 
   function loadRecord(route) {
     return getJSON(PATHS.recordIndex).then(function (idx) {

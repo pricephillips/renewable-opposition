@@ -60,6 +60,13 @@
       --map-c4: #0c4650;
       --map-line: #e2dfd8;
       --map-state-line: #8d8a83;
+      /* Timeline series: dataviz categorical slots 1-3, validated on #f9f8f5
+         and #1c1b19 (adjacent CVD and normal-vision pass; slot 3 is below
+         3:1 on light, so the chart has a table view). */
+      --series-1: #2a78d6;
+      --series-2: #eb6834;
+      --series-3: #1baf7a;
+      --grid: #e1e0d9;
     }
     [data-theme="dark"] {
       color-scheme: dark;
@@ -87,6 +94,10 @@
       --map-c4: #c7e9e4;
       --map-line: #34332f;
       --map-state-line: #6d6a64;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+      --grid: #2c2c2a;
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme]) {
@@ -115,6 +126,10 @@
         --map-c4: #c7e9e4;
         --map-line: #34332f;
         --map-state-line: #6d6a64;
+        --series-1: #3987e5;
+        --series-2: #d95926;
+        --series-3: #199e70;
+        --grid: #2c2c2a;
       }
     }
 
@@ -240,6 +255,14 @@
     .btn:disabled { opacity: 0.6; cursor: progress; }
     details.dict { border-top: 1px solid var(--color-divider); padding: var(--space-2) 0; }
     details.dict summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+
+    .chart-box { position: relative; }
+    .chart-box svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .chart-box .axis text { fill: var(--color-text-muted); font-size: 12px; }
+    .chart-box .grid line { stroke: var(--grid); stroke-width: 1; }
+    .chart-box .baseline { stroke: var(--color-border); stroke-width: 1; }
+    .chart-box rect.seg:hover, .chart-box rect.seg:focus { stroke: var(--color-text); stroke-width: 1.5; outline: none; }
+    .legend .line-key { width: 14px; height: 10px; border-radius: 2px; flex: none; }
 
     @media (max-width: 600px) {
       .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }

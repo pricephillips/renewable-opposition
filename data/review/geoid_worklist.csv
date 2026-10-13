@@ -1,0 +1,31 @@
+state,jurisdiction_type,jurisdiction,counties,method,candidates,candidate_names,records
+MA,Municipality,Methuen Town City,25009,no_match,0,,14
+VT,Municipality,Glastenbury Town,50003,no_match,0,,6
+MI,Municipality,LaSalle Township,26115,no_match,0,,2
+NY,Municipality,DeWitt,36067,no_match,0,,2
+NY,Municipality,Lowville,36049,ambiguous,2,"Lowville town (3604943731, county 36049); Lowville village (3643720, county 36049)",2
+NY,Municipality,Queens Borough,36081,no_match,0,,2
+OH,Municipality,"Green, Austintown, Beaver, Berlin, Canfield, Coitsville, Goshen, Jackson, Milton, Poland, and Springfield Townships",39099,no_match,0,,2
+OH,Township,Shawnee Township,39127,county_differs,1,"Shawnee township (3900371955, county 39003); Shawnee village (3971962, county 39127)",2
+CT,Municipality,Waterbury,09140,ambiguous,2,"Waterbury city (0980000, county 09140); Waterbury town (0914080070, county 09140)",1
+HI,Municipality,Honolulu City,15003,no_match,0,,1
+IL,County,"Effingham County, Village of Teutopolis",17049,no_match,0,,1
+KS,County,Prairie,,no_match,0,"Prairie township (2008957400, county 20089); Prairie township (2020557425, county 20205)",1
+MI,Municipality,Chesaning,26145,ambiguous,2,"Chesaning township (2614515160, county 26145); Chesaning village (2615140, county 26145)",1
+NC,County,Herndon,37091,no_match,0,,1
+NE,Municipality,Savanah Township,31023,no_match,0,,1
+NY,Municipality,Bath,36101,ambiguous,2,"Bath town (3610104770, county 36101); Bath village (3604759, county 36101)",1
+NY,Municipality,Camden,36065,ambiguous,2,"Camden town (3606511858, county 36065); Camden village (3611847, county 36065)",1
+NY,Municipality,Corning,36101,ambiguous,2,"Corning city (3618256, county 36101); Corning town (3610118267, county 36101)",1
+NY,Town,Glenville,09190,county_differs,1,"Glenville town (3609329366, county 36093)",1
+NY,Municipality,Kingston,36111,ambiguous,2,"Kingston city (3639727, county 36111); Kingston town (3611139738, county 36111)",1
+NY,Municipality,Nichols,36107,ambiguous,2,"Nichols town (3610751121, county 36107); Nichols village (3651110, county 36107)",1
+NY,Municipality,Skaneateles,36067,ambiguous,2,"Skaneateles town (3606767521, county 36067); Skaneateles village (3667510, county 36067)",1
+NY,Town,Victory,36091,county_differs,1,"Victory town (3601177420, county 36011); Victory village (3677431, county 36091)",1
+OH,Township,Swancreek Township (Fulton County),39051,no_match,0,,1
+OK,Municipality,Ponca,40071,no_match,0,,1
+PA,Municipality,Athens,42015,ambiguous,2,"Athens borough (4203392, county 42015); Athens township (4201503400, county 42015); Athens township (4203903408, county 42039)",1
+VT,County,Caledonia County; Essex County; Orleans County,50005;50009;50019,no_match,0,,1
+VT,County,"Caledonia, Essex, Orleans Counties",50005;50009;50019,no_match,0,,1
+VT,Municipality,Woodstock,50027,ambiguous,2,"Woodstock town (5002785975, county 50027); Woodstock village (5085900, county 50027)",1
+WI,Municipality,Deerfield,55025,ambiguous,2,"Deerfield town (5502519275, county 55025); Deerfield town (5513719300, county 55137); Deerfield village (5519250, county 55025)",1

@@ -198,70 +198,6 @@ renewable technology the instrument covers), and `data/processed/qc_report.md`
 lists every quarantined row with that action, so the list reads as triage
 rather than investigation.
 
-**Headline numbers have a history.** `data/snapshots/headline_history.csv`
-gains one row on each build date when any headline figure changes
-(instruments, severe, verified, lapsed, projects, confirmed and verified
-outcomes, cases, county coverage), written by `scripts/snapshot_manifest.py`
-from `headline_metrics.json`. A number quoted on a given day can be found by
-date, and a trend can be drawn without replaying builds.
-
-**What the state's law says about a local instrument's reach.** Every
-restriction below state level carries `state_limits_local`, read off the
-state's verified `state_policies` rows for its technology and never inferred:
-`yes` when a local-preemption row or a size threshold (above which a state body
-decides) covers the technology, or the state board decides outright; `no` when
-local government decides with no such rule; `unknown` when no verified row
-covers the technology. The row also carries `state_siting_authority`,
-`state_threshold_mw` and `state_preemption_ids` so a reader can see which law.
-The headline reports how many severe instruments sit in a state that limits
-local reach, beside the count and never subtracted from it: whether a given
-ordinance survives that law is a reading of the statute, not a derived field.
-
-**A stale negative check goes back on the list.** "Checked, nothing found"
-ages like any other claim, so `data/review/negative_check_worklist.csv` lists a
-profiled county again once its newest covering check is more than a year old,
-with `reason` saying so, beside the counties never checked.
-
-**A verified sibling lends its source.** When another instrument for the same
-jurisdiction and technology (from any source) has been verified against a
-primary source, the restriction worklist puts that document's URL in
-`located_url` for the unverified one and says which instrument holds it. The
-row stays unverified until someone reads the document against it.
-
-**One file says what the pipeline did.** `data/processed/operations_summary.json`
-and `.md` (`scripts/operations_summary.py`, after data-center-map's
-`operations_summary.py`) count the rows the other trails wrote: the headline,
-the quarantine by blocking code, each worklist's size and flags, the promotion
-trail by action, the review queue by status, the snapshot and headline-history
-rows, and the share of sources with an Internet Archive copy. Every number can
-be checked against the file it counts.
-
-**A decided-outcome rate, with a guard against fresh records.** The headline
-reports the blocked share of decided projects (an outcome of `blocked_*`,
-`advanced_*` or `restricted_conditional`), leaving out any project whose event
-is younger than 90 days, since the freshest decisions are the least likely to
-be final or fully reported, and reports the confirmed-only figure beside it.
-Quote the confirmed-only figure when the claim is about what happened. Every
-such rate is conditional on opposition being tracked: this dataset holds
-projects because they drew opposition, so it says nothing about projects that
-proceeded without a recorded fight. The design, including the 90-day guard,
-is data-center-map's decided-case rate.
-
-**Concerns are read from the record, by a fixed table.** Each contested
-project carries `concerns`: the grievances its own text names (farmland,
-wildlife, property values, viewshed, water, noise, tribal and cultural
-resources, traffic, health, fire safety, decommissioning, ratepayer cost,
-wetlands, military and aviation, shadow flicker, glare), matched by the
-patterns `docs/codebook.md` prints. A concern is what the text says was
-raised, never why the project ended as it did, and the headline counts
-projects by concern. After data-center-map's concerns codebook.
-
-**Projects that share a county with a severe restriction.** Each project also
-carries `county_severe_restriction_ids`, the severe renewables-only instruments
-for its technology in any county it touches. It is a fact about the county,
-not a link between the two records, and the headline counts how many projects
-have one.
-
 **Negative checks are graded by independence, not by count.** A "checked,
 nothing found" row (`data/review/negative_checks.csv`) earns a grade from how
 many independence classes its `sources_checked` span: the instrument itself
@@ -588,6 +524,8 @@ A town name shared by several counties, where the text does not settle it, is ma
 
 The place index is built with `python scripts/build_place_index.py`. The script downloads the Census 2024 Gazetteer and writes `data/place_county_index.json`. Without the index, town-level rows with no coordinates stay unplaced, and each profile says so.
 
+The national database also gives each record the Census GEOID of the government it names, from `data/census_governments_2024.csv`, which `python scripts/build_census_governments.py` builds from the same Gazetteer. A name gets a GEOID only when exactly one government fits; the rest are listed in `data/review/geoid_worklist.csv` (`docs/national_database_design.md`, section 9).
+
 ---
 
 ## Pipeline layers (roadmap)
@@ -597,7 +535,7 @@ The place index is built with `python scripts/build_place_index.py`. The script 
 3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
 4. **Review queue**: `data/review/*.csv`. `scripts/promote_reviewed.py` promotes complete rows on every data build.
 5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
-6. **Pages**: `national-dashboard.html` is the dashboard: national, state and county views (`#/`, `#/state/IA`, `#/county/19113`), an explorer with CSV export (`#/explore/restrictions`), record pages (`#/restriction/<id>`), coverage (`#/coverage`), downloads and the data dictionary (`#/data`), and a SQL console on DuckDB-WASM (`#/sql`). It reads the national database's published files in `data/db/` plus `headline_metrics.json`; see `docs/national_database_design.md`. `index.html`, `dashboard.html` and `renewable-opposition-map.html` redirect to it. `map-audit.html`, the internal geography audit, reads `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
+6. **Pages**: `national-dashboard.html` is the dashboard: national, state and county views (`#/`, `#/state/IA`, `#/county/19113`), an explorer with CSV export (`#/explore/restrictions`), record pages (`#/restriction/<id>`), coverage (`#/coverage`), downloads and the data dictionary (`#/data`), and a SQL console on DuckDB-WASM (`#/sql`). The national view also shows when the restrictions date from (each year labelled by where it comes from) and how the headline figures have changed from build to build (`data/snapshots/headline_history.csv`); record pages give the Census GEOID of the government a record names. It reads the national database's published files in `data/db/` plus `headline_metrics.json`; see `docs/national_database_design.md`. `index.html`, `dashboard.html` and `renewable-opposition-map.html` redirect to it. `map-audit.html`, the internal geography audit, reads `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
 
 **Rules for any future news intake.** Harvested news never writes to a seed or a published file. `parse.py` checks every candidate against everything that could already hold it, the queue (any `review_status`) and the three seeds, before queueing it: the same entity and source document is dropped and logged, and the same entity, state and name under another URL is queued with "possible duplicate of ..." in `reviewer_notes` for a reviewer to merge or reject. (data-center-map's harvester checked only the cleaned feed and re-promoted the same articles nightly: 4,099 duplicate rows in four days.) A news harvester or extractor writes candidates to `data/review/queue.csv` only, and every candidate goes through the same review and promotion gates as a hand-entered row: `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. `tests/test_news_intake.py` asserts that `parse.py` and every module in `scripts/extractors/` write only to `data/review/` (apart from `parse.py`'s own record of which raw files it has parsed, `data/raw/parse_state.csv`), and that no seed lists either as a writer.
 

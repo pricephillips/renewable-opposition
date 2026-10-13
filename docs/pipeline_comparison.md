@@ -103,7 +103,7 @@ yet), and its harvest-specific verification statuses.
 |---|---|
 | **Rank re-verification by what it would change** (`stale_pending_audit.py`'s `label_moving`: a stale row whose confirmation would flip a county label goes first). | `county_impact` on the restriction worklist: `sole_severe` (the county's only severe renewables-only instrument) and `sole_record` (its only restriction) sort first within a tier. |
 | **Suggested resolution on every review row** (`review_worklists.py`: "so the review pass is triage, not investigation"). | `qc_gate.CHECKS` names what releases a row for each code, and `qc_report.md` lists every quarantined row with that action. The codebook carries the column. |
-| **Dated change logs** (`change_log.csv`, `calibration_history.csv`: a number quoted on a day can be found by date). | `data/snapshots/headline_history.csv`, one row per build date on which a headline figure changed, appended by `snapshot_manifest.py`. |
+| **Dated change logs** (`change_log.csv`, `calibration_history.csv`: a number quoted on a day can be found by date). | `data/snapshots/headline_history.csv`, kept by `scripts/headline_history.py` (Phase 5, PR #41, which also backfilled it from git history and charts it on the national view). Round four's own version of the file was dropped in favour of it when the two branches met. |
 | **Dedupe against every file, not just the clean one** (Part C lesson 1 of the 2026-09-29 passoff: 4,099 duplicate rows in four days). | `parse.py` checks each candidate against the queue and all three seeds by source document and by name before queueing it; a same-document candidate is dropped and logged, a same-name one is queued with a "possible duplicate" note. |
 
 ## Round five (2026-10-13): context and self-description

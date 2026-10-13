@@ -70,6 +70,9 @@ def publish_dirs(monkeypatch, tmp_path):
     monkeypatch.setattr(bdb, "RECORD_INDEX", tmp_path / "record_index.json")
     monkeypatch.setattr(bdb, "WORKLISTS_JSON", tmp_path / "worklists.json")
     monkeypatch.setattr(bdb, "MANIFEST_JSON", tmp_path / "manifest.json")
+    monkeypatch.setattr(bdb, "GEOID_WORKLIST", tmp_path / "geoid_worklist.csv")
+    monkeypatch.setattr(bdb, "TIMELINE_JSON", tmp_path / "timeline.json")
+    monkeypatch.setattr(bdb, "HISTORY_JSON", tmp_path / "history.json")
     return tmp_path
 
 
@@ -91,6 +94,8 @@ def test_publish_is_byte_for_byte_repeatable(con, publish_dirs):
         bdb.write_state_files(con)
         bdb.write_record_index(con)
         bdb.write_worklists(con)
+        bdb.write_timeline(con)
+        bdb.write_history(con)
         bdb.write_manifest(con, parquet)
         return {p.name: p.read_bytes() for p in publish_dirs.rglob("*") if p.is_file()}
     assert snapshot() == snapshot()
@@ -179,7 +184,7 @@ def test_worklists_publish_sizes_only(con, publish_dirs):
     bdb.write_worklists(con)
     w = json.loads(bdb.WORKLISTS_JSON.read_text())
     assert w["columns"] == ["worklist", "description", "rows"]
-    assert {r[0] for r in w["rows"]} == set(bdb.WORKLISTS)
+    assert {r[0] for r in w["rows"]} == set(bdb.WORKLISTS) | {"geoid_worklist"}
     path, only, _ = bdb.WORKLISTS["queue"]
     from common import read_csv
     assert dict((r[0], r[2]) for r in w["rows"])["queue"] == \
@@ -197,3 +202,46 @@ def test_manifest_lists_every_parquet_file(con, publish_dirs):
 
 def rowsof(t):
     return [dict(zip(t["columns"], r)) for r in t["rows"]]
+
+
+def test_every_named_jurisdiction_is_matched_or_listed(con):
+    total, matched = con.execute("SELECT count(*), count(geoid) FROM jurisdiction_match").fetchone()
+    listed = con.execute("SELECT count(*) FROM stg_geoid_worklist").fetchone()[0]
+    assert total == matched + listed
+    assert matched / total > 0.9
+    # Matched ones carry their GEOID to the records.
+    orphans = con.execute("""SELECT count(*) FROM restriction_instrument ri
+                             JOIN restriction r USING (instrument_id)
+                             JOIN stg_restrictions s ON s.id = r.id
+                             JOIN jurisdiction_match m ON m.state_code = upper(s.state)
+                              AND m.jurisdiction = s.jurisdiction AND m.jurisdiction_type = s.jurisdiction_type
+                              AND m.counties = coalesce(nullif(s.county_fips_all, ''), nullif(s.county_fips, ''), '')
+                             WHERE m.geoid IS NOT NULL AND ri.geoid IS NULL""").fetchone()[0]
+    assert orphans == 0
+
+
+def test_two_governments_sharing_a_match_key_get_two_geoids(con):
+    rows = con.execute("""SELECT jurisdiction_key, count(DISTINCT s.geoid) FROM siting_standard s
+                          WHERE s.geoid IS NOT NULL
+                          GROUP BY jurisdiction_key HAVING count(DISTINCT jurisdiction) > 1""").fetchall()
+    if not rows:
+        pytest.skip("no shared match key in the current data")
+    assert all(n > 1 for _, n in rows), rows
+
+
+def test_geoid_worklist_is_written_on_publish(con, publish_dirs):
+    bdb.write_geoid_worklist(con)
+    from common import read_csv
+    rows = read_csv(publish_dirs / "geoid_worklist.csv")
+    assert len(rows) == con.execute("SELECT count(*) FROM jurisdiction_match WHERE geoid IS NULL").fetchone()[0]
+    assert all(r["method"] in {"ambiguous", "no_match", "county_differs"} for r in rows)
+
+
+def test_timeline_counts_every_instrument_once(con, publish_dirs):
+    bdb.write_timeline(con)
+    rows = rowsof(json.loads(bdb.TIMELINE_JSON.read_text()))
+    m = _metrics()["restrictions"]["by_scope"]
+    for scope in ("renewables_only", "multi_sector_data_centers"):
+        assert sum(r["instruments"] for r in rows if r["scope"] == scope) == m[scope]["instruments"]
+    assert {r["basis"] for r in rows} <= {"enacted", "year_reported", "ordinance_year", "undated"}
+    assert all((r["year"] is None) == (r["basis"] == "undated") for r in rows)

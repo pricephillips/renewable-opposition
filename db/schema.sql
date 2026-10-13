@@ -50,6 +50,35 @@ CREATE TABLE jurisdiction (
     county_fips     VARCHAR                -- the county it sits in, when every row agrees
 );
 
+-- Census governments a record names, by GEOID (geoid_match.py): a place
+-- (7 digits) or county subdivision (10) from data/census_governments_2024.csv,
+-- a county (5) or a state (2). Only governments some record matches.
+CREATE TABLE government (
+    geoid           VARCHAR PRIMARY KEY,
+    kind            VARCHAR NOT NULL,      -- place | county_subdivision | county | state
+    state_code      VARCHAR NOT NULL REFERENCES state (state_code),
+    county_fips     VARCHAR,               -- a place's county holds its internal point
+    census_name     VARCHAR NOT NULL,      -- 'Binghamton city', 'Binghamton town'
+    funcstat        VARCHAR                -- Census functional status: A, B or C
+);
+
+-- Every distinct (state, jurisdiction type, name, counties) a restriction or
+-- siting standard uses, with its GEOID when exactly one government fits. The
+-- counties are part of the key because one name can be many governments
+-- (Pennsylvania's Washington Townships). method
+-- says how it matched, or why not (ambiguous, no_match, county_differs);
+-- the unmatched are listed in data/review/geoid_worklist.csv.
+CREATE TABLE jurisdiction_match (
+    state_code      VARCHAR NOT NULL,
+    jurisdiction_type VARCHAR NOT NULL,
+    jurisdiction    VARCHAR NOT NULL,
+    counties        VARCHAR NOT NULL,      -- the rows' county_fips_all, as published ('' when unplaced)
+    geoid           VARCHAR REFERENCES government (geoid),
+    method          VARCHAR NOT NULL,
+    candidates      INTEGER NOT NULL,      -- governments that fit; 1 when matched
+    PRIMARY KEY (state_code, jurisdiction_type, jurisdiction, counties)
+);
+
 -- ---------------------------------------------------------------------------
 -- Restrictions: one instrument, many technology rows
 -- ---------------------------------------------------------------------------
@@ -78,7 +107,8 @@ CREATE TABLE restriction_instrument (
     county_fips     VARCHAR,               -- the one county the map paints
     primary_source_url VARCHAR,
     primary_source_access VARCHAR,         -- opened | archived | snippet
-    n_rows          INTEGER NOT NULL
+    n_rows          INTEGER NOT NULL,
+    geoid           VARCHAR REFERENCES government (geoid)  -- the Census government, when one fits
 );
 
 CREATE TABLE restriction (
@@ -191,7 +221,8 @@ CREATE TABLE siting_standard (
     restriction_instrument_id VARCHAR,     -- the restriction it contributes to, if any
     evidence_level  VARCHAR,
     verification    VARCHAR NOT NULL,
-    verified_by     VARCHAR
+    verified_by     VARCHAR,
+    geoid           VARCHAR REFERENCES government (geoid)  -- the Census government, when one fits
 );
 
 CREATE TABLE state_policy (
@@ -313,6 +344,26 @@ CREATE TABLE data_center_event (
     source_urls     VARCHAR[],
     opposition_groups VARCHAR[],
     dc_row_ref      VARCHAR
+);
+
+-- The headline figures as each data build published them, one row per day
+-- on which they changed (data/snapshots/headline_history.csv,
+-- scripts/headline_history.py). A blank is a figure the metrics did not carry
+-- yet that day.
+CREATE TABLE headline_history (
+    date            DATE PRIMARY KEY,
+    restrictions    INTEGER,               -- renewables only, by instrument
+    severe_restrictions INTEGER,
+    verified_restrictions INTEGER,
+    multi_sector_restrictions INTEGER,
+    contested_projects INTEGER,
+    confirmed_outcomes INTEGER,
+    verified_projects INTEGER,
+    cases           INTEGER,
+    siting_standard_rows INTEGER,
+    state_policies  INTEGER,
+    counties_with_records INTEGER,
+    counties_not_examined INTEGER
 );
 
 -- What this database was built from.

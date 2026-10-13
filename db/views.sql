@@ -190,3 +190,46 @@ SELECT NULL, scope, count(*), count(*) FILTER (WHERE is_severe)
 FROM restriction_instrument
 WHERE date_enacted IS NULL
 GROUP BY scope;
+
+-- How many named jurisdictions have a Census GEOID, by kind of jurisdiction
+-- and match method; the unmatched are in data/review/geoid_worklist.csv.
+CREATE VIEW v_geoid_coverage AS
+SELECT CASE WHEN lower(jurisdiction_type) IN ('state') THEN 'state'
+            WHEN lower(jurisdiction_type) IN ('county', 'parish', 'borough', 'multi-county') THEN 'county'
+            ELSE 'local' END AS jurisdiction_kind,
+       method, geoid IS NOT NULL AS matched, count(*) AS jurisdictions
+FROM jurisdiction_match
+GROUP BY ALL;
+
+-- Restrictions by year, as each source dates them. One basis per instrument,
+-- the first that applies:
+--   enacted         the year of the enactment date the source gives
+--                   (Moratorium Nation, the review queue)
+--   ordinance_year  the year of the ordinance NREL read, for an NREL
+--                   restriction: the version in force when NREL compiled it,
+--                   which can be an amendment rather than the first adoption
+--                   (NREL's date_text holds the same year)
+--   year_reported   the year in the source's own date text (the Sabin reports
+--                   give a year)
+--   undated         none of these
+-- The bases are not the same measurement; the dashboard keeps them apart.
+CREATE VIEW v_restrictions_by_year AS
+WITH dated AS (
+    SELECT ri.instrument_id, ri.scope, ri.is_severe,
+           TRY_CAST(substr(ri.date_enacted_iso, 1, 4) AS INTEGER) AS enacted_year,
+           TRY_CAST(nullif(regexp_extract(coalesce(ri.date_text, ''), '(19|20)[0-9][0-9]'), '') AS INTEGER)
+               AS reported_year,
+           (SELECT max(s.ordinance_year) FROM siting_standard s
+             WHERE s.restriction_instrument_id = ri.instrument_id) AS ordinance_year
+    FROM restriction_instrument ri
+)
+SELECT coalesce(enacted_year, ordinance_year, reported_year) AS year,
+       CASE WHEN enacted_year IS NOT NULL THEN 'enacted'
+            WHEN ordinance_year IS NOT NULL THEN 'ordinance_year'
+            WHEN reported_year IS NOT NULL THEN 'year_reported'
+            ELSE 'undated' END AS basis,
+       scope,
+       count(*) AS instruments,
+       count(*) FILTER (WHERE is_severe) AS severe_instruments
+FROM dated
+GROUP BY ALL;
