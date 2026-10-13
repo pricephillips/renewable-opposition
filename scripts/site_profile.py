@@ -671,7 +671,8 @@ def comparison(d: Data, fips: str, st: str) -> dict:
                 "severe": sum(1 for r in group if _n(r.get("restrictions_renewables_severe")) > 0),
                 "verified": sum(1 for r in group if _n(r.get("restrictions_renewables_verified")) > 0),
                 "projects": sum(1 for r in group if _n(r.get("contested_projects")) > 0),
-                "examined": sum(1 for r in group if (r.get("coverage") or "none") != "none")}
+                "examined": sum(1 for r in group if (r.get("coverage") or "none") != "none"),
+                "checked_only": sum(1 for r in group if r.get("coverage") == "negative_check")}
 
     me = next((r for r in rows if (r.get("county_fips") or "").zfill(5) == fips), None)
     return {"available": bool(rows), "national": frame(rows),
@@ -1445,8 +1446,8 @@ def comparison_reading(p: dict) -> str:
         what, key = "a severe restriction instrument on record", "severe"
     elif me["any_instrument"]:
         what, key = "a restriction instrument on record", "any_instrument"
-    elif me["examined"]:
-        what, key = "a negative check and no instrument on record", "examined"
+    elif me["checked_only"]:
+        what, key = "a negative check and no instrument on record", "checked_only"
     else:
         return (f"This county has no record and no negative check, as is true of "
                 f"{s['counties'] - s['examined']} of {s['counties']} counties in {st} and "

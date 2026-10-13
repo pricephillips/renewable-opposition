@@ -15,7 +15,8 @@ import site_profile as sp
 
 HOME, NEXT, FAR = "20001", "20011", "20021"   # Allen KS; Bourbon KS borders it; Cherokee KS does not
 LOOKUP = {"allen county|kansas": HOME, "allen|kansas": HOME, "bourbon county|kansas": NEXT,
-          "bourbon|kansas": NEXT, "cherokee county|kansas": FAR, "cherokee|kansas": FAR}
+          "bourbon|kansas": NEXT, "cherokee county|kansas": FAR, "cherokee|kansas": FAR,
+          "jasper county|missouri": "29097", "jasper|missouri": "29097"}
 TODAY = date.today()
 
 
@@ -112,7 +113,7 @@ def test_reference_groups_count_counties_never_rates(tree):
     p = run(tree)
     c = p["readings"]["comparison"]
     assert c["national"] == {"counties": 4, "any_instrument": 2, "severe": 1, "verified": 1, "projects": 1,
-                             "examined": 3}
+                             "examined": 3, "checked_only": 1}
     assert c["state"]["counties"] == 3 and c["state"]["examined"] == 2
     text = sp.render(p)
     body = section(text, "How this county compares")
@@ -123,6 +124,9 @@ def test_reference_groups_count_counties_never_rates(tree):
     assert "%" not in body
     unexamined = sp.render(run(tree, fips=FAR))
     assert "unexamined, which is an inference from silence, not a finding" in section(unexamined, "How this county compares")
+    checked = sp.render(run(tree, fips="29097"))      # Jasper MO: a negative check and no record
+    assert ("has a negative check and no instrument on record, as do 1 of 1 counties in MO and 1 of 4 nationally"
+            in section(checked, "How this county compares"))
 
 
 def test_diffusion_tier_one_needs_a_recent_neighbor_and_something_unresolved(tree):
