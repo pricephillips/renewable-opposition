@@ -183,6 +183,28 @@ it is cheap to settle. All of these are leads for a reviewer; none changes a
 record. The thresholds and patterns come from data-center-map's staleness and
 status-resolution modules (`docs/pipeline_comparison.md`, round three).
 
+**Re-verifying some instruments moves a county.** The restriction worklist
+also carries `county_impact`: `sole_severe` when the instrument is the only
+severe renewables-only restriction in one of its counties, so settling it
+moves that county between severe and not on the map, `sole_record` when it is
+the only restriction there at all. Within a tier those come first. The idea is
+data-center-map's `label_moving` rank: check first what would change what a
+reader sees.
+
+**Every quarantined row says what releases it.** Each QC check in
+`qc_gate.CHECKS` names the action that lets a held row publish (correct the
+coordinates, add an outcome resolution with a read document, say which
+renewable technology the instrument covers), and `data/processed/qc_report.md`
+lists every quarantined row with that action, so the list reads as triage
+rather than investigation.
+
+**Headline numbers have a history.** `data/snapshots/headline_history.csv`
+gains one row on each build date when any headline figure changes
+(instruments, severe, verified, lapsed, projects, confirmed and verified
+outcomes, cases, county coverage), written by `scripts/snapshot_manifest.py`
+from `headline_metrics.json`. A number quoted on a given day can be found by
+date, and a trend can be drawn without replaying builds.
+
 **Negative checks are graded by independence, not by count.** A "checked,
 nothing found" row (`data/review/negative_checks.csv`) earns a grade from how
 many independence classes its `sources_checked` span: the instrument itself
@@ -262,7 +284,7 @@ data/processed/
   cases.csv / cases.json
   sources.csv / sources.json        ← one row per source document, with its Internet Archive snapshot (archived_url)
   quarantine.json                   ← rows the QC gate blocked, with their issues
-  qc_report.md                      ← every QC finding by code and severity
+  qc_report.md                      ← every QC finding by code and severity, and each quarantined row with what releases it
   diff_summary.md                   ← what the last build changed, keyed on id
   headline_metrics.md / .json       ← the numbers to quote, counted by instrument
   coverage_delta.md                 ← column fill rates against the previous commit
@@ -518,7 +540,7 @@ The place index is built with `python scripts/build_place_index.py`. The script 
 5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
 6. **Pages**: `national-dashboard.html` is the dashboard: national, state and county views (`#/`, `#/state/IA`, `#/county/19113`), an explorer with CSV export (`#/explore/restrictions`), record pages (`#/restriction/<id>`), coverage (`#/coverage`), downloads and the data dictionary (`#/data`), and a SQL console on DuckDB-WASM (`#/sql`). It reads the national database's published files in `data/db/` plus `headline_metrics.json`; see `docs/national_database_design.md`. `index.html`, `dashboard.html` and `renewable-opposition-map.html` redirect to it. `map-audit.html`, the internal geography audit, reads `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
 
-**Rules for any future news intake.** Harvested news never writes to a seed or a published file. A news harvester or extractor writes candidates to `data/review/queue.csv` only, and every candidate goes through the same review and promotion gates as a hand-entered row: `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. `tests/test_news_intake.py` asserts that `parse.py` and every module in `scripts/extractors/` write only to `data/review/` (apart from `parse.py`'s own record of which raw files it has parsed, `data/raw/parse_state.csv`), and that no seed lists either as a writer.
+**Rules for any future news intake.** Harvested news never writes to a seed or a published file. `parse.py` checks every candidate against everything that could already hold it, the queue (any `review_status`) and the three seeds, before queueing it: the same entity and source document is dropped and logged, and the same entity, state and name under another URL is queued with "possible duplicate of ..." in `reviewer_notes` for a reviewer to merge or reject. (data-center-map's harvester checked only the cleaned feed and re-promoted the same articles nightly: 4,099 duplicate rows in four days.) A news harvester or extractor writes candidates to `data/review/queue.csv` only, and every candidate goes through the same review and promotion gates as a hand-entered row: `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. `tests/test_news_intake.py` asserts that `parse.py` and every module in `scripts/extractors/` write only to `data/review/` (apart from `parse.py`'s own record of which raw files it has parsed, `data/raw/parse_state.csv`), and that no seed lists either as a writer.
 
 ---
 

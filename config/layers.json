@@ -168,6 +168,10 @@
     "data/db/worklists.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/manifest.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/snapshots/manifest.csv": {"layer": "derived", "writers": ["scripts/snapshot_manifest.py"]},
+    "data/snapshots/headline_history.csv": {
+      "layer": "derived", "writers": ["scripts/snapshot_manifest.py"],
+      "reason": "Append-only: one row per build date on which a headline number changed, so a figure quoted on a day can be found by date. Never rewritten."
+    },
     "data/review/coverage_gaps.csv": {"layer": "derived", "writers": ["scripts/coverage_audit.py"]},
     "docs/sabin_2026_reconciliation.md": {"layer": "derived", "writers": ["scripts/extract_sabin_edition.py"]},
     "docs/nrel_sample_report.md": {"layer": "derived", "writers": ["scripts/nrel_sample.py"]},

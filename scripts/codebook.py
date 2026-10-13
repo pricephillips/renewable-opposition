@@ -157,7 +157,8 @@ def render() -> str:
     L += ["", "## QC checks (`scripts/qc_gate.py`)", "",
           f"A row with any {' or '.join(sorted(qc_gate.BLOCK_AT))} issue is quarantined in "
           "`data/processed/quarantine.json`; lower severities are reported in `data/processed/qc_report.md`.", ""]
-    L += _table(["Code", "Severity", "Meaning"], [[f"`{c}`", s, m] for c, s, m in qc_gate.CHECKS])
+    L += _table(["Code", "Severity", "Meaning", "What releases a held row"],
+                [[f"`{c}`", s, m, rel] for c, s, m, rel in qc_gate.CHECKS])
 
     L += ["", "## Counting (`scripts/headline_metrics.py`)", ""]
     L += _lines([

@@ -318,11 +318,18 @@ def test_a_lapsed_instrument_is_reported_by_qc_never_quarantined():
     issues = qc_gate.check_record("restrictions", row, T)
     assert [i.code for i in issues] == ["END_DATE_PASSED"] and not qc_gate.blocks(issues)
     assert all(code in {c[0] for c in qc_gate.CHECKS} for code, *_ in qc_gate.CHECKS)
+    held = [{"entity": "restrictions", "id": "res_1", "state": "KS", "jurisdiction": "Example County",
+             "qc_issues": [{"code": "SCOPE_DATA_CENTER_ONLY", "severity": "HIGH"},
+                           {"code": "DATE_UNPARSEABLE", "severity": "LOW"}]}]
+    report = qc_gate.render_report([], {"restrictions": 1}, held)
+    assert "| restrictions | res_1 | KS | Example County | SCOPE_DATA_CENTER_ONLY | if the instrument" in report
+    assert "DATE_UNPARSEABLE | nothing" not in report      # only the blocking code names a release action
 
 
 def test_every_qc_code_the_selftest_emits_is_in_the_checks_table():
     import qc_gate
-    listed = {code: sev for code, sev, _ in qc_gate.CHECKS}
+    listed = {code: sev for code, sev, *_ in qc_gate.CHECKS}
+    assert all(release for *_, release in qc_gate.CHECKS)
     rows = [
         ("restrictions", {"state": "PA", "latitude": 32.5, "longitude": -91.6, "status": "enacted", "source_url": "x",
                           "date_enacted_iso": "2099-01", "current_end_date_iso": "March", "severity_score": 4,
@@ -396,3 +403,16 @@ def test_decision_language_is_a_lead_only_when_nothing_says_the_step_was_not_fin
     # Inside the pending tier the row whose text already states the decision comes first.
     assert [r["source_record_id"] for r in rows] == ["C", "B", "A"]
     assert rows[1]["decision_language"] == "rejected" and rows[0]["decision_language"] == ""
+
+
+def test_county_impact_names_the_instruments_whose_check_would_move_a_county():
+    def r(iid, fips, sev, scope="renewables_only"):
+        return {"instrument_id": iid, "county_fips_all": fips, "severity_score": sev, "scope": scope,
+                "state": "KS", "technology": "wind", "status": "active", "evidence_level": "report_citation"}
+    rows = [r("a", "20001", 4), r("b", "20001", 2), r("c", "20003", 4), r("d", "20003", 4),
+            r("e", "20005", 2), r("f", "20007", 4, scope="multi_sector_data_centers")]
+    assert vw.county_impacts(rows) == {"a": "sole_severe", "b": "", "c": "", "d": "", "e": "sole_record"}
+    out = vw.restriction_rows(rows, checked=set(), today=T)
+    # Within the tier: renewables-only first, then the instruments whose check moves a county.
+    assert [x["instrument_id"] for x in out] == ["a", "e", "c", "d", "b", "f"]
+    assert out[0]["county_impact"] == "sole_severe" and out[1]["county_impact"] == "sole_record"

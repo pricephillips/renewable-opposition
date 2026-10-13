@@ -129,18 +129,18 @@ Finality evidence that satisfies the QC gate: a value starting with `court_rulin
 
 A row with any CRITICAL or HIGH issue is quarantined in `data/processed/quarantine.json`; lower severities are reported in `data/processed/qc_report.md`.
 
-| Code | Severity | Meaning |
-|---|---|---|
-| `COORD_OUTSIDE_STATE` | HIGH | coordinates not inside the state the row names |
-| `SOURCE_URL_INVALID` | HIGH | source_url, case_source_url or primary_source_url is not http(s) |
-| `STATUS_VOCAB` | HIGH | status, outcome, case_status or a derived field outside the entity's vocabulary |
-| `DATE_IN_FUTURE` | HIGH | an enactment or filing date after the build date |
-| `SEVERITY_STATUS` | MEDIUM | a pending instrument scored above 2 |
-| `CONFIRMED_NO_EVIDENCE` | HIGH | a *_confirmed outcome with no independent finality evidence |
-| `PRIMARY_SOURCE_CONTRADICTS` | MEDIUM or HIGH | a reviewer found the primary source disagrees with the record; MEDIUM when that source was seen only as search-index text (a lead to read), HIGH when it was opened or archived |
-| `SCOPE_DATA_CENTER_ONLY` | HIGH | a restriction whose text names data centers and no renewable technology |
-| `DATE_UNPARSEABLE` | LOW | an ISO date column that is not YYYY[-MM[-DD]] |
-| `END_DATE_PASSED` | MEDIUM | an active or extended restriction whose own end date has passed with no reviewer confirmation since; the source's status may be out of date |
+| Code | Severity | Meaning | What releases a held row |
+|---|---|---|---|
+| `COORD_OUTSIDE_STATE` | HIGH | coordinates not inside the state the row names | correct the coordinates or the state in the seed (or the source's row) so they agree |
+| `SOURCE_URL_INVALID` | HIGH | source_url, case_source_url or primary_source_url is not http(s) | replace the value with the document's http(s) address |
+| `STATUS_VOCAB` | HIGH | status, outcome, case_status or a derived field outside the entity's vocabulary | map the source's value onto the vocabulary in the importer (build_sabin_seeds, fetch_moratorium_nation) or the queue row |
+| `DATE_IN_FUTURE` | HIGH | an enactment or filing date after the build date | check the date against the instrument or docket; a proposal date belongs in date_text, not date_enacted_iso |
+| `SEVERITY_STATUS` | MEDIUM | a pending instrument scored above 2 | nothing to do: reported only; the score is capped at 2 while pending |
+| `CONFIRMED_NO_EVIDENCE` | HIGH | a *_confirmed outcome with no independent finality evidence | add a data/review/outcome_resolutions.csv row with the document that shows the outcome (access opened or archived), or set the outcome back to *_unverified |
+| `PRIMARY_SOURCE_CONTRADICTS` | MEDIUM or HIGH | a reviewer found the primary source disagrees with the record; MEDIUM when that source was seen only as search-index text (a lead to read), HIGH when it was opened or archived | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| `SCOPE_DATA_CENTER_ONLY` | HIGH | a restriction whose text names data centers and no renewable technology | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
+| `DATE_UNPARSEABLE` | LOW | an ISO date column that is not YYYY[-MM[-DD]] | nothing to do: reported only; rewrite the date as YYYY, YYYY-MM or YYYY-MM-DD when touching the row |
+| `END_DATE_PASSED` | MEDIUM | an active or extended restriction whose own end date has passed with no reviewer confirmation since; the source's status may be out of date | nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv row checked on or after the end date restores it to in_force |
 
 ## Counting (`scripts/headline_metrics.py`)
 

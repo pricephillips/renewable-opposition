@@ -97,6 +97,15 @@ model), its Google News follow-up search (`status_followup.py`, which needs a
 network the build does not have and an intake queue this repo does not run
 yet), and its harvest-specific verification statuses.
 
+## Round four (2026-10-13): closing loops
+
+| Practice in data-center-map | Here |
+|---|---|
+| **Rank re-verification by what it would change** (`stale_pending_audit.py`'s `label_moving`: a stale row whose confirmation would flip a county label goes first). | `county_impact` on the restriction worklist: `sole_severe` (the county's only severe renewables-only instrument) and `sole_record` (its only restriction) sort first within a tier. |
+| **Suggested resolution on every review row** (`review_worklists.py`: "so the review pass is triage, not investigation"). | `qc_gate.CHECKS` names what releases a row for each code, and `qc_report.md` lists every quarantined row with that action. The codebook carries the column. |
+| **Dated change logs** (`change_log.csv`, `calibration_history.csv`: a number quoted on a day can be found by date). | `data/snapshots/headline_history.csv`, one row per build date on which a headline figure changed, appended by `snapshot_manifest.py`. |
+| **Dedupe against every file, not just the clean one** (Part C lesson 1 of the 2026-09-29 passoff: 4,099 duplicate rows in four days). | `parse.py` checks each candidate against the queue and all three seeds by source document and by name before queueing it; a same-document candidate is dropped and logged, a same-name one is queued with a "possible duplicate" note. |
+
 ## Deliberately not adopted
 
 - **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.

@@ -373,7 +373,8 @@ def main() -> int:
     archive = archived_urls()
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     write_json(PROCESSED_DIR / "quarantine.json", quarantine)
-    (PROCESSED_DIR / "qc_report.md").write_text(qc_gate.render_report(findings, totals), encoding="utf-8")
+    (PROCESSED_DIR / "qc_report.md").write_text(qc_gate.render_report(findings, totals, quarantine),
+                                                encoding="utf-8")
     print(f"QC: {len(quarantine)} quarantined, "
           f"{sum(1 for f in findings if not f['blocked'])} with non-blocking findings")
     for entity, rows in datasets.items():
