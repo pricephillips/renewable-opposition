@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-13",
+ "generated": "2026-10-14",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
   "restriction_instruments": 3350,
@@ -191,11 +191,13 @@
    "rejected": 1,
    "confirmed": 1,
    "pending": 2,
-   "awaiting_review": 1
+   "awaiting_review": 1,
+   "lead": 58
   },
   "queue_by_entity": {
-   "restriction": 24,
-   "contested_project": 2
+   "restriction": 46,
+   "contested_project": 37,
+   "case": 1
   },
   "case_candidates": 230,
   "case_candidates_started": 8,
@@ -260,6 +262,43 @@
   }
  },
  "intake": {
+  "courtlistener_renewables": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-13",
+   "last_changed": "2026-10-13",
+   "last_error": null,
+   "files_parsed": 1,
+   "leads_queued": 1,
+   "queue_by_status": {
+    "lead": 1
+   }
+  },
+  "legistar_renewable_matters": {
+   "requests": 11,
+   "stored": 11,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-13",
+   "last_changed": "2026-10-13",
+   "last_error": null,
+   "files_parsed": 8,
+   "leads_queued": 50,
+   "queue_by_status": {
+    "lead": 50
+   }
+  },
+  "moratorium_nation_upstream": {
+   "requests": 1,
+   "stored": 0,
+   "unchanged": 0,
+   "failed": 1,
+   "last_fetch": "2026-10-13",
+   "last_changed": null,
+   "last_error": "2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1"
+  },
   "nrel_solar_ordinances_2025": {
    "requests": 1,
    "stored": 1,
@@ -277,6 +316,20 @@
    "last_fetch": "2026-10-09",
    "last_changed": "2026-10-09",
    "last_error": null
+  },
+  "ny_ores_permit_applications": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-13",
+   "last_changed": "2026-10-13",
+   "last_error": null,
+   "files_parsed": 1,
+   "leads_queued": 7,
+   "queue_by_status": {
+    "lead": 7
+   }
   },
   "sabin_2026_09_landing_html": {
    "requests": 1,
@@ -321,6 +374,24 @@
    "failed": 0,
    "last_fetch": "2026-10-09",
    "last_changed": "2026-10-09",
+   "last_error": null
+  },
+  "sabin_web_database_projects": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-13",
+   "last_changed": "2026-10-13",
+   "last_error": null
+  },
+  "sabin_web_database_restrictions": {
+   "requests": 1,
+   "stored": 1,
+   "unchanged": 0,
+   "failed": 0,
+   "last_fetch": "2026-10-13",
+   "last_changed": "2026-10-13",
    "last_error": null
   }
  }

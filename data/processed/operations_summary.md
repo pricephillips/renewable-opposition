@@ -1,6 +1,6 @@
 # Operations summary
 
-Generated 2026-10-13 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-14 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
@@ -24,7 +24,7 @@ Decided projects (events older than 90 days): 310, of which 234 blocked; confirm
 
 ## Review and promotion
 
-Queue: 21 promoted, 1 rejected, 1 confirmed, 2 pending, 1 awaiting_review. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 21 promoted, 1 rejected, 1 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
 Promotion trail: 75 decisions from 2026-10-13 to 2026-10-13 (new or changed decisions only): 62 promoted, 11 held, 1 awaiting_review, 1 rejected.
 
@@ -57,15 +57,21 @@ Per source in `data/raw/manifest.csv`: requests made, new content stored, unchan
 
 | Source | Requests | Stored | Unchanged | Failed | Last fetch | Last changed | Leads queued | Queue now |
 |---|---:|---:|---:|---:|---|---|---:|---|
+| courtlistener_renewables | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 | 1 | 1 lead |
+| legistar_renewable_matters | 11 | 11 | 0 | 0 | 2026-10-13 | 2026-10-13 | 50 | 50 lead |
+| moratorium_nation_upstream | 1 | 0 | 0 | 1 | 2026-10-13 |  |  |  |
 | nrel_solar_ordinances_2025 | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | nrel_wind_ordinances_2025 | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
+| ny_ores_permit_applications | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 | 7 | 7 lead |
 | sabin_2026_09_landing_html | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_projects_csv | 2 | 1 | 1 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_report_html | 2 | 2 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_report_pdf | 2 | 0 | 0 | 2 | 2026-10-09 |  |  |  |
 | sabin_2026_09_restrictions_csv | 2 | 1 | 1 | 0 | 2026-10-09 | 2026-10-09 |  |  |
+| sabin_web_database_projects | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 |  |  |
+| sabin_web_database_restrictions | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 |  |  |
 
-Last error by source: sabin_2026_09_report_pdf (2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change).
+Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1); sabin_2026_09_report_pdf (2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change).
 
 ## History and archive
 
