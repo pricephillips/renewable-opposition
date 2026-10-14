@@ -146,6 +146,7 @@ kept and its URL attached, but nothing moves:
 
 A snippet row stays on the worklists below, with its URL in `located_url`,
 until someone opens or archives the source and changes `access`.
+A scheduled routine works these lists every morning (`docs/VERIFICATION_ROUTINE.md`): `scripts/verification_batch.py` picks 20 instruments and 5 outcomes not attempted in the last 14 days, one agent reads each source and a second reopens it, and only rows both agree on are written, in one pull request per run. Every attempt is logged in `data/review/verification_log.csv`.
 In Claude Code, `/verify-evidence` (`.claude/commands/verify-evidence.md`)
 runs this process: it tries to read each snippet row's source, corrects the
 row against it, and then works the worklists.
@@ -405,7 +406,8 @@ renewable-opposition/
 ├── README.md
 ├── requirements.txt
 ├── config/
-│   ├── sources.yaml                        ← crawler source registry (fetch.py)
+│   ├── sources.yaml                        ← crawler source registry (fetch.py; the live intake sources)
+│   ├── legistar_clients.json               ← Legistar clients live intake reads, each with its county
 │   └── source_registry.csv                 ← dataset/tracker registry
 ├── data/
 │   ├── renewable_opposition_records.csv    ← Sabin June 2025 extraction (read through the edition crosswalk)
@@ -430,7 +432,7 @@ renewable-opposition/
 │   │   ├── examination_worklist.csv        ← every county still to examine, nearest-to-finished states first (build_database.py)
 │   │   ├── adjacency_worklist.csv          ← unchecked neighbors of a new restriction (adjacency_worklist.py)
 │   │   ├── facility_matches.csv            ← projects matched to federal plant inventories, conflicts first (written by the build)
-│   │   └── queue.csv                       ← extractor candidates (written by parse.py)
+│   │   └── queue.csv                       ← review queue: hand-added rows and live-intake leads (parse.py)
 │   ├── raw/                                ← fetched documents keyed by content hash (fetch.py)
 │   ├── processed/                          ← canonical CSV + JSON outputs
 │   └── db/                                 ← national database: Parquet + state/county summaries (committed), .duckdb (not)
@@ -456,9 +458,11 @@ renewable-opposition/
 │   ├── ohio_sb52_worklist.py               ← one row per Ohio county for SB 52 checks
 │   ├── build_sabin_seeds.py                ← Sabin rows of restrictions + contested projects, review files
 │   ├── coverage_audit.py                   ← writes docs/coverage_audit.md + coverage_gaps.csv
-│   ├── fetch.py                            ← crawler: sources.yaml -> data/raw/
-│   ├── parse.py                            ← runs scripts/extractors/<source_id>.py -> review/queue.csv
-│   ├── extractors/courtlistener_renewables.py
+│   ├── fetch.py                            ← crawler: sources.yaml -> data/raw/ (--intake: the live sources)
+│   ├── parse.py                            ← runs scripts/extractors/<source_id>.py -> review/queue.csv leads
+│   ├── extractors/                         ← one per live source: courtlistener_renewables, gdelt_renewable_news,
+│   │                                         ny_ores_permit_applications, legistar_renewable_matters
+│   ├── news_place.py                       ← places a headline in a county only when it names one (after data-center-map)
 │   ├── promote_reviewed.py                 ← complete review rows -> seed CSVs (run by build-data.yml)
 │   ├── promotion_trail.py                  ← decision trail rule: record new or changed decisions only (after data-center-map)
 │   ├── codebook.py                         ← docs/codebook.md from the rules' own constants
@@ -481,6 +485,7 @@ renewable-opposition/
 pip install -r requirements.txt
 python scripts/run_pipeline.py              # build: promote, build, worklists, gates, diff (what CI runs)
 python scripts/run_pipeline.py refresh      # re-fetch every input and rebuild the seeds first
+python scripts/run_pipeline.py intake       # live intake: fetch the live sources, queue new leads (no build)
 python scripts/run_pipeline.py --list       # the stages, in order
 python -m pytest -q
 ```
@@ -633,13 +638,33 @@ The national database also gives each record the Census GEOID of the government 
 ## Pipeline layers (roadmap)
 
 1. **Source registry**: `config/sources.yaml` (crawl targets) and `config/source_registry.csv` (datasets).
-2. **Crawler/fetcher**: `scripts/fetch.py` fetches each active source and stores an immutable raw copy keyed by content hash. Not scheduled yet.
-3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`. The CourtListener extractor is the first.
+2. **Crawler/fetcher**: `scripts/fetch.py` fetches each active source and stores an immutable raw copy keyed by content hash. The live sources run weekly (see "Live intake" below).
+3. **Parser/extractor**: `scripts/parse.py` plus one module per source in `scripts/extractors/`: CourtListener, GDELT news, NY ORES siting decisions and Legistar county legislation.
 4. **Review queue**: `data/review/*.csv`. `scripts/promote_reviewed.py` promotes complete rows on every data build.
 5. **Canonical outputs**: `scripts/build_seed_outputs.py` writes CSV + JSON + the Sources table to `data/processed/`.
 6. **Pages**: `national-dashboard.html` is the dashboard: national, state and county views (`#/`, `#/state/IA`, `#/county/19113`), an explorer with CSV export (`#/explore/restrictions`), record pages (`#/restriction/<id>`), coverage (`#/coverage`), downloads and the data dictionary (`#/data`), and a SQL console on DuckDB-WASM (`#/sql`). The national view also shows when the restrictions date from (each year labelled by where it comes from) and how the headline figures have changed from build to build (`data/snapshots/headline_history.csv`); record pages give the Census GEOID of the government a record names. It reads the national database's published files in `data/db/` plus `headline_metrics.json`; see `docs/national_database_design.md`. `index.html`, `dashboard.html` and `renewable-opposition-map.html` redirect to it. `map-audit.html`, the internal geography audit, reads `data/processed/` through `processed-data.js`. Each counts instruments, not rows, and quotes its totals from `headline_metrics.json`; restrictions that also cover data centers are always a separate figure.
 
-**Rules for any future news intake.** Harvested news never writes to a seed or a published file. `parse.py` checks every candidate against everything that could already hold it, the queue (any `review_status`) and the three seeds, before queueing it: the same entity and source document is dropped and logged, and the same entity, state and name under another URL is queued with "possible duplicate of ..." in `reviewer_notes` for a reviewer to merge or reject. (data-center-map's harvester checked only the cleaned feed and re-promoted the same articles nightly: 4,099 duplicate rows in four days.) A news harvester or extractor writes candidates to `data/review/queue.csv` only, and every candidate goes through the same review and promotion gates as a hand-entered row: `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. `tests/test_news_intake.py` asserts that `parse.py` and every module in `scripts/extractors/` write only to `data/review/` (apart from `parse.py`'s own record of which raw files it has parsed, `data/raw/parse_state.csv`), and that no seed lists either as a writer.
+### Live intake
+
+`python scripts/run_pipeline.py intake` (run every Tuesday by `.github/workflows/intake.yml`) pulls the live sources into the review queue. It never runs the build and never writes a seed or a published file.
+
+1. `scripts/fetch.py --intake` fetches every active source in `config/sources.yaml` that something reads: one with an extractor in `scripts/extractors/<source_id>.py`, or one marked `watch: true`. Each response is stored gzipped in `data/raw/<source_id>/` under the SHA-256 of its content, with a row in `data/raw/manifest.csv`; a response identical to the last one for the same request stores nothing. Requests are paced per source (GDELT asks for one every 5 seconds), retried on throttling, and refused when the body is not what the source promises (GDELT answers a malformed query with HTTP 200 and a line of text). A failed request is recorded with its error and never stops the run.
+2. `scripts/parse.py` runs each new raw file through its extractor and appends what it finds to `data/review/queue.csv` as **leads**: `review_status` `lead`, `access` `snippet` (an API record or a headline is not a read document), each with its own `queue_id`. A raw file whose extractor raised is recorded with its error and tried again next week, up to three times; after that it is skipped and reported until the extractor is fixed and the source re-parsed (`parse.py --reparse <source_id>`). The fetch stops starting new requests after 10 minutes and records each one it skipped, so the job commits well inside its 15-minute cap, and the job checks the fresh queue (`tests/test_intake_registry.py`) before it commits.
+
+| Source | What it reads | What becomes a lead |
+|---|---|---|
+| `gdelt_renewable_news` | GDELT DOC 2.0 news search, five queries (moratoria and bans, zoning and setbacks, denials, litigation, organizing), the last eight days | A headline that names a renewable technology and an opposition mechanism. It is placed in a county only when the headline names the county (and its state, unless the name is unique). A crawl date is never recorded as an event date. |
+| `courtlistener_renewables` | CourtListener's opinion search for wind, solar and storage siting cases | An opinion that names a renewable technology (a case candidate). |
+| `ny_ores_permit_applications` | New York ORES's permit application tables | A denied or withdrawn application, and any application whose project is already a contested project here (its ORES status may update the outcome). |
+| `legistar_renewable_matters` | The Legistar records of the counties and cities in `config/legistar_clients.json`, each verified by its body names | A moratorium, ordinance, or zoning, text or code amendment on solar, wind or storage siting (a restriction lead); an appeal, denial, opposing resolution or public comment on a facility, or a permit, rezoning or EIR decision on a named one (a project lead). The county buying, leasing, funding or installing solar is dropped. A lead is placed in the client's county; its `source_kind` is `other`, since a matter page is the clerk's record and the instrument is its attachment. |
+
+Three watched upstreams (`moratorium_nation_upstream` and the Sabin web database's two exports) are fetched for change detection only: when one changes, the run summary says which refresh stage to run. The operations summary (`data/processed/operations_summary.md`, "Live intake and fetched sources") lists, per source, the requests made, when its content last changed, its last error, and what became of its leads.
+
+**Triage.** A lead changes nothing anyone reads: `promote_reviewed.py` never promotes it however complete it is, and the county reports and the public dashboard count only `pending` candidates. A reviewer reads the lead and sets `review_status` to `pending` when it is on topic and placed (it then counts as a candidate awaiting review for its county), or to `rejected`. From there it is an ordinary queue row: it promotes once its fields are complete and its source has been opened or archived. A lead's `reviewer_notes` say how it was found, how it was placed and why, and what `parse.py` blanked: it forces `lead` and `snippet` and blanks any value outside the vocabulary the promotion and the build accept, whatever the extractor returned. In Claude Code, `/triage-leads` (`.claude/commands/triage-leads.md`) runs this triage.
+
+**Dedupe** (data-center-map's harvester checked only its cleaned feed and re-promoted the same articles nightly: 4,099 duplicate rows in four days). `parse.py` checks every candidate against everything that could already hold it before queueing it: the same entity and source document in the queue (any `review_status`) or a seed is dropped; a document already cited anywhere as evidence (a seed's primary, ordinance, group or case source, an outcome resolution, restriction source, group candidate, place override or case candidate) is dropped; a news headline already queued (one story syndicated on many mastheads) is dropped; click-tracking parameters are ignored throughout. The same entity, state and name under another URL is queued with "possible duplicate of ..." in `reviewer_notes` for a reviewer to merge or reject.
+
+**The rules every extractor keeps.** It writes nothing (`tests/test_news_intake.py` checks every module in `scripts/extractors/` and `parse.py` with the layer audit's AST walk, and that no seed lists either as a writer); it sets `access` to `snippet`; it fills `status`, `mechanisms` and `severity_score` only with exact vocabulary the source states outright, or leaves them blank; and every candidate then goes through the same gates as a hand-entered row: triage, `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. Each extractor is tested offline on trimmed real responses in `tests/fixtures/intake/`, and the intake workflow runs those tests before it fetches anything.
 
 ---
 

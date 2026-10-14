@@ -19,6 +19,8 @@ Reads   data/processed/headline_metrics.json, quarantine.json, sources.csv
         by source family: how often a compiled row survived a reading of its
         primary source)
         data/snapshots/manifest.csv, headline_history.csv (scripts/headline_history.py)
+        data/raw/manifest.csv, parse_state.csv (live intake: what each source
+        returned, when its content last changed, what parse.py queued)
 Writes  data/processed/operations_summary.json, operations_summary.md
 
 Usage
@@ -38,6 +40,7 @@ from common import PROCESSED_DIR, REVIEW_DIR, ROOT, read_csv  # noqa: E402
 OUT_JSON = PROCESSED_DIR / "operations_summary.json"
 OUT_MD = PROCESSED_DIR / "operations_summary.md"
 SNAPSHOTS = ROOT / "data" / "snapshots"
+RAW = ROOT / "data" / "raw"
 RECENT = 8  # trail decisions shown
 
 
@@ -148,6 +151,43 @@ def evidence_checks_section(sources: list[dict], resolutions: list[dict]) -> dic
                                     "by_access": dict(sorted(access.items()))}}
 
 
+def intake_section(raw_manifest: list[dict], parse_state: list[dict], queue: list[dict]) -> dict:
+    """Live intake by source, from data/raw/manifest.csv (one row per request:
+    stored, unchanged or failed), data/raw/parse_state.csv (raw files parsed and
+    leads queued) and the queue (leads still untriaged, and what triage made of
+    the rest). Counts only."""
+    out: dict[str, dict] = {}
+    for r in raw_manifest:
+        sid = _s(r.get("source_id"))
+        e = out.setdefault(sid, {"requests": 0, "stored": 0, "unchanged": 0, "failed": 0, "last_fetch": None,
+                                 "last_changed": None, "last_error": None})
+        e["requests"] += 1
+        day = _s(r.get("fetch_date"))[:10] or None
+        e["last_fetch"] = max(filter(None, (e["last_fetch"], day)), default=None)
+        if _s(r.get("error")):
+            e["failed"] += 1
+            e["last_error"] = f"{day}: {_s(r.get('error'))[:160]}"
+        elif _s(r.get("local_path")) == "unchanged":
+            e["unchanged"] += 1
+        elif _s(r.get("local_path")):
+            e["stored"] += 1
+            e["last_changed"] = max(filter(None, (e["last_changed"], day)), default=None)
+    for r in parse_state:
+        e = out.get(_s(r.get("source_id")))
+        if e is not None:
+            e["files_parsed"] = e.get("files_parsed", 0) + 1
+            e["leads_queued"] = e.get("leads_queued", 0) + int(_s(r.get("candidate_count")) or 0)
+    for r in queue:
+        e = out.get(_s(r.get("source_id")))
+        if e is not None:
+            status = _s(r.get("review_status")) or "pending"
+            e.setdefault("queue_by_status", Counter())[status] += 1
+    for e in out.values():
+        if "queue_by_status" in e:
+            e["queue_by_status"] = dict(sorted(e["queue_by_status"].items()))
+    return dict(sorted(out.items()))
+
+
 def archive_section(sources: list[dict]) -> dict:
     archived = sum(1 for s in sources if _s(s.get("archived_url")))
     return {"sources": len(sources), "archived": archived,
@@ -155,7 +195,8 @@ def archive_section(sources: list[dict]) -> dict:
 
 
 def summarize(*, today: str, metrics, held, outcomes, restrictions, negative, adjacency, misses, trail, queue,
-              candidates, manifest, history, sources, restriction_sources=(), outcome_resolutions=()) -> dict:
+              candidates, manifest, history, sources, restriction_sources=(), outcome_resolutions=(),
+              raw_manifest=(), parse_state=()) -> dict:
     return {
         "generated": today,
         "note": "Every number counts rows another module wrote; check it against the file named in the key.",
@@ -167,6 +208,7 @@ def summarize(*, today: str, metrics, held, outcomes, restrictions, negative, ad
         "history": history_section(manifest, history),
         "source_archive": archive_section(sources),
         "evidence_checks": evidence_checks_section(list(restriction_sources), list(outcome_resolutions)),
+        "intake": intake_section(list(raw_manifest), list(parse_state), queue),
     }
 
 
@@ -228,6 +270,21 @@ def render(s: dict) -> str:
             L += ["", f"Outcome resolutions: {o['rows']} ("
                   + ", ".join(f"{n} {k}" for k, n in o["by_outcome"].items()) + "; by access "
                   + ", ".join(f"{n} {k}" for k, n in o["by_access"].items()) + ")."]
+    intake = s.get("intake") or {}
+    if intake:
+        L += ["", "## Live intake and fetched sources", "",
+              "Per source in `data/raw/manifest.csv`: requests made, new content stored, unchanged and failed; "
+              "when the content last changed; leads parse.py queued (`data/raw/parse_state.csv`) and what review "
+              "made of them in the queue. A lead is never published until a reviewer triages it.", "",
+              "| Source | Requests | Stored | Unchanged | Failed | Last fetch | Last changed | Leads queued | Queue now |",
+              "|---|---:|---:|---:|---:|---|---|---:|---|"]
+        for sid, e in intake.items():
+            qs = ", ".join(f"{n} {k}" for k, n in (e.get("queue_by_status") or {}).items())
+            L.append(f"| {sid} | {e['requests']} | {e['stored']} | {e['unchanged']} | {e['failed']} | "
+                     f"{e['last_fetch'] or ''} | {e['last_changed'] or ''} | {e.get('leads_queued', '')} | {qs} |")
+        errors = [(sid, e["last_error"]) for sid, e in intake.items() if e.get("last_error")]
+        if errors:
+            L += ["", "Last error by source: " + "; ".join(f"{sid} ({err})" for sid, err in errors) + "."]
     L += ["", "## History and archive", "",
           f"{hi['snapshot_rows']} snapshot rows over {hi['snapshot_files']} published files; "
           f"{hi['headline_history_rows']} headline changes recorded"
@@ -254,6 +311,8 @@ def main() -> int:
         sources=read_csv(PROCESSED_DIR / "sources.csv"),
         restriction_sources=read_csv(REVIEW_DIR / "restriction_sources.csv"),
         outcome_resolutions=read_csv(REVIEW_DIR / "outcome_resolutions.csv"),
+        raw_manifest=read_csv(RAW / "manifest.csv"),
+        parse_state=read_csv(RAW / "parse_state.csv"),
     )
     OUT_JSON.write_text(json.dumps(s, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     OUT_MD.write_text(render(s), encoding="utf-8")

@@ -60,7 +60,8 @@ BUILD = [
     ("operations_summary", ["scripts/operations_summary.py"], "what the pipeline did and holds, in one file", False),
 ]
 INTAKE = [
-    ("fetch_intake", ["scripts/fetch.py", "--intake"],
+    # 600 s leaves the parse and the commit well inside intake.yml's 15 minutes.
+    ("fetch_intake", ["scripts/fetch.py", "--intake", "--budget-s", "600"],
      "live sources an extractor reads, and watched upstreams, into data/raw/", True),
     ("parse", ["scripts/parse.py"], "new raw files into review-queue leads (review_status lead)", True),
 ]
@@ -76,11 +77,15 @@ def run(stage: tuple, summary: Path | None, dry_run: bool) -> int:
         return 0
     if not (to_summary and summary):
         return subprocess.run(argv, cwd=ROOT).returncode
-    proc = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True)
-    sys.stdout.write(proc.stdout)
-    sys.stderr.write(proc.stderr)
-    with summary.open("a", encoding="utf-8") as f:
-        f.write(proc.stdout)
+    # Stream line by line, so a job killed mid-stage still has its log and
+    # the part of the summary written so far.
+    with subprocess.Popen(argv, cwd=ROOT, stdout=subprocess.PIPE, text=True, bufsize=1) as proc, \
+            summary.open("a", encoding="utf-8") as f:
+        for line in proc.stdout:
+            sys.stdout.write(line)
+            sys.stdout.flush()
+            f.write(line)
+            f.flush()
     return proc.returncode
 
 

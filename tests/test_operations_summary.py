@@ -83,3 +83,29 @@ def test_evidence_checks_count_verdicts_by_source_family():
     text = ops.render({**build(), "evidence_checks": s})
     assert "| Moratorium Nation | 2 | 1 | 1 | 2 | 0 | 0 |" in text and "Outcome resolutions: 2 (" in text
     assert "## What checking found" not in ops.render(build())
+
+
+def test_intake_counts_requests_changes_and_leads_by_source():
+    import operations_summary as ops
+    manifest = [
+        {"source_id": "gdelt_renewable_news", "fetch_date": "2026-10-13T07:23:00+00:00", "local_path": "data/raw/g/a.json.gz"},
+        {"source_id": "gdelt_renewable_news", "fetch_date": "2026-10-13T07:23:06+00:00", "error": "429 Client Error"},
+        {"source_id": "gdelt_renewable_news", "fetch_date": "2026-10-20T07:23:00+00:00", "local_path": "unchanged"},
+        {"source_id": "moratorium_nation_upstream", "fetch_date": "2026-10-20T07:24:00+00:00", "local_path": "unchanged"},
+    ]
+    parse_state = [{"source_id": "gdelt_renewable_news", "candidate_count": "3"}]
+    queue = [{"source_id": "gdelt_renewable_news", "review_status": s} for s in ("lead", "lead", "rejected")]
+    out = ops.intake_section(manifest, parse_state, queue)
+    g = out["gdelt_renewable_news"]
+    assert (g["requests"], g["stored"], g["unchanged"], g["failed"]) == (3, 1, 1, 1)
+    assert g["last_fetch"] == "2026-10-20" and g["last_changed"] == "2026-10-13"
+    assert g["last_error"] == "2026-10-13: 429 Client Error"
+    assert g["files_parsed"] == 1 and g["leads_queued"] == 3
+    assert g["queue_by_status"] == {"lead": 2, "rejected": 1}
+    m = out["moratorium_nation_upstream"]
+    assert m["last_changed"] is None and "queue_by_status" not in m
+    assert "| gdelt_renewable_news | 3 | 1 | 1 | 1 | 2026-10-20 | 2026-10-13 | 3 | 2 lead, 1 rejected |" in ops.render(
+        ops.summarize(today="2026-10-20", metrics=None, held=None,
+                         outcomes=[], restrictions=[], negative=[], adjacency=[], misses=[], trail=[], queue=queue,
+                         candidates=[], manifest=[], history=[], sources=[], raw_manifest=manifest,
+                         parse_state=parse_state))

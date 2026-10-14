@@ -10,7 +10,13 @@ on:
   # EIA publishes EIA-860M late each month; this run picks up the new month.
   schedule:
     - cron: '17 6 3 * *'
+  # main only. A pull request's own build is checked by validate.yml's ui
+  # job (it rebuilds data/processed and data/db from the PR's seeds), and the
+  # outputs are regenerated here once it merges. Building on PR branches cost
+  # a run per push, pushed a bot commit GitHub does not validate (a zero-job
+  # run to re-run by hand), and was rebuilt on main anyway.
   push:
+    branches: [main]
     paths:
       - 'scripts/run_pipeline.py'
       - 'scripts/facility_matches.py'
@@ -77,6 +83,7 @@ concurrency:
 jobs:
   build-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
@@ -154,7 +161,8 @@ jobs:
           echo "::error::push failed after 3 attempts"; exit 1
 
       - name: Open an issue on failure (main only)
-        if: failure() && github.ref == 'refs/heads/main'
+        # A job that hits timeout-minutes ends cancelled, not failed.
+        if: (failure() || cancelled()) && github.ref == 'refs/heads/main'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |

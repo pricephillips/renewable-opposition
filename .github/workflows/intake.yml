@@ -1,0 +1,111 @@
+name: Live intake
+
+# Pulls the live sources into the review queue (scripts/run_pipeline.py
+# intake): fetch.py --intake stores each source an extractor reads, and each
+# watched upstream, in data/raw/ (gzipped, keyed by content hash; an unchanged
+# response stores nothing), then parse.py turns new raw files into leads in
+# data/review/queue.csv (review_status lead, access snippet). A lead is never
+# promoted or counted on a page until a reviewer triages it, so this job does
+# not run the build: what it commits changes nothing published.
+#
+# Lean on purpose (Actions minutes): weekly, one job, a small install, no
+# artifacts, a 15-minute cap. GDELT is paced at one request per 6 s and a
+# throttled source is recorded in the manifest, never fatal; the next week
+# picks it up.
+#
+# Optional secret: COURTLISTENER_API_TOKEN (anonymous CourtListener use is
+# capped per IP). The GitHub token is passed so the Moratorium Nation watch is
+# not rate limited.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Tuesdays 07:23 UTC: clear of source-archive (Mon 09:17), build-data
+    # (the 3rd, 06:17) and data-center-map's harvest (06:00 to 09:15).
+    - cron: "23 7 * * 2"
+
+permissions:
+  contents: write
+  issues: write
+
+# Shares build-data.yml's group: all three commit to the same branch.
+concurrency:
+  group: build-data-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # HEAD~1 for the rebase in the push loop. Credentials are kept
+          # (zizmor: artipacked) because the last step pushes.
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+
+      - name: Install dependencies
+        run: uv pip install --system -c requirements/ci.txt -r requirements.txt
+
+      # The intake tests run on committed fixtures in a few seconds; a broken
+      # extractor stops here, before anything is fetched or committed.
+      - name: Offline check of the intake code (fixtures, no network)
+        run: python -m pytest -q -p no:cacheprovider tests/test_news_intake.py tests/test_intake_*.py
+
+      - name: Fetch and parse the live sources
+        id: intake
+        env:
+          COURTLISTENER_API_TOKEN: ${{ secrets.COURTLISTENER_API_TOKEN }}
+          GH_API_TOKEN: ${{ github.token }}
+        run: python scripts/run_pipeline.py intake --summary "$GITHUB_STEP_SUMMARY"
+
+      # GitHub does not start validate.yml for this job's own push, so the
+      # queue it is about to commit is checked here: every lead meets the lead
+      # contract and every review row says how its evidence was seen.
+      - name: Check the queue before committing
+        id: check
+        if: always()
+        run: python -m pytest -q -p no:cacheprovider tests/test_intake_registry.py tests/test_brain.py -k "lead_contract or queue_keeps or committed_review_row"
+
+      # Commits what the run wrote even when a source or an extractor failed,
+      # never a queue that failed the check.
+      - name: Commit raw copies and leads
+        if: always() && steps.check.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/raw/ data/review/queue.csv
+          git diff --cached --quiet && exit 0
+          git commit -m "Live intake: raw copies and review-queue leads"
+          # Another workflow may have moved the branch since checkout. Rebase
+          # and retry; never force-push.
+          for i in 1 2 3; do
+            git push origin HEAD:"$GITHUB_REF_NAME" && exit 0
+            echo "Push rejected (attempt $i); rebasing on the latest branch"
+            git fetch --no-tags origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME" || { git rebase --abort; echo "::error::rebase conflict"; exit 1; }
+            sleep $((i * 5))
+          done
+          echo "::error::push failed after 3 attempts"; exit 1
+
+      - name: Open an issue on failure (main only)
+        # A job that hits timeout-minutes ends cancelled, not failed.
+        if: (failure() || cancelled()) && github.ref == 'refs/heads/main'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Live intake failed (${context.sha.slice(0, 7)})`,
+              body: `The weekly live intake failed on main. Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\nRaw copies and leads written before the failure were committed; a raw file whose extractor raised is retried next week.`,
+            });

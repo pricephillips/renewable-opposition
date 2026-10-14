@@ -1,4 +1,5 @@
 import json
+from types import SimpleNamespace
 
 import duckdb
 import pytest
@@ -61,20 +62,59 @@ def test_every_case_links_to_a_published_project(con):
     assert con.execute("SELECT count(*) FROM case_project WHERE project_id IS NULL").fetchone()[0] == 0
 
 
+# Every path --publish writes, as bdb constant -> name under a publish dir.
+PUBLISH_PATHS = {
+    "PARQUET_DIR": "parquet", "STATE_SUMMARY": "state_summary.json", "COUNTY_SUMMARY": "county_summary.json",
+    "STATE_DIR": "state", "RECORD_INDEX": "record_index.json", "WORKLISTS_JSON": "worklists.json",
+    "MANIFEST_JSON": "manifest.json", "GEOID_WORKLIST": "geoid_worklist.csv", "TIMELINE_JSON": "timeline.json",
+    "HISTORY_JSON": "history.json", "EXAMINATION_WORKLIST": "examination_worklist.csv",
+}
+
+
+def _publish_to(mp, root):
+    for name, rel in PUBLISH_PATHS.items():
+        mp.setattr(bdb, name, root / rel)
+
+
 @pytest.fixture
 def publish_dirs(monkeypatch, tmp_path):
-    monkeypatch.setattr(bdb, "PARQUET_DIR", tmp_path / "parquet")
-    monkeypatch.setattr(bdb, "STATE_SUMMARY", tmp_path / "state_summary.json")
-    monkeypatch.setattr(bdb, "COUNTY_SUMMARY", tmp_path / "county_summary.json")
-    monkeypatch.setattr(bdb, "STATE_DIR", tmp_path / "state")
-    monkeypatch.setattr(bdb, "RECORD_INDEX", tmp_path / "record_index.json")
-    monkeypatch.setattr(bdb, "WORKLISTS_JSON", tmp_path / "worklists.json")
-    monkeypatch.setattr(bdb, "MANIFEST_JSON", tmp_path / "manifest.json")
-    monkeypatch.setattr(bdb, "GEOID_WORKLIST", tmp_path / "geoid_worklist.csv")
-    monkeypatch.setattr(bdb, "TIMELINE_JSON", tmp_path / "timeline.json")
-    monkeypatch.setattr(bdb, "HISTORY_JSON", tmp_path / "history.json")
-    monkeypatch.setattr(bdb, "EXAMINATION_WORKLIST", tmp_path / "examination_worklist.csv")
+    _publish_to(monkeypatch, tmp_path)
     return tmp_path
+
+
+def _publish(con, root):
+    """Every published file written from con (export_parquet through
+    write_manifest), as {file name: bytes} of everything under root."""
+    parquet = bdb.export_parquet(con)
+    bdb.write_summaries(con)
+    bdb.write_state_files(con)
+    bdb.write_record_index(con)
+    bdb.write_worklists(con)
+    bdb.write_timeline(con)
+    bdb.write_history(con)
+    bdb.write_manifest(con, parquet)
+    return {p.name: p.read_bytes() for p in root.rglob("*") if p.is_file()}
+
+
+@pytest.fixture(scope="module")
+def published(con, tmp_path_factory):
+    """One publish from con into a temp dir, made once for the module (about
+    10 s, most of it the state files). test_publish_is_byte_for_byte_repeatable
+    compares it with a second; the state-file and record-index tests only
+    read it."""
+    root = tmp_path_factory.mktemp("published")
+    with pytest.MonkeyPatch.context() as mp:
+        _publish_to(mp, root)
+        files = _publish(con, root)
+    return SimpleNamespace(root=root, files=files)
+
+
+@pytest.fixture
+def published_dirs(published, monkeypatch):
+    """bdb's publish paths pointed at the shared publish, for tests that only
+    read what it wrote."""
+    _publish_to(monkeypatch, published.root)
+    return published.root
 
 
 def test_main_publishes_parquet_and_summaries(publish_dirs):
@@ -88,18 +128,9 @@ def test_main_publishes_parquet_and_summaries(publish_dirs):
     assert {p.stem for p in (publish_dirs / "state").glob("*.json")} == set(bdb.STATE_FIPS)
 
 
-def test_publish_is_byte_for_byte_repeatable(con, publish_dirs):
-    def snapshot():
-        parquet = bdb.export_parquet(con)
-        bdb.write_summaries(con)
-        bdb.write_state_files(con)
-        bdb.write_record_index(con)
-        bdb.write_worklists(con)
-        bdb.write_timeline(con)
-        bdb.write_history(con)
-        bdb.write_manifest(con, parquet)
-        return {p.name: p.read_bytes() for p in publish_dirs.rglob("*") if p.is_file()}
-    assert snapshot() == snapshot()
+def test_publish_is_byte_for_byte_repeatable(con, published, publish_dirs):
+    # The first publish from con is the module's (published); the second is made here.
+    assert published.files == _publish(con, publish_dirs)
     keys = {k for (k,) in duckdb.sql(
         f"SELECT key FROM '{(publish_dirs / 'parquet' / 'build_info.parquet').as_posix()}'").fetchall()}
     assert not keys & set(bdb.VOLATILE_INFO)
@@ -120,8 +151,8 @@ def test_summaries_agree_with_headline_metrics(con, publish_dirs):
         m["county_coverage"]["with_neither"]
 
 
-def test_every_record_is_in_its_own_state_file(con, publish_dirs):
-    bdb.write_state_files(con)
+def test_every_record_is_in_its_own_state_file(con, published_dirs):
+    # bdb.write_state_files(con) ran in the module's publish (published).
     files = {p.stem: json.loads(p.read_text()) for p in bdb.STATE_DIR.glob("*.json")}
     for entity, table in (("restrictions", "restriction_instrument"), ("projects", "contested_project")):
         expected = dict(con.execute(f"SELECT instrument_id, state_code FROM {table}").fetchall())
@@ -157,9 +188,8 @@ def test_pending_review_is_a_count_that_matches_site_profiles(con):
     assert not any("pending" in k or "queue" in k for k in detail_keys)
 
 
-def test_record_index_names_the_state_file_of_every_record(con, publish_dirs):
-    bdb.write_state_files(con)
-    bdb.write_record_index(con)
+def test_record_index_names_the_state_file_of_every_record(con, published_dirs):
+    # bdb.write_state_files(con) and bdb.write_record_index(con) ran in the module's publish (published).
     idx = json.loads(bdb.RECORD_INDEX.read_text())
     rows = rowsof(idx)
     key = {"restriction": "restrictions", "project": "projects", "case": "cases"}
@@ -266,29 +296,32 @@ def test_examination_worklist_lists_every_unexamined_county_nearest_states_first
 def test_a_drafted_check_counts_only_once_reviewed(con, monkeypatch, tmp_path):
     import negative_checks as nc
     from common import write_csv
-    fips, st = con.execute("SELECT county_fips, state_code FROM v_county_summary WHERE in_coverage_universe "
-                           "AND coverage_status = 'not_examined' ORDER BY county_fips LIMIT 1").fetchone()
+    # Two counties nobody has examined: one gets the drafted check, the other
+    # the same check reviewed. One build holds both; each is asserted on its own.
+    (fips, st), (reviewed_fips, reviewed_st) = con.execute(
+        "SELECT county_fips, state_code FROM v_county_summary WHERE in_coverage_universe "
+        "AND coverage_status = 'not_examined' ORDER BY county_fips LIMIT 2").fetchall()
     draft = {"county_fips": fips, "state": st, "county": "x", "scope": "restrictions",
              "governments_checked": "the county", "checked_on": nc.PROTOCOL_START, "result": "none_found",
              "sources_checked": "code: zoning code (https://example.org); minutes: board 2023 to 2026; "
                                 "news search: solar moratorium",
              "drafted_by": "agent:checker-1", "reviewer": ""}
+    reviewed_check = {**draft, "county_fips": reviewed_fips, "state": reviewed_st, "reviewer": "agent:reviewer-1"}
 
-    def build_with(check):
+    def build_with(*checks):
         path = tmp_path / "negative_checks.csv"
-        write_csv(path, nc.load() + [check], nc.CHECK_FIELDS)
+        write_csv(path, nc.load() + list(checks), nc.CHECK_FIELDS)
         monkeypatch.setattr(nc, "CHECKS_PATH", path)
         c = duckdb.connect()
         bdb.build(c)
         return c
 
-    held = build_with(draft)
+    held = reviewed = build_with(draft, reviewed_check)
     assert held.execute("SELECT coverage_status FROM v_county_summary WHERE county_fips = ?", [fips]).fetchone() \
         == ("not_examined",)
     assert held.execute("SELECT reason, drafted_by FROM examination_worklist WHERE county_fips = ?",
                         [fips]).fetchone() == ("check_held", "agent:checker-1")
-    reviewed = build_with({**draft, "reviewer": "agent:reviewer-1"})
     assert reviewed.execute("SELECT coverage_status, negative_check_grade FROM v_county_summary "
-                            "WHERE county_fips = ?", [fips]).fetchone() == ("checked_none", "A")
+                            "WHERE county_fips = ?", [reviewed_fips]).fetchone() == ("checked_none", "A")
     assert reviewed.execute("SELECT count(*) FROM examination_worklist WHERE county_fips = ?",
-                            [fips]).fetchone() == (0,)
+                            [reviewed_fips]).fetchone() == (0,)

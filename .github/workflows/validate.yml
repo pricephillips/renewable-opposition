@@ -8,9 +8,87 @@ on:
 permissions:
   contents: read
 
+# A new push to a pull request cancels that PR's run still in progress: only
+# the newest commit's result matters. Each push to main gets its own group
+# (keyed by commit), so no main run is ever cancelled or replaced: GitHub keeps
+# only one waiting run per group.
+concurrency:
+  group: validate-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  validate:
+  # A merge to main usually contains exactly the tree its pull request's last
+  # green run tested (25 of 35 push runs in one week). This job finds that
+  # case and the jobs below skip it: the push is GitHub's merge of a pull
+  # request, the merge commit has exactly two parents, the second (the PR
+  # head) has a successful pull_request run of this workflow, and that run was
+  # created more than two minutes after main moved to the first parent, so
+  # GitHub's test merge was built on the same base. A squash merge,
+  # a direct push, any doubt or any API error gives a full run. With no branch
+  # protection on a private repository, the run on main is the only check of
+  # merged code, so it is skipped only when that exact tree was tested.
+  covered:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      actions: read
+    outputs:
+      covered: ${{ steps.covered.outputs.covered }}
+    steps:
+      # created_at, not run_started_at: a re-run keeps the original run's
+      # merge commit but gets a new run_started_at, and a run queued past a
+      # main move would look newer than the merge it tested. The push must be
+      # GitHub's pull request merge of p2 onto p1 (activity type pr_merge): a
+      # merge made locally and pushed, or an octopus merge, gets a full run.
+      # gh api prints the error body on stdout and exits 1 on an HTTP error,
+      # so every call's exit status and every value is checked: any failure
+      # means a full run. (Ported with data-center-map's ui-check.yml fix, whose
+      # review found the first version skipped a merge when /activity failed.)
+      - name: Already tested by the pull request?
+        id: covered
+        timeout-minutes: 2
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          WORKFLOW: validate.yml
+        run: |
+          covered=false
+          probe() {
+            local parents p1 p2 extra activity landed tested landed_s tested_s
+            parents=$(gh api "repos/$REPO/commits/$SHA" --jq '[.parents[].sha] | join(" ")') \
+              || { echo "Commit lookup failed: full run."; return 1; }
+            read -r p1 p2 extra <<< "$parents"
+            [[ $p1 =~ ^[0-9a-f]{40}$ && $p2 =~ ^[0-9a-f]{40}$ && -z $extra ]] \
+              || { echo "Not a two-parent merge: full run."; return 1; }
+            activity=$(gh api "repos/$REPO/activity?ref=refs/heads/main&per_page=100") \
+              || { echo "Activity lookup failed: full run."; return 1; }
+            jq -e --arg s "$SHA" --arg p "$p1" \
+              'any(.[]; .after == $s and .before == $p and .activity_type == "pr_merge")' <<< "$activity" > /dev/null \
+              || { echo "Not a pull request merge onto $p1: full run."; return 1; }
+            landed=$(jq -r --arg p "$p1" '[.[] | select(.after == $p)][0].timestamp // empty' <<< "$activity")
+            [ -n "$landed" ] || { echo "No push record for $p1: full run."; return 1; }
+            tested=$(gh api "repos/$REPO/actions/workflows/$WORKFLOW/runs?event=pull_request&status=success&head_sha=$p2&per_page=1" \
+                       --jq '.workflow_runs[0].created_at // empty') \
+              || { echo "Run lookup failed: full run."; return 1; }
+            [ -n "$tested" ] || { echo "No green pull_request run on $p2: full run."; return 1; }
+            landed_s=$(date -d "$landed" +%s) || { echo "Unreadable timestamp: full run."; return 1; }
+            tested_s=$(date -d "$tested" +%s) || { echo "Unreadable timestamp: full run."; return 1; }
+            [ "$tested_s" -gt $(( landed_s + 120 )) ] \
+              || { echo "Main moved after the PR run: full run."; return 1; }
+            echo "::notice::The pull request run of $tested on $p2 tested this exact tree (main at $p1 since $landed); skipping."
+          }
+          probe && covered=true
+          echo "covered=$covered" >> "$GITHUB_OUTPUT"
+
+  validate:
+    needs: covered
+    if: ${{ !cancelled() && needs.covered.outputs.covered != 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Check out repository
@@ -62,39 +140,15 @@ jobs:
       - name: Vale (page and report prose)
         run: vale --no-wrap README.md docs/coverage_audit.md
 
-  frontend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Set up Python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: '3.11'
-
-      - name: Install Playwright
-        run: |
-          pip install playwright
-          python -m playwright install --with-deps chromium
-
-      - name: Load every page and fail on page errors
-        run: python scripts/smoke_frontend.py --screenshots smoke-screenshots
-
-      - name: Upload screenshots
-        if: always()
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        with:
-          name: smoke-screenshots
-          path: smoke-screenshots/
-
   # Offline UI and accessibility tests (tests/ui, adapted from
   # pricephillips/data-center-map; passoff B7). Every request is served from
-  # the checkout or tests/ui/node_modules, or aborted.
+  # the checkout or tests/ui/node_modules, or aborted. The page smoke check
+  # (scripts/smoke_frontend.py) runs here too, on the same Chromium and the
+  # same freshly built data, instead of in a job of its own that installed a
+  # second browser and kept 670 KB of screenshots for 90 days on every run.
   ui:
+    needs: covered
+    if: ${{ !cancelled() && needs.covered.outputs.covered != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
@@ -144,7 +198,20 @@ jobs:
       - name: Install Chromium
         # CI only. Claude sessions have Chromium at /opt/pw-browsers and must
         # never run this; they set SMOKE_CHROMIUM instead.
+        # Usually about 20 s; data-center-map saw a 413 s install succeed
+        # and a 20-minute hang.
+        timeout-minutes: 8
         run: npx playwright install --with-deps chromium
+
+      - name: Load every page and fail on page errors (scripts/smoke_frontend.py)
+        # Python Playwright pinned to tests/ui's @playwright/test version, so
+        # it drives the Chromium installed above (tests/test_ci_workflows.py
+        # checks the two agree). Leaflet, d3 and topojson come from
+        # tests/ui/node_modules, so the check is offline like the specs.
+        working-directory: .
+        run: |
+          uv pip install --system "playwright==1.63.0"
+          python scripts/smoke_frontend.py --leaflet-dir tests/ui/node_modules --screenshots smoke-screenshots
 
       - name: Geometry coverage gate
         run: node check_geometry.js --selftest && node check_geometry.js
@@ -166,5 +233,7 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ui-test-results
-          path: tests/ui/test-results/
+          path: |
+            tests/ui/test-results/
+            smoke-screenshots/
           retention-days: 7

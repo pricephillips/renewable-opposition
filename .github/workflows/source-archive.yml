@@ -64,7 +64,15 @@ jobs:
       - name: Self-test (mocked CDX and Save Page Now; no network)
         run: python scripts/source_archive.py --selftest
 
+      # scripts/source_archive.py stops itself after max_runtime_s (900 s) and
+      # writes its state; the step timeout is a backstop. A failed or cut-off
+      # batch still commits what it checkpointed (every 25 rows), and the last
+      # step then fails the job, so a slow archive day loses nothing and is
+      # still reported.
       - name: Archive one capped batch
+        id: archive
+        timeout-minutes: 20
+        continue-on-error: true
         env:
           IA_S3_ACCESS_KEY: ${{ secrets.IA_S3_ACCESS_KEY }}
           IA_S3_SECRET_KEY: ${{ secrets.IA_S3_SECRET_KEY }}
@@ -112,3 +120,9 @@ jobs:
             sleep $((i * 5))
           done
           echo "::error::push failed after 3 attempts"; exit 1
+
+      - name: Report a batch that failed or was cut off
+        if: steps.archive.outcome == 'failure'
+        run: |
+          echo "::error::The archive batch failed or hit its step timeout; the rows it checkpointed were committed above."
+          exit 1
