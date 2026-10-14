@@ -205,45 +205,6 @@ sources:
   # lead, access snippet): never promoted, never counted on a page, until a
   # reviewer triages it (README, "Live intake").
 
-  - source_id: gdelt_renewable_news
-    url: https://api.gdeltproject.org/api/v2/doc/doc
-    publisher: The GDELT Project (DOC 2.0 API)
-    document_type: news
-    jurisdiction_type: national
-    state: US
-    fetch_method: api
-    schedule: weekly
-    # GDELT asks for one request every 5 seconds and answers a malformed query
-    # with HTTP 200 and a line of text, so the pace is 6 s, a non-JSON body is
-    # refused, and a 429 is retried after 20 s, then 60 s.
-    min_interval_s: 6
-    expect: json
-    retry: {statuses: [429], backoff_s: [20, 60]}
-    compress: true
-    requests:
-      - label: moratorium
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: zoning
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: denial
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: litigation
-        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: organizing
-        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-    parser_hint: >
-      ArtList JSON: url, title, seendate (a crawl date, never an event date),
-      domain, language, sourcecountry. GDELT matches full text, so the
-      extractor keeps a headline only if it names a renewable technology and
-      an opposition mechanism, and places it only when the headline names the
-      county (and its state, unless the name is unique).
-    active: true
-    notes: >
-      Discovery only: a headline locates a story; the article must be opened
-      before anything is promoted. Practice ported from
-      pricephillips/data-center-map signal_harvest.py, with its fixes (pacing,
-      no bare county names, dedupe against every cited URL).
-
   - source_id: ny_ores_permit_applications
     url: https://dps.ny.gov/ores-permit-applications
     publisher: New York Office of Renewable Energy Siting and Electric Transmission (ORES)
@@ -358,6 +319,48 @@ sources:
     on_change: "The Sabin web database's contested-projects export changed: compare it with data/raw/sabin_2026_09_projects_csv/ before running the Sabin refresh stages"
     active: true
     notes: Companion to sabin_web_database_restrictions.
+
+  # Last on purpose: GDELT is the slowest source and the one most often
+  # throttled, and fetch.py takes sources in file order under a time budget,
+  # so a throttled week can only cost GDELT's own queries.
+  - source_id: gdelt_renewable_news
+    url: https://api.gdeltproject.org/api/v2/doc/doc
+    publisher: The GDELT Project (DOC 2.0 API)
+    document_type: news
+    jurisdiction_type: national
+    state: US
+    fetch_method: api
+    schedule: weekly
+    # GDELT asks for one request every 5 seconds and answers a malformed query
+    # with HTTP 200 and a line of text, so the pace is 6 s, a non-JSON body is
+    # refused, and a 429 is retried after 20 s, then 60 s.
+    min_interval_s: 6
+    expect: json
+    retry: {statuses: [429], backoff_s: [20, 60]}
+    compress: true
+    requests:
+      - label: moratorium
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: zoning
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: denial
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: litigation
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+      - label: organizing
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+    parser_hint: >
+      ArtList JSON: url, title, seendate (a crawl date, never an event date),
+      domain, language, sourcecountry. GDELT matches full text, so the
+      extractor keeps a headline only if it names a renewable technology and
+      an opposition mechanism, and places it only when the headline names the
+      county (and its state, unless the name is unique).
+    active: true
+    notes: >
+      Discovery only: a headline locates a story; the article must be opened
+      before anything is promoted. Practice ported from
+      pricephillips/data-center-map signal_harvest.py, with its fixes (pacing,
+      no bare county names, dedupe against every cited URL).
 
   # ── NGO / Advocacy Trackers ──────────────────────────────────────────────
   - source_id: clean_grid_alliance_tracker

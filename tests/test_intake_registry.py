@@ -58,6 +58,13 @@ def test_every_intake_source_says_what_its_body_must_be():
         assert s.get("expect") in ("json", "xml", "html", "csv"), s["source_id"]
 
 
+def test_gdelt_is_fetched_last():
+    # fetch.py takes sources in file order under a time budget; GDELT is the
+    # slowest and most often throttled, so it must not delay the others.
+    order = [s["source_id"] for s in fetch.active_sources(fetch.load_sources(fetch.CONFIG_PATH), intake=True)]
+    assert order[-1] == "gdelt_renewable_news", order
+
+
 def test_the_committed_queue_keeps_parse_columns():
     header = (ROOT / "data" / "review" / "queue.csv").read_text(encoding="utf-8").splitlines()[0].split(",")
     assert header == parse.QUEUE_FIELDS
