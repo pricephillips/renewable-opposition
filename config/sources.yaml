@@ -173,7 +173,10 @@ sources:
       Consider courtlistener.com (free) as an alternative first pass.
 
   - source_id: courtlistener_renewables
-    url: https://www.courtlistener.com/api/rest/v4/search/?q=%28%22wind+farm%22+OR+%22solar+farm%22+OR+%22wind+energy%22+OR+%22solar+energy%22+OR+%22battery+storage%22%29+AND+%28ordinance+OR+moratorium+OR+setback+OR+siting+OR+zoning%29&type=o&order_by=dateFiled+desc
+    # highlight=on: without it each result's snippet is the opinion's first
+    # 500 characters (court headers, slip-opinion notices), not the matched
+    # text the extractor reads for a technology.
+    url: https://www.courtlistener.com/api/rest/v4/search/?q=%28%22wind+farm%22+OR+%22solar+farm%22+OR+%22wind+energy%22+OR+%22solar+energy%22+OR+%22battery+storage%22%29+AND+%28ordinance+OR+moratorium+OR+setback+OR+siting+OR+zoning%29&type=o&order_by=dateFiled+desc&highlight=on
     publisher: CourtListener (Free Law Project)
     document_type: docket
     jurisdiction_type: national
@@ -338,17 +341,19 @@ sources:
     expect: json
     retry: {statuses: [429], backoff_s: [20, 60]}
     compress: true
+    # Fifteen days for a weekly run: the second week covers one failed or
+    # skipped run, and parse.py's dedupe drops the overlap.
     requests:
       - label: moratorium
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
       - label: zoning
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
       - label: denial
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
       - label: litigation
-        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
       - label: organizing
-        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
     parser_hint: >
       ArtList JSON: url, title, seendate (a crawl date, never an event date),
       domain, language, sourcecountry. GDELT matches full text, so the

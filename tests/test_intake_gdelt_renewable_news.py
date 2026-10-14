@@ -4,7 +4,7 @@ real GDELT DOC 2.0 ArtList responses in tests/fixtures/intake/.
 
 The fixtures gdelt_renewable_news_<label>.json are real responses to the five
 configured queries (config/sources.yaml), fetched with timespan=3m instead of
-8d: GDELT's daily volume collapsed after 2026-10-02 and an 8-day window
+15d: GDELT's daily volume collapsed after 2026-10-02 and an 8-day window
 returned one article (2026-10-14). moratorium was fetched 2026-10-13, the other
 four 2026-10-14. Each keeps the response's own article objects, verbatim and
 in order, but only some of them (under 40 KB): every article that becomes a
