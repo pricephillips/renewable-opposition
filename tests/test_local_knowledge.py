@@ -25,11 +25,13 @@ def test_the_build_never_opens_or_publishes_local_knowledge(seed_build):
     assert any(p.endswith("restrictions_seed.csv") for p in _opened)   # the hook did see the build
     assert not [p for p in _opened if "local_knowledge" in p]
     assert not [p for p in tmp_path.rglob("*") if "local_knowledge" in p.name]
-    # Nor does any module the build imports name the file.
+    # Nor does any module the build imports name the file. site_profile reads
+    # it; precommit_gates names it to refuse it, and is loaded here only when
+    # the precommit test below ran first in this process (random test order).
     scripts = ROOT / "scripts"
     for mod in list(sys.modules.values()):
         f = getattr(mod, "__file__", None) or ""
-        if f and Path(f).parent == scripts and Path(f).name != "site_profile.py":
+        if f and Path(f).parent == scripts and Path(f).name not in ("site_profile.py", "precommit_gates.py"):
             assert "local_knowledge" not in Path(f).read_text(encoding="utf-8"), f
 
 

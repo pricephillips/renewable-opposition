@@ -1,5 +1,4 @@
 import json
-from types import SimpleNamespace
 
 import duckdb
 import pytest
@@ -99,22 +98,21 @@ def _publish(con, root):
 @pytest.fixture(scope="module")
 def published(con, tmp_path_factory):
     """One publish from con into a temp dir, made once for the module (about
-    10 s, most of it the state files). test_publish_is_byte_for_byte_repeatable
-    compares it with a second; the state-file and record-index tests only
-    read it."""
+    7 s, most of it the state files), for the state-file and record-index
+    tests, which only read it."""
     root = tmp_path_factory.mktemp("published")
     with pytest.MonkeyPatch.context() as mp:
         _publish_to(mp, root)
-        files = _publish(con, root)
-    return SimpleNamespace(root=root, files=files)
+        _publish(con, root)
+    return root
 
 
 @pytest.fixture
 def published_dirs(published, monkeypatch):
     """bdb's publish paths pointed at the shared publish, for tests that only
     read what it wrote."""
-    _publish_to(monkeypatch, published.root)
-    return published.root
+    _publish_to(monkeypatch, published)
+    return published
 
 
 def test_main_publishes_parquet_and_summaries(publish_dirs):
@@ -128,9 +126,10 @@ def test_main_publishes_parquet_and_summaries(publish_dirs):
     assert {p.stem for p in (publish_dirs / "state").glob("*.json")} == set(bdb.STATE_FIPS)
 
 
-def test_publish_is_byte_for_byte_repeatable(con, published, publish_dirs):
-    # The first publish from con is the module's (published); the second is made here.
-    assert published.files == _publish(con, publish_dirs)
+def test_publish_is_byte_for_byte_repeatable(con, publish_dirs):
+    # Both publishes go into this test's own dir, the second over the first,
+    # as CI republishes over data/db/.
+    assert _publish(con, publish_dirs) == _publish(con, publish_dirs)
     keys = {k for (k,) in duckdb.sql(
         f"SELECT key FROM '{(publish_dirs / 'parquet' / 'build_info.parquet').as_posix()}'").fetchall()}
     assert not keys & set(bdb.VOLATILE_INFO)
