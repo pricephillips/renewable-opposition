@@ -55,9 +55,12 @@ every rule refuses rather than guesses.
             framed as a place: "Coggon, Iowa", "Coggon Township", "Coggon
             council", or "town of Coggon", "in Coggon" when no capitalized
             word follows ("from Hurricane Isaias" is a storm, not Hurricane,
-            North Carolina).
+            North Carolina). A town after "outside" or "outside of" is where
+            the story is not, so it places nothing.
   Roundups  Three or more distinct counties or towns, or "<A> and <B>
-            counties", are a list, not a dateline: state only.
+            counties", are a list, not a dateline: state only. So is a town
+            named beside places in the plural, in lower case ("Arkansas
+            counties and cities").
   Several states and no county or town pinning one: nothing.
 
 locate(text) returns a Place: state (two-letter code or ''), county ('<Name>
@@ -213,7 +216,12 @@ ENTITY_SUFFIX_WORDS = {
 }
 
 # A one-word town must be framed as a place: preceded by one of these...
-_PLACE_LEAD = {"in", "near", "outside", "of", "from", "at", "around"}
+# ('outside' is not one: "Outside of Little Rock, Arkansas counties and cities
+# move ahead on data center moratoriums" is about everywhere but Little Rock.)
+_PLACE_LEAD = {"in", "near", "of", "from", "at", "around"}
+# Places in the plural, in lower case: the headline is about several of them,
+# so a town it also names is not where the story is.
+_PLURAL_PLACES = re.compile(r"\b(?:counties|parishes|cities|towns|townships|villages|boroughs|municipalities)\b")
 # ...or followed by one of these.
 _PLACE_TAIL = {
     "township", "twp", "town", "city", "village", "borough", "council", "councilors",
@@ -481,6 +489,8 @@ def _towns(tokens: list[str], states: list[str], masked: set[int],
             after = low[s + n] if s + n < len(low) else ""
             if before in NAME_PREFIX_PARTICLES or before in GIVEN_NAMES or after in ENTITY_SUFFIX_WORDS:
                 continue
+            if before == "outside" or (before == "of" and s > 1 and low[s - 2] == "outside"):
+                continue          # outside a town is not in it
             if n == 1 and not _framed(tokens, idx, s, s + n, states):
                 continue
             for st in states:
@@ -569,6 +579,12 @@ def locate(text: str) -> Place:
     if ambiguous and not states:
         h = ambiguous[0]
         return Place(reason=f"{h.printed} is in {len(h.options)} states and no state is named")
+
+    many = _PLURAL_PLACES.search(_fold(text))
+    if towns and many:
+        t, st, _ = towns[0]
+        return Place(st, "", "", "", "state_only",
+                     f"town {t} named beside {many.group(0)} in the plural: a roundup, state only")
 
     one_county = [(t, st, f) for t, st, f in towns if len(f) == 1]
     if one_county:

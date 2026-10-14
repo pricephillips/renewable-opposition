@@ -17,15 +17,20 @@ headline is judged here, and a headline is kept only if
     "wind turbines", "battery storage", tolerating GDELT's spaced punctuation,
     "solar - farm"; a bare "wind" is weather and a bare "battery" is a car
     part, "solar system", "solar eclipse" or "solar flare" are not solar
-    power, rooftop solar is not a siting fight, and a battery factory or
-    recycler is not storage);
+    power, rooftop solar and solar panels on public buildings are not a
+    siting fight, and a battery factory or recycler is not storage);
   - it names a mechanism (MECHANISM_HINTS) or opposition (OPPOSITION_GUARD,
-    after data-center-map's guard, with setback added);
+    after data-center-map's guard, with setback and words of conflict such
+    as dispute, battle and skeptical added; residents or neighbors count only
+    as the ones acting, not as the ones a story is told for, and a setback
+    that is a loss is not a distance);
   - it is a local US matter (off_scope): not a federal actor alone
     (FEDERAL_ONLY with no local word: an offshore lease cancelled by Interior
-    or a USDA funding rule is not a local fight), not another country
-    (FOREIGN, unless a US state is named too: sourcecountry is the outlet's
-    country, not the story's), and not trade policy (an import ban);
+    or a USDA funding rule is not a local fight; nor is offshore wind with no
+    local word, since the federal government leases and permits it), not
+    another country (FOREIGN, unless a US state is named too: sourcecountry is
+    the outlet's country, not the story's), not trade policy (an import ban),
+    and not a suit between investors or rivals (COMMERCIAL);
   - its domain is not a pure re-host (REHOST_DOMAINS).
 
 Every lead is review_status 'lead' (parse.py): nothing is promoted until a
@@ -34,7 +39,8 @@ the raw file keeps every article for a reparse.
 
 Each lead:
   entity_type   restriction when the headline is about an instrument
-                (moratorium, ban, ordinance, setback, zoning rules); otherwise
+                (moratorium, ban, ordinance, bylaw, setback, zoning rules, a
+                government's pause on a class of development); otherwise
                 contested_project (a denial, appeal, petition, lawsuit or
                 approval over objections). Never case: a case needs a court
                 record, not a headline.
@@ -60,8 +66,10 @@ Each lead:
                 contested projects 'rejected' (denies, rejects, votes down),
                 'cancelled' (withdrawn, cancelled, scrapped),
                 'approved_after_opposition' (approves despite or over
-                opposition), 'approved'. Blank otherwise. 'active' and
-                'pending' are never set from a headline.
+                opposition), 'approved'. Blank when the decision acts on
+                something else ("rejects lawsuit against ...", "abandons
+                community center land purchase"), and blank otherwise.
+                'active' and 'pending' are never set from a headline.
   description   the headline, with GDELT's spaced punctuation closed up and a
                 trailing masthead or section label (' | Amsterdam') removed.
   evidence_text the headline as GDELT gives it (dashes replaced, HTML
@@ -133,7 +141,7 @@ TECH_PATTERNS = {
         rf"|(?:offshore|onshore){_SEP}wind"
         rf"|wind{_SEP}(?:and|&|or){_SEP}solar"
         rf"|solar{_SEP}(?:and|&|or){_SEP}wind"
-        rf"|solar\s*,\s*wind)\b", re.I),
+        rf"|solar\s*,\s*wind|wind\s*,\s*solar)\b", re.I),
     "battery_storage": re.compile(
         rf"\b(?:(?:battery|batteries){_SEP}(?:energy{_SEP})?(?:storage|farms?|projects?|sites?|"
         rf"systems?|installations?|parks?|facilit(?:y|ies))"
@@ -144,27 +152,50 @@ TECH_PATTERNS = {
 _SMALL_SOLAR = re.compile(r"\b(?:rooftop|roof-top|residential|balcony|backyard|portable|home)\s+solar\b|"
                          r"\bsolar(?:-|\s+)(?:powered\s+)?(?:lamps?|lights?|lighting|lanterns?|chargers?|"
                          r"generators?|phone|watch)\b", re.I)
+# Solar on a public building is the government buying power, not a siting
+# fight ("Richmond city council rejects solar panel deal for city buildings").
+_BUILDING_SOLAR = re.compile(
+    r"\bsolar(?:\s+(?:panels?|arrays?))?(?:\s+(?:deal|contract|project|installation|plan|proposal))?\s+"
+    r"(?:on|for|at|atop)\s+(?:the\s+)?(?:(?:city|county|town|village|township|school|public|municipal|"
+    r"government|state)\s+)?(?:buildings?|schools?|roofs?|rooftops?|carports?|parking\s+(?:lots?|garages?))\b",
+    re.I)
+# Storage as a line of business is not a facility ("Automakers enter energy
+# storage business as data centers face backlash").
+_STORAGE_TRADE = re.compile(
+    r"\b(?:energy|power|battery)\s+storage\s+(?:business|businesses|markets?|stocks?|sector)\b", re.I)
 # A battery factory, a car battery or a battery recycler is not storage.
 _NOT_STORAGE = re.compile(r"\b(?:manufactur\w*|factory|factories|gigafactory|ev|electric\s+vehicles?|"
                           r"recycl\w*|cells?|lithium-ion\s+batter(?:y|ies)\s+fires?)\b", re.I)
 
 # Mechanism hints: suggestions for the reviewer, never the mechanisms column.
 # Every alternative sits in its own group with its own boundaries.
+# A government pausing a class of development is a moratorium in all but
+# name ("Lyon County pauses data center, solar farm development for six
+# months"); data-center-map legistar_probe.py INSTRUMENT counts 'pause'. Only
+# a plural or generic object: a developer pausing its one project is not a rule.
+PAUSE_RX = re.compile(
+    r"\bpaus(?:e|es|ed|ing)\b(?:\s+on)?(?:\s+[\w,'-]+){0,5}?\s+(?:development|projects|farms|facilities|"
+    r"applications|permits|permitting|construction)\b", re.I)
+
 MECHANISM_HINTS = [
     (re.compile(r"\b(?:moratori(?:um|ums|a))\b", re.I), "moratorium"),
+    (PAUSE_RX, "pause"),
     (re.compile(r"\b(?:bans?|banned|banning|prohibits?|prohibited|prohibiting|prohibition)\b", re.I), "ban"),
     (re.compile(r"\b(?:setbacks?)\b", re.I), "setback"),
     (re.compile(r"\b(?:rezon(?:e|es|ed|ing)|zoning|special(?:-|\s+)(?:use|exception)|conditional(?:-|\s+)use)\b",
                 re.I), "zoning"),
-    (re.compile(r"\b(?:ordinances?)\b", re.I), "ordinance"),
+    (re.compile(r"\b(?:ordinances?|by-?laws?)\b", re.I), "ordinance"),
     (re.compile(r"\b(?:lawsuits?|sues?|sued|suing|litigation|legal\s+(?:challenge|fight|battle|action))\b",
                 re.I), "lawsuit"),
     (re.compile(r"\b(?:appeals?|appealed|appealing)\b", re.I), "appeal"),
-    (re.compile(r"\b(?:denies|denied|deny|denial|rejects?|rejected|rejecting|vot(?:es|ed|e)\s+(?:down|against)|"
+    (re.compile(r"\b(?:denies|denied|deny|denial|rejects?|rejected|rejecting|vot(?:es|ed|e|ing)\s+(?:it\s+|them\s+)?(?:down|against)|"
                 r"turn(?:s|ed)?\s+down)\b", re.I), "denial"),
-    # 'abandoned' alone is an adjective as often ("solar on abandoned mines").
-    (re.compile(r"\b(?:withdr(?:aw|aws|awn|ew)|cancel(?:s|ed|led|ling)?|scrap(?:s|ped)?|abandons|"
-                r"abandoned\s+(?:its\s+|the\s+)?(?:plans?|projects?|proposals?|bids?)|"
+    # 'abandoned' alone is an adjective as often ("solar on abandoned mines"),
+    # and 'abandons' takes any object ("abandons community center land
+    # purchase"): either counts only before a plan, project, proposal or bid.
+    (re.compile(r"\b(?:withdr(?:aw|aws|awn|ew)|cancel(?:s|ed|led|ling)?|scrap(?:s|ped)?|"
+                r"abandon(?:s|ed)\s+(?:its\s+|the\s+|their\s+)?(?:[\w'-]+\s+){0,3}?"
+                r"(?:plans?|projects?|proposals?|bids?|applications?)|"
                 r"pull(?:s|ed)?\s+(?:out|the\s+plug))\b", re.I), "withdrawal"),
     (re.compile(r"\b(?:petitions?|referend(?:um|ums|a)|ballot\s+(?:questions?|measures?|issues?|initiatives?)|"
                 r"voters\s+(?:to\s+|will\s+)?decide)\b", re.I), "petition"),
@@ -175,24 +206,50 @@ MECHANISM_HINTS = [
 # 'critic' narrowed so 'critical minerals' is not opposition.
 OPPOSITION_GUARD = re.compile(
     r"\b(?:oppos\w*|protest\w*|residents?|neighbou?rs?|sue[sd]?|suing|lawsuits?|petitions?|reject\w*|"
-    r"denie[sd]|deny|halt\w*|pause[sd]?|block(?:s|ed|ing)?|ban(?:s|ned|ning)?|moratori\w*|fights?|"
+    r"denie[sd]|deny|halt\w*|pause[sd]?|block(?:s|ed|ing)?(?!\s+island)|ban(?:s|ned|ning)?|moratori\w*|fights?|"
     r"fighting|backlash|concerns?|pushback|push\s+back|object(?:s|ed|ion|ions)?|critics?|criticism|"
-    r"against|opposition|referend\w*|recall|setbacks?)\b", re.I)
+    r"against|opposition|referend\w*|recall|setbacks?|"
+    # Added, from headlines GDELT returned that the guard missed: words of
+    # conflict ("solar farm dispute", "Battle over large Gillespie County solar
+    # farm", "leaves residents skeptical", "Grant Township hires attorney as
+    # ... energy storage project moves forward"). Not Battle Creek and the like.
+    r"disput\w*|clash\w*|contested|controvers\w*|battl(?:e|es|ed|ing)(?!\s+(?:creek|ground|mountain|lake))|"
+    r"frustrat\w*|skeptic\w*|balk\w*|wary|wariness|outcry|uproar|sound(?:s|ed)?\s+off|"
+    r"demand(?:s|ed)?\s+(?:closure|removal|answers)|"
+    r"(?:hires?|hired|retains?|retained)\s+(?:an?\s+)?(?:attorneys?|lawyers?|legal\s+counsel))\b", re.I)
+# Residents and neighbors who act are opposition as often as not ("Angelica
+# residents demand transparency", "Several Grove residents unhappy about ...
+# battery storage"); residents a story is told for are not ("Cause of La Verne
+# battery system fire still unknown, city vows transparency for residents").
+# Alone, they count only when no preposition puts them in the object's place.
+WEAK_OPPOSITION = frozenset({"resident", "residents", "neighbor", "neighbors", "neighbour", "neighbours"})
+_FOR_THEM = re.compile(r"\b(?:for|to|with|from|among|by|of|helps?|serves?|serving)\s+(?:[\w'-]+\s+){0,2}$", re.I)
 
 # Federal or state actors. A headline that names one and nothing local is
 # about national policy (a lease cancelled by Interior, a stop-work order), not
 # a local fight; it is dropped.
 FEDERAL_ONLY = re.compile(
     r"\b(?:trump|biden|white\s+house|administration|interior\s+(?:department|secretary)|"
-    r"department\s+of\s+(?:the\s+)?(?:interior|energy|agriculture)|boem|burgum|congress|senate|"
+    r"department\s+of\s+(?:the\s+)?(?:interior|energy|agriculture|defense)|defense\s+department|pentagon|"
+    r"boem|burgum|congress|senate|"
     r"house\s+republicans|federal|feds|epa|ferc|usda|faa|doe|executive\s+order|stop-work|tariffs?|"
-    r"tax\s+credits?|irs|one\s+big\s+beautiful\s+bill|reconciliation)\b", re.I)
+    r"tax\s+credits?|irs|one\s+big\s+beautiful\s+bill|reconciliation|"
+    # The federal offshore wind cancellations of 2025-26 and the suits over them.
+    r"lease\s+(?:cancell?ations?|buyouts?)|cancell?ation\s+of\s+(?:offshore\s+)?wind)\b", re.I)
 LOCAL_WORD = re.compile(
     r"\b(?:count(?:y|ies)|parish|township|town|towns|city|village|borough|local|residents?|neighbou?rs?|"
     r"landowners?|farmers?|community|communities|commissioners?|supervisors?|council|trustees|"
     r"zoning|planning|rezon\w*|ordinance|moratori\w*|setbacks?|petition|referendum|opponents?)\b", re.I)
 # A ban on imports or exports is trade policy, not siting.
 TRADE = re.compile(r"\b(?:import|export)\s+(?:bans?|tariffs?|duties)\b", re.I)
+# Offshore wind is leased and permitted by the federal government: a headline
+# about it with no local actor is a federal fight ("New York, California sue
+# to block deals canceling offshore wind projects"), not a local one.
+OFFSHORE = re.compile(r"\boffshore\b", re.I)
+# A suit between investors or rivals is business, not opposition ("Emmitt
+# Smith sued by investor over wind farm project").
+# Not 'fraud' or 'contract': residents alleging fraud in an approval are opposition.
+COMMERCIAL = re.compile(r"\b(?:investors?|shareholders?|patents?|securities)\b", re.I)
 # A headline about another country (GDELT's sourcecountry is the outlet's,
 # not the story's): dropped unless it also names a US state.
 FOREIGN = re.compile(
@@ -220,7 +277,7 @@ DEMOTED_DOMAINS = {"reddit.com", "medium.com"}
 # An instrument named outright: the headline is about the rule.
 INSTRUMENT_RX = re.compile(
     r"\b(?:moratori(?:um|ums|a)|bans?|banned|banning|prohibits?|prohibited|prohibiting|prohibition|"
-    r"ordinances?)\b", re.I)
+    r"ordinances?|by-?laws?)\b", re.I)
 # Rule words that also turn up in project fights ("denied over setback
 # concerns"): an instrument only when no project fight is described.
 RULE_RX = re.compile(
@@ -234,7 +291,7 @@ RULE_RX = re.compile(
 # A project fight: the project itself was denied, appealed, sued over,
 # petitioned against, withdrawn, rezoned or permitted.
 PROJECT_FIGHT = re.compile(
-    r"\b(?:denies|denied|deny|denial|rejects?|rejected|vot(?:es|ed)\s+down|turn(?:s|ed)\s+down|"
+    r"\b(?:denies|denied|deny|denial|rejects?|rejected|vot(?:es|ed|ing)\s+(?:it\s+)?down|turn(?:s|ed)\s+down|"
     r"appeals?|appealed|lawsuits?|sues?|sued|suing|petitions?|withdr(?:aw|aws|awn|ew)|rezon(?:e|es|ed|ing)|"
     r"permits?)\b", re.I)
 # ...or approved: an approval acting on a project, not on a rule (no rule
@@ -252,20 +309,22 @@ NOT_OUTRIGHT = re.compile(
     r"\?|\b(?:could|may|might|would|will|should|to|set\s+to|poised|expected|considers?|considering|"
     r"consider|weighs?|weighing|mulls?|mulling|eyes?|eyeing|seeks?|seeking|propos(?:es|ed|al)|plans?|"
     r"planned|asks?|asking|urges?|urging|wants?|wanting|debates?|debating|discuss(?:es|ed)?|hearing|"
-    r"recommends?|recommended|recommendation|vote\s+on|pending|possible|potential|if|whether|after\s+all)\b",
+    r"recommends?|recommended|recommendation|vote\s+on|pending|possible|potential|if|whether|after\s+all|"
+    # Back again: "Rejected Hadley battery project returns amid lawsuit".
+    r"returns?|returning|revived?|revives|resurfaces?|refiled|refiles|resubmit\w*|reappl\w*)\b",
     re.I)
 _DENIED = re.compile(r"\b(?:deny|denies|denied|reject|rejects|rejected|vot(?:e|es|ed)\s+down|"
                      r"turn(?:s|ed)?\s+down)\b", re.I)
 _CANCELLED = re.compile(r"\b(?:withdr(?:aws|awn|ew)|cancel(?:s|ed|led)|scrap(?:s|ped)|abandon(?:s|ed))\b", re.I)
 _APPROVED = re.compile(r"\b(?:approve|approves|approved|oks|okays|greenlights|green-lights)\b", re.I)
 _OVER_OBJECTIONS = re.compile(
-    r"\b(?:despite|over|amid)\s+(?:[\w'’]+\s+){0,2}(?:opposition|objections?|concerns|protests?|pushback|"
+    r"\b(?:despite|over|amid)\s+(?:[\w'’]+\s+){0,3}(?:opposition|objections?|concerns|protests?|pushback|"
     r"residents|neighbou?rs|opponents|outcry)\b", re.I)
 # The decision word acts on something other than the project ("rejects
 # lawsuit against solar farm", "withdraws appeal").
 _OTHER_OBJECT = re.compile(
     r"\b(?:appeals?|lawsuits?|suits?|challenges?|complaints?|petitions?|motions?|referend\w*|opposition|"
-    r"objections?|requests?\s+to\s+(?:stop|block|halt)|bid\s+to|efforts?|moratori\w*|bans?|ordinances?|"
+    r"objections?|requests?\s+to\s+(?:stop|block|halt)|bid\s+to|efforts?|moratori\w*|bans?|ordinances?|by-?laws?|"
     r"rules?|regulations?|restrictions?|setbacks?|support|zoning\s+change)\b", re.I)
 _EXTENDED = re.compile(r"\b(?:extend|extends|extended)\b", re.I)
 _LIFTED = re.compile(r"\b(?:lift|lifts|lifted|repeal|repeals|repealed|rescind|rescinds|rescinded)\b", re.I)
@@ -330,12 +389,40 @@ def tidy(title: str) -> str:
     return " ".join(t.split()).strip()
 
 
+# A masthead GDELT leaves on the end of a headline: after a bar ('| News,
+# Sports, Jobs-Lawrence Journal-World: news, information ... in Lawrence,
+# Kansas'), after a comma where the source had a dash (', KIWA Radio',
+# ', WRUL-FM', ', Inside INdiana Business'), or glued on with a hyphen
+# ('-Las Vegas Sun News', '-Illinois Times, the capital city weekly ...'),
+# sometimes with the outlet's tagline after it. It names the outlet, not the
+# story, so it must neither place a lead nor stay in its description.
+_MASTHEAD_WORD = (r"(?:News|Times|Journal|Tribune|Gazette|Herald|Post|Press|Daily|Radio|Coalition|Enterprise|"
+                  r"Chronicle|Dispatch|Register|Courier|Observer|Sentinel|Leader|Sun|Business|Reporter|Today|"
+                  r"Weekly|Bulletin|Democrat|Republican|Independent|Telegraph|Examiner|Patch)")
+_MASTHEAD_TAIL = re.compile(
+    r"(,\s+|-)((?:The\s+)?((?:[A-Z][\w.&'-]*\s+){0,5})" + _MASTHEAD_WORD
+    + r"|[KW][A-Z]{2,3}(?:-(?:FM|AM|TV))?(?:\s+Radio)?"
+    # A network affiliate: ', NBC Los Angeles', ', Fox 5 Atlanta'.
+    r"|(?:NBC|ABC|CBS|FOX|Fox|PBS|NPR|CW)(?:\s+\d+)?(?:\s+[A-Z][\w.'-]*){1,3})"
+    r"(?:\s*[,:]\s+[a-z][^|]*)?\s*$")
+
+
 def description_of(title: str) -> str:
     """The tidied headline without a trailing masthead or section label
-    ('... sets public hearing | Amsterdam')."""
-    m = re.match(r"(.{20,}?)\s*\|\s*([^|]{1,40})$", title)
-    if m and len(m.group(2).split()) <= 4:
-        return m.group(1).rstrip(" ,;:")
+    ('... sets public hearing | Amsterdam', '..., KIWA Radio')."""
+    m = re.match(r"(.{20,}?)\s*\|\s*(.+)$", title)
+    if m and ((len(m.group(2)) <= 40 and len(m.group(2).split()) <= 4)
+              or re.search(rf"\b{_MASTHEAD_WORD}\b", m.group(2))):
+        title = m.group(1).rstrip(" ,;:")
+    m = _MASTHEAD_TAIL.search(title)
+    if m and m.start() >= 20:
+        before = title[:m.start()].split()
+        # Glued on with a hyphen after a capitalized word, a masthead needs two
+        # words of its own: "Prairie Edge-West Central Tribune" is one,
+        # "Battery-Energy Storage Report" in a title-case headline is not.
+        if (m.group(1) != "-" or (before and before[-1].islower())
+                or len((m.group(3) or "").split()) >= 1):
+            return title[:m.start()].rstrip(" ,;:")
     return title
 
 
@@ -347,23 +434,45 @@ def fold_title(title: str) -> str:
 # ── per-headline judgements ──────────────────────────────────────────────────
 
 def technologies(title: str) -> list[str]:
-    t = _SMALL_SOLAR.sub(" ", title)
+    t = _STORAGE_TRADE.sub(" ", _BUILDING_SOLAR.sub(" ", _SMALL_SOLAR.sub(" ", title)))
     found = [tech for tech, rx in TECH_PATTERNS.items() if rx.search(t)]
     if "battery_storage" in found and _NOT_STORAGE.search(t):
         found.remove("battery_storage")
     return found
 
 
+# A setback that is a loss, not a distance ("Details of BP venture $700m
+# offshore wind setback surface", "developer faces setbacks"): read as 'loss'
+# wherever a setback would count as a rule, a hint or a local word.
+_SETBACK_LOSS = re.compile(
+    r"(?:\b(?:fac(?:e|es|ed|ing)|suffer(?:s|ed|ing)?|another|major|big|financial|costly)\b|\$[\d.,]+\s*[mbk]\w*)"
+    r"(?:\s+[\w$.,'-]+){0,4}?\s+setbacks?\b|\bsetbacks?\s+(?:surfaces?|hits?)\b", re.I)
+
+
+def _no_losses(title: str) -> str:
+    return _SETBACK_LOSS.sub(lambda m: re.sub(r"(?i)setback", "loss", m.group(0)), title)
+
+
 def hints(title: str) -> list[str]:
+    title = _no_losses(title)
     return list(dict.fromkeys(name for rx, name in MECHANISM_HINTS if rx.search(title)))
 
 
 def opposition_words(title: str) -> list[str]:
-    return list(dict.fromkeys(m.group(0).lower() for m in OPPOSITION_GUARD.finditer(title)))
+    return list(dict.fromkeys(m.group(0).lower() for m in OPPOSITION_GUARD.finditer(_no_losses(title))))
+
+
+def opposed(title: str) -> bool:
+    """An opposition word; residents or neighbors only as the ones acting."""
+    title = _no_losses(title)
+    for m in OPPOSITION_GUARD.finditer(title):
+        if m.group(0).lower() not in WEAK_OPPOSITION or not _FOR_THEM.search(title[:m.start()]):
+            return True
+    return False
 
 
 def federal_only(title: str) -> bool:
-    return bool(FEDERAL_ONLY.search(title)) and not LOCAL_WORD.search(title)
+    return bool(FEDERAL_ONLY.search(title)) and not LOCAL_WORD.search(_no_losses(title))
 
 
 def foreign(title: str) -> bool:
@@ -373,12 +482,14 @@ def foreign(title: str) -> bool:
 def off_scope(title: str) -> str:
     """Why a renewable headline with an opposition word is still not a local
     US fight, or ''."""
-    if federal_only(title):
+    if federal_only(title) or (OFFSHORE.search(title) and not LOCAL_WORD.search(_no_losses(title))):
         return "federal"
     if foreign(title):
         return "foreign"
     if TRADE.search(title):
         return "trade"
+    if COMMERCIAL.search(title):
+        return "commercial"
     return ""
 
 
@@ -392,10 +503,13 @@ def project_fight(title: str) -> bool:
 
 
 def entity_type(title: str, project_name: str) -> str:
-    """restriction for a headline about an instrument (a moratorium, ban or
-    ordinance, unless it is about a named project's fight; setback or zoning
-    rules, unless any project fight is described); else contested_project."""
-    if INSTRUMENT_RX.search(title) and not (project_name and project_fight(title)):
+    """restriction for a headline about an instrument (a moratorium, ban,
+    ordinance, bylaw or a pause on a class of development, unless it is about
+    a named project's fight; setback or zoning rules, unless any project fight
+    is described); else contested_project."""
+    title = _no_losses(title)
+    if ((INSTRUMENT_RX.search(title) or PAUSE_RX.search(title))
+            and not (project_name and project_fight(title))):
         return "restriction"
     if RULE_RX.search(title) and not project_fight(title):
         return "restriction"
@@ -418,7 +532,8 @@ def status(title: str, entity: str) -> str:
         m = rx.search(title)
         if not m:
             continue
-        if _OTHER_OBJECT.search(_decided_object(title, m)):
+        decided = _decided_object(title, m)
+        if decided is None or _OTHER_OBJECT.search(decided):
             return ""
         if value == "approved" and _OVER_OBJECTIONS.search(title):
             return "approved_after_opposition"
@@ -426,15 +541,27 @@ def status(title: str, entity: str) -> str:
     return ""
 
 
-def _decided_object(title: str, verb: re.Match) -> str:
+# Words that can follow a passive or intransitive decision ("Solar farm appeal
+# denied by board", "... withdrawn 4-1"): the decision still acts on the subject.
+_AFTER_PASSIVE = re.compile(
+    r"(?:by|in|at|on|after|before|for|amid|despite|over|again|unanimously|twice|today|tuesday|monday|"
+    r"wednesday|thursday|friday|saturday|sunday|\d[\d-]*)\b", re.I)
+
+
+def _decided_object(title: str, verb: re.Match) -> str | None:
     """What the decision word acts on: the words between it and the
-    technology it governs ("rejects lawsuit against Big Sky Wind"), or, when
-    no technology follows within six words, the subject before it ("Solar
-    farm appeal denied")."""
+    technology it governs ("rejects lawsuit against Big Sky Wind"); when no
+    technology follows within six words, the subject before it ("Solar farm
+    appeal denied"), unless the verb has an object of its own in its clause,
+    which is then not the project (None: "Mount Jackson delays solar vote,
+    abandons community center land purchase")."""
     words = title[verb.end():].split()
     for i in range(min(len(words), 7)):
         if technologies(" ".join(words[i:i + 3])):
             return " ".join(words[:i])
+    rest = re.split(r"[,;:|]", title[verb.end():], maxsplit=1)[0].strip()
+    if rest and not _AFTER_PASSIVE.match(rest):
+        return None
     return title[:verb.start()]
 
 
@@ -555,7 +682,7 @@ def extract(raw_path: Path, source: dict) -> list[dict]:
         title = tidy(raw_title)
         techs = technologies(title)
         found = hints(title)
-        if not techs or not (found or OPPOSITION_GUARD.search(title)) or off_scope(title):
+        if not techs or not (found or opposed(title)) or off_scope(title):
             continue
         folded = fold_title(description_of(title))
         if folded in kept:

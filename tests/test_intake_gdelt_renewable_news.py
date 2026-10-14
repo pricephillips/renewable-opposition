@@ -1,6 +1,15 @@
 """gdelt_renewable_news: the headline geotagger (scripts/news_place.py) and the
 extractor (scripts/extractors/gdelt_renewable_news.py), offline, on trimmed
-real GDELT DOC 2.0 ArtList responses in tests/fixtures/intake/."""
+real GDELT DOC 2.0 ArtList responses in tests/fixtures/intake/.
+
+The fixtures gdelt_renewable_news_<label>.json are real responses to the five
+configured queries (config/sources.yaml), fetched with timespan=3m instead of
+8d: GDELT's daily volume collapsed after 2026-10-02 and an 8-day window
+returned one article (2026-10-14). moratorium was fetched 2026-10-13, the other
+four 2026-10-14. Each keeps the response's own article objects, verbatim and
+in order, but only some of them (under 40 KB): every article that becomes a
+lead or collapses into one, then the dropped ones that name a technology (the
+filters' real inputs), then a sample of GDELT's full-text noise."""
 import gzip
 import importlib.util
 import json
@@ -89,6 +98,11 @@ def test_placed(text, expected):
     ("North Carolina Piedmont could see impacts from Hurricane Isaias: rain, wind", ("state_only", "NC", "")),
     ("US solar producers near breakthrough, The Arkansas Democrat-Gazette reports", ("none", "", "")),
     ("Wind advisory in place for Los Angeles County", ("medium", "CA", "Los Angeles County")),
+    # Seen in GDELT's stream: outside a town is not in it, and a town beside
+    # places in the plural is a roundup.
+    ("Outside of Little Rock, Arkansas counties and cities move ahead on data center moratoriums",
+     ("state_only", "AR", "")),
+    ("Solar farm planned outside Coggon, Iowa draws opposition", ("state_only", "IA", "")),
 ])
 def test_refused(text, expected):
     assert where(text) == expected
@@ -127,6 +141,12 @@ def test_named_states_masks_and_guards():
     ("Solar Lamp Theft from Bank Raises Security Concerns", []),
     ("South El Monte Puts 45 Day Moratorium on Data Center and Battery Facility Development",
      ["battery_storage"]),
+    # Seen in GDELT responses, 2026-07 to 10: "wind, solar" in either order;
+    # solar panels on public buildings are the city buying power.
+    ("Knox County wind, solar ban survives federal court challenge", ["solar", "wind"]),
+    ("Richmond city council rejects solar panel deal for city buildings", []),
+    ("Automakers enter energy storage business as data centers face backlash", []),
+    ("Solar farm on farmland near homes draws opposition", ["solar"]),
 ])
 def test_technology_in_the_headline(title, techs):
     assert g.technologies(g.tidy(title)) == techs
@@ -138,6 +158,32 @@ def test_mechanism_hints_have_their_own_boundaries():
     assert g.hints("Neighbors sued over wind farm; appeal filed") == ["lawsuit", "appeal"]
     assert g.hints("Board approves rezoning, adopts setback ordinance") == ["setback", "zoning", "ordinance"]
     assert g.hints("Supervisors ban solar farms, extend moratoria") == ["moratorium", "ban"]
+    # 'abandons' takes any object; it is a withdrawal only before a plan or project.
+    assert g.hints("Mount Jackson delays solar vote, abandons community center land purchase") == []
+    assert g.hints("Developer abandons its Coggon solar project") == ["withdrawal"]
+    assert g.hints("Lyon County pauses data center, solar farm development for six months") == ["pause"]
+    assert g.hints("Chesterfield residents approve bylaw for battery energy storage systems") == ["ordinance"]
+    # A setback that is a loss is not a distance.
+    assert g.hints("Details of BP venture $700m offshore wind setback surface") == []
+    assert g.hints("County approves 500-foot setback for solar farms") == ["setback"]
+
+
+@pytest.mark.parametrize("title,opposed", [
+    # Residents count as the ones acting, not as the ones a story is told for.
+    ("Cause of La Verne battery system fire still unknown, city vows transparency for residents", False),
+    ("Solar farm to bring savings to local residents", False),
+    ("Angelica residents demand transparency over battery storage facility", True),
+    ("Several Grove residents unhappy about large battery storage center plans nearby", True),
+    ("Darlington County neighbors rally against proposed 417-acre solar farm", True),
+    # Words of conflict GDELT headlines use; a place named Battle is not one.
+    ("Battle over large Gillespie County solar farm heading back to court", True),
+    ("Grant Township hires attorney as 375-megawatt energy storage project moves forward", True),
+    ("Battle Creek solar farm begins producing power", False),
+    # "Block Island" is a place, not a blockade.
+    ("WindAction | 7 years after it sank, The Mistress is found near the wind farm off Block Island", False),
+])
+def test_opposition_words(title, opposed):
+    assert g.opposed(title) == opposed
 
 
 @pytest.mark.parametrize("title,entity,status,name", [
@@ -164,6 +210,18 @@ def test_mechanism_hints_have_their_own_boundaries():
     ("Judges recommend denial of Shepherd's Run solar farm in Copake", "contested_project", "", ""),
     ("County approves 500-foot setback for solar farms", "restriction", "", ""),
     ("Commissioners approve 200-acre solar farm, new setback rules", "contested_project", "approved", ""),
+    # Seen in GDELT responses, 2026-07 to 10: a pause on a class of
+    # development and a bylaw are instruments; a developer pausing its one
+    # project is not; a decision on something else sets no status.
+    ("Lyon County pauses data center, solar farm development for six months", "restriction", "", ""),
+    ("Howard Republican wants to pause solar projects", "restriction", "", ""),
+    ("Developer pauses Cedar Creek Solar project after opposition", "contested_project", "", "Cedar Creek Solar"),
+    ("Chesterfield residents approve bylaw for battery energy storage systems", "restriction", "", ""),
+    ("Mount Jackson delays solar vote, abandons community center land purchase", "contested_project", "", ""),
+    ("Cedar Creek Solar farm withdrawn by developer", "contested_project", "cancelled", "Cedar Creek Solar"),
+    ("Jefferson County committee approves Watertown solar project, despite City of Watertown opposition",
+     "contested_project", "approved_after_opposition", ""),
+    ("Rejected Hadley battery project returns amid lawsuit, resident concerns", "contested_project", "", ""),
 ])
 def test_classification_status_and_project_name(title, entity, status, name):
     t = g.tidy(title)
@@ -182,6 +240,17 @@ def test_classification_status_and_project_name(title, entity, status, name):
     ("FG rejects solar import ban to protect energy transition", "trade"),
     ("Court halts solar power project in İzmir after 6,000 olive trees cut down", "foreign"),
     ("Billionaire wins fight with neighbours to build 40-acre solar farm", "foreign"),
+    ("Renewable groups sue to end Pentagon total halt of wind power", "federal"),
+    # Offshore wind is federal unless a local actor is named; suits between
+    # investors are business.
+    ("New York, California sue to block deals canceling offshore wind projects", "federal"),
+    ("Windtech International-Connecticut joins lawsuits over offshore wind lease cancellations", "federal"),
+    ("New York, California sue to block cancellation of wind projects", "federal"),
+    ("Town sues over offshore wind cable landing", ""),
+    ("Emmitt Smith sued by investor over wind farm project", "commercial"),
+    ("Residents allege fraud in solar farm approval, file lawsuit", ""),
+    # A setback that is a loss is not a distance, and offshore wind is federal.
+    ("Details of BP venture $700m offshore wind setback surface", "federal"),
     ("New Mexico county weighs solar farm moratorium", ""),
     ("Dunkirk BESS moratorium 'legally deficient,' mayor says", ""),
 ])
@@ -194,6 +263,36 @@ def test_dashes_html_and_spacing():
     assert g.plain("2025" + EN + "2026 moratorium") == "2025-2026 moratorium"
     assert g.tidy("Linn County ' s solar - farm : 9 , 000 acres , residents") == \
         "Linn County's solar-farm: 9,000 acres, residents"
+
+
+@pytest.mark.parametrize("title,description", [
+    # Mastheads GDELT left on real headlines: they name the outlet, not the story.
+    ("Tupper Lake Moratoriums on Battery Energy Storage Systems | Adirondack Daily Enterprise",
+     "Tupper Lake Moratoriums on Battery Energy Storage Systems"),
+    ("Twelve Month Moratorium Approved for White County, WRUL-FM", "Twelve Month Moratorium Approved for White County"),
+    ("Zionsville officials oppose LEAP wastewater plan, pass data center pause, Inside INdiana Business",
+     "Zionsville officials oppose LEAP wastewater plan, pass data center pause"),
+    ("Renewable groups sue to end Pentagon total halt of wind power-Las Vegas Sun News",
+     "Renewable groups sue to end Pentagon total halt of wind power"),
+    ("Planning commissioners must produce documents within 30 days in solar farm dispute, judge rules | News, "
+     "Sports, Jobs-Lawrence Journal-World: news, information, headlines and events in Lawrence, Kansas",
+     "Planning commissioners must produce documents within 30 days in solar farm dispute, judge rules"),
+    ("Solar company, landowner sue Sangamon County-Illinois Times, the capital city weekly source of news",
+     "Solar company, landowner sue Sangamon County"),
+    ("California sues to block deals canceling offshore wind projects, NBC Los Angeles",
+     "California sues to block deals canceling offshore wind projects"),
+    # Not mastheads: a hyphenated name, a place after a comma.
+    ("County Releases Battery-Energy Storage Report", "County Releases Battery-Energy Storage Report"),
+    ("Solar farm draws opposition in Coggon, Iowa", "Solar farm draws opposition in Coggon, Iowa"),
+])
+def test_trailing_masthead_removed(title, description):
+    assert g.description_of(g.tidy(title)) == description
+
+
+def test_a_masthead_never_places_a_lead():
+    # "Inside INdiana Business" named the state that placed Zionsville in Boone County.
+    title = "Zionsville officials oppose LEAP wastewater plan, pass data center pause, Inside INdiana Business"
+    assert news_place.locate(g.description_of(g.tidy(title))).state == ""
 
 
 # ── the extractor on real responses ──────────────────────────────────────────
@@ -262,6 +361,32 @@ def test_every_lead_meets_the_extractor_contract():
         for key, value in lead.items():
             assert not DASH.search(str(value)), (key, value)
             assert "<" not in str(value), (key, value)
+
+
+def test_real_responses_keep_local_fights_and_drop_the_rest():
+    """The fixtures' leads were judged by hand (2026-10-14): these pin the
+    judgements, so a change that moves one is seen and checked again."""
+    found = all_leads()
+    text = " | ".join(lead["description"] for _, lead in found)
+    # Off topic, and dropped: federal offshore wind suits, an investor's suit, a
+    # shipwreck off Block Island, a BESS fire, a city's own panels, a business,
+    # a setback that is a loss.
+    for gone in ("Emmitt Smith", "Windtech", "Block Island", "deals canceling offshore wind", "La Verne",
+                 "Richmond city council", "Automakers enter", "BP venture"):
+        assert gone not in text, gone
+    by = {lead["description"]: lead for _, lead in found}
+    assert by["Knox County wind, solar ban survives federal court challenge"]["technology"] == "solar;wind"
+    assert by["Chesterfield residents approve bylaw for battery energy storage systems"]["entity_type"] == "restriction"
+    assert by["Rejected Hadley battery project returns amid lawsuit, resident concerns"]["status"] == ""
+    assert by["Jefferson County committee approves Watertown solar project, despite City of Watertown "
+              "opposition"]["status"] == "approved_after_opposition"
+    # Every placement in the fixtures, each checked against the article: no
+    # masthead ("NBC Los Angeles", "Lawrence Journal-World ... Kansas") places one.
+    placed = {(lead["state"], lead["county"]) for _, lead in found if lead["state"]}
+    assert placed == {("CA", "Solano County"), ("IL", "Sangamon County"), ("IL", "Will County"),
+                      ("IN", "LaPorte County"), ("LA", "Iberville Parish"), ("MI", ""),
+                      ("MI", "Grand Traverse County"), ("OR", ""), ("SC", "Darlington County"),
+                      ("TX", "Gillespie County")}
 
 
 def test_a_gzipped_raw_file_gives_the_same_leads(tmp_path):
