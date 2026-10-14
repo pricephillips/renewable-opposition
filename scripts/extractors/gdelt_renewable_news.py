@@ -5,6 +5,9 @@ url_mobile, title, seendate, socialimage, domain, language, sourcecountry}]},
 from one of the five labelled queries in config/sources.yaml (moratorium,
 zoning, denial, litigation, organizing). `source` is the data/raw/manifest.csv
 row; its url carries the query, which names the label in reviewer_notes.
+fetch.py lets any valid JSON through: a payload that is not an object with an
+"articles" list gives no leads, and an article that is not an object, or a
+field that is not a string, is skipped or read as blank, never an error.
 
 Output: one lead per headline that is about local opposition to a solar, wind
 or battery-storage project or rule. GDELT matches the full text, so most
@@ -62,16 +65,26 @@ Each lead:
   status        only when the headline states it outright and asks nothing
                 (no question, no modal: could, may, to, considers, weighs,
                 proposed ...): restrictions 'extended' (extends a moratorium),
-                'lifted' (lifts, repeals, rescinds), 'expired' (expires);
+                'lifted' (lifts, repeals, rescinds), 'expired' (expires), each
+                only when the verb acts on the instrument in its own clause
+                ('extends solar moratorium', 'moratorium on solar farms
+                lifted'; not 'repeals zoning fee, keeps solar moratorium' or
+                'extends comment period on solar ordinance');
                 contested projects 'rejected' (denies, rejects, votes down),
                 'cancelled' (withdrawn, cancelled, scrapped),
                 'approved_after_opposition' (approves despite or over
-                opposition), 'approved'. Blank when the decision acts on
-                something else ("rejects lawsuit against ...", "abandons
-                community center land purchase"), and blank otherwise.
-                'active' and 'pending' are never set from a headline.
+                opposition), 'approved'. A decision acts on the project only
+                when nothing but determiners, sizes, names or the project's
+                own permit stands between it and the technology ('denies
+                Rainbow Springs Solar rezoning', 'OKs special use permit for
+                solar farm'); blank when it acts on something else ("rejects
+                lawsuit against solar farm", "denies appeal of solar farm
+                permit", "abandons community center land purchase"), and
+                blank otherwise. 'active' and 'pending' are never set from a
+                headline.
   description   the headline, with GDELT's spaced punctuation closed up and a
-                trailing masthead or section label (' | Amsterdam') removed.
+                trailing masthead or section label (' | Amsterdam', ', San
+                Diego Union-Tribune') removed.
   evidence_text the headline as GDELT gives it (dashes replaced, HTML
                 stripped).
   source_url    the article URL, click tracking removed.
@@ -119,7 +132,7 @@ from urllib.parse import parse_qs, urlsplit
 import yaml
 
 from common import normalize_url, read_raw, strip_tracking
-from news_place import locate, named_states
+from news_place import locate, named_states, title_case
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 SOURCES_YAML = ROOT / "config" / "sources.yaml"
@@ -325,10 +338,33 @@ _OVER_OBJECTIONS = re.compile(
 _OTHER_OBJECT = re.compile(
     r"\b(?:appeals?|lawsuits?|suits?|challenges?|complaints?|petitions?|motions?|referend\w*|opposition|"
     r"objections?|requests?\s+to\s+(?:stop|block|halt)|bid\s+to|efforts?|moratori\w*|bans?|ordinances?|by-?laws?|"
-    r"rules?|regulations?|restrictions?|setbacks?|support|zoning\s+change)\b", re.I)
-_EXTENDED = re.compile(r"\b(?:extend|extends|extended)\b", re.I)
-_LIFTED = re.compile(r"\b(?:lift|lifts|lifted|repeal|repeals|repealed|rescind|rescinds|rescinded)\b", re.I)
-_EXPIRED = re.compile(r"\b(?:expires|expired)\b", re.I)
+    r"rules?|regulations?|restrictions?|setbacks?|support|zoning\s+change|resolutions?|funding|settlements?|"
+    r"agreements?|injunctions?|rehearings?|fees?)\b", re.I)
+# A restriction's status verb must act on the instrument, in its own clause:
+# 'extends solar moratorium', 'lifts ban on wind farms', 'moratorium on solar
+# farms lifted', 'solar moratorium expires'. Not 'repeals zoning fee, keeps
+# solar moratorium', 'lifts building permit freeze', 'extends comment period
+# on solar ordinance' (a preposition makes the instrument something else's).
+_INSTRUMENT_NOUN = r"(?:moratori(?:um|ums|a)|bans?|ordinances?|by-?laws?)"
+_OBJECT_WORD = (r"(?!(?:on|of|for|to|in|at|with|from|by|about|over|and|or|as|but|while|after|before|into|"
+                r"against|amid|despite)\b)[^\s,;:|]+")
+_SUBJECT_WORD = (r"(?!(?:and|or|as|but|while|after|before|when|because|since|though|although|until|amid|"
+                 r"despite|so|then|keeps?|kept|stays?|stayed|remains?|remained)\b)[^\s,;:|]+")
+
+
+def _acts_on_instrument(active: str, passive: str) -> re.Pattern:
+    """'<active verb> ... <instrument>' or '<instrument> ... (is|was)? <passive>'."""
+    alternatives = [rf"\b{_INSTRUMENT_NOUN}(?:\s+{_SUBJECT_WORD}){{0,4}}?\s+"
+                    rf"(?:(?:is|was|are|were|has|have)\s+)?(?:been\s+)?(?:{passive})\b"]
+    if active:
+        alternatives.insert(0, rf"\b(?:{active})\s+(?:{_OBJECT_WORD}\s+){{0,4}}?{_INSTRUMENT_NOUN}\b")
+    return re.compile("|".join(alternatives), re.I)
+
+
+_EXTENDED = _acts_on_instrument(r"extend|extends|extended", r"extended")
+_LIFTED = _acts_on_instrument(r"lift|lifts|lifted|repeal|repeals|repealed|rescind|rescinds|rescinded",
+                              r"lifted|repealed|rescinded")
+_EXPIRED = _acts_on_instrument("", r"expires|expired")
 
 # '<Name> Solar|Wind ...' in a sentence-case headline.
 _PROJECT_NAME = re.compile(
@@ -399,12 +435,22 @@ def tidy(title: str) -> str:
 _MASTHEAD_WORD = (r"(?:News|Times|Journal|Tribune|Gazette|Herald|Post|Press|Daily|Radio|Coalition|Enterprise|"
                   r"Chronicle|Dispatch|Register|Courier|Observer|Sentinel|Leader|Sun|Business|Reporter|Today|"
                   r"Weekly|Bulletin|Democrat|Republican|Independent|Telegraph|Examiner|Patch)")
+# Masthead words that are ordinary nouns too: a masthead after a comma
+# (', San Diego Union-Tribune', ', Sacramento Bee'), never when glued on with
+# a hyphen ('Wind Farm Gets State-Level Review').
+_MASTHEAD_NOUN = (r"(?:Telegram|Statesman|Constitution|Union|Star|Record|Review|Globe|Bee|Ledger|Advocate|"
+                  r"Citizen|Californian)")
 _MASTHEAD_TAIL = re.compile(
-    r"(,\s+|-)((?:The\s+)?((?:[A-Z][\w.&'-]*\s+){0,5})" + _MASTHEAD_WORD
+    # The masthead word may carry a hyphen-glued prefix: 'Union-Tribune'.
+    r"(,\s+|-)((?:The\s+)?((?:[A-Z][\w.&'-]*\s+){0,5})(?:[A-Z][\w.&']*-)?"
+    r"(?:" + _MASTHEAD_WORD + r"|(?P<noun>" + _MASTHEAD_NOUN + r"))"
     + r"|[KW][A-Z]{2,3}(?:-(?:FM|AM|TV))?(?:\s+Radio)?"
     # A network affiliate: ', NBC Los Angeles', ', Fox 5 Atlanta'.
     r"|(?:NBC|ABC|CBS|FOX|Fox|PBS|NPR|CW)(?:\s+\d+)?(?:\s+[A-Z][\w.'-]*){1,3})"
-    r"(?:\s*[,:]\s+[a-z][^|]*)?\s*$")
+    # The outlet's tagline: ': news, information ...', or its sections
+    # (' News Events & Video for Pagosa Springs Colorado').
+    r"(?:\s*[,:]\s+[a-z][^|]*|\s+(?:News\s+)?(?:Events|Video|Sports|Jobs|Obituaries|Opinion|Weather)\b[^|]*)?"
+    r"\s*$")
 
 
 def description_of(title: str) -> str:
@@ -412,9 +458,14 @@ def description_of(title: str) -> str:
     ('... sets public hearing | Amsterdam', '..., KIWA Radio')."""
     m = re.match(r"(.{20,}?)\s*\|\s*(.+)$", title)
     if m and ((len(m.group(2)) <= 40 and len(m.group(2).split()) <= 4)
-              or re.search(rf"\b{_MASTHEAD_WORD}\b", m.group(2))):
+              or re.search(rf"\b(?:{_MASTHEAD_WORD}|{_MASTHEAD_NOUN})\b", m.group(2))):
         title = m.group(1).rstrip(" ,;:")
     m = _MASTHEAD_TAIL.search(title)
+    # An ordinary noun is a masthead only after a comma and a name of its own
+    # (', Chelsea Record'), not a list's last item (', And CEQA Review').
+    if m and m.group("noun") and (m.group(1) == "-" or not m.group(3)
+                                  or m.group(3).split()[0] in ("And", "Or")):
+        m = None
     if m and m.start() >= 20:
         before = title[:m.start()].split()
         # Glued on with a hyphen after a capitalized word, a masthead needs two
@@ -548,33 +599,76 @@ _AFTER_PASSIVE = re.compile(
     r"wednesday|thursday|friday|saturday|sunday|\d[\d-]*)\b", re.I)
 
 
+# What may stand between a decision verb and the project it decides: a
+# determiner, a size or sum, a capitalized name, or the project's own
+# permission ("denies permit for $1.2B Southpaw Solar project", "OKs special
+# use permit for solar farm").
+_PROJECT_WORDS = {
+    "the", "a", "an", "its", "their", "his", "her", "our", "this", "that", "these", "those", "another",
+    "two", "three", "four", "five", "second", "third", "new", "proposed", "planned", "controversial",
+    "contested", "disputed", "embattled", "large", "larger", "big", "massive", "huge", "small", "utility-scale",
+    "grid-scale", "commercial", "industrial", "community", "local", "rural", "remaining", "final", "latest",
+    "more", "all", "both", "several", "acre", "acres", "megawatt", "megawatts", "mw", "gw", "mwh", "million",
+    "billion", "special", "conditional", "use", "special-use", "conditional-use", "site", "siting", "building",
+    "zoning",
+}
+_PERMISSION_NOUNS = {"permit", "permits", "rezoning", "application", "applications", "plan", "plans", "proposal",
+                     "proposals", "approval", "request", "certificate"}
+_SIZE = re.compile(r"^\$?\d[\d,.]*[kmb]?(?:-[a-z]+)?$|^\$\d", re.I)
+# A preposition or conjunction puts the project in another phrase ("rejects
+# lawsuit against solar farm"), whatever the case ("Lawsuit Against Solar Farm").
+_LINK_WORDS = {"against", "of", "for", "on", "over", "to", "with", "from", "about", "by", "in", "at", "into",
+               "near", "after", "before", "amid", "despite", "and", "or", "versus", "vs"}
+# In title case a capital marks no name: "Approves Measure Opposing Solar Farm".
+_OPPOSING = re.compile(r"\b(?:oppos\w*|against)\b", re.I)
+
+
+def _tech_start(title: str, pos: int) -> int:
+    """Offset of the first technology the headline names at or after pos, or
+    -1 (technologies(), with its exclusions blanked to the same length)."""
+    def blank(m):
+        return " " * len(m.group(0))
+    masked = _STORAGE_TRADE.sub(blank, _BUILDING_SOLAR.sub(blank, _SMALL_SOLAR.sub(blank, title)))
+    starts = [m.start() for tech in technologies(title) if (m := TECH_PATTERNS[tech].search(masked, pos))]
+    return min(starts, default=-1)
+
+
+def _project_words(between: str) -> bool:
+    """Whether the words between a decision verb and the technology are only
+    what a project is named, sized or permitted by (_PROJECT_WORDS)."""
+    if re.search(r"[,;:|]", between):
+        return False
+    words = between.split()
+    for i, w in enumerate(words):
+        lw = w.lower().strip("'’\".")
+        if lw in _PROJECT_WORDS or lw in _PERMISSION_NOUNS or _SIZE.match(lw):
+            continue
+        if lw in ("for", "of") and i and words[i - 1].lower() in _PERMISSION_NOUNS:
+            continue
+        if w[:1].isupper() and lw not in _LINK_WORDS:
+            continue
+        return False
+    return not (_OTHER_OBJECT.search(between) or _OPPOSING.search(between))
+
+
 def _decided_object(title: str, verb: re.Match) -> str | None:
-    """What the decision word acts on: the words between it and the
-    technology it governs ("rejects lawsuit against Big Sky Wind"); when no
-    technology follows within six words, the subject before it ("Solar farm
-    appeal denied"), unless the verb has an object of its own in its clause,
-    which is then not the project (None: "Mount Jackson delays solar vote,
-    abandons community center land purchase")."""
-    words = title[verb.end():].split()
-    for i in range(min(len(words), 7)):
-        if technologies(" ".join(words[i:i + 3])):
-            return " ".join(words[:i])
+    """What the decision word acts on: the words between it and the first
+    technology after it, when that is within six words; they must be only a
+    project's determiners, sizes, names or permission (_project_words), or
+    the decision is on something else (None: "rejects lawsuit against solar
+    farm", "denies appeal of solar farm permit"). When no technology follows
+    within six words, the subject before it ("Solar farm appeal denied"),
+    unless the verb has an object of its own in its clause, which is then not
+    the project (None: "Mount Jackson delays solar vote, abandons community
+    center land purchase")."""
+    start = _tech_start(title, verb.end())
+    between = title[verb.end():start] if start >= 0 else ""
+    if start >= 0 and len(between.split()) <= 6:
+        return between if _project_words(between) else None
     rest = re.split(r"[,;:|]", title[verb.end():], maxsplit=1)[0].strip()
     if rest and not _AFTER_PASSIVE.match(rest):
         return None
     return title[:verb.start()]
-
-
-_FUNCTION_WORDS = {"with", "from", "over", "into", "after", "about", "against", "amid", "despite", "near",
-                   "than", "that", "this", "upon", "onto", "under", "while", "when"}
-
-
-def title_case(title: str) -> bool:
-    """Nearly every word capitalized: a title-case headline, where no capital
-    marks a name."""
-    words = [w for w in re.findall(r"[A-Za-z][\w'’-]*", title)
-             if len(w) > 3 and w.lower() not in _FUNCTION_WORDS]
-    return bool(words) and sum(w[0].isupper() for w in words) / len(words) >= 0.8
 
 
 def project_name(title: str) -> str:
@@ -658,27 +752,40 @@ def query_label(url: str) -> str:
 
 # ── extract ──────────────────────────────────────────────────────────────────
 
+def _text(art: dict, key: str) -> str:
+    """A field of an article, '' when it is missing or not a string."""
+    value = art.get(key)
+    return value if isinstance(value, str) else ""
+
+
 def extract(raw_path: Path, source: dict) -> list[dict]:
     payload = json.loads(read_raw(Path(raw_path)).decode("utf-8-sig"))
+    # Any valid JSON gets past fetch.py; a payload of another shape has no
+    # articles, and an article or field of another shape is skipped or blank.
+    articles = payload.get("articles") if isinstance(payload, dict) else None
+    if not isinstance(articles, list):
+        return []
     label = query_label(source.get("url", ""))
     kept: dict[str, dict] = {}        # folded title -> lead
     seen_urls: set[str] = set()
-    for art in payload.get("articles") or []:
-        if (art.get("language") or "").strip() != "English":
+    for art in articles:
+        if not isinstance(art, dict):
             continue
-        if (art.get("sourcecountry") or "").strip() != "United States":
+        if _text(art, "language").strip() != "English":
             continue
-        url = strip_tracking(art.get("url") or "")
+        if _text(art, "sourcecountry").strip() != "United States":
+            continue
+        url = strip_tracking(_text(art, "url"))
         if not url.startswith(("http://", "https://")):
             continue
         key = normalize_url(url)
         if key in seen_urls:
             continue
         seen_urls.add(key)
-        domain = (art.get("domain") or urlsplit(url).netloc).lower().removeprefix("www.")
+        domain = (_text(art, "domain") or urlsplit(url).netloc).lower().removeprefix("www.")
         if _domain_in(domain, REHOST_DOMAINS):
             continue
-        raw_title = plain(art.get("title") or "")
+        raw_title = plain(_text(art, "title"))
         title = tidy(raw_title)
         techs = technologies(title)
         found = hints(title)
@@ -696,7 +803,7 @@ def extract(raw_path: Path, source: dict) -> list[dict]:
         hint_note = ", ".join(found) if found else "none; opposition words: " + ", ".join(opposition_words(title))
         notes = [
             f"GDELT {label} query",
-            f"seen {seen_date(art.get('seendate', ''))} (crawl date)",
+            f"seen {seen_date(_text(art, 'seendate'))} (crawl date)",
             domain,
             f"place {place.confidence}: {place.reason}",
             f"hints: {hint_note}",

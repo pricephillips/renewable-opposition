@@ -62,6 +62,19 @@ def where(text):
     ("West Virginia county adopts setback for solar farms", ("state_only", "WV", "")),
     ("Eastern Washington residents fight wind farm", ("state_only", "WA", "")),
     ("Ohio River solar farm in Kentucky draws lawsuit", ("state_only", "KY", "")),
+    # A company's home state is not the story's: the county is Mower, Minnesota.
+    ("Ohio developer's Mower County solar farm draws fire", ("medium", "MN", "Mower County")),
+    # A town is looked up in the state that frames it, not the first one named.
+    ("Iowa developer's solar farm near Rochester, Minnesota draws opposition",
+     ("high", "MN", "Olmsted County")),
+    ("Iowa regulators weigh solar farm near Rochester, Minnesota", ("high", "MN", "Olmsted County")),
+    ("Minnesota's Cannon Falls weighs solar moratorium as Iowa watches", ("high", "MN", "Goodhue County")),
+    # In a title-case headline a county its own state frames, or one whose
+    # name is no ordinary word, still counts.
+    ("Iowa's Story County Board Extends Solar Moratorium", ("high", "IA", "Story County")),
+    ("Story County, Iowa Supervisors Extend Solar Moratorium", ("high", "IA", "Story County")),
+    ("Oklahoma's Texas County Commissioners Approve Wind Ban", ("high", "OK", "Texas County")),
+    ("Darlington County Neighbors Rally Against Proposed Solar Farm", ("medium", "SC", "Darlington County")),
 ])
 def test_placed(text, expected):
     assert where(text) == expected
@@ -83,7 +96,7 @@ def test_placed(text, expected):
     # Several states, nothing pinning one.
     ("Indiana Michigan Power wind project in Indiana faces opposition", ("none", "", "")),
     # A county named that is not in the named state: a contradiction.
-    ("Ohio developer's Mower County solar farm draws fire", ("none", "", "")),
+    ("Ohio regulators weigh Mower County solar farm", ("none", "", "")),
     # A town in several counties of the state: the state only.
     ("Fairfield, Iowa council considers solar ban", ("state_only", "IA", "")),
     # Ordinary words that are also places are not towns.
@@ -103,6 +116,29 @@ def test_placed(text, expected):
     ("Outside of Little Rock, Arkansas counties and cities move ahead on data center moratoriums",
      ("state_only", "AR", "")),
     ("Solar farm planned outside Coggon, Iowa draws opposition", ("state_only", "IA", "")),
+    # Review findings, 2026-10-14. Punctuation ends a county name.
+    ("Residents Oppose Solar Power, County Board Says", ("none", "", "")),
+    ("Solar Power: County Board Votes Down Wind Farm Moratorium", ("none", "", "")),
+    ("Opposition grows to solar farm near Austin, County officials say", ("none", "", "")),
+    ("Letter: Mike Power, County Commissioner, opposes solar farm", ("none", "", "")),
+    ("The Solar Story: County Board Rejects Wind Farm", ("none", "", "")),
+    # In title case a capital marks no name: an ordinary word or a state name
+    # before County is not a county unless its own state frames it, and "a
+    # Texas County" is never Texas County.
+    ("Wind Power County Ordinance Draws Opposition", ("none", "", "")),
+    ("What Will County Do About Solar Farm Opposition?", ("none", "", "")),
+    ("Early County Vote Set on Solar Moratorium", ("none", "", "")),
+    ("Election Day County Vote on Solar Ban Draws Crowd", ("none", "", "")),
+    ("Residents Don't Love County's Solar Farm Plan", ("none", "", "")),
+    ("Oklahoma Developer Sues Texas County Over Wind Farm Ban", ("none", "", "")),
+    ("Missouri Utility's Wind Farm Fight Moves to a Texas County", ("none", "", "")),
+    # A company's home state is not the story's.
+    ("Texas-based developer sues Montgomery County over solar farm denial", ("none", "", "")),
+    ("Florida developer sues Lake County over solar moratorium", ("none", "", "")),
+    # Several states named and no state framing the town: nothing.
+    ("Iowa and Minnesota residents fight solar farm near Rochester", ("none", "", "")),
+    # A masthead's city is not a town: "San Diego Union-Tribune".
+    ("California regulators reject solar farm plan, San Diego Union-Tribune", ("state_only", "CA", "")),
 ])
 def test_refused(text, expected):
     assert where(text) == expected
@@ -121,6 +157,11 @@ def test_named_states_masks_and_guards():
     assert news_place.named_states("Kansas City and Texas Roadhouse") == []
     assert news_place.named_states("Washington state siting council") == ["WA"]
     assert news_place.named_states("Washington, D.C. lawmakers") == []
+    # A company's home state is not named as the story's.
+    assert news_place.named_states("Texas-based developer sues Montgomery County") == []
+    assert news_place.named_states("Missouri Utility's Wind Farm Fight") == []
+    assert news_place.named_states("Iowa wind company sues county") == []
+    assert news_place.named_states("Ohio Power Siting Board rejects wind farm") == ["OH"]
 
 
 # ── headline judgements ──────────────────────────────────────────────────────
@@ -222,6 +263,37 @@ def test_opposition_words(title, opposed):
     ("Jefferson County committee approves Watertown solar project, despite City of Watertown opposition",
      "contested_project", "approved_after_opposition", ""),
     ("Rejected Hadley battery project returns amid lawsuit, resident concerns", "contested_project", "", ""),
+    # Review findings, 2026-10-14: a decision on a suit, appeal, petition,
+    # injunction, resolution or funding is not one on the project ('rejected'
+    # would invert the outcome). A bare 'solar' matches by itself, so the
+    # object is everything between the verb and it.
+    ("Judge rejects lawsuit against solar farm", "contested_project", "", ""),
+    ("Court rejects neighbors' lawsuit against solar farm", "contested_project", "", ""),
+    ("Commissioners deny appeal of solar farm permit", "contested_project", "", ""),
+    ("Supervisors reject petition against solar farm", "contested_project", "", ""),
+    ("Board denies appeal, approves solar farm", "contested_project", "", ""),
+    ("Judge denies neighbors' injunction against solar farm", "contested_project", "", ""),
+    ("State board denies rehearing on wind farm opponents' complaint", "contested_project", "", ""),
+    ("Supervisors approve resolution opposing solar farm", "contested_project", "", ""),
+    ("Council approves funding for lawsuit against solar farm", "contested_project", "", ""),
+    ("Judge Rejects Lawsuit Against Solar Farm", "contested_project", "", ""),
+    ("Supervisors Approve Measure Opposing Solar Farm", "contested_project", "", ""),
+    ("Niagara County denies highway permits for Bear Ridge Solar", "contested_project", "", "Bear Ridge Solar"),
+    # ...but a project's own permit, size or name between them is still the project.
+    ("Louisa County board denies permit for $1.2B Southpaw Solar project", "contested_project", "rejected",
+     "Southpaw Solar"),
+    ("Quincy commission OKs special use permit for solar farm above Huber caves", "contested_project",
+     "approved", ""),
+    # A restriction's status verb must act on the instrument, in its clause.
+    ("Township repeals zoning fee, keeps solar moratorium", "restriction", "", ""),
+    ("Solar moratorium stays as board lifts building permit freeze", "restriction", "", ""),
+    ("Town adopts battery storage ban; lifts residency requirement", "restriction", "", ""),
+    ("County extends comment period on solar ordinance", "restriction", "", ""),
+    ("Town board takes steps toward battery storage, data center bans; lifts town job residency requirement",
+     "restriction", "", ""),
+    ("Moratorium on solar farms lifted", "restriction", "lifted", ""),
+    ("Supervisors lift solar ban", "restriction", "lifted", ""),
+    ("Solar moratorium expires", "restriction", "expired", ""),
 ])
 def test_classification_status_and_project_name(title, entity, status, name):
     t = g.tidy(title)
@@ -281,9 +353,23 @@ def test_dashes_html_and_spacing():
      "Solar company, landowner sue Sangamon County"),
     ("California sues to block deals canceling offshore wind projects, NBC Los Angeles",
      "California sues to block deals canceling offshore wind projects"),
-    # Not mastheads: a hyphenated name, a place after a comma.
+    # A hyphenated masthead, and an outlet's sections after one (real GDELT titles).
+    ("California regulators reject solar farm plan, San Diego Union-Tribune",
+     "California regulators reject solar farm plan"),
+    ("Pelosi says Biden inner circle should have acted: 4 takeaways from California political summit, "
+     "Loveland Reporter-Herald",
+     "Pelosi says Biden inner circle should have acted: 4 takeaways from California political summit"),
+    ("BIG PIVOTS: A Coal Mine Closes, and Solar Comes On, Pagosa Daily Post News Events & Video for Pagosa "
+     "Springs Colorado", "BIG PIVOTS: A Coal Mine Closes, and Solar Comes On"),
+    ("DiDomenico votes to save ratepayers money on energy costs, Chelsea Record",
+     "DiDomenico votes to save ratepayers money on energy costs"),
+    # Not mastheads: a hyphenated name, a place after a comma, an ordinary noun
+    # glued on with a hyphen or ending a list.
     ("County Releases Battery-Energy Storage Report", "County Releases Battery-Energy Storage Report"),
     ("Solar farm draws opposition in Coggon, Iowa", "Solar farm draws opposition in Coggon, Iowa"),
+    ("Wind Farm Gets State-Level Review", "Wind Farm Gets State-Level Review"),
+    ("Governor Signs Data Center Bills Addressing Noise Reporting, Water Use, And CEQA Review",
+     "Governor Signs Data Center Bills Addressing Noise Reporting, Water Use, And CEQA Review"),
 ])
 def test_trailing_masthead_removed(title, description):
     assert g.description_of(g.tidy(title)) == description
@@ -293,6 +379,12 @@ def test_a_masthead_never_places_a_lead():
     # "Inside INdiana Business" named the state that placed Zionsville in Boone County.
     title = "Zionsville officials oppose LEAP wastewater plan, pass data center pause, Inside INdiana Business"
     assert news_place.locate(g.description_of(g.tidy(title))).state == ""
+    # "San Diego Union-Tribune" placed a statewide story in San Diego County.
+    title = "California regulators reject solar farm plan, San Diego Union-Tribune"
+    assert where(g.description_of(g.tidy(title))) == ("state_only", "CA", "")
+    title = ("BIG PIVOTS: A Coal Mine Closes, and Solar Comes On, Pagosa Daily Post News Events & Video for "
+             "Pagosa Springs Colorado")
+    assert where(g.description_of(g.tidy(title))) == ("none", "", "")
 
 
 # ── the extractor on real responses ──────────────────────────────────────────
@@ -417,6 +509,29 @@ def test_language_country_and_rehost_filters(tmp_path):
     assert _run(tmp_path, [{**art, "domain": "msn.com", "url": "https://www.msn.com/en-us/news/x"}]) == []
     demoted = _run(tmp_path, [{**art, "domain": "reddit.com", "url": "https://www.reddit.com/r/x"}])
     assert len(demoted) == 1 and "reddit.com" in demoted[0]["reviewer_notes"]
+
+
+def test_unexpected_json_shapes_give_no_leads_not_errors(tmp_path):
+    """fetch.py lets any valid JSON through; a raw file the extractor raised on
+    would be retried three times and then skipped with all its articles."""
+    art = _one_article("organizing")
+    path = tmp_path / "r.json"
+
+    def run(payload):
+        path.write_text(json.dumps(payload), encoding="utf-8")
+        return g.extract(path, manifest_row("organizing", path))
+
+    for payload in ([], "text", 3, None, {}, {"articles": None}, {"articles": {"a": 1}}, {"articles": "x"}):
+        assert run(payload) == [], payload
+    # An article that is not an object is skipped; the others are still read.
+    assert len(run({"articles": [1, "x", None, art]})) == 1
+    # A field that is not a string reads as blank.
+    assert run({"articles": [{**art, "title": 12345}]}) == []
+    assert run({"articles": [{**art, "url": 5}]}) == []
+    assert run({"articles": [{**art, "language": 1}]}) == []
+    assert run({"articles": [{**art, "sourcecountry": ["United States"]}]}) == []
+    out = run({"articles": [{**art, "seendate": 20261010, "domain": 7}]})
+    assert len(out) == 1 and "seen  (crawl date)" in out[0]["reviewer_notes"]
 
 
 def test_each_document_once_and_identical_headlines_collapsed(tmp_path):
