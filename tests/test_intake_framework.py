@@ -372,6 +372,23 @@ def test_the_run_budget_stops_new_requests_and_records_each_one_skipped(monkeypa
     assert rows[1]["url"] == "https://w.example.com/v1/b/m"
 
 
+def test_no_retry_waits_past_the_run_budget(monkeypatch, raw_store):
+    # Started before the deadline, throttled: the 20 s retry fits, the 60 s one
+    # would end past it, so the request is recorded as failed instead.
+    calls = queue_responses(monkeypatch, [FakeResponse(429, b"slow down", "text/plain") for _ in range(3)])
+    now = [0.0]
+    pauses = []
+
+    def sleep(s):
+        pauses.append(s)
+        now[0] += s
+
+    src = {"source_id": "gdelt", "url": "https://api.example.org/doc", "retry": {"statuses": [429], "backoff_s": [20, 60]}}
+    rows = fetch.process_source(src, [], sleep=sleep, deadline=50, clock=lambda: now[0])
+    assert pauses == [20] and len(calls) == 2
+    assert rows[0]["status_code"] == "429" and "429" in rows[0]["error"]
+
+
 def test_a_watched_sources_first_copy_is_a_baseline_not_a_change():
     src = {"w": {"source_id": "w", "on_change": "upstream changed: rerun"}}
     stored = [{"source_id": "w", "url": "https://u.example.org", "local_path": "data/raw/w/x.json", "error": ""}]
