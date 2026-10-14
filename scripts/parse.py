@@ -43,10 +43,12 @@ review_status), the three seeds and the review files that cite evidence:
     whatever the entity: someone has already read it against a record;
   - a news candidate whose headline is already queued (syndication: one
     story on many mastheads) is dropped;
-  - the same entity_type, state and name (project_name, or municipality or
-    county) under a different URL is kept, with "possible duplicate of ..."
-    prepended to reviewer_notes, because new coverage of a known record is
-    for a reviewer to merge or reject, not for the parser to decide.
+  - the same entity_type, state and name (a project's or case's own
+    project_name; a restriction's municipality or county, with a technology
+    in common) under a different URL is kept, with "possible duplicate of
+    <that row's id>" prepended to reviewer_notes, because new coverage of a
+    known record is for a reviewer to merge or reject, not for the parser to
+    decide.
 Nothing is read from data/processed/ and nothing is written outside
 data/review/ and parse_state.csv.
 
@@ -265,8 +267,32 @@ def url_key(url: str) -> str:
 
 
 def _name_key(entity: str, state: str, *names: str) -> tuple:
+    # A project or a case goes by its own name (the first given) only: an
+    # unnamed one falling back to its county would share a name with every
+    # other unnamed project there.
+    if entity in ("contested_project", "case"):
+        names = names[:1]
     name = next((n for n in names if (n or "").strip()), "")
     return (entity, (state or "").strip().upper(), " ".join(name.lower().split()))
+
+
+def _name_keys(key: tuple, technology: str, held: bool) -> list[tuple]:
+    """A restriction's name keys by technology (a county's solar ordinance is
+    not its wind ordinance): a held row registers one per technology it covers
+    plus one without, a candidate looks up its own technologies', or the one
+    without when it names none. Any other entity has the one name key."""
+    if key[0] != "restriction":
+        return [key]
+    try:
+        tokens = [key + (t,) for t in technology_tokens(technology)]
+    except ValueError:
+        tokens = []
+    return (tokens + [key + ("",)]) if held else (tokens or [key + ("",)])
+
+
+def _queue_where(source_id: str, queue_id: str) -> str:
+    """A queue row as a reviewer finds it: its source and its queue_id."""
+    return f"queue row from {source_id}".strip() + (f" ({queue_id})" if queue_id else "")
 
 
 def headline_key(text: str) -> str:
@@ -291,28 +317,34 @@ class Known:
         self.cited: dict[str, str] = {}
         self.headlines: dict[str, str] = {}
         for r in queue_rows:
-            where = f"queue row from {r.get('source_id', '')}".strip()
+            where = _queue_where(r.get("source_id", ""), r.get("queue_id", ""))
             self.add(r.get("entity_type", ""), r.get("source_url", ""), r.get("state", ""),
-                     (r.get("project_name"), r.get("municipality"), r.get("county")), where)
+                     (r.get("project_name"), r.get("municipality"), r.get("county")), where,
+                     r.get("technology", ""))
             if (r.get("source_kind") or "").strip() == "news" and headline_key(r.get("evidence_text", "")):
                 self.headlines.setdefault(headline_key(r["evidence_text"]), where)
         for entity, rows in seeds.items():
             for r in rows:
-                where = f"seed {r.get('pinned_id') or r.get('id') or r.get('source', '')}".strip()
+                # The row's own id, never its shared citation ('source').
+                rid = next((r[c] for c in ("pinned_id", "case_id", "source_record_id", "nrel_id",
+                                           "moratorium_id", "queue_id", "source_url") if r.get(c)), "")
+                where = f"seed {rid}".strip()
                 self.add(entity, r.get("source_url", ""), r.get("state", ""),
-                         (r.get("project_name"), r.get("jurisdiction"), r.get("municipality"), r.get("county")), where)
+                         (r.get("project_name"), r.get("jurisdiction"), r.get("municipality"), r.get("county")), where,
+                         r.get("technology", ""))
                 for col in ("source_url",) + SEED_CITED_COLUMNS:
                     for u in _urls(r.get(col, "")):
                         self.cited.setdefault(url_key(u), f"{col} of {where}")
         for url, where in cited or []:
             self.cited.setdefault(url_key(url), where)
 
-    def add(self, entity: str, url: str, state: str, names, where: str) -> None:
+    def add(self, entity: str, url: str, state: str, names, where: str, technology: str = "") -> None:
         if (url or "").strip():
             self.by_url.setdefault((entity, url_key(url)), where)
         key = _name_key(entity, state, *names)
         if key[1] and key[2]:
-            self.by_name.setdefault(key, where)
+            for k in _name_keys(key, technology, held=True):
+                self.by_name.setdefault(k, where)
 
 
 def load_cited(paths: list[tuple[Path, str]]) -> list[tuple[str, str]]:
@@ -351,17 +383,19 @@ def dedupe(candidates: list[CandidateRecord], known: Known) -> tuple[list[Candid
         if hkey and hkey in known.headlines:
             dropped.append(f"{c.entity_type} {label!r}: same headline as {known.headlines[hkey]}")
             continue
+        where = _queue_where(c.source_id, c.queue_id)
         if c.source_url.strip():
-            known.by_url[(c.entity_type, url_key(c.source_url))] = f"queue row from {c.source_id}"
+            known.by_url[(c.entity_type, url_key(c.source_url))] = where
         if hkey:
-            known.headlines[hkey] = f"queue row from {c.source_id}"
+            known.headlines[hkey] = where
         key = _name_key(c.entity_type, c.state, c.project_name, c.municipality, c.county)
         if key[1] and key[2]:
-            if key in known.by_name:
-                note = f"possible duplicate of {known.by_name[key]} (same name under another URL)"
+            hit = next((known.by_name[k] for k in _name_keys(key, c.technology, held=False) if k in known.by_name), "")
+            if hit:
+                note = f"possible duplicate of {hit} (same name under another URL)"
                 c.reviewer_notes = "; ".join(x for x in (note, c.reviewer_notes) if x)
-            else:
-                known.by_name[key] = f"queue row from {c.source_id}"
+            for k in _name_keys(key, c.technology, held=True):
+                known.by_name.setdefault(k, where)
         kept.append(c)
     return kept, dropped
 
@@ -585,6 +619,8 @@ def main() -> int:
     taken = {r.get("queue_id") for r in read_csv(QUEUE_PATH) if r.get("queue_id")}
     per_source: dict[str, list[int]] = {}
     failed = []
+    no_extractor: dict[str, int] = {}
+    done: set[tuple[str, str]] = set()
 
     for row in targets:
         sid = row["source_id"]
@@ -592,8 +628,15 @@ def main() -> int:
 
         mod = load_extractor(sid)
         if mod is None:
-            log.info(f"  {sid}: no extractor found, skipping. (Add scripts/extractors/{sid}.py to enable.)")
+            no_extractor[sid] = no_extractor.get(sid, 0) + 1
             continue
+        # Identical responses to two requests (two clients with no matters)
+        # are one stored file: parse it once per run, and when it fails,
+        # record one failed attempt, not one per request.
+        key = (sid, row["content_hash"])
+        if key in done:
+            continue
+        done.add(key)
 
         if args.dry_run:
             log.info(f"  [dry-run] would parse {sid}: {raw_path.name}")
@@ -609,8 +652,8 @@ def main() -> int:
                 "error": "extractor raised (see the run log)",
             })
             continue
+        assign_queue_ids(candidates, taken)     # first, so a note can name an in-batch row
         candidates, dropped = dedupe(candidates, known)
-        assign_queue_ids(candidates, taken)
         for line in dropped:
             log.info(f"    dropped {line}")
         log.info(f"    -> {len(candidates)} lead(s) queued, {len(dropped)} already held")
@@ -628,6 +671,8 @@ def main() -> int:
         counts[1] += len(candidates)
         counts[2] += len(dropped)
 
+    for sid, n in sorted(no_extractor.items()):
+        log.info(f"  {sid}: {n} raw file(s), no extractor (add scripts/extractors/{sid}.py to parse them)")
     for sid, (files, queued, held) in per_source.items():
         print(f"{sid}: {files} raw file(s) parsed, {queued} lead(s) queued, {held} already held")
     for f in failed:

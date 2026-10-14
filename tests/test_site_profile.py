@@ -95,21 +95,14 @@ def test_restriction_type_is_the_mechanism_that_set_the_severity():
 # ── site_profile against the published data ──────────────────────────────────
 
 @pytest.fixture(scope="module")
-def data(tmp_path_factory):
-    """Build the processed data from the seeds into a temp dir, so these tests
-    check the code in this tree rather than whatever was last committed."""
-    import build_seed_outputs as bso
-    out = tmp_path_factory.mktemp("processed")
-    mp = pytest.MonkeyPatch()
-    mp.setattr(bso, "PROCESSED_DIR", out)
-    mp.setattr(bso, "FIPS_MISSES", out / "fips_misses.csv")
-    import facility_matches
-    mp.setattr(facility_matches, "WORKLIST_PATH", out / "facility_matches.csv")
-    assert bso.main() == 0
-    mp.setattr(sp, "PROCESSED", out)
-    d = sp.Data()
-    mp.undo()
-    return d
+def data(seed_build):
+    """The processed data built from the seeds into a temp dir (conftest's
+    seed_build, shared), so these tests check the code in this tree rather
+    than whatever was last committed."""
+    assert seed_build.returncode == 0
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(sp, "PROCESSED", seed_build.processed)
+        return sp.Data()
 
 
 def run(d, state, county, **kw):

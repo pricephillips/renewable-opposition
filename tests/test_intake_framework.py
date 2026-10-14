@@ -244,6 +244,41 @@ def test_queue_ids_are_distinct_for_leads_from_one_raw_file():
     assert twins[1].queue_id == twins[0].queue_id + "-2"
 
 
+
+def test_unnamed_projects_in_one_county_are_not_one_name():
+    projects = [_cand(entity_type="contested_project", county="San Bernardino County", state="CA",
+                      source_url=f"https://county.example.gov/m/{i}", source_kind="other",
+                      project_name=name, queue_id=f"q_{i}")
+                for i, name in enumerate(("", "", "Daggett Solar", "daggett  solar"))]
+    kept, _ = parse.dedupe(projects, parse.Known([], {}))
+    assert [c.reviewer_notes for c in kept[:3]] == ["", "", ""]
+    assert kept[3].reviewer_notes.startswith("possible duplicate of queue row from gdelt_renewable_news (q_2)")
+
+
+def test_a_name_note_names_the_row_and_its_technology():
+    queue = [{"entity_type": "contested_project", "state": "KS", "project_name": "Prairie Solar",
+              "source_id": "web_x", "queue_id": "q_held", "source_url": "https://a.example.org/1"}]
+    seeds = {"restriction": [{"state": "IL", "jurisdiction": "Lake County", "technology": "solar",
+                              "nrel_id": "solar:17097", "source": "NREL ..., CC BY 4.0"},
+                             {"state": "IL", "jurisdiction": "Lake County", "technology": "wind",
+                              "nrel_id": "wind:17097", "source": "NREL ..., CC BY 4.0"}],
+             "contested_project": [{"state": "NY", "project_name": "Mill Point Solar I",
+                                    "source_record_id": "S26P-4183", "source": "Sabin Center, ..."}]}
+    lake = dict(state="IL", county="Lake County", source_kind="other")
+    kept, _ = parse.dedupe([
+        _cand(technology="wind", source_url="https://l.example.gov/1", **lake),
+        _cand(technology="solar;wind", source_url="https://l.example.gov/2", **lake),
+        _cand(technology="", source_url="https://l.example.gov/3", **lake),
+        _cand(entity_type="contested_project", state="NY", project_name="Mill Point Solar I",
+              source_url="https://ores.example.gov/x", source_kind="other"),
+        _cand(entity_type="contested_project", state="KS", project_name="Prairie Solar",
+              source_url="https://a.example.org/2", source_kind="other"),
+    ], parse.Known(queue, seeds))
+    notes = [c.reviewer_notes.split(" (same name")[0] for c in kept]
+    assert notes == ["possible duplicate of seed wind:17097", "possible duplicate of seed solar:17097",
+                     "possible duplicate of seed solar:17097", "possible duplicate of seed S26P-4183",
+                     "possible duplicate of queue row from web_x (q_held)"]
+
 def _intake_tree(monkeypatch, tmp_path, extractor_src):
     raw, review = tmp_path / "data" / "raw", tmp_path / "data" / "review"
     (raw / "broken_src").mkdir(parents=True)
@@ -372,6 +407,23 @@ def test_the_run_budget_stops_new_requests_and_records_each_one_skipped(monkeypa
     assert rows[1]["url"] == "https://w.example.com/v1/b/m"
 
 
+def test_no_retry_waits_past_the_run_budget(monkeypatch, raw_store):
+    # Started before the deadline, throttled: the 20 s retry fits, the 60 s one
+    # would end past it, so the request is recorded as failed instead.
+    calls = queue_responses(monkeypatch, [FakeResponse(429, b"slow down", "text/plain") for _ in range(3)])
+    now = [0.0]
+    pauses = []
+
+    def sleep(s):
+        pauses.append(s)
+        now[0] += s
+
+    src = {"source_id": "gdelt", "url": "https://api.example.org/doc", "retry": {"statuses": [429], "backoff_s": [20, 60]}}
+    rows = fetch.process_source(src, [], sleep=sleep, deadline=50, clock=lambda: now[0])
+    assert pauses == [20] and len(calls) == 2
+    assert rows[0]["status_code"] == "429" and "429" in rows[0]["error"]
+
+
 def test_a_watched_sources_first_copy_is_a_baseline_not_a_change():
     src = {"w": {"source_id": "w", "on_change": "upstream changed: rerun"}}
     stored = [{"source_id": "w", "url": "https://u.example.org", "local_path": "data/raw/w/x.json", "error": ""}]
@@ -389,3 +441,40 @@ def test_run_pipeline_streams_a_summary_stage(tmp_path, capsys):
     summary = tmp_path / "summary.md"
     code = run_pipeline.run(("s", [str(script)], "a stage", True), summary, False)
     assert code == 3 and summary.read_text() == "one\ntwo\n" and "one\ntwo\n" in capsys.readouterr().out
+
+
+def test_one_stored_file_answering_two_requests_is_parsed_once(monkeypatch, tmp_path):
+    raw, review = _intake_tree(monkeypatch, tmp_path, (
+        "CALLS = []\n"
+        "def extract(raw_path, source):\n"
+        "    CALLS.append(source['url'])\n"
+        "    return [{'entity_type': 'case', 'source_url': 'https://a.example.org/c'}]\n"))
+    with (raw / "manifest.csv").open("a", newline="") as f:     # a second client, the same empty answer
+        csv.DictWriter(f, fieldnames=fetch.MANIFEST_FIELDS).writerow(
+            {"source_id": "broken_src", "url": "u2", "content_hash": "abc",
+             "local_path": "data/raw/broken_src/abc.json", "error": ""})
+    assert parse.main() == 0
+    assert len(common.read_csv(review / "queue.csv")) == 1
+    assert len(common.read_csv(raw / "parse_state.csv")) == 1
+
+
+def test_a_stored_file_that_fails_twice_in_one_run_costs_one_attempt(monkeypatch, tmp_path):
+    raw, review = _intake_tree(monkeypatch, tmp_path, "def extract(raw_path, source):\n    raise ValueError('bad')\n")
+    with (raw / "manifest.csv").open("a", newline="") as f:     # a second request, the same stored file
+        csv.DictWriter(f, fieldnames=fetch.MANIFEST_FIELDS).writerow(
+            {"source_id": "broken_src", "url": "u2", "content_hash": "abc",
+             "local_path": "data/raw/broken_src/abc.json", "error": ""})
+    assert parse.main() == 1
+    assert parse.load_parse_failures(raw / "parse_state.csv") == {("broken_src", "abc"): 1}
+    assert parse.main() == 1              # still retried next run
+
+
+def test_a_note_on_a_lead_from_the_same_raw_file_names_its_queue_id(monkeypatch, tmp_path):
+    raw, review = _intake_tree(monkeypatch, tmp_path, (
+        "def extract(raw_path, source):\n"
+        "    return [{'entity_type': 'contested_project', 'state': 'KS', 'project_name': 'Prairie Solar',\n"
+        "             'source_url': f'https://a.example.org/{i}'} for i in (1, 2)]\n"))
+    assert parse.main() == 0
+    first, second = common.read_csv(review / "queue.csv")
+    assert first["queue_id"] and second["reviewer_notes"].startswith(
+        f"possible duplicate of queue row from broken_src ({first['queue_id']})")

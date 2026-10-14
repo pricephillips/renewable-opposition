@@ -6,6 +6,7 @@ before it commits)."""
 import dataclasses
 import re
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 
 import common
 import fetch
@@ -56,6 +57,21 @@ def test_every_extractor_ships_with_an_offline_test():
 def test_every_intake_source_says_what_its_body_must_be():
     for s in fetch.active_sources(fetch.load_sources(fetch.CONFIG_PATH), intake=True):
         assert s.get("expect") in ("json", "xml", "html", "csv"), s["source_id"]
+
+
+def test_gdelt_is_fetched_last():
+    # fetch.py takes sources in file order under a time budget; GDELT is the
+    # slowest and most often throttled, so it must not delay the others.
+    order = [s["source_id"] for s in fetch.active_sources(fetch.load_sources(fetch.CONFIG_PATH), intake=True)]
+    assert order[-1] == "gdelt_renewable_news", order
+
+
+def test_the_courtlistener_search_asks_for_highlighted_snippets():
+    # Unhighlighted, a snippet is the opinion's first 500 characters: of the
+    # 20 results on the first live page, only one (by its case name) named a
+    # technology.
+    src = next(s for s in fetch.load_sources(fetch.CONFIG_PATH) if s["source_id"] == "courtlistener_renewables")
+    assert parse_qs(urlsplit(src["url"]).query).get("highlight") == ["on"]
 
 
 def test_the_committed_queue_keeps_parse_columns():

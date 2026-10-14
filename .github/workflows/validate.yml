@@ -120,7 +120,9 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Run tests
-        run: python -m pytest -q
+        # Two workers, each test file whole on one (tests/conftest.py fails a
+        # test that writes under data/, so workers never share a file).
+        run: python -m pytest -q -n 2 --dist loadfile
 
       - name: Validate seeds and build outputs
         run: python scripts/build_seed_outputs.py

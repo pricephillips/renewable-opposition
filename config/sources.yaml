@@ -173,7 +173,10 @@ sources:
       Consider courtlistener.com (free) as an alternative first pass.
 
   - source_id: courtlistener_renewables
-    url: https://www.courtlistener.com/api/rest/v4/search/?q=%28%22wind+farm%22+OR+%22solar+farm%22+OR+%22wind+energy%22+OR+%22solar+energy%22+OR+%22battery+storage%22%29+AND+%28ordinance+OR+moratorium+OR+setback+OR+siting+OR+zoning%29&type=o&order_by=dateFiled+desc
+    # highlight=on: without it each result's snippet is the opinion's first
+    # 500 characters (court headers, slip-opinion notices), not the matched
+    # text the extractor reads for a technology.
+    url: https://www.courtlistener.com/api/rest/v4/search/?q=%28%22wind+farm%22+OR+%22solar+farm%22+OR+%22wind+energy%22+OR+%22solar+energy%22+OR+%22battery+storage%22%29+AND+%28ordinance+OR+moratorium+OR+setback+OR+siting+OR+zoning%29&type=o&order_by=dateFiled+desc&highlight=on
     publisher: CourtListener (Free Law Project)
     document_type: docket
     jurisdiction_type: national
@@ -205,45 +208,6 @@ sources:
   # lead, access snippet): never promoted, never counted on a page, until a
   # reviewer triages it (README, "Live intake").
 
-  - source_id: gdelt_renewable_news
-    url: https://api.gdeltproject.org/api/v2/doc/doc
-    publisher: The GDELT Project (DOC 2.0 API)
-    document_type: news
-    jurisdiction_type: national
-    state: US
-    fetch_method: api
-    schedule: weekly
-    # GDELT asks for one request every 5 seconds and answers a malformed query
-    # with HTTP 200 and a line of text, so the pace is 6 s, a non-JSON body is
-    # refused, and a 429 is retried after 20 s, then 60 s.
-    min_interval_s: 6
-    expect: json
-    retry: {statuses: [429], backoff_s: [20, 60]}
-    compress: true
-    requests:
-      - label: moratorium
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: zoning
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: denial
-        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: litigation
-        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-      - label: organizing
-        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 8d, sort: datedesc}
-    parser_hint: >
-      ArtList JSON: url, title, seendate (a crawl date, never an event date),
-      domain, language, sourcecountry. GDELT matches full text, so the
-      extractor keeps a headline only if it names a renewable technology and
-      an opposition mechanism, and places it only when the headline names the
-      county (and its state, unless the name is unique).
-    active: true
-    notes: >
-      Discovery only: a headline locates a story; the article must be opened
-      before anything is promoted. Practice ported from
-      pricephillips/data-center-map signal_harvest.py, with its fixes (pacing,
-      no bare county names, dedupe against every cited URL).
-
   - source_id: ny_ores_permit_applications
     url: https://dps.ny.gov/ores-permit-applications
     publisher: New York Office of Renewable Energy Siting and Electric Transmission (ORES)
@@ -258,11 +222,16 @@ sources:
     parser_hint: >
       Static HTML, one table per section (Notices of Intent, pending
       completeness, incomplete, complete under review, permitted, withdrawn or
-      relinquished, denied). Each row: case number, project name, and a
-      description with capacity, towns and county. Denied and withdrawn
-      applications are contested-project leads.
+      relinquished, denied, request for declaratory ruling). Each row: case
+      number, project name, and a description with capacity, towns and county.
+      Denied and withdrawn applications are contested-project leads, and so is
+      an application in any section whose name matches a New York seed project,
+      unless its section gives the outcome the seed already holds
+      (scripts/extractors/ny_ores_permit_applications.py).
     active: true
-    notes: Replaces ny_ocs_article10, whose URL now answers 404.
+    notes: Replaces ny_ocs_article10, whose URL now answers 404. expect_contains
+      checked against the live page 2026-10-13 (the table header "Project Permit
+      Application Number").
 
   - source_id: legistar_renewable_matters
     url: https://webapi.legistar.com/v1/{client}/matters
@@ -277,22 +246,34 @@ sources:
     expect: json
     compress: true
     params:
-      $filter: "substringof('solar energy',MatterTitle) or substringof('solar farm',MatterTitle) or substringof('solar facilit',MatterTitle) or substringof('solar power',MatterTitle) or substringof('solar project',MatterTitle) or substringof('photovoltaic',MatterTitle) or substringof('wind energy',MatterTitle) or substringof('wind farm',MatterTitle) or substringof('wind turbine',MatterTitle) or substringof('battery energy storage',MatterTitle) or substringof('energy storage system',MatterTitle) or substringof('renewable energy',MatterTitle)"
+      $filter: "substringof('solar',MatterTitle) or substringof('photovoltaic',MatterTitle) or substringof('wind energy',MatterTitle) or substringof('wind farm',MatterTitle) or substringof('wind turbine',MatterTitle) or substringof('wind power',MatterTitle) or substringof('wind project',MatterTitle) or substringof('wind facilit',MatterTitle) or substringof('battery storage',MatterTitle) or substringof('energy storage',MatterTitle) or substringof('renewable energy',MatterTitle)"
       $top: 200
       $orderby: MatterIntroDate desc
     parser_hint: >
       JSON list of matters: MatterId, MatterGuid, MatterFile, MatterTitle,
       MatterTypeName, MatterStatusName, MatterIntroDate, MatterPassedDate,
       MatterBodyName. A moratorium, ordinance or zoning amendment on solar,
-      wind or storage is a restriction lead; an appeal or permit decision on a
-      named project is a contested-project lead. The public link is
-      https://{client}.legistar.com/LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}.
+      wind or storage is a restriction lead; an appeal, denial or opposition
+      on a facility, or a permit decision on a named one, is a
+      contested-project lead; the county buying, leasing, funding or
+      installing solar is dropped. The public link is
+      https://{client}.legistar.com/Gateway.aspx?M=L&ID={MatterId}, which
+      redirects to the matter page (LegislationDetail.aspx built from the
+      API's MatterId and MatterGuid answers "Invalid parameters!": the public
+      site numbers matters with its own ID and GUID).
     active: true
     notes: >
       Clients and their counties are listed in config/legistar_clients.json
       (verified clients from pricephillips/data-center-map's legistar_probe
       that hold renewable records). A matter is the legislative record, not
       the instrument: access stays snippet until someone opens the attachment.
+      The filter takes 'solar' alone (substringof is case-insensitive), since
+      named projects ("Rezoning Case CZ-2021-007 Blue Star Solar", "Lockhart
+      Solar Zoning Amendment") carry no other term; the extractor drops the
+      county's own solar purchases, leases and devices. No bare 'wind' or
+      'battery': they match Windsor, windows and liquor-license batteries.
+      On 2026-10-13 this filter returned 258 matters across the 11 clients
+      (the earlier phrase list: 194), and 50 leads (44).
 
   # Change detection only (watch: true): nothing parses these. A stored copy
   # means the upstream changed, and the intake summary says what to run.
@@ -341,6 +322,50 @@ sources:
     on_change: "The Sabin web database's contested-projects export changed: compare it with data/raw/sabin_2026_09_projects_csv/ before running the Sabin refresh stages"
     active: true
     notes: Companion to sabin_web_database_restrictions.
+
+  # Last on purpose: GDELT is the slowest source and the one most often
+  # throttled, and fetch.py takes sources in file order under a time budget,
+  # so a throttled week can only cost GDELT's own queries.
+  - source_id: gdelt_renewable_news
+    url: https://api.gdeltproject.org/api/v2/doc/doc
+    publisher: The GDELT Project (DOC 2.0 API)
+    document_type: news
+    jurisdiction_type: national
+    state: US
+    fetch_method: api
+    schedule: weekly
+    # GDELT asks for one request every 5 seconds and answers a malformed query
+    # with HTTP 200 and a line of text, so the pace is 6 s, a non-JSON body is
+    # refused, and a 429 is retried after 20 s, then 60 s.
+    min_interval_s: 6
+    expect: json
+    retry: {statuses: [429], backoff_s: [20, 60]}
+    compress: true
+    # Fifteen days for a weekly run: the second week covers one failed or
+    # skipped run, and parse.py's dedupe drops the overlap.
+    requests:
+      - label: moratorium
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "wind turbines" OR "battery storage" OR "energy storage") (moratorium OR moratoria OR ban) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
+      - label: zoning
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (ordinance OR setback OR setbacks OR rezoning OR "conditional use" OR "special use permit") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
+      - label: denial
+        params: {query: '("solar farm" OR "solar project" OR "solar facility" OR "wind farm" OR "wind project" OR "battery storage") (denied OR denies OR rejected OR "voted down" OR withdrawn OR withdraws) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
+      - label: litigation
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (lawsuit OR sued OR appeal OR "legal challenge") sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
+      - label: organizing
+        params: {query: '("solar farm" OR "solar project" OR "wind farm" OR "wind project" OR "battery storage") (residents OR neighbors OR petition OR referendum OR opponents) sourcecountry:US', mode: artlist, format: json, maxrecords: 250, timespan: 15d, sort: datedesc}
+    parser_hint: >
+      ArtList JSON: url, title, seendate (a crawl date, never an event date),
+      domain, language, sourcecountry. GDELT matches full text, so the
+      extractor keeps a headline only if it names a renewable technology and
+      an opposition mechanism, and places it only when the headline names the
+      county (and its state, unless the name is unique).
+    active: true
+    notes: >
+      Discovery only: a headline locates a story; the article must be opened
+      before anything is promoted. Practice ported from
+      pricephillips/data-center-map signal_harvest.py, with its fixes (pacing,
+      no bare county names, dedupe against every cited URL).
 
   # ── NGO / Advocacy Trackers ──────────────────────────────────────────────
   - source_id: clean_grid_alliance_tracker

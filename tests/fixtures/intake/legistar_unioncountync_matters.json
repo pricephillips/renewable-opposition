@@ -1,0 +1,32 @@
+[
+ {
+  "MatterId": 1641,
+  "MatterGuid": "C9E40D8C-D47A-4E3F-9127-ED90024B4A62",
+  "MatterLastModifiedUtc": "2022-01-03T13:20:52.137",
+  "MatterFile": "21-564",
+  "MatterName": null,
+  "MatterTitle": "Rezoning Case # CZ-2021-007 Blue Star Solar",
+  "MatterTypeName": "Planning Board Item",
+  "MatterStatusName": "Agenda Ready",
+  "MatterBodyName": "Planning Board",
+  "MatterIntroDate": "2021-12-21T00:00:00",
+  "MatterAgendaDate": "2022-01-04T00:00:00",
+  "MatterPassedDate": null,
+  "MatterRestrictViewViaWeb": false
+ },
+ {
+  "MatterId": 1572,
+  "MatterGuid": "0F09E1BD-EF4B-4A9C-963D-40764880721D",
+  "MatterLastModifiedUtc": "2022-01-13T16:26:49.867",
+  "MatterFile": "21-495",
+  "MatterName": null,
+  "MatterTitle": "Rezoning Case # CZ-2021-007 Blue Star Solar",
+  "MatterTypeName": "Planning Board Item",
+  "MatterStatusName": "Agenda Ready",
+  "MatterBodyName": "Planning Board",
+  "MatterIntroDate": "2021-11-22T00:00:00",
+  "MatterAgendaDate": "2021-12-07T00:00:00",
+  "MatterPassedDate": null,
+  "MatterRestrictViewViaWeb": false
+ }
+]

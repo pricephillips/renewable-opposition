@@ -10,41 +10,28 @@ import copy
 import sys
 from pathlib import Path
 
-import build_seed_outputs as bso
 import site_profile as sp
 from common import read_csv
 
 ROOT = Path(__file__).resolve().parent.parent
-_opened: list[str] = []
-_watching = False
 
 
-def _hook(event, args):
-    if _watching and event == "open" and args and isinstance(args[0], (str, bytes, Path)):
-        _opened.append(str(args[0]))
-
-
-sys.addaudithook(_hook)  # cannot be removed; it records only while _watching
-
-
-def test_the_build_never_opens_or_publishes_local_knowledge(monkeypatch, tmp_path):
-    global _watching
-    monkeypatch.setattr(bso, "PROCESSED_DIR", tmp_path)
-    monkeypatch.setattr(bso, "FIPS_MISSES", tmp_path / "fips_misses.csv")
-    _opened.clear()
-    _watching = True
-    try:
-        assert bso.main() == 0
-    finally:
-        _watching = False
+def test_the_build_never_opens_or_publishes_local_knowledge(seed_build):
+    # conftest's seed_build runs bso.main() once, into a temp dir, with an
+    # audit hook recording every file opened while it runs: _opened.
+    _opened = seed_build.opened
+    tmp_path = seed_build.root          # everything the build wrote
+    assert seed_build.returncode == 0
     assert any(p.endswith("restrictions_seed.csv") for p in _opened)   # the hook did see the build
     assert not [p for p in _opened if "local_knowledge" in p]
     assert not [p for p in tmp_path.rglob("*") if "local_knowledge" in p.name]
-    # Nor does any module the build imports name the file.
+    # Nor does any module the build imports name the file. site_profile reads
+    # it; precommit_gates names it to refuse it, and is loaded here only when
+    # the precommit test below ran first in this process (random test order).
     scripts = ROOT / "scripts"
     for mod in list(sys.modules.values()):
         f = getattr(mod, "__file__", None) or ""
-        if f and Path(f).parent == scripts and Path(f).name != "site_profile.py":
+        if f and Path(f).parent == scripts and Path(f).name not in ("site_profile.py", "precommit_gates.py"):
             assert "local_knowledge" not in Path(f).read_text(encoding="utf-8"), f
 
 

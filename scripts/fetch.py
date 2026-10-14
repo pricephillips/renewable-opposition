@@ -52,9 +52,10 @@ Optional fields in a sources.yaml entry (all fetch_method static or api):
                  in the run summary when a new copy replaces an earlier one
                  (a first copy is only the baseline).
 
---budget-s stops starting new requests once the run has taken that long: each
-request not made is recorded as a manifest error, so the workflow commits
-what it has well inside its job timeout and the next run starts afresh.
+--budget-s stops starting new requests once the run has taken that long, and
+no retry waits past it: each request not made, or given up, is recorded as a
+manifest error, so the workflow commits what it has well inside its job
+timeout and the next run starts afresh.
 
 Usage:
     python scripts/fetch.py                    # fetch all active sources
@@ -255,12 +256,14 @@ def _retry_after(resp: requests.Response) -> Optional[float]:
 
 
 def fetch_url(url: str, timeout: int = 30, headers: Optional[dict] = None,
-              retry: Optional[dict] = None, sleep=time.sleep) -> tuple[bytes, str, int]:
+              retry: Optional[dict] = None, sleep=time.sleep, deadline: Optional[float] = None,
+              clock=time.monotonic) -> tuple[bytes, str, int]:
     """
     Fetch a URL. Returns (content_bytes, content_type, status_code).
     Retries the statuses in `retry` after each pause in its backoff_s list
-    (or the server's Retry-After, capped). Raises requests.RequestException on
-    network/HTTP errors that remain.
+    (or the server's Retry-After, capped), but never waits past `deadline` (a
+    clock() value): the run budget bounds a throttled request too. Raises
+    requests.RequestException on network/HTTP errors that remain.
     """
     retry = retry or {"statuses": [], "backoff_s": []}
     pauses = list(retry.get("backoff_s", []))
@@ -269,6 +272,9 @@ def fetch_url(url: str, timeout: int = 30, headers: Optional[dict] = None,
         if resp.status_code in retry.get("statuses", []) and pauses:
             wait = _retry_after(resp) or pauses[0]
             pauses.pop(0)
+            if deadline is not None and clock() + wait > deadline:
+                log.info(f"    HTTP {resp.status_code}; a retry would pass the run time budget")
+                resp.raise_for_status()
             log.info(f"    HTTP {resp.status_code}; retrying in {wait:.0f}s")
             sleep(wait)
             continue
@@ -292,7 +298,8 @@ def store_raw(data: bytes, source_id: str, ext: str, compress: bool = False) -> 
 
 # ── Main loop ───────────────────────────────────────────────────────────────────────────
 
-def fetch_request(source: dict, url: str, manifest: list[dict], sleep=time.sleep) -> dict:
+def fetch_request(source: dict, url: str, manifest: list[dict], sleep=time.sleep,
+                  deadline: Optional[float] = None, clock=time.monotonic) -> dict:
     """One request of a source: fetch, check, store. Returns its manifest row."""
     sid = source["source_id"]
     record: dict = {
@@ -307,7 +314,8 @@ def fetch_request(source: dict, url: str, manifest: list[dict], sleep=time.sleep
     }
     try:
         data, ct, status = fetch_url(url, timeout=TIMEOUT_S, headers=auth_headers(source),
-                                     retry=source.get("retry", DEFAULT_RETRY), sleep=sleep)
+                                     retry=source.get("retry", DEFAULT_RETRY), sleep=sleep,
+                                     deadline=deadline, clock=clock)
     except requests.RequestException as exc:
         resp = getattr(exc, "response", None)
         record["status_code"] = str(resp.status_code) if resp is not None else ""
@@ -362,7 +370,7 @@ def process_source(source: dict, manifest: list[dict], dry_run: bool = False,
         if i:
             sleep(interval)
         log.info(f"Fetching {sid} ({label})")
-        rec = fetch_request(source, url, manifest, sleep=sleep)
+        rec = fetch_request(source, url, manifest, sleep=sleep, deadline=deadline, clock=clock)
         manifest.append(rec)
         rows.append(rec)
     return rows
