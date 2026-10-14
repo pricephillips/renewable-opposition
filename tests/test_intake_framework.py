@@ -389,3 +389,18 @@ def test_run_pipeline_streams_a_summary_stage(tmp_path, capsys):
     summary = tmp_path / "summary.md"
     code = run_pipeline.run(("s", [str(script)], "a stage", True), summary, False)
     assert code == 3 and summary.read_text() == "one\ntwo\n" and "one\ntwo\n" in capsys.readouterr().out
+
+
+def test_one_stored_file_answering_two_requests_is_parsed_once(monkeypatch, tmp_path):
+    raw, review = _intake_tree(monkeypatch, tmp_path, (
+        "CALLS = []\n"
+        "def extract(raw_path, source):\n"
+        "    CALLS.append(source['url'])\n"
+        "    return [{'entity_type': 'case', 'source_url': 'https://a.example.org/c'}]\n"))
+    with (raw / "manifest.csv").open("a", newline="") as f:     # a second client, the same empty answer
+        csv.DictWriter(f, fieldnames=fetch.MANIFEST_FIELDS).writerow(
+            {"source_id": "broken_src", "url": "u2", "content_hash": "abc",
+             "local_path": "data/raw/broken_src/abc.json", "error": ""})
+    assert parse.main() == 0
+    assert len(common.read_csv(review / "queue.csv")) == 1
+    assert len(common.read_csv(raw / "parse_state.csv")) == 1

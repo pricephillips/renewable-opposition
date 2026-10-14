@@ -585,6 +585,8 @@ def main() -> int:
     taken = {r.get("queue_id") for r in read_csv(QUEUE_PATH) if r.get("queue_id")}
     per_source: dict[str, list[int]] = {}
     failed = []
+    no_extractor: dict[str, int] = {}
+    done: set[tuple[str, str]] = set()
 
     for row in targets:
         sid = row["source_id"]
@@ -592,7 +594,12 @@ def main() -> int:
 
         mod = load_extractor(sid)
         if mod is None:
-            log.info(f"  {sid}: no extractor found, skipping. (Add scripts/extractors/{sid}.py to enable.)")
+            no_extractor[sid] = no_extractor.get(sid, 0) + 1
+            continue
+        # Identical responses to two requests (two clients with no matters)
+        # are one stored file: parse it once per run.
+        key = (sid, row["content_hash"])
+        if key in done:
             continue
 
         if args.dry_run:
@@ -616,6 +623,7 @@ def main() -> int:
         log.info(f"    -> {len(candidates)} lead(s) queued, {len(dropped)} already held")
 
         append_queue(QUEUE_PATH, candidates)
+        done.add(key)
         append_parse_state(PARSE_STATE_PATH, {
             "source_id": sid,
             "content_hash": row["content_hash"],
@@ -628,6 +636,8 @@ def main() -> int:
         counts[1] += len(candidates)
         counts[2] += len(dropped)
 
+    for sid, n in sorted(no_extractor.items()):
+        log.info(f"  {sid}: {n} raw file(s), no extractor (add scripts/extractors/{sid}.py to parse them)")
     for sid, (files, queued, held) in per_source.items():
         print(f"{sid}: {files} raw file(s) parsed, {queued} lead(s) queued, {held} already held")
     for f in failed:
