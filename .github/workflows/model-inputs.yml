@@ -10,17 +10,26 @@ name: Fetch model inputs
 # release commits nothing. Nothing in the build reads these files yet, so
 # this job never runs the build.
 #
-# On main the fetched files are committed. On any other branch (a run started
-# by hand to prove a change to either script) nothing is pushed: the job
-# fails if the live fetch does not reproduce the files committed on that
-# branch, so a green run there is the proof that the scripts work against the
-# live sources.
+# On main the fetched files are committed. On any other branch nothing is
+# pushed: the job fails if the live fetch does not reproduce the files
+# committed on that branch, so a green run there is the proof that the
+# scripts work against the live sources. A push to a branch that changes
+# either script starts that proof by itself (a manual run needs the workflow
+# on main first).
 
 on:
   workflow_dispatch:
   schedule:
     # The 6th of each month, 06:29 UTC.
     - cron: '29 6 6 * *'
+  push:
+    branches-ignore: [main]
+    paths:
+      - 'scripts/fetch_county_covariates.py'
+      - 'scripts/fetch_queued_up.py'
+      - 'tests/test_model_inputs.py'
+      - 'data/reference/medsl/*'
+      - '.github/workflows/model-inputs.yml'
 
 permissions:
   contents: write
