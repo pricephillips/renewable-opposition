@@ -1,6 +1,6 @@
 # Predictive foundation: design
 
-**Status:** 2026-10-15. Draft for Price's review; nothing here is built. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
+**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py` and `scripts/fetch_queued_up.py`, run monthly by `model-inputs.yml`. Step 2 and the queue matches are not built yet. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
 
 `national_database_design.md` (section 2) lists "scores or predictions" as a non-goal, and `pipeline_comparison.md` ("Deliberately not adopted") holds predictive models back "until there is a decided-project universe with dates". This plan does not change the dashboard. It builds internal models and a project universe, and nothing it produces reaches a page until Price decides that separately (section 6, decision 1).
 
@@ -52,8 +52,8 @@ A year is enough for a county-year design. That allows a true backtest, fit on w
 
 | Family | Variables | Source | Leakage class |
 |---|---|---|---|
-| Demographic | population, land area, density, median household income, share with a bachelor's degree or more | Census ACS 5-year and Gazetteer (`api.census.gov`), as in data-center-map's `fetch_census_features.py` | none |
-| Political | presidential margin 2016, 2020, 2024; shift | MEDSL County Presidential Returns 2000-2024 (doi:10.7910/DVN/VOQCHQ), as data-center-map's `fetch_county_features.py` reads it | none |
+| Demographic | population, land area, density, median household income, share with a bachelor's degree or more | Census ACS 2020-2024 5-year, read from the table-based summary files on `www2.census.gov` (the API has needed a key since May 2026; these files do not), and the 2024 Gazetteer | none |
+| Political | presidential margin 2016, 2020, 2024; shift | MEDSL County Presidential Returns 2000-2024 (doi:10.7910/DVN/VOQCHQ, CC0), parsed as data-center-map's `fetch_county_features.py` parses it. Alaska and Connecticut report by units that are not 2024 counties and carry statewide values | none |
 | Exposure | operating solar, wind and storage MW and plant count as of the cut year; MW requested in queues before the cut year (after step 3) | `data/reference/facilities.csv` (EIA-860M, USPVDB, USWTDB); Queued Up | none (dated before the cut) |
 | State context | state siting authority, state preemption of local rules | `data/processed/state_policies.csv` | none, but grouped by state (see section 4) |
 | Spatial | share of neighbouring counties with a severe restriction before the cut year | the database's `county_adjacency` table (built by `build_database.py`) plus this repo's labels | neighbor_outcome |
@@ -61,15 +61,17 @@ A year is enough for a county-year design. That allows a true backtest, fit on w
 
 The leakage classes follow `county_features.py` in data-center-map: `none`, `neighbor_outcome` (built from other counties' labels, never the county's own), and `pre_outcome`. This plan uses no `pre_outcome` variables. Contested-project and restriction records for the county itself are excluded, because Sabin collects project fights and restrictions in the same research pass, so a county's project count measures where Sabin looked as much as where people objected.
 
-### Decision: port the public fetchers, do not copy data-center-map's files
+### Decision: port the public fetchers, copy only what cannot be fetched
 
-data-center-map holds all of these covariates already. Copying its files would be faster, but it would give this repo a second writer it cannot rerun and a dependency on a private repository. Both sources are public and small, so this repo gets its own `scripts/fetch_county_covariates.py`, ported from `fetch_census_features.py` and the MEDSL part of `fetch_county_features.py`, with a manifest (`county_covariates_manifest.csv`: URL, vintage, SHA-256) in the style of `facilities_manifest.csv`. A parity test checks a sample of counties against data-center-map's committed values once, when the fetcher is first run, and is then dropped.
+data-center-map holds all of these covariates already. Copying its outputs would be faster, but it would give this repo a second writer it cannot rerun and a dependency on a private repository. So this repo has its own `scripts/fetch_county_covariates.py`, ported from `fetch_census_features.py` and the MEDSL part of `fetch_county_features.py`, with a manifest (`county_covariates_manifest.csv`: URL, release, SHA-256) in the style of `facilities_manifest.csv`. The one copied file is MEDSL's raw CSV: Dataverse serves it only after a guestbook response, so `data/reference/medsl/` holds the copy data-center-map keeps, and each run checks its md5 against the one Dataverse publishes.
+
+Parity, checked once on the first run (2026-10-15) rather than kept as a test: the 2016, 2020 and 2024 margins equal data-center-map's `county_votes.json` in all 3,104 county-basis counties; population differs from its ACS 2019-2023 values by 0.6% at the median, as a newer vintage should.
 
 Exposure variables are computed by the model's feature builder from files already here, not fetched.
 
 ### Finished when
 
-- The fetcher has run live in GitHub Actions on this branch (`build-data.yml`, `workflow_dispatch`), not only against fixtures.
+- The fetcher has run live in GitHub Actions on this branch (`model-inputs.yml`, `workflow_dispatch`), not only against fixtures.
 - Every county has every `none`-class variable or an explicit missing reason, and the catalog lists all of them.
 - Parity with data-center-map's census and margin values holds on the sample.
 
@@ -135,16 +137,16 @@ Why it matters here: it records projects whether or not anyone objected, and it 
 
 | File | Writer | Contents |
 |---|---|---|
-| `data/reference/queue_projects.csv` | `scripts/fetch_queued_up.py` | Solar, wind, storage and hybrid projects: queue id, region and utility, status, request date, withdrawal date, operation date, state, county name as given, `county_fips` and `county_fips_all`, capacity, technology |
+| `data/reference/queue_projects.csv` | `scripts/fetch_queued_up.py` | Solar, wind, storage and hybrid projects: queue id, region and utility, status, request date, withdrawal date, operation date, state, county name as given, `county_fips` and how it was found, capacity by technology |
 | `data/reference/queued_up_manifest.csv` | same | Workbook URL, edition, SHA-256, row counts kept and dropped by reason |
 | `data/reference/queue_matches.csv` | `scripts/queue_matches.py` | Contested project to queue project, strong matches only, with the evidence for each |
 
 Rules, following `fetch_facilities.py` and `facility_matches.py`:
 
-- The fetcher finds the workbook link on `emp.lbl.gov/queues` rather than hard-coding it, and its schema guard checks the codebook's field names; a renamed field fails the run with the name, it never yields blank columns.
-- County placement uses this repo's existing rules (`county_fips_method` records which). A multi-county project fills `county_fips_all`; a county name that does not resolve is left blank and listed, never guessed.
+- The fetcher finds the workbook link on `emp.lbl.gov/queues` rather than hard-coding it (those pages refuse some automated clients; it then fetches the last workbook URL in its manifest, and the workbook itself downloads from `eta-publications.lbl.gov`), and its schema guard checks the codebook's field names; a renamed field fails the run with the name, it never yields blank columns.
+- Queued Up gives one county per request (the first, for a request spanning several) and its FIPS code. A code that is a 2024 county in the request's state is used as given; otherwise the county name goes through this repo's lookup (`classify.county_fips_all`). `county_fips_method` records which; a request neither places is left blank with the reason in `county_miss`, never guessed.
 - A match never changes a contested project's outcome. Where a matched queue record contradicts it (say, a project recorded as blocked that reached commercial operation), the conflict is flagged for review, as `facility_conflict` does.
-- Refreshed by `build-data.yml`. The workbook is annual, so an unchanged SHA-256 skips the rebuild.
+- Refreshed monthly by `model-inputs.yml`. The workbook is annual, so an unchanged SHA-256 rewrites nothing.
 
 ### What it unlocks, and what it does not
 
@@ -166,7 +168,7 @@ The fetcher has run live in GitHub Actions on this branch and its manifest is co
 | 2. County model | 2 (label builder and registration; model, gate and report) | Detection bias decides the result more than the covariates do |
 | 3. Queued Up | 2 (fetcher; matches) | The workbook link sits behind a form or changes shape between editions |
 
-**Decisions for Price**
+**Decisions for Price** (all four approved by Price on 2026-10-15, as written)
 
 1. **Non-goal.** Approve internal models in this repo while the dashboard stays descriptive. Surfacing any score later is a separate decision, made with the report in hand.
 2. **Primary label.** The prospective label (`new_severe_2022_2025`) as primary, with the two snapshot labels as secondary. The alternative is to lead with the snapshot label, which matches data-center-map's model but cannot be backtested.

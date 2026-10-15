@@ -38,6 +38,22 @@
     },
     "data/reference/facilities_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_facilities.py"]},
 
+    "data/reference/county_covariates.csv": {
+      "layer": "raw", "writers": ["scripts/fetch_county_covariates.py"],
+      "reason": "County covariates for the county restriction model (docs/predictive_foundation_design.md, step 1): ACS 5-year table-based summary files and the 2024 Gazetteer (public domain), and MEDSL presidential returns from the copy below. The Census files are not committed; county_covariates_manifest.csv records each one's URL, release and SHA-256."
+    },
+    "data/reference/county_covariates_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
+    "data/reference/county_covariates_catalog.json": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
+    "data/reference/medsl/countypres_2000-2024.csv": {
+      "layer": "reference", "writers": [],
+      "copied_from": "pricephillips/data-center-map data/raw/medsl/countypres_2000-2024.csv (MEDSL, doi:10.7910/DVN/VOQCHQ, CC0; downloaded by a person because Dataverse asks for a guestbook response)"
+    },
+    "data/reference/queue_projects.csv": {
+      "layer": "raw", "writers": ["scripts/fetch_queued_up.py"],
+      "reason": "LBNL Queued Up interconnection requests with a solar, wind or storage part (CC BY 4.0), placed in 2024 counties (docs/predictive_foundation_design.md, step 3). The workbook is not committed; queued_up_manifest.csv records its URL, edition and SHA-256."
+    },
+    "data/reference/queued_up_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_queued_up.py"]},
+
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],
       "copied_from": "pricephillips/data-center-map data/county_fips_lookup.json"

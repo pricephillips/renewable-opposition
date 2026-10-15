@@ -33,7 +33,7 @@ What it does not have is one place where the entities meet:
 **Non-goals**
 
 - Editing in the database. Review stays in `data/review/*.csv` and the promotion gates; the database is rebuilt from scratch every time.
-- Scores or predictions. Like site profiles, the dashboard describes what is recorded.
+- Scores or predictions on the dashboard. Like site profiles, it describes what is recorded. Internal models are planned separately in `predictive_foundation_design.md` (approved 2026-10-15); none of their output reaches a page without a further decision.
 - Folding data center events into renewable counts. They appear as county context only, as in profiles.
 - Publishing local knowledge. `local_knowledge.csv` never enters the database.
 
