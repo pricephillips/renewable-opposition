@@ -149,5 +149,5 @@ learned the hard way is built in from the start; its auto-promotion is not.
 
 ## Deliberately not adopted
 
-- **Predictive models** (landmark, survival, county policy). They need a decided-project universe with dates, which this repo does not have yet.
+- **Predictive models** (landmark, survival, county policy), as of 2026-09-29. They need a decided-project universe with dates, which this repo did not have. On 2026-10-15 Price approved `predictive_foundation_design.md`: county covariates, a county restriction model and a project universe from LBNL Queued Up. The project-level models stay out until that universe gives them dates.
 - **Open States bill sync and stakeholder positions.** State-level restrictions are still held for review here, and the positions layer's withhold-by-default gate exists because it names identifiable people. It is not worth taking on before the state rows are verified.

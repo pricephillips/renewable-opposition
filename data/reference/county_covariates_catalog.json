@@ -1,0 +1,125 @@
+{
+  "_comment": "Written by scripts/fetch_county_covariates.py. Do not edit by hand.",
+  "sources": {
+    "frame": "2024 county boundaries (data/geo/counties_2024.topojson), 50 states and DC",
+    "acs": "U.S. Census Bureau, American Community Survey ACS 5-year 2020-2024, table-based summary files",
+    "gazetteer": "U.S. Census Bureau, 2024 Gazetteer Files, counties",
+    "medsl": "MIT Election Data and Science Lab, County Presidential Election Returns 2000-2024, Harvard Dataverse doi:10.7910/DVN/VOQCHQ, version 20.0 (CC0 1.0)"
+  },
+  "columns": {
+    "county_fips": {
+      "description": "2024 county FIPS code (Connecticut planning regions 09110 to 09190)",
+      "source": "frame",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "state": {
+      "description": "Two-letter state code",
+      "source": "frame",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "county": {
+      "description": "County name, from the 2024 boundary file",
+      "source": "frame",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "population": {
+      "description": "Total population (B01003_001)",
+      "source": "acs",
+      "unit": "people",
+      "leakage_class": "none"
+    },
+    "land_sqmi": {
+      "description": "Land area (ALAND_SQMI)",
+      "source": "gazetteer",
+      "unit": "square miles",
+      "leakage_class": "none"
+    },
+    "pop_density_sqmi": {
+      "description": "population / land_sqmi",
+      "source": "acs+gazetteer",
+      "unit": "people per square mile",
+      "leakage_class": "none"
+    },
+    "median_hh_income": {
+      "description": "Median household income in the past 12 months (B19013_001)",
+      "source": "acs",
+      "unit": "2024 inflation-adjusted dollars",
+      "leakage_class": "none"
+    },
+    "pct_bachelors_plus": {
+      "description": "Share of people 25 and over with a bachelor's, master's, professional or doctoral degree (B15003_022 to _025 over B15003_001)",
+      "source": "acs",
+      "unit": "percent",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_2016": {
+      "description": "Democratic share of the two-party presidential vote, 2016",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2016": {
+      "description": "(Democratic - Republican) / total presidential votes, 2016; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2016": {
+      "description": "county: the county's own 2016 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_2020": {
+      "description": "Democratic share of the two-party presidential vote, 2020",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2020": {
+      "description": "(Democratic - Republican) / total presidential votes, 2020; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2020": {
+      "description": "county: the county's own 2020 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_2024": {
+      "description": "Democratic share of the two-party presidential vote, 2024",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2024": {
+      "description": "(Democratic - Republican) / total presidential votes, 2024; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2024": {
+      "description": "county: the county's own 2024 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_chg_2016_2020": {
+      "description": "dem_share_2p_2020 - dem_share_2p_2016",
+      "source": "medsl",
+      "unit": "share points",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_chg_2020_2024": {
+      "description": "dem_share_2p_2024 - dem_share_2p_2020",
+      "source": "medsl",
+      "unit": "share points",
+      "leakage_class": "none"
+    }
+  }
+}

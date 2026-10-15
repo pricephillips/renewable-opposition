@@ -33,7 +33,7 @@ def test_superseded_pull_request_runs_are_cancelled_and_main_runs_never_are():
 
 
 def test_workflows_that_commit_share_one_group_and_never_cancel():
-    for name in ("build-data.yml", "source-archive.yml", "intake.yml"):
+    for name in ("build-data.yml", "source-archive.yml", "intake.yml", "model-inputs.yml"):
         c = load(name)["concurrency"]
         assert c == {"group": "build-data-${{ github.ref }}", "cancel-in-progress": False}, name
 

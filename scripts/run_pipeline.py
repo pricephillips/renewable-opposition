@@ -44,6 +44,10 @@ REFRESH = [
     ("build_sabin_seeds", ["scripts/build_sabin_seeds.py"], "Sabin rows of the seeds", False),
     ("fetch_nrel_ordinances", ["scripts/fetch_nrel_ordinances.py"], "NREL spreadsheets (schema guard)", False),
     ("nrel_ordinances", ["scripts/nrel_ordinances.py"], "NREL restrictions (after the Sabin build)", False),
+    ("fetch_county_covariates", ["scripts/fetch_county_covariates.py"],
+     "ACS, Gazetteer and MEDSL into data/reference/county_covariates.csv", True),
+    ("fetch_queued_up", ["scripts/fetch_queued_up.py"],
+     "LBNL Queued Up into data/reference/queue_projects.csv", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
 ]
