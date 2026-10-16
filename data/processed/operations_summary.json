@@ -192,11 +192,11 @@
    "confirmed": 1,
    "pending": 2,
    "awaiting_review": 1,
-   "lead": 58
+   "lead": 68
   },
   "queue_by_entity": {
-   "restriction": 46,
-   "contested_project": 37,
+   "restriction": 51,
+   "contested_project": 42,
    "case": 1
   },
   "case_candidates": 230,

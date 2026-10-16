@@ -24,7 +24,7 @@ Decided projects (events older than 90 days): 310, of which 234 blocked; confirm
 
 ## Review and promotion
 
-Queue: 21 promoted, 1 rejected, 1 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 21 promoted, 1 rejected, 1 confirmed, 2 pending, 1 awaiting_review, 68 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
 Promotion trail: 75 decisions from 2026-10-13 to 2026-10-13 (new or changed decisions only): 62 promoted, 11 held, 1 awaiting_review, 1 rejected.
 
