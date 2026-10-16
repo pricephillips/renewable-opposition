@@ -9,10 +9,13 @@ Vale (`.vale.ini`, the Hawthorn style) and the em-dash pre-commit hook cover
   with `--out`. Re-run rather than edit: every figure comes from the
   repository's data files at run time, and each report's "Sources and method"
   section names the files it read, their hashes and the commit.
-- Hand-written briefs can sit in their own subfolder. `county_reports/renewables_case_studies_2026-10-16/`
-  holds four case studies in the Coweta form (Nicholas KY, Linn IA, Cherokee KS,
-  Harris TX). Unlike the generated county reports, they carry a provisional
-  restriction score; see that folder's README.
+- Hand-written briefs can sit in their own subfolder.
+- `case_study_templates/` holds example case studies kept as templates:
+  finished reports that show a format and serve as models for new ones, not
+  live county reports. `case_study_templates/renewables_2026-10-16/` has four
+  in the Coweta form (Nicholas KY, Linn IA, Cherokee KS, Harris TX). Unlike
+  the generated county reports, they carry a provisional restriction score;
+  see that folder's README.
 
 A report is final only when Vale and the em-dash check pass. A county report
 never carries a score or a prediction, and it never names the local-knowledge
