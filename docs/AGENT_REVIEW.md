@@ -4,7 +4,10 @@ How a reviewing agent (a Claude Code subagent, or any automated reviewer)
 checks a record before it publishes, and how the review is recorded. A person
 reviewing follows the same rules. The rules in `README.md` ("Counting and
 verification") still hold; this file adds who may review and what a review
-must record.
+must record. `docs/AGENTS.md` describes the agents in `.claude/agents/` that
+carry these rules out: the packets and checks that enforce rules 2, 3, 4 and
+6 in code, and the lanes a hook holds each agent to, which keep a reviewer
+from editing the fields it reviews (rule 5).
 
 ## Rules
 
@@ -48,7 +51,11 @@ must record.
 `reviewer` and `drafted_by` name the role and the run, for example
 `agent:nrel-sample-reviewer-2 (Claude Code, 2026-10-09)` or
 `agent:state-policy-drafter-3 (Claude Code, 2026-10-09)`. A person signs with
-their name.
+their name. The agents in `.claude/agents/` sign with their own name as the
+role (`agent:instrument-reader-2 (Claude Code, 2026-10-16)`), and a row both
+readings agree on is signed `<drafter> + <reviewer>`.
+`scripts/review_lint.py` compares signers without their dates, so the same
+agent on two days is still one reviewer.
 
 ## Where reviews are recorded
 

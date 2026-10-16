@@ -17,3 +17,7 @@ data/db/tmp*/
 
 # Git worktrees that Claude Code sessions create for parallel agents.
 .claude/worktrees/
+
+# Packets the research agents pass between them (docs/AGENTS.md). Per run,
+# never committed: the pull request description carries what a reader needs.
+.packets/
