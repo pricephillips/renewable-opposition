@@ -33,16 +33,16 @@ Currency: in_force means the status is active or extended and no end date has pa
 
 ## Contested projects
 
-575 projects; 125 with a confirmed outcome; 126 verified (backed by a news article or court record that was read), 449 resting on a compiled report only.
+575 projects; 145 with a confirmed outcome; 148 verified (backed by a news article or court record that was read), 427 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
-| advanced_confirmed | 55 |
+| advanced_confirmed | 66 |
 | advanced_unverified | 23 |
-| blocked_confirmed | 70 |
+| blocked_confirmed | 79 |
 | blocked_unverified | 165 |
-| needs_review | 34 |
-| pending | 228 |
+| needs_review | 29 |
+| pending | 213 |
 
 132 projects match a plant in the federal inventories (EIA-860M, USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:
 
@@ -53,7 +53,7 @@ Currency: in_force means the status is active or extended and no end date has pa
 | planned | 29 |
 | under_construction | 13 |
 
-44 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
+36 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
 
 ### Decided projects
 
@@ -61,12 +61,12 @@ This dataset holds projects because they drew opposition, so every rate below is
 
 | | Decided projects | Blocked | Blocked share |
 |---|---:|---:|---:|
-| All decided | 310 | 234 | 76% |
-| Confirmed outcomes only | 124 | 70 | 56% |
-| battery_storage | 17 | 11 | 65% |
-| solar | 163 | 134 | 82% |
+| All decided | 330 | 243 | 74% |
+| Confirmed outcomes only | 144 | 79 | 55% |
+| battery_storage | 19 | 13 | 68% |
+| solar | 170 | 139 | 82% |
 | transmission | 8 | 3 | 38% |
-| wind | 136 | 93 | 68% |
+| wind | 147 | 95 | 65% |
 
 Quote the confirmed-only figure when the claim is about what happened; the all-decided figure rests partly on the source's label alone.
 
@@ -119,8 +119,8 @@ Instruments (restrictions) and projects by the source they came from, with their
 | Restrictions | NREL | 2393 | 663 | 31 | 0 | 2362 |
 | Restrictions | Moratorium Nation | 210 | 199 | 43 | 0 | 167 |
 | Restrictions | review queue | 22 | 7 | 18 | 0 | 4 |
-| Contested projects | Sabin 2026 | 568 |  | 124 | 0 | 444 |
-| Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 1 | 0 | 5 |
+| Contested projects | Sabin 2026 | 568 |  | 145 | 0 | 423 |
+| Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 2 | 0 | 4 |
 | Contested projects | review queue | 1 |  | 1 | 0 | 0 |
 
 ## Siting standards (NREL)
