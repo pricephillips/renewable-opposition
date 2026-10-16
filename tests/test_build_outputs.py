@@ -50,6 +50,14 @@ def test_full_build_writes_csv_json_and_sources(seed_build):
     assert {r["path"] for r in package["resources"]} >= {"restrictions.csv", "county_summary.csv"}
 
 
+def test_the_build_copies_every_negative_check_for_the_database(seed_build):
+    # build_database.py reads this copy, never data/review/, so the database
+    # and headline_metrics.json count the same checks.
+    import negative_checks as nc
+    assert seed_build.returncode == 0
+    assert nc.load(seed_build.processed / "negative_checks.csv") == nc.load()
+
+
 def test_one_case_linked_to_two_projects_gets_two_ids():
     base = {"source_url": "https://court.example/op", "case_id": "case_1", "technology": "wind"}
     a = bso.record_id("cases", {**base, "source_record_id": "REC-0369"})

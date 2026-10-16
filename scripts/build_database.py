@@ -20,6 +20,14 @@ numbers from the database (db/views.sql) and compares them with
 data/processed/headline_metrics.json. Any difference stops the build: the
 database must never quote a number the published metrics do not.
 
+Negative checks come from data/processed/negative_checks.csv, the copy of
+every row build_seed_outputs.py validated (held ones included), written in
+the same run as headline_metrics.json, never from
+data/review/negative_checks.csv. A research
+branch that adds or deletes a check commits the review file only; until the
+build on main rewrites both, the database and the metrics count the same
+checks, and parity holds on the branch as it does after the merge.
+
 Usage
   python scripts/build_database.py              build data/db/renewable_opposition.duckdb
   python scripts/build_database.py --publish    also write the published files: one Parquet file per
@@ -82,6 +90,9 @@ HISTORY_JSON = ROOT / "data" / "db" / "history.json"
 # unchanged build rewrites identical bytes and commits nothing.
 VOLATILE_INFO = ("built_at", "git_commit")
 METRICS = PROCESSED_DIR / "headline_metrics.json"
+# The negative checks the processed build validated (held ones included), so
+# the database counts the checks headline_metrics.json counted.
+NEGATIVE_CHECKS = PROCESSED_DIR / "negative_checks.csv"
 # Every functioning local government with its Census GEOID
 # (scripts/build_census_governments.py), for geoid_match.
 CENSUS_GOVERNMENTS = ROOT / "data" / "census_governments_2024.csv"
@@ -262,9 +273,10 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
 
     # Negative checks with what the pipeline derives from them: the evidence
     # grade, the re-check date, and whether the check is held for review
-    # (drafted, not reviewed, so not counted).
+    # (drafted, not reviewed, so not counted). Read from the processed copy,
+    # not data/review/ (module docstring, Negative checks).
     checks = []
-    for c in negative_checks.load():
+    for c in negative_checks.load(NEGATIVE_CHECKS):
         checks.append(tuple(c.get(f) or "" for f in NEGATIVE_CHECK_FIELDS[:-4]) + (
             negative_checks.grade(c), ";".join(negative_checks.independence_classes(c)),
             negative_checks.recheck_by(c), "true" if negative_checks.held(c) else "false"))
@@ -398,7 +410,7 @@ def build(con: duckdb.DuckDBPyConnection) -> None:
     for table, path in STAGING.items():
         info[f"input:{table}"] = str(path.relative_to(ROOT))
     info["input:census_governments"] = str(CENSUS_GOVERNMENTS.relative_to(ROOT))
-    checks = negative_checks.CHECKS_PATH
+    checks = NEGATIVE_CHECKS
     info["input:negative_checks"] = str(checks.relative_to(ROOT) if checks.is_relative_to(ROOT) else checks)
     con.executemany("INSERT INTO build_info VALUES (?, ?)", sorted(info.items()))
 

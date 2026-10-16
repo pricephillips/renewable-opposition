@@ -76,6 +76,13 @@ Two checks look at what actually happened: `scripts/review_lint.py --lane`
 fails a branch that changed a file outside its lane, and the qc-auditor runs
 it before anything is pushed.
 
+A research branch commits review files and pass notes, never a generated
+file. On that branch the national database still matches
+`headline_metrics.json`: it reads the negative checks from the copy main's
+last build wrote (`data/processed/negative_checks.csv`), not from
+`data/review/negative_checks.csv`, so the two count the same checks. The
+build on main rewrites both after the merge.
+
 ## Packets
 
 Agents pass JSON packets, never free text. A run keeps them under

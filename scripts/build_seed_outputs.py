@@ -24,8 +24,11 @@ same document cited by many records, or with a trailing slash or #fragment, is
 stored once).
 
 It validates data/review/negative_checks.csv (scripts/negative_checks.py;
-never published) and writes data/review/negative_check_worklist.csv: the
-counties profiled so far that have no restriction and no check yet.
+never published as a record), copies the rows it validated, held ones
+included, to data/processed/negative_checks.csv (what build_database.py
+reads, so the database counts the checks headline_metrics.json counted), and
+writes data/review/negative_check_worklist.csv: the counties profiled so far
+that have no restriction and no check yet.
 
 Contested projects are matched to the federal plant inventories in
 data/reference/facilities.csv (scripts/facility_matches.py): a strong match
@@ -451,6 +454,11 @@ def main() -> int:
                                     geo.name, lambda f: states.get(f, ""))
     write_csv(NEGATIVE_WORKLIST, todo, negative_checks.WORKLIST_FIELDS)
     print(f"Wrote data/review/negative_check_worklist.csv ({len(todo)} counties to check)")
+    # Every validated check, held ones included, from the same run as
+    # headline_metrics.json: build_database.py reads this copy, never
+    # data/review/, so its parity check and the metrics see the same rows.
+    write_csv(PROCESSED_DIR / "negative_checks.csv", all_checks, negative_checks.CHECK_FIELDS)
+    print(f"Wrote data/processed/negative_checks.csv ({len(all_checks)} checks, {held_checks} held)")
 
     by_prefix = {f[:2]: st for f, st in states.items()}
     counties = county_summary.build(datasets, standards, checks, geo.all_counties(), geo.name,
