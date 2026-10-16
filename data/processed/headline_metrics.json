@@ -1,35 +1,35 @@
 {
   "restrictions": {
-    "rows": 3641,
-    "instruments": 3436,
+    "rows": 3640,
+    "instruments": 3435,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3352,
-        "severe_instruments": 1366,
+        "instruments": 3351,
+        "severe_instruments": 1365,
         "states": 51,
         "by_status": {
           "active": 896,
-          "extended": 58,
+          "extended": 57,
           "pending": 5,
           "unknown": 2393
         },
         "by_technology": {
-          "battery_storage": 140,
+          "battery_storage": 139,
           "solar": 1666,
           "wind": 1708
         },
         "by_evidence_level": {
           "compiled_flagged": 2392,
           "compiled_record": 61,
-          "primary_source": 85,
+          "primary_source": 84,
           "report_citation": 814
         },
         "by_verification": {
           "unverified": 3267,
-          "verified": 85
+          "verified": 84
         },
         "by_currency": {
-          "in_force": 953,
+          "in_force": 952,
           "lapsed_unconfirmed": 1,
           "pending": 5,
           "unknown": 2393
@@ -92,11 +92,11 @@
         }
       },
       "Moratorium Nation": {
-        "instruments": 210,
-        "severe_instruments": 199,
+        "instruments": 209,
+        "severe_instruments": 198,
         "by_verification": {
           "unverified": 167,
-          "verified": 43
+          "verified": 42
         }
       },
       "review queue": {
@@ -110,7 +110,7 @@
     },
     "by_verification": {
       "unverified": 3343,
-      "verified": 93
+      "verified": 92
     }
   },
   "contested_projects": {

@@ -2,9 +2,9 @@
  "generated": "2026-10-16",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3352,
-  "severe": 1366,
-  "verified": 85,
+  "restriction_instruments": 3351,
+  "severe": 1365,
+  "verified": 84,
   "lapsed_unconfirmed": 1,
   "severe_where_state_limits_local": 943,
   "projects": 575,
@@ -58,13 +58,13 @@
   }
  },
  "quarantine": {
-  "rows": 9,
+  "rows": 10,
   "by_entity": {
-   "restrictions": 9
+   "restrictions": 10
   },
   "by_blocking_code": {
    "SCOPE_DATA_CENTER_ONLY": 8,
-   "PRIMARY_SOURCE_CONTRADICTS": 1
+   "PRIMARY_SOURCE_CONTRADICTS": 2
   }
  },
  "worklists": {
@@ -204,15 +204,15 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 82,
+  "snapshot_rows": 85,
   "snapshot_files": 5,
   "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-10-16",
   "latest": {
-   "restrictions": "3352",
-   "severe_restrictions": "1366",
-   "verified_restrictions": "85",
+   "restrictions": "3351",
+   "severe_restrictions": "1365",
+   "verified_restrictions": "84",
    "multi_sector_restrictions": "84",
    "contested_projects": "575",
    "confirmed_outcomes": "145",
@@ -235,8 +235,8 @@
     "access_archived": 5,
     "access_opened": 39,
     "checked": 44,
-    "confirmed": 43,
-    "contradicts": 1
+    "confirmed": 42,
+    "contradicts": 2
    },
    "NREL": {
     "access_opened": 31,

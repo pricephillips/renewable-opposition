@@ -8,17 +8,17 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3352 | 84 |
-| Severe (severity 3 or 4) | 1366 | 75 |
+| Instruments | 3351 | 84 |
+| Severe (severity 3 or 4) | 1365 | 75 |
 | States | 51 | 27 |
 | Evidence: compiled_flagged | 2392 | 9 |
 | Evidence: compiled_record | 61 | 67 |
-| Evidence: primary_source | 85 | 8 |
+| Evidence: primary_source | 84 | 8 |
 | Evidence: report_citation | 814 | 0 |
-| Verification: verified | 85 | 8 |
+| Verification: verified | 84 | 8 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 3267 | 76 |
-| Currency: in_force | 953 | 75 |
+| Currency: in_force | 952 | 75 |
 | Currency: lapsed_unconfirmed | 1 | 1 |
 | Currency: pending | 5 | 8 |
 | Currency: unknown | 2393 | 0 |
@@ -29,7 +29,7 @@ Of the severe instruments, 943 (renewables only) and 33 (also covering data cent
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3641 published rows describe 3436 instruments.
+3640 published rows describe 3435 instruments.
 
 ## Contested projects
 
@@ -117,7 +117,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 | Restrictions | Sabin 2026 | 756 | 531 | 1 | 0 | 755 |
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 0 | 0 | 55 |
 | Restrictions | NREL | 2393 | 663 | 31 | 0 | 2362 |
-| Restrictions | Moratorium Nation | 210 | 199 | 43 | 0 | 167 |
+| Restrictions | Moratorium Nation | 209 | 198 | 42 | 0 | 167 |
 | Restrictions | review queue | 22 | 7 | 18 | 0 | 4 |
 | Contested projects | Sabin 2026 | 568 |  | 145 | 0 | 423 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 2 | 0 | 4 |

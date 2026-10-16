@@ -4,13 +4,13 @@ Generated 2026-10-16 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3352 renewables-only restriction instruments (1366 severe, 85 verified, 1 past their end date with no confirmed extension, 943 severe ones in states whose siting law limits local reach); 575 contested projects (145 confirmed); 39 cases.
+3351 renewables-only restriction instruments (1365 severe, 84 verified, 1 past their end date with no confirmed extension, 943 severe ones in states whose siting law limits local reach); 575 contested projects (145 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 330, of which 243 blocked; confirmed outcomes only: 144, 79 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
-9 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 1 PRIMARY_SOURCE_CONTRADICTS.
+10 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 2 PRIMARY_SOURCE_CONTRADICTS.
 
 ## Worklists
 
@@ -45,7 +45,7 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 
 | Source family | Instruments checked | Confirmed | Contradicted | Opened | Archived | Snippet |
 |---|---:|---:|---:|---:|---:|---:|
-| Moratorium Nation | 44 | 43 | 1 | 39 | 5 | 0 |
+| Moratorium Nation | 44 | 42 | 2 | 39 | 5 | 0 |
 | NREL | 31 | 31 | 0 | 31 | 0 | 0 |
 | Sabin | 1 | 1 | 0 | 1 | 0 | 0 |
 
@@ -75,4 +75,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-82 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 63, of which 11 have an Internet Archive snapshot.
+85 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 63, of which 11 have an Internet Archive snapshot.

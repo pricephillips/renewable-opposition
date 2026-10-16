@@ -2624,7 +2624,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 48195,TX,Hansford,none,0,0,0,0,0,0,0,0,0,0,0,,
 48197,TX,Hardeman,record,0,0,0,0,1,0,0,1,0,0,0,,
 48199,TX,Hardin,none,0,0,0,0,0,0,0,0,0,0,0,,
-48201,TX,Harris,record,2,2,2,0,0,0,0,0,0,0,0,,
+48201,TX,Harris,record,1,1,1,0,0,0,0,0,0,0,0,,
 48203,TX,Harrison,record,2,1,1,0,0,0,0,0,0,0,1,,
 48205,TX,Hartley,none,0,0,0,0,0,0,0,0,0,0,0,,
 48207,TX,Haskell,none,0,0,0,0,0,0,0,0,0,0,0,,
