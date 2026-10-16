@@ -349,7 +349,7 @@ Page 1 county map: David Benbennick, "Map of Kentucky highlighting Nicholas Coun
 
 [^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale.
 
-[^bench]: Percentiles are mid-rank: the share of counties below Nicholas plus half of ties. The margin row ranks Democratic lean. Opposition records include the three instruments and one contested project this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024).
+[^bench]: Percentiles are mid-rank: the share of counties below Nicholas plus half of ties. The margin row ranks Democratic lean. Opposition records include the three instruments and one contested project this review found, all added to the platform's data on October 16; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024).
 
 [^lift]: Lift is the median cross-validated coefficient times Nicholas's standardized, transformed value, summed to 1.26 log-odds below an average county. Share of movement is each trait's absolute lift as a share of the total. Averages are on the model's log scale.
 
