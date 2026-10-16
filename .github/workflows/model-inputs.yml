@@ -8,10 +8,13 @@ name: Fetch model inputs
 #   scripts/queue_matches.py            contested projects matched to their
 #                                       requests (rerun every month, so it
 #                                       follows newly promoted projects)
+#   scripts/county_labels.py and         the registered county restriction
+#   scripts/county_restriction_model.py  model, refit on the month's data
+#                                       (outputs in data/model/, internal)
 # Both sources change about once a year; each script rewrites nothing when
 # every input file's SHA-256 matches its manifest, so a month with no new
-# release commits nothing. Nothing in the build reads these files yet, so
-# this job never runs the build.
+# release commits nothing. Nothing in the build reads these files, so this
+# job never runs the build.
 #
 # On main the fetched files are committed. On any other branch nothing is
 # pushed: the job fails if the live fetch does not reproduce the files
@@ -31,6 +34,10 @@ on:
       - 'scripts/fetch_county_covariates.py'
       - 'scripts/fetch_queued_up.py'
       - 'scripts/queue_matches.py'
+      - 'scripts/county_labels.py'
+      - 'scripts/county_restriction_model.py'
+      - 'scripts/calibration_gate.py'
+      - 'config/county_model_registration.json'
       - 'tests/test_model_inputs.py'
       - 'data/reference/medsl/*'
       - '.github/workflows/model-inputs.yml'
@@ -66,10 +73,10 @@ jobs:
         run: uv pip install --system -c requirements/ci.txt -r requirements.txt
 
       - name: Tests for both scripts (fixtures; no network)
-        run: python -m pytest -q tests/test_model_inputs.py
+        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py
 
       - name: Fetch
-        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only queue_matches --skip-build --summary "$GITHUB_STEP_SUMMARY"
+        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only queue_matches --only county_labels --only county_restriction_model --skip-build --summary "$GITHUB_STEP_SUMMARY"
 
       - name: Branch run reproduces the committed files
         if: github.ref != 'refs/heads/main'
@@ -83,7 +90,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/reference/county_covariates.csv data/reference/county_covariates_manifest.csv data/reference/county_covariates_catalog.json data/reference/queue_projects.csv data/reference/queued_up_manifest.csv data/reference/queue_matches.csv data/reference/queue_matches_report.md
+          git add data/reference/county_covariates.csv data/reference/county_covariates_manifest.csv data/reference/county_covariates_catalog.json data/reference/queue_projects.csv data/reference/queued_up_manifest.csv data/reference/queue_matches.csv data/reference/queue_matches_report.md data/model/
           git diff --cached --quiet && exit 0
           git commit -m "Fetch model inputs"
           # Another workflow may have moved the branch since checkout. Rebase

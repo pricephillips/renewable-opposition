@@ -1,6 +1,6 @@
 # Predictive foundation: design
 
-**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py`, `scripts/fetch_queued_up.py` and `scripts/queue_matches.py`, run monthly by `model-inputs.yml`. Step 2 is being built. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
+**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py`, `scripts/fetch_queued_up.py` and `scripts/queue_matches.py`, run monthly by `model-inputs.yml`. Step 2 is built: `config/county_model_registration.json` (registered 2026-10-16, before the first fit, with one dated amendment), `scripts/county_labels.py` and `scripts/county_restriction_model.py`, refit monthly by the same workflow; results in `data/model/county_restriction_report.md`. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
 
 `national_database_design.md` (section 2) lists "scores or predictions" as a non-goal, and `pipeline_comparison.md` ("Deliberately not adopted") holds predictive models back "until there is a decided-project universe with dates". This plan does not change the dashboard. It builds internal models and a project universe, and nothing it produces reaches a page until Price decides that separately (section 6, decision 1).
 
@@ -79,11 +79,11 @@ Exposure variables are computed by the model's feature builder from files alread
 
 ### Labels, pre-registered before any fit
 
-The label is fixed and committed (`config/county_model_registration.json`, dated) before the first fit, so that no later choice is made by looking at results. That was a lesson from data-center-map: its first frozen variable list shipped nothing and had to be re-registered, and a label polarity bug ("approved" counted as enacted) mislabelled 28 counties for weeks.
+The label is fixed and committed (`config/county_model_registration.json`, registered 2026-10-16) before the first fit, so that no later choice is made by looking at results. That was a lesson from data-center-map: its first frozen variable list shipped nothing and had to be re-registered, and a label polarity bug ("approved" counted as enacted) mislabelled 28 counties for weeks.
 
 | Label | Definition | Positives |
 |---|---|---|
-| **Primary, prospective** (`new_severe_2022_2025`) | Among counties with no dated severe restriction before 2022 and none undated: the county, or a place within it, enacted a restriction of severity 3 or 4 in 2022 to 2025 | 297 of about 2,747 (10.8%) |
+| **Primary, prospective** (`new_severe_2022_2025`) | Among counties with no dated severe restriction before 2022 and none undated: the county, or a place within it, enacted a restriction of severity 3 or 4 in 2022 to 2025 | 265 of 2,711 (9.8%; `scripts/county_labels.py`, 2026-10-16) |
 | Secondary, snapshot (`has_severe`) | Any in-force restriction of severity 3 or 4 in the county or a place within it | 747 of 3,144 (23.8%) |
 | Secondary, bans and moratoria (`has_severity_4`) | As above, severity 4 only | 453 of 3,144 (14.4%) |
 
@@ -115,7 +115,7 @@ A second, smaller bias: NREL's ordinance year may be the latest amendment rather
 
 ### Outputs
 
-- `data/model/county_restriction_scores.csv`: calibrated out-of-fold score and interval for each county, per label.
+- `data/model/county_restriction_scores.csv`: calibrated out-of-fold score for each county, per label and run. Intervals are not built yet.
 - `data/model/county_restriction_report.md`: label counts, variables admitted and why, the stratified and state-grouped results, the gate verdict, the source sensitivity, Moran's I, and what the model may not be used to say.
 - `--selftest` on the model and gate scripts, and tests under `tests/` for the label builder (the polarity bug above gets a named test).
 

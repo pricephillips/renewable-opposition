@@ -58,6 +58,16 @@
       "reason": "Contested projects matched by name to their Queued Up requests, with the requests' dates; a match never changes an outcome (docs/predictive_foundation_design.md, step 3)."
     },
     "data/reference/queue_matches_report.md": {"layer": "derived", "writers": ["scripts/queue_matches.py"]},
+    "data/model/county_restriction_scores.csv": {
+      "layer": "derived", "writers": ["scripts/county_restriction_model.py"],
+      "reason": "Internal county restriction model output under config/county_model_registration.json; no page, report or headline figure reads it."
+    },
+    "data/model/county_restriction_metrics.json": {"layer": "derived", "writers": ["scripts/county_restriction_model.py"]},
+    "data/model/county_restriction_report.md": {"layer": "derived", "writers": ["scripts/county_restriction_model.py"]},
+    "data/model/county_labels.csv": {
+      "layer": "derived", "writers": ["scripts/county_labels.py"],
+      "reason": "Labels for the county restriction model, as config/county_model_registration.json defines them, from data/processed/restrictions.csv."
+    },
 
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],

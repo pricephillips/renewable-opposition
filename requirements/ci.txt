@@ -4,10 +4,12 @@ certifi==2026.7.22
     # via requests
 charset-normalizer==3.5.1
     # via requests
+cloudpickle==3.1.2
+    # via joblib
 daff==1.4.2
-    # via -r ci.in
+    # via -r requirements/ci.in
 duckdb==1.5.6
-    # via -r ci.in
+    # via -r requirements/ci.in
 et-xmlfile==2.0.0
     # via openpyxl
 execnet==2.1.2
@@ -16,8 +18,17 @@ idna==3.20
     # via requests
 iniconfig==2.3.0
     # via pytest
+joblib==1.6.0
+    # via scikit-learn
+narwhals==2.27.1
+    # via scikit-learn
+numpy==2.4.6
+    # via
+    #   -r requirements/ci.in
+    #   scikit-learn
+    #   scipy
 openpyxl==3.1.5
-    # via -r ci.in
+    # via -r requirements/ci.in
 packaging==26.3
     # via pytest
 pluggy==1.6.0
@@ -25,16 +36,24 @@ pluggy==1.6.0
 pygments==2.21.0
     # via pytest
 pytest==9.1.1
-    # via -r ci.in
+    # via
+    #   -r requirements/ci.in
+    #   pytest-xdist
 pytest-xdist==3.8.0
-    # via -r ci.in
+    # via -r requirements/ci.in
 pyyaml==6.0.3
-    # via -r ci.in
+    # via -r requirements/ci.in
 requests==2.34.2
-    # via -r ci.in
+    # via -r requirements/ci.in
 ruff==0.16.10
-    # via -r ci.in
+    # via -r requirements/ci.in
+scikit-learn==1.9.1
+    # via -r requirements/ci.in
+scipy==1.17.1
+    # via scikit-learn
+threadpoolctl==3.7.0
+    # via scikit-learn
 urllib3==2.8.0
     # via requests
 vale==3.22.0.0
-    # via -r ci.in
+    # via -r requirements/ci.in
