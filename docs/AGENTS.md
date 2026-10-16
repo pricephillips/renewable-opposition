@@ -52,7 +52,7 @@ reason and what the lane allows instead.
 | `blind` | the web, the published data, code and docs; never `data/review/`, a `*.draft.json` or a `drafts/` folder | its own `*.review.json` | `review_packets.py check` only; no git; no recursive shell search (the Grep tool, whose path the hook checks) |
 | `editor` | the repository; no web tools | the hand-kept review files, packets | the same scripts as a reader, `promote_reviewed.py --dry-run`; git to look |
 | `copy` | the repository; no web tools | hand-written markdown (README, docs/, deliverables/); never a generated doc | `precommit_gates.py emdash`, Vale; git to look |
-| `qc` | everything | its report under `.packets/` | any check, in its own worktree; git to look, and `git restore` for what a build regenerated |
+| `qc` | everything | its report under `.packets/` | any check, on a clean checkout of the committed branch; git to look, and `git restore` for what a check regenerated |
 
 In every lane: reports from local contacts (`local_knowledge*`,
 `$RO_LOCAL_KNOWLEDGE`, `~/.renewable-opposition`) are out of reach, and

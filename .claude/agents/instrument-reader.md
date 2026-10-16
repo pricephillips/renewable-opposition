@@ -90,6 +90,17 @@ technology. Set `relation`:
   instrument named in `note`. `check` refuses a verdict with `relation`
   `other`.
 
+`nothing_found` is a claim about a search, so earn it. Before returning it,
+try each of these and name each in `note` with what it gave: the
+jurisdiction's code publisher (search Municode, eCode360, American Legal and
+General Code for the jurisdiction); its own ordinances, zoning or planning
+page; the governing body's minutes around the record's date; and at least
+three web searches that vary the terms (the instrument's subject, "zoning
+ordinance" with the technology, the record's distinctive values such as "400
+acres"). A record compiled from an ordinance (NREL's, for one) usually means
+the ordinance was online when it was compiled: try the Internet Archive for
+the jurisdiction's code pages too.
+
 ## Comparing it with the record
 
 Add one `fields` entry, `{field, record, document, agrees}`, for each thing the

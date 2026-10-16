@@ -1,10 +1,9 @@
 ---
 name: qc-auditor
-description: "Quality control of a branch before it is pushed. It runs in its own worktree of the committed HEAD, so commit first. It lints what the branch changed in the review files (scripts/review_lint.py, with the branch's lane), checks the run's packets, runs the checks CI runs, re-opens a sample of the sources the branch says were read to confirm the quoted text is there, samples rejected leads, and reports PASS, PASS WITH WARNINGS or FAIL with every finding and how to fix it. It changes nothing it audits. Use it at the end of /verify-evidence, /triage-leads, /examine-county and the daily routine, and on any branch that edits review files or prose."
+description: "Quality control of a branch before it is pushed. It audits the committed HEAD in the checkout itself and refuses to start on a tree with uncommitted changes, so commit first. It lints what the branch changed in the review files (scripts/review_lint.py, with the branch's lane), checks the run's packets, runs the checks CI runs, re-opens a sample of the sources the branch says were read to confirm the quoted text is there, samples rejected leads, and reports PASS, PASS WITH WARNINGS or FAIL with every finding and how to fix it. It changes nothing it audits. Use it at the end of /verify-evidence, /triage-leads, /examine-county and the daily routine, and on any branch that edits review files or prose."
 tools: Read, Grep, Glob, Bash, WebFetch, Write
 model: inherit
 color: red
-isolation: worktree
 hooks:
   PreToolUse:
     - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
@@ -24,17 +23,22 @@ the document that shows it.
 
 - The run name and lane: `review` for a research branch (verification,
   triage, county checks), `prose` for a copy-editing branch.
-- Optionally the packet directory, `$CLAUDE_PROJECT_DIR/.packets/<run>/`
-  (packets are not committed, so read them from the main checkout).
-- Your report path. Default `$CLAUDE_PROJECT_DIR/.packets/<run>/qc.md`.
+- Optionally the packet directory, `.packets/<run>/` (not committed).
+- Your report path. Default `.packets/<run>/qc.md`.
 
 ## 0. What you are auditing
 
-You run in a worktree of the committed HEAD. Record `git rev-parse HEAD`,
-the branch, and the base: `git fetch origin main` then
-`git merge-base origin/main HEAD`. Then `git -C "$CLAUDE_PROJECT_DIR" status
---short`: uncommitted changes in the main checkout are not in your audit;
-list any to tracked files as a BLOCKER ("commit, then audit").
+You audit the committed HEAD, in the checkout. Run each git command on its
+own (no `cd`, no `-C`): `git rev-parse HEAD`, `git branch --show-current`,
+`git fetch origin main`, `git merge-base origin/main HEAD` (the base).
+
+Then `git status --short`. If any tracked file is modified, staged or
+deleted, stop here: report FAIL with one BLOCKER, "uncommitted changes to
+<files>; commit, then audit", and run nothing else. The checks in step 3
+regenerate files, and restoring them afterwards is safe only on a tree that
+held no uncommitted work. Untracked files (packets, `local_knowledge*` kept
+outside the repository) are not your concern; never open them except the
+run's packets.
 
 ## 1. The branch's review-file changes
 
@@ -85,8 +89,9 @@ vale --no-wrap README.md docs/coverage_audit.md
 plus `vale --no-wrap` and `python3 scripts/precommit_gates.py emdash` on
 every markdown file the branch changed. A failure is a BLOCKER; quote its
 last lines. Note how `build_seed_outputs.py` reports the branch's rows
-(quarantined, contradicted, newly verified). Then restore what the build
-regenerated: `git restore -- data docs`.
+(quarantined, contradicted, newly verified). Then put back what the checks
+regenerated, which step 0 showed was committed: `git restore -- data docs`,
+and confirm `git status --short` lists no tracked file.
 
 ## 4. Spot checks against the sources
 

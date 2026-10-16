@@ -30,9 +30,10 @@ Lanes
   copy     copy-editor. Writes hand-written prose (README.md, docs/**.md,
            deliverables/**.md), never a doc a script generates, data, code
            or config.
-  qc       qc-auditor. Runs any check, normally in its own worktree; writes
-           only its report under .packets/ or outside the repository, and may
-           restore files a build regenerated (git restore, git checkout --).
+  qc       qc-auditor. Runs any check on a clean checkout of the committed
+           branch; writes only its report under .packets/ or outside the
+           repository, and may restore files a check regenerated (git
+           restore, git checkout --).
 
 Every lane
   - never touches reports from local contacts (local_knowledge*,

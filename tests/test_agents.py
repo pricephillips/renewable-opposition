@@ -70,9 +70,13 @@ def test_each_agent_is_well_formed_and_in_its_lane(name):
     assert re.search(r"agent:" + re.escape(name) + r"-\d", body) or lane in ("editor", "copy", "qc")
 
 
-def test_the_auditor_works_on_a_copy():
-    meta, _, _ = agents()["qc-auditor"]
-    assert meta.get("isolation") == "worktree"
+def test_the_auditor_audits_the_branch_on_a_clean_checkout():
+    """A worktree-isolated agent starts at the default branch, not the branch
+    under audit, so the auditor runs in the checkout and stops on a tree with
+    uncommitted work before any check regenerates files it then restores."""
+    meta, body, _ = agents()["qc-auditor"]
+    assert "isolation" not in meta
+    assert "git status --short" in body and "stop here" in body
 
 
 def test_the_roster_documents_every_agent_and_nothing_else():
