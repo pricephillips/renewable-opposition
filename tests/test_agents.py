@@ -1,5 +1,6 @@
 """The agent roster (.claude/agents/, docs/AGENTS.md): every agent declares a
 lane the hook knows, holds only the tools its lane needs, and is documented."""
+import json
 import re
 from pathlib import Path
 
@@ -10,7 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 AGENTS = ROOT / ".claude" / "agents"
 ROSTER = ROOT / "docs" / "AGENTS.md"
 COMMANDS = ROOT / ".claude" / "commands"
-HOOK = '"$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py"'
+SETTINGS = ROOT / ".claude" / "settings.json"
+HOOK = 'python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py"'
 LANES = {"reader", "blind", "editor", "copy", "qc"}
 WEB = {"WebFetch", "WebSearch"}
 EDIT = {"Edit", "MultiEdit", "NotebookEdit"}
@@ -37,13 +39,19 @@ def agents():
 
 
 def lane_of(meta):
-    hooks = meta["hooks"]["PreToolUse"]
-    assert len(hooks) == 1
-    assert set(hooks[0]["matcher"].split("|")) == MATCHED
-    (cmd,) = [h["command"] for h in hooks[0]["hooks"]]
-    m = re.fullmatch(r"python3 " + re.escape(HOOK) + r" (\w+)", cmd)
-    assert m, cmd
-    return m.group(1)
+    return meta["lane"]
+
+
+def test_the_lane_hook_runs_from_settings_for_every_agent():
+    """Claude Code skips a project agent's frontmatter hooks until the
+    workspace is trusted, and always in a -p run, so the lane hook is
+    registered in settings, where it also runs inside subagents."""
+    pre = json.loads(SETTINGS.read_text(encoding="utf-8"))["hooks"]["PreToolUse"]
+    (entry,) = [e for e in pre if any("agent_lane.py" in h["command"] for h in e["hooks"])]
+    assert set(entry["matcher"].split("|")) == MATCHED
+    assert [h["command"] for h in entry["hooks"]] == [HOOK]
+    for name, (meta, _, _) in agents().items():
+        assert "hooks" not in meta, f"{name}: the lane comes from settings.json, not frontmatter hooks"
 
 
 def test_there_are_agents_for_each_part_of_the_work():

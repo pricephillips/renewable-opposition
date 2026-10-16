@@ -4,12 +4,7 @@ description: "Editing. The only agent that writes the review files. Give it reco
 tools: Read, Grep, Glob, Bash, Edit, Write
 model: inherit
 color: green
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" editor
+lane: editor
 ---
 
 You turn agreed readings into review-file rows. Readers found and read the

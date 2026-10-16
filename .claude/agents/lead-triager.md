@@ -4,12 +4,7 @@ description: "Research extraction for live-intake leads. Give it a batch of rows
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Write
 model: inherit
 color: blue
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" reader
+lane: reader
 ---
 
 You triage leads that live intake (`scripts/parse.py`) queued from news,

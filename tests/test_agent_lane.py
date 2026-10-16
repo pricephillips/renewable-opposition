@@ -145,9 +145,16 @@ def test_blind_reviewer_never_sees_review_files_or_drafts():
 
 def test_blind_reviewer_searches_only_where_the_lane_can_check():
     assert not ok(bash("blind", "grep -rn Cherokee ."))
+    assert not ok(bash("blind", "grep -rn Cherokee data"))
     assert not ok(bash("blind", "rg Cherokee"))
     assert not ok(bash("blind", "find . -name '*.csv' -exec grep -l Cherokee {} +"))
     assert not ok(bash("blind", "ls | xargs cat"))
+    assert ok(bash("blind", "grep -rn Cherokee data/processed scripts"))
+    assert ok(bash("blind", "rg -n Cherokee data/processed"))
+    assert ok(bash("blind", "find data/processed -name '*.csv' -exec grep -l Cherokee {} +"))
+    assert ok(bash("blind", "grep -rn Cherokee /tmp/ordinance"))
+    assert not ok(bash("blind", "grep -rn -e Cherokee ."))
+    assert not ok(bash("blind", "grep -rn Cherokee"))
     assert not ok(bash("blind", "git log -p"))
     assert not ok(tool("blind", "Grep", pattern="Cherokee"))
     assert not ok(tool("blind", "Grep", pattern="Cherokee", path=f"{R}/data"))
@@ -223,6 +230,35 @@ def test_split_commands():
     assert lane.split_commands("echo 'a; b' \"c && d\"") == ["echo 'a; b' \"c && d\""]
     assert lane.split_commands("x 2>&1 | y") == ["x 2>&1", "y"]
     assert lane.split_commands("echo $(git rev-parse HEAD)") == ["echo", "git rev-parse HEAD"]
+
+
+def run_hook(payload, *args):
+    return subprocess.run([sys.executable, str(HOOK), *args], input=payload, capture_output=True, text=True)
+
+
+def test_the_lane_comes_from_the_calling_agent():
+    write = {"tool_name": "Write", "tool_input": {"file_path": f"{R}/data/review/queue.csv"}, "cwd": R}
+    # The main session and agents with no lane pass untouched.
+    assert run_hook(json.dumps(write)).returncode == 0
+    assert run_hook(json.dumps({**write, "agent_type": "general-purpose"})).returncode == 0
+    assert run_hook("not json").returncode == 0
+    # A project agent is held to the lane its file names.
+    refused = run_hook(json.dumps({**write, "agent_type": "instrument-reader"}))
+    assert refused.returncode == 2 and "[reader lane]" in refused.stderr
+    assert run_hook(json.dumps({**write, "agent_type": "record-editor"})).returncode == 0
+    read = {"tool_name": "Read", "tool_input": {"file_path": f"{R}/data/review/queue.csv"}, "cwd": R,
+            "agent_type": "blind-reviewer"}
+    assert run_hook(json.dumps(read)).returncode == 2
+
+
+def test_lane_for(tmp_path):
+    (tmp_path / "a.md").write_text("---\nname: a\nlane: blind\n---\nbody lane: reader\n")
+    (tmp_path / "b.md").write_text("---\nname: b\n---\nlane: reader\n")
+    assert lane.lane_for("a", tmp_path) == "blind"
+    assert lane.lane_for("b", tmp_path) is None
+    assert lane.lane_for("missing", tmp_path) is None
+    assert lane.lane_for("../a", tmp_path) is None
+    assert lane.lane_for("", tmp_path) is None
 
 
 def test_unknown_lane_and_runs_as_a_hook():

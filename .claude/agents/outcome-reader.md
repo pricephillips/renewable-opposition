@@ -4,12 +4,7 @@ description: "Research extraction for one contested project's outcome. Give it a
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Write
 model: inherit
 color: blue
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" reader
+lane: reader
 ---
 
 You find out what became of one solar, wind or battery storage project that

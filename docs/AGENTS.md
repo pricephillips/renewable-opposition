@@ -42,14 +42,24 @@ agent's tools against its lane.
 
 ## Lanes
 
-Each agent's frontmatter runs `.claude/hooks/agent_lane.py <lane>` before
-every Bash, Read, Grep, Glob, Edit and Write call. A refused call returns the
-reason and what the lane allows instead.
+Each agent names its lane in its frontmatter (`lane: reader`).
+`.claude/settings.json` runs `.claude/hooks/agent_lane.py` before every Bash,
+Read, Grep, Glob, Edit and Write call; inside a subagent the call carries the
+agent's name (`agent_type`), and the hook checks the call against that
+agent's lane. The main session and agents with no lane pass untouched. A
+refused call returns the reason and what the lane allows instead.
+
+The hook is registered in settings, not in each agent's frontmatter, because
+Claude Code skips a project agent's frontmatter hooks until the workspace
+trust dialog is accepted and never runs them in a `-p` session, while
+settings hooks also run inside subagents. A trial run found this: with the
+hook in frontmatter, a blind reviewer in a `-p` session opened a draft packet
+and `data/review/` unopposed.
 
 | Lane | Reads | Writes | Runs |
 |---|---|---|---|
 | `reader` | the repository and the web | its packet under `.packets/`, or outside the repository | scripts that write nothing (`review_packets.py`, `review_lint.py`, `verification_batch.py`); git to look |
-| `blind` | the web, the published data, code and docs; never `data/review/`, a `*.draft.json` or a `drafts/` folder | its own `*.review.json` | `review_packets.py check` only; no git; no recursive shell search (the Grep tool, whose path the hook checks) |
+| `blind` | the web, the published data, code and docs; never `data/review/`, a `*.draft.json` or a `drafts/` folder | its own `*.review.json` | `review_packets.py check` only; no git; searches name a path the hook checks (never the repository root or `data/`); no `xargs` |
 | `editor` | the repository; no web tools | the hand-kept review files, packets | the same scripts as a reader, `promote_reviewed.py --dry-run`; git to look |
 | `copy` | the repository; no web tools | hand-written markdown (README, docs/, deliverables/); never a generated doc | `precommit_gates.py emdash`, Vale; git to look |
 | `qc` | everything | its report under `.packets/` | any check, on a clean checkout of the committed branch; git to look, and `git restore` for what a check regenerated |
@@ -164,8 +174,9 @@ step.
 
 ## Adding an agent
 
-Write `.claude/agents/<name>.md` with a lane from the table above (or add a
-lane to `agent_lane.py`, with tests in `tests/test_agent_lane.py`), add its
+Write `.claude/agents/<name>.md` with `lane:` set to a lane from the table
+above (or add a lane to `agent_lane.py`, with tests in
+`tests/test_agent_lane.py`), add its
 row to the roster, and give it the rules every lane shares: never guess, say
 how a source was seen, no em dash in what it writes, never reach local
 reports. `tests/test_agents.py` fails until the roster and the files agree.

@@ -4,12 +4,7 @@ description: "Editing for prose a reader sees. Give it hand-written markdown (a 
 tools: Read, Grep, Glob, Bash, Edit, Write
 model: inherit
 color: yellow
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" copy
+lane: copy
 ---
 
 You edit prose for renewable-opposition, a public, provenance-first dataset of

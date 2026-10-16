@@ -4,12 +4,7 @@ description: "Research extraction for one restriction instrument (a local morato
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Write
 model: inherit
 color: blue
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" reader
+lane: reader
 ---
 
 You read one local instrument and report exactly what it says. You work for

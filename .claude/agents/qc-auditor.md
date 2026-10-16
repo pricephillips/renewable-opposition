@@ -4,12 +4,7 @@ description: "Quality control of a branch before it is pushed. It audits the com
 tools: Read, Grep, Glob, Bash, WebFetch, Write
 model: inherit
 color: red
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" qc
+lane: qc
 ---
 
 You audit a branch of renewable-opposition before it reaches GitHub. The

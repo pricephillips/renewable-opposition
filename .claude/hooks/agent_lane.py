@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 """Lane hook: what an agent of each role may read and write (docs/AGENTS.md).
 
-A PreToolUse hook. Each agent in .claude/agents/ names its lane in its own
-frontmatter, for example:
-
-    hooks:
-      PreToolUse:
-        - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-          hooks:
-            - type: command
-              command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" reader
-
-Claude Code sends the tool call as JSON on stdin. Exit 2 refuses it, and the
+A PreToolUse hook, registered once in .claude/settings.json. Claude Code
+sends each tool call as JSON on stdin; inside a subagent (or a session run
+with --agent) the JSON carries `agent_type`, the agent's name. When
+.claude/agents/<agent_type>.md names a lane in its frontmatter
+(`lane: reader`), the call is checked against that lane; any other caller,
+the main session included, passes untouched. Exit 2 refuses a call, and the
 message on stderr goes back to the agent with what the lane allows instead.
+
+The hook lives in settings rather than in each agent's frontmatter because
+Claude Code skips a project agent's frontmatter hooks until the workspace
+trust dialog is accepted, and never runs them in a `-p` session; settings
+hooks run inside subagents too.
 
 Lanes
   reader   Research extraction (instrument-reader, outcome-reader,
@@ -21,9 +21,10 @@ Lanes
            .packets/ or outside the repository.
   blind    The second reading (blind-reviewer). The reader lane, and it never
            sees what a drafter concluded: nothing under data/review/, no
-           *.draft.json and no drafts/ folder, no git, no recursive shell
-           search (the Grep tool is checked instead). Everything it needs is
-           in its blind card, the published data, the code and the source.
+           *.draft.json and no drafts/ folder, no git, no search over the
+           repository root or data/ (a search names a narrower path the hook
+           can check), no xargs. Everything it needs is in its blind card,
+           the published data, the code and the source.
   editor   record-editor. Writes the review files a reviewer keeps by hand
            (config/layers.json "hand_edited", plus the files whose reviewer
            columns are hand-kept) and packets. It has no web tools.
@@ -50,7 +51,8 @@ check in scripts/review_lint.py looks at what a branch actually changed, and
 the qc-auditor runs it before anything is pushed.
 
 Usage
-  python3 .claude/hooks/agent_lane.py <lane>      (reads the hook JSON on stdin)
+  python3 .claude/hooks/agent_lane.py            the lane from agent_type (settings.json)
+  python3 .claude/hooks/agent_lane.py <lane>     force a lane (tests, manual checks)
 """
 from __future__ import annotations
 
@@ -529,7 +531,7 @@ def check_command(lane: Lane, command: str, cwd: str, roots: list[Path], depth: 
     if _private(command):
         raise Refused("the command names reports from local contacts, which stay outside every agent's reach")
     if lane.blind and ("data/review" in command or ".draft.json" in command):
-        raise Refused("the command names data/review/ or a draft packet; a blind reviewer never reads either")
+        raise Refused("the command names data/review/ or a draft packet; a blind reviewer never touches either")
     for segment in split_commands(command):
         argv = _strip_prefixes(_tokens(segment))
         if not argv:
@@ -606,17 +608,34 @@ def _python(lane: Lane, args: list[str], cwd: str, roots: list[Path]) -> None:
                   "or the orchestrating session's")
 
 
+def _search_paths(prog: str, args: list[str], cwd: str) -> list[str]:
+    """The paths a recursive search covers: its arguments that name an
+    existing path, or the working directory when none does."""
+    if prog == "find":
+        paths = []
+        for a in args:
+            if a.startswith(("-", "(", "!")):
+                break
+            paths.append(a)
+        return paths or [cwd]
+    positional = _positionals(args)
+    # grep, rg, ag, ack: the first operand is the pattern unless -e or -f gave it.
+    if not any(a in ("-e", "-f", "--regexp", "--file") or a.startswith(("--regexp=", "--file=")) for a in args):
+        positional = positional[1:]
+    return positional or [cwd]
+
+
 def _blind_command(prog: str, args: list[str], cwd: str, roots: list[Path]) -> None:
-    if prog in SEARCHERS or prog == "xargs":
-        raise Refused(f"{prog}: a blind reviewer uses the Grep tool for searches, so the lane can check "
-                      "the path it covers")
-    if prog in ("grep", "egrep", "fgrep") and any(
-            a in ("-r", "-R", "--recursive", "--dereference-recursive") or
-            (re.match(r"^-[A-Za-z]*[rR]", a) and not a.startswith("--")) or a.startswith("--directories=recurse")
-            for a in args):
-        raise Refused("recursive grep: a blind reviewer uses the Grep tool, so the lane can check its path")
-    if prog == "find" and set(args) & {"-exec", "-execdir", "-ok", "-okdir", "-fprint", "-fls"}:
-        raise Refused("find -exec: a blind reviewer lists files with find and reads them one by one")
+    if prog == "xargs":
+        raise Refused("xargs: a blind reviewer names the files it reads, so the lane can check each one")
+    recursive = prog in SEARCHERS or prog == "find" or (prog in ("grep", "egrep", "fgrep") and any(
+        a in ("-r", "-R", "--recursive", "--dereference-recursive") or a.startswith("--directories=recurse")
+        or (re.match(r"^-[A-Za-z]*[rR]", a) and not a.startswith("--")) for a in args))
+    if recursive:
+        for target in _search_paths(prog, args, cwd):
+            path = _abs(target, cwd)
+            if path is not None:
+                _blind_search_scope(path, roots)
     for a in args:
         if a.startswith("-"):
             continue
@@ -671,13 +690,43 @@ def decide(lane_name: str, payload: dict) -> str:
     return ""
 
 
+_LANE_FIELD = re.compile(r"^lane:\s*([a-z]+)\s*$", re.M)
+
+
+def lane_for(agent_type: str, agents_dir: Path | None = None) -> str | None:
+    """The lane .claude/agents/<agent_type>.md names in its frontmatter, or
+    None for any other caller (the main session, a built-in or plugin agent)."""
+    if not agent_type or not re.fullmatch(r"[A-Za-z0-9_-]+", agent_type):
+        return None
+    if agents_dir is None:
+        project = os.environ.get("CLAUDE_PROJECT_DIR")
+        agents_dir = (Path(project) if project else REPO) / ".claude" / "agents"
+    try:
+        text = (agents_dir / f"{agent_type}.md").read_text(encoding="utf-8")
+    except OSError:
+        return None
+    front = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+    m = _LANE_FIELD.search(front.group(1)) if front else None
+    return m.group(1) if m else None
+
+
 def main(argv: list[str]) -> int:
-    if len(argv) != 2:
+    if len(argv) > 2:
         print(__doc__, file=sys.stderr)
         return 2
     try:
         payload = json.load(sys.stdin)
-        refusal = decide(argv[1], payload)
+    except ValueError:
+        if len(argv) == 1:
+            return 0  # no agent can be named, so nothing to hold to a lane
+        payload = None
+    lane = argv[1] if len(argv) == 2 else lane_for(str((payload or {}).get("agent_type") or ""))
+    if lane is None:
+        return 0
+    try:
+        if payload is None:
+            raise ValueError("the hook input is not JSON")
+        refusal = decide(lane, payload)
     except Exception as exc:  # noqa: BLE001 - a broken check refuses rather than waves through
         refusal = f"agent_lane.py could not check this call ({type(exc).__name__}: {exc}); refused to be safe"
     if refusal:

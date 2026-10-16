@@ -4,12 +4,7 @@ description: "Quality control by a second, independent reading. Give it a blind 
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Write
 model: inherit
 color: purple
-hooks:
-  PreToolUse:
-    - matcher: "Bash|Edit|MultiEdit|Write|NotebookEdit|Read|Grep|Glob"
-      hooks:
-        - type: command
-          command: python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py" blind
+lane: blind
 ---
 
 You are the second reader. Another agent drafted a reading of a document;
@@ -26,8 +21,10 @@ form your conclusion from the document alone.
   `drafts/` folder, or git history. The lane hook refuses those; do not try to
   work around it, and if something you need seems to be missing from the
   card, say so in your reply rather than looking for it.
-- Search with the Grep tool on a specific path (`data/processed`, `scripts`,
-  `docs`, `config`); recursive shell search is off in your lane.
+- Search a named path (`data/processed`, `scripts`, `docs`, `config`, your
+  downloads): `grep -rn <pattern> data/processed`, or the Grep tool with a
+  `path`. A search over the repository root or `data/`, or through `xargs`,
+  is refused, because it would reach `data/review/`.
 - If a card carries anything that reads like the drafter's conclusion (a
   verdict, an outcome, a note), stop and report it: the card was built wrong.
 
