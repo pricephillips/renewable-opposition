@@ -7,18 +7,18 @@
 
 ## Key Takeaways
 
-- **Regulated but open**: Linn approved its two contested solar projects (Coggon, 100 MW, and Duane Arnold Solar I and II, 200 MW plus storage) on 2-1 votes and won both resident lawsuits. It then paused solar rezonings for nearly a year in 2022 and 2023 and adopted one of Iowa's more detailed solar ordinances, with a scoring system.
+- **Regulated but open**: Linn approved its two contested solar projects (Coggon, 100 MW, and Duane Arnold Solar I and II, 200 MW) on 2-1 votes and won both resident lawsuits. It then paused solar rezonings for nearly a year in 2022 and 2023 and adopted a detailed solar ordinance with a scoring system.
 - **The fight has moved to data centers**: Google's plans near the Duane Arnold nuclear plant were followed by a February 2026 data-center ordinance, a July 2026 data-center moratorium passed 2-1, and a push to expand the three-member board. Solar and storage near the plant now sit inside that debate.
-- **Above the average U.S. county:** Hawthorn Intelligence places Linn in the 80^th^ percentile (*i.e.,* 80% of U.S. counties score lower) for resemblance to counties with severe renewable restrictions, but only 40^th^ of 99 in Iowa, where restriction is common. Two of its six neighbors have severe restrictions on record, and a third has paused battery storage.
-- **What to watch**: NextEra's Duane Arnold Solar IV (220 MW solar plus up to 180 MW storage), the November 3 supervisor race, Cerro Gordo County's lawsuit over the state's power to override county bans, and the 2027 Iowa legislative session.
+- **Above the average U.S. county:** Hawthorn Intelligence places Linn in the 80^th^ percentile (*i.e.,* 80% of U.S. counties score lower) for resemblance to counties with severe renewable restrictions, but only 40^th^ of 99 in Iowa, where restriction is common. Two of its six neighbors have severe restrictions on record, and a third, Jones, paused battery storage in 2024.
+- **What to watch**: NextEra's Duane Arnold Solar IV (220 MW solar plus up to 180 MW storage), the November 3 supervisor race, Cerro Gordo County's lawsuit over the state's power to override county zoning, and the 2027 Iowa legislative session.
 
 ## Summary
 
-Linn County is open to solar and storage, under some of the most detailed county rules in Iowa and a politically divided three-member board. Its two contested solar approvals in 2022 each passed 2-1, each drew a resident lawsuit, and each lawsuit failed. The county then paused new solar rezonings for nearly a year and wrote a new ordinance, adopted unanimously in September 2023, with setbacks, screening and a scorecard that deducts points for building on high-quality farmland.
+Linn County is open to solar and storage, under detailed county rules and a politically divided three-member board. Its two contested solar approvals in 2022 each passed 2-1, each drew a resident lawsuit, and each lawsuit failed. The county then paused new solar rezonings for nearly a year and wrote a new ordinance, adopted unanimously in September 2023, with setbacks, screening and a scorecard that deducts points for building on high-quality farmland.
 
-Hawthorn Intelligence assigns Linn a County Restriction Score of 0.39, about one and a half times the national base rate of 0.24. That puts it in the eighth national decile (one tenth of U.S. counties, ranked by score) and the 80^th^ percentile nationally, but only 40^th^ of 99 Iowa counties, where restriction is common. The score measures how closely a county's profile resembles counties that have enacted severe restrictions; it is not a forecast for any project. Population, restricting neighbors and the interconnection queue drive most of it. The record is Verified: the platform has checked the 2023 solar ordinance against the instrument itself.
+Hawthorn Intelligence assigns Linn a County Restriction Score of 0.39, about 1.6 times the national base rate of 0.24. That puts it in the eighth national decile (one tenth of U.S. counties, ranked by score) and the 80^th^ percentile nationally, but only 40^th^ of 99 Iowa counties, where restriction is common. The score measures how closely a county's profile resembles counties that have enacted severe restrictions; it is not a forecast for any project. Population, restricting neighbors and the interconnection queue drive most of it. The record is Verified: the platform has checked the 2023 solar ordinance against a published copy of the instrument.
 
-Developers come for the Duane Arnold substation and the 345 kV lines left by the nuclear plant's 2020 shutdown, about 1.3 GW of solar and storage still active in the regional grid operator's queue at the end of 2025, and new load from data centers in Cedar Rapids and Palo. Residents have contested projects over farmland, property values, drainage tile, rural character and battery fire risk. Projects that score well on the county's checklist and avoid prime farmland have a path; projects that need new zoning near homes have met 2-1 votes and lawsuits. Since late 2025 the planned restart of the nuclear plant, and Google's data-center plans tied to it, have taken over local land-use politics.
+Developers come for the Duane Arnold substation and the 345 kV lines left by the nuclear plant's 2020 shutdown, about 1.25 GW of solar and storage still pending in the regional grid operator's queue at the end of 2025, and new data-center load in Cedar Rapids, with a Google campus proposed in Palo. Residents have contested projects over farmland, property values, drainage tile and rural character. Every utility-scale project needs a rezoning vote; the two in 2022 passed 2-1 and drew lawsuits, and none of the three supervisors who cast those votes is still on the board. Since late 2025 the planned restart of the nuclear plant, and Google's data-center plans tied to it, have taken over local land-use politics.
 
 # Hawthorn Intelligence
 
@@ -34,38 +34,38 @@ Linn County, home to about 232,000 people around Cedar Rapids, approved two cont
 | County Restriction Score | **0.39 (likely range 0.36 to 0.40)** | Resemblance to counties with a severe wind, solar or storage restriction on record, on a 0 to 1 scale; national base rate 0.24 |
 | Score decile | **8 of 10** | Eighth tenth of 3,144 U.S. counties (scores 0.280 to 0.386); 33.4 percent of decile 8 counties have a severe restriction |
 | National and Iowa standing | **80^th^ percentile; 40^th^ of 99** | Share of U.S. counties scoring below Linn; rank among Iowa counties |
-| Evidence status | **Verified** | The 2023 solar ordinance checked against the instrument; no severe restriction on record |
+| Evidence status | **Verified** | The 2023 solar ordinance checked against a published copy of the instrument; no severe restriction on record |
 | Project outcome tiers | **0 blocked; 2 advanced; 1 pending** | Coggon and Duane Arnold Solar I and II approved and upheld; Duane Arnold Solar IV pending |
-| Opposition intensity | **93^rd^ percentile (records); 65^th^ (per 100,000 residents)** | Recorded restrictions and contested projects against all U.S. counties |
+| Opposition intensity | **95^th^ percentile (records); 67^th^ (per 100,000 residents)** | Two restriction instruments and three contested projects, against all U.S. counties |
 
-Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. "How to Read Hawthorn Intelligence Reports" below defines each scale.
+Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. Opposition intensity adds Duane Arnold Solar IV, found in this review, to the four records the platform published on October 13. "How to Read Hawthorn Intelligence Reports" below defines each scale.
 
 ## At a glance
 
 - [Population](https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv) 232,028 (July 2025 estimate) on 717 square miles
-- Median household income $77,649; 34.7 percent of adults 25 and older hold a bachelor's degree (ACS 2020-2024)
+- Median household income $77,649; 34.7 percent of adults 25 and older hold a bachelor's degree or higher (ACS 2020-2024)
 - [2024](https://electionlab.mit.edu/data) presidential vote: Harris 53.6 percent, Trump 43.8 percent
   - Partisan trend: the Democratic margin went from 9.0 points in 2016 to 13.4 in 2020, then narrowed to 9.8 in 2024
-- Operating solar: about 205 MW, including Duane Arnold Solar I and II near Palo ([EIA-860M](https://www.eia.gov/electricity/data/eia860m/)); Coggon Solar (100 MW) under construction
+- Operating solar: 204.5 MW, including Duane Arnold Solar I and II (now Alliant's Pleasant Creek Solar) near Palo ([EIA-860M](https://www.eia.gov/electricity/data/eia860m/)); Coggon Solar (100 MW) under construction
 - Major nearby power asset: the Duane Arnold Energy Center near Palo, closed in 2020; NextEra is restarting it for Google, with [restart targeted for early 2029](https://kcrg.com/2026/04/15/nuclear-regulatory-commission-hosts-community-meeting-duane-arnold-restart/)
-- Interconnection queue: seven active solar and storage requests totaling 1,305 MW in MISO at the end of 2025 (LBNL Queued Up)
+- Interconnection queue: six pending solar and storage requests totaling 1,255 MW in MISO at the end of 2025 (LBNL Queued Up)
 - Enacted restriction: yes, a [2023 solar ordinance](https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf) that replaced a 2022 to 2023 moratorium; none scores as severe
 
 # A county that approved, then tightened
 
-Linn's current solar story began in 2021, when NextEra floated a 3,500-acre, three-array solar plan around the shuttered Duane Arnold nuclear plant and a resident petition against "industrial scale solar on agricultural and residential rural land" gathered 2,913 signatures. In January 2022 the Board of Supervisors approved its first utility-scale project, Coggon Solar, 2-1. A few weeks later it rejected a six-month solar moratorium by the same margin, with Supervisor Louie Zumbach, the board's Republican, on the losing side both times.
+Linn's current solar story began in 2021, when NextEra floated a 3,500-acre, three-array solar plan around the shuttered Duane Arnold nuclear plant and a resident petition, "Stop Industrial-Scale Solar on Agricultural - Rural Land in Linn County, IA," gathered 2,913 signatures. In January 2022 the Board of Supervisors approved its first utility-scale project, Coggon Solar, 2-1. A few weeks later it rejected a six-month solar moratorium by the same margin, with Supervisor Louie Zumbach, the board's Republican, on the losing side both times.
 
-By October 2022, after approving NextEra's Duane Arnold Solar I and II, the board unanimously adopted a three-month moratorium on rezonings to its Renewable Energy overlay district. It extended the pause three times, to September 30, 2023, while advisory committees rewrote the rules. The new utility-scale solar ordinance passed unanimously in September 2023; a companion scorecard, which awards points for local labor and native seed mixes and deducts them for siting on high-quality farmland, passed 2-1.
+By October 2022, after approving NextEra's Duane Arnold Solar I and II, the board unanimously adopted a three-month moratorium on rezonings to its Renewable Energy overlay district. It extended the pause three times, to September 30, 2023, while four review committees made recommendations and county staff rewrote the rules. The new utility-scale solar ordinance passed unanimously in September 2023; a companion scorecard, which awards points for local labor and native seed mixes and deducts them for siting on high-quality farmland, passed 2-1, with Zumbach opposed.
 
-In July 2024 the board rewrote its wind ordinance after lightning destroyed turbines near Mechanicsville in neighboring Cedar County. The new rules replaced a 1,000-foot setback from structures with twice the turbine's height and added a debris bond. No utility-scale wind project has been proposed in Linn. Battery storage of any kind must be rezoned to the Renewable Energy overlay, with setbacks of 200 feet from property lines and 500 feet from lines of properties with occupied buildings, according to the county.
+In July 2024 the board rewrote its wind ordinance after lightning destroyed turbines near Mechanicsville in neighboring Cedar County. The new rules replaced a 1,000-foot setback from structures with twice the turbine's height and added a debris bond. No utility-scale wind project has been proposed in Linn. Utility-scale battery storage must be rezoned to the Renewable Energy overlay, with setbacks of 200 feet from property lines and 500 feet from lines of properties with occupied buildings, according to the county.
 
 None of these instruments rises to a severe restriction on our scale, and the county has adopted none for renewables since its solar moratorium expired.
 
 ## Duane Arnold Solar
 
-NextEra's first two phases of **Duane Arnold Solar**, 50 MW and 150 MW of solar plus a 75 MW battery on about 2,637 acres north of Palo, to be owned by Alliant Energy, won rezoning on September 6, 2022, 2-1. Supervisor Zumbach dissented, saying he regretted that the board could not require larger setbacks for neighbors who were not participating. Palo-area residents sued, alleging illegal spot zoning and the loss of prime farmland; Chief District Judge Lars Anderson dismissed all eight claims in July 2023. Solar I began generating in March 2024.
+NextEra's first two phases of **Duane Arnold Solar**, 50 MW and 150 MW of solar on about 2,637 acres north of Palo, won rezoning on September 6, 2022, 2-1; the approved plan also included a 75 MW battery, which federal records do not list. Supervisor Zumbach dissented, saying he regretted that the board could not require larger setbacks for neighbors who were not participating. Palo-area residents sued, alleging illegal spot zoning and the loss of prime farmland; Chief District Judge Lars Anderson dismissed all eight claims in July 2023. Solar I began generating in March 2024, and in April 2025 Alliant Energy, the owner, renamed the site Pleasant Creek Solar.
 
-A third phase is now proposed. Duane Arnold Solar IV would add 220 MW of solar and up to 180 MW of storage on about 1,460 acres between Center Point and Toddville, with about 50 landowners and no eminent domain, according to NextEra's July 2024 public meeting. More than 20 people spoke, roughly evenly split, and a Center Point resident raised battery fire risk. The project needs both county rezoning and an Iowa Utilities Commission certificate; we found no decision on either as of October 16, 2026.
+A third phase is now proposed. Duane Arnold Solar IV would add 220 MW of solar and up to 180 MW of storage on about 1,460 acres between Center Point and Toddville, with about 50 landowners and no eminent domain, according to NextEra's July 2024 public meeting. More than 20 people spoke, roughly evenly split. The project needs both county rezoning and an Iowa Utilities Commission certificate; we found no decision on either as of October 16, 2026.
 
 ## Other projects
 
@@ -75,7 +75,7 @@ Other active requests in the regional queue include 200 and 400 MW solar project
 
 ## Organized Opposition
 
-Opposition to renewables in Linn has been resident-led and project-specific; we found no standing anti-solar group. The record includes the 2021 Change.org petition, mostly opposed speakers at NextEra's 2021 meeting, an evenly split 2024 meeting, and the two lawsuits. Concerns raised include property values, prime farmland, drainage tile, rural character, the growth of Palo, runoff and battery fire risk.
+Opposition to renewables in Linn has been resident-led and project-specific; we found no standing anti-solar group. The record includes the 2021 Change.org petition, mostly opposed speakers at NextEra's 2021 meeting, an evenly split 2024 meeting, and the two lawsuits. Concerns raised include property values, prime farmland, drainage tile, rural character and runoff.
 
 The county's sharper conflicts now concern other energy projects. Alliant's proposed 720 MW gas plant in western Linn faces a group called Save Morgan Valley, whose concerns board chair Kirsten Running-Marquardt has echoed. The July 2026 data-center moratorium was followed by a push to expand the board from three to five members; Supervisor Brandy Zumbach Meisheid blamed "individuals and interests who stand to benefit financially from large-scale development," and Running-Marquardt said opponents were "trying to diminish my voice."
 
@@ -83,7 +83,7 @@ The county's sharper conflicts now concern other energy projects. Alliant's prop
 
 - Duane Arnold Solar IV: county rezoning and Iowa Utilities Commission docket GCU-2024-0002.
 - November 3, 2026: the District 2 race between Supervisor Sami Scheetz (D) and Rex W. Meyer (R), and any move to expand the board.
-- Cerro Gordo County v. Iowa Utilities Commission, filed July 13, 2026 in Polk County District Court, challenging the Commission's certification of a solar project over a county ban.
+- Cerro Gordo County v. Iowa Utilities Commission, filed July 13, 2026 in Polk County District Court, challenging the Commission's certification of a solar project over county zoning.
 - January 2027: the Iowa legislative session, the first since statewide siting standards (HF 2580) failed.
 - Around January 2028: a possible federal license decision on the Duane Arnold restart; January 1, 2028: end of the data-center moratorium.
 
@@ -95,7 +95,7 @@ Linn sits in the 80^th^ percentile nationally, the 60^th^ in Iowa, and the 54^th
 
 **Scale**
 
-The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 0.99). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Linn sits at the top of the eighth.
+The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 1.00). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Linn sits at the top of the eighth.
 
 Table 1: Hawthorn Intelligence Restriction Scale[^deciles]
 
@@ -119,8 +119,8 @@ Table 2: Linn against national, state and peer benchmarks[^bench]
 | **Measure** | **Linn** | **U.S. percentile** | **IA percentile** | **Peer median** |
 |---|---|---|---|---|
 | Restriction score | 0.39 | 80 | 60 | 0.41 |
-| Opposition records | 4 | 93 | 97 | 2 |
-| Records per 100,000 residents | 1.7 | 65 | 26 | 0.7 |
+| Opposition records (this review) | 5 | 95 | 99 | 2 |
+| Records per 100,000 residents | 2.2 | 67 | 27 | 0.7 |
 | Interconnection requests, MW (all years) | 1,705 | 78 | 87 | 823 |
 | Operating solar, MW | 204 | 93 | 98 | 40 |
 | Operating wind, MW | 2.5 | 84 | 49 | 0 |
@@ -143,9 +143,9 @@ Table 3: Contribution of each model trait to Linn's score[^lift]
 | Median household income | $77,649 ($65,870) | Higher raises score | 3 | +0.15 | 19% |
 | Operating wind capacity | 2.5 (1.3) | Higher raises score | 1 | +0.02 | 3% |
 
-Linn's record sits below its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.41, and four of the ten have a severe restriction on record. Linn has none in force: it approved contested projects, defended them in court and regulated rather than banned. Its four records put it in the 93^rd^ percentile nationally by count, but per resident only the 26^th^ percentile in Iowa.
+Linn's record sits below its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.41, and four of the ten have a severe restriction on record. Linn has none in force: it approved contested projects, defended them in court and regulated rather than banned. Its five records put it in the 95^th^ percentile nationally by count, but per resident only the 27^th^ percentile in Iowa.
 
-**Comparable outcomes:** The platform records seven decided contested projects in Iowa; four were recorded as blocked, though only two outcomes have been confirmed by independent evidence, and both are advances. Within 60 miles, the Waterworks Prairie Park solar lease in Iowa City (2020) and wind projects in Black Hawk and Fayette counties (2018) were recorded as blocked. Linn's own two decided projects both advanced. Only 7 of 575 contested projects nationally carry a date finer than a year, so we do not report decision timelines.
+**Comparable outcomes:** The platform records seven decided contested projects in Iowa; four were recorded as blocked, though only two outcomes have been confirmed by independent evidence, and both are advances. Within 60 miles, the Waterworks Prairie Park solar lease in Iowa City (2020) and wind projects in Black Hawk and Fayette counties (2018) were recorded as blocked. Linn's own two decided projects both advanced.
 
 Table 4: Neighboring counties[^neighbors]
 
@@ -183,7 +183,7 @@ Table 6: Outcome tiers
 | **Outcome tier** | **Definition** | **Linn projects** |
 |---|---|---|
 | advanced_confirmed | Terminal approval; the project may proceed | Coggon Solar (January 2022; upheld June 2024); Duane Arnold Solar I and II (September 2022; suit dismissed July 2023) |
-| restricted_conditional | Terminal approval carrying binding conditions | Both approvals carried setback, screening and bond conditions |
+| restricted_conditional | Terminal approval carrying binding conditions | None recorded (the two approvals above carried setback and bond conditions) |
 | blocked_confirmed | Terminal stop: denied or withdrawn | None |
 | pending | No terminal disposition yet | Duane Arnold Solar IV (220 MW solar, up to 180 MW storage) |
 
@@ -191,9 +191,9 @@ Table 6: Outcome tiers
 
 ## Why developers are looking at Linn
 
-**Power access:** The Duane Arnold Energy Center, about 615 MW, closed after the 2020 derecho and left behind a substation and 345 kV and 161 kV lines that developers have queued against ever since. NextEra is now restarting the plant for Google under a 25-year agreement. In September 2026 the Department of Energy [closed a loan](https://northeasttimes.com/2026/09/08/u-s-government-backs-iowa-nuclear-restart-with-1-9-billion-loan-tied-to-google/) of up to $1.9 billion for the restart, and on January 14, 2026 the county rezoned the 393-acre plant site for nuclear use. Google and QTS are building data centers in southwest Cedar Rapids, and Palo is weighing a Google campus by annexation.
+**Power access:** The Duane Arnold Energy Center, about 615 MW, closed after the 2020 derecho and left behind a substation and 345 kV and 161 kV lines that developers have queued against ever since. NextEra is now restarting the plant for Google under a 25-year agreement. In September 2026 the Department of Energy [closed a loan](https://world-nuclear-news.org/articles/us-department-of-energy-closes-loan-for-duane-arnold-restart) of up to $1.9 billion for the restart, and on January 14, 2026 the county rezoned the 393-acre plant site for nuclear use. Google and QTS are building data centers in southwest Cedar Rapids, and Palo is weighing a Google campus by annexation.
 
-**Land use** is where the friction is. Linn's rural land is productive row-crop ground, and the 2023 scorecard deducts points for siting on high-quality soils. Both 2022 lawsuits turned on farmland and land-use consistency, and NextEra's 2021 plan drew a petition demanding that "industrial scale solar" go on industrial land. Near the plant, solar now competes with data centers and the nuclear restart for the same land and interconnection.
+**Land use** is where the friction is. Linn's rural land is productive row-crop ground, and the 2023 scorecard deducts points for siting on high-quality soils. Both 2022 lawsuits turned on farmland and land-use consistency, and NextEra's 2021 plan drew a petition demanding that "industrial scale solar" go on industrial land.
 
 ## Restriction timeline
 
@@ -207,29 +207,29 @@ Table 6: Outcome tiers
 - January 14, 2026: Board rezones the Duane Arnold plant site for nuclear generation, unanimously.
 - July 1, 2026: Board [adopts](https://corridorbusiness.com/?p=134105) an 18-month moratorium on rezonings to its large data-center district, 2-1 (Scheetz no); a proposed exemption for data centers tied to nuclear or solar is struck unanimously.
 
-**How the 2023 ordinance was written:** Two county advisory committees drafted the revisions during the moratorium and [sought public feedback](https://corridorbusiness.com/tag/duane-arnold-solar) in April 2023. At first reading, Supervisor Rogers objected to the scorecard's grading and farmland-quality provisions, and Supervisor Running-Marquardt compared it to Iowa's farmland assessment system. Amendments added points for local labor and cut points for medium- and high-quality farmland before the scorecard passed 2-1. Board chair Zumbach said he hoped the ordinance would "make utility-scale solar more palatable for those living near it."
+**How the 2023 ordinance was written:** Four [review committees](https://corridorbusiness.com/linn-county-sets-dates-for-readings-of-updated-utility-scale-solar-ordinance/) (good-neighbor practices, battery storage, agriculture and solar, and lifecycle costs) made recommendations during the moratorium, the county [sought public feedback](https://corridorbusiness.com/tag/duane-arnold-solar) in April 2023, and county staff drafted the ordinance. Amendments added points for local labor and cut points for medium- and high-quality farmland before the scorecard passed 2-1, with Zumbach opposed. Board chair Zumbach said he hoped the ordinance would "make utility-scale solar more palatable for those living near it."
 
 ## Project outcomes
 
-1. **Duane Arnold Solar I and II** (NextEra Energy Resources; Alliant Energy as future owner): about 1,130 acres of panels within the 2,637-acre site near Palo. Rezoned September 6, 2022, 2-1; the Iowa Utilities Board issued generating certificates in November 2022; residents' suit [dismissed](https://corridorbusiness.com/lawsuit-against-duane-arnold-solar-projects-dismissed/) July 20, 2023. Federal records list 50 and 150 MW units near the site in operation.
+1. **Duane Arnold Solar I and II**, now Pleasant Creek Solar (developed by NextEra Energy Resources; owned by Alliant Energy): about 1,130 acres of panels within the 2,637-acre site near Palo. Rezoned September 6, 2022, 2-1; the Iowa Utilities Board issued generating certificates in November 2022; residents' suit [dismissed](https://corridorbusiness.com/lawsuit-against-duane-arnold-solar-projects-dismissed/) July 20, 2023. Federal records list 50 and 150 MW units near the site in operation.
 2. **Coggon Solar** (Clēnera; Central Iowa Power Cooperative as buyer): 100 MW, about $150 million. Approved 2-1 on January 24, 2022 with a 300-foot setback and a $2.7 million decommissioning bond; upheld by the Iowa Court of Appeals on June 5, 2024 (*Robinson v. Linn County Board of Supervisors*, No. 23-0705), which held that a rezoning is a legislative act reviewed only for whether it is "fairly debatable." Federal records list it as under construction.
 3. **Duane Arnold Solar IV** (NextEra): 220 MW of solar and up to 180 MW of storage on about 1,460 acres; public meeting July 24, 2024 under Iowa Utilities Commission docket GCU-2024-0002; no county or state decision found.
 
 ## Opposition
 
-Organized groups on record: none against renewables; Save Morgan Valley opposes Alliant's proposed gas plant. A [Change.org petition](https://www.change.org/p/linn-county-board-of-supervisors-stop-industrial-scale-solar-on-agricultural-and-residential-rural-land) started by Center Point resident Sara Alden in April 2021 against NextEra's 3,500-acre plan gathered 2,913 signatures; Alden later raised battery fire risk at the 2024 Solar IV meeting. Most speakers at NextEra's June 2021 meeting opposed the plan.
+Organized groups on record: none against renewables; Save Morgan Valley opposes Alliant's proposed gas plant. A [Change.org petition](https://www.change.org/p/linn-county-board-of-supervisors-stop-industrial-scale-solar-on-agricultural-and-residential-rural-land) started by Sara Alden on April 18, 2021 against NextEra's 3,500-acre plan gathered 2,913 signatures. Most speakers at NextEra's June 2021 meeting opposed the plan.
 
 ## Local Context
 
-The board has three members. Kirsten Running-Marquardt (D, District 1, chair) is unopposed on November 3. Sami Scheetz (D, District 2), a former state representative appointed in April 2025 after Ben Rogers resigned, faces Rex W. Meyer (R), a retired civil engineer whose campaign, according to a [candidate tracker](https://theballotbrief.com/state/iowa/linn-county/board-of-supervisors-district-2), emphasizes county oversight of data centers, power plants and CO2 pipelines. Brandy Zumbach Meisheid (R, District 3), who succeeded her father Louie Zumbach in 2025, serves through 2028. Running-Marquardt has said, "I am still committed to renewable energy here in Linn County." Scheetz opposed the data-center moratorium, saying it would suspend the county's new ordinance "before we have ever tested it."
+The board has three members. Kirsten Running-Marquardt (D, District 1, chair) is unopposed on November 3. Sami Scheetz (D, District 2), a former state representative appointed in April 2025 after Ben Rogers resigned, faces Rex W. Meyer (R), a retired civil engineer whose campaign, according to a [candidate tracker](https://theballotbrief.com/state/iowa/linn-county/board-of-supervisors-district-2), emphasizes county oversight of data centers, power plants and CO2 pipelines. Brandy Zumbach Meisheid (R, District 3), who succeeded her father Louie Zumbach in 2025, serves through 2028. Scheetz opposed the data-center moratorium, saying it would suspend the county's new ordinance "before we have ever tested it."
 
 The [official candidate list](https://gis.linncountyiowa.gov/web-data/elections/year/2026/20261103GE/candidates.pdf) shows only those two supervisor races. A July 2026 [push](https://www.kwwl.com/news/data-center-pause-sparks-push-to-expand-linn-county-board/article_b600ad75-5c26-47b0-a01b-ed9261fdb2ce.html) to expand the board to five members followed the moratorium vote; we could not confirm whether it reached the ballot.
 
 ## State Context
 
-Iowa has no state law setting wind or solar setbacks, and its 2026 attempt failed. HSB 692, renumbered HF 2580, would have capped county wind setbacks at three times turbine height, set a floor on local sound limits, allowed counties only one six-month moratorium, barred bans based on soil quality and barred eminent domain for renewable facilities. Clean-energy groups supported it and the Iowa Farm Bureau opposed it; it [advanced](https://www.kcrg.com/2026/02/12/iowa-lawmakers-seek-standardize-county-regulation-renewable-energy-facilities/) through House committees in February but did not pass. Researchers [expect](https://www.timesrepublican.com/news/todays-news/2026/08/researchers-expect-biggest-year-yet-for-energy-siting-bills-in-2027/) 2027 to bring the most siting bills yet.
+Iowa has no state law setting wind or solar setbacks, and its 2026 attempt failed. HSB 692, renumbered HF 2580, would have capped county wind setbacks at three times turbine height, set a floor on local sound limits, allowed counties only one six-month moratorium, barred bans based on soil quality and barred eminent domain for renewable facilities. Clean-energy groups supported it and the Iowa Farm Bureau opposed it; it [advanced](https://www.kcrg.com/2026/02/12/iowa-lawmakers-seek-standardize-county-regulation-renewable-energy-facilities/) through House committees in February but did not pass. Researchers [expect](https://www.timesrepublican.com/news/todays-news/2026/08/researchers-expect-biggest-year-yet-for-energy-siting-bills-in-2027/) 2027 to be the biggest year yet for energy siting bills; Iowa advocates quoted in the same report plan to defend the Commission's power to override local ordinances.
 
-The state lever already in law is the certificate. Any plant of 25 MW or more, or storage of 25 MWh or more, needs a certificate from the Iowa Utilities Commission, and Iowa Code 476A.5 lets the Commission certify a project even where county zoning would forbid it. In April 2026 the Commission certified Ranger Power's River City Energy project in Cerro Gordo County despite a county ordinance banning utility-scale solar, wind and storage on farmland; the county [sued](https://www.kcrg.com/2026/07/25/cerro-gordo-county-sues-state-over-massive-solar-farm-development/) in Polk County District Court on July 13, 2026. Linn's own certificates have so far been conditioned on county zoning approval.
+The state lever already in law is the certificate. Any plant of 25 MW or more, or storage of 25 MWh or more, needs a certificate from the Iowa Utilities Commission, and Iowa Code 476A.5 lets the Commission certify a project even where county zoning would forbid it. In April 2026 the Commission certified Ranger Power's River City Energy project in Cerro Gordo County over county zoning that the developer called a ban on utility-scale solar, wind and storage on farmland (the county says it is not a ban). The county [sued](https://www.kaaltv.com/?p=1152267) in Polk County District Court on July 13, 2026. Linn's own certificates have so far been conditioned on county zoning approval.
 
 ## Sources
 
@@ -242,11 +242,11 @@ S3. MIT Election Data and Science Lab, County Presidential Election Returns 2000
 
 S4. U.S. Energy Information Administration, Preliminary Monthly Electric Generator Inventory (EIA-860M), August 2026. https://www.eia.gov/electricity/data/eia860m/
 
-S5. Lawrence Berkeley National Laboratory, Queued Up, 2026 edition (data through 2025), via pricephillips/renewable-opposition queue_projects.csv.
+S5. Lawrence Berkeley National Laboratory, Queued Up (data through 2025), via pricephillips/renewable-opposition queue_projects.csv.
 
 S6. Linn County, Utility-scale solar siting ordinance (as published by Clean Energy Districts of Iowa), 2023. https://www.cleanenergydistricts.org/wp-content/uploads/2024/03/Linn-County-Utility-Scale-Solar-Siting-Ordinance.pdf
 
-S7. KCRG, Linn County Board of Supervisors approves Coggon Solar Project 2-1, Jan. 25, 2022. https://www.kcrg.com/2022/01/25/linn-county-board-supervisors-approves-coggon-solar-project-2-1/
+S7. KCRG, Linn County Board of Supervisors approves Coggon Solar Project 2-1, Jan. 24, 2022. https://www.kcrg.com/2022/01/25/linn-county-board-supervisors-approves-coggon-solar-project-2-1/
 
 S8. The Gazette, Linn County supervisors vote 2-1 to approve Coggon Solar project, Jan. 2022. https://www.thegazette.com/local-government/linn-county-supervisors-vote-2-1-to-approve-coggon-solar-project/
 
@@ -272,15 +272,15 @@ S18. Corridor Business Journal, Linn supervisors cast final vote for new wind en
 
 S19. Corridor Business Journal, Duane Arnold Solar coverage index. https://corridorbusiness.com/tag/duane-arnold-solar
 
-S20. Change.org, Stop industrial scale solar on agricultural and residential rural land, Apr. 2021. https://www.change.org/p/linn-county-board-of-supervisors-stop-industrial-scale-solar-on-agricultural-and-residential-rural-land
+S20. Change.org, Stop Industrial-Scale Solar on Agricultural - Rural Land in Linn County, IA, Apr. 18, 2021. https://www.change.org/p/linn-county-board-of-supervisors-stop-industrial-scale-solar-on-agricultural-and-residential-rural-land
 
-S21. KCRG, People learn more about rezoning process for 3,500-acre solar farm proposal in Linn County, June 3, 2021. https://www.kcrg.com/2021/06/03/people-learn-more-about-rezoning-process-for-3500-acre-solar-farm-proposal-in-linn-county
+S21. KCRG, People learn more about rezoning process for 3,500-acre solar farm proposal in Linn County, June 2, 2021. https://www.kcrg.com/2021/06/03/people-learn-more-about-rezoning-process-for-3500-acre-solar-farm-proposal-in-linn-county
 
 S22. Corridor Business Journal, Linn County zoning commission votes to recommend rezoning for Duane Arnold plant site, Dec. 16, 2025. https://corridorbusiness.com/?p=130313
 
-S23. KCRG, Nuclear Regulatory Commission hosts community meeting on Duane Arnold restart, Apr. 15, 2026. https://kcrg.com/2026/04/15/nuclear-regulatory-commission-hosts-community-meeting-duane-arnold-restart/
+S23. KCRG, Nuclear Regulatory Commission hosts community meeting on Duane Arnold restart, Apr. 14, 2026. https://kcrg.com/2026/04/15/nuclear-regulatory-commission-hosts-community-meeting-duane-arnold-restart/
 
-S24. Northeast Times, U.S. government backs Iowa nuclear restart with $1.9 billion loan tied to Google, Sept. 8, 2026. https://northeasttimes.com/2026/09/08/u-s-government-backs-iowa-nuclear-restart-with-1-9-billion-loan-tied-to-google/
+S24. World Nuclear News, US Department of Energy closes loan for Duane Arnold restart, Sept. 8, 2026. https://world-nuclear-news.org/articles/us-department-of-energy-closes-loan-for-duane-arnold-restart
 
 S25. Corridor Business Journal, Linn County data center moratorium approved: how the board got to 2-1, July 2026. https://corridorbusiness.com/?p=134105
 
@@ -294,11 +294,11 @@ S29. Linn County Auditor, November 3, 2026 general election candidate list. http
 
 S30. The Ballot Brief, Linn County Board of Supervisors District 2. https://theballotbrief.com/state/iowa/linn-county/board-of-supervisors-district-2
 
-S31. KCRG / Iowa Capital Dispatch, Iowa lawmakers seek to standardize county regulation of renewable energy facilities, Feb. 12, 2026. https://www.kcrg.com/2026/02/12/iowa-lawmakers-seek-standardize-county-regulation-renewable-energy-facilities/
+S31. KCRG / Iowa Capital Dispatch, Iowa lawmakers seek to standardize county regulation of renewable energy facilities, Feb. 11, 2026. https://www.kcrg.com/2026/02/12/iowa-lawmakers-seek-standardize-county-regulation-renewable-energy-facilities/
 
 S32. Iowa Capital Dispatch / Times-Republican, Researchers expect "biggest year yet" for energy siting bills in 2027, Aug. 2026. https://www.timesrepublican.com/news/todays-news/2026/08/researchers-expect-biggest-year-yet-for-energy-siting-bills-in-2027/
 
-S33. KCRG, Cerro Gordo County sues state over massive solar farm development, July 25, 2026. https://www.kcrg.com/2026/07/25/cerro-gordo-county-sues-state-over-massive-solar-farm-development/
+S33. KCRG, Cerro Gordo County sues state over massive solar farm development, July 24, 2026. https://www.kcrg.com/2026/07/25/cerro-gordo-county-sues-state-over-massive-solar-farm-development/
 
 S34. Iowa Code chapter 476A (electric power generation and transmission). https://www.legis.iowa.gov/docs/code/476A.pdf
 
@@ -308,22 +308,28 @@ S36. Cedar County, Ordinance No. 65, Regulations for utility-scale solar energy 
 
 S37. Hawthorn platform, pricephillips/renewable-opposition, commit 65df5c9 (restrictions, contested_projects, cases, county_summary, county_covariates, queue_projects, facilities, county_adjacency), and the provisional county restriction model fitted October 16, 2026 under config/county_model_registration.json.
 
+S38. Alliant Energy, news release on renaming Duane Arnold Solar as Pleasant Creek Solar, Apr. 28, 2025. https://www.alliantenergy.com/news/news-center/2025/04/042825-pleasantcreek
+
+S39. KAAL, report on Cerro Gordo County's petition for judicial review of the River City Energy certificate, July 2026. https://www.kaaltv.com/?p=1152267
+
+S40. Corridor Business Journal, Linn County sets dates for readings of updated utility-scale solar ordinance, 2023. https://corridorbusiness.com/linn-county-sets-dates-for-readings-of-updated-utility-scale-solar-ordinance/
+
 ## Image credits
 
 Page 1 county map: David Benbennick, "Map of Iowa highlighting Linn County," Wikimedia Commons, public domain. https://commons.wikimedia.org/wiki/File:Map_of_Iowa_highlighting_Linn_County.svg
 
 [^range]: With a likely range of 0.36 to 0.40 (10th to 90th percentile of 200 bootstrap refits), against a national base rate of 0.24.
 
-[^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016, across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
+[^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016 (0.010 on the gate's equal-width bins), across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
 
 [^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Linn's 2022 to 2023 solar moratorium would have scored 4 while in force; it expired September 30, 2023 and is not counted.
 
-[^bench]: Percentiles are mid-rank: the share of counties below Linn plus half of ties. The margin row ranks Democratic lean. Records are as published by the platform on October 13, 2026 (two restriction instruments and two contested projects). Demographic rows show the model inputs (ACS 2020-2024).
+[^bench]: Percentiles are mid-rank: the share of counties below Linn plus half of ties. The margin row ranks Democratic lean. Opposition records add Duane Arnold Solar IV, which the platform's published data does not yet hold, to its two restriction instruments and two contested projects; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024). Linn's 2.5 MW of wind is a single turbine that EIA lists as retired in 2025; the model's wind input counts operating and retired capacity.
 
 [^lift]: Lift is the median cross-validated coefficient times Linn's standardized, transformed value, summed to 0.80 log-odds above an average county. Share of movement is each trait's absolute lift as a share of the total. Averages are on the model's log scale.
 
 [^peers]: The peers are Peoria and St. Clair (IL), Pitt (NC), York (ME), Southeastern Connecticut (CT), Dauphin (PA), Shawnee (KS), St. Joseph (IN), La Crosse (WI) and Rensselaer (NY); Dauphin scores highest at 0.79.
 
-[^neighbors]: Scores describe county profiles, not restriction status. Cedar's severe record is its 2023 solar ordinance (1,250 feet from residences, half a mile between projects); Buchanan's is a battery-storage moratorium adopted January 2026 and extended to December 31, 2027. Jones County adopted battery-storage and data-mining moratoriums 5-0 on October 15, 2024, which are not yet in the platform. Interconnection requests are from LBNL Queued Up (data through 2025); population is the ACS 2020-2024 model input.
+[^neighbors]: Scores describe county profiles, not restriction status. Cedar's severe record is its 2023 solar ordinance (1,250 feet from residences, half a mile between projects); Buchanan's is a battery-storage moratorium adopted January 2026 and extended to December 31, 2027. Jones County adopted battery-storage and data-mining moratoriums 5-0 on October 15, 2024, running through April 15, 2025; we found no extension, and neither is in the platform. Interconnection requests are from LBNL Queued Up (data through 2025); population is the ACS 2020-2024 model input.
 
 [^evidence]: Distribution across 3,222 counties and county equivalents in the platform's published data as of October 13, 2026.

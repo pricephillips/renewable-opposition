@@ -24,7 +24,7 @@ Developers come for retired power-plant sites with high-voltage connections, a H
 
 ## Summary
 
-Harris County, home to about 5 million people in and around Houston, has 776 MW of batteries operating and held about 7.8 GW of interconnection requests at the end of 2025. Its suburban cities have moved from pauses to permanent rules: Pasadena replaced its moratorium with a storage code in April 2025, Tomball denied a project, and Baytown approved two over objections. Harris's County Restriction Score of 0.36 places it in decile 8 of 10, and its evidence record is Verified.
+Harris County, home to about 5 million people in and around Houston, has 776 MW of batteries operating and held about 7.1 GW of active interconnection requests at the end of 2025. Its suburban cities have moved from pauses to permanent rules: Pasadena replaced its moratorium with a storage code in April 2025, Tomball denied a project, and Baytown approved two over objections. Harris's County Restriction Score of 0.36 places it in decile 8 of 10, and its evidence record is Verified.
 
 ## Hawthorn Intelligence Ratings
 
@@ -35,7 +35,7 @@ Harris County, home to about 5 million people in and around Houston, has 776 MW 
 | Score decile | **8 of 10** | Eighth tenth of 3,144 U.S. counties (scores 0.280 to 0.386); 33.4 percent of decile 8 counties have a severe restriction |
 | National and Texas standing | **78^th^ percentile; 18^th^ of 254** | Share of U.S. counties scoring below Harris; rank among Texas counties |
 | Evidence status | **Verified** | Pasadena's moratorium and storage code read in the city's minutes and ordinance packet |
-| Project outcome tiers | **1 blocked; 2 advanced** | Tomball denial (2023); Baytown's Massey and Claire approvals (2025) |
+| Project outcome tiers | **1 blocked; 2 approved (1 with conditions)** | Tomball denial (2023); Baytown's Massey and Claire approvals (2025) |
 | Opposition intensity | **95^th^ percentile (records); 56^th^ (per 100,000 residents)** | Two restriction instruments and three contested projects, against all U.S. counties |
 
 Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. Opposition intensity counts the records this review added; the platform's published data held one record for Harris on October 13. "How to Read Hawthorn Intelligence Reports" below defines each scale.
@@ -43,7 +43,7 @@ Ratings as of October 16, 2026. The score is a calibrated, cross-validated resem
 ## At a glance
 
 - [Population](https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv) 5,045,026 (July 2025 estimate) on 1,707 square miles; the most populous county in Texas and third in the nation
-- Median household income $74,983; 34.2 percent of adults 25 and older hold a bachelor's degree (ACS 2020-2024)
+- Median household income $74,983; 34.2 percent of adults 25 and older hold a bachelor's degree or higher (ACS 2020-2024)
 - [2024](https://electionlab.mit.edu/data) presidential vote: Harris 51.9 percent, Trump 46.4 percent
   - Partisan trend: the Democratic margin went from 12.3 points in 2016 to 13.3 in 2020, then narrowed to 5.5 in 2024
 - Operating storage and solar: 776 MW of batteries at 12 plants and 72 MW of solar ([EIA-860M, August 2026](https://www.eia.gov/electricity/data/eia860m/)); no wind
@@ -94,7 +94,7 @@ Harris sits in the 78^th^ percentile nationally, the 93^rd^ in Texas, and the 51
 
 **Scale**
 
-The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 0.99). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Harris is in the eighth.
+The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 1.00). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Harris is in the eighth.
 
 Table 1: Hawthorn Intelligence Restriction Scale[^deciles]
 
@@ -144,7 +144,7 @@ Table 3: Contribution of each model trait to Harris's score[^lift]
 
 Harris's record is in line with its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.39, and five of the ten have a severe restriction on record. Harris's five records put it in the 95^th^ percentile nationally by count; spread across five million residents, they come to 0.1 per 100,000, the 56^th^ percentile.
 
-**Comparable outcomes:** The platform records few decided contested projects in Texas, mostly rural wind and solar fights. Around Houston, battery outcomes have split: Tomball (2023) and Katy (2024, in Waller County) denied projects near homes; Baytown (2025) and League City (2024 to 2025) approved projects with conditions; and the large industrial-site projects in Houston and unincorporated Harris advanced without a recorded fight. Only 7 of 575 contested projects nationally carry a date finer than a year, so we do not report decision timelines.
+**Comparable outcomes:** The platform records few decided contested projects in Texas, mostly rural wind and solar fights. Around Houston, battery outcomes have split: Tomball (2023) and Katy (2024, in Waller County) denied projects near homes; Baytown (2025) and League City (2024 to 2025) approved projects with conditions; and the large industrial-site projects in Houston and unincorporated Harris advanced without a recorded fight.
 
 Table 4: Neighboring counties[^neighbors]
 
@@ -320,11 +320,11 @@ Page 1 county map: Hawthorn Intelligence, drawn from U.S. Census Bureau 2024 cou
 
 [^range]: With a likely range of 0.31 to 0.39 (10th to 90th percentile of 200 bootstrap refits), against a national base rate of 0.24.
 
-[^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016, across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
+[^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016 (0.010 on the gate's equal-width bins), across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
 
 [^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Harris's own label rests on Pasadena's 2024 moratorium, which the platform lists as extended and in force; the city's minutes show it was replaced in April 2025 by Article XII, whose 500-foot residential setback would score 2. The label does not enter Harris's own out-of-fold score.
 
-[^bench]: Percentiles are mid-rank: the share of counties below Harris plus half of ties. The margin row ranks Democratic lean. Opposition records include the Pasadena storage code and the three contested projects this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024).
+[^bench]: Percentiles are mid-rank: the share of counties below Harris plus half of ties. The margin row ranks Democratic lean. Opposition records include the Pasadena storage code and the three contested projects this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024). Operating solar counts every EIA-860M plant that lists solar among its technologies, so Harris's 136 MW includes the battery half of the Liberty hybrid; solar alone is about 72 MW. Interconnection requests cover all statuses (about 7.1 GW was active at the end of 2025).
 
 [^lift]: Lift is the median cross-validated coefficient times Harris's standardized, transformed value, summed to 0.69 log-odds above an average county. Share of movement is each trait's absolute lift as a share of the total. Averages are on the model's log scale.
 

@@ -43,7 +43,7 @@ Ratings as of October 16, 2026. The score is a calibrated, cross-validated resem
 ## At a glance
 
 - [Population](https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv) 19,105 (July 2025 estimate) on 588 square miles; Columbus is the county seat
-- Median household income $57,668; 19.4 percent of adults 25 and older hold a bachelor's degree (ACS 2020-2024)
+- Median household income $57,668; 19.4 percent of adults 25 and older hold a bachelor's degree or higher (ACS 2020-2024)
 - [2024](https://electionlab.mit.edu/data) presidential vote: Trump 75.5 percent, Harris 22.6 percent
   - Partisan trend: the Republican margin widened from 48.5 points in 2016 to 50.1 in 2020 and 52.9 in 2024
 - Major nearby power asset: Liberty Utilities' (Empire District) Riverton plant, including a 268 MW combined-cycle gas unit converted in 2016, at the Riverton 161 kV substation
@@ -94,7 +94,7 @@ Cherokee sits in the 43^rd^ percentile nationally, the 37^th^ in Kansas, and the
 
 **Scale**
 
-The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 0.99). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Cherokee is in the fifth.
+The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 1.00). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Cherokee is in the fifth.
 
 Table 1: Hawthorn Intelligence Restriction Scale[^deciles]
 
@@ -144,7 +144,7 @@ Table 3: Contribution of each model trait to Cherokee's score[^lift]
 
 Cherokee's record runs well ahead of its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.13, and three of the ten have a severe restriction on record. Cherokee's 26 records per 100,000 residents sit in the 95^th^ percentile nationally.
 
-**Comparable outcomes:** The platform records seven decided contested projects in Kansas; six were recorded as blocked (86 percent), though no Kansas outcome has yet been confirmed by independent evidence. Within 40 miles, Apex's 300 MW Neosho Ridge Wind in Neosho County was built despite opposition and litigation and now operates. Only 7 of 575 contested projects nationally carry a date finer than a year, so we do not report decision timelines.
+**Comparable outcomes:** The platform records seven decided contested projects in Kansas; six were recorded as blocked (86 percent), though no Kansas outcome has yet been confirmed by independent evidence. Within 40 miles, Apex's 300 MW Neosho Ridge Wind in Neosho County was built despite opposition and litigation and now operates.
 
 Table 4: Neighboring counties[^neighbors]
 
@@ -302,7 +302,7 @@ Page 1 county map: David Benbennick, "Map of Kansas highlighting Cherokee County
 
 [^range]: With a likely range of 0.13 to 0.15 (10th to 90th percentile of 200 bootstrap refits), against a national base rate of 0.24.
 
-[^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016, across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
+[^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016 (0.010 on the gate's equal-width bins), across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
 
 [^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale; Cherokee's 2022 wind setback scores 3 and its December 2025 moratorium 4.
 
