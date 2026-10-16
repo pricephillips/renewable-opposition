@@ -1,5 +1,5 @@
 {"columns":["file","name","kind","rows","bytes"],"rows":[
-["parquet/build_info.parquet","build_info","table",14,2968],
+["parquet/build_info.parquet","build_info","table",14,2966],
 ["parquet/case_project.parquet","case_project","table",40,1645],
 ["parquet/contested_project.parquet","contested_project","table",579,183907],
 ["parquet/county.parquet","county","table",3222,17949],
