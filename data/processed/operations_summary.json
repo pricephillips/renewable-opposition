@@ -2,11 +2,11 @@
  "generated": "2026-10-16",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3352,
-  "severe": 1366,
-  "verified": 85,
+  "restriction_instruments": 3353,
+  "severe": 1367,
+  "verified": 86,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 943,
+  "severe_where_state_limits_local": 944,
   "projects": 575,
   "projects_confirmed": 145,
   "decided": {
@@ -52,7 +52,7 @@
    "with_restriction": 1267,
    "with_contested_project": 456,
    "with_siting_standard": 1158,
-   "with_negative_check": 2,
+   "with_negative_check": 1,
    "with_negative_check_and_no_record": 1,
    "with_neither": 1730
   }
@@ -101,7 +101,7 @@
    "by_reason": {}
   },
   "adjacency": {
-   "rows": 239
+   "rows": 243
   },
   "fips_misses": {
    "rows": 63,
@@ -113,20 +113,34 @@
   }
  },
  "promotion_trail": {
-  "decisions": 85,
+  "decisions": 87,
   "by_action": {
-   "promoted": 64,
+   "promoted": 66,
    "held": 13,
    "awaiting_review": 6,
    "rejected": 2
   },
   "by_file": {
-   "queue.csv": 37,
+   "queue.csv": 39,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
   "last": "2026-10-16",
   "recent": [
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "KY Nicholas County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "KY Nicholas County",
+    "reason": ""
+   },
    {
     "date": "2026-10-16",
     "file": "queue.csv",
@@ -168,31 +182,17 @@
     "action": "promoted",
     "what": "TX Pasadena",
     "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "held",
-    "what": "KS Cherokee County",
-    "reason": "status expired: the instrument is no longer in force, so it is not published"
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "awaiting_review",
-    "what": "KY Nicholas County",
-    "reason": "awaiting review by someone other than its drafter"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 23,
+   "promoted": 25,
    "rejected": 2,
    "confirmed": 3,
    "pending": 2,
-   "awaiting_review": 6,
-   "lead": 59
+   "awaiting_review": 5,
+   "lead": 58
   },
   "queue_by_entity": {
    "restriction": 52,
@@ -204,16 +204,16 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 82,
+  "snapshot_rows": 85,
   "snapshot_files": 5,
   "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-10-16",
   "latest": {
-   "restrictions": "3352",
-   "severe_restrictions": "1366",
-   "verified_restrictions": "85",
-   "multi_sector_restrictions": "84",
+   "restrictions": "3353",
+   "severe_restrictions": "1367",
+   "verified_restrictions": "86",
+   "multi_sector_restrictions": "85",
    "contested_projects": "575",
    "confirmed_outcomes": "145",
    "verified_projects": "148",
@@ -225,9 +225,9 @@
   }
  },
  "source_archive": {
-  "sources": 63,
+  "sources": 64,
   "archived": 11,
-  "archived_share": 0.175
+  "archived_share": 0.172
  },
  "evidence_checks": {
   "restriction_sources": {

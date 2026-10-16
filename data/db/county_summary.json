@@ -1084,7 +1084,7 @@
 ["21175","KY","Morgan",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["21177","KY","Muhlenberg",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["21179","KY","Nelson",true,0,0,0,0,0,null,0,0,0,0,0,1,0,null,null,null,"not_examined"],
-["21181","KY","Nicholas",true,1,1,1,0,1,4,0,0,0,0,0,0,0,"2026-10-09","B","2027-10-09","has_records"],
+["21181","KY","Nicholas",true,2,2,2,1,1,4,0,0,0,0,0,0,0,null,null,null,"has_records"],
 ["21183","KY","Ohio",true,2,1,0,0,0,3,0,0,0,0,9,0,0,null,null,null,"has_records"],
 ["21185","KY","Oldham",true,0,0,0,0,0,null,0,0,0,0,0,4,0,null,null,null,"not_examined"],
 ["21187","KY","Owen",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],

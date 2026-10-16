@@ -6,7 +6,7 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 0 | 0 |
+| restrictions | 2 | 0 | 0 |
 | contested_projects | 0 | 0 | 22 |
 | cases | 0 | 0 | 0 |
 | state_policies | 0 | 0 | 0 |
@@ -71,6 +71,13 @@ What the last build changed in `data/processed/`, compared with the previous com
 | contested_projects | con_7d53e55757 (Spotsylvania Solar Energy Center, VA) | severity_score | 2 | 1 |
 
 ## Detail
+
+### restrictions
+
+| @@ | id | state | jurisdiction |
+|---|---|---|---|
+| +++ | res_0ed993f262 | KY | Nicholas County |
+| +++ | res_6c30dff453 | KY | Nicholas County |
 
 ### contested_projects
 
