@@ -1,0 +1,78 @@
+{
+  "_comment": "Pre-registration for the county restriction model (docs/predictive_foundation_design.md, section 4). Committed before any model was fit; a change after the first fit is a new registration with its own date and reason, appended to amendments, never an edit in place. Only the label counts in docs/predictive_foundation_design.md (descriptive, no model) had been looked at when this was written.",
+  "registered": "2026-10-16",
+  "approved_plan": "Price approved the plan and its four decisions on 2026-10-15, including the prospective label as primary.",
+  "amendments": [],
+
+  "frame": "The 3,144 counties of the 50 states and DC in data/reference/county_covariates.csv.",
+  "labels": {
+    "builder": "scripts/county_labels.py, writing data/model/county_labels.csv",
+    "severe": "severity_score 3 or 4 in data/processed/restrictions.csv; pending instruments are capped at 2 and never count; NREL rows (status unknown) count as in force.",
+    "touches": "every county in county_fips_all: the county itself or a place within it.",
+    "year": "year of date_enacted_iso, else the first four-digit year in date_text; none means undated.",
+    "primary": {
+      "name": "new_severe_2022_2025",
+      "frame": "at_risk_2022 = 1: no dated severe restriction before 2022 and no undated severe restriction",
+      "positive": "the county's first severe restriction is dated 2022 to 2025",
+      "covariates_as_of": "end of 2021"
+    },
+    "secondary": [
+      {"name": "has_severe", "frame": "all counties", "positive": "any severe restriction",
+       "covariates_as_of": "latest"},
+      {"name": "has_severity_4", "frame": "all counties", "positive": "any severity 4 restriction (bans and moratoria)",
+       "covariates_as_of": "latest"}
+    ],
+    "held_back": {"name": "new_severe_2026", "use": "out-of-time check only: the primary model, refit on the full 2022 frame, scores the at-risk counties that had no severe restriction through 2025, and the 2026 first restrictions are compared with those scores. Never used to select or fit anything."}
+  },
+
+  "variables": {
+    "_note": "The pool the selection rule starts from. log means natural log; log1p means log(1 + x). Missing values (two counties) take the frame median. Every variable is standardized inside each training fold.",
+    "log_population": {"from": "county_covariates.population", "transform": "log", "leakage_class": "none",
+                       "as_of_note": "ACS 2020-2024 stands in for 2021: a slow-moving attribute, measured partly after the cut"},
+    "log_density": {"from": "county_covariates.pop_density_sqmi", "transform": "log", "leakage_class": "none",
+                    "as_of_note": "as log_population"},
+    "log_income": {"from": "county_covariates.median_hh_income", "transform": "log", "leakage_class": "none",
+                   "as_of_note": "as log_population"},
+    "pct_bachelors_plus": {"from": "county_covariates.pct_bachelors_plus", "transform": "none", "leakage_class": "none",
+                           "as_of_note": "as log_population"},
+    "margin": {"from": "county_covariates.margin_dr_2020 for the primary label, margin_dr_2024 for the snapshot labels",
+               "transform": "none", "leakage_class": "none"},
+    "log1p_solar_mw": {"from": "data/reference/facilities.csv: solar MW of plants operating or retired whose year is 2021 or earlier (primary) or any year (snapshot)",
+                       "transform": "log1p", "leakage_class": "none"},
+    "log1p_wind_mw": {"from": "as log1p_solar_mw, wind", "transform": "log1p", "leakage_class": "none"},
+    "neighbor_severe_share": {"from": "share of the county's neighbours (county_adjacency, 2024 boundaries) with a severe restriction dated before 2022 (primary) or at any date (snapshot)",
+                              "transform": "none", "leakage_class": "neighbor_outcome"},
+    "log1p_queue_mw": {"from": "data/reference/queue_projects.csv: solar, wind and storage MW of requests placed in the county with a request date before 2022 (primary) or any date (snapshot)",
+                       "transform": "log1p", "leakage_class": "none", "run": "queue"}
+  },
+  "not_used": {
+    "state siting law": "data/processed/state_policies.csv records today's law, and several states changed who decides after 2021 (Illinois and Michigan in 2023), so it cannot be measured as of 2021. State effects are handled by the state-grouped cross-validation instead.",
+    "data center events": "almost none are dated before 2022.",
+    "the county's own contested projects and restrictions": "Sabin collects project fights and restrictions in the same research pass, so a county's own record count measures where sources looked."
+  },
+  "runs": [
+    {"name": "facilities", "variables": "every pool variable except log1p_queue_mw"},
+    {"name": "queue", "variables": "every pool variable"}
+  ],
+
+  "method": {
+    "model": "L2-penalized logistic regression on standardized variables",
+    "cv": {"folds": 5, "repeats": 5, "stratified": true, "seed": 20261016},
+    "c_grid": [1.0, 0.3, 0.1, 0.03, 0.01],
+    "selection": "data-center-map's rule of 2026-08-26: at each C, backward elimination from the full pool, dropping while any coefficient changes sign across the 25 folds the variable that most evenly straddles zero (ties: smaller median magnitude, then name), never below 3 variables. A candidate is admissible when every coefficient keeps its sign in all 25 folds. Among admissible candidates: highest median AUC, then more variables, then smaller C. stability_cost (best median AUC of any candidate minus the admissible winner's) above 0.05 stops the run with no model.",
+    "blend": "not ported: the lead candidate alone is reported, because nothing here reaches a page.",
+    "recalibration": "logistic recalibration of the pooled out-of-fold logit, cross-fitted over 5 stratified folds so each county's calibrated score comes from a recalibration that did not see it.",
+    "state_grouped_cv": "the selected candidate refit with 5-fold cross-validation grouped by state, reported beside the stratified result.",
+    "morans_i": "on the residual (label minus calibrated score), row-standardized contiguity weights from county_adjacency, 999 permutations, seed 20261016. Diagnostic only."
+  },
+  "calibration_gate": {
+    "from": "data-center-map calibration_gate.py",
+    "ece_max": 0.15, "brier_skill_min": 0.05, "min_sample": 60, "min_positives": 20, "bins": 5,
+    "verdicts": "PROMOTE when all pass; otherwise HOLD with the reasons. A model that holds is still reported."
+  },
+  "sensitivity": [
+    {"name": "nrel_only", "what": "the primary label and frame recomputed from NREL rows alone (nrel_at_risk_2022, nrel_new_severe_2022_2025), the selected variables refit", "reading": "if a variable changes sign or the rank order of counties changes materially (Spearman below 0.7 between the two scores), the all-source result is reported as reflecting where sources looked"},
+    {"name": "without_nrel_year_positives", "what": "the primary frame without the counties whose positive label rests only on an NREL year (positive_rests_on_nrel_year), the selected variables refit"}
+  ],
+  "wording": "Scores are a resemblance to counties that enacted severe restrictions, never a probability that a county will restrict. No score reaches a page, county report or headline figure without a separate decision by Price."
+}

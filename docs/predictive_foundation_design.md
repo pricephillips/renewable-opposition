@@ -79,11 +79,11 @@ Exposure variables are computed by the model's feature builder from files alread
 
 ### Labels, pre-registered before any fit
 
-The label is fixed and committed (`config/county_model_registration.json`, dated) before the first fit, so that no later choice is made by looking at results. That was a lesson from data-center-map: its first frozen variable list shipped nothing and had to be re-registered, and a label polarity bug ("approved" counted as enacted) mislabelled 28 counties for weeks.
+The label is fixed and committed (`config/county_model_registration.json`, registered 2026-10-16) before the first fit, so that no later choice is made by looking at results. That was a lesson from data-center-map: its first frozen variable list shipped nothing and had to be re-registered, and a label polarity bug ("approved" counted as enacted) mislabelled 28 counties for weeks.
 
 | Label | Definition | Positives |
 |---|---|---|
-| **Primary, prospective** (`new_severe_2022_2025`) | Among counties with no dated severe restriction before 2022 and none undated: the county, or a place within it, enacted a restriction of severity 3 or 4 in 2022 to 2025 | 297 of about 2,747 (10.8%) |
+| **Primary, prospective** (`new_severe_2022_2025`) | Among counties with no dated severe restriction before 2022 and none undated: the county, or a place within it, enacted a restriction of severity 3 or 4 in 2022 to 2025 | 265 of 2,711 (9.8%; `scripts/county_labels.py`, 2026-10-16) |
 | Secondary, snapshot (`has_severe`) | Any in-force restriction of severity 3 or 4 in the county or a place within it | 747 of 3,144 (23.8%) |
 | Secondary, bans and moratoria (`has_severity_4`) | As above, severity 4 only | 453 of 3,144 (14.4%) |
 
