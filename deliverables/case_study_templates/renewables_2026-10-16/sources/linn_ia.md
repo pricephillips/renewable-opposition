@@ -35,10 +35,10 @@ Linn County, home to about 232,000 people around Cedar Rapids, approved two cont
 | Score decile | **8 of 10** | Eighth tenth of 3,144 U.S. counties (scores 0.280 to 0.386); 33.4 percent of decile 8 counties have a severe restriction |
 | National and Iowa standing | **80^th^ percentile; 40^th^ of 99** | Share of U.S. counties scoring below Linn; rank among Iowa counties |
 | Evidence status | **Verified** | The 2023 solar ordinance checked against a published copy of the instrument; no severe restriction on record |
-| Project outcome tiers | **0 blocked; 2 advanced; 1 pending** | Coggon and Duane Arnold Solar I and II approved and upheld; Duane Arnold Solar IV pending |
-| Opposition intensity | **95^th^ percentile (records); 67^th^ (per 100,000 residents)** | Two restriction instruments and three contested projects, against all U.S. counties |
+| Project outcome tiers | **0 blocked; 2 advanced** | Coggon and Duane Arnold Solar I and II approved and upheld |
+| Opposition intensity | **93^rd^ percentile (records); 65^th^ (per 100,000 residents)** | Two restriction instruments and two contested projects, against all U.S. counties |
 
-Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. Opposition intensity adds Duane Arnold Solar IV, found in this review, to the four records the platform published on October 13. "How to Read Hawthorn Intelligence Reports" below defines each scale.
+Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. Opposition intensity counts the four records the platform published on October 13. Duane Arnold Solar IV was reviewed and not added: the record of its one public meeting shows mixed comment, not opposition. "How to Read Hawthorn Intelligence Reports" below defines each scale.
 
 ## At a glance
 
@@ -119,8 +119,8 @@ Table 2: Linn against national, state and peer benchmarks[^bench]
 | **Measure** | **Linn** | **U.S. percentile** | **IA percentile** | **Peer median** |
 |---|---|---|---|---|
 | Restriction score | 0.39 | 80 | 60 | 0.41 |
-| Opposition records (this review) | 5 | 95 | 99 | 2 |
-| Records per 100,000 residents | 2.2 | 67 | 27 | 0.7 |
+| Opposition records | 4 | 93 | 97 | 2 |
+| Records per 100,000 residents | 1.7 | 65 | 26 | 0.7 |
 | Interconnection requests, MW (all years) | 1,705 | 78 | 87 | 823 |
 | Operating solar, MW | 204 | 93 | 98 | 40 |
 | Operating wind, MW | 2.5 | 84 | 49 | 0 |
@@ -143,7 +143,7 @@ Table 3: Contribution of each model trait to Linn's score[^lift]
 | Median household income | $77,649 ($65,870) | Higher raises score | 3 | +0.15 | 19% |
 | Operating wind capacity | 2.5 (1.3) | Higher raises score | 1 | +0.02 | 3% |
 
-Linn's record sits below its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.41, and four of the ten have a severe restriction on record. Linn has none in force: it approved contested projects, defended them in court and regulated rather than banned. Its five records put it in the 95^th^ percentile nationally by count, but per resident only the 27^th^ percentile in Iowa.
+Linn's record sits below its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.41, and four of the ten have a severe restriction on record. Linn has none in force: it approved contested projects, defended them in court and regulated rather than banned. Its four records put it in the 93^rd^ percentile nationally by count, but per resident only the 26^th^ percentile in Iowa.
 
 **Comparable outcomes:** The platform records seven decided contested projects in Iowa; four were recorded as blocked, though only two outcomes have been confirmed by independent evidence, and both are advances. Within 60 miles, the Waterworks Prairie Park solar lease in Iowa City (2020) and wind projects in Black Hawk and Fayette counties (2018) were recorded as blocked. Linn's own two decided projects both advanced.
 
@@ -185,7 +185,7 @@ Table 6: Outcome tiers
 | advanced_confirmed | Terminal approval; the project may proceed | Coggon Solar (January 2022; upheld June 2024); Duane Arnold Solar I and II (September 2022; suit dismissed July 2023) |
 | restricted_conditional | Terminal approval carrying binding conditions | None recorded (the two approvals above carried setback and bond conditions) |
 | blocked_confirmed | Terminal stop: denied or withdrawn | None |
-| pending | No terminal disposition yet | Duane Arnold Solar IV (220 MW solar, up to 180 MW storage) |
+| pending | No terminal disposition yet | None (Duane Arnold Solar IV is proposed, but its record shows no opposition) |
 
 **Trust tiers:** Model traits are tiered by exposure to detection bias. Tier 1 (operating wind capacity and interconnection requests, from federal and grid-operator records) carries the least. Tier 2 (neighbors' restrictions) inherits whatever the restriction record misses. Tier 3 (population and income) also tracks news coverage and is read with more caution (Table 3).
 
@@ -213,7 +213,7 @@ Table 6: Outcome tiers
 
 1. **Duane Arnold Solar I and II**, now Pleasant Creek Solar (developed by NextEra Energy Resources; owned by Alliant Energy): about 1,130 acres of panels within the 2,637-acre site near Palo. Rezoned September 6, 2022, 2-1; the Iowa Utilities Board issued generating certificates in November 2022; residents' suit [dismissed](https://corridorbusiness.com/lawsuit-against-duane-arnold-solar-projects-dismissed/) July 20, 2023. Federal records list 50 and 150 MW units near the site in operation.
 2. **Coggon Solar** (Clēnera; Central Iowa Power Cooperative as buyer): 100 MW, about $150 million. Approved 2-1 on January 24, 2022 with a 300-foot setback and a $2.7 million decommissioning bond; upheld by the Iowa Court of Appeals on June 5, 2024 (*Robinson v. Linn County Board of Supervisors*, No. 23-0705), which held that a rezoning is a legislative act reviewed only for whether it is "fairly debatable." Federal records list it as under construction.
-3. **Duane Arnold Solar IV** (NextEra): 220 MW of solar and up to 180 MW of storage on about 1,460 acres; public meeting July 24, 2024 under Iowa Utilities Commission docket GCU-2024-0002; no county or state decision found.
+3. **Duane Arnold Solar IV** (NextEra), proposed, not contested on the record: 220 MW of solar and up to 180 MW of storage on about 1,460 acres; at the July 24, 2024 public meeting under Iowa Utilities Commission docket GCU-2024-0002, speakers were roughly evenly split; no county or state decision found.
 
 ## Opposition
 
@@ -324,12 +324,12 @@ Page 1 county map: David Benbennick, "Map of Iowa highlighting Linn County," Wik
 
 [^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Linn's 2022 to 2023 solar moratorium would have scored 4 while in force; it expired September 30, 2023 and is not counted.
 
-[^bench]: Percentiles are mid-rank: the share of counties below Linn plus half of ties. The margin row ranks Democratic lean. Opposition records add Duane Arnold Solar IV, which the platform's published data does not yet hold, to its two restriction instruments and two contested projects; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024). Linn's 2.5 MW of wind is a single turbine that EIA lists as retired in 2025; the model's wind input counts operating and retired capacity.
+[^bench]: Percentiles are mid-rank: the share of counties below Linn plus half of ties. The margin row ranks Democratic lean. Records are as published by the platform on October 13, 2026 (two restriction instruments and two contested projects); Duane Arnold Solar IV was reviewed for this report and not counted. Demographic rows show the model inputs (ACS 2020-2024). Linn's 2.5 MW of wind is a single turbine that EIA lists as retired in 2025; the model's wind input counts operating and retired capacity.
 
 [^lift]: Lift is the median cross-validated coefficient times Linn's standardized, transformed value, summed to 0.80 log-odds above an average county. Share of movement is each trait's absolute lift as a share of the total. Averages are on the model's log scale.
 
 [^peers]: The peers are Peoria and St. Clair (IL), Pitt (NC), York (ME), Southeastern Connecticut (CT), Dauphin (PA), Shawnee (KS), St. Joseph (IN), La Crosse (WI) and Rensselaer (NY); Dauphin scores highest at 0.79.
 
-[^neighbors]: Scores describe county profiles, not restriction status. Cedar's severe record is its 2023 solar ordinance (1,250 feet from residences, half a mile between projects); Buchanan's is a battery-storage moratorium adopted January 2026 and extended to December 31, 2027. Jones County adopted battery-storage and data-mining moratoriums 5-0 on October 15, 2024, running through April 15, 2025; we found no extension, and neither is in the platform. Interconnection requests are from LBNL Queued Up (data through 2025); population is the ACS 2020-2024 model input.
+[^neighbors]: Scores describe county profiles, not restriction status. Cedar's severe record is its 2023 solar ordinance (1,250 feet from residences, half a mile between projects); Buchanan's is a battery-storage moratorium adopted January 2026 and extended to December 31, 2027. Jones County adopted a battery-storage moratorium 5-0 on October 15, 2024, running through April 15, 2025; the board's later minutes record no extension, and the platform's review queue now holds it as expired, which is not published. A data-mining moratorium adopted the same day is not a renewables record. Interconnection requests are from LBNL Queued Up (data through 2025); population is the ACS 2020-2024 model input.
 
 [^evidence]: Distribution across 3,222 counties and county equivalents in the platform's published data as of October 13, 2026.
