@@ -53,6 +53,11 @@
       "reason": "LBNL Queued Up interconnection requests with a solar, wind or storage part (CC BY 4.0), placed in 2024 counties (docs/predictive_foundation_design.md, step 3). The workbook is not committed; queued_up_manifest.csv records its URL, edition and SHA-256."
     },
     "data/reference/queued_up_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_queued_up.py"]},
+    "data/reference/queue_matches.csv": {
+      "layer": "derived", "writers": ["scripts/queue_matches.py"],
+      "reason": "Contested projects matched by name to their Queued Up requests, with the requests' dates; a match never changes an outcome (docs/predictive_foundation_design.md, step 3)."
+    },
+    "data/reference/queue_matches_report.md": {"layer": "derived", "writers": ["scripts/queue_matches.py"]},
 
     "data/county_fips_lookup.json": {
       "layer": "reference", "writers": [],

@@ -48,6 +48,8 @@ REFRESH = [
      "ACS, Gazetteer and MEDSL into data/reference/county_covariates.csv", True),
     ("fetch_queued_up", ["scripts/fetch_queued_up.py"],
      "LBNL Queued Up into data/reference/queue_projects.csv", True),
+    ("queue_matches", ["scripts/queue_matches.py"],
+     "contested projects matched to their Queued Up requests", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
 ]

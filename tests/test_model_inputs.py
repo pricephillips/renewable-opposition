@@ -268,3 +268,82 @@ def test_committed_queue_file_has_unique_ids_and_placed_rows():
     placed = [r for r in rows if r["county_fips"]]
     assert len(placed) / len(rows) > 0.9
     assert all(not r["county_miss"] for r in placed) and all(r["county_miss"] for r in rows if not r["county_fips"])
+
+
+# ── Queue matches ───────────────────────────────────────────────────────────
+
+import queue_matches as qm  # noqa: E402
+
+
+def queued(**kw) -> dict:
+    base = {"queue_project_id": "caiso:1", "project_name": "Fountain Wind", "state": "CA",
+            "county_fips": "06089", "technology": "wind", "capacity_mw": "216", "status": "active",
+            "request_date": "2015-04-30", "ia_date": "", "withdrawn_date": "", "operational_date": ""}
+    base.update(kw)
+    base["_core"] = qm.fm.core(base["project_name"])
+    base["_tech"] = qm.fm.techs(base["technology"])
+    return base
+
+
+def contested(**kw) -> dict:
+    base = {"id": "con_1", "source_record_id": "REC-1", "state": "CA", "county": "Shasta",
+            "project_name": "Fountain Wind Project", "technology": "wind", "capacity_mw": "216",
+            "county_fips_all": "06089", "outcome": "pending", "finality_evidence": "none"}
+    base.update(kw)
+    return base
+
+
+def by_state(*reqs):
+    out = {}
+    for r in reqs:
+        out.setdefault(r["state"], []).append(r)
+    return out
+
+
+def test_several_queue_positions_stay_one_strong_match_with_their_date_range():
+    (row,) = qm.match_rows([contested()], by_state(
+        queued(),
+        queued(queue_project_id="caiso:2", project_name="Fountain Wind 2", status="withdrawn",
+               request_date="2012-01-10", withdrawn_date="2014-06-01")))
+    assert row["match"] == "strong" and row["n_requests"] == 2
+    assert row["queue_project_ids"] == "caiso:1;caiso:2"
+    assert (row["first_request_date"], row["last_withdrawn_date"]) == ("2012-01-10", "2014-06-01")
+    assert row["queue_status"] == "active" and row["conflict"] == ""
+
+
+def test_other_county_technology_or_size_weakens_or_drops_the_match():
+    assert qm.match_rows([contested()], by_state(queued(county_fips="06035")))[0]["match"] == "possible"
+    assert qm.match_rows([contested()], by_state(queued(technology="solar"))) == []
+    far = qm.match_rows([contested()], by_state(queued(capacity_mw="2000")))[0]
+    assert far["match"] == "possible" and "a different capacity" in far["matched_on"]
+    assert qm.match_rows([contested()], by_state(queued(state="NV"))) == []
+
+
+def test_unnamed_requests_are_never_candidates(tmp_path):
+    path = tmp_path / "q.csv"
+    fields = ["queue_project_id", "project_name", "state", "county_fips", "technology", "capacity_mw"]
+    qm.write_csv(path, [{"queue_project_id": "a", "project_name": "", "state": "CA", "county_fips": "06089",
+                         "technology": "wind", "capacity_mw": "216"},
+                        {"queue_project_id": "b", "project_name": "Solar 1", "state": "CA",
+                         "county_fips": "06089", "technology": "solar", "capacity_mw": "5"}], fields)
+    assert qm.load(path) == {}
+
+
+@pytest.mark.parametrize("outcome,status,flag", [
+    ("blocked_unverified", "operational", "is operational"),
+    ("advanced_confirmed", "withdrawn", "every matched queue request was withdrawn"),
+    ("pending", "withdrawn", "every matched queue request was withdrawn"),
+    ("needs_review", "operational", "is operational"),
+    ("blocked_confirmed", "withdrawn", ""),
+    ("advanced_confirmed", "operational", ""),
+    ("pending", "active", ""),
+])
+def test_conflicts_with_the_published_outcome(outcome, status, flag):
+    got = qm.conflict(outcome, status)
+    assert (flag in got) if flag else got == ""
+
+
+def test_group_status_prefers_operational_then_still_queued():
+    assert qm.group_status([{"status": "withdrawn"}, {"status": "operational"}]) == "operational"
+    assert qm.group_status([{"status": "withdrawn"}, {"status": "suspended"}]) == "active"
+    assert qm.group_status([{"status": "withdrawn"}]) == "withdrawn"
