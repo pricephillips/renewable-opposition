@@ -21,16 +21,16 @@ Four county case studies on wind, solar and battery-storage siting risk, written
 
 ## The restriction score is provisional
 
-The repository's own county model (docs/predictive_foundation_design.md, step 2) is still being built, and its registration says no score reaches a report without a separate decision. These case studies needed a score to match the Coweta form, so `tools/fit_county_model.py` fits the registered method (`config/county_model_registration.json` on the step 2 branch) to the `has_severe` snapshot label: L2 logistic regression, 5 x 5 repeated cross-validation, the sign-stability selection rule and cross-fitted recalibration. It passes the registered calibration gate (cross-validated AUC (area under the ROC curve) 0.78, 0.81 with whole states held out; Brier (mean squared error) skill 0.20; expected calibration error 0.016). The prospective label, the registered primary, fits weaker and holds at the gate (Brier skill 0.047), so the reports use the snapshot label, as the Coweta model did. Replace these scores with the step 2 model's once it is promoted.
+The repository's own county model (docs/predictive_foundation_design.md, step 2) is still being built, and its registration says no score reaches a report without a separate decision. These case studies needed a score to match the Coweta form, so `tools/fit_county_model.py` fits the registered method (`config/county_model_registration.json` on the step 2 branch) to the `has_severe` snapshot label: L2 logistic regression, 5 x 5 repeated cross-validation, the sign-stability selection rule and cross-fitted recalibration. It passes the registered calibration gate (cross-validated AUC (area under the ROC curve) 0.78, 0.81 with whole states held out; Brier (mean squared error) skill 0.20; expected calibration error 0.010 on the gate's equal-width bins, 0.016 on equal-count bins). The prospective label, the registered primary, fits weaker and holds at the gate (Brier skill 0.047), so the reports use the snapshot label, as the Coweta model did. Replace these scores with the step 2 model's once it is promoted.
 
 ## Corrections to the platform's data found in this review
 
 These are in the reports but not yet in the database; each needs a review row.
 
 - **Nicholas, KY:** Ordinance 06/2024-Solar (June 14, 2024; 2,000-foot setback from non-participating property lines and public roads) and Ordinance September-2026-18-01 (a one-year solar moratorium, September 18, 2026), both read in Kentucky Siting Board Case 2026-00256, which also opens a contested project, South Fork Solar. The October 9 negative check is superseded.
-- **Cherokee, KS:** the 2021 wind moratorium and the commercial solar moratorium chain (Resolution 16-2024, June 10, 2024; Resolution 23-2024; Resolution 20-2025; extended in 2026 to March 31, 2027).
+- **Cherokee, KS:** the 2021 wind moratorium and the commercial solar moratorium chain (Resolution 16-2024, June 10, 2024; Resolution 21-2024; Resolution 23-2024; Resolution 20-2025, which expired July 1, 2026). The March 31, 2027 date belongs to Resolution 11-2026 (June 8, 2026), which re-adopted the R-27-2025 roads and infrastructure moratorium the platform already holds.
 - **Harris, TX:** Pasadena's battery-storage moratorium is not in force. Ordinance 2025-082 (April 1, 2025) replaced it with Article XII, Energy Storage Systems. Contested projects: Tomball (denied 2023) and Baytown's Massey and Claire projects (approved 2025).
-- **Linn, IA:** Duane Arnold Solar IV (pending) and Jones County's October 15, 2024 battery-storage moratorium, a neighbor.
+- **Linn, IA:** Duane Arnold Solar IV (pending) and Jones County's October 15, 2024 battery-storage moratorium, a neighbor (it ran through April 15, 2025; no extension found).
 
 ## Using these as templates
 
