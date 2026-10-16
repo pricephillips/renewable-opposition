@@ -1,6 +1,6 @@
 # Predictive foundation: design
 
-**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py` and `scripts/fetch_queued_up.py`, run monthly by `model-inputs.yml`. Step 2 and the queue matches are not built yet. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
+**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py`, `scripts/fetch_queued_up.py` and `scripts/queue_matches.py`, run monthly by `model-inputs.yml`. Step 2 is being built. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
 
 `national_database_design.md` (section 2) lists "scores or predictions" as a non-goal, and `pipeline_comparison.md` ("Deliberately not adopted") holds predictive models back "until there is a decided-project universe with dates". This plan does not change the dashboard. It builds internal models and a project universe, and nothing it produces reaches a page until Price decides that separately (section 6, decision 1).
 
