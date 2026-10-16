@@ -2,7 +2,11 @@
   "_comment": "Pre-registration for the county restriction model (docs/predictive_foundation_design.md, section 4). Committed before any model was fit; a change after the first fit is a new registration with its own date and reason, appended to amendments, never an edit in place. Only the label counts in docs/predictive_foundation_design.md (descriptive, no model) had been looked at when this was written.",
   "registered": "2026-10-16",
   "approved_plan": "Price approved the plan and its four decisions on 2026-10-15, including the prospective label as primary.",
-  "amendments": [],
+  "amendments": [
+    {"date": "2026-10-16", "after_first_fit": true,
+     "change": "log1p_solar_mw and log1p_wind_mw as of 2021: a retired plant counts when it retired after 2021, not when its year is 2021 or earlier.",
+     "reason": "For a retired plant, facilities.csv's year is EIA's retirement year, not its operating year, so the registered wording counted plants already closed by the cut (104) and missed plants still running then (80). Found while checking the first fit; 184 plants, 2.5 GW in all. The snapshot definition (operating or retired, any year) is unchanged."}
+  ],
 
   "frame": "The 3,144 counties of the 50 states and DC in data/reference/county_covariates.csv.",
   "labels": {

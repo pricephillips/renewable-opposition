@@ -50,6 +50,10 @@ REFRESH = [
      "LBNL Queued Up into data/reference/queue_projects.csv", True),
     ("queue_matches", ["scripts/queue_matches.py"],
      "contested projects matched to their Queued Up requests", True),
+    ("county_labels", ["scripts/county_labels.py"],
+     "county restriction model labels into data/model/county_labels.csv", True),
+    ("county_restriction_model", ["scripts/county_restriction_model.py"],
+     "the registered county restriction model (internal outputs in data/model/)", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
 ]

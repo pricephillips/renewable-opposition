@@ -17,3 +17,6 @@ openpyxl==3.1.5
 duckdb==1.5.6
 # Runs the tests in parallel in CI (validate.yml: python -m pytest -n 2 --dist loadfile).
 pytest-xdist>=3.8
+# The county restriction model (scripts/county_restriction_model.py; plan decision 3, 2026-10-15).
+numpy>=2.2
+scikit-learn>=1.6

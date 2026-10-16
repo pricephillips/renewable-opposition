@@ -55,3 +55,68 @@ def test_registration_names_the_labels_the_builder_writes():
     assert set(names) <= set(cl.FIELDS)
     assert reg["calibration_gate"]["ece_max"] == 0.15 and reg["method"]["cv"] == \
         {"folds": 5, "repeats": 5, "stratified": True, "seed": 20261016}
+
+
+# ── Selection rule and calibration gate ─────────────────────────────────────
+
+import numpy as np  # noqa: E402
+import pytest  # noqa: E402
+
+import calibration_gate as cg  # noqa: E402
+import county_restriction_model as crm  # noqa: E402
+
+
+def test_sign_stability_and_which_variable_goes_first():
+    assert crm.is_sign_stable([0.2, 0.9]) and crm.is_sign_stable([-0.1, -0.3])
+    assert not crm.is_sign_stable([-0.1, 0.3]) and not crm.is_sign_stable([0.0, 0.3]) and not crm.is_sign_stable([])
+    folds = {"a": [0.5, 0.6], "b": [-0.2, 0.2], "c": [-0.1, 0.4]}
+    # b straddles zero evenly (instability 1.0), c less so (0.25): b goes first.
+    assert crm.least_trustworthy(folds) == "b"
+    assert crm.least_trustworthy({"a": [0.5, 0.6]}) is None
+
+
+def test_selection_keeps_signal_and_drops_noise():
+    rng = np.random.default_rng(1)
+    x = rng.normal(size=(600, 4))
+    y = (x[:, 0] - x[:, 1] + rng.normal(scale=0.8, size=600) > 1.0).astype(int)
+    sel = crm.select(x, y, ["s1", "s2", "n1", "n2"], ["s1", "s2", "n1", "n2"])
+    ch = sel["chosen"]
+    assert ch is not None and not sel["stopped"] and ch["sign_stable"]
+    assert {"s1", "s2"} <= set(ch["variables"]) and len(ch["variables"]) >= crm.MIN_VARS
+    assert np.median(ch["coefs"]["s1"]) > 0 > np.median(ch["coefs"]["s2"])
+    assert ch["auc_median"] > 0.8
+
+
+def test_gate_promotes_calibrated_skill_and_holds_otherwise():
+    y = [1] * 30 + [0] * 70
+    good = [0.8] * 30 + [0.1] * 70
+    assert cg.gate(good, y)["verdict"] == "PROMOTE"
+    flat = [0.3] * 100
+    held = cg.gate(flat, y)
+    assert held["verdict"] == "HOLD" and any("NO_SKILL" in r for r in held["reasons"])
+    small = cg.gate([0.9] * 10 + [0.1] * 40, [1] * 10 + [0] * 40)
+    assert any("INSUFFICIENT_DATA: n 50" in r for r in small["reasons"])
+    assert any("positives 10" in r for r in small["reasons"])
+    over = cg.gate([0.95] * 100, y)
+    assert any("MISCALIBRATED" in r for r in over["reasons"])
+
+
+def test_ece_weights_bins_by_size():
+    assert cg.ece([0.1, 0.1, 0.9, 0.9], [0, 0, 1, 1]) == pytest.approx(0.1)
+
+
+def test_exposure_counts_plants_operating_at_the_cut(monkeypatch):
+    plants = [
+        {"status": "operating", "county_fips": "01001", "year": "2015", "capacity_mw": "10", "technology": "solar"},
+        {"status": "operating", "county_fips": "01001", "year": "2023", "capacity_mw": "50", "technology": "solar"},
+        # Retired in 2019: closed before the cut. Retired in 2024: running at it.
+        {"status": "retired", "county_fips": "01001", "year": "2019", "capacity_mw": "7", "technology": "wind"},
+        {"status": "retired", "county_fips": "01001", "year": "2024", "capacity_mw": "3", "technology": "wind"},
+        {"status": "planned", "county_fips": "01001", "year": "2020", "capacity_mw": "99", "technology": "wind"},
+    ]
+    queue = [{"county_fips": "01001", "request_date": "2020-05-01", "solar_mw": "100", "wind_mw": "",
+              "storage_mw": "20"},
+             {"county_fips": "01001", "request_date": "2023-05-01", "solar_mw": "300", "wind_mw": "", "storage_mw": ""}]
+    monkeypatch.setattr(crm, "read_csv", lambda path: plants if path == crm.FACILITIES_PATH else queue)
+    assert crm.exposure(2021)["01001"] == {"solar": 10.0, "wind": 3.0, "queue": 120.0}
+    assert crm.exposure(None)["01001"] == {"solar": 60.0, "wind": 10.0, "queue": 420.0}

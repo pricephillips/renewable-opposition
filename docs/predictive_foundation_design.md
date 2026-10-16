@@ -1,6 +1,6 @@
 # Predictive foundation: design
 
-**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py`, `scripts/fetch_queued_up.py` and `scripts/queue_matches.py`, run monthly by `model-inputs.yml`. Step 2 is being built. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
+**Status:** 2026-10-15. Price approved the plan and its four decisions on 2026-10-15 (section 6). Steps 1 and 3 are built: `scripts/fetch_county_covariates.py`, `scripts/fetch_queued_up.py` and `scripts/queue_matches.py`, run monthly by `model-inputs.yml`. Step 2 is built: `config/county_model_registration.json` (registered 2026-10-16, before the first fit, with one dated amendment), `scripts/county_labels.py` and `scripts/county_restriction_model.py`, refit monthly by the same workflow; results in `data/model/county_restriction_report.md`. This plan covers the first three steps toward forward-looking models in this repo: county covariates, a county restriction model, and a universe of proposed projects from LBNL Queued Up. Project-level models stay out of scope (section 7).
 
 `national_database_design.md` (section 2) lists "scores or predictions" as a non-goal, and `pipeline_comparison.md` ("Deliberately not adopted") holds predictive models back "until there is a decided-project universe with dates". This plan does not change the dashboard. It builds internal models and a project universe, and nothing it produces reaches a page until Price decides that separately (section 6, decision 1).
 
@@ -115,7 +115,7 @@ A second, smaller bias: NREL's ordinance year may be the latest amendment rather
 
 ### Outputs
 
-- `data/model/county_restriction_scores.csv`: calibrated out-of-fold score and interval for each county, per label.
+- `data/model/county_restriction_scores.csv`: calibrated out-of-fold score for each county, per label and run. Intervals are not built yet.
 - `data/model/county_restriction_report.md`: label counts, variables admitted and why, the stratified and state-grouped results, the gate verdict, the source sensitivity, Moran's I, and what the model may not be used to say.
 - `--selftest` on the model and gate scripts, and tests under `tests/` for the label builder (the polarity bug above gets a named test).
 
