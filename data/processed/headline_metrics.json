@@ -116,38 +116,38 @@
   "contested_projects": {
     "rows": 575,
     "projects": 575,
-    "confirmed_outcomes": 125,
+    "confirmed_outcomes": 145,
     "by_outcome": {
-      "advanced_confirmed": 55,
+      "advanced_confirmed": 66,
       "advanced_unverified": 23,
-      "blocked_confirmed": 70,
+      "blocked_confirmed": 79,
       "blocked_unverified": 165,
-      "needs_review": 34,
-      "pending": 228
+      "needs_review": 29,
+      "pending": 213
     },
     "by_evidence_level": {
-      "confirmed": 125,
-      "report_citation": 450
+      "confirmed": 145,
+      "report_citation": 430
     },
     "by_verification": {
-      "unverified": 449,
-      "verified": 126
+      "unverified": 427,
+      "verified": 148
     },
     "by_source": {
       "Sabin 2026": {
         "instruments": 568,
-        "severe_instruments": 397,
+        "severe_instruments": 402,
         "by_verification": {
-          "unverified": 444,
-          "verified": 124
+          "unverified": 423,
+          "verified": 145
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
         "instruments": 6,
         "severe_instruments": 3,
         "by_verification": {
-          "unverified": 5,
-          "verified": 1
+          "unverified": 4,
+          "verified": 2
         }
       },
       "review queue": {
@@ -164,30 +164,30 @@
       "planned": 29,
       "under_construction": 13
     },
-    "facility_conflicts": 44,
+    "facility_conflicts": 36,
     "decided": {
       "guard_days": 90,
       "young_excluded": 3,
       "all": {
-        "projects": 310,
-        "blocked": 234,
-        "blocked_share": 0.755
+        "projects": 330,
+        "blocked": 243,
+        "blocked_share": 0.736
       },
       "confirmed_only": {
-        "projects": 124,
-        "blocked": 70,
-        "blocked_share": 0.565
+        "projects": 144,
+        "blocked": 79,
+        "blocked_share": 0.549
       },
       "by_technology": {
         "battery_storage": {
-          "projects": 17,
-          "blocked": 11,
-          "blocked_share": 0.647
+          "projects": 19,
+          "blocked": 13,
+          "blocked_share": 0.684
         },
         "solar": {
-          "projects": 163,
-          "blocked": 134,
-          "blocked_share": 0.822
+          "projects": 170,
+          "blocked": 139,
+          "blocked_share": 0.818
         },
         "transmission": {
           "projects": 8,
@@ -195,9 +195,9 @@
           "blocked_share": 0.375
         },
         "wind": {
-          "projects": 136,
-          "blocked": 93,
-          "blocked_share": 0.684
+          "projects": 147,
+          "blocked": 95,
+          "blocked_share": 0.646
         }
       }
     },

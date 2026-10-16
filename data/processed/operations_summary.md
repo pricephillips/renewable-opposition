@@ -4,9 +4,9 @@ Generated 2026-10-16 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3352 renewables-only restriction instruments (1366 severe, 85 verified, 1 past their end date with no confirmed extension, 943 severe ones in states whose siting law limits local reach); 575 contested projects (125 confirmed); 39 cases.
+3352 renewables-only restriction instruments (1366 severe, 85 verified, 1 past their end date with no confirmed extension, 943 severe ones in states whose siting law limits local reach); 575 contested projects (145 confirmed); 39 cases.
 
-Decided projects (events older than 90 days): 310, of which 234 blocked; confirmed outcomes only: 124, 70 blocked. Conditional on opposition being tracked; see headline_metrics.md.
+Decided projects (events older than 90 days): 330, of which 243 blocked; confirmed outcomes only: 144, 79 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
@@ -16,7 +16,7 @@ Decided projects (events older than 90 days): 310, of which 234 blocked; confirm
 
 | Worklist | Rows | Notes |
 |---|---:|---|
-| outcome_worklist.csv | 450 | 158 overdue, 13 with decision language in their text, 0 with a located source |
+| outcome_worklist.csv | 428 | 142 overdue, 13 with decision language in their text, 0 with a located source |
 | restriction_worklist.csv | 3343 | 2 lapsed, 431 sole severe in a county, 13 with a located source |
 | negative_check_worklist.csv | 0 |  |
 | adjacency_worklist.csv | 239 | neighbours of blocked projects not yet examined |
@@ -49,7 +49,7 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 | NREL | 31 | 31 | 0 | 31 | 0 | 0 |
 | Sabin | 1 | 1 | 0 | 1 | 0 | 0 |
 
-Outcome resolutions: 118 (66 blocked_confirmed, 52 advanced_confirmed; by access 7 archived, 111 opened).
+Outcome resolutions: 140 (75 blocked_confirmed, 63 advanced_confirmed, 2 pending; by access 7 archived, 133 opened).
 
 ## Live intake and fetched sources
 
@@ -75,4 +75,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-80 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 63, of which 11 have an Internet Archive snapshot.
+82 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 63, of which 11 have an Internet Archive snapshot.

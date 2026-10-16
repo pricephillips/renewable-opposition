@@ -8,30 +8,30 @@
   "lapsed_unconfirmed": 1,
   "severe_where_state_limits_local": 943,
   "projects": 575,
-  "projects_confirmed": 125,
+  "projects_confirmed": 145,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 310,
-    "blocked": 234,
-    "blocked_share": 0.755
+    "projects": 330,
+    "blocked": 243,
+    "blocked_share": 0.736
    },
    "confirmed_only": {
-    "projects": 124,
-    "blocked": 70,
-    "blocked_share": 0.565
+    "projects": 144,
+    "blocked": 79,
+    "blocked_share": 0.549
    },
    "by_technology": {
     "battery_storage": {
-     "projects": 17,
-     "blocked": 11,
-     "blocked_share": 0.647
+     "projects": 19,
+     "blocked": 13,
+     "blocked_share": 0.684
     },
     "solar": {
-     "projects": 163,
-     "blocked": 134,
-     "blocked_share": 0.822
+     "projects": 170,
+     "blocked": 139,
+     "blocked_share": 0.818
     },
     "transmission": {
      "projects": 8,
@@ -39,9 +39,9 @@
      "blocked_share": 0.375
     },
     "wind": {
-     "projects": 136,
-     "blocked": 93,
-     "blocked_share": 0.684
+     "projects": 147,
+     "blocked": 95,
+     "blocked_share": 0.646
     }
    }
   },
@@ -69,14 +69,14 @@
  },
  "worklists": {
   "outcomes": {
-   "rows": 450,
+   "rows": 428,
    "by_tier": {
     "blocked_unverified": 165,
-    "needs_review": 34,
-    "pending": 228,
+    "needs_review": 29,
+    "pending": 211,
     "advanced_unverified": 23
    },
-   "overdue": 158,
+   "overdue": 142,
    "with_decision_language": 13,
    "with_located_url": 0
   },
@@ -204,7 +204,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 80,
+  "snapshot_rows": 82,
   "snapshot_files": 5,
   "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
@@ -215,8 +215,8 @@
    "verified_restrictions": "85",
    "multi_sector_restrictions": "84",
    "contested_projects": "575",
-   "confirmed_outcomes": "125",
-   "verified_projects": "126",
+   "confirmed_outcomes": "145",
+   "verified_projects": "148",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
@@ -250,14 +250,15 @@
    }
   },
   "outcome_resolutions": {
-   "rows": 118,
+   "rows": 140,
    "by_outcome": {
-    "blocked_confirmed": 66,
-    "advanced_confirmed": 52
+    "blocked_confirmed": 75,
+    "advanced_confirmed": 63,
+    "pending": 2
    },
    "by_access": {
     "archived": 7,
-    "opened": 111
+    "opened": 133
    }
   }
  },
