@@ -1,0 +1,216 @@
+"""Packets between research agents (scripts/review_packets.py, docs/AGENTS.md):
+cards, blind cards, packet checks and the reconciliation of two readings."""
+import csv
+import io
+import json
+from datetime import date
+
+import pytest
+import review_packets as rp
+
+TODAY = date(2026, 10, 16)
+DRAFTER = "agent:instrument-reader-1 (Claude Code, 2026-10-16)"
+REVIEWER = "agent:blind-reviewer-1 (Claude Code, 2026-10-16)"
+URL = "https://www.townofglenville.org/local-law-7-2025.pdf"
+
+RECORDS = [
+    {"instrument_id": "mn:ny-x", "state": "NY", "jurisdiction": "Glenville", "technology": "battery_storage",
+     "status": "extended", "restriction_type": "moratorium", "description": "BESS moratorium."},
+    {"instrument_id": "mn:ny-x", "state": "NY", "jurisdiction": "Glenville", "technology": "solar",
+     "status": "extended", "restriction_type": "moratorium", "description": "BESS moratorium."},
+]
+WORK = [{"instrument_id": "mn:ny-x", "tier": "compiled_record", "located_url": "https://found.example.org/a",
+         "search_query": "Glenville moratorium"}]
+PRIOR = [{"instrument_id": "mn:ny-x", "primary_source_url": "https://x.example.org/o.pdf", "access": "snippet",
+          "note": "2026-10-01: HTTP 403 from the town site"}]
+
+
+def card():
+    return rp.build_card("restriction", "mn:ny-x", RECORDS, WORK, PRIOR,
+                         [{"date": "2026-10-01", "queue": "restriction", "key": "mn:ny-x", "outcome": "not_read"}])
+
+
+def reading(packet="draft", agent=DRAFTER, **kw):
+    p = {"packet": packet, "queue": "restriction", "key": "mn:ny-x", "agent": agent, "date": "2026-10-16",
+         "result": "read", "source_url": URL, "access": "opened", "archived_url": "", "source_kind": "instrument",
+         "document": "Local Law 7 of 2025, Town of Glenville, adopted 2025-06-18", "relation": "is",
+         "quote": "No application for a battery energy storage system shall be accepted for 120 days.",
+         "fields": [{"field": "status", "record": "extended", "document": "in force", "agrees": True},
+                    {"field": "technology", "record": "battery_storage; solar", "document": "battery storage only",
+                     "agrees": False}],
+         "verdict": "contradicts", "note": "The law covers battery storage only; solar is not named.",
+         "attempts": []}
+    p.update(kw)
+    return p
+
+
+def test_card_joins_technology_rows_and_carries_earlier_attempts():
+    c = card()
+    assert c["record"]["technology"] == "battery_storage; solar" and c["rows"] == 2
+    assert c["worklist"]["located_url"] == "https://found.example.org/a"
+    assert c["prior"]["review_rows"][0]["access"] == "snippet" and c["prior"]["log"][0]["outcome"] == "not_read"
+    assert c["review_file"] == "data/review/restriction_sources.csv"
+    assert c["slug"] == "mn_ny-x"
+    with pytest.raises(ValueError, match="no published restriction"):
+        rp.build_card("restriction", "nope", RECORDS, WORK, PRIOR, [])
+
+
+def test_blind_card_carries_the_document_and_nothing_the_drafter_concluded():
+    blind = rp.blind_card(card(), reading())
+    text = json.dumps(blind)
+    assert blind["source_url"] == URL and blind["record"]["jurisdiction"] == "Glenville"
+    for leaked in ("contradicts", "solar is not named", "120 days", "snippet", "HTTP 403", "prior",
+                   "found.example.org"):
+        assert leaked not in text, leaked
+    with pytest.raises(ValueError, match="nothing to read a second time"):
+        rp.blind_card(card(), reading(result="not_read", attempts=[{"url": URL, "result": "HTTP 403"}]))
+
+
+@pytest.mark.parametrize("change, error", [
+    ({"access": "snippet"}, "not a reading"),
+    ({"access": "archived"}, "archived_url"),
+    ({"source_kind": "news"}, "never verifies"),
+    ({"quote": "short"}, "quote is required"),
+    ({"verdict": "confirmed"}, "that is contradicts"),
+    ({"fields": []}, "at least one"),
+    ({"note": "covers storage — not solar"}, "em dash"),
+    ({"agent": "agent:Reader One"}, "agent:<role>-<n>"),
+    ({"date": "2026-10-17"}, "after today"),
+    ({"source_url": "town site"}, "source_url"),
+    ({"relation": ""}, "relation"),
+    ({"relation": "other"}, "neither confirms nor contradicts"),
+])
+def test_a_read_packet_must_show_its_reading(change, error):
+    errors, _ = rp.check_packet(reading(**change), TODAY)
+    assert any(error in e for e in errors), errors
+
+
+def test_a_clean_reading_passes_and_a_failed_one_lists_its_attempts():
+    assert rp.check_packet(reading(), TODAY) == ([], [])
+    failed = reading(result="not_read", verdict="", access="", note="Town site and archive both refused.")
+    assert any("attempts" in e for e in rp.check_packet(failed, TODAY)[0])
+    failed["attempts"] = [{"url": URL, "result": "HTTP 403"},
+                          {"url": "https://web.archive.org/web/2025/" + URL, "result": "no snapshot"}]
+    assert rp.check_packet(failed, TODAY) == ([], [])
+    assert any("conclusion needs a reading" in e
+               for e in rp.check_packet({**failed, "verdict": "confirmed"}, TODAY)[0])
+
+
+def test_outcome_packets_need_the_event_date_and_a_ladder_value():
+    p = reading(queue="outcome", key="S26P-1", verdict="", relation="", source_kind="news",
+                outcome="blocked_confirmed",
+                evidence_date="2024-05", fields=[{"field": "outcome", "record": "blocked_unverified",
+                                                  "document": "permit denied", "agrees": False}])
+    assert rp.check_packet(p, TODAY) == ([], [])
+    assert any("evidence_date" in e for e in rp.check_packet({**p, "evidence_date": "May 2024"}, TODAY)[0])
+    assert any("outcome" in e for e in rp.check_packet({**p, "outcome": "cancelled"}, TODAY)[0])
+    assert any("_confirmed" in w for w in rp.check_packet({**p, "outcome": "blocked_unverified"}, TODAY)[1])
+    assert any("source_kind" in e for e in rp.check_packet({**p, "source_kind": "tracker"}, TODAY)[0])
+
+
+def test_two_agreeing_readings_make_one_signed_row():
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, note="Only storage is named."),
+                       [], TODAY)
+    assert res["result"] == "written" and res["differences"] == []
+    row = res["row"]
+    assert list(row) == rp.RESTRICTION_FIELDS
+    assert row["verdict"] == "contradicts" and row["access"] == "opened" and row["primary_source_url"] == URL
+    assert row["reviewer"] == f"{DRAFTER} + {REVIEWER}"
+    assert "120 days" in row["note"] and "Only storage is named." in row["note"]
+    assert res["log"]["outcome"] == "written" and res["log"]["date"] == "2026-10-16"
+    line = rp.csv_line(row, rp.RESTRICTION_FIELDS)
+    assert line.endswith("\n") and next(csv.reader(io.StringIO(line)))[0] == "mn:ny-x"
+
+
+def test_readings_that_differ_are_disputed_and_write_nothing():
+    review = reading("review", REVIEWER, verdict="confirmed",
+                     fields=[{"field": "technology", "record": "battery_storage; solar",
+                              "document": "storage and solar", "agrees": True}])
+    res = rp.reconcile(card(), reading(), review, [], TODAY)
+    assert res["result"] == "disputed" and res["row"] is None
+    assert any(d.startswith("verdict") for d in res["differences"])
+    other = rp.reconcile(card(), reading(), reading("review", REVIEWER, relation="amends"), [], TODAY)
+    assert other["result"] == "disputed" and other["differences"] == ["relation: draft is, review amends"]
+    assert any(d.startswith("technology") for d in res["differences"])
+    assert res["log"]["outcome"] == "disputed" and REVIEWER in res["log"]["note"]
+
+
+def test_no_self_review_and_no_mixed_items():
+    res = rp.reconcile(card(), reading(), reading("review", DRAFTER), [], TODAY)
+    assert res["result"] == "invalid" and any("own reading" in e for e in res["errors"])
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, key="mn:ny-y"), [], TODAY)
+    assert res["result"] == "invalid"
+
+
+def test_a_second_reader_who_cannot_open_the_source_writes_nothing():
+    review = reading("review", REVIEWER, result="not_read", verdict="", access="", note="Blocked.",
+                     attempts=[{"url": URL, "result": "HTTP 403"}])
+    res = rp.reconcile(card(), reading(), review, [], TODAY)
+    assert res["result"] == "not_read" and res["row"] is None and "HTTP 403" in res["log"]["note"]
+
+
+def test_an_existing_row_is_reported_so_it_is_edited_not_duplicated():
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER), PRIOR, TODAY)
+    assert res["result"] == "written" and res["existing"][0]["access"] == "snippet"
+
+
+def test_cli_row_refuses_a_disputed_item(tmp_path, capsys):
+    paths = {}
+    review = reading("review", REVIEWER, verdict="confirmed",
+                     fields=[{"field": "status", "record": "extended", "document": "in force", "agrees": True}])
+    for name, obj in (("card", card()), ("draft", reading()), ("review", review)):
+        paths[name] = tmp_path / f"x.{name}.json"
+        paths[name].write_text(json.dumps(obj))
+    args = ["reconcile", str(paths["card"]), str(paths["draft"]), str(paths["review"]), "--today", "2026-10-16"]
+    assert rp.main(args + ["--row"]) == 1
+    assert "disputed" in capsys.readouterr().err
+    assert rp.main(args + ["--log"]) == 0
+    assert capsys.readouterr().out.startswith("2026-10-16,restriction,mn:ny-x,disputed,")
+    assert rp.main(["check", str(paths["draft"]), "--today", "2026-10-16"]) == 0
+
+
+QUEUE = [
+    {"queue_id": "q_lead", "review_status": "lead", "source_url": "https://news.example.org/a", "state": "IA",
+     "reviewer_notes": "Found by GDELT; placed by the headline.", "raw_path": "data/raw/x.gz"},
+    {"queue_id": "q_draft", "review_status": "awaiting_review", "source_url": "https://county.gov/o.pdf",
+     "mechanisms": "setback", "mechanism_detail": "1,000 ft", "access": "opened",
+     "reviewer_notes": "Drafted by agent:county-examiner-1 (Claude Code, 2026-10-16). Read section 4."},
+]
+NEGATIVE = [
+    {"county_fips": "19113", "scope": "both", "checked_on": "2025-01-02", "drafted_by": "a", "reviewer": "b",
+     "note": "old", "sources_checked": "code: x"},
+    {"county_fips": "19113", "scope": "restrictions", "checked_on": "2026-10-16", "result": "none_found",
+     "drafted_by": "agent:county-examiner-1 (Claude Code, 2026-10-16)", "reviewer": "",
+     "note": "Codes set road setbacks only.", "sources_checked": "code: Linn County Code (https://x.gov)"},
+]
+CANDIDATES = [{"source_record_id": "REC-9", "state": "IN", "project_name": "Grandview Solar",
+               "litigation_context": "Landowners sued.", "reviewer_notes": "earlier try", "case_name": ""}]
+
+
+def test_blind_rows_carry_claims_and_never_a_note_or_signer():
+    lead = rp.blind_row("lead", "q_lead", QUEUE, [], [])
+    assert lead["record"]["reviewer_notes"].startswith("Found by GDELT") and "raw_path" not in lead["record"]
+    assert lead["expect"]["queue"] == "lead" and lead["source_url"] == "https://news.example.org/a"
+    with pytest.raises(ValueError, match="not an untriaged lead"):
+        rp.blind_row("lead", "q_draft", QUEUE, [], [])
+
+    row = rp.blind_row("queue_row", "q_draft", QUEUE, [], [])
+    text = json.dumps(row)
+    assert row["claim"]["mechanism_detail"] == "1,000 ft" and row["archived_url"] == ""
+    assert "county-examiner" not in text and "section 4" not in text and "awaiting_review" not in text
+
+    check = rp.blind_row("negative_check", "19113", [], [], NEGATIVE)
+    assert check["claim"]["checked_on"] == "2026-10-16"
+    assert "road setbacks" not in json.dumps(check) and "drafted_by" not in check["claim"]
+    with pytest.raises(ValueError, match="no held negative check"):
+        rp.blind_row("negative_check", "19001", [], [], NEGATIVE)
+
+
+def test_a_case_blind_card_carries_the_court_records_and_not_the_reading():
+    draft = {"queue": "case", "key": "REC-9", "cases": [
+        {"case_name": "Wike v. Grandview Solar", "case_source_url": "https://www.courtlistener.com/opinion/1/"}]}
+    card = rp.blind_row("case", "REC-9", [], CANDIDATES, [], draft)
+    assert card["source_urls"] == ["https://www.courtlistener.com/opinion/1/"]
+    assert "Wike" not in json.dumps(card) and "earlier try" not in json.dumps(card)
+    with pytest.raises(ValueError, match="--draft"):
+        rp.blind_row("case", "REC-9", [], CANDIDATES, [], None)

@@ -11,7 +11,9 @@ row can be checked from the pull request.
 Adapted from `pricephillips/data-center-map` `docs/research_routine.md`. The
 evidence rules are this repository's own (README, "Counting and
 verification"), and `.claude/commands/verify-evidence.md` holds the full
-reading procedure this routine follows.
+reading procedure this routine follows. The agents named below are defined in
+`.claude/agents/`; `docs/AGENTS.md` says what each may see and write, and
+their packets go in `.packets/verify-<date>/`, which is not committed.
 
 ## 0. Setup
 
@@ -38,17 +40,21 @@ slot.
 
 ## 2. Read each item (the drafting agent)
 
-Follow `.claude/commands/verify-evidence.md`, section 2, for each item:
+For each item, write its card
+(`python scripts/review_packets.py card <restriction|outcome> <key>`) and start
+an `instrument-reader` (restrictions) or `outcome-reader` (outcomes) with it.
+The reader follows `.claude/commands/verify-evidence.md`, section 2:
 
 - Find the instrument itself (or the adopting minutes) for a restriction, or
   a news article or court record that states the outcome for a project.
   Official government sites, the county's code publisher, the Internet
   Archive copy of either, and state agency mirrors are all acceptable.
 - Read it. Compare it with the published record field by field.
-- Draft one row for `data/review/restriction_sources.csv` (verdict
-  `confirmed` or `contradicts`) or `data/review/outcome_resolutions.csv`
-  (the outcome the source supports), with every column filled, `access`
-  `opened` or `archived`, and a note that quotes the operative text.
+- Write a draft packet: the document, `access` `opened` or `archived`, the
+  operative text quoted, each field compared, and the verdict (`confirmed` or
+  `contradicts`) or the outcome the source supports.
+  `python scripts/review_packets.py check` refuses a packet that claims a
+  reading it does not show.
 
 A source that cannot be opened is not read. If a host refuses the request,
 try the Internet Archive copy or an official mirror; if none can be opened,
@@ -58,21 +64,24 @@ Never treat search-result text as a reading, and never mark `access`
 
 ## 3. Second reading (a separate reviewing agent)
 
-Give each drafted row to a separate reviewing agent (the Agent tool), with
-only the row, its source URL and the published record, never the drafter's
-conclusion. The reviewer opens the source itself and either agrees or names
-the field it disagrees with.
+Give each draft that read its document to a `blind-reviewer`, with only
+the blind card (`python scripts/review_packets.py blind <card> <draft>`): the
+published record and the source URL, never the drafter's conclusion. Its lane
+keeps it away from the draft packets and `data/review/`. The reviewer opens
+the source itself and writes a review packet of the same shape.
+`python scripts/review_packets.py reconcile <card> <draft> <review>` compares
+the two:
 
-- Agreed: write the row. Set `reviewer` to
-  `agent:verify-drafter + agent:verify-reviewer (Claude Code)`.
-- Disagreed: send it back to the drafter once with the reviewer's reading;
-  if they still disagree, write nothing and log the item as `disputed` with
-  both readings.
+- `written`: the `record-editor` appends the row it prints (`--row`),
+  signed `<drafter signature> + <reviewer signature>`.
+- `disputed`: send the drafter the reviewer's packet once; if they still
+  disagree, write nothing and log the item as `disputed` with both readings.
 
 ## 4. Log every attempt
 
-Append one line per item to `data/review/verification_log.csv`
-(`date,queue,key,outcome,note`). `queue` is `restriction` or `outcome`, `key`
+The `record-editor` appends one line per item to
+`data/review/verification_log.csv` (`date,queue,key,outcome,note`), as
+`reconcile --log` prints it. `queue` is `restriction` or `outcome`, `key`
 is the instrument id or source record id, and `outcome` is one of:
 
 - `written`: a row was written after both readings agreed.
@@ -83,6 +92,7 @@ is the instrument id or source record id, and `outcome` is one of:
 ## 5. Validate and open the pull request
 
 ```
+python scripts/review_lint.py --lane review
 ruff check .
 python -m pytest -q
 python scripts/build_seed_outputs.py
@@ -95,6 +105,11 @@ Commit only `data/review/restriction_sources.csv`,
 Restore every generated file
 (`git checkout -- data/processed data/review/*_worklist.csv data/review/fips_misses.csv`);
 the Build dashboard data workflow regenerates them after the merge.
+
+Then start the `qc-auditor` (run `verify-<date>`, lane `review`): it runs
+these checks again on the committed branch, re-opens a sample of the sources
+read, and reports. Fix every BLOCKER, commit, and audit again; push only on
+PASS or PASS WITH WARNINGS.
 
 No em dashes, LF line endings. Push the branch and open a pull request to
 `main` titled `Verification: <date>`. Its description lists, at the top,

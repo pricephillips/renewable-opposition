@@ -368,6 +368,8 @@ Neither source file is committed; each manifest records the file's URL, release 
 
 `docs/AGENT_REVIEW.md` sets out how a reviewing agent checks a record and how the review is recorded. Nothing drafted here publishes without a recorded review, and nobody reviews their own work: a review-queue row drafted by an agent carries `review_status` `awaiting_review`, which holds it back until a different reviewer confirms it.
 
+`docs/AGENTS.md` describes the agents in `.claude/agents/` that do the work in Claude Code: five readers that extract what a document says (`instrument-reader`, `outcome-reader`, `case-researcher`, `lead-triager`, `county-examiner`), a `blind-reviewer` that reads the same document without seeing the first reading, a `record-editor` that alone writes the review files, a `copy-editor` for prose, and a `qc-auditor` that audits a branch before it is pushed. A hook (`.claude/hooks/agent_lane.py`) holds each to its lane on every tool call: readers write only their packet, the blind reviewer cannot open `data/review/` or a draft, editors cannot browse, no agent commits, and none can reach reports from local contacts. `scripts/review_packets.py` builds the packets the agents pass, checks them, and reconciles the two readings into a row only when they agree; `scripts/review_lint.py` checks every review-file change a branch makes (a raised `access` with no note, a self-review, an unsigned confirmation, a file outside the lane). The commands `/verify-evidence`, `/triage-leads`, `/examine-county`, `/research-cases` and `/qc-branch` run these pipelines.
+
 ---
 
 ## Outputs
@@ -448,7 +450,12 @@ renewable-opposition/
 │   ├── processed/                          ← canonical CSV + JSON outputs
 │   └── db/                                 ← national database: Parquet + state/county summaries (committed), .duckdb (not)
 ├── db/                                     ← national database schema, load and views (build_database.py)
+├── .claude/
+│   ├── agents/                             ← research, editing and QC agents (docs/AGENTS.md)
+│   ├── commands/                           ← /verify-evidence, /triage-leads, /examine-county, /research-cases, /qc-branch
+│   └── hooks/agent_lane.py                 ← the lane each agent is held to
 ├── docs/
+│   ├── AGENTS.md                           ← the agents: roster, lanes, packets, pipelines, QC layers
 │   ├── coverage_audit.md                   ← Sabin vs Moratorium Nation recall
 │   ├── national_database_design.md         ← design for the national database and dashboard
 │   └── pipeline_comparison.md              ← practices adopted from data-center-map, and what's next
@@ -475,6 +482,8 @@ renewable-opposition/
 │   │                                         ny_ores_permit_applications, legistar_renewable_matters
 │   ├── news_place.py                       ← places a headline in a county only when it names one (after data-center-map)
 │   ├── promote_reviewed.py                 ← complete review rows -> seed CSVs (run by build-data.yml)
+│   ├── review_packets.py                   ← agent packets: cards, blind cards, checks, reconciling two readings (writes nothing)
+│   ├── review_lint.py                      ← QC of a branch's review-file changes and its lane (writes nothing)
 │   ├── promotion_trail.py                  ← decision trail rule: record new or changed decisions only (after data-center-map)
 │   ├── codebook.py                         ← docs/codebook.md from the rules' own constants
 │   ├── operations_summary.py               ← data/processed/operations_summary.json/.md from the trails (after data-center-map)
