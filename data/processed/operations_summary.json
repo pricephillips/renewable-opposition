@@ -2,20 +2,20 @@
  "generated": "2026-10-16",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3351,
-  "severe": 1365,
-  "verified": 84,
+  "restriction_instruments": 3352,
+  "severe": 1366,
+  "verified": 85,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 943,
-  "projects": 575,
+  "severe_where_state_limits_local": 944,
+  "projects": 579,
   "projects_confirmed": 145,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 330,
-    "blocked": 243,
-    "blocked_share": 0.736
+    "projects": 333,
+    "blocked": 244,
+    "blocked_share": 0.733
    },
    "confirmed_only": {
     "projects": 144,
@@ -24,9 +24,9 @@
    },
    "by_technology": {
     "battery_storage": {
-     "projects": 19,
-     "blocked": 13,
-     "blocked_share": 0.684
+     "projects": 22,
+     "blocked": 14,
+     "blocked_share": 0.636
     },
     "solar": {
      "projects": 170,
@@ -50,9 +50,9 @@
    "counties": 3144,
    "with_any_record": 1413,
    "with_restriction": 1267,
-   "with_contested_project": 456,
+   "with_contested_project": 458,
    "with_siting_standard": 1158,
-   "with_negative_check": 2,
+   "with_negative_check": 1,
    "with_negative_check_and_no_record": 1,
    "with_neither": 1730
   }
@@ -101,7 +101,7 @@
    "by_reason": {}
   },
   "adjacency": {
-   "rows": 239
+   "rows": 243
   },
   "fips_misses": {
    "rows": 63,
@@ -113,20 +113,62 @@
   }
  },
  "promotion_trail": {
-  "decisions": 85,
+  "decisions": 91,
   "by_action": {
-   "promoted": 64,
+   "promoted": 70,
    "held": 13,
    "awaiting_review": 6,
    "rejected": 2
   },
   "by_file": {
-   "queue.csv": 37,
+   "queue.csv": 43,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
   "last": "2026-10-16",
   "recent": [
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "TX Baytown",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "TX Baytown",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "TX Tomball",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "KY Nicholas County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "KY Nicholas County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "KY Nicholas County",
+    "reason": ""
+   },
    {
     "date": "2026-10-16",
     "file": "queue.csv",
@@ -140,59 +182,17 @@
     "action": "awaiting_review",
     "what": "TX Baytown",
     "reason": "awaiting review by someone other than its drafter"
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "awaiting_review",
-    "what": "TX Baytown",
-    "reason": "awaiting review by someone other than its drafter"
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "awaiting_review",
-    "what": "TX Tomball",
-    "reason": "awaiting review by someone other than its drafter"
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "held",
-    "what": "IA Jones County",
-    "reason": "status expired: the instrument is no longer in force, so it is not published"
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "TX Pasadena",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "held",
-    "what": "KS Cherokee County",
-    "reason": "status expired: the instrument is no longer in force, so it is not published"
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "awaiting_review",
-    "what": "KY Nicholas County",
-    "reason": "awaiting review by someone other than its drafter"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 23,
+   "promoted": 29,
    "rejected": 2,
    "confirmed": 3,
    "pending": 2,
-   "awaiting_review": 6,
-   "lead": 59
+   "awaiting_review": 1,
+   "lead": 58
   },
   "queue_by_entity": {
    "restriction": 52,
@@ -204,19 +204,19 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 85,
+  "snapshot_rows": 89,
   "snapshot_files": 5,
   "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-10-16",
   "latest": {
-   "restrictions": "3351",
-   "severe_restrictions": "1365",
-   "verified_restrictions": "84",
-   "multi_sector_restrictions": "84",
-   "contested_projects": "575",
+   "restrictions": "3352",
+   "severe_restrictions": "1366",
+   "verified_restrictions": "85",
+   "multi_sector_restrictions": "85",
+   "contested_projects": "579",
    "confirmed_outcomes": "145",
-   "verified_projects": "148",
+   "verified_projects": "152",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
@@ -225,9 +225,9 @@
   }
  },
  "source_archive": {
-  "sources": 63,
+  "sources": 68,
   "archived": 11,
-  "archived_share": 0.175
+  "archived_share": 0.162
  },
  "evidence_checks": {
   "restriction_sources": {

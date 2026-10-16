@@ -43,7 +43,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
-      "rows": 3640,
+      "rows": 3642,
       "schema": {
         "fields": [
           {
@@ -359,7 +359,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Project-level opposition, one row per technology of one project, with the plant the project matches in the federal inventories.",
-      "rows": 575,
+      "rows": 579,
       "schema": {
         "fields": [
           {
@@ -1254,7 +1254,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "One row per cited source document, with its Internet Archive snapshot.",
-      "rows": 63,
+      "rows": 68,
       "schema": {
         "fields": [
           {
@@ -1310,7 +1310,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Opposition groups named in the records, with the sources that name them.",
-      "rows": 802,
+      "rows": 803,
       "schema": {
         "fields": [
           {

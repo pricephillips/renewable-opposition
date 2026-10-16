@@ -7,24 +7,24 @@
 
 ## Key Takeaways
 
-- **Restrictive on paper, untested in practice**: a 2024 county solar ordinance requires a 2,000-foot setback from every non-participating property line and public road, and a one-year solar moratorium followed on September 18, 2026. The county has put both before the state Siting Board in the first utility-scale case we found there.
-- **Official resistance, no visible public campaign**: we found no organized resident opposition, petitions or press coverage. The resistance on record comes from the fiscal court, which adopted the 2024 ordinance 6-0 with votes from both parties.
-- **A profile that understates the record**: Hawthorn Intelligence scores Nicholas at 0.05, the 4^th^ percentile (96% of U.S. counties score higher) for resemblance to counties with severe renewable restrictions. Yet both of its instruments rank as severe on our scale; among the roughly 750 counties with a severe restriction, only four score lower.
-- **What to watch**: whether the Kentucky Supreme Court takes up a June 2026 petition over solar ordinances in counties without zoning; South Fork Solar's application, due no earlier than late October 2026; the November 3 judge-executive race; and the moratorium's end around September 2027.
+- **Restrictive on paper, untested in practice**: a 2024 county solar ordinance requires a 2,000-foot setback from every non-participating property line and public road. In 2026 the fiscal court refused to amend it for a 45 MW solar project, then adopted one-year moratoria on wind (August 14) and on the solar systems the ordinance covers (September 18). The county has put both solar instruments before the state Siting Board in the first utility-scale case we found there.
+- **Official resistance, no visible public campaign**: the weekly Carlisle Mercury covered each step but reported no petition, organized group or resident speaking against the project. The resistance on record comes from the fiscal court, which adopted the 2024 ordinance 6-0 with votes from both parties, rejected the developer's amendment unanimously and passed the solar moratorium 5-1.
+- **A profile that understates the record**: Hawthorn Intelligence scores Nicholas at 0.05, the 4^th^ percentile (96% of U.S. counties score higher) for resemblance to counties with severe renewable restrictions. Yet all three of its instruments rank as severe on our scale; among the roughly 750 counties with a severe restriction, only four score lower.
+- **What to watch**: whether the Kentucky Supreme Court takes up a June 2026 petition over solar ordinances in counties without zoning; South Fork Solar's application, due no earlier than late October 2026; the November 3 judge-executive and magistrate races; and the moratoria's ends in August and September 2027.
 
 ## Summary
 
-Nicholas County has set solar rules few utility-scale projects could meet, and those rules have not yet been tested. The fiscal court adopted a solar licensing ordinance in June 2024 with a 2,000-foot setback from any non-participating property line or public road. In September 2026, a week after a 45 MW solar project e-mailed its notice to the state Siting Board, the court added a one-year moratorium on solar systems of any size.
+Nicholas County has set solar rules few utility-scale projects could meet, and those rules have not yet been tested. The fiscal court adopted a solar licensing ordinance in June 2024 with a 2,000-foot setback from any non-participating property line or public road. In July 2026 it voted unanimously against a developer's request to amend that ordinance for a 45 MW solar project, and in August it adopted a one-year moratorium on wind projects of any size. In September, a week after the solar project e-mailed its notice to the state Siting Board, the court added a one-year moratorium on the solar systems the 2024 ordinance covers.
 
-Hawthorn Intelligence assigns Nicholas a County Restriction Score of 0.05, about one-fifth of the national base rate of 0.24. That puts it in the lowest national decile (one tenth of U.S. counties, ranked by score), the 4^th^ percentile nationally and 98^th^ of 120 Kentucky counties. The score measures how closely a county's profile resembles counties that have enacted severe restrictions; it is not a forecast for any project. It is low because Nicholas is small, has no restricting neighbors and, in the model's data, no placed interconnection requests. The county's record points the other way: we read both instruments in the state Siting Board's case file, which makes the record Verified, our highest evidence status.
+Hawthorn Intelligence assigns Nicholas a County Restriction Score of 0.05, about one-fifth of the national base rate of 0.24. That puts it in the lowest national decile (one tenth of U.S. counties, ranked by score), the 4^th^ percentile nationally and 98^th^ of 120 Kentucky counties. The score measures how closely a county's profile resembles counties that have enacted severe restrictions; it is not a forecast for any project. It is low because Nicholas is small, has no restricting neighbors and, in the model's data, no placed interconnection requests. The county's record points the other way: we read all three instruments, the two solar ordinances in the state Siting Board's case file and the wind moratorium as printed in the Carlisle Mercury, which makes the record Verified, our highest evidence status.
 
-The dispute is legal rather than political. South Fork Solar, a 45 MW project on about 315 acres between Millersburg and Carlisle, filed its notice of intent with the Siting Board in September 2026. It states that the county ordinance "is not applicable to the Project" because Nicholas has no county-wide zoning, relying on a May 2026 Court of Appeals decision that struck down a similar ordinance in Breckinridge County. The county attorney answered with an October 9 memo, e-mailed to the Siting Board on October 12, presenting both the 2024 ordinance and the new moratorium as "existing valid" law. Breckinridge has asked the Kentucky Supreme Court to review the decision. Where a county ordinance does not apply, the state's own setback governs: 2,000 feet from residential neighborhoods, schools, hospitals and nursing homes.
+The dispute has moved from the fiscal court to the state. South Fork Solar, a 45 MW project on about 315 acres between Millersburg and Carlisle, filed its notice of intent with the Siting Board in September 2026, two months after the court refused to amend the county ordinance for it. It states that the county ordinance "is not applicable to the Project" because Nicholas has no county-wide zoning, relying on a May 2026 Court of Appeals decision that struck down a similar ordinance in Breckinridge County. The county attorney answered with an October 9 memo, e-mailed to the Siting Board on October 12, presenting both the 2024 ordinance and the new moratorium as "existing valid" law. Breckinridge has asked the Kentucky Supreme Court to review the decision. Where a county ordinance does not apply, the state's own setback governs: 2,000 feet from residential neighborhoods, schools, hospitals and nursing homes.
 
 # Hawthorn Intelligence
 
 ## Summary
 
-Nicholas County, home to about 7,900 people in the outer Bluegrass northeast of Lexington, adopted a county solar ordinance in 2024 and a one-year solar moratorium in September 2026. South Fork Solar, the first merchant solar project we found there, is in the state Siting Board's pre-application stage and disputes that the county's rules apply. Its County Restriction Score of 0.05 places it in the lowest decile, while its own record, now verified against both instruments, places it among the restricted counties.
+Nicholas County, home to about 7,900 people in the outer Bluegrass northeast of Lexington, adopted a county solar ordinance in 2024 and one-year moratoria on wind and solar in August and September 2026. South Fork Solar, the first merchant solar project we found there, is in the state Siting Board's pre-application stage and disputes that the county's rules apply. Its County Restriction Score of 0.05 places it in the lowest decile, while its own record, now verified against all three instruments, places it among the restricted counties.
 
 ## Hawthorn Intelligence Ratings
 
@@ -34,46 +34,50 @@ Nicholas County, home to about 7,900 people in the outer Bluegrass northeast of 
 | County Restriction Score | **0.05 (likely range 0.04 to 0.06)** | Resemblance to counties with a severe wind, solar or storage restriction on record, on a 0 to 1 scale; national base rate 0.24 |
 | Score decile | **1 of 10** | Bottom tenth of 3,144 U.S. counties (scores below 0.063); 3.5 percent of decile 1 counties have a severe restriction |
 | National and Kentucky standing | **4^th^ percentile; 98^th^ of 120** | Share of U.S. counties scoring below Nicholas; rank among Kentucky counties |
-| Evidence status | **Verified (this review)** | Both county instruments read in the Siting Board record (Case 2026-00256); supersedes the platform's October 9 "checked, none found" entry |
+| Evidence status | **Verified (this review)** | The two solar instruments read in the Siting Board record (Case 2026-00256) and the wind moratorium in the Carlisle Mercury; supersedes the platform's October 9 "checked, none found" entry |
 | Project outcome tiers | **0 decided; 1 pending** | South Fork Solar (45 MW), pre-application at the Siting Board |
-| Opposition intensity | **89^th^ percentile (records); 97^th^ (per 100,000 residents)** | Two restriction instruments and one contested project, against all U.S. counties |
+| Opposition intensity | **93^rd^ percentile (records); 98^th^ (per 100,000 residents)** | Three restriction instruments and one contested project, against all U.S. counties |
 
 Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. Opposition intensity counts the records this review added; the platform's published data held none for Nicholas on October 13. "How to Read Hawthorn Intelligence Reports" below defines each scale.
 
 ## At a glance
 
-- [Population](https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv) 7,949 (July 2025 estimate) on 195 square miles; Carlisle is the only incorporated city
+- [Population](https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv) 7,949 (July 2025 estimate) on 195 square miles; Carlisle is the county's one city, and a sliver of Millersburg (14 residents in 2020) crosses in from Bourbon County
 - Median household income $59,531; 9.8 percent of adults 25 and older hold a bachelor's degree or higher (ACS 2020-2024)
 - [2024](https://electionlab.mit.edu/data) presidential vote: Trump 73.8 percent, Harris 24.8 percent
   - Partisan trend: the Republican margin widened from 41.2 points in 2016 to 42.8 in 2020 and 49.0 in 2024
 - Farm economy: 467 farms on 76,674 acres; cattle sales of $14.8 million and tobacco of $4.4 million, 13^th^ among Kentucky's tobacco counties ([USDA 2022 Census of Agriculture](https://www.nass.usda.gov/Publications/AgCensus/2022/Online_Resources/County_Profiles/Kentucky/cp21181.pdf))
 - Grid: Kentucky Utilities serves Carlisle; Blue Grass Energy and Fleming-Mason Energy, both members of East Kentucky Power Cooperative (EKPC), serve rural areas
-- Proposed projects: South Fork Solar (45 MW, two PJM queue positions) and a 3.5 MW distributed solar project at Headquarters
-- Enacted restriction: yes, [read in the Siting Board record](https://psc.ky.gov/pscscf/2026%20cases/2026-00256/Public%20Comments//20261012_PSC%20Response%20E-Mail%20to%20Nicholas%20County%20Attorney.pdf) (solar ordinance, June 2024; solar moratorium, September 2026)
+- Proposed projects: South Fork Solar (45 MW, two PJM queue positions) and a 3.5 MW distributed solar project at Headquarters; in December 2025 the county attorney reported a wind company seeking 6,000 acres
+- Enacted restrictions: yes, the solar ordinance (June 2024) and solar moratorium (September 2026) [read in the Siting Board record](https://psc.ky.gov/pscscf/2026%20cases/2026-00256/Public%20Comments//20261012_PSC%20Response%20E-Mail%20to%20Nicholas%20County%20Attorney.pdf), and the wind moratorium (August 2026) [as printed](https://kynewsgroup.com/TCM-08-26-26.pdf) in the Carlisle Mercury
 
 # A county that wrote its own rules
 
-Nicholas County has no planning commission and no county-wide zoning, but its fiscal court regulates solar anyway. In May and June 2024 it adopted Ordinance No. 06/2024-Solar, the "Solar Energy System Installation Requirements," by 6-0 votes on both readings, citing its home-rule powers (KRS 67.083) and KRS 278.718, which gives local ordinances primacy over the state's siting provisions, including setbacks.
+Nicholas County has no county planning commission and no county-wide zoning, but its fiscal court regulates solar anyway. In May and June 2024 it adopted Ordinance No. 06/2024-Solar, the "Solar Energy System Installation Requirements," by 6-0 votes on both readings, citing its home-rule powers (KRS 67.083) and KRS 278.718, which gives local ordinances primacy over the state's siting provisions, including setbacks.
 
 The ordinance requires a county license for any ground-mounted system over 2,500 square feet, a list of every non-participating owner within 2,500 feet, an eight-foot fence with a double row of evergreens, and a decommissioning plan with surety. Its most demanding term puts the footprint at least 2,000 feet from any non-participating property line and from any public road or rail line. The state's 2,000-foot setback is measured instead from residential neighborhoods, schools, hospitals and nursing homes. Under the county's rule, a square site needs to be more than 4,000 feet across before any panels fit; the county's average farm (164 acres) is about 2,700 feet across.
 
-On September 18, 2026, the court adopted a second ordinance: a one-year moratorium on "the construction, development, and operation of solar energy systems" of any size, to give the judge-executive, magistrates and consultants time to weigh "environmental impacts, utility capacity, economic benefits for the community, and best practices from other jurisdictions." It took effect on adoption and runs to about September 18, 2027. We found no public campaign before either instrument.
+On August 14, 2026, the court added two moratoria. It adopted Ordinance No. 26-August-02, a one-year moratorium on "turbine/wind energy projects of any size," together with a one-year moratorium on data centers. Both had their first reading on July 10, and the Mercury printed no tally for either. In December 2025 the county attorney had told the court that a wind company, Cordelio Power, was "looking to acquire 6000 acres in the county."
+
+On September 18, 2026, the court adopted Ordinance No. September-2026-18-01, a one-year moratorium on "the construction, development, and operation of solar systems of any size as referenced in existing ordinance," that is, the ground-mounted systems the 2024 ordinance licenses. Its stated purpose is to give the judge-executive, magistrates and consultants time to weigh "environmental impacts, utility capacity, economic benefits for the community, and best practices from other jurisdictions." The first reading passed 4-2 on September 11, with Magistrates Matt Hughes and Rodney Matthews voting no, and the second passed 5-1 at a special-called meeting, with Hughes voting no. It took effect on adoption and runs to about September 18, 2027. We found no petition or organized campaign before any of the three instruments.
 
 ## South Fork Solar
 
-**South Fork Solar** is the county's first test. Heelstone Renewable Energy of North Carolina (owned by Qualitas Energy) would build about 45 MW of solar on about 315 acres of private land at 3750 Carpenter Pike Road, two miles east of Millersburg and three miles west of Carlisle. It holds two PJM queue positions at EKPC's Millersburg 69 kV point of interconnection: AH1-570 (25 MW, entered September 2021) and AH1-571 (20 MW), 45 MW together.
+**South Fork Solar** is the county's first test. Heelstone Renewable Energy of North Carolina (owned by Qualitas Energy) would build about 45 MW of solar on about 315 acres of private land (the notice of intent's figure; Heelstone's local notices give about 250) at 3750 Carpenter Pike Road, two miles east of Millersburg and three miles west of Carlisle. It holds two PJM queue positions at EKPC's Millersburg 69 kV point of interconnection: AH1-570 (25 MW, entered September 2021) and AH1-571 (20 MW), 45 MW together.
+
+Heelstone went to the county first. At a June 9, 2026 workshop it asked the fiscal court for a text amendment to the 2024 ordinance, which "as written, would prohibit" the project, the Carlisle Mercury reported. As planned, South Fork would have 50-foot setbacks against the ordinance's 2,000 feet, with "a dozen or so" adjacent properties, and Heelstone asked to be "grandfathered in." Residents asked about property values, contamination and erosion. Heelstone said it had spent $5 million to $6 million on the project, which would cost $70 million to $75 million, and planned construction for 2028. On July 10 the court "voted unanimously to uphold their current solar ordinance and reject a text amendment."
 
 At more than 10 MW, South Fork needs a construction certificate from the Kentucky State Board on Electric Generation and Transmission Siting. Its notice of intent, first e-mailed September 4 and filed on the commission's portal September 25, states that no residential neighborhood, school, hospital or nursing home lies within 2,000 feet, so it needs no deviation from the state setback. On the county ordinance, the developer is explicit: it "is not applicable to the Project because Nicholas County has not adopted county-wide planning and zoning." On October 2 the Siting Board refused South Fork's request to treat its notice as filed September 4, which puts the earliest application date at about October 25.
 
 ## Other projects
 
-A 3.5 MW distributed solar project by EDPR NA Distributed Generation entered the PJM queue in April 2026 at the Headquarters 12 kV point in Nicholas County, with a proposed operation date of August 2027. It is too small for the Siting Board and falls under the county's licensing ordinance and its moratorium. No wind, battery storage, data-center or cryptocurrency-mining proposal has surfaced in the county.
+A 3.5 MW distributed solar project by EDPR NA Distributed Generation entered the PJM queue in April 2026 at the Headquarters 12 kV point in Nicholas County, with a proposed operation date of August 2027. It is too small for the Siting Board and falls under the county's licensing ordinance and its moratorium. No battery storage or cryptocurrency-mining proposal has surfaced in the county, and we found no filing by the wind company the county attorney named in December 2025 or by any data-center developer.
 
 ## Organized Opposition
 
-We found no organized resident opposition: no group, petition, public comment on the Siting Board docket, or press coverage of the ordinance, the moratorium or South Fork Solar as of October 16. The local paper, the Carlisle Mercury, has no searchable online archive after 2013, so local coverage may exist that we could not read.
+We found no organized resident opposition: no group, petition or public comment on the Siting Board docket as of October 16. The weekly Carlisle Mercury, which posts each issue online as a searchable PDF, covered the 2024 ordinance, the June workshop, the July vote and the wind, data-center and solar moratoria. It reports residents asking about property values, contamination and erosion at the workshop, and one resident speaking at the September 18 meeting: a Carpenter Pike landowner who had leased land to Heelstone and urged the court to vote no on the moratorium. A Mercury street poll that week found mixed views of large solar farms among four residents.
 
-The resistance on record is official. Democratic magistrates moved and seconded the 2024 ordinance, and the court's Republicans voted for it too. The county attorney placed both ordinances in the Siting Board record as "existing valid" law. In neighboring Harrison County, a local attorney framed an August 2026 data-center moratorium as a lesson from solar farms that had not been "as beneficial to the community as we first imagined."
+The resistance on record is official. Democratic magistrates moved and seconded the 2024 ordinance, and the court's Republicans voted for it too. The court rejected Heelstone's amendment unanimously in July 2026, and the county attorney placed both solar ordinances in the Siting Board record as "existing valid" law. In neighboring Harrison County, a local attorney framed an August 2026 data-center moratorium as a lesson from solar farms that had not been "as beneficial to the community as we first imagined."
 
 ## What to watch next
 
@@ -81,6 +85,7 @@ The resistance on record is official. Democratic magistrates moved and seconded 
 - About October 25, 2026: the earliest date South Fork Solar may file its Siting Board application; the governor's appointment of the board's ad hoc members for the case.
 - November 3, 2026: the judge-executive rematch (Hamilton v. Randolph) and the magistrate races.
 - Any amendment to Ordinance 06/2024-Solar during the moratorium.
+- About August 14, 2027: scheduled end of the wind and data-center moratoria.
 - About September 18, 2027: scheduled end of the solar moratorium, and whether the Headquarters project seeks a county license or waits it out.
 
 # Hawthorn Intelligence Appendix
@@ -115,8 +120,8 @@ Table 2: Nicholas against national, state and peer benchmarks[^bench]
 | **Measure** | **Nicholas** | **U.S. percentile** | **KY percentile** | **Peer median** |
 |---|---|---|---|---|
 | Restriction score | 0.05 | 4 | 19 | 0.07 |
-| Opposition records (this review) | 3 | 89 | 98 | 0 |
-| Records per 100,000 residents | 38.9 | 97 | 100 | 0.0 |
+| Opposition records (this review) | 4 | 93 | 99 | 0 |
+| Records per 100,000 residents | 51.9 | 98 | 100 | 0.0 |
 | Interconnection requests, MW (model input) | 0 | 10 | 19 | 110 |
 | Operating solar, MW | 0 | 28 | 44 | 0 |
 | Operating wind, MW | 0 | 41 | 50 | 0 |
@@ -139,7 +144,7 @@ Table 3: Contribution of each model trait to Nicholas's score[^lift]
 | Median household income | $59,531 ($65,870) | Higher raises score | 3 | -0.09 | 7% |
 | Operating wind capacity | 0 (1.3) | Higher raises score | 1 | -0.04 | 3% |
 
-Nicholas's record runs far ahead of its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.07, and none of the ten has a severe restriction on record. Nicholas, with two instruments that both rank as severe on our scale and a contested project, sits in the 97^th^ percentile nationally for recorded activity per resident.
+Nicholas's record runs far ahead of its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.07, and none of the ten has a severe restriction on record. Nicholas, with three instruments that all rank as severe on our scale and a contested project, sits in the 98^th^ percentile nationally for recorded activity per resident.
 
 **Comparable outcomes:** The platform records six decided contested projects in Kentucky; five were blocked, four of them confirmed by independent evidence. Within 30 miles, Duke Energy Renewables' Flemingsburg wind project, spanning Fleming and Mason counties, was abandoned in 2014, and Clark County's fiscal court declined in 2021 to widen the zones where Geenex's solar project could locate. Fleming County's three Siting Board solar cases (188, 80 and 200 MW) were all approved with conditions.
 
@@ -194,9 +199,13 @@ Table 6: Outcome tiers
 
 - May 10, 2024: Fiscal court passes the solar ordinance on first reading, 6-0.
 - June 14, 2024: Fiscal court [adopts](https://psc.ky.gov/pscscf/2026%20cases/2026-00256/Public%20Comments//20261012_PSC%20Response%20E-Mail%20to%20Nicholas%20County%20Attorney.pdf) Ordinance No. 06/2024-Solar on second reading, 6-0: county license, 2,000-foot setback from non-participating property lines and public roads, screening and decommissioning surety.
+- December 12, 2025: The county attorney [tells](https://kynewsgroup.com/tcm121725.pdf) the court that a wind company is looking to acquire 6,000 acres in the county.
+- June 9, 2026: Fiscal court [workshop](https://kynewsgroup.com/tcm061726.pdf) on Heelstone's request for a text amendment that would let South Fork Solar proceed; no vote.
+- July 10, 2026: The court [votes unanimously](https://kynewsgroup.com/tcm071526.pdf) to keep the ordinance and reject the amendment, and passes first readings of one-year wind and data-center moratoria.
+- August 14, 2026: The court adopts the wind moratorium (Ordinance No. 26-August-02) and the data-center moratorium on second reading, effective immediately; both are [printed](https://kynewsgroup.com/TCM-08-26-26.pdf) August 26.
 - September 4, 2026: South Fork Solar e-mails its notice of intent to the Siting Board.
-- September 11, 2026: First reading of a one-year solar moratorium.
-- September 18, 2026: Fiscal court [adopts](https://psc.ky.gov/pscscf/2026%20cases/2026-00256/Public%20Comments//20261012_PSC%20Response%20E-Mail%20to%20Nicholas%20County%20Attorney.pdf) Ordinance No. September-2026-18-01, the moratorium, effective immediately; the vote is not recorded on the document.
+- September 11, 2026: First reading of a one-year solar moratorium [passes 4-2](https://kynewsgroup.com/TCM-09-16-26.pdf), Magistrates Hughes and Matthews voting no.
+- September 18, 2026: Fiscal court [adopts](https://psc.ky.gov/pscscf/2026%20cases/2026-00256/Public%20Comments//20261012_PSC%20Response%20E-Mail%20to%20Nicholas%20County%20Attorney.pdf) Ordinance No. September-2026-18-01, the moratorium, effective immediately, [5-1](https://kynewsgroup.com/TCM-09-23-26.pdf) at a special-called meeting, Hughes voting no.
 - September 25, 2026: South Fork [refiles](https://psc.ky.gov/pscecf/2026-00256/jpinney%40sturgillturner.com/09252026035355/2026-00256_South_Fork_Solar_NOI.pdf) its notice through the portal, arguing the county ordinance does not apply.
 - October 2, 2026: Siting Board [denies](https://psc.ky.gov/pscscf/2026%20Cases/2026-00256//20261002_PSC_ORDER.pdf) South Fork's request to backdate its notice or file early.
 - October 9, 2026: County attorney's memo presents both ordinances to the Siting Board as "existing valid" law (e-mailed October 12).
@@ -206,16 +215,16 @@ Table 6: Outcome tiers
 
 ## Project outcomes
 
-1. **South Fork Solar** (South Fork Solar, LLC; Heelstone Renewable Energy, owned by Qualitas Energy): PJM queue positions AH1-570 (25 MW, entered September 10, 2021) and AH1-571 (20 MW), both active at Millersburg 69 kV and together equal to the 45 MW in the state filing. Siting Board Case [2026-00256](https://psc.ky.gov/Case/ViewCaseFilings/2026-00256) is open with no application filed as of October 16, 2026. Counsel is Sturgill, Turner, Barker & Moloney of Lexington. Adjoining landowners were notified by certified mail in September.
+1. **South Fork Solar** (South Fork Solar, LLC; Heelstone Renewable Energy, owned by Qualitas Energy): PJM queue positions AH1-570 (25 MW, entered September 10, 2021) and AH1-571 (20 MW), both active at Millersburg 69 kV and together equal to the 45 MW in the state filing. Siting Board Case [2026-00256](https://psc.ky.gov/Case/ViewCaseFilings/2026-00256) is open with no application filed as of October 16, 2026. In July 2026 the fiscal court unanimously rejected Heelstone's request to amend the county ordinance for the project. Counsel is Sturgill, Turner, Barker & Moloney of Lexington. Adjoining landowners were notified by certified mail in September.
 2. **Headquarters 12 kV** (EDPR NA Distributed Generation): 3.5 MW distributed solar, PJM queue [C01-1061](https://www.interconnection.fyi/project/pjm-c01-1061), entered April 22, 2026, proposed operation August 2027; subject to the county license and moratorium.
 
 ## Opposition
 
-Organized groups on record: none found. The fiscal court is the opposition of record. Its 2024 ordinance passed 6-0, moved by Magistrates Matt Hughes and Kenny Holbrook and seconded by Holbrook and Ross Haney, all Democrats, with the votes of the court's two Republican magistrates. County Attorney Dawn Curran Letcher, who also serves as fiscal court clerk, filed both ordinances in the Siting Board case. No resident had filed a public comment in the case as of October 16.
+Organized groups on record: none found. The fiscal court is the opposition of record. Its 2024 ordinance passed 6-0, moved by Magistrates Matt Hughes and Kenny Holbrook and seconded by Holbrook and Ross Haney, all Democrats, with the votes of the court's two Republican magistrates. The court rejected Heelstone's amendment unanimously in July 2026. Hughes, who moved the 2024 ordinance, voted against the solar moratorium on both readings, and Matthews against its first reading. County Attorney Dawn Curran Letcher, who also serves as fiscal court clerk, filed both solar ordinances in the Siting Board case. No resident had filed a public comment in the case as of October 16; the one resident who addressed the court before the moratorium vote, a landowner leasing to Heelstone, spoke for the project.
 
 ## Local Context
 
-Judge-Executive Steve Hamilton (D) beat Jeff Randolph (R) by [1,369 votes to 1,174](https://elect.ky.gov/results/2020-2029/2022ElectionReports/GeneralRecaps/Nicholas%20County.pdf) in 2022, and the two meet again on November 3, 2026. Four of the five magistrate seats are contested: Robbie Matthews (R, incumbent) against Mike Webb (D) in District 1, Matt Hughes (D, incumbent) against Andrew Fugitt (R) in District 2, Kenny Holbrook (D, incumbent) against Christina C. Humphries (R) in District 3, and Ross Haney (D, incumbent) against Holly C. Becker (R) in District 5. Tommy Crawford (R, incumbent) is unopposed in District 4, according to the [Secretary of State's filings](https://web.sos.ky.gov/CandidateFilings/countyfilings.aspx). We found no candidate statements on solar. The 2024 ordinance passed with votes from both parties.
+Judge-Executive Steve Hamilton (D) beat Jeff Randolph (R) by [1,369 votes to 1,174](https://elect.ky.gov/results/2020-2029/2022ElectionReports/GeneralRecaps/Nicholas%20County.pdf) in 2022, and the two meet again on November 3, 2026. Four of the five magistrate seats are contested: Rodney "Robbie" Matthews (R, incumbent) against Mike Webb (D) in District 1, Matt Hughes (D, incumbent) against Andrew Fugitt (R) in District 2, Kenny Holbrook (D, incumbent) against Christina C. Humphries (R) in District 3, and Ross Haney (D, incumbent) against Holly C. Becker (R) in District 5. Tommy Crawford (R, incumbent) is unopposed in District 4, according to the [Secretary of State's filings](https://web.sos.ky.gov/CandidateFilings/countyfilings.aspx). One challenger has campaigned against solar: Becker told the Carlisle Mercury in March that she "will not under any circumstances allow a data center, wind turbines, or solar farms to violate the landscape of our beautiful county," and said much the same in September. We found no other candidate statement on solar. The 2024 ordinance passed with votes from both parties.
 
 Nicholas is represented by Rep. Matthew Koch (R, House District 72) and Sen. Stephen West (R-Paris, Senate District 27), whose district also includes Bourbon, Fleming, Harrison and Mason counties.
 
@@ -302,6 +311,34 @@ S36. WKYT, Clark Co. tables massive solar farm project for now, Aug. 26, 2021. h
 
 S37. Kentucky PSC, Case 2020-00206 (AEUG Fleming Solar). https://psc.ky.gov/Case/ViewCaseFilings/2020-00206
 
+S38. The Carlisle Mercury, fiscal court meeting reports on the solar ordinance, Mar. 20, Apr. 17, May 15 and June 19, 2024. https://kynewsgroup.com/tcm051524.pdf and https://kynewsgroup.com/tcm061924.pdf
+
+S39. The Carlisle Mercury, legal notice: summary of Ordinance No. 06/2024 Solar, June 26, 2024, p. 7. https://kynewsgroup.com/tcm062624.pdf
+
+S40. The Carlisle Mercury, Dec. 17, 2025, p. 2 (Dec. 12 fiscal court meeting). https://kynewsgroup.com/tcm121725.pdf
+
+S41. The Carlisle Mercury, Mar. 25, 2026, p. 9 (primary candidate forum). https://kynewsgroup.com/tcm032526.pdf
+
+S42. The Carlisle Mercury, June 17, 2026, pp. 1-2 (June 9 fiscal court workshop). https://kynewsgroup.com/tcm061726.pdf
+
+S43. The Carlisle Mercury, July 8, 2026, pp. 1-2 and 6 (Heelstone open house; Judge Hamilton discusses solar ordinance debate). https://kynewsgroup.com/tcm070826.pdf
+
+S44. The Carlisle Mercury, Fiscal Court votes to uphold solar ordinance, July 15, 2026, p. 1. https://kynewsgroup.com/tcm071526.pdf
+
+S45. The Carlisle Mercury, Aug. 19, 2026, p. 6 (Aug. 14 fiscal court meeting). https://kynewsgroup.com/TCM-08-19-26.pdf
+
+S46. The Carlisle Mercury, Aug. 26, 2026, p. 11 (Ordinances No. 26-August-02 and August-2026-01). https://kynewsgroup.com/TCM-08-26-26.pdf
+
+S47. The Carlisle Mercury, Sept. 9, 2026 (general election candidate guide). https://kynewsgroup.com/TCM-09-09-26.pdf
+
+S48. The Carlisle Mercury, Nicholas Fiscal Court approves First Reading of One-Year Solar Moratorium, Sept. 16, 2026. https://kynewsgroup.com/TCM-09-16-26.pdf
+
+S49. The Carlisle Mercury, Fiscal Court votes yes on 2nd reading of One-Year Solar Moratorium, Sept. 23, 2026. https://kynewsgroup.com/TCM-09-23-26.pdf
+
+S50. The Carlisle Mercury, Sept. 30, 2026, p. 7 (Ordinance No. September-2026-18-01). https://kynewsgroup.com/TCM-09-30-26.pdf
+
+S51. U.S. Census Bureau, 2020 place-by-county relationship file, Kentucky. https://www2.census.gov/geo/docs/reference/codes2020/place_by_cou/st21_ky_place_by_county2020.txt
+
 ## Image credits
 
 Page 1 county map: David Benbennick, "Map of Kentucky highlighting Nicholas County," Wikimedia Commons, public domain. https://commons.wikimedia.org/wiki/File:Map_of_Kentucky_highlighting_Nicholas_County.svg
@@ -312,7 +349,7 @@ Page 1 county map: David Benbennick, "Map of Kentucky highlighting Nicholas Coun
 
 [^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale.
 
-[^bench]: Percentiles are mid-rank: the share of counties below Nicholas plus half of ties. The margin row ranks Democratic lean. Opposition records include the two instruments and one contested project this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024).
+[^bench]: Percentiles are mid-rank: the share of counties below Nicholas plus half of ties. The margin row ranks Democratic lean. Opposition records include the three instruments and one contested project this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024).
 
 [^lift]: Lift is the median cross-validated coefficient times Nicholas's standardized, transformed value, summed to 1.26 log-odds below an average county. Share of movement is each trait's absolute lift as a share of the total. Averages are on the model's log scale.
 

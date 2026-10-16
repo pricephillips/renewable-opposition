@@ -52,3 +52,41 @@ still not a reading of the instrument class or the proceeding class.
 - A local contact's answer to either question can be recorded in
   `~/.renewable-opposition/local_knowledge.csv` and will print in the site
   profile; a reviewed negative check needs the documents themselves.
+
+## 2026-10-16: the negative check is withdrawn
+
+The 2026-10-09 negative check (grade B, web searches only) has been deleted
+from `data/review/negative_checks.csv`, as section 4 of
+`docs/COUNTY_CHECK.md` requires for a rejected check. A blind claim check of
+that row (agent:blind-reviewer-4, 2026-10-16) returned contradicts: the
+county had adopted three restriction instruments before the check, and a
+contested project was before the fiscal court.
+
+- Ordinance No. 06/2024-Solar, adopted on second reading June 14, 2024: a
+  county license for intermediate- and large-scale solar and a 2,000-foot
+  setback from non-participating property lines and public roads. Its legal
+  summary ran in the Carlisle Mercury on June 26, 2024
+  (https://kynewsgroup.com/tcm062624.pdf), and the full text is in the
+  county attorney's October 12, 2026 filing in Siting Board Case 2026-00256.
+- Ordinance No. 26-August-02, a one-year moratorium on wind energy projects
+  of any size, adopted August 14, 2026 and printed in the Mercury of
+  August 26, 2026 (https://kynewsgroup.com/TCM-08-26-26.pdf).
+- Ordinance No. September-2026-18-01, a one-year moratorium on solar systems
+  of any size, adopted September 18, 2026 (5-1 on second reading) and filed
+  in the same Siting Board case.
+- South Fork Solar (Heelstone, about 45 MW on Carpenter Pike): the fiscal
+  court voted unanimously on July 10, 2026 against the developer's request
+  for a text amendment to the 2024 ordinance.
+
+All three instruments are confirmed in `data/review/queue.csv` (the 2024
+ordinance and the wind moratorium in this pass; the solar moratorium is
+already published). South Fork Solar is queued and awaiting review.
+
+The earlier passes found none of this. The county posts no ordinances or
+minutes online, and the state's solar ordinance map had no entry for the
+county as of June 2026. The Carlisle Mercury, whose weekly issues are posted
+as PDFs on kynewsgroup.com, prints the county's ordinances as legal notices
+and covers fiscal court meetings, and the Siting Board docket holds both
+solar instruments. Future checks of small Kentucky counties should
+search the local weekly's PDFs and the Siting Board's case files before
+recording a negative check.

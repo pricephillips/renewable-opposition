@@ -1084,7 +1084,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 21175,KY,Morgan,none,0,0,0,0,0,0,0,0,0,0,0,,
 21177,KY,Muhlenberg,none,0,0,0,0,0,0,0,0,0,0,0,,
 21179,KY,Nelson,none,0,0,0,0,0,0,0,0,0,0,0,,
-21181,KY,Nicholas,record,1,1,1,0,0,0,0,0,0,0,0,2026-10-09,B
+21181,KY,Nicholas,record,2,2,2,1,1,0,0,1,0,0,0,,
 21183,KY,Ohio,record,2,1,0,0,0,0,0,0,0,0,1,,
 21185,KY,Oldham,none,0,0,0,0,0,0,0,0,0,0,0,,
 21187,KY,Owen,none,0,0,0,0,0,0,0,0,0,0,0,,
@@ -2624,7 +2624,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 48195,TX,Hansford,none,0,0,0,0,0,0,0,0,0,0,0,,
 48197,TX,Hardeman,record,0,0,0,0,1,0,0,1,0,0,0,,
 48199,TX,Hardin,none,0,0,0,0,0,0,0,0,0,0,0,,
-48201,TX,Harris,record,1,1,1,0,0,0,0,0,0,0,0,,
+48201,TX,Harris,record,1,1,1,0,3,1,2,0,0,0,0,,
 48203,TX,Harrison,record,2,1,1,0,0,0,0,0,0,0,1,,
 48205,TX,Hartley,none,0,0,0,0,0,0,0,0,0,0,0,,
 48207,TX,Haskell,none,0,0,0,0,0,0,0,0,0,0,0,,

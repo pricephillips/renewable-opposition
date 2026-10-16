@@ -8,7 +8,7 @@
 ## Key Takeaways
 
 - **A battery market, not a solar or wind market**: 776 MW of grid batteries operate in the county, 28 of its 33 active interconnection requests are for storage, and every contested project on record here is a battery.
-- **Friction is city by city**: Pasadena paused battery permits and then adopted a storage code with 500-foot residential setbacks and a five-acre site cap. Tomball denied a project in 2023. Baytown approved two in 2025 with conditions, over resident and union objections, one on a 4-3 vote.
+- **Friction is city by city**: Pasadena paused battery permits and then adopted a storage code with 500-foot residential setbacks and a five-acre site cap. Tomball denied a project in 2023. Baytown approved two in 2025 with conditions: one after labor groups raised safety concerns, the other over residents' objections on a 4-3 vote.
 - **Above the average U.S. county:** Hawthorn Intelligence places Harris in the 78^th^ percentile (*i.e.,* 78% of U.S. counties score lower) for resemblance to counties with severe renewable restrictions, and 18^th^ of 254 in Texas. Its population and its interconnection queue account for most of that.
 - **What to watch**: the state's battery fire-safety rules under HB 3824, which also limit local rules; the 2027 legislative session; a new county judge in January; and about 1.3 GW of queued storage at Pasadena-area and Baytown sites.
 
@@ -18,7 +18,7 @@ Harris County is open to battery storage, but its zoned suburbs no longer approv
 
 Hawthorn Intelligence assigns Harris a County Restriction Score of 0.36, about one and a half times the national base rate of 0.24. That puts it in the eighth national decile (one tenth of U.S. counties, ranked by score), the 78^th^ percentile nationally and 18^th^ of 254 Texas counties. The score measures how closely a county's profile resembles counties that have enacted severe restrictions; it is not a forecast for any project. Population and interconnection-queue megawatts drive most of it. The restriction record is Verified: we read Pasadena's votes in its council minutes, and the moratorium extension and the ordinance that replaced it in its agenda packets.
 
-Developers come for power-plant sites with high-voltage connections and fast-rising demand: CenterPoint expects 8 GW of data-center load by 2029. The objections on record are about proximity. Every contested project was a battery near homes or schools, and opponents cited fire and toxic plumes, not views or farmland. Projects near housing in the zoned suburbs have faced special use permits, plume modeling and close votes.
+Developers come for power-plant sites with high-voltage connections and fast-rising demand: CenterPoint expects 8 GW of data-center load by 2029. The objections on record are about proximity. Every contested project was a battery near homes, and opponents cited fire and toxic plumes, not views or farmland. Projects near housing in the zoned suburbs have faced special use permits, plume modeling and close votes.
 
 # Hawthorn Intelligence
 
@@ -61,9 +61,9 @@ Pasadena steered storage toward utility land rather than banning it. Every counc
 
 ## Baytown's close votes
 
-Baytown treats battery storage as an unlisted industrial use and decides each project by special use permit, rezoning the land where needed; it approved an uncontested battery on Garth Road that way in 2023. In August 2025 the council approved Cypress Creek Renewables' 100 MW **Massey** project on about 15 acres. Residents raised fire risk and proximity to homes, and Robert Ramos, president of LiUNA Local 350, said the union was weighing a ballot measure. Councilman Jacob Powell defended the approval: "I work in the petrochemical industry, and we are constantly doing risk assessments." The permit set 200 feet from homes, a masonry wall and a 25-foot buffer.
+Baytown decides each battery project by special use permit, rezoning the land where needed. It approved its first, an uncontested battery on Garth Road, in 2023, when battery storage was an unlisted industrial use; its 2025 code lists battery storage as a use allowed with a special use permit. In August 2025 the council voted 7-0 to approve Cypress Creek Renewables' 100 MW **Massey** project on about 15 acres. Labor groups raised safety concerns: Laborers International Union Local 350, IBEW Local 527 and the Texas Climate Jobs Project asked the city in writing to postpone the permit, and speakers for the IBEW and the Texas Climate Jobs Project asked the council to delay its vote. Robert Ramos, speaking for the laborers' union, said that if required it would "initiate a ballot of signatures," according to the council minutes. The conditions in the draft ordinance require battery containers at least 200 feet from homes and 100 feet from other structures, a six-foot masonry wall and landscaped bufferyards.
 
-In November 2025 Balanced Rock Power's **Claire** project, up to 406 MW on about nine acres zoned Suburban Residential next to a CenterPoint substation, won a 6-2 planning commission recommendation after the developer widened setbacks from 40 to more than 200 feet and added a masonry wall, a retention basin and an emergency plan with the fire marshal. The council approved it 4-3. A resident of the adjacent Country Club View neighborhood called the concentrated power "extremely hazardous." Claire passed in a residential district, but by one vote and after major design changes.
+In November 2025 Balanced Rock Power's **Claire** project, up to 400 MW (406 MW in ERCOT's queue) on about nine acres zoned Suburban Residential next to a CenterPoint substation, won a planning commission recommendation of approval, with Commissioners Mike Beard and Kim Kosteck voting no. The developer said it had increased the setbacks and added flood retention and a six-foot masonry wall. The council approved it 4-3, with conditions that put battery containers at least 200 feet from homes. Opponents at the council hearing cited the site's closeness to homes, fire and toxic gas risks, insurance exclusions for lithium-ion battery fires and questions about future ownership. Claire was approved in a residential district by one vote.
 
 ## Other projects
 
@@ -73,7 +73,7 @@ In Houston and the unincorporated county, we found no recorded opposition to the
 
 ## Organized Opposition
 
-Opposition in Harris has been local, project-specific and largely unorganized. We found no named resident group, Facebook group or petition aimed at a Harris County project. The objections on record came from neighbors notified of special use permits in Baytown and Tomball and from LiUNA Local 350 in Baytown.
+Opposition in Harris has been local, project-specific and largely unorganized. We found no named resident group, Facebook group or petition aimed at a Harris County project. The objections on record came from residents near the Claire site in Baytown, from property owners notified of the Tomball permit and, on Baytown's Massey project, from Laborers International Union Local 350, IBEW Local 527 and the Texas Climate Jobs Project.
 
 The organized campaigns are next door. In League City (Galveston County), neighbors of an elementary school petitioned against a 200 MW Cypress Creek project in 2024, and the city paused storage and then adopted an ordinance. In Katy, across the line in Waller County, the city denied Vesper Energy's 500 MW Ochoa project near Katy High School in October 2024; the developer asked the state utility commission to override the city, ERCOT intervened, and Vesper withdrew in July 2026. Statewide, the Republican Party of Texas adopted a [resolution](https://texasgop.org/resolution-to-protect-texas-counties-from-the-rapid-expansion-of-battery-energy-storage-systems-bess/) in March 2025 calling for limits on battery storage.
 
@@ -82,7 +82,7 @@ The organized campaigns are next door. In League City (Galveston County), neighb
 - Texas Department of Insurance: the formal proposal and adoption of HB 3824 fire-safety rules for batteries entering service on or after January 1, 2027, and how the law's bar on "inconsistent" local rules is read against codes like Pasadena's.
 - November 3, 2026: county judge (Plummer v. Sanchez) and Commissioners Court Precincts 2 and 4; the new court sits in January 2027.
 - January 2027: the 90th Legislature convenes, the first session since a state permit for renewable plants (SB 819) died in committee.
-- Baytown: construction of Claire (planned for December 2027) and Massey (January 2028), and any union-backed ballot measure.
+- Baytown: Claire and Massey, which ERCOT data list with projected commercial operation dates of December 2027 and January 2028.
 - AES Beacon and Sigma at Deepwater (projected October 2029) and whether Pasadena's Article XII applies to them.
 - CenterPoint's data-center load additions and ERCOT's Batch Zero results.
 
@@ -183,7 +183,7 @@ Table 6: Outcome tiers[^tiers]
 | **Outcome tier** | **Definition** | **Harris projects** |
 |---|---|---|
 | advanced_confirmed | Terminal approval; the project may proceed | None |
-| restricted_conditional | Terminal approval carrying binding conditions | Massey (Baytown, August 14, 2025: 200 feet from homes, wall, buffer); Claire (Baytown, November 13, 2025: 200-foot-plus setbacks, wall, emergency plan) |
+| restricted_conditional | Terminal approval carrying binding conditions | Massey (Baytown, August 14, 2025: 200 feet from homes, wall, bufferyards); Claire (Baytown, November 13, 2025: 200 feet from homes, wall, bufferyards) |
 | blocked_confirmed | Terminal stop: denied or withdrawn | Black Mountain, Pitchford Road (Tomball, June 19, 2023) |
 | pending | No terminal disposition yet | AES Beacon and Sigma (Deepwater); other queued projects without a local decision |
 
@@ -201,7 +201,7 @@ Table 6: Outcome tiers[^tiers]
 - October 8, 2024: Pasadena City Council unanimously [adopts](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_10082024-533) Ordinance 2024-198, a 90-day moratorium on commercial battery permits in the city and its extraterritorial jurisdiction.
 - January 7, 2025: Pasadena unanimously [extends](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_01072025-553) the moratorium 90 days (Ordinance 2025-001).
 - April 1, 2025: Pasadena unanimously [adopts](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_04012025-574) Ordinance 2025-082, Article XII "Energy Storage Systems": five-acre cap, 500 feet from residences, 1,000 feet from critical facilities, special use permit with plume study.
-- August 14, 2025: Baytown City Council [approves](https://baytown.org/CivicAlerts.asp?AID=1231) the 100 MW Massey project over resident and union objections.
+- August 14, 2025: Baytown City Council [approves](https://baytown.org/CivicAlerts.asp?AID=1231) the 100 MW Massey project 7-0, after labor groups raised safety concerns and asked for a delay.
 - September 1, 2025: State laws HB 3809 (battery decommissioning) and HB 3824 (battery fire safety, with limits on inconsistent local rules) take effect.
 - November 13, 2025: Baytown [approves](https://baytown.org/CivicAlerts.asp?AID=1362) the 406 MW Claire project in a Suburban Residential zone, 4-3.
 - April 23, 2026: Harris County Fire Marshal Laurie Christensen, for Commissioners Court, [asks](https://capitol.texas.gov/tlodocs/89R/handouts/C4502026042310001/63fa389c-78a1-45e9-9914-c39bb46ecf2c.PDF) a House committee for statewide NFPA 855-based standards.
@@ -210,14 +210,14 @@ Table 6: Outcome tiers[^tiers]
 
 ## Project outcomes
 
-1. **Claire BESS** (Balanced Rock Power; BRP Blue Topaz 3 LLC): 1010 Bob Smith Road, Baytown, interconnecting at Cedar Bayou 138 kV. Planning commission [recommended approval 6-2](https://baytownsun.com/local/baytown-planning-zoning-recommends-approval-of-9-acre-battery-storage-facility-in-residential-area/article_dda8b8c0-a892-4c64-94ad-2e0e91e6e920.html) in November 2025; council approved it 4-3 on November 13 (yes: Alvarado, Powell, Lester, Franco). The developer projects more than $40 million in property taxes over 20 years; operation is planned for December 2027.
-2. **Massey Energy Storage** (Cypress Creek Renewables): about 15.5 acres at 2015 Massey Tompkins Road, Baytown; rezoned to General Commercial with a special use permit on August 14, 2025. We found no evidence the union's ballot measure went forward. The developer projects about $20 million in taxes over 20 years.
+1. **Claire BESS** (Balanced Rock Power; BRP Blue Topaz 3 LLC): 1010 Bob Smith Road, Baytown, interconnecting at Cedar Bayou 138 kV. Planning commission [recommended approval](https://destinyhosted.com/baytodocs/2026/PZ/20260120_3736/3742_2026%2001%2020%20P%26Z%20PACKET.pdf) on November 11, 2025, with two commissioners voting no; council approved it 4-3 on November 13 (yes: Alvarado, Powell, Lester, Franco). The developer projects more than $40 million in property taxes over 20 years; ERCOT data list a projected commercial operation date of December 2027.
+2. **Massey Energy Storage** (Cypress Creek Renewables): about 15.5 acres at 2015 Massey Tompkins Road, Baytown; on August 14, 2025 the council rezoned about 10 acres to General Commercial and granted a special use permit for the site. We found no record of the signature drive mentioned at the hearing in the city's council packets through December 2025. The landowner told the city the project would pay more than $10 million in taxes to Baytown over its life.
 3. **Pitchford Road BESS** (Black Mountain Energy Storage; landowner Michael Kirtley), Tomball: the council rezoned the land to light industrial but denied the conditional use permit on June 19, 2023; size not reported.
 4. **AES Beacon and Sigma Storage**: about 408 MW each at the Deepwater 345 kV and 138 kV substations in the Pasadena area, in ERCOT study with operation projected for October 2029; no local decision recorded.
 
 ## Opposition
 
-Organized groups on record: none specific to Harris County. Opponents on record are LiUNA Local 350, whose president Robert Ramos [opposed](https://baytownsun.com/news/concerns-expressed-over-battery-storage-complex/article_3bf1ec16-f4c2-4bec-98c9-ebc2066b94c6.html) Massey in August 2025, and residents of Baytown's Country Club View neighborhood, who opposed Claire. Concerns include fire and explosion risk, toxic plumes, proximity to homes and schools, and the capacity of local fire departments. Waller County Judge Trey Duhon has [promoted](https://www.boernestar.com/article/9257,county-makes-move-to-help-in-fight-against-battery-storage-systems) sub-regional planning commissions under Chapter 391 of the Local Government Code as a way for counties to resist battery projects.
+Organized groups on record: none specific to Harris County. Opponents on record are Laborers International Union Local 350, which with IBEW Local 527 and the Texas Climate Jobs Project [asked](https://destinyhosted.com/baytodocs/2025/CC%20Regular/20250814_3662/3668_2025%2008%2014%20JOINT%20CC%20MDD%20AGENDA%20PACKET.pdf) Baytown in July 2025 to postpone the Massey permit, and residents near the Claire site in Baytown. Concerns include fire and explosion risk, toxic smoke and gas, proximity to homes, and fire department response. Waller County Judge Trey Duhon has [promoted](https://www.boernestar.com/article/9257,county-makes-move-to-help-in-fight-against-battery-storage-systems) sub-regional planning commissions under Chapter 391 of the Local Government Code as a way for counties to resist battery projects.
 
 ## Local Context
 
@@ -262,11 +262,11 @@ S13. City of Baytown, 2015 Massey Tompkins special use permit and zoning map ame
 
 S14. City of Baytown, 1010 Bob Smith Road zoning map amendment and special use permit, Jan. 22, 2026. https://baytown.org/CivicAlerts.asp?AID=1362
 
-S15. Baytown Sun, Concerns expressed over battery storage complex, Aug. 20, 2025. https://baytownsun.com/news/concerns-expressed-over-battery-storage-complex/article_3bf1ec16-f4c2-4bec-98c9-ebc2066b94c6.html
+S15. City of Baytown, Joint City Council and MDD agenda packet, Aug. 14, 2025 (Massey staff reports, draft Ordinance 16,207 with conditions, and the July 3, 2025 letter from Laborers International Union Local 350, IBEW Local 527 and the Texas Climate Jobs Project). https://destinyhosted.com/baytodocs/2025/CC%20Regular/20250814_3662/3668_2025%2008%2014%20JOINT%20CC%20MDD%20AGENDA%20PACKET.pdf
 
-S16. Baytown Sun, Baytown Planning & Zoning recommends approval of 9-acre battery storage facility in residential area, Nov. 12, 2025. https://baytownsun.com/local/baytown-planning-zoning-recommends-approval-of-9-acre-battery-storage-facility-in-residential-area/article_dda8b8c0-a892-4c64-94ad-2e0e91e6e920.html
+S16. City of Baytown, City Council agenda packet, Sept. 11, 2025, with the minutes of the Aug. 14, 2025 joint meeting (Ordinances 16,206 and 16,207). https://destinyhosted.com/baytodocs/2025/CC%20Regular/20250911_3675/3681_2025%2009%2011%20CC%20AGENDA%20PACKET.pdf
 
-S17. Baytown Sun, Council approves battery storage, Nov. 2025. https://baytownsun.com/local/council-approves-battery-storage/article_ad53181c-e3cb-43d0-bf1a-a1b684e4a532.html
+S17. City of Baytown, City Council agenda packet, Dec. 11, 2025, with the minutes of the Nov. 13, 2025 joint meeting (Ordinance 16,297). https://destinyhosted.com/baytodocs/2025/CC%20Regular/20251211_3703/3709_2025%2012%2011%20CC%20PACKET.pdf
 
 S18. City of Baytown, Special use permit, Garth Road battery energy storage system, 2023. https://www.baytown.org/CivicAlerts.aspx?AID=808
 
@@ -314,6 +314,14 @@ S39. Boerne Star, County makes move to help in fight against battery storage sys
 
 S40. Hawthorn platform, pricephillips/renewable-opposition, commit 65df5c9 (restrictions, contested_projects, county_summary, county_covariates, queue_projects, facilities, county_adjacency), and the provisional county restriction model fitted October 16, 2026 under config/county_model_registration.json.
 
+S41. City of Baytown, Joint City Council and MDD agenda packet, Nov. 13, 2025 (Claire draft ordinance, developer information sheets and Planning and Zoning report). https://destinyhosted.com/baytodocs/2025/CC%20Regular/20251118_3700/3706_2025%2011%2013%20CC%20AGENDA%20PACKET.pdf
+
+S42. City of Baytown, Planning and Zoning Commission agenda packet, Jan. 20, 2026, with the minutes of the Nov. 11, 2025 special meeting. https://destinyhosted.com/baytodocs/2026/PZ/20260120_3736/3742_2026%2001%2020%20P%26Z%20PACKET.pdf
+
+S43. City of Baytown, City Council minutes, Oct. 12, 2023 (Garth Road special use permit, Ordinance 15,576). https://destinyhosted.com/baytodocs/2023/CC%20Regular/20231026_3178/24390_2023_10_12_CC_Minutes.pdf
+
+S44. City of Baytown, Unified Land Development Code, Sec. 3.43 and Table 3.43-2 (bufferyards). https://online.encodeplus.com/regs/baytown-tx-uldc/doc-viewer.aspx?secid=56
+
 ## Image credits
 
 Page 1 county map: Hawthorn Intelligence, drawn from U.S. Census Bureau 2024 county boundaries (data/geo/counties_2024.topojson in the Hawthorn platform), in the style of David Benbennick's public-domain Wikimedia Commons county maps.
@@ -322,7 +330,7 @@ Page 1 county map: Hawthorn Intelligence, drawn from U.S. Census Bureau 2024 cou
 
 [^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016 (0.010 on the gate's equal-width bins), across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
 
-[^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Harris's own label rests on Pasadena's 2024 moratorium, which the platform lists as extended and in force; the city's minutes show it was replaced in April 2025 by Article XII, whose 500-foot residential setback would score 2. The label does not enter Harris's own out-of-fold score.
+[^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Harris's own label rests on Pasadena's 2024 moratorium, which the platform lists as extended and in force; the city's minutes show it was replaced in April 2025 by Article XII. The platform added Article XII on October 16 and scores it 3, reading the 1,500-foot spacing between battery sites as its setback; scored by its 500-foot residential setback, it would be a 2. The label does not enter Harris's own out-of-fold score.
 
 [^bench]: Percentiles are mid-rank: the share of counties below Harris plus half of ties. The margin row ranks Democratic lean. Opposition records include the Pasadena storage code and the three contested projects this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024). Operating solar counts every EIA-860M plant that lists solar among its technologies, so Harris's 136 MW includes the battery half of the Liberty hybrid; solar alone is about 72 MW. Interconnection requests cover all statuses (about 7.1 GW was active at the end of 2025).
 
@@ -334,4 +342,4 @@ Page 1 county map: Hawthorn Intelligence, drawn from U.S. Census Bureau 2024 cou
 
 [^evidence]: Distribution across 3,222 counties and county equivalents in the platform's published data as of October 13, 2026.
 
-[^tiers]: Tiers for the Baytown and Tomball projects are assigned from the public record cited under Project outcomes; the Baytown Sun (S17) reports the Claire vote as 4-3.
+[^tiers]: Tiers for the Baytown and Tomball projects are assigned from the public record cited under Project outcomes; the council's minutes of November 13, 2025 (S17) record the Claire vote as 4-3.
