@@ -74,3 +74,13 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-13,queue.csv,q_67b7708fa1,contested_project,IA,Linn County,rejected,
 2026-10-13,cases_candidates.csv,S26P-3938|contested_project|Iowa Court of Appeals|23-0705,case,IA,Coggon Solar,promoted,
 2026-10-13,cases_candidates.csv,S26P-3939|contested_project|Iowa District Court for Linn County|,case,IA,Duane Arnold Solar Projects I and II,held,missing case_source_url
+2026-10-16,queue.csv,q_ef439d5e2f,restriction,KY,Nicholas County,awaiting_review,awaiting review by someone other than its drafter
+2026-10-16,queue.csv,q_ef439d5e2f-2,restriction,KY,Nicholas County,promoted,
+2026-10-16,queue.csv,q_0bc2342a2d,contested_project,KY,Nicholas County,awaiting_review,awaiting review by someone other than its drafter
+2026-10-16,queue.csv,q_05f0247946,restriction,KS,Cherokee County,held,"status expired: the instrument is no longer in force, so it is not published"
+2026-10-16,queue.csv,q_bbb012a590,restriction,TX,Pasadena,promoted,
+2026-10-16,queue.csv,q_eca5778655,restriction,IA,Jones County,held,"status expired: the instrument is no longer in force, so it is not published"
+2026-10-16,queue.csv,q_b0990d0ad7,contested_project,TX,Tomball,awaiting_review,awaiting review by someone other than its drafter
+2026-10-16,queue.csv,q_82121a6429,contested_project,TX,Baytown,awaiting_review,awaiting review by someone other than its drafter
+2026-10-16,queue.csv,q_b4907e2bbd,contested_project,TX,Baytown,awaiting_review,awaiting review by someone other than its drafter
+2026-10-16,queue.csv,q_e0dc0d95a5,contested_project,IA,Linn County,rejected,

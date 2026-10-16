@@ -2,11 +2,11 @@
  "generated": "2026-10-16",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3350,
-  "severe": 1364,
-  "verified": 83,
+  "restriction_instruments": 3352,
+  "severe": 1366,
+  "verified": 85,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 942,
+  "severe_where_state_limits_local": 943,
   "projects": 575,
   "projects_confirmed": 125,
   "decided": {
@@ -48,12 +48,12 @@
   "cases": 39,
   "county_coverage": {
    "counties": 3144,
-   "with_any_record": 1412,
-   "with_restriction": 1266,
+   "with_any_record": 1413,
+   "with_restriction": 1267,
    "with_contested_project": 456,
    "with_siting_standard": 1158,
    "with_negative_check": 2,
-   "with_negative_check_and_no_record": 2,
+   "with_negative_check_and_no_record": 1,
    "with_neither": 1730
   }
  },
@@ -101,7 +101,7 @@
    "by_reason": {}
   },
   "adjacency": {
-   "rows": 235
+   "rows": 239
   },
   "fips_misses": {
    "rows": 63,
@@ -113,89 +113,89 @@
   }
  },
  "promotion_trail": {
-  "decisions": 75,
+  "decisions": 85,
   "by_action": {
-   "promoted": 62,
-   "held": 11,
-   "awaiting_review": 1,
-   "rejected": 1
+   "promoted": 64,
+   "held": 13,
+   "awaiting_review": 6,
+   "rejected": 2
   },
   "by_file": {
-   "queue.csv": 27,
+   "queue.csv": 37,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-13",
+  "last": "2026-10-16",
   "recent": [
    {
-    "date": "2026-10-13",
-    "file": "cases_candidates.csv",
-    "action": "held",
-    "what": "IA Duane Arnold Solar Projects I and II",
-    "reason": "missing case_source_url"
-   },
-   {
-    "date": "2026-10-13",
-    "file": "cases_candidates.csv",
-    "action": "promoted",
-    "what": "IA Coggon Solar",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-13",
+    "date": "2026-10-16",
     "file": "queue.csv",
     "action": "rejected",
     "what": "IA Linn County",
     "reason": ""
    },
    {
-    "date": "2026-10-13",
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "awaiting_review",
+    "what": "TX Baytown",
+    "reason": "awaiting review by someone other than its drafter"
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "awaiting_review",
+    "what": "TX Baytown",
+    "reason": "awaiting review by someone other than its drafter"
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "awaiting_review",
+    "what": "TX Tomball",
+    "reason": "awaiting review by someone other than its drafter"
+   },
+   {
+    "date": "2026-10-16",
+    "file": "queue.csv",
+    "action": "held",
+    "what": "IA Jones County",
+    "reason": "status expired: the instrument is no longer in force, so it is not published"
+   },
+   {
+    "date": "2026-10-16",
     "file": "queue.csv",
     "action": "promoted",
-    "what": "WY Carbon County",
+    "what": "TX Pasadena",
     "reason": ""
    },
    {
-    "date": "2026-10-13",
+    "date": "2026-10-16",
     "file": "queue.csv",
-    "action": "promoted",
-    "what": "WY Carbon County",
-    "reason": ""
+    "action": "held",
+    "what": "KS Cherokee County",
+    "reason": "status expired: the instrument is no longer in force, so it is not published"
    },
    {
-    "date": "2026-10-13",
+    "date": "2026-10-16",
     "file": "queue.csv",
-    "action": "promoted",
-    "what": "NH Moultonborough",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-13",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "NH Durham",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-13",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "NH Belmont",
-    "reason": ""
+    "action": "awaiting_review",
+    "what": "KY Nicholas County",
+    "reason": "awaiting review by someone other than its drafter"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 21,
-   "rejected": 1,
-   "confirmed": 1,
+   "promoted": 23,
+   "rejected": 2,
+   "confirmed": 3,
    "pending": 2,
-   "awaiting_review": 1,
-   "lead": 68
+   "awaiting_review": 6,
+   "lead": 59
   },
   "queue_by_entity": {
-   "restriction": 51,
+   "restriction": 52,
    "contested_project": 42,
    "case": 1
   },
@@ -204,15 +204,15 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 77,
+  "snapshot_rows": 80,
   "snapshot_files": 5,
-  "headline_history_rows": 7,
+  "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-13",
+  "headline_last_change": "2026-10-16",
   "latest": {
-   "restrictions": "3350",
-   "severe_restrictions": "1364",
-   "verified_restrictions": "83",
+   "restrictions": "3352",
+   "severe_restrictions": "1366",
+   "verified_restrictions": "85",
    "multi_sector_restrictions": "84",
    "contested_projects": "575",
    "confirmed_outcomes": "125",
@@ -220,14 +220,14 @@
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
-   "counties_with_records": "1412",
+   "counties_with_records": "1413",
    "counties_not_examined": "1730"
   }
  },
  "source_archive": {
-  "sources": 61,
+  "sources": 63,
   "archived": 11,
-  "archived_share": 0.18
+  "archived_share": 0.175
  },
  "evidence_checks": {
   "restriction_sources": {

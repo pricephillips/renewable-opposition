@@ -1,4 +1,8 @@
 county_fips,state,county,trigger_instrument_id,trigger_jurisdiction,trigger_state,trigger_type,trigger_status,trigger_date,trigger_technologies,suggested_query
+21201,KY,Robertson,queue:q_ef439d5e2f-2,Nicholas County,KY,moratorium,active,2026-09-18,solar,"""Robertson County"" Kentucky moratorium OR ordinance solar OR wind OR ""battery storage"""
+21069,KY,Fleming,queue:q_ef439d5e2f-2,Nicholas County,KY,moratorium,active,2026-09-18,solar,"""Fleming County"" Kentucky moratorium OR ordinance solar OR wind OR ""battery storage"""
+21017,KY,Bourbon,queue:q_ef439d5e2f-2,Nicholas County,KY,moratorium,active,2026-09-18,solar,"""Bourbon County"" Kentucky moratorium OR ordinance solar OR wind OR ""battery storage"""
+21011,KY,Bath,queue:q_ef439d5e2f-2,Nicholas County,KY,moratorium,active,2026-09-18,solar,"""Bath County"" Kentucky moratorium OR ordinance solar OR wind OR ""battery storage"""
 45075,SC,Orangeburg,mn:sc-clarendon-county-2026,Clarendon County,SC,moratorium,active,2026-09-14,battery_storage,"""Orangeburg County"" South Carolina moratorium OR ordinance solar OR wind OR ""battery storage"""
 45015,SC,Berkeley,mn:sc-clarendon-county-2026,Clarendon County,SC,moratorium,active,2026-09-14,battery_storage,"""Berkeley County"" South Carolina moratorium OR ordinance solar OR wind OR ""battery storage"""
 29217,MO,Vernon,mn:mo-cedar-county-2026,Cedar County,MO,moratorium,active,2026-09-08,battery_storage;solar;wind,"""Vernon County"" Missouri moratorium OR ordinance solar OR wind OR ""battery storage"""
