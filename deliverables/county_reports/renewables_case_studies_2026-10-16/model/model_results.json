@@ -1,0 +1,1373 @@
+{
+ "snapshot": {
+  "name": "snapshot_has_severe_queue",
+  "label": "has_severe",
+  "n": 3144,
+  "positives": 747,
+  "base_rate": 0.23759541984732824,
+  "verdict": "PROMOTE",
+  "C": 0.01,
+  "variables": [
+   "log_population",
+   "log_income",
+   "log1p_wind_mw",
+   "neighbor_severe_share",
+   "log1p_queue_mw"
+  ],
+  "median_auc": 0.7814892136395268,
+  "auc_iqr": [
+   0.773839485458613,
+   0.7954837807606264
+  ],
+  "pooled_oof_auc": 0.7809510884589673,
+  "state_grouped_auc": 0.8103752887956978,
+  "stability_cost": 0.0,
+  "gate": {
+   "ece": 0.01615063492331793,
+   "ece_ok": 1.0,
+   "brier": 0.14476680465860256,
+   "brier_baseline": 0.18114383631490008,
+   "brier_skill": 0.20081848986050932,
+   "bss_ok": true,
+   "n_ok": true,
+   "pos_ok": 1.0
+  },
+  "calibration_slope": 0.9952225311205575,
+  "morans_i": -0.11490162275729188,
+  "morans_p": 0.001,
+  "median_coef": {
+   "log_population": 0.17627774694935072,
+   "log_income": 0.23066733005918216,
+   "log1p_wind_mw": 0.09443610222424635,
+   "neighbor_severe_share": 0.6803994883281709,
+   "log1p_queue_mw": 0.20707111771403278
+  },
+  "coef_sign_folds": {
+   "log_population": 25,
+   "log_income": 25,
+   "log1p_wind_mw": 25,
+   "neighbor_severe_share": 25,
+   "log1p_queue_mw": 25
+  },
+  "frame_means": {
+   "log_population": 10.274881755806074,
+   "log_income": 11.095444039928337,
+   "log1p_wind_mw": 0.8238565052296454,
+   "neighbor_severe_share": 0.2429154849956377,
+   "log1p_queue_mw": 5.183062210389688
+  },
+  "frame_sds": {
+   "log_population": 1.5205536449576125,
+   "log_income": 0.24864740370130275,
+   "log1p_wind_mw": 1.9517942598629683,
+   "neighbor_severe_share": 0.2707742433616181,
+   "log1p_queue_mw": 2.964943923399158
+  },
+  "deciles": [
+   {
+    "decile": 1,
+    "lo": 0.015413793779313827,
+    "hi": 0.06250230347070852,
+    "n": 315,
+    "share": 0.03492063492063492
+   },
+   {
+    "decile": 2,
+    "lo": 0.06253165169446674,
+    "hi": 0.08261684946200575,
+    "n": 314,
+    "share": 0.06369426751592357
+   },
+   {
+    "decile": 3,
+    "lo": 0.0826233162052552,
+    "hi": 0.10515537461574738,
+    "n": 314,
+    "share": 0.07006369426751592
+   },
+   {
+    "decile": 4,
+    "lo": 0.10537833560739031,
+    "hi": 0.13091458624680335,
+    "n": 315,
+    "share": 0.13333333333333333
+   },
+   {
+    "decile": 5,
+    "lo": 0.13099892670978772,
+    "hi": 0.16400884877426178,
+    "n": 314,
+    "share": 0.1592356687898089
+   },
+   {
+    "decile": 6,
+    "lo": 0.16407747545005963,
+    "hi": 0.20971899335066493,
+    "n": 314,
+    "share": 0.20382165605095542
+   },
+   {
+    "decile": 7,
+    "lo": 0.20978916926792632,
+    "hi": 0.2794520612404883,
+    "n": 315,
+    "share": 0.28253968253968254
+   },
+   {
+    "decile": 8,
+    "lo": 0.279814590591031,
+    "hi": 0.385679063652889,
+    "n": 314,
+    "share": 0.3343949044585987
+   },
+   {
+    "decile": 9,
+    "lo": 0.38638904422554626,
+    "hi": 0.5457554693399369,
+    "n": 314,
+    "share": 0.4426751592356688
+   },
+   {
+    "decile": 10,
+    "lo": 0.5460367300149638,
+    "hi": 0.930051305249589,
+    "n": 315,
+    "share": 0.6507936507936508
+   }
+  ],
+  "median_pos": 0.3425720791163649,
+  "median_neg": 0.13521718402199978
+ },
+ "primary": {
+  "name": "primary_prospective_queue",
+  "label": "new_severe_2022_2025",
+  "n": 2711,
+  "positives": 265,
+  "base_rate": 0.09774990778310587,
+  "verdict": "HOLD",
+  "C": 0.01,
+  "variables": [
+   "log_population",
+   "log_income",
+   "margin",
+   "log1p_wind_mw",
+   "neighbor_severe_share",
+   "log1p_queue_mw"
+  ],
+  "median_auc": 0.7191418759887332,
+  "auc_iqr": [
+   0.686522911051213,
+   0.7504043126684636
+  ],
+  "pooled_oof_auc": 0.7182508215183819,
+  "state_grouped_auc": 0.7292270531400967,
+  "stability_cost": 0.0,
+  "gate": {
+   "ece": 0.0079734293117778,
+   "ece_ok": 1.0,
+   "brier": 0.08405687631651114,
+   "brier_baseline": 0.08819486331150017,
+   "brier_skill": 0.046918684826052215,
+   "bss_ok": false,
+   "n_ok": true,
+   "pos_ok": 1.0
+  },
+  "calibration_slope": 0.9830812524214944,
+  "morans_i": 0.10813995996638737,
+  "morans_p": 0.001,
+  "median_coef": {
+   "log_population": 0.08152682335292327,
+   "log_income": 0.25753671413431467,
+   "margin": -0.052615914240396404,
+   "log1p_wind_mw": 0.08136687530380082,
+   "neighbor_severe_share": 0.2709390724208646,
+   "log1p_queue_mw": 0.2653385488625721
+  },
+  "coef_sign_folds": {
+   "log_population": 25,
+   "log_income": 25,
+   "margin": 0,
+   "log1p_wind_mw": 25,
+   "neighbor_severe_share": 25,
+   "log1p_queue_mw": 25
+  },
+  "frame_means": {
+   "log_population": 10.159078716709377,
+   "log_income": 11.077631761774976,
+   "margin": -0.3327710992253781,
+   "log1p_wind_mw": 0.6905843001186106,
+   "neighbor_severe_share": 0.10796787232604274,
+   "log1p_queue_mw": 4.036804412636879
+  },
+  "frame_sds": {
+   "log_population": 1.4997229692297156,
+   "log_income": 0.251244566302905,
+   "margin": 0.3192881381791337,
+   "log1p_wind_mw": 1.8034144986273928,
+   "neighbor_severe_share": 0.16608396148025611,
+   "log1p_queue_mw": 3.070049538764723
+  },
+  "deciles": [
+   {
+    "decile": 1,
+    "lo": 0.00950717222473984,
+    "hi": 0.03273118225405169,
+    "n": 272,
+    "share": 0.014705882352941176
+   },
+   {
+    "decile": 2,
+    "lo": 0.03278556081083047,
+    "hi": 0.04237837776495625,
+    "n": 271,
+    "share": 0.04428044280442804
+   },
+   {
+    "decile": 3,
+    "lo": 0.04240936243167931,
+    "hi": 0.05354184599630638,
+    "n": 271,
+    "share": 0.04797047970479705
+   },
+   {
+    "decile": 4,
+    "lo": 0.0536625572942349,
+    "hi": 0.06421639629061249,
+    "n": 271,
+    "share": 0.033210332103321034
+   },
+   {
+    "decile": 5,
+    "lo": 0.06432790552017034,
+    "hi": 0.07598536194024856,
+    "n": 271,
+    "share": 0.07380073800738007
+   },
+   {
+    "decile": 6,
+    "lo": 0.07601046252425807,
+    "hi": 0.09124248784160327,
+    "n": 271,
+    "share": 0.07380073800738007
+   },
+   {
+    "decile": 7,
+    "lo": 0.09125306184234915,
+    "hi": 0.11128507945405748,
+    "n": 271,
+    "share": 0.1033210332103321
+   },
+   {
+    "decile": 8,
+    "lo": 0.11154168976685427,
+    "hi": 0.1422949319574439,
+    "n": 271,
+    "share": 0.16236162361623616
+   },
+   {
+    "decile": 9,
+    "lo": 0.1424545160300611,
+    "hi": 0.18979896545291375,
+    "n": 271,
+    "share": 0.2029520295202952
+   },
+   {
+    "decile": 10,
+    "lo": 0.18993816876650915,
+    "hi": 0.765692782782036,
+    "n": 271,
+    "share": 0.22140221402214022
+   }
+  ],
+  "median_pos": 0.12708306650151144,
+  "median_neg": 0.07243003247658873,
+  "holdout_2026_auc": 0.6324742663022656,
+  "holdout_2026_n": 2446,
+  "holdout_2026_pos": 49
+ },
+ "sites": {
+  "Nicholas KY": {
+   "fips": "21181",
+   "score": 0.048371627483537044,
+   "lo": 0.04320567230835491,
+   "hi": 0.05783140486774247,
+   "label_has_severe": 0,
+   "decile": 1,
+   "us_pct": 4.373409669211196,
+   "state_pct": 18.75,
+   "state_rank": 98,
+   "state_n": 120,
+   "state_median": 0.09277995924932736,
+   "state_top3": [
+    {
+     "county": "Daviess",
+     "score": 0.41960201159862925
+    },
+    {
+     "county": "Hancock",
+     "score": 0.38638904422554626
+    },
+    {
+     "county": "Marshall",
+     "score": 0.3411991145656263
+    }
+   ],
+   "pct_among_restricted": 0.535475234270415,
+   "n_restricted": 747,
+   "lifts": {
+    "log_population": -0.15359188317201097,
+    "log_income": -0.09387425823312302,
+    "log1p_wind_mw": -0.03986167945357082,
+    "neighbor_severe_share": -0.6103962092040307,
+    "log1p_queue_mw": -0.3619840755221829
+   },
+   "lift_total": -1.2597081055849184,
+   "values": {
+    "population": 7708.0,
+    "land_sqmi": 195.306,
+    "density": 39.47,
+    "income": 59531.0,
+    "bachelors": 9.82,
+    "margin_2024": -0.4902,
+    "margin_2020": -0.4279,
+    "margin_2016": -0.4118,
+    "solar_mw": 0.0,
+    "wind_mw": 0.0,
+    "queue_mw": 0.0,
+    "queue_n": 0.0,
+    "neighbor_share": 0.0
+   },
+   "primary_score": 0.035688085397192024,
+   "peers": [
+    {
+     "county_fips": "47095",
+     "state": "TN",
+     "county": "Lake",
+     "population": 6579,
+     "has_severe": 0,
+     "score": 0.03642904996027578
+    },
+    {
+     "county_fips": "21237",
+     "state": "KY",
+     "county": "Wolfe",
+     "population": 6443,
+     "has_severe": 0,
+     "score": 0.026619234296839798
+    },
+    {
+     "county_fips": "13167",
+     "state": "GA",
+     "county": "Johnson",
+     "population": 9190,
+     "has_severe": 0,
+     "score": 0.06403260204011482
+    },
+    {
+     "county_fips": "18025",
+     "state": "IN",
+     "county": "Crawford",
+     "population": 10499,
+     "has_severe": 0,
+     "score": 0.06077599324981551
+    },
+    {
+     "county_fips": "13309",
+     "state": "GA",
+     "county": "Wheeler",
+     "population": 7335,
+     "has_severe": 0,
+     "score": 0.08421391055343018
+    },
+    {
+     "county_fips": "13283",
+     "state": "GA",
+     "county": "Treutlen",
+     "population": 6376,
+     "has_severe": 0,
+     "score": 0.06945562739933883
+    },
+    {
+     "county_fips": "13003",
+     "state": "GA",
+     "county": "Atkinson",
+     "population": 8337,
+     "has_severe": 0,
+     "score": 0.09253962852788254
+    },
+    {
+     "county_fips": "18155",
+     "state": "IN",
+     "county": "Switzerland",
+     "population": 9909,
+     "has_severe": 0,
+     "score": 0.08338670087087795
+    },
+    {
+     "county_fips": "21011",
+     "state": "KY",
+     "county": "Bath",
+     "population": 12851,
+     "has_severe": 0,
+     "score": 0.07891589045074579
+    },
+    {
+     "county_fips": "21063",
+     "state": "KY",
+     "county": "Elliott",
+     "population": 7307,
+     "has_severe": 0,
+     "score": 0.04031945012520178
+    }
+   ],
+   "peer_median_score": 0.06674411471972683,
+   "peer_restricted": 0,
+   "neighbors": [
+    {
+     "county_fips": "21017",
+     "state": "KY",
+     "county": "Bourbon",
+     "population": 20240,
+     "has_severe": 0,
+     "queue_mw_all": 139.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.13495267684720497
+    },
+    {
+     "county_fips": "21069",
+     "state": "KY",
+     "county": "Fleming",
+     "population": 15323,
+     "has_severe": 0,
+     "queue_mw_all": 778.5,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.12260968156214146
+    },
+    {
+     "county_fips": "21097",
+     "state": "KY",
+     "county": "Harrison",
+     "population": 19140,
+     "has_severe": 0,
+     "queue_mw_all": 440.0,
+     "solar_mw_all": 100.0,
+     "wind_mw_all": 0.0,
+     "score": 0.10608333213991049
+    },
+    {
+     "county_fips": "21011",
+     "state": "KY",
+     "county": "Bath",
+     "population": 12851,
+     "has_severe": 0,
+     "queue_mw_all": 259.79,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.07891589045074579
+    },
+    {
+     "county_fips": "21201",
+     "state": "KY",
+     "county": "Robertson",
+     "population": 2283,
+     "has_severe": 0,
+     "queue_mw_all": 0.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.06578111166354658
+    }
+   ]
+  },
+  "Linn IA": {
+   "fips": "19113",
+   "score": 0.385679063652889,
+   "lo": 0.36295621350788254,
+   "hi": 0.4048651801397229,
+   "label_has_severe": 0,
+   "decile": 8,
+   "us_pct": 79.97773536895674,
+   "state_pct": 60.101010101010104,
+   "state_rank": 40,
+   "state_n": 99,
+   "state_median": 0.3253842333900916,
+   "state_top3": [
+    {
+     "county": "Marshall",
+     "score": 0.7034425518008237
+    },
+    {
+     "county": "Madison",
+     "score": 0.7004237649666377
+    },
+    {
+     "county": "Worth",
+     "score": 0.6869694210329326
+    }
+   ],
+   "pct_among_restricted": 53.94912985274431,
+   "n_restricted": 747,
+   "lifts": {
+    "log_population": 0.24008752743761302,
+    "log_income": 0.15261394731796737,
+    "log1p_wind_mw": 0.020752317722486525,
+    "neighbor_severe_share": 0.22720129130798514,
+    "log1p_queue_mw": 0.15775726998513703
+   },
+   "lift_total": 0.7984123537711891,
+   "values": {
+    "population": 230004.0,
+    "land_sqmi": 717.013,
+    "density": 320.78,
+    "income": 77649.0,
+    "bachelors": 34.74,
+    "margin_2024": 0.0979,
+    "margin_2020": 0.1344,
+    "margin_2016": 0.0901,
+    "solar_mw": 204.5,
+    "wind_mw": 2.5,
+    "queue_mw": 1705.0,
+    "queue_n": 10.0,
+    "neighbor_share": 0.3333333333333333
+   },
+   "primary_score": 0.15294821716607623,
+   "peers": [
+    {
+     "county_fips": "17143",
+     "state": "IL",
+     "county": "Peoria",
+     "population": 179645,
+     "has_severe": 0,
+     "score": 0.2163285095847338
+    },
+    {
+     "county_fips": "37147",
+     "state": "NC",
+     "county": "Pitt",
+     "population": 177193,
+     "has_severe": 0,
+     "score": 0.23892647031941694
+    },
+    {
+     "county_fips": "23031",
+     "state": "ME",
+     "county": "York",
+     "population": 216731,
+     "has_severe": 0,
+     "score": 0.5733830926524532
+    },
+    {
+     "county_fips": "09180",
+     "state": "CT",
+     "county": "Southeastern Connecticut",
+     "population": 279971,
+     "has_severe": 1,
+     "score": 0.3665680040825808
+    },
+    {
+     "county_fips": "17163",
+     "state": "IL",
+     "county": "St. Clair",
+     "population": 253694,
+     "has_severe": 0,
+     "score": 0.32762217969100815
+    },
+    {
+     "county_fips": "42043",
+     "state": "PA",
+     "county": "Dauphin",
+     "population": 289593,
+     "has_severe": 1,
+     "score": 0.7880116613899607
+    },
+    {
+     "county_fips": "20177",
+     "state": "KS",
+     "county": "Shawnee",
+     "population": 178025,
+     "has_severe": 1,
+     "score": 0.6651290906569375
+    },
+    {
+     "county_fips": "18141",
+     "state": "IN",
+     "county": "St. Joseph",
+     "population": 273040,
+     "has_severe": 0,
+     "score": 0.4526490394742907
+    },
+    {
+     "county_fips": "55063",
+     "state": "WI",
+     "county": "La Crosse",
+     "population": 120488,
+     "has_severe": 0,
+     "score": 0.2698562043625439
+    },
+    {
+     "county_fips": "36083",
+     "state": "NY",
+     "county": "Rensselaer",
+     "population": 160332,
+     "has_severe": 1,
+     "score": 0.7267735272236778
+    }
+   ],
+   "peer_median_score": 0.40960852177843576,
+   "peer_restricted": 4,
+   "neighbors": [
+    {
+     "county_fips": "19011",
+     "state": "IA",
+     "county": "Benton",
+     "population": 25724,
+     "has_severe": 0,
+     "queue_mw_all": 870.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.4992921307150225
+    },
+    {
+     "county_fips": "19105",
+     "state": "IA",
+     "county": "Jones",
+     "population": 20896,
+     "has_severe": 0,
+     "queue_mw_all": 0.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.3512984108097455
+    },
+    {
+     "county_fips": "19055",
+     "state": "IA",
+     "county": "Delaware",
+     "population": 17558,
+     "has_severe": 0,
+     "queue_mw_all": 82.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 104.1,
+     "score": 0.3253842333900916
+    },
+    {
+     "county_fips": "19103",
+     "state": "IA",
+     "county": "Johnson",
+     "population": 156639,
+     "has_severe": 0,
+     "queue_mw_all": 349.4,
+     "solar_mw_all": 3.0,
+     "wind_mw_all": 0.0,
+     "score": 0.31529606697124846
+    },
+    {
+     "county_fips": "19031",
+     "state": "IA",
+     "county": "Cedar",
+     "population": 18349,
+     "has_severe": 1,
+     "queue_mw_all": 0.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 6.0,
+     "score": 0.19899072076947247
+    },
+    {
+     "county_fips": "19019",
+     "state": "IA",
+     "county": "Buchanan",
+     "population": 20694,
+     "has_severe": 1,
+     "queue_mw_all": 1103.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.12926228998366343
+    }
+   ]
+  },
+  "Cherokee KS": {
+   "fips": "20021",
+   "score": 0.138751329099693,
+   "lo": 0.13190644279635244,
+   "hi": 0.15174633195704468,
+   "label_has_severe": 1,
+   "decile": 5,
+   "us_pct": 42.70038167938932,
+   "state_pct": 36.666666666666664,
+   "state_rank": 67,
+   "state_n": 105,
+   "state_median": 0.17599817495893544,
+   "state_top3": [
+    {
+     "county": "Harvey",
+     "score": 0.7228670895109585
+    },
+    {
+     "county": "Douglas",
+     "score": 0.6679124985108424
+    },
+    {
+     "county": "Shawnee",
+     "score": 0.6651290906569375
+    }
+   ],
+   "pct_among_restricted": 15.194109772423026,
+   "n_restricted": 747,
+   "lifts": {
+    "log_population": -0.04808445488485557,
+    "log_income": -0.12336988901034938,
+    "log1p_wind_mw": -0.03986167945357082,
+    "neighbor_severe_share": -0.19159745894802277,
+    "log1p_queue_mw": 0.09799289580066896
+   },
+   "lift_total": -0.3049205864961296,
+   "values": {
+    "population": 19151.0,
+    "land_sqmi": 587.567,
+    "density": 32.59,
+    "income": 57668.0,
+    "bachelors": 19.42,
+    "margin_2024": -0.5293,
+    "margin_2020": -0.5009,
+    "margin_2016": -0.4846,
+    "solar_mw": 0.0,
+    "wind_mw": 0.0,
+    "queue_mw": 724.0,
+    "queue_n": 4.0,
+    "neighbor_share": 0.16666666666666666
+   },
+   "primary_score": 0.06339405818853407,
+   "peers": [
+    {
+     "county_fips": "48057",
+     "state": "TX",
+     "county": "Calhoun",
+     "population": 19868,
+     "has_severe": 0,
+     "score": 0.20915990550707758
+    },
+    {
+     "county_fips": "17045",
+     "state": "IL",
+     "county": "Edgar",
+     "population": 16535,
+     "has_severe": 0,
+     "score": 0.23137695182395118
+    },
+    {
+     "county_fips": "18139",
+     "state": "IN",
+     "county": "Rush",
+     "population": 16739,
+     "has_severe": 1,
+     "score": 0.4583075797572312
+    },
+    {
+     "county_fips": "17033",
+     "state": "IL",
+     "county": "Crawford",
+     "population": 18511,
+     "has_severe": 1,
+     "score": 0.10917064417697525
+    },
+    {
+     "county_fips": "17159",
+     "state": "IL",
+     "county": "Richland",
+     "population": 15598,
+     "has_severe": 0,
+     "score": 0.0846003753060607
+    },
+    {
+     "county_fips": "26113",
+     "state": "MI",
+     "county": "Missaukee",
+     "population": 15207,
+     "has_severe": 0,
+     "score": 0.4406057696239552
+    },
+    {
+     "county_fips": "22041",
+     "state": "LA",
+     "county": "Franklin",
+     "population": 19408,
+     "has_severe": 0,
+     "score": 0.07819285285449508
+    },
+    {
+     "county_fips": "27159",
+     "state": "MN",
+     "county": "Wadena",
+     "population": 14256,
+     "has_severe": 1,
+     "score": 0.15480555874119842
+    },
+    {
+     "county_fips": "48293",
+     "state": "TX",
+     "county": "Limestone",
+     "population": 22283,
+     "has_severe": 0,
+     "score": 0.10759663543548502
+    },
+    {
+     "county_fips": "05037",
+     "state": "AR",
+     "county": "Cross",
+     "population": 16543,
+     "has_severe": 0,
+     "score": 0.11113095123902997
+    }
+   ],
+   "peer_median_score": 0.1329682549901142,
+   "peer_restricted": 3,
+   "neighbors": [
+    {
+     "county_fips": "20037",
+     "state": "KS",
+     "county": "Crawford",
+     "population": 39008,
+     "has_severe": 0,
+     "queue_mw_all": 962.8,
+     "solar_mw_all": 1.0,
+     "wind_mw_all": 0.0,
+     "score": 0.2638149043829233
+    },
+    {
+     "county_fips": "20099",
+     "state": "KS",
+     "county": "Labette",
+     "population": 19869,
+     "has_severe": 1,
+     "queue_mw_all": 1351.0,
+     "solar_mw_all": 1.0,
+     "wind_mw_all": 0.0,
+     "score": 0.2219910031966774
+    },
+    {
+     "county_fips": "29097",
+     "state": "MO",
+     "county": "Jasper",
+     "population": 124357,
+     "has_severe": 0,
+     "queue_mw_all": 2072.95,
+     "solar_mw_all": 2.3,
+     "wind_mw_all": 0.0,
+     "score": 0.20258298091651708
+    },
+    {
+     "county_fips": "29145",
+     "state": "MO",
+     "county": "Newton",
+     "population": 60118,
+     "has_severe": 0,
+     "queue_mw_all": 1092.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.19114153015862206
+    },
+    {
+     "county_fips": "40035",
+     "state": "OK",
+     "county": "Craig",
+     "population": 14302,
+     "has_severe": 0,
+     "queue_mw_all": 2248.3,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.18167102701358015
+    },
+    {
+     "county_fips": "40115",
+     "state": "OK",
+     "county": "Ottawa",
+     "population": 30341,
+     "has_severe": 0,
+     "queue_mw_all": 0.0,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.08608820724625527
+    }
+   ]
+  },
+  "Harris TX": {
+   "fips": "48201",
+   "score": 0.3569404188938067,
+   "lo": 0.3111294525189564,
+   "hi": 0.39222923712631114,
+   "label_has_severe": 1,
+   "decile": 8,
+   "us_pct": 78.26017811704834,
+   "state_pct": 93.11023622047244,
+   "state_rank": 18,
+   "state_n": 254,
+   "state_median": 0.12944828542701717,
+   "state_top3": [
+    {
+     "county": "Tarrant",
+     "score": 0.808285818695669
+    },
+    {
+     "county": "Denton",
+     "score": 0.7303172765980732
+    },
+    {
+     "county": "Fort Bend",
+     "score": 0.7163550755992967
+    }
+   ],
+   "pct_among_restricted": 51.204819277108435,
+   "n_restricted": 747,
+   "lifts": {
+    "log_population": 0.5932360412332203,
+    "log_income": 0.12020306320985881,
+    "log1p_wind_mw": -0.03986167945357082,
+    "neighbor_severe_share": -0.25142585184173816,
+    "log1p_queue_mw": 0.2637324480574219
+   },
+   "lift_total": 0.685884021205192,
+   "values": {
+    "population": 4838303.0,
+    "land_sqmi": 1707.288,
+    "density": 2833.91,
+    "income": 74983.0,
+    "bachelors": 34.24,
+    "margin_2024": 0.0553,
+    "margin_2020": 0.1326,
+    "margin_2016": 0.1234,
+    "solar_mw": 136.5,
+    "wind_mw": 0.0,
+    "queue_mw": 7778.99,
+    "queue_n": 40.0,
+    "neighbor_share": 0.14285714285714285
+   },
+   "primary_score": 0.16191843707386822,
+   "peers": [
+    {
+     "county_fips": "48439",
+     "state": "TX",
+     "county": "Tarrant",
+     "population": 2167390,
+     "has_severe": 1,
+     "score": 0.808285818695669
+    },
+    {
+     "county_fips": "48113",
+     "state": "TX",
+     "county": "Dallas",
+     "population": 2621179,
+     "has_severe": 1,
+     "score": 0.5541948788491307
+    },
+    {
+     "county_fips": "48029",
+     "state": "TX",
+     "county": "Bexar",
+     "population": 2067341,
+     "has_severe": 0,
+     "score": 0.2187309406050246
+    },
+    {
+     "county_fips": "12086",
+     "state": "FL",
+     "county": "Miami-Dade",
+     "population": 2738356,
+     "has_severe": 0,
+     "score": 0.20221851210830358
+    },
+    {
+     "county_fips": "12011",
+     "state": "FL",
+     "county": "Broward",
+     "population": 1977129,
+     "has_severe": 0,
+     "score": 0.13262631435103897
+    },
+    {
+     "county_fips": "06067",
+     "state": "CA",
+     "county": "Sacramento",
+     "population": 1594006,
+     "has_severe": 0,
+     "score": 0.44137925388506566
+    },
+    {
+     "county_fips": "12057",
+     "state": "FL",
+     "county": "Hillsborough",
+     "population": 1522748,
+     "has_severe": 1,
+     "score": 0.2230875705428247
+    },
+    {
+     "county_fips": "12095",
+     "state": "FL",
+     "county": "Orange",
+     "population": 1471937,
+     "has_severe": 0,
+     "score": 0.343079929134417
+    },
+    {
+     "county_fips": "06037",
+     "state": "CA",
+     "county": "Los Angeles",
+     "population": 9808667,
+     "has_severe": 1,
+     "score": 0.846997643876348
+    },
+    {
+     "county_fips": "06059",
+     "state": "CA",
+     "county": "Orange",
+     "population": 3165820,
+     "has_severe": 1,
+     "score": 0.9111141528006267
+    }
+   ],
+   "peer_median_score": 0.39222959150974135,
+   "peer_restricted": 5,
+   "neighbors": [
+    {
+     "county_fips": "48157",
+     "state": "TX",
+     "county": "Fort Bend",
+     "population": 893767,
+     "has_severe": 0,
+     "queue_mw_all": 4351.5,
+     "solar_mw_all": 1221.2,
+     "wind_mw_all": 0.0,
+     "score": 0.7163550755992967
+    },
+    {
+     "county_fips": "48339",
+     "state": "TX",
+     "county": "Montgomery",
+     "population": 684432,
+     "has_severe": 0,
+     "queue_mw_all": 622.96,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.4483569966201352
+    },
+    {
+     "county_fips": "48167",
+     "state": "TX",
+     "county": "Galveston",
+     "population": 358990,
+     "has_severe": 0,
+     "queue_mw_all": 3097.65,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.4281795836783412
+    },
+    {
+     "county_fips": "48039",
+     "state": "TX",
+     "county": "Brazoria",
+     "population": 391255,
+     "has_severe": 0,
+     "queue_mw_all": 15471.18,
+     "solar_mw_all": 818.1,
+     "wind_mw_all": 0.0,
+     "score": 0.38187985075190334
+    },
+    {
+     "county_fips": "48071",
+     "state": "TX",
+     "county": "Chambers",
+     "population": 51498,
+     "has_severe": 0,
+     "queue_mw_all": 1181.32,
+     "solar_mw_all": 0.0,
+     "wind_mw_all": 0.0,
+     "score": 0.3429458021768514
+    },
+    {
+     "county_fips": "48473",
+     "state": "TX",
+     "county": "Waller",
+     "population": 61552,
+     "has_severe": 1,
+     "queue_mw_all": 2275.39,
+     "solar_mw_all": 480.0,
+     "wind_mw_all": 0.0,
+     "score": 0.3425720791163649
+    },
+    {
+     "county_fips": "48291",
+     "state": "TX",
+     "county": "Liberty",
+     "population": 103380,
+     "has_severe": 0,
+     "queue_mw_all": 2582.86,
+     "solar_mw_all": 109.9,
+     "wind_mw_all": 0.0,
+     "score": 0.20351394614472607
+    }
+   ]
+  }
+ },
+ "bench": {
+  "Nicholas KY": {
+   "population": {
+    "value": 7708.0,
+    "us_pct": 17.445928753180663,
+    "state_pct": 9.583333333333334,
+    "us_median": 25960.5,
+    "peer_median": 7836.0
+   },
+   "pop_density_sqmi": {
+    "value": 39.47,
+    "us_pct": 46.58078880407125,
+    "state_pct": 27.916666666666668,
+    "us_median": 44.870000000000005,
+    "peer_median": 31.575
+   },
+   "median_hh_income": {
+    "value": 59531.0,
+    "us_pct": 32.56442888959593,
+    "state_pct": 53.75,
+    "us_median": 65681.0,
+    "peer_median": 47708.0
+   },
+   "pct_bachelors_plus": {
+    "value": 9.82,
+    "us_pct": 1.0973282442748091,
+    "state_pct": 5.416666666666667,
+    "us_median": 22.155,
+    "peer_median": 9.18
+   },
+   "margin_dr_2024": {
+    "value": -0.4902,
+    "us_pct": 39.75501113585746,
+    "state_pct": 72.91666666666667,
+    "us_median": -0.4144,
+    "peer_median": -0.5092000000000001
+   },
+   "solar_mw_all": {
+    "value": 0.0,
+    "us_pct": 28.33969465648855,
+    "state_pct": 43.75,
+    "us_median": 0.0,
+    "peer_median": 0.0
+   },
+   "wind_mw_all": {
+    "value": 0.0,
+    "us_pct": 41.49173027989822,
+    "state_pct": 50.0,
+    "us_median": 0.0,
+    "peer_median": 0.0
+   },
+   "queue_mw_all": {
+    "value": 0.0,
+    "us_pct": 10.384860050890586,
+    "state_pct": 19.166666666666668,
+    "us_median": 474.15,
+    "peer_median": 110.0
+   },
+   "queue_n_all": {
+    "value": 0.0,
+    "us_pct": 10.384860050890586,
+    "state_pct": 19.166666666666668,
+    "us_median": 4.0,
+    "peer_median": 1.5
+   }
+  },
+  "Linn IA": {
+   "population": {
+    "value": 230004.0,
+    "us_pct": 90.20356234096693,
+    "state_pct": 98.48484848484848,
+    "us_median": 25960.5,
+    "peer_median": 198188.0
+   },
+   "pop_density_sqmi": {
+    "value": 320.78,
+    "us_pct": 87.13422391857506,
+    "state_pct": 97.47474747474747,
+    "us_median": 44.870000000000005,
+    "peer_median": 308.8
+   },
+   "median_hh_income": {
+    "value": 77649.0,
+    "us_pct": 78.1259942729876,
+    "state_pct": 80.3030303030303,
+    "us_median": 65681.0,
+    "peer_median": 73433.5
+   },
+   "pct_bachelors_plus": {
+    "value": 34.74,
+    "us_pct": 85.16221374045801,
+    "state_pct": 92.42424242424242,
+    "us_median": 22.155,
+    "peer_median": 34.65
+   },
+   "margin_dr_2024": {
+    "value": 0.0979,
+    "us_pct": 89.54820235443843,
+    "state_pct": 96.46464646464646,
+    "us_median": -0.4144,
+    "peer_median": 0.0594
+   },
+   "solar_mw_all": {
+    "value": 204.5,
+    "us_pct": 93.14567430025446,
+    "state_pct": 98.48484848484848,
+    "us_median": 0.0,
+    "peer_median": 40.0
+   },
+   "wind_mw_all": {
+    "value": 2.5,
+    "us_pct": 83.985368956743,
+    "state_pct": 48.98989898989899,
+    "us_median": 0.0,
+    "peer_median": 0.0
+   },
+   "queue_mw_all": {
+    "value": 1705.0,
+    "us_pct": 78.03753180661577,
+    "state_pct": 87.37373737373737,
+    "us_median": 474.15,
+    "peer_median": 823.2815
+   },
+   "queue_n_all": {
+    "value": 10.0,
+    "us_pct": 72.04198473282443,
+    "state_pct": 90.9090909090909,
+    "us_median": 4.0,
+    "peer_median": 9.5
+   }
+  },
+  "Cherokee KS": {
+   "population": {
+    "value": 19151.0,
+    "us_pct": 40.537531806615775,
+    "state_pct": 73.80952380952381,
+    "us_median": 25960.5,
+    "peer_median": 16641.0
+   },
+   "pop_density_sqmi": {
+    "value": 32.59,
+    "us_pct": 41.26908396946565,
+    "state_pct": 79.52380952380952,
+    "us_median": 44.870000000000005,
+    "peer_median": 29.009999999999998
+   },
+   "median_hh_income": {
+    "value": 57668.0,
+    "us_pct": 27.09195036589246,
+    "state_pct": 17.61904761904762,
+    "us_median": 65681.0,
+    "peer_median": 61961.0
+   },
+   "pct_bachelors_plus": {
+    "value": 19.42,
+    "us_pct": 35.32124681933842,
+    "state_pct": 9.047619047619047,
+    "us_median": 22.155,
+    "peer_median": 18.924999999999997
+   },
+   "margin_dr_2024": {
+    "value": -0.5293,
+    "us_pct": 33.837098313713014,
+    "state_pct": 60.476190476190474,
+    "us_median": -0.4144,
+    "peer_median": -0.5234000000000001
+   },
+   "solar_mw_all": {
+    "value": 0.0,
+    "us_pct": 28.33969465648855,
+    "state_pct": 36.19047619047619,
+    "us_median": 0.0,
+    "peer_median": 6.65
+   },
+   "wind_mw_all": {
+    "value": 0.0,
+    "us_pct": 41.49173027989822,
+    "state_pct": 35.23809523809524,
+    "us_median": 0.0,
+    "peer_median": 0.0
+   },
+   "queue_mw_all": {
+    "value": 724.0,
+    "us_pct": 59.58969465648855,
+    "state_pct": 53.80952380952381,
+    "us_median": 474.15,
+    "peer_median": 710.1500000000001
+   },
+   "queue_n_all": {
+    "value": 4.0,
+    "us_pct": 48.39376590330789,
+    "state_pct": 54.76190476190476,
+    "us_median": 4.0,
+    "peer_median": 6.0
+   }
+  },
+  "Harris TX": {
+   "population": {
+    "value": 4838303.0,
+    "us_pct": 99.9204834605598,
+    "state_pct": 99.80314960629921,
+    "us_median": 25960.5,
+    "peer_median": 2117365.5
+   },
+   "pop_density_sqmi": {
+    "value": 2833.91,
+    "us_pct": 98.68002544529261,
+    "state_pct": 99.40944881889764,
+    "us_median": 44.870000000000005,
+    "peer_median": 1659.0349999999999
+   },
+   "median_hh_income": {
+    "value": 74983.0,
+    "us_pct": 73.2262169901368,
+    "state_pct": 79.7244094488189,
+    "us_median": 65681.0,
+    "peer_median": 79629.5
+   },
+   "pct_bachelors_plus": {
+    "value": 34.24,
+    "us_pct": 84.08078880407125,
+    "state_pct": 91.14173228346456,
+    "us_median": 22.155,
+    "peer_median": 35.875
+   },
+   "margin_dr_2024": {
+    "value": 0.0553,
+    "us_pct": 87.89373210308622,
+    "state_pct": 96.25984251968504,
+    "us_median": -0.4144,
+    "peer_median": 0.11665
+   },
+   "solar_mw_all": {
+    "value": 136.5,
+    "us_pct": 89.16984732824427,
+    "state_pct": 73.03149606299213,
+    "us_median": 0.0,
+    "peer_median": 125.05000000000001
+   },
+   "wind_mw_all": {
+    "value": 0.0,
+    "us_pct": 41.49173027989822,
+    "state_pct": 32.48031496062992,
+    "us_median": 0.0,
+    "peer_median": 0.0
+   },
+   "queue_mw_all": {
+    "value": 7778.99,
+    "us_pct": 97.24872773536896,
+    "state_pct": 95.86614173228347,
+    "us_median": 474.15,
+    "peer_median": 2678.625
+   },
+   "queue_n_all": {
+    "value": 40.0,
+    "us_pct": 96.32633587786259,
+    "state_pct": 98.03149606299213,
+    "us_median": 4.0,
+    "peer_median": 17.5
+   }
+  }
+ },
+ "frame_n": 3144
+}
