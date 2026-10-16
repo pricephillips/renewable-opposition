@@ -73,7 +73,7 @@ Three other solar and storage requests in the county have left the queue since 2
 
 ## Organized Opposition
 
-Opposition in Cherokee comes from landowners, the planning commission and the commission majority rather than from a named group; we found no petition or organized group. At an August 2024 hearing, landowner Brett Warstler, whose land Clearway had sought, asked that $684 million be held in escrow for site restoration, and resident Matt Naiper warned that "cadmium, zinc, and lead" from the county's mining legacy could leach into groundwater. Another landowner, Dr. Brian Ipsen, supported the project and planned to graze livestock under the panels. Warstler now chairs the county planning commission that is drafting the zoning code.
+Opposition in Cherokee comes from landowners, the planning commission and the commission majority rather than from a named group; we found no petition or organized group. At an August 2024 hearing, landowner Brett Warstler, whose land Clearway had sought, asked that $684 million be held in escrow for site restoration, and Matt Naiper warned that "cadmium, zinc, and lead" from the county's mining legacy could leach into groundwater. Another landowner, Dr. Brian Ipsen, supported the project and planned to graze livestock under the panels. Warstler now chairs the county planning commission that is drafting the zoning code.
 
 At three comprehensive-plan workshops in October 2025, residents rated nine topics out of 10; utility-scale solar scored lowest (3.4) and utility-scale wind third-lowest (4.3). The [draft plan](https://engage.thinkconfluence.com/download_file/3051/832) records that "many community members supported prohibiting these uses entirely or implementing strict regulations," with a one-mile setback the typical suggestion.
 
@@ -215,7 +215,7 @@ Table 6: Outcome tiers
 
 ## Opposition
 
-Organized groups on record: none found. Opponents on record include landowner Brett Warstler, now chair of the planning commission, and resident Matt Naiper, both at the 2024 solar hearings. Concerns include mining contamination, restoration costs and subsidies. Supporters include Clearway, its lessor landowners and Dr. Brian Ipsen, who planned to graze livestock under the panels.
+Organized groups on record: none found. Opponents on record include landowner Brett Warstler, now chair of the planning commission, and Matt Naiper, both at the 2024 solar hearings. Concerns include mining contamination, restoration costs and subsidies. Supporters include Clearway, its lessor landowners and Dr. Brian Ipsen, who planned to graze livestock under the panels.
 
 ## Local Context
 
