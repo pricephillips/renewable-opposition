@@ -4,12 +4,42 @@ import duckdb
 import pytest
 
 import build_database as bdb
+import geo
+import negative_checks as nc
+from common import write_csv
+
+
+def _branch_checks() -> list[dict]:
+    """data/review/negative_checks.csv as a research branch leaves it: the
+    first check deleted (a rejected check, docs/COUNTY_CHECK.md section 4) and
+    reviewed checks added for the first two counties with none, so the count
+    of checked counties moves whichever way the old rows fall."""
+    rows = nc.load()
+    checked = {r["county_fips"] for r in rows}
+    state_of = {f: st for st, f in bdb.STATE_FIPS.items()}
+    new = [f for f in geo.all_counties() if f not in checked and f[:2] in state_of and f[:2] != "72"][:2]
+    added = [{"county_fips": f, "state": state_of[f[:2]], "county": geo.name(f), "scope": "both",
+              "governments_checked": "the county", "sources_checked": "code: county code; minutes: board 2024 to 2026",
+              "checked_on": nc.PROTOCOL_START, "result": "none_found", "note": "",
+              "drafted_by": "agent:checker-1", "reviewer": "agent:reviewer-1"} for f in new]
+    return rows[1:] + added
+
+
+def _write_branch_checks(path):
+    write_csv(path, _branch_checks(), nc.CHECK_FIELDS)
+    return path
 
 
 @pytest.fixture(scope="module")
-def con():
+def con(tmp_path_factory):
+    """The database as CI builds it on a research branch: the review file
+    edited (_branch_checks) and data/processed/ as main last built it. It reads
+    the processed copy of the checks, so parity must still hold
+    (test_database_matches_headline_metrics)."""
     c = duckdb.connect()
-    bdb.build(c)
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(nc, "CHECKS_PATH", _write_branch_checks(tmp_path_factory.mktemp("branch") / "negative_checks.csv"))
+        bdb.build(c)
     yield c
     c.close()
 
@@ -19,6 +49,19 @@ def _metrics():
 
 
 def test_database_matches_headline_metrics(con):
+    assert bdb.parity(con, _metrics()) == []
+
+
+def test_a_branch_that_edits_negative_checks_keeps_parity(con):
+    # con was built with the review file edited; the database holds the
+    # checks headline_metrics.json counted, which the build on main rewrites
+    # together after the merge.
+    def keys(rows):
+        return sorted((r["county_fips"], r["checked_on"]) for r in rows)
+    processed = nc.load(bdb.NEGATIVE_CHECKS)
+    assert keys(_branch_checks()) != keys(processed)
+    db = con.execute("SELECT county_fips, CAST(checked_on AS VARCHAR) FROM negative_check").fetchall()
+    assert sorted(db) == keys(processed)
     assert bdb.parity(con, _metrics()) == []
 
 
@@ -115,7 +158,9 @@ def published_dirs(published, monkeypatch):
     return published
 
 
-def test_main_publishes_parquet_and_summaries(publish_dirs):
+def test_main_publishes_parquet_and_summaries(publish_dirs, monkeypatch):
+    # On a research branch's edited review file, as CI runs it.
+    monkeypatch.setattr(nc, "CHECKS_PATH", _write_branch_checks(publish_dirs / "review" / "negative_checks.csv"))
     out = publish_dirs / "ro.duckdb"
     (publish_dirs / "parquet").mkdir()
     (publish_dirs / "parquet" / "dropped_table.parquet").write_bytes(b"old")
@@ -293,8 +338,6 @@ def test_examination_worklist_lists_every_unexamined_county_nearest_states_first
 
 
 def test_a_drafted_check_counts_only_once_reviewed(con, monkeypatch, tmp_path):
-    import negative_checks as nc
-    from common import write_csv
     # Two counties nobody has examined: one gets the drafted check, the other
     # the same check reviewed. One build holds both; each is asserted on its own.
     (fips, st), (reviewed_fips, reviewed_st) = con.execute(
@@ -308,9 +351,10 @@ def test_a_drafted_check_counts_only_once_reviewed(con, monkeypatch, tmp_path):
     reviewed_check = {**draft, "county_fips": reviewed_fips, "state": reviewed_st, "reviewer": "agent:reviewer-1"}
 
     def build_with(*checks):
+        # As the build on main copies them, once the rows are merged.
         path = tmp_path / "negative_checks.csv"
-        write_csv(path, nc.load() + list(checks), nc.CHECK_FIELDS)
-        monkeypatch.setattr(nc, "CHECKS_PATH", path)
+        write_csv(path, nc.load(bdb.NEGATIVE_CHECKS) + list(checks), nc.CHECK_FIELDS)
+        monkeypatch.setattr(bdb, "NEGATIVE_CHECKS", path)
         c = duckdb.connect()
         bdb.build(c)
         return c

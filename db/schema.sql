@@ -303,7 +303,8 @@ CREATE TABLE project_group (
 -- Coverage and reference
 -- ---------------------------------------------------------------------------
 
--- "Checked, nothing found" (data/review/negative_checks.csv). Not a record:
+-- "Checked, nothing found" (data/review/negative_checks.csv, as the processed
+-- build copied it to data/processed/negative_checks.csv). Not a record:
 -- it separates a county someone searched from one nobody has looked at.
 CREATE TABLE negative_check (
     county_fips     VARCHAR NOT NULL REFERENCES county (county_fips),

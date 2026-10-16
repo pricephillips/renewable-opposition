@@ -26,6 +26,11 @@ data/review/negative_checks.csv          hand-edited, never published as a recor
   as a broken seed does. A check older than STALE_DAYS prints as stale, and
   recheck_by() is the day it becomes so.
 
+data/processed/negative_checks.csv       written by build_seed_outputs.py
+  The rows above as the last build validated them, held ones included. The
+  national database (build_database.py) reads this copy, not the review file,
+  so it counts the checks headline_metrics.json counted until the next build.
+
 Held checks. A row with a drafted_by and no reviewer is drafted and not yet
 reviewed: held() is true, and counted() leaves it out, so it never marks a
 county as examined. Every reader that counts coverage takes counted() rows.

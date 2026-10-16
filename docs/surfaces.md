@@ -112,6 +112,7 @@ published as a download, or internal with a reason.
 | `data/processed/group_registry.csv` | downloads: opposition groups with their sources |
 | `data/processed/headline_metrics.json` | national-dashboard.js; processed-data.js |
 | `data/processed/headline_metrics.md` | downloads: the headline numbers as prose; the JSON twin feeds the pages |
+| `data/processed/negative_checks.csv` | internal: the negative checks the last build validated, which build_database.py reads; pages read data/db/ instead |
 | `data/processed/operations_summary.json` | internal: what the pipeline did and holds; a page may read it later |
 | `data/processed/operations_summary.md` | internal: the same, for a reader |
 | `data/processed/qc_report.md` | internal: QC findings by code and the quarantine table with release actions |
@@ -128,4 +129,4 @@ published as a download, or internal with a reason.
 | `data/snapshots/headline_history.csv` | downloads: the headline figures by day; the dashboard reads data/db/history.json, built from it |
 | `data/snapshots/manifest.csv` | national-dashboard.js |
 
-118 outputs; 0 finding(s).
+119 outputs; 0 finding(s).

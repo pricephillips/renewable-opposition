@@ -247,7 +247,9 @@ duckdb -readonly data/db/renewable_opposition.duckdb \
   -c "SELECT state_code, restrictions, severe_restrictions, counties_not_examined FROM v_state_summary ORDER BY restrictions DESC LIMIT 10"
 ```
 
-The build reads only files the pipeline already publishes (and `data/review/negative_checks.csv`, `data/reference/data_center_events.csv` and the county boundary file), takes about 15 seconds, and exits 1 without writing if any headline number differs from `headline_metrics.json`.
+The build reads only files the pipeline already publishes (and `data/reference/data_center_events.csv` and the county boundary file), takes about 15 seconds, and exits 1 without writing if any headline number differs from `headline_metrics.json`.
+
+Negative checks come from `data/processed/negative_checks.csv`. `build_seed_outputs.py` writes it from every row it validated (held ones included), in the same run that writes `headline_metrics.json` from the rows not held. The database build never reads `data/review/negative_checks.csv`. A research branch that adds or deletes a check commits only the review file: `review_lint.py --lane review` fails a branch that changes a generated file. On that branch the processed copy and the metrics are still the ones main last built, so parity holds. After the merge, the Build dashboard data workflow rewrites both from the review file, then builds the database. `tests/test_build_database.py` builds the database from an edited review file to check this.
 
 ## 9. Phase 5: GEOIDs, the timeline and the history
 

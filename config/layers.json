@@ -113,7 +113,7 @@
 
     "data/review/negative_checks.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
-      "reason": "A reviewer's 'checked, nothing found' result for a county, with what was searched. build_seed_outputs.py validates it (scripts/negative_checks.py) and site_profile.py prints it; never published as a record."
+      "reason": "A reviewer's 'checked, nothing found' result for a county, with what was searched. build_seed_outputs.py validates it (scripts/negative_checks.py) and copies the validated rows to data/processed/negative_checks.csv, which build_database.py reads; site_profile.py prints it; never published as a record."
     },
     "data/review/group_candidates.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
