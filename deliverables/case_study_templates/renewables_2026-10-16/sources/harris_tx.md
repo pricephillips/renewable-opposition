@@ -7,28 +7,24 @@
 
 ## Key Takeaways
 
-- **A battery-storage market, not a solar or wind market**: 776 MW of grid batteries operate in the county and 28 of 33 active interconnection requests are for storage. The siting fights have been almost entirely about batteries.
-- **Moderate, city-by-city friction**: Pasadena adopted a moratorium and then a permanent storage code with 500-foot residential setbacks and a five-acre site cap. Tomball denied a project in 2023, and Baytown approved two projects over resident and union objections, one on a 4-3 vote.
-- **Elevated relative to the national average county:** Hawthorn Intelligence ranks Harris in the 78^th^ percentile (*e.g.,* 78% of U.S. counties are graded less risky) for resemblance to a county with severe renewable restrictions, and 18^th^ of 254 in Texas, driven mainly by its size and its interconnection queue.
-- **Near-term risks** hinge on the state fire-safety rules for batteries now being written under HB 3824, which also limit local rules, the 2027 legislative session, the transition to a new county judge in January, and about 1.3 GW of queued storage at Pasadena-area and Baytown sites.
+- **A battery market, not a solar or wind market**: 776 MW of grid batteries operate in the county, 28 of its 33 active interconnection requests are for storage, and every contested project on record here is a battery.
+- **Friction is city by city**: Pasadena paused battery permits and then adopted a storage code with 500-foot residential setbacks and a five-acre site cap. Tomball denied a project in 2023. Baytown approved two in 2025 over resident and union objections, one on a reported 4-3 vote.
+- **Above the average U.S. county:** Hawthorn Intelligence places Harris in the 78^th^ percentile (*i.e.,* 78% of U.S. counties score lower) for resemblance to counties with severe renewable restrictions, and 18^th^ of 254 in Texas. Its population and its interconnection queue account for most of that.
+- **What to watch**: the state's battery fire-safety rules under HB 3824, which also limit local rules; the 2027 legislative session; a new county judge in January; and about 1.3 GW of queued storage at Pasadena-area and Baytown sites.
 
 ## Summary
 
-Harris County, TX is open to energy-storage development, but approval is no longer automatic in its suburban cities. Most of the county, the City of Houston and the unincorporated areas, has no zoning, and there the county fire marshal's annual permit is the main local gate. That is why the county already hosts some of Texas's largest urban batteries. The friction sits in the suburban cities that do zone: Pasadena, Baytown and Tomball have each paused, restricted, denied or narrowly approved battery projects since 2023.
+Harris County is open to battery storage, but its zoned suburbs no longer approve it as a matter of course. Most of the county, the City of Houston and the unincorporated areas, has no zoning, and there the county fire marshal's annual permit is the main local requirement. Large batteries on industrial land there have been built without recorded opposition. The suburban cities that do zone (Pasadena, Tomball and Baytown) have each paused, restricted, denied or narrowly approved a battery project since 2023.
 
-Hawthorn Intelligence assigns Harris a County Restriction Score of 0.36, about one and a half times the national base rate of 0.24, placing it in the eighth national decile (one tenth of U.S. counties, ranked by score) and the 78^th^ percentile among U.S. counties. Within Texas it ranks 18^th^ of 254 counties; Tarrant (0.81), Denton (0.73) and neighboring Fort Bend (0.72) score highest, and the state median is 0.13. The score is a calibrated measure of resemblance to counties that have enacted severe restrictions, not a project-specific forecast. Harris's restriction record is Verified: we read Pasadena's moratorium and its replacement ordinance in the city's own minutes. Its elevated score is driven principally by population and by the megawatts in its interconnection queue, rather than by partisanship.
+Hawthorn Intelligence assigns Harris a County Restriction Score of 0.36, about one and a half times the national base rate of 0.24. That puts it in the eighth national decile (one tenth of U.S. counties, ranked by score), the 78^th^ percentile nationally and 18^th^ of 254 Texas counties. The score measures how closely a county's profile resembles counties that have enacted severe restrictions; it is not a forecast for any project. Population and interconnection-queue megawatts drive most of it. The restriction record is Verified: we read Pasadena's moratorium and the ordinance that replaced it in the city's own minutes.
 
-Contextually, Harris illustrates how storage has become the frontline of local energy siting in Texas. Pasadena adopted a 90-day moratorium in October 2024, extended it in January 2025, and in April 2025 replaced it with a permanent code requiring a special use permit, a plume study and a location within 150 feet of the utility's property. Tomball unanimously denied a battery permit in 2023 after its mayor said, "We're not ready for this in our 13 square miles." Baytown approved a 100 MW project in August 2025 despite a labor union's threat of a ballot measure, and a 406 MW project in a suburban residential zone in November 2025 on a reported 4-3 vote.
-
-On the surface, the county offers developers an exceptional set of benefits: retired power-plant sites with existing high-voltage connections, a Houston load pocket where congestion rewards local storage, and a utility, CenterPoint, that expects 8 GW of data-center load and a peak above 30 GW by 2029. Nevertheless, proximity to homes and schools has proven the decisive friction. Every contested project here was a battery near a neighborhood, and opponents cited fire, toxic plumes and hurricane resilience, not views or farmland.
-
-For developers, investors, and policymakers, Harris is a split market rather than a closed one. Sites on industrial land in Houston or unincorporated areas have moved without public fights. Sites in zoned suburban cities near housing face special use permits, plume modeling and close votes. Near-term risk turns on the Texas Department of Insurance's rules under HB 3824, which will set fire standards for batteries entering service from 2027 and bar local rules "inconsistent" with them; on the 2027 legislative session, where a state permit for renewable plants (SB 819) and battery setbacks are expected to return; and on the new county judge who takes office in January.
+Developers come for retired power-plant sites with high-voltage connections, a Houston load pocket where congestion rewards storage near load, and fast-rising demand: CenterPoint expects 8 GW of data-center load by 2029. The objections on record are about proximity. Every contested project was a battery near homes or schools, and opponents cited fire, toxic plumes and hurricane resilience, not views or farmland. Projects on industrial land in Houston and the unincorporated county have moved without public fights; projects near housing in the zoned suburbs have faced special use permits, plume modeling and close votes.
 
 # Hawthorn Intelligence
 
 ## Summary
 
-Harris County, home to about 5 million people in and around Houston, has become one of Texas's densest battery-storage markets, with 776 MW operating and about 7 GW in active interconnection requests at the end of 2025. Its suburban cities have moved from pauses to permanent rules: Pasadena's moratorium gave way to a storage code in April 2025, Tomball denied a project, and Baytown approved two over objections. Harris carries a Hawthorn County Restriction Score of 0.36, placing it in decile 8 of 10 and the 78^th^ percentile of U.S. counties for resemblance to counties that have enacted severe renewable restrictions, with a Verified evidence record.
+Harris County, home to about 5 million people in and around Houston, has 776 MW of batteries operating and held about 7.8 GW of interconnection requests at the end of 2025. Its suburban cities have moved from pauses to permanent rules: Pasadena replaced its moratorium with a storage code in April 2025, Tomball denied a project, and Baytown approved two over objections. Harris's County Restriction Score of 0.36 places it in decile 8 of 10, and its evidence record is Verified.
 
 ## Hawthorn Intelligence Ratings
 
@@ -42,70 +38,63 @@ Harris County, home to about 5 million people in and around Houston, has become 
 | Project outcome tiers | **1 blocked; 2 advanced** | Tomball denial (2023); Baytown's Massey and Claire approvals (2025) |
 | Opposition intensity | **95^th^ percentile (records); 56^th^ (per 100,000 residents)** | Two restriction instruments and three contested projects, against all U.S. counties |
 
-Ratings as of October 16, 2026. The County Restriction Score is a calibrated, cross-validated resemblance measure, not a forecast for any specific project. Opposition intensity counts the records this review added; the platform's published data held one record for Harris on October 13. Scales are defined in "How to Read Hawthorn Intelligence Reports" below.
+Ratings as of October 16, 2026. The score is a calibrated, cross-validated resemblance measure, not a forecast for any project. Opposition intensity counts the records this review added; the platform's published data held one record for Harris on October 13. "How to Read Hawthorn Intelligence Reports" below defines each scale.
 
 ## At a glance
 
 - [Population](https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/counties/totals/co-est2025-alldata.csv) 5,045,026 (July 2025 estimate) on 1,707 square miles; the most populous county in Texas and third in the nation
 - Median household income $74,983; 34.2 percent of adults 25 and older hold a bachelor's degree (ACS 2020-2024)
-- [2024](https://electionlab.mit.edu/data) Presidential Vote: Kamala Harris 51.9 percent, Trump 46.4 percent
+- [2024](https://electionlab.mit.edu/data) presidential vote: Harris 51.9 percent, Trump 46.4 percent
   - Partisan trend: the Democratic margin went from 12.3 points in 2016 to 13.3 in 2020, then narrowed to 5.5 in 2024
 - Operating storage and solar: 776 MW of batteries at 12 plants and 72 MW of solar ([EIA-860M, August 2026](https://www.eia.gov/electricity/data/eia860m/)); no wind
-- Interconnection queue: 33 active projects, 28 of them batteries, per ERCOT's September 2026 generation interconnection report as summarized by [Quicksand Check](https://quicksandcheck.com/texas/harris-county/)
+- Interconnection queue: 33 active projects, 28 of them batteries, per ERCOT's September 2026 report as summarized by [Quicksand Check](https://quicksandcheck.com/texas/harris-county/)
 - Grid: CenterPoint Energy Houston Electric expects [8 GW of data-center load by 2029](https://www.rigzone.com/news/centerpoint_targets_8_gw_of_data_center_load_in_3_years-26-apr-2026-183533-article/) and a peak above 30 GW
 - Enacted restriction: yes, [Pasadena's moratorium and storage code](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_04012025-574), read in the city's minutes
 
 # A county where the suburbs set the rules
 
-Harris County has no general zoning power, and the City of Houston famously has none either. The county's own tool is its fire code: the Harris County Fire Marshal's Office requires a [$300 annual operating permit](https://hcfchub.net/ova_dep/energy-storage-systems/) for energy-storage systems and amended the county fire code for lithium-ion storage in January and October 2025. It sets no setbacks. In the zoned suburban cities, by contrast, battery storage has gone through the same cycle seen elsewhere in Texas: a pause, a set of rules, and contested permits.
+Harris County has no general zoning power, and the City of Houston has no zoning either. The county's tool is its fire code. The Harris County Fire Marshal's Office requires a [$300 annual operating permit](https://hcfchub.net/ova_dep/energy-storage-systems/) for energy-storage systems and amended the county fire code for lithium-ion storage in January and October 2025; the permit sets no setbacks. The suburban cities that zone have gone through the sequence seen elsewhere in Texas: a pause, then rules, then contested permits.
 
-Pasadena moved first. In October 2024 its council unanimously adopted a 90-day moratorium on commercial battery permits, citing "several inquiries from prospective developers" and fires at battery sites nationwide. It extended the pause unanimously in January 2025 and, on April 1, 2025, replaced it with Article XII of its building code. The code caps sites at five acres, requires 1,500 feet between battery sites, 500 feet from residential property and 1,000 feet from schools, hospitals and other critical facilities, and requires a location within 150 feet of CenterPoint property. It also bars sites in mapped flood zones and requires a special use permit backed by a hazard mitigation analysis, a fire plan and plume modeling.
+Pasadena moved first. In October 2024 its council unanimously adopted a 90-day moratorium on commercial battery permits, citing "several inquiries from prospective developers" and battery-site fires nationwide. It extended the pause unanimously in January 2025 and, on April 1, 2025, replaced it with Article XII of its building code. Article XII caps sites at five acres; requires 1,500 feet between battery sites, 500 feet from residential property and 1,000 feet from schools, hospitals and other critical facilities; requires a site within 150 feet of CenterPoint property; bars mapped flood zones; and requires a special use permit backed by a hazard mitigation analysis, a fire plan and plume modeling.
 
-This sequence matters because it shows how a city with a heavy-industry tax base still chose to channel storage to utility land rather than ban it. Pasadena's council voted unanimously at every step, with almost no public comment; its rules came from staff and the fire service, not from a protest movement.
+Pasadena steered storage toward utility land rather than banning it. Every council vote was unanimous, and the hearings drew two speakers in total.
 
 ## Baytown's close votes
 
-**Baytown** is the county's most important test case. The city treats battery storage as an unlisted industrial use and decides each project through rezoning and a special use permit. In August 2025 council approved Cypress Creek Renewables' 100 MW **Massey** project on about 15 acres after residents raised fire risk, hurricane resilience and proximity to homes, and after Robert Ramos, president of LiUNA Local 350, said the union was weighing a ballot measure against it. Councilman Jacob Powell defended the approval: "We work in the petrochemical industry, and we are constantly doing risk assessments."
+Baytown treats battery storage as an unlisted industrial use and decides each project through rezoning and a special use permit. In August 2025 the council approved Cypress Creek Renewables' 100 MW **Massey** project on about 15 acres. Residents had raised fire risk, hurricane resilience and proximity to homes, and Robert Ramos, president of LiUNA Local 350, said the union was weighing a ballot measure. Councilman Jacob Powell defended the approval: "We work in the petrochemical industry, and we are constantly doing risk assessments."
 
-In November 2025 the stakes rose. Balanced Rock Power's **Claire** project, up to 406 MW of batteries on about nine acres zoned Suburban Residential next to a CenterPoint substation, won a 6-2 recommendation from the planning commission after the developer widened setbacks from 40 to more than 200 feet and added a masonry wall, a retention basin and an emergency plan with the fire marshal. Council then approved it on a vote the Baytown Sun reported as 4-3. A resident of the adjacent Country Club View neighborhood called the concentrated power "extremely hazardous."
-
-For future projects, Claire shows that approval in a zoned suburb is possible but fragile: a large battery in a residential district can pass, but by a single vote, and only after major design concessions.
+In November 2025 Balanced Rock Power's **Claire** project, up to 406 MW on about nine acres zoned Suburban Residential next to a CenterPoint substation, won a 6-2 planning commission recommendation after the developer widened setbacks from 40 to more than 200 feet and added a masonry wall, a retention basin and an emergency plan with the fire marshal. The council approved it on a vote the Baytown Sun reported as 4-3. A resident of the adjacent Country Club View neighborhood called the concentrated power "extremely hazardous." Claire passed in a residential district, but by one vote and after major design changes.
 
 ## Other projects
 
-**Tomball** denied a conditional use permit in June 2023 for a battery proposed by Black Mountain Energy Storage on Pitchford Road. Of the property owners notified within 2,000 feet, 11 opposed and 6 supported, and council voted unanimously against it after the mayor said the city was "not ready for this in our 13 square miles." Black Mountain now holds a 201 MW request at Greens Bayou instead.
+**Tomball** denied a conditional use permit in June 2023 for a Black Mountain Energy Storage battery on Pitchford Road. Of the property owners notified within 2,000 feet, 11 opposed and 6 supported, and the council voted unanimously against it after the mayor said the city was "not ready for this in our 13 square miles." Black Mountain now holds a 201 MW request at Greens Bayou.
 
-Inside Houston and the unincorporated county, the large projects have moved without recorded opposition. Jupiter Power's 200 MW **Callisto I** began operating in August 2024 at the former H.O. Clarke plant site, with Callisto II (400 MW) and Pamela Heights I (100 MW) under construction there. Cypress Creek's 200 MW **Destiny** and the 204 MW **Citadel** batteries operate near Crosby, and X-Elio's **Liberty** hybrid pairs 67 MW of solar with 65 MW of storage on the Liberty County line. AES has two requests of about 408 MW each at the former Deepwater plant in the Pasadena area, **Beacon** and **Sigma**, still in study; whether they fall inside Pasadena's limits, and so under its five-acre cap, is not established in the public record.
+In Houston and the unincorporated county, the large projects have moved without recorded opposition. Jupiter Power's 200 MW **Callisto I** began operating in August 2024 at the former H.O. Clarke plant site, where Callisto II (400 MW) and Pamela Heights I (100 MW) are under construction. Cypress Creek's 200 MW **Destiny** and the 204 MW **Citadel** batteries operate near Crosby, and X-Elio's **Liberty** hybrid pairs 67 MW of solar with 65 MW of storage on the Liberty County line. AES has two requests of about 408 MW each, **Beacon** and **Sigma**, at the former Deepwater plant in the Pasadena area, still in study. The public record does not establish whether they fall inside Pasadena's limits and so under its five-acre cap.
 
 ## Organized Opposition
 
-Opposition in Harris has been local, project-specific and largely unorganized. We found no named resident group, Facebook group or petition aimed at a Harris County project. The objections on record came from neighbors notified of special use permits in Baytown and Tomball, and from LiUNA Local 350, a labor union, in Baytown. Pasadena's hearings drew two speakers in total.
+Opposition in Harris has been local, project-specific and largely unorganized. We found no named resident group, Facebook group or petition aimed at a Harris County project. The objections on record came from neighbors notified of special use permits in Baytown and Tomball and from LiUNA Local 350 in Baytown.
 
-The organized campaigns are next door. In League City (Galveston County), neighbors of an elementary school gathered more than 700 signatures against a 200 MW Cypress Creek project in 2024, and the city paused storage and then adopted an ordinance. In Katy, just across the line in Waller County, the city denied Vesper Energy's 500 MW Ochoa project near Katy High School in October 2024. The developer asked the state utility commission to override the city, ERCOT intervened, and Vesper withdrew in July 2026. Statewide, the Republican Party of Texas adopted a [resolution](https://texasgop.org/resolution-to-protect-texas-counties-from-the-rapid-expansion-of-battery-energy-storage-systems-bess/) in March 2025 calling for limits on battery storage.
-
-That environment increases uncertainty for applicants in Harris's zoned suburbs. Even a project that meets a city's code may face a close vote if residents see it as a fire or plume risk near homes and schools.
+The organized campaigns are next door. In League City (Galveston County), neighbors of an elementary school gathered more than 700 signatures against a 200 MW Cypress Creek project in 2024, and the city paused storage and then adopted an ordinance. In Katy, across the line in Waller County, the city denied Vesper Energy's 500 MW Ochoa project near Katy High School in October 2024; the developer asked the state utility commission to override the city, ERCOT intervened, and Vesper withdrew in July 2026. Statewide, the Republican Party of Texas adopted a [resolution](https://texasgop.org/resolution-to-protect-texas-counties-from-the-rapid-expansion-of-battery-energy-storage-systems-bess/) in March 2025 calling for limits on battery storage.
 
 ## What to watch next
 
-Several developments will shape Harris's near-term outlook:
-
-- The Texas Department of Insurance's fire-safety rules under HB 3824, still an informal draft, and how its limit on "inconsistent" local rules is read against codes like Pasadena's.
-- The 90th Legislature, which convenes in January 2027, where a state permit for renewable plants and battery setbacks are expected to return.
-- Construction of Baytown's Claire (planned for December 2027) and Massey (January 2028) projects, and any union-backed ballot measure.
-- How AES's Deepwater batteries are sited relative to Pasadena's code.
-- The November 3 county judge race and the new Commissioners Court in January 2027.
-
-Harris's experience shows that a big, unzoned market can stay open to storage while its suburbs tighten. The county's grid position and industrial land remain valuable advantages. But applicants should assume that acceptance near neighborhoods will depend on more than grid-reliability claims. Projects will need to address fire and plume risk, setbacks from homes and schools, flood exposure, and the credibility of emergency planning.
+- Texas Department of Insurance: the formal proposal and adoption of HB 3824 fire-safety rules for batteries entering service on or after January 1, 2027, and how the law's bar on "inconsistent" local rules is read against codes like Pasadena's.
+- November 3, 2026: county judge (Plummer v. Sanchez) and Commissioners Court Precincts 2 and 4; the new court sits in January 2027.
+- January 2027: the 90th Legislature convenes, the first session since a state permit for renewable plants (SB 819) died in committee.
+- Baytown: construction of Claire (planned for December 2027) and Massey (January 2028), and any union-backed ballot measure.
+- AES Beacon and Sigma at Deepwater (projected October 2029) and whether Pasadena's Article XII applies to them.
+- CenterPoint's data-center load additions and ERCOT's Batch Zero results.
 
 # Hawthorn Intelligence Appendix
 
 **Restriction score:** *0.36/1*[^range]
 
-Harris sits in the 78^th^ percentile nationally and the 93^rd^ in Texas, and in the 51^st^ percentile among the 747 counties with a severe restriction on record. The model scores five county traits (population, median household income, operating wind capacity, megawatts of wind, solar and storage requested in interconnection queues, and the share of neighboring counties with a severe restriction) and measures resemblance to counties that have restricted wind, solar or battery storage.[^validation] Within Texas, Harris ranks 18^th^ of 254 counties, behind Tarrant (0.81), Denton (0.73) and Fort Bend (0.72); the Texas median is 0.13.
+Harris sits in the 78^th^ percentile nationally, the 93^rd^ in Texas, and the 51^st^ among the 747 counties with a severe restriction on record. The model scores five county traits: population, median household income, operating wind capacity, megawatts of wind, solar and storage requested in interconnection queues, and the share of neighboring counties with a severe restriction.[^validation] In Texas, Tarrant (0.81), Denton (0.73) and Fort Bend (0.72) score highest; the state median is 0.13.
 
 **Scale**
 
-The County Restriction Score comes from Hawthorn's county model, a regularized logistic regression selected by a pre-registered stability rule from nine candidate traits and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration layer keeps scores aligned with observed rates (calibration slope 0.99). The scale sorts all 3,144 counties into ten equal deciles; the share of counties with a severe restriction climbs from 3.5 percent in the lowest decile to 65 percent in the highest. Harris sits in the eighth.
+The score comes from Hawthorn's county model, a regularized logistic regression whose traits were chosen from nine candidates by a pre-registered stability rule and validated with five-fold cross-validation repeated five times. Every county is scored out of fold, and a cross-fitted recalibration keeps scores in line with observed rates (calibration slope 0.99). Across ten equal deciles of the 3,144 counties, the share with a severe restriction rises from 3.5 percent in the lowest to 65 percent in the highest. Harris is in the eighth.
 
 Table 1: Hawthorn Intelligence Restriction Scale[^deciles]
 
@@ -140,7 +129,7 @@ Table 2: Harris against national, state and peer benchmarks[^bench]
 | Bachelor's degree or higher | 34.2% | 84 | 91 | 35.9% |
 | 2024 presidential margin | D+5.5 | 88 | 96 | D+11.7 |
 
-Benchmarked to the average U.S. county, Harris's population and its interconnection queue account for about two-thirds of the movement in its score. Its neighbors pull the other way: only one of seven carries a severe restriction on record. Its partisan margin, near the top of the national range for Democratic lean, contributes nothing, because the 2024 margin did not keep a stable sign across the model's cross-validation folds and was dropped.
+Against the average U.S. county, Harris's population and interconnection queue account for about two-thirds of the movement in its score. Its neighbors pull the other way: one of seven has a severe restriction on record. Its partisan margin contributes nothing, because the 2024 margin did not keep a stable sign across the model's cross-validation folds and was dropped.
 
 Table 3: Contribution of each model trait to Harris's score[^lift]
 
@@ -153,9 +142,9 @@ Table 3: Contribution of each model trait to Harris's score[^lift]
 | Median household income | $74,983 ($65,870) | Higher raises score | 3 | +0.12 | 9% |
 | Operating wind capacity | 0 (1.3) | Higher raises score | 1 | -0.04 | 3% |
 
-Harris's record sits in line with its expected risk. Its structural peers, *e.g.,* other American counties matched on population, density, education and 2024 margin,[^peers] have a median score of 0.39, and five of the ten carry a recorded severe restriction. Harris's five records place it in the 95^th^ percentile nationally by count, but spread across five million residents they amount to 0.1 per 100,000, the 56^th^ percentile.
+Harris's record is in line with its profile. Its structural peers (other U.S. counties matched on population, density, education and 2024 margin)[^peers] have a median score of 0.39, and five of the ten have a severe restriction on record. Harris's five records put it in the 95^th^ percentile nationally by count; spread across five million residents, they come to 0.1 per 100,000, the 56^th^ percentile.
 
-**Comparable outcomes:** The platform records few decided contested projects in Texas, and those it holds are mostly rural wind and solar fights. In the Houston region, battery outcomes have split: Tomball (2023) and Katy (2024, in Waller County) denied projects near homes; Baytown (2025) and League City (2024 to 2025) approved projects with conditions; and the large industrial-site projects in Houston and unincorporated Harris advanced without a recorded fight. Only 7 of 575 contested projects nationally carry a date finer than a year, so we do not report decision timelines for renewables.
+**Comparable outcomes:** The platform records few decided contested projects in Texas, mostly rural wind and solar fights. Around Houston, battery outcomes have split: Tomball (2023) and Katy (2024, in Waller County) denied projects near homes; Baytown (2025) and League City (2024 to 2025) approved projects with conditions; and the large industrial-site projects in Houston and unincorporated Harris advanced without a recorded fight. Only 7 of 575 contested projects nationally carry a date finer than a year, so we do not report decision timelines.
 
 Table 4: Neighboring counties[^neighbors]
 
@@ -172,7 +161,7 @@ Table 4: Neighboring counties[^neighbors]
 
 ## How to Read Hawthorn Intelligence Reports
 
-**County Restriction Score and decile:** A calibrated 0 to 1 measure of how closely a county resembles counties that have enacted severe wind, solar or battery-storage restrictions (an explicit moratorium or ban, or terms likely to act as one, such as a solar or storage setback of 1,000 feet or more), reported with its likely range and its national decile (Table 1). It is a resemblance measure over county profiles, not a forecast for any specific project, and its drivers are predictive associations, not causes.
+**County Restriction Score and decile:** A calibrated 0 to 1 measure of how closely a county resembles counties that have enacted severe wind, solar or battery-storage restrictions (an explicit moratorium or ban, or terms likely to act as one, such as a solar or storage setback of 1,000 feet or more). It is reported with its likely range and national decile (Table 1). It describes county profiles, not any specific project, and its drivers are predictive associations, not causes.
 
 **Evidence status:** How thoroughly a county's restriction record has been checked against the instruments themselves. It describes verification effort, not the likelihood of a restriction.
 
@@ -186,7 +175,7 @@ Table 5: Evidence status[^evidence]
 | Checked, none found | A reviewed search of the county's codes, minutes and news found no restriction (graded A to C by independence of sources) | 2 (0.1%) |
 | Unexamined | No record and no documented check; absence of a record is not evidence of absence | 1,808 (56.1%) |
 
-**Outcome tiers:** Hawthorn Intelligence records project results with activity-descriptive tiers. Only terminal dispositions count as decided; a vote that has not produced a final disposition stays pending.
+**Outcome tiers:** Project results, recorded by what happened. Only terminal dispositions count as decided; a vote that has not produced a final disposition stays pending.
 
 Table 6: Outcome tiers[^tiers]
 
@@ -198,13 +187,13 @@ Table 6: Outcome tiers[^tiers]
 | blocked_confirmed | Terminal stop: denied or withdrawn | Black Mountain, Pitchford Road (Tomball, June 19, 2023) |
 | pending | No terminal disposition yet | AES Beacon and Sigma (Deepwater); other queued projects without a local decision |
 
-**Trust tiers:** Model traits are tiered by exposure to detection bias. Tier 1 traits (operating wind capacity and interconnection requests, both from federal and grid-operator records) carry the least exposure. Tier 2 (neighbors' restrictions) inherits whatever the restriction record misses. Tier 3 traits (population and income) also track news coverage and are read with more caution (Table 3).
+**Trust tiers:** Model traits are tiered by exposure to detection bias. Tier 1 (operating wind capacity and interconnection requests, from federal and grid-operator records) carries the least. Tier 2 (neighbors' restrictions) inherits whatever the restriction record misses. Tier 3 (population and income) also tracks news coverage and is read with more caution (Table 3).
 
 ## Why developers are looking at Harris
 
-**Power access:** Houston is a load pocket. Imports from the north have long been among ERCOT's costliest congestion points, and storage near the load captures those price spreads. Developers have also found ready-made interconnections at retired power plants: Jupiter's Callisto projects sit on the former H.O. Clarke plant site, AES's Beacon and Sigma at the former Deepwater station, and Black Mountain's Outer Loop at Greens Bayou. Demand is rising fast: CenterPoint has 12.2 GW of committed industrial load, [expects](https://www.rigzone.com/news/centerpoint_targets_8_gw_of_data_center_load_in_3_years-26-apr-2026-183533-article/) 8 GW of data centers by 2029, and submitted more than 17 GW to ERCOT's ["Batch Zero"](https://www.bracewell.com/news-events/centerpoint-expects-14-gw-of-demand-added-to-grid-by-2031-thanks-to-new-ercot-process/) large-load study. After Hurricane Beryl cut power to about 2.26 million CenterPoint customers in July 2024, the Public Utility Commission [approved](https://www.utilitydive.com/news/texas-regulators-trim-approve-27b-centerpoint-system-resiliency-plan/758476/) a roughly $2.7 billion resiliency plan, and the county itself broke ground in September 2026 on an [$88 million community solar and storage program](https://communityimpact.com/bay-area/environment/harris-county-launches-affordable-clean-energy-program/).
+**Power access:** Houston is a load pocket. Imports from the north have long been among ERCOT's costliest congestion points, and storage near the load captures those price spreads. Retired power plants offer ready-made interconnections: Jupiter's Callisto projects sit on the former H.O. Clarke site, AES's Beacon and Sigma at the former Deepwater station, and Black Mountain's Outer Loop at Greens Bayou. Demand is rising: CenterPoint has 12.2 GW of committed industrial load, [expects](https://www.rigzone.com/news/centerpoint_targets_8_gw_of_data_center_load_in_3_years-26-apr-2026-183533-article/) 8 GW of data centers by 2029, and submitted more than 17 GW to ERCOT's ["Batch Zero"](https://www.bracewell.com/news-events/centerpoint-expects-14-gw-of-demand-added-to-grid-by-2031-thanks-to-new-ercot-process/) large-load study. After Hurricane Beryl cut power to about 2.26 million CenterPoint customers in July 2024, the Public Utility Commission [approved](https://www.utilitydive.com/news/texas-regulators-trim-approve-27b-centerpoint-system-resiliency-plan/758476/) a roughly $2.7 billion resiliency plan, and in September 2026 the county broke ground on an [$88 million community solar and storage program](https://communityimpact.com/bay-area/environment/harris-county-launches-affordable-clean-energy-program/).
 
-**Land use** tends to be the friction point. Where the land is industrial, as at H.O. Clarke, Jupiter Power reportedly met no opposition. Where it is suburban, as with Claire's nine acres of Suburban Residential land in Baytown, proximity to homes becomes the issue. Pasadena's code makes the trade explicit: it permits storage only near utility property and away from homes, schools and flood zones.
+**Land use** is where the friction is. On industrial land, as at H.O. Clarke, Jupiter Power reportedly met no opposition. On suburban land, as with Claire's nine acres zoned Suburban Residential in Baytown, proximity to homes became the issue. Pasadena's code makes the trade explicit: storage only near utility property and away from homes, schools and flood zones.
 
 ## Restriction timeline
 
@@ -217,44 +206,30 @@ Table 6: Outcome tiers[^tiers]
 - November 13, 2025: Baytown [approves](https://baytown.org/CivicAlerts.asp?AID=1362) the 406 MW Claire project in a Suburban Residential zone, reportedly 4-3.
 - April 23, 2026: Harris County Fire Marshal Laurie Christensen, for Commissioners Court, [asks](https://capitol.texas.gov/tlodocs/89R/handouts/C4502026042310001/63fa389c-78a1-45e9-9914-c39bb46ecf2c.PDF) a House committee for statewide NFPA 855-based standards.
 
-**How the state law was written:** HB 3824, signed June 20, 2025, directs the Commissioner of Insurance to adopt fire standards "based solely on" UL and NFPA 855 for batteries of 1 MWh or more entering service on or after January 1, 2027, and [provides](https://capitol.texas.gov/tlodocs/89R/billtext/html/HB03824F.htm) that "a municipality or county may not adopt, enforce, or maintain an ordinance, order, or rule regulating conduct in a field of regulation that is inconsistent with the standards." Pasadena's code mixes fire-design rules with land-use siting rules; which parts survive will depend on the department's final rules, which were still an [informal working draft](https://www.tdi.texas.gov/rules/index.html) as of October 16, 2026.
+**How the state law was written:** HB 3824, signed June 20, 2025, directs the Commissioner of Insurance to adopt fire standards "based solely on" UL and NFPA 855 for batteries of 1 MWh or more entering service on or after January 1, 2027, and [provides](https://capitol.texas.gov/tlodocs/89R/billtext/html/HB03824F.htm) that "a municipality or county may not adopt, enforce, or maintain an ordinance, order, or rule regulating conduct in a field of regulation that is inconsistent with the standards." Pasadena's code mixes fire-design rules with land-use siting rules. Which parts survive depends on the department's final rules, still an [informal working draft](https://www.tdi.texas.gov/rules/index.html) on October 16, 2026.
 
 ## Project outcomes
 
-1. **Claire BESS** (Balanced Rock Power; BRP Blue Topaz 3 LLC): up to 406 MW on about nine acres at 1010 Bob Smith Road, Baytown, zoned Suburban Residential, next to a CenterPoint substation, interconnecting at Cedar Bayou 138 kV. The planning commission [recommended approval 6-2](https://baytownsun.com/local/baytown-planning-zoning-recommends-approval-of-9-acre-battery-storage-facility-in-residential-area/article_dda8b8c0-a892-4c64-94ad-2e0e91e6e920.html) on November 11, 2025, after the developer widened setbacks from 40 to more than 200 feet; council approved it November 13, by a 4-3 vote as reported by the Baytown Sun. The developer projects more than $40 million in property taxes over 20 years; operation is planned for December 2027.
-2. **Massey Energy Storage** (Cypress Creek Renewables): 100 MW on about 15.5 acres at 2015 Massey Tompkins Road, Baytown; rezoned to General Commercial with a special use permit on August 14, 2025. LiUNA Local 350's president said the union was considering a ballot measure; we found no evidence it went forward. The developer projects about $20 million in taxes over 20 years.
-3. **Pitchford Road BESS** (Black Mountain Energy Storage; landowner Michael Kirtley), Tomball: council rezoned the land to light industrial but unanimously denied the conditional use permit on June 19, 2023; size not reported.
+1. **Claire BESS** (Balanced Rock Power; BRP Blue Topaz 3 LLC): 1010 Bob Smith Road, Baytown, interconnecting at Cedar Bayou 138 kV. Planning commission [recommended approval 6-2](https://baytownsun.com/local/baytown-planning-zoning-recommends-approval-of-9-acre-battery-storage-facility-in-residential-area/article_dda8b8c0-a892-4c64-94ad-2e0e91e6e920.html) on November 11, 2025; council approved it November 13. The developer projects more than $40 million in property taxes over 20 years; operation is planned for December 2027.
+2. **Massey Energy Storage** (Cypress Creek Renewables): about 15.5 acres at 2015 Massey Tompkins Road, Baytown; rezoned to General Commercial with a special use permit on August 14, 2025. We found no evidence the union's ballot measure went forward. The developer projects about $20 million in taxes over 20 years.
+3. **Pitchford Road BESS** (Black Mountain Energy Storage; landowner Michael Kirtley), Tomball: the council rezoned the land to light industrial but denied the conditional use permit on June 19, 2023; size not reported.
 4. **AES Beacon and Sigma Storage**: about 408 MW each at the Deepwater 345 kV and 138 kV substations in the Pasadena area, in ERCOT study with operation projected for October 2029; no local decision recorded.
 
 ## Opposition
 
-Organized groups on record: none specific to Harris County.
-
-1. LiUNA Local 350, the laborers' union, whose president Robert Ramos [opposed](https://baytownsun.com/news/concerns-expressed-over-battery-storage-complex/article_3bf1ec16-f4c2-4bec-98c9-ebc2066b94c6.html) the Massey project and raised a possible ballot measure in August 2025.
-2. Residents of Baytown's Country Club View neighborhood, who opposed the Claire project at the November 2025 hearings.
-
-Concerns raised on the record include fire and explosion risk, toxic plumes, proximity to homes and schools, hurricane and freeze resilience, flooding, and the capacity of local fire departments. Regionally, the League City petition (more than 700 signatures, 2024) and the Katy campaign against Ochoa (2024 to 2026) are the organized precedents. Waller County Judge Trey Duhon has [promoted](https://www.boernestar.com/article/9257,county-makes-move-to-help-in-fight-against-battery-storage-systems) sub-regional planning commissions under Chapter 391 of the Local Government Code as a tool for counties to resist battery projects.
+Organized groups on record: none specific to Harris County. Opponents on record are LiUNA Local 350, whose president Robert Ramos [opposed](https://baytownsun.com/news/concerns-expressed-over-battery-storage-complex/article_3bf1ec16-f4c2-4bec-98c9-ebc2066b94c6.html) Massey in August 2025, and residents of Baytown's Country Club View neighborhood, who opposed Claire. Concerns include fire and explosion risk, toxic plumes, proximity to homes and schools, hurricane and freeze resilience, flooding and the capacity of local fire departments. Waller County Judge Trey Duhon has [promoted](https://www.boernestar.com/article/9257,county-makes-move-to-help-in-fight-against-battery-storage-systems) sub-regional planning commissions under Chapter 391 of the Local Government Code as a way for counties to resist battery projects.
 
 ## Local Context
 
 County Judge Lina Hidalgo (D) is not seeking a third term. Former Houston City Council members Letitia Plummer (D) and Orlando Sanchez (R) meet on November 3, 2026; a University of Houston Hobby School [poll](https://www.uh.edu/hobby/harris2026/county2026.pdf) fielded October 3 to 8 had Plummer at 47 percent and Sanchez at 40. Energy and storage were not among the polled issues; voters ranked crime, property taxes, voting rights and flooding highest. Both candidates have backed "community lighthouses" for power and cooling during outages; neither has stated a position on battery siting. Commissioners Adrian Garcia (Precinct 2) and Lesley Briones (Precinct 4) are also on the ballot.
 
-In Pasadena, Thomas Schoenbein, who moved or seconded both moratorium ordinances as a councilmember, was elected mayor in 2025. Every Pasadena vote on storage was unanimous.
+In Pasadena, Thomas Schoenbein, who moved or seconded both moratorium ordinances as a councilmember, was elected mayor in 2025.
 
 ## State Context
 
-Texas has no state siting permit for wind, solar or storage plants, and the 2025 session left that unchanged: SB 819, which would have created one for renewable plants of 10 MW or more, passed the Senate and [died](https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB819) in House State Affairs, as did SB 388 and SB 715. What passed was storage-specific. HB 3809 adds decommissioning and financial-assurance terms to battery leases signed from September 1, 2025. HB 3824 creates state fire standards for batteries entering service from 2027 and limits local rules inconsistent with them. SB 6 reshapes how large loads such as data centers connect to the ERCOT grid.
+Texas has no state siting permit for wind, solar or storage plants, and the 2025 session left that unchanged. SB 819, which would have required one for renewable plants of 10 MW or more, passed the Senate and [died](https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB819) in House State Affairs, as did SB 388 and SB 715. What passed was storage-specific: HB 3809 adds decommissioning and financial-assurance terms to battery leases signed from September 1, 2025, and HB 3824 creates state fire standards for batteries entering service from 2027 and limits local rules inconsistent with them. SB 6 changes how large loads such as data centers connect to the ERCOT grid.
 
-The pressure has not eased. The House State Affairs Committee held an interim [hearing](https://poweralliance.org/2026/04/23/advanced-power-alliance-testifies-before-texas-house-committee-on-state-affairs-2/) on battery safety on April 23, 2026, where public comments were dominated by rural opponents; Senate committees took up renewable decommissioning and storage in September 2026. Industry, led by the Advanced Power Alliance, argues the 2025 laws "strike the right balance"; the Republican Party of Texas has called for tighter limits. The 90th Legislature convenes in January 2027.
-
-## What to watch
-
-- Texas Department of Insurance: formal proposal and adoption of HB 3824 battery fire-safety rules, governing projects entering service on or after January 1, 2027
-- November 3, 2026: county judge (Plummer v. Sanchez) and Commissioners Court Precincts 2 and 4
-- January 2027: 90th Legislature convenes; renewable permitting and battery setback bills expected
-- Baytown: Claire (planned December 2027) and Massey (planned January 2028), and any ballot measure
-- AES Beacon and Sigma at Deepwater (projected October 2029) and the application of Pasadena's Article XII
-- CenterPoint's data-center load additions and ERCOT's Batch Zero results
+The House State Affairs Committee held an interim [hearing](https://poweralliance.org/2026/04/23/advanced-power-alliance-testifies-before-texas-house-committee-on-state-affairs-2/) on battery safety on April 23, 2026, where rural opponents dominated public comment; Senate committees took up renewable decommissioning and storage in September 2026. The Advanced Power Alliance, for the industry, argues the 2025 laws "strike the right balance"; the Republican Party of Texas has called for tighter limits.
 
 ## Sources
 
