@@ -8,7 +8,7 @@
 ## Key Takeaways
 
 - **A battery market, not a solar or wind market**: 776 MW of grid batteries operate in the county, 28 of its 33 active interconnection requests are for storage, and every contested project on record here is a battery.
-- **Friction is city by city**: Pasadena paused battery permits and then adopted a storage code with 500-foot residential setbacks and a five-acre site cap. Tomball denied a project in 2023. Baytown approved two in 2025 with conditions: one after labor groups raised safety concerns, the other over residents' objections on a 4-3 vote.
+- **Friction is city by city**: Pasadena paused battery permits, adopted a storage code in April 2025, and in January 2026 moved most of its limits into the fire code, keeping a five-acre site cap but dropping a 500-foot residential setback. Tomball denied a project in 2023. Baytown approved two in 2025 with conditions: one after labor groups raised safety concerns, the other over residents' objections on a 4-3 vote.
 - **Above the average U.S. county:** Hawthorn Intelligence places Harris in the 78^th^ percentile (*i.e.,* 78% of U.S. counties score lower) for resemblance to counties with severe renewable restrictions, and 18^th^ of 254 in Texas. Its population and its interconnection queue account for most of that.
 - **What to watch**: the state's battery fire-safety rules under HB 3824, which also limit local rules; the 2027 legislative session; a new county judge in January; and about 1.3 GW of queued storage at Pasadena-area and Baytown sites.
 
@@ -24,7 +24,7 @@ Developers come for power-plant sites with high-voltage connections and fast-ris
 
 ## Summary
 
-Harris County, home to about 5 million people in and around Houston, has 776 MW of batteries operating and held about 7.1 GW of active interconnection requests at the end of 2025. Its suburban cities have moved from pauses to permanent rules: Pasadena replaced its moratorium with a storage code in April 2025, Tomball denied a project, and Baytown approved two over objections. Harris's County Restriction Score of 0.36 places it in decile 8 of 10, and its evidence record is Verified.
+Harris County, home to about 5 million people in and around Houston, has 776 MW of batteries operating and held about 7.1 GW of active interconnection requests at the end of 2025. Its suburban cities have moved from pauses to permanent rules: Pasadena replaced its moratorium with a storage code in April 2025 and moved most of that code into its fire code in January 2026, Tomball denied a project, and Baytown approved two over objections. Harris's County Restriction Score of 0.36 places it in decile 8 of 10, and its evidence record is Verified.
 
 ## Hawthorn Intelligence Ratings
 
@@ -34,7 +34,7 @@ Harris County, home to about 5 million people in and around Houston, has 776 MW 
 | County Restriction Score | **0.36 (likely range 0.31 to 0.39)** | Resemblance to counties with a severe wind, solar or storage restriction on record, on a 0 to 1 scale; national base rate 0.24 |
 | Score decile | **8 of 10** | Eighth tenth of 3,144 U.S. counties (scores 0.280 to 0.386); 33.4 percent of decile 8 counties have a severe restriction |
 | National and Texas standing | **78^th^ percentile; 18^th^ of 254** | Share of U.S. counties scoring below Harris; rank among Texas counties |
-| Evidence status | **Verified** | Pasadena's votes read in council minutes; the moratorium extension and storage code read in agenda packets |
+| Evidence status | **Verified** | Pasadena's votes read in council minutes; the moratorium extension, the storage code and the fire code that replaced it read in agenda packets |
 | Project outcome tiers | **1 blocked; 2 approved with conditions** | Tomball denial (2023); Baytown's Massey and Claire approvals (2025) |
 | Opposition intensity | **95^th^ percentile (records); 56^th^ (per 100,000 residents)** | Two restriction instruments and three contested projects, against all U.S. counties |
 
@@ -49,7 +49,7 @@ Ratings as of October 16, 2026. The score is a calibrated, cross-validated resem
 - Operating storage and solar: 776 MW of batteries at 12 plants and 72 MW of solar ([EIA-860M, August 2026](https://www.eia.gov/electricity/data/eia860m/)); no wind
 - Interconnection queue: 33 active projects, 28 of them batteries, per ERCOT's September 2026 report as summarized by [Quicksand Check](https://quicksandcheck.com/texas/harris-county/)
 - Grid: CenterPoint Energy Houston Electric expects [8 GW of data-center load by 2029](https://www.rigzone.com/news/centerpoint_targets_8_gw_of_data_center_load_in_3_years-26-apr-2026-183533-article/) and a peak above 30 GW
-- Enacted restriction: yes, [Pasadena's moratorium and storage code](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_04012025-574), read in the city's minutes and agenda packets
+- Enacted restrictions: yes, [Pasadena's moratorium, storage code and fire code limits](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_04012025-574), read in the city's minutes and agenda packets
 
 # A county where the suburbs set the rules
 
@@ -57,7 +57,9 @@ Harris County has no general zoning power, and the City of Houston has no zoning
 
 Pasadena moved first. In October 2024 its council unanimously adopted a 90-day moratorium on commercial battery permits, citing "several inquiries from prospective developers" and battery-site fires nationwide. It extended the pause unanimously in January 2025 and, on April 1, 2025, replaced it with Article XII of its building code. As presented in the March 18 agenda packet, Article XII caps sites at five acres; requires 1,500 feet between battery sites, 500 feet from residential property and 1,000 feet from schools, hospitals and other critical facilities; requires a site within 150 feet of CenterPoint property; bars mapped flood zones; and requires a special use permit backed by a hazard mitigation analysis, a fire plan and plume modeling.
 
-Pasadena steered storage toward utility land rather than banning it. Every council vote was unanimous, and the hearings drew two speakers in total.
+On October 21, 2025, the council unanimously adopted Ordinance 2025-205, which adopts the 2024 International Fire Code with local amendments and repeals Article XII, stating that "requirements regarding energy storage systems" were being updated in the fire code; the change took effect on January 19, 2026. The new Section 1208 keeps the five-acre cap (now excluding setback areas), 1,500 feet between battery sites, 1,000 feet from a shorter list of critical facilities that no longer names schools, 150-foot side and rear setbacks, the flood-zone bar, and a special use permit with CenterPoint review. It drops the 500-foot setback from residential property, the rule that a site lie within 150 feet of CenterPoint property, and the plume study.
+
+Pasadena has regulated storage rather than banning it. Every council vote was unanimous, and the moratorium and Article XII hearings drew two speakers in total.
 
 ## Baytown's close votes
 
@@ -83,7 +85,7 @@ The organized campaigns are next door. In League City (Galveston County), neighb
 - November 3, 2026: county judge (Plummer v. Sanchez) and Commissioners Court Precincts 2 and 4; the new court sits in January 2027.
 - January 2027: the 90th Legislature convenes, the first session since a state permit for renewable plants (SB 819) died in committee.
 - Baytown: Claire and Massey, which ERCOT data list with projected commercial operation dates of December 2027 and January 2028.
-- AES Beacon and Sigma at Deepwater (projected October 2029) and whether Pasadena's Article XII applies to them.
+- AES Beacon and Sigma at Deepwater (projected October 2029) and whether Pasadena's fire code siting limits apply to them.
 - CenterPoint's data-center load additions and ERCOT's Batch Zero results.
 
 # Hawthorn Intelligence Appendix
@@ -193,7 +195,7 @@ Table 6: Outcome tiers[^tiers]
 
 **Power access:** Power-plant sites offer ready-made interconnections: Jupiter's Callisto projects sit on the former H.O. Clarke site, AES's Beacon and Sigma at the former Deepwater station, and Black Mountain's Outer Loop at the Greens Bayou plant, which still runs gas turbines. Demand is rising: CenterPoint has 12.2 GW of committed industrial load, [expects](https://www.rigzone.com/news/centerpoint_targets_8_gw_of_data_center_load_in_3_years-26-apr-2026-183533-article/) 8 GW of data centers by 2029, and submitted more than 17 GW to ERCOT's ["Batch Zero"](https://www.utilitydive.com/news/centerpoint-energy-14-gw-texas-batch-zero-large-load-earnings/826329/) large-load study. After Hurricane Beryl cut power to about 2.26 million CenterPoint customers in July 2024, the Public Utility Commission [approved](https://www.utilitydive.com/news/texas-regulators-trim-approve-27b-centerpoint-system-resiliency-plan/758476/) a roughly $2.7 billion resiliency plan, and in September 2026 the county broke ground on an [$88 million community solar and storage program](https://communityimpact.com/bay-area/environment/harris-county-launches-affordable-clean-energy-program/).
 
-**Land use** is where the friction is. We found no recorded opposition on industrial land such as H.O. Clarke. On suburban land, as with Claire's nine acres zoned Suburban Residential in Baytown, proximity to homes became the issue. Pasadena's code makes the trade explicit: storage only near utility property and away from homes, schools and flood zones.
+**Land use** is where the friction is. We found no recorded opposition on industrial land such as H.O. Clarke. On suburban land, as with Claire's nine acres zoned Suburban Residential in Baytown, proximity to homes became the issue. Pasadena's 2025 code made the trade explicit: storage only near utility property and away from homes, schools and flood zones. Its 2026 fire code keeps the flood-zone bar and the distance from critical facilities but no longer names homes or schools.
 
 ## Restriction timeline
 
@@ -201,12 +203,13 @@ Table 6: Outcome tiers[^tiers]
 - October 8, 2024: Pasadena City Council unanimously [adopts](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_10082024-533) Ordinance 2024-198, a 90-day moratorium on commercial battery permits in the city and its extraterritorial jurisdiction.
 - January 7, 2025: Pasadena unanimously [extends](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_01072025-553) the moratorium 90 days (Ordinance 2025-001).
 - April 1, 2025: Pasadena unanimously [adopts](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_04012025-574) Ordinance 2025-082, Article XII "Energy Storage Systems": five-acre cap, 500 feet from residences, 1,000 feet from critical facilities, special use permit with plume study.
+- October 21, 2025: Pasadena unanimously [adopts](https://www.pasadenatx.gov/AgendaCenter/ViewFile/Agenda/_11042025-636) Ordinance 2025-205, the 2024 International Fire Code with local amendments, repealing Article XII and moving most of its limits into fire code Section 1208; it takes effect January 19, 2026.
 - August 14, 2025: Baytown City Council [approves](https://baytown.org/CivicAlerts.asp?AID=1231) the 100 MW Massey project 7-0, after labor groups raised safety concerns and asked for a delay.
 - September 1, 2025: State laws HB 3809 (battery decommissioning) and HB 3824 (battery fire safety, with limits on inconsistent local rules) take effect.
 - November 13, 2025: Baytown [approves](https://baytown.org/CivicAlerts.asp?AID=1362) the 406 MW Claire project in a Suburban Residential zone, 4-3.
 - April 23, 2026: Harris County Fire Marshal Laurie Christensen, for Commissioners Court, [asks](https://capitol.texas.gov/tlodocs/89R/handouts/C4502026042310001/63fa389c-78a1-45e9-9914-c39bb46ecf2c.PDF) a House committee for statewide NFPA 855-based standards.
 
-**How the state law was written:** HB 3824, signed June 20, 2025, directs the Commissioner of Insurance to adopt fire standards "based solely on" UL and NFPA 855 for batteries of 1 MWh or more entering service on or after January 1, 2027, and [provides](https://capitol.texas.gov/tlodocs/89R/billtext/html/HB03824F.htm) that, unless another statute expressly authorizes it, "a municipality or county may not adopt, enforce, or maintain an ordinance, order, or rule regulating conduct in a field of regulation that is inconsistent with the standards." Pasadena's code mixes fire-design rules with land-use siting rules. Which parts survive depends on the department's final rules, still an [informal working draft](https://www.tdi.texas.gov/rules/index.html) on October 16, 2026.
+**How the state law was written:** HB 3824, signed June 20, 2025, directs the Commissioner of Insurance to adopt fire standards "based solely on" UL and NFPA 855 for batteries of 1 MWh or more entering service on or after January 1, 2027, and [provides](https://capitol.texas.gov/tlodocs/89R/billtext/html/HB03824F.htm) that, unless another statute expressly authorizes it, "a municipality or county may not adopt, enforce, or maintain an ordinance, order, or rule regulating conduct in a field of regulation that is inconsistent with the standards." Pasadena's fire code now carries both fire-design rules and land-use siting limits. Which parts survive depends on the department's final rules, still an [informal working draft](https://www.tdi.texas.gov/rules/index.html) on October 16, 2026.
 
 ## Project outcomes
 
@@ -257,6 +260,12 @@ S10. City of Pasadena, agenda packet with Ordinance 2025-082 and Article XII, Ma
 S11. City of Pasadena, City Council minutes, Apr. 1, 2025. https://www.pasadenatx.gov/AgendaCenter/ViewFile/Minutes/_04012025-574
 
 S12. City of Pasadena, City Council agenda, Oct. 20, 2026. https://www.pasadenatx.gov/AgendaCenter/ViewFile/Agenda/_10202026-735
+
+S12a. City of Pasadena, agenda packet with Ordinance 2025-205 (2024 International Fire Code, local amendments and repeal of Ordinance 2025-082), Oct. 7, 2025. https://www.pasadenatx.gov/AgendaCenter/ViewFile/Agenda/_10072025-629
+
+S12b. City of Pasadena, City Council agenda, Nov. 4, 2025, with the minutes of Oct. 21, 2025 (Ordinance 2025-205, second and final reading). https://www.pasadenatx.gov/AgendaCenter/ViewFile/Agenda/_11042025-636
+
+S12c. City of Pasadena Fire Marshal's Office, Plan Review (2024 International Fire Code in effect January 19, 2026). https://www.pasadenatx.gov/607/Plan-Review
 
 S13. City of Baytown, 2015 Massey Tompkins special use permit and zoning map amendment, Aug. 27, 2025. https://baytown.org/CivicAlerts.asp?AID=1231
 
@@ -330,9 +339,9 @@ Page 1 county map: Hawthorn Intelligence, drawn from U.S. Census Bureau 2024 cou
 
 [^validation]: Model validation: cross-validated AUC (area under the ROC curve: the chance a restricted county outscores an unrestricted one) 0.78 (0.81 when whole states are held out), Brier (mean squared error of the scores) score 0.145 against a 0.181 no-skill baseline (skill 0.20), expected calibration error 0.016 (0.010 on the gate's equal-width bins), across 3,144 counties; it passes the platform's pre-registered calibration gate. Median scores for restricted and unrestricted counties sit 21 points apart (0.34 and 0.14). This is a provisional fit made for this report; the platform's own county model is still being built.
 
-[^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Harris's own label rests on Pasadena's 2024 moratorium, which the platform lists as extended and in force; the city's minutes show it was replaced in April 2025 by Article XII. The platform added Article XII on October 16 and scores it 3, reading the 1,500-foot spacing between battery sites as its setback; scored by its 500-foot residential setback, it would be a 2. The label does not enter Harris's own out-of-fold score.
+[^deciles]: Deciles computed from all 3,144 scored counties (the 50 states and DC) as of October 16, 2026. A severe restriction is one scoring 3 or 4 on the platform's severity scale. Harris's own label rests on Pasadena's 2024 moratorium, which the platform listed as extended and in force; the city's records show it lapsed in April 2025, and the platform now holds it back. The platform added Article XII on October 16 and scores it 3, reading the 1,500-foot spacing between battery sites as its setback; Pasadena repealed Article XII effective January 19, 2026 and kept that spacing in its fire code, which the platform does not yet record. The label does not enter Harris's own out-of-fold score.
 
-[^bench]: Percentiles are mid-rank: the share of counties below Harris plus half of ties. The margin row ranks Democratic lean. Opposition records include the Pasadena storage code and the three contested projects this review found, which the platform's published data does not yet hold; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024). Operating solar counts every EIA-860M plant that lists solar among its technologies, so Harris's 136 MW includes the battery half of the Liberty hybrid; solar alone is about 72 MW. Interconnection requests cover all statuses (about 7.1 GW was active at the end of 2025).
+[^bench]: Percentiles are mid-rank: the share of counties below Harris plus half of ties. The margin row ranks Democratic lean. Opposition records include the Pasadena storage code (since replaced by fire code limits) and the three contested projects this review found, all added to the platform's data on October 16; all other counties' records are as published. Demographic rows show the model inputs (ACS 2020-2024). Operating solar counts every EIA-860M plant that lists solar among its technologies, so Harris's 136 MW includes the battery half of the Liberty hybrid; solar alone is about 72 MW. Interconnection requests cover all statuses (about 7.1 GW was active at the end of 2025).
 
 [^lift]: Lift is the median cross-validated coefficient times Harris's standardized, transformed value, summed to 0.69 log-odds above an average county. Share of movement is each trait's absolute lift as a share of the total. Averages are on the model's log scale.
 
