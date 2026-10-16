@@ -6,15 +6,15 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 3652 | 9 |
-| contested_projects | 575 | 0 |
+| restrictions | 3652 | 10 |
+| contested_projects | 579 | 0 |
 | cases | 40 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
 | END_DATE_PASSED | MEDIUM | 2 |
-| PRIMARY_SOURCE_CONTRADICTS | HIGH | 1 |
+| PRIMARY_SOURCE_CONTRADICTS | HIGH | 2 |
 
 ## Quarantined rows
 
@@ -31,3 +31,4 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_7a380d2200 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_ec310da5f0 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_f3189af0c4 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
+| restrictions | res_19a328607d | TX | Pasadena | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |

@@ -4,13 +4,13 @@ Generated 2026-10-16 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3353 renewables-only restriction instruments (1367 severe, 86 verified, 1 past their end date with no confirmed extension, 944 severe ones in states whose siting law limits local reach); 575 contested projects (145 confirmed); 39 cases.
+3352 renewables-only restriction instruments (1366 severe, 85 verified, 1 past their end date with no confirmed extension, 944 severe ones in states whose siting law limits local reach); 579 contested projects (145 confirmed); 39 cases.
 
-Decided projects (events older than 90 days): 330, of which 243 blocked; confirmed outcomes only: 144, 79 blocked. Conditional on opposition being tracked; see headline_metrics.md.
+Decided projects (events older than 90 days): 333, of which 244 blocked; confirmed outcomes only: 144, 79 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
-9 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 1 PRIMARY_SOURCE_CONTRADICTS.
+10 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 2 PRIMARY_SOURCE_CONTRADICTS.
 
 ## Worklists
 
@@ -24,20 +24,20 @@ Decided projects (events older than 90 days): 330, of which 243 blocked; confirm
 
 ## Review and promotion
 
-Queue: 25 promoted, 2 rejected, 3 confirmed, 2 pending, 5 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 29 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 87 decisions from 2026-10-13 to 2026-10-16 (new or changed decisions only): 66 promoted, 13 held, 6 awaiting_review, 2 rejected.
+Promotion trail: 91 decisions from 2026-10-13 to 2026-10-16 (new or changed decisions only): 70 promoted, 13 held, 6 awaiting_review, 2 rejected.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
+| 2026-10-16 | queue.csv | promoted | TX Baytown |  |
+| 2026-10-16 | queue.csv | promoted | TX Baytown |  |
+| 2026-10-16 | queue.csv | promoted | TX Tomball |  |
+| 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | rejected | IA Linn County |  |
 | 2026-10-16 | queue.csv | awaiting_review | TX Baytown | awaiting review by someone other than its drafter |
-| 2026-10-16 | queue.csv | awaiting_review | TX Baytown | awaiting review by someone other than its drafter |
-| 2026-10-16 | queue.csv | awaiting_review | TX Tomball | awaiting review by someone other than its drafter |
-| 2026-10-16 | queue.csv | held | IA Jones County | status expired: the instrument is no longer in force, so it is not published |
-| 2026-10-16 | queue.csv | promoted | TX Pasadena |  |
 
 ## What checking found
 
@@ -45,7 +45,7 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 
 | Source family | Instruments checked | Confirmed | Contradicted | Opened | Archived | Snippet |
 |---|---:|---:|---:|---:|---:|---:|
-| Moratorium Nation | 44 | 43 | 1 | 39 | 5 | 0 |
+| Moratorium Nation | 44 | 42 | 2 | 39 | 5 | 0 |
 | NREL | 31 | 31 | 0 | 31 | 0 | 0 |
 | Sabin | 1 | 1 | 0 | 1 | 0 | 0 |
 
@@ -75,4 +75,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-85 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 64, of which 11 have an Internet Archive snapshot.
+89 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 68, of which 11 have an Internet Archive snapshot.

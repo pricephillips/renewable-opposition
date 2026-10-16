@@ -1,35 +1,35 @@
 {
   "restrictions": {
-    "rows": 3643,
-    "instruments": 3438,
+    "rows": 3642,
+    "instruments": 3437,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3353,
-        "severe_instruments": 1367,
+        "instruments": 3352,
+        "severe_instruments": 1366,
         "states": 51,
         "by_status": {
           "active": 897,
-          "extended": 58,
+          "extended": 57,
           "pending": 5,
           "unknown": 2393
         },
         "by_technology": {
-          "battery_storage": 140,
+          "battery_storage": 139,
           "solar": 1667,
           "wind": 1708
         },
         "by_evidence_level": {
           "compiled_flagged": 2392,
           "compiled_record": 61,
-          "primary_source": 86,
+          "primary_source": 85,
           "report_citation": 814
         },
         "by_verification": {
           "unverified": 3267,
-          "verified": 86
+          "verified": 85
         },
         "by_currency": {
-          "in_force": 954,
+          "in_force": 953,
           "lapsed_unconfirmed": 1,
           "pending": 5,
           "unknown": 2393
@@ -92,11 +92,11 @@
         }
       },
       "Moratorium Nation": {
-        "instruments": 210,
-        "severe_instruments": 199,
+        "instruments": 209,
+        "severe_instruments": 198,
         "by_verification": {
           "unverified": 167,
-          "verified": 43
+          "verified": 42
         }
       },
       "review queue": {
@@ -110,28 +110,28 @@
     },
     "by_verification": {
       "unverified": 3343,
-      "verified": 95
+      "verified": 94
     }
   },
   "contested_projects": {
-    "rows": 575,
-    "projects": 575,
+    "rows": 579,
+    "projects": 579,
     "confirmed_outcomes": 145,
     "by_outcome": {
       "advanced_confirmed": 66,
-      "advanced_unverified": 23,
+      "advanced_unverified": 25,
       "blocked_confirmed": 79,
-      "blocked_unverified": 165,
+      "blocked_unverified": 166,
       "needs_review": 29,
-      "pending": 213
+      "pending": 214
     },
     "by_evidence_level": {
       "confirmed": 145,
-      "report_citation": 430
+      "report_citation": 434
     },
     "by_verification": {
       "unverified": 427,
-      "verified": 148
+      "verified": 152
     },
     "by_source": {
       "Sabin 2026": {
@@ -151,10 +151,10 @@
         }
       },
       "review queue": {
-        "instruments": 1,
-        "severe_instruments": 0,
+        "instruments": 5,
+        "severe_instruments": 1,
         "by_verification": {
-          "verified": 1
+          "verified": 5
         }
       }
     },
@@ -169,9 +169,9 @@
       "guard_days": 90,
       "young_excluded": 3,
       "all": {
-        "projects": 330,
-        "blocked": 243,
-        "blocked_share": 0.736
+        "projects": 333,
+        "blocked": 244,
+        "blocked_share": 0.733
       },
       "confirmed_only": {
         "projects": 144,
@@ -180,9 +180,9 @@
       },
       "by_technology": {
         "battery_storage": {
-          "projects": 19,
-          "blocked": 13,
-          "blocked_share": 0.684
+          "projects": 22,
+          "blocked": 14,
+          "blocked_share": 0.636
         },
         "solar": {
           "projects": 170,
@@ -202,14 +202,14 @@
       }
     },
     "by_concern": {
-      "farmland": 104,
+      "farmland": 105,
       "wildlife": 104,
       "property_value": 77,
       "viewshed": 63,
       "noise": 40,
       "tribal_cultural": 33,
+      "fire_safety": 29,
       "water": 28,
-      "fire_safety": 27,
       "health": 27,
       "decommissioning": 18,
       "wetlands": 13,
@@ -219,8 +219,8 @@
       "traffic": 3,
       "grid_cost": 1
     },
-    "with_no_concern_named": 230,
-    "in_county_with_severe_restriction": 221
+    "with_no_concern_named": 232,
+    "in_county_with_severe_restriction": 225
   },
   "cases": {
     "rows": 40,
@@ -269,7 +269,7 @@
     "counties": 3144,
     "with_any_record": 1413,
     "with_restriction": 1267,
-    "with_contested_project": 456,
+    "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
     "with_negative_check_and_no_record": 1,

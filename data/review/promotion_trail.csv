@@ -86,3 +86,7 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-16,queue.csv,q_e0dc0d95a5,contested_project,IA,Linn County,rejected,
 2026-10-16,queue.csv,q_ef439d5e2f,restriction,KY,Nicholas County,promoted,
 2026-10-16,queue.csv,q_f97e808073,restriction,KY,Nicholas County,promoted,
+2026-10-16,queue.csv,q_0bc2342a2d,contested_project,KY,Nicholas County,promoted,
+2026-10-16,queue.csv,q_b0990d0ad7,contested_project,TX,Tomball,promoted,
+2026-10-16,queue.csv,q_82121a6429,contested_project,TX,Baytown,promoted,
+2026-10-16,queue.csv,q_b4907e2bbd,contested_project,TX,Baytown,promoted,
