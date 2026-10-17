@@ -1,16 +1,16 @@
 # Operations summary
 
-Generated 2026-10-16 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-17 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
-3352 renewables-only restriction instruments (1366 severe, 85 verified, 1 past their end date with no confirmed extension, 944 severe ones in states whose siting law limits local reach); 579 contested projects (145 confirmed); 39 cases.
+3351 renewables-only restriction instruments (1365 severe, 84 verified, 1 past their end date with no confirmed extension, 944 severe ones in states whose siting law limits local reach); 579 contested projects (145 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 333, of which 244 blocked; confirmed outcomes only: 144, 79 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
-10 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 2 PRIMARY_SOURCE_CONTRADICTS.
+11 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 3 PRIMARY_SOURCE_CONTRADICTS.
 
 ## Worklists
 
@@ -24,7 +24,7 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 
 ## Review and promotion
 
-Queue: 29 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 29 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 59 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
 Promotion trail: 91 decisions from 2026-10-13 to 2026-10-16 (new or changed decisions only): 70 promoted, 13 held, 6 awaiting_review, 2 rejected.
 
@@ -48,6 +48,7 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 | Moratorium Nation | 44 | 42 | 2 | 39 | 5 | 0 |
 | NREL | 31 | 31 | 0 | 31 | 0 | 0 |
 | Sabin | 1 | 1 | 0 | 1 | 0 | 0 |
+| review queue | 1 | 0 | 1 | 1 | 0 | 0 |
 
 Outcome resolutions: 140 (75 blocked_confirmed, 63 advanced_confirmed, 2 pending; by access 7 archived, 133 opened).
 
@@ -75,4 +76,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-89 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 68, of which 11 have an Internet Archive snapshot.
+93 snapshot rows over 5 published files; 9 headline changes recorded (2026-09-29 to 2026-10-17). Sources: 67, of which 11 have an Internet Archive snapshot.

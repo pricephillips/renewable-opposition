@@ -1,35 +1,35 @@
 {
   "restrictions": {
-    "rows": 3642,
-    "instruments": 3437,
+    "rows": 3641,
+    "instruments": 3436,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3352,
-        "severe_instruments": 1366,
+        "instruments": 3351,
+        "severe_instruments": 1365,
         "states": 51,
         "by_status": {
-          "active": 897,
+          "active": 896,
           "extended": 57,
           "pending": 5,
           "unknown": 2393
         },
         "by_technology": {
-          "battery_storage": 139,
+          "battery_storage": 138,
           "solar": 1667,
           "wind": 1708
         },
         "by_evidence_level": {
           "compiled_flagged": 2392,
           "compiled_record": 61,
-          "primary_source": 85,
+          "primary_source": 84,
           "report_citation": 814
         },
         "by_verification": {
           "unverified": 3267,
-          "verified": 85
+          "verified": 84
         },
         "by_currency": {
-          "in_force": 953,
+          "in_force": 952,
           "lapsed_unconfirmed": 1,
           "pending": 5,
           "unknown": 2393
@@ -100,17 +100,17 @@
         }
       },
       "review queue": {
-        "instruments": 24,
-        "severe_instruments": 9,
+        "instruments": 23,
+        "severe_instruments": 8,
         "by_verification": {
           "unverified": 4,
-          "verified": 20
+          "verified": 19
         }
       }
     },
     "by_verification": {
       "unverified": 3343,
-      "verified": 94
+      "verified": 93
     }
   },
   "contested_projects": {
@@ -220,7 +220,7 @@
       "grid_cost": 1
     },
     "with_no_concern_named": 232,
-    "in_county_with_severe_restriction": 225
+    "in_county_with_severe_restriction": 222
   },
   "cases": {
     "rows": 40,
@@ -268,7 +268,7 @@
   "county_coverage": {
     "counties": 3144,
     "with_any_record": 1413,
-    "with_restriction": 1267,
+    "with_restriction": 1266,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
