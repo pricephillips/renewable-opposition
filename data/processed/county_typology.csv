@@ -2543,7 +2543,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48033,TX,Borden,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,713,0.79
 48035,TX,Bosque,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,local_government,no,18687,19.01
 48037,TX,Bowie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,92115,104.09
-48039,TX,Brazoria,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,391255,286.99
+48039,TX,Brazoria,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,391255,286.99
 48041,TX,Brazos,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,242311,413.4
 48043,TX,Brewster,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,no,9503,1.54
 48045,TX,Briscoe,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,1301,1.45
@@ -2559,7 +2559,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48065,TX,Carson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,5801,6.3
 48067,TX,Cass,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,28568,30.49
 48069,TX,Castro,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,local_government,no,7344,8.21
-48071,TX,Chambers,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,no,51498,86.23
+48071,TX,Chambers,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,local_government,no,51498,86.23
 48073,TX,Cherokee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,51886,49.28
 48075,TX,Childress,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,6743,9.68
 48077,TX,Clay,yes,contested_projects_only,0,0,0,0,0,0,0,,,2,2,0,0,0,,6,1,local_government,no,10495,9.64
@@ -2602,12 +2602,12 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48151,TX,Fisher,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,3655,4.07
 48153,TX,Floyd,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,5216,5.26
 48155,TX,Foard,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,991,1.41
-48157,TX,Fort Bend,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,local_government,no,893767,1037.11
+48157,TX,Fort Bend,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,local_government,no,893767,1037.11
 48159,TX,Franklin,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,6,0,local_government,no,10632,37.39
 48161,TX,Freestone,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,20049,22.84
 48163,TX,Frio,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,18582,16.39
 48165,TX,Gaines,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,22232,14.8
-48167,TX,Galveston,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,local_government,no,358990,946.17
+48167,TX,Galveston,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,1,local_government,no,358990,946.17
 48169,TX,Garza,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,5118,5.73
 48171,TX,Gillespie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,27524,26.01
 48173,TX,Glasscock,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,1068,1.19
@@ -2624,7 +2624,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48195,TX,Hansford,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,5119,5.57
 48197,TX,Hardeman,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,6,0,local_government,no,3501,5.04
 48199,TX,Hardin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,57642,64.72
-48201,TX,Harris,yes,contested_projects_only,0,0,0,0,0,0,0,,,3,1,2,0,0,,7,1,local_government,no,4838303,2833.91
+48201,TX,Harris,yes,severe_rules_in_force,1,1,1,0,0,0,0,battery_storage,2025,3,1,2,0,0,,7,1,local_government,no,4838303,2833.91
 48203,TX,Harrison,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,6,1,local_government,no,70155,77.94
 48205,TX,Hartley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,5215,3.57
 48207,TX,Haskell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,5421,6.0
@@ -2669,7 +2669,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48285,TX,Lavaca,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,20552,21.19
 48287,TX,Lee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,17971,28.57
 48289,TX,Leon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,16263,15.15
-48291,TX,Liberty,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,103380,89.24
+48291,TX,Liberty,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,local_government,no,103380,89.24
 48293,TX,Limestone,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,22283,24.61
 48295,TX,Lipscomb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,2918,3.13
 48297,TX,Live Oak,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,11620,11.18
@@ -2693,7 +2693,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48333,TX,Mills,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,4511,6.03
 48335,TX,Mitchell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,9018,9.9
 48337,TX,Montague,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,21046,22.61
-48339,TX,Montgomery,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,684432,656.73
+48339,TX,Montgomery,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,local_government,no,684432,656.73
 48341,TX,Moore,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,local_government,no,21373,23.76
 48343,TX,Morris,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,12076,47.92
 48345,TX,Motley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,1183,1.2
@@ -2760,7 +2760,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48467,TX,Van Zandt,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,62649,74.35
 48469,TX,Victoria,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,91413,103.63
 48471,TX,Walker,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,80209,102.28
-48473,TX,Waller,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar;wind,,0,0,0,0,0,,6,1,local_government,no,61552,119.91
+48473,TX,Waller,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar;wind,,0,0,0,0,0,,6,2,local_government,no,61552,119.91
 48475,TX,Ward,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,11144,13.34
 48477,TX,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,local_government,no,36647,60.65
 48479,TX,Webb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,269294,80.11
