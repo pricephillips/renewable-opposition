@@ -60,7 +60,7 @@ and `data/review/` unopposed.
 
 | Lane | Reads | Writes | Runs |
 |---|---|---|---|
-| `reader` | the repository and the web | its packet under `.packets/`, or outside the repository | scripts that write nothing (`review_packets.py`, `review_lint.py`, `verification_batch.py`); git to look |
+| `reader` | the repository and the web | its packet under `.packets/`, or outside the repository | scripts that write nothing (`review_packets.py`, `review_lint.py`, `verification_batch.py`, `examination_batch.py`); git to look |
 | `blind` | the web, the published data, code and docs; never `data/review/`, a `*.draft.json` or a `drafts/` folder | its own `*.review.json` | `review_packets.py check` only; no git; searches name a path the hook checks (never the repository root or `data/`); no `xargs` |
 | `editor` | the repository; no web tools | the hand-kept review files, packets | the same scripts as a reader, `promote_reviewed.py --dry-run`; git to look |
 | `copy` | the repository; no web tools | hand-written markdown (README, docs/, deliverables/); never a generated doc | `precommit_gates.py emdash`, Vale; git to look |
@@ -170,6 +170,14 @@ negative check with `reviewer` blank; a `blind-reviewer` checks each claim
 (`blind-row queue_row`, `blind-row negative_check`); the `record-editor`
 writes the verdicts; the `copy-editor` edits the pass note in
 `docs/county_checks/`.
+
+**Sweeps** (`/sweep-counties`): the county-check steps for many counties,
+in waves. `examination_batch.py` picks counties in worklist rank, skipping any
+attempted in the last 60 days and any with a negative check waiting for
+review. Each wave runs `county-examiner`, `record-editor`, `blind-reviewer`
+and `record-editor` again. The `record-editor` also appends one line per
+county to `examination_log.csv`, and the sweep ends with one pass note and
+one PR.
 
 **Analysis** (`/analyze-counties`): `county_typology.py` puts each county in
 one category from the published data; a `county-analyst` per scope writes a

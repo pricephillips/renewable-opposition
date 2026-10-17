@@ -84,7 +84,7 @@ PROSE_PREFIXES = ("docs/", "deliverables/")
 PROSE_FILES = {"README.md"}
 
 # Scripts any lane but blind may run: they write nothing.
-LOOK_SCRIPTS = {"review_packets.py", "review_lint.py", "verification_batch.py"}
+LOOK_SCRIPTS = {"review_packets.py", "review_lint.py", "verification_batch.py", "examination_batch.py"}
 # The blind lane runs only what reads no review file: checking its own packet.
 BLIND_SCRIPTS = {"review_packets.py": {"check"}}
 # Scripts allowed only with a flag (all lanes): the flag keeps them from writing

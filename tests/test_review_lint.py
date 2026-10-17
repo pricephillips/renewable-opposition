@@ -146,6 +146,18 @@ def test_log_lines_use_the_routine_vocabulary():
     assert "LOG" in codes(rl.lint_file(LOG, text(fields, []), bad, T), "E")
 
 
+def test_examination_log_lines_name_a_result_and_a_county():
+    name = "data/review/examination_log.csv"
+    fields = ["date", "county_fips", "state", "county", "run", "result", "drafted_by", "note"]
+    good = {"date": "2026-10-16", "county_fips": "50015", "state": "VT", "county": "Lamoille",
+            "run": "2026-10-16-sweep", "result": "leads", "drafted_by": D1, "note": "Two towns not online."}
+    assert rl.lint_file(name, text(fields, []), text(fields, [good]), T) == []
+    for change in ({"result": "done"}, {"county_fips": "5015"}):
+        found = rl.lint_file(name, text(fields, []), text(fields, [{**good, **change}]), T)
+        assert "LOG" in codes(found, "E"), change
+    assert "LANE" not in codes(rl.lane_findings([name], "review", {}))
+
+
 def test_lanes():
     layers = {"docs/codebook.md": {"writers": ["scripts/codebook.py"], "layer": "derived"},
               "data/review/restriction_worklist.csv": {"layer": "derived"}}
