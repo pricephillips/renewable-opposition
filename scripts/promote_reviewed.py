@@ -75,7 +75,11 @@ promotion; older rows are matched once by source, state and jurisdiction or
 project name). Each seed row keeps its published id: pinned_id, set on
 promotion to the id the build gives the row, is what the build uses, so a
 corrected description or source URL never renumbers the record. A technology
-the queue row no longer lists drops its seed row; a new one adds a row.
+the queue row no longer lists drops its seed row; a new one adds a row. A
+restriction whose status becomes lifted or expired after promotion drops all
+of its seed rows, as a first promotion would never have published it; the
+queue row stays promoted, and the trail records it as unpublished. To publish
+it again once it is back in force, set review_status to pending.
 
 Contested-project severity: a typed severity_score is kept; otherwise it is
 scored by build_sabin_seeds.project_severity from the outcome its status maps to.
@@ -86,7 +90,8 @@ defaults to 3, the contested-projects score for "litigation filed".
 Decision trail. Every run appends to data/review/promotion_trail.csv the
 decisions that are new or changed since the last run (scripts/promotion_trail.py,
 after pricephillips/data-center-map): a queue row promoted, held (with what it
-lacks), awaiting review, rejected, or stopped by an error; a case candidate
+lacks), awaiting review, rejected, unpublished (lifted or expired after
+promotion), or stopped by an error; a case candidate
 promoted, held or rejected once a reviewer has started on it. Re-deciding a
 row the same way is not recorded, so the trail reads as a history of events,
 not of runs. Case candidates no reviewer has touched (no case field filled)
@@ -256,6 +261,12 @@ class PromotionError(Exception):
     """A queue row that must stop the whole run (an unknown mechanism)."""
 
 
+def no_longer_in_force(row: dict) -> str:
+    """The status of a restriction row that is lifted or expired, else ''."""
+    status = (row.get("status") or "").strip()
+    return status if row.get("entity_type") == "restriction" and status in NOT_IN_FORCE else ""
+
+
 def mechanism_list(row: dict) -> list[str]:
     return [m.strip() for m in (row.get("mechanisms") or "").split(";") if m.strip()]
 
@@ -390,9 +401,20 @@ def _short(v) -> str:
 def resync(entity: str, where: str, qrow: dict, seeds: list[dict]) -> tuple[list[str], list[str]]:
     """Recompute the seed rows of a promoted queue row in place in seeds.
     Returns (changes, problems)."""
+    changes: list[str] = []
     old = linked(entity, qrow, seeds)
+    lapsed = no_longer_in_force(qrow)
+    if lapsed:
+        # A first promotion would not publish it (score_restriction), so its
+        # seed rows go; none left means an earlier run already removed them.
+        for gone in old:
+            seeds.remove(gone)
+            changes.append(f"{where} -> {gone.get('pinned_id') or pin(entity, gone)}: removed the "
+                           f"{gone.get('technology')} row; status {lapsed}: the instrument is no longer in force")
+        return changes, []
     if not old:
-        return [], [f"{where}: review_status is promoted but no seed row is linked to it"]
+        return [], [f"{where}: review_status is promoted but no seed row is linked to it; if it was "
+                    "unpublished as lifted or expired and is in force again, set review_status to pending"]
     m = _PROMOTED_ON.search(" ".join((r.get("notes") or r.get("reviewer_notes") or "") for r in old))
     try:
         fresh, why = seed_rows_for(qrow, m.group(1) if m else "")
@@ -408,7 +430,6 @@ def resync(entity: str, where: str, qrow: dict, seeds: list[dict]) -> tuple[list
     for spec in QUEUE_SPECIFIC.values():
         managed |= set(spec.values())
     by_tech = {r.get("technology", ""): r for r in old}
-    changes = []
     for f in fresh:
         f["queue_id"] = qid
         prev = by_tech.pop(f.get("technology", ""), None) if entity != "cases" else (old[0] if old else None)
@@ -494,7 +515,10 @@ def main() -> int:
         key = row.get("queue_id") or queue_id(row)
         if status == "promoted":
             resync_rows.append((where, row))
-            decisions.append(decision(QUEUE_PATH.name, key, row, "promoted"))
+            lapsed = no_longer_in_force(row)
+            decisions.append(decision(QUEUE_PATH.name, key, row, "unpublished", f"status {lapsed}: the "
+                                      "instrument is no longer in force") if lapsed
+                             else decision(QUEUE_PATH.name, key, row, "promoted"))
             continue
         if status in NEVER:
             decisions.append(decision(QUEUE_PATH.name, key, row, status))

@@ -144,6 +144,22 @@ def test_restriction_source_reaches_every_row_of_the_instrument(tmp_path):
     assert "verdict" in resolutions.apply_restriction_sources(rows, bad)[0]
 
 
+def test_a_verdict_on_a_lifted_queue_instrument_stays_without_a_row(tmp_path):
+    """promote_reviewed.py takes a repealed queue instrument out of the seed;
+    the verdict that found the repeal is still checked, and lays on nothing."""
+    q = _write(tmp_path / "queue.csv", "queue_id,entity_type,review_status,status\n"
+               "q_1,restriction,promoted,lifted\nq_2,restriction,promoted,active\n"
+               "q_3,restriction,confirmed,expired\nq_4,contested_project,promoted,expired\n")
+    assert resolutions.retired_instruments(q) == {"queue:q_1"}
+    f = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict,access\n"
+               "queue:q_1,https://city.gov/o.pdf,contradicts,opened\n")
+    assert resolutions.apply_restriction_sources([], f, retired={"queue:q_1"}) == []
+    assert "no restriction has instrument_id" in resolutions.apply_restriction_sources([], f)[0]
+    bad = _write(tmp_path / "b.csv", "instrument_id,primary_source_url,verdict,access\n"
+                 "queue:q_1,https://city.gov/o.pdf,contradicts,seen\n")
+    assert "access" in resolutions.apply_restriction_sources([], bad, retired={"queue:q_1"})[0]
+
+
 def test_a_snippet_primary_source_is_attached_but_upgrades_nothing(tmp_path):
     rows = [classify.stamp("restrictions", mn(t, "solar;wind")) for t in ("solar", "wind")]
     f = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict,access\n"

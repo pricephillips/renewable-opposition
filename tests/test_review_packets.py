@@ -214,3 +214,83 @@ def test_a_case_blind_card_carries_the_court_records_and_not_the_reading():
     assert "Wike" not in json.dumps(card) and "earlier try" not in json.dumps(card)
     with pytest.raises(ValueError, match="--draft"):
         rp.blind_row("case", "REC-9", [], CANDIDATES, [], None)
+
+
+def test_a_hand_queued_lead_reaches_the_second_reader_without_its_notes():
+    hand = {"queue_id": "q_hand", "review_status": "lead", "source_url": "https://city.gov/agenda.pdf",
+            "state": "TX", "reviewer_notes": "Both readings of q_1 say Section 1208 is a siting law."}
+    card = rp.blind_row("lead", "q_hand", [hand], [], [])
+    assert "reviewer_notes" not in card["record"] and "Section 1208" not in json.dumps(card)
+    assert card["notes_withheld"].startswith("queued by hand")
+    harvested = rp.blind_row("lead", "q_lead", QUEUE, [], [])
+    assert "notes_withheld" not in harvested
+
+
+def claim(**kw):
+    p = {"packet": "review", "queue": "queue_row", "key": "q_draft", "agent": REVIEWER, "date": "2026-10-16",
+         "result": "read", "verdict": "contradicts", "source_url": "https://county.gov/o.pdf", "access": "opened",
+         "archived_url": "", "quote": "No turbine shall stand within 1,500 feet of any dwelling.",
+         "fields": [{"field": "mechanism_detail", "claimed": "1,000 ft", "document": "1,500 feet", "agrees": False}],
+         "note": "The ordinance sets 1,500 feet, not 1,000.", "attempts": []}
+    p.update(kw)
+    return p
+
+
+def test_claim_checks_pass_the_checker_and_must_agree_with_their_fields():
+    assert rp.check_packet(claim(), TODAY) == ([], [])
+    assert rp.check_packet(claim(queue="negative_check", key="19113"), TODAY) == ([], [])
+    agree = [{"field": "mechanism_detail", "claimed": "1,500 ft", "document": "1,500 feet", "agrees": True}]
+    assert rp.check_packet(claim(verdict="confirmed", fields=agree), TODAY) == ([], [])
+    assert any("that is contradicts" in e for e in rp.check_packet(claim(verdict="confirmed"), TODAY)[0])
+    assert any("names no field" in e for e in rp.check_packet(claim(fields=agree), TODAY)[0])
+    assert any("snippet" in e for e in rp.check_packet(claim(access="snippet"), TODAY)[0])
+    unread = claim(result="not_read", verdict="unverifiable", quote="", fields=[], access="",
+                   attempts=[{"url": "https://county.gov/o.pdf", "result": "HTTP 403"}])
+    assert rp.check_packet(unread, TODAY) == ([], [])
+    assert any("unverifiable" in e for e in rp.check_packet({**unread, "verdict": "confirmed"}, TODAY)[0])
+    assert any("attempts" in e for e in rp.check_packet({**unread, "attempts": []}, TODAY)[0])
+
+
+def lead(**kw):
+    item = {"queue_id": "q_lead", "decision": "pending", "on_topic": True, "placed": True, "duplicate_of": "",
+            "read": True, "source_url": "https://news.example.org/a", "access": "opened", "archived_url": "",
+            "source_kind": "news", "set": {"county": "Linn County"},
+            "quote": "The Linn County board adopted a solar moratorium on Monday.",
+            "note": "The article names Linn County and the moratorium.", "attempts": []}
+    item.update(kw)
+    return item
+
+
+def test_lead_triage_packets_are_checked_item_by_item():
+    batch = {"packet": "draft", "queue": "lead", "agent": DRAFTER, "date": "2026-10-16",
+             "leads": [lead(), lead(queue_id="q_2", decision="rejected", on_topic=False, set={}, read=False,
+                                    access="snippet", quote="")]}
+    assert rp.check_packet(batch, TODAY) == ([], [])
+    headline = lead(queue_id="q_3", read=False, access="snippet", quote="Linn County OKs solar moratorium")
+    assert rp.check_packet({**batch, "leads": [headline]}, TODAY) == ([], [])
+    bad = {**batch, "leads": [lead(decision="rejected"),
+                              lead(queue_id="", read=False, access="snippet", set={"status": "active"}),
+                              lead(decision="duplicate")]}
+    errors = rp.check_packet(bad, TODAY)[0]
+    assert any("leads[1] q_lead: decision rejected" in e for e in errors)
+    assert any("queue_id is required" in e for e in errors)
+    assert any("set status from a source that was not read" in e for e in errors)
+    assert any("duplicate_of" in e for e in errors)
+    # The blind second triage is one lead, keyed like its card.
+    review = {"packet": "review", "queue": "lead", "key": "q_lead", "agent": REVIEWER, "date": "2026-10-16",
+              **{k: v for k, v in lead(result="read").items() if k not in ("queue_id", "read")}}
+    assert rp.check_packet(review, TODAY) == ([], [])
+
+
+def test_case_packets_need_a_court_record_for_each_case():
+    p = {"packet": "draft", "queue": "case", "key": "REC-9", "agent": DRAFTER, "date": "2026-10-16",
+         "result": "read", "note": "The opinion names the project and the county.", "attempts": [],
+         "cases": [{"case_name": "Wike v. Grandview Solar", "court": "Indiana Court of Appeals",
+                    "court_level": "state_appellate", "docket_number": "23A-PL-1", "case_status": "pending",
+                    "case_source_url": "https://www.courtlistener.com/opinion/1/", "access": "opened",
+                    "archived_url": "", "quote": "Landowners appeal the approval of Grandview Solar."}]}
+    assert rp.check_packet(p, TODAY) == ([], [])
+    errors = rp.check_packet({**p, "cases": [{**p["cases"][0], "court": "", "access": "snippet"}]}, TODAY)[0]
+    assert any("missing court" in e for e in errors) and any("snippet" in e for e in errors)
+    assert any("needs cases" in e for e in rp.check_packet({**p, "cases": []}, TODAY)[0])
+    assert any("queue 'other'" in e for e in rp.check_packet({**p, "queue": "other"}, TODAY)[0])
