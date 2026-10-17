@@ -18,12 +18,16 @@ def test_a_spacing_between_facilities_is_not_a_setback():
     assert b.setback_feet(text) == 1000
     assert b.restriction_severity({"setback"}, "battery_storage", "active", text) == (
         3, "battery_storage setback 1000 ft")
-    assert b.setback_feet("turbines 0.5 miles between turbines and 1,000 feet from homes") == 1000
+    assert b.setback_feet("turbines 0.5 miles between turbines; 1,000 feet from homes") == 1000
     assert b.setback_feet("2,000 feet from any other wind turbine; 600 feet from roads") == 600
     assert b.setback_feet("turbines spaced 1,200 feet from each other") == 0
     # "other" naming something that is not a facility is still a setback.
     assert b.setback_feet("1,320 feet from other property lines") == 1320
     assert b.setback_feet("1,000 feet from each other parcel") == 1000
+    assert b.setback_feet("a minimum of 1,000 feet between the facility and any residence") == 1000
+    assert b.setback_feet("1,000 feet between any turbine and an occupied dwelling") == 1000
+    assert b.setback_feet("setback of 2,640 feet between wind turbines and non-participating residences") == 2640
+    assert b.setback_feet("1,200 feet between turbines") == 0
 
 
 def test_height_multiplier():

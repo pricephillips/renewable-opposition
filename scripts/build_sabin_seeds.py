@@ -301,11 +301,12 @@ _WORD_NUM = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "half": 0.5, 
 
 # A distance kept from another site of the same kind (1,500 ft between battery
 # sites, half a mile between turbines) spaces facilities apart and sets back
-# nothing a neighbor owns, so it does not count as a setback.
+# nothing a neighbor owns, so it does not count as a setback. "Between the
+# facility and any residence" names a second thing, so it stays a setback.
 _FACILITY = r"(?:bess|batter(?:y|ies)|sites?|facilit(?:y|ies)|systems?|turbines?|towers?|arrays?|projects?|wecs)\b"
 _SPACING = re.compile(r"^\W*(?:\w+\W+){0,3}?(?:(?:from|to|of)\s+(?:another|(?:any\s+)?other)\s+(?:[\w-]+\s+){0,2}?"
                       + _FACILITY + r"|(?:from|of)\s+each\s+other(?!\s*[a-z])|between\s+(?:[\w-]+\s+){0,2}?"
-                      + _FACILITY + ")")
+                      + _FACILITY + r"(?!\s+(?:and|or|to)\b))")
 
 
 def _spacing(t: str, end: int) -> bool:
