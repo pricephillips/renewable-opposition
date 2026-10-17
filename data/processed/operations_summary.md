@@ -4,7 +4,7 @@ Generated 2026-10-17 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3351 renewables-only restriction instruments (1365 severe, 84 verified, 1 past their end date with no confirmed extension, 944 severe ones in states whose siting law limits local reach); 579 contested projects (145 confirmed); 39 cases.
+3352 renewables-only restriction instruments (1366 severe, 85 verified, 1 past their end date with no confirmed extension, 944 severe ones in states whose siting law limits local reach); 579 contested projects (145 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 333, of which 244 blocked; confirmed outcomes only: 144, 79 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -19,17 +19,18 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 | outcome_worklist.csv | 428 | 142 overdue, 13 with decision language in their text, 0 with a located source |
 | restriction_worklist.csv | 3343 | 2 lapsed, 431 sole severe in a county, 13 with a located source |
 | negative_check_worklist.csv | 0 |  |
-| adjacency_worklist.csv | 243 | neighbours of blocked projects not yet examined |
+| adjacency_worklist.csv | 249 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
 
 ## Review and promotion
 
-Queue: 29 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 59 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 30 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 91 decisions from 2026-10-13 to 2026-10-16 (new or changed decisions only): 70 promoted, 13 held, 6 awaiting_review, 2 rejected.
+Promotion trail: 92 decisions from 2026-10-13 to 2026-10-17 (new or changed decisions only): 71 promoted, 13 held, 6 awaiting_review, 2 rejected.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
+| 2026-10-17 | queue.csv | promoted | TX Pasadena |  |
 | 2026-10-16 | queue.csv | promoted | TX Baytown |  |
 | 2026-10-16 | queue.csv | promoted | TX Baytown |  |
 | 2026-10-16 | queue.csv | promoted | TX Tomball |  |
@@ -37,7 +38,6 @@ Promotion trail: 91 decisions from 2026-10-13 to 2026-10-16 (new or changed deci
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | rejected | IA Linn County |  |
-| 2026-10-16 | queue.csv | awaiting_review | TX Baytown | awaiting review by someone other than its drafter |
 
 ## What checking found
 
@@ -76,4 +76,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-93 snapshot rows over 5 published files; 9 headline changes recorded (2026-09-29 to 2026-10-17). Sources: 67, of which 11 have an Internet Archive snapshot.
+97 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 68, of which 11 have an Internet Archive snapshot.
