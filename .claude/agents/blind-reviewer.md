@@ -65,7 +65,9 @@ module docstring), with `"packet": "review"`:
 - status: whether the record's instrument applies today. Say how the
   document stands to it (`relation`, as for restriction), then give `status`
   (`active`, `extended`, `pending`, `lifted` or `expired`), `end_date` (the
-  date it stopped applying; required for `lifted` and `expired`) and
+  date it stopped applying, required for `lifted` and `expired` and never
+  after your reading; or, for `active` and `extended`, its current end date
+  as a full YYYY-MM-DD, blank when it has none) and
   `evidence_date` (the date of the document that shows the status: the code's
   currency date, the meeting, the repeal). A repeal is `lifted`; a moratorium
   past its end date with no extension found is `expired`.

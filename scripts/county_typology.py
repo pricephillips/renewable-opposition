@@ -109,17 +109,19 @@ def _fips(row: dict) -> list[str]:
 
 def instruments(rows: list[dict]) -> dict[str, dict]:
     """instrument_id -> one merged instrument: every county and technology it
-    touches, its highest severity, and the first non-blank of each field
-    (rows of one instrument agree on currency, type, scope and date)."""
+    touches, its highest severity, whether any of its rows is a moratorium,
+    and the first non-blank currency, type and scope (rows of one instrument
+    agree on currency and scope; a few differ on type by technology)."""
     out: dict[str, dict] = {}
     for r in rows:
         iid = _s(r.get("instrument_id")) or _s(r.get("id"))
         cur = out.setdefault(iid, {"fips": set(), "techs": set(), "severity": 0, "currency": "",
-                                    "restriction_type": "", "scope": "", "year": ""})
+                                    "restriction_type": "", "moratorium": False, "scope": "", "year": ""})
         cur["fips"].update(_fips(r))
         if _s(r.get("technology")):
             cur["techs"].add(_s(r["technology"]))
         cur["severity"] = max(cur["severity"], _int(r.get("severity_score")))
+        cur["moratorium"] = cur["moratorium"] or _s(r.get("restriction_type")) == "moratorium"
         for field in ("currency", "restriction_type", "scope"):
             cur[field] = cur[field] or _s(r.get(field))
         year = _s(r.get("date_enacted_iso"))[:4]
@@ -141,7 +143,7 @@ def tally(insts: dict[str, dict]) -> dict[str, dict]:
             if currency == "in_force":
                 t["in_force"] += 1
                 t["severe_in_force"] += inst["severity"] >= SEVERE
-                t["moratoria_in_force"] += inst["restriction_type"] == "moratorium"
+                t["moratoria_in_force"] += inst["moratorium"]
                 t["techs"] |= inst["techs"]
             elif currency == "pending":
                 t["pending"] += 1

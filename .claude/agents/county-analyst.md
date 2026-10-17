@@ -71,7 +71,12 @@ Keep it to about one page. Sections, in this order:
    contagion or influence.
 6. **State law.** What `state_policies.csv` records for the state's siting
    authority, any preemption of local rules and any state setback, and how
-   many of the scope's counties sit where `state_limits_local` is `yes`.
+   many of the scope's counties sit where state law limits local rules.
+   `state_limits_local` is one value when every technology agrees (`yes`,
+   `no`, `unknown`) and per technology otherwise
+   (`solar:yes;wind:yes;battery_storage:unknown`; `_collapse` in
+   `scripts/county_typology.py`). Count `yes` for every technology, then, by
+   technology, the counties where only some technologies are `yes`.
 7. **Sources.** Each file read, and the commit it was read at
    (`git log -1 --format=%h`).
 

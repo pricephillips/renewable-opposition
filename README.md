@@ -194,13 +194,14 @@ document again without seeing the draft, the `record-editor` writes the row).
 The build lays each row over every technology row of the instrument
 (`resolutions.apply_status_resolutions`), setting `status`,
 `status_checked_on` and `status_evidence_url`, and `current_end_date_iso` when
-the reading gives a full end date. `active` or `extended` makes the instrument
+an `active` or `extended` reading gives an end date (always a full
+YYYY-MM-DD). `active` or `extended` makes the instrument
 `in_force` unless its end date has passed since the reading and no later check
 confirms it (`classify.currency`); `pending` makes it `pending`. `lifted` or
 `expired` takes the instrument out of the published data: its row in
 `status_resolutions.csv` and its log line keep the reading. Only an `opened` or
 `archived` source can settle a status, and `lifted` or `expired` needs the date
-the instrument stopped applying.
+the instrument stopped applying, no later than the reading.
 `python scripts/verification_batch.py --restrictions 0 --outcomes 0 --statuses 20`
 lists the next unsettled instruments (`currency` `unknown` or
 `lapsed_unconfirmed`, no status row yet): those whose source is already

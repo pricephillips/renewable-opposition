@@ -255,6 +255,15 @@ def apply_status_resolutions(rows: list[dict], path: Path | None = None) -> list
         if status in NOT_IN_FORCE and not end:
             errors.append(f"{where}: status {status} needs the end_date the reading found")
             continue
+        if status not in NOT_IN_FORCE and end and len(end) != 10:
+            errors.append(f"{where}: an {status} instrument's end_date must be a full YYYY-MM-DD, "
+                          "or blank when the reading gives none")
+            continue
+        checked = _s(res.get("checked_on"))
+        if status in NOT_IN_FORCE and _ISO.match(checked) and end > checked[: len(end)]:
+            errors.append(f"{where}: status {status} with end_date {end} after the reading ({checked}); "
+                          "an instrument that still applies is active until then")
+            continue
         bad = access_error(res)
         if bad:
             errors.append(f"{where}: {bad}")
@@ -266,7 +275,7 @@ def apply_status_resolutions(rows: list[dict], path: Path | None = None) -> list
             row["status"] = status
             row["status_checked_on"] = _s(res.get("checked_on"))
             row["status_evidence_url"] = url
-            if len(end) == 10:
+            if end and status not in NOT_IN_FORCE:
                 row["current_end_date_iso"] = end
     return errors
 

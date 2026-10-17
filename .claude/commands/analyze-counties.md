@@ -18,7 +18,7 @@ Before starting, read `scripts/county_typology.py` (the categories and every col
 
 Name the run `<today>-analysis`.
 
-1. **Fresh typology.** Run `python scripts/county_typology.py` so `data/processed/county_typology.csv` matches the processed files in the checkout. If `git status` shows other generated files changed, the processed data is out of date with main: run `git pull` (or `git merge origin/main`) and repeat. The rows you read must be the committed ones.
+1. **Fresh typology.** Run `git merge origin/main` (or start from a fresh branch off main), then `python scripts/county_typology.py`, then `git status --short data/processed/county_typology.csv`. If it shows the file changed, the committed typology is out of date with the processed files (a covariates refresh, for one, does not rebuild it): stop and tell the user, and write no brief. The rows the analysts read must be the committed ones, at the commit each brief's Sources line names.
 2. **Analyze.** For each brief, start a `county-analyst` with its scope, the run name and the output path `deliverables/state_briefs/<today>_<scope>.md` (scope: the state code, the region's name in lowercase with underscores, or `national`). Briefs are independent; start them in one message, a few at a time.
 3. **Copy edit.** Start the `copy-editor` on each brief. It checks every figure against its file and the house style.
 4. **Humanizer pass.** Run the `humanizer` skill on each brief, as `CLAUDE.md` requires for client-facing prose: copy the brief to the scratchpad as `before.md`, run the pass, then the number, URL and outcome-code check from `CLAUDE.md` on the pair. It must print nothing.

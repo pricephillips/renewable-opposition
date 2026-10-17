@@ -127,7 +127,8 @@ CHECKS = (
     ("END_DATE_PASSED", "MEDIUM", "an active or extended restriction whose own end date has passed with no "
      "reviewer confirmation since; the source's status may be out of date",
      "nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv "
-     "row checked on or after the end date restores it to in_force"),
+     "row checked on or after the end date, or a status_resolutions.csv reading on or after it, restores it to "
+     "in_force"),
 )
 RELEASE = {code: release for code, _, _, release in CHECKS}
 DATE_FIELDS = ("date_enacted_iso", "current_end_date_iso", "filing_date")
@@ -205,8 +206,9 @@ def check_record(entity: str, row: dict, today: date | None = None) -> list[Issu
         end = _s(row.get("current_end_date_iso"))
         if _ISO.match(end) and end < today.isoformat()[: len(end)]:
             checked = _s(row.get("primary_source_checked_on"))
-            reconfirmed = _s(row.get("primary_source_verdict")) == "confirmed" and _ISO.match(checked) \
-                and checked[: len(end)] >= end
+            settled = _s(row.get("status_checked_on"))
+            reconfirmed = (_s(row.get("primary_source_verdict")) == "confirmed" and _ISO.match(checked)
+                           and checked[: len(end)] >= end) or (_ISO.match(settled) and settled[: len(end)] >= end)
             if not reconfirmed:
                 issues.append(Issue("END_DATE_PASSED", "MEDIUM", "current_end_date_iso",
                                     f"end date {end} is before {today.isoformat()} and nothing confirms an "
@@ -328,6 +330,8 @@ def selftest() -> int:
                           "current_end_date_iso": "2026-09", "primary_source_url": "https://x.gov/o.pdf",
                           "primary_source_verdict": "confirmed", "primary_source_checked_on": "2026-09-20"},
          set()),
+        ("restrictions", {"state": "VA", "status": "extended", "source_url": "https://x.org",
+                          "current_end_date_iso": "2026-09-01", "status_checked_on": "2026-09-20"}, set()),
         ("restrictions", {"state": "VA", "status": "pending", "source_url": "https://x.org",
                           "current_end_date_iso": "2026-09-01"}, set()),
         ("restrictions", {"state": "VA", "status": "active", "source_url": "https://x.org",

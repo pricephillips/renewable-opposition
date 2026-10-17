@@ -54,8 +54,9 @@ Packet fields (draft and review)
                  the document shows the instrument today (resolutions.py,
                  RESOLVED_STATUSES); a repeal (relation repeals) is lifted
   end_date       status: YYYY[-MM[-DD]] the instrument stopped applying
-                 (required for lifted and expired), or a moratorium's
-                 current end date
+                 (required for lifted and expired, and not after the
+                 reading), or a full YYYY-MM-DD current end date for an
+                 active or extended instrument
   evidence_date  outcome and status: YYYY[-MM[-DD]] of the event the document
                  records (for a status, the code's currency date, the meeting
                  or the repeal)
@@ -412,6 +413,12 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
             errors.append(f"relation repeals with status {status}: a repealed instrument is lifted")
         if end and not _PARTIAL.match(end):
             errors.append(f"end_date {end!r} must be YYYY[-MM[-DD]]")
+        elif end and status in RESOLVED_STATUSES and status not in NOT_IN_FORCE and not _DAY.match(end):
+            errors.append(f"end_date {end!r}: an {status} instrument's end date must be a full YYYY-MM-DD "
+                          "(or blank when the document gives none), so the build can tell when it passes")
+        elif end and status in NOT_IN_FORCE and _DAY.match(when) and end > when[: len(end)]:
+            errors.append(f"end_date {end} is after the reading ({when}): an instrument that still applies "
+                          "is active until then, with that end_date")
         if not _PARTIAL.match(ev):
             errors.append(f"evidence_date {ev!r} must be YYYY[-MM[-DD]]: the date of the document that shows "
                           "the status (the code's currency date, the meeting, the repeal)")

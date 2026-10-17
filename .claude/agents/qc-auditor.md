@@ -60,12 +60,14 @@ the lint cannot judge:
 ## 2. The packets (when a run directory is given)
 
 `python3 scripts/review_packets.py check` on every `*.draft.json` and
-`*.review.json` of the restriction and outcome queues. For each row the branch
-added to `restriction_sources.csv` or `outcome_resolutions.csv`, run
-`reconcile` on its card, draft and review and confirm the row matches what it
-prints (`written`, same verdict or outcome, URL, access, reviewer). A row
-with no packets, or packets that do not reconcile to it, is a BLOCKER. Check
-that no `*.blind.json` carries a drafter's verdict, outcome, quote or note.
+`*.review.json` of the restriction, status and outcome queues. For each row
+the branch added to `restriction_sources.csv`, `status_resolutions.csv` or
+`outcome_resolutions.csv`, run `reconcile` on its card, draft and review and
+confirm the row matches what it prints (`written`, same verdict, status and
+end date, or outcome, URL, access, reviewer). A row with no packets, or
+packets that do not reconcile to it, is a BLOCKER. Check that no
+`*.blind.json` carries a drafter's verdict, status, end date, outcome, quote
+or note.
 
 ## 3. The checks CI runs
 

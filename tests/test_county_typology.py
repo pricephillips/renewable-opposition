@@ -101,3 +101,10 @@ def test_puerto_rico_is_outside_the_coverage_universe_and_covariates_carry_throu
 def test_every_output_column_is_filled_for_every_row():
     out = _build([_summary("01")])
     assert set(out["01"]) == set(ct.FIELDS)
+
+
+def test_an_instrument_is_a_moratorium_when_any_of_its_rows_is_one():
+    rows = [_restriction("a", "01", tech="solar", rtype="setback", severity=2),
+            _restriction("a", "01", tech="wind", rtype="moratorium", severity=4)]
+    out = _build([_summary("01")], rows)
+    assert out["01"]["category"] == "moratorium_in_force" and out["01"]["moratoria_in_force"] == 1

@@ -15,6 +15,7 @@ Most published instruments came from NREL's ordinance compilations, which do not
 
 - A status rests on the instrument, the minutes that acted on it, or an official copy of the code, read in this session (`opened` or `archived`). Never a tracker, a news article or search-result text.
 - `expired` only after the minutes around the end date were searched for an extension.
+- An `active` or `extended` end date is a full YYYY-MM-DD; a `lifted` or `expired` end date is never after the reading (a repeal that takes effect later is `active` until then).
 - Do not special-case any instrument or county in code or tests.
 - Never commit `data/processed/`, `data/db/` or a worklist; the Build dashboard data workflow regenerates them.
 - No em dashes in anything written.

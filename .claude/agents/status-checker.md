@@ -46,14 +46,20 @@ reading.
   The best document is the code publisher's current version of the chapter,
   with its currency date ("current through Ordinance 2025-14", "last updated
   2026-03-01"); that date is `evidence_date`. An ordinance PDF on the body's
-  site with no later amendment found is weaker: say so in `note`.
+  site with no later amendment found is weaker: say so in `note`. If the
+  instrument has an end date (a moratorium's term), `end_date` is that date
+  as a full YYYY-MM-DD; otherwise leave it blank.
 - **extended**: a moratorium whose term a later instrument lengthened.
-  `end_date` is the new end date; `relation` is `extends`.
+  `end_date` is the new end date, as a full YYYY-MM-DD (`check` refuses a
+  month or a year, since the build could not tell when it passes);
+  `relation` is `extends`.
 - **pending**: the instrument was proposed and never adopted, and the
   minutes show it is still before the body.
 - **lifted**: repealed, rescinded, or replaced by a later ordinance whose
   terms differ. `end_date` is the date the repeal or replacement took effect
-  (the adoption date when no effective date is given). A repeal has
+  (the adoption date when no effective date is given). A repeal that takes
+  effect after today leaves the instrument `active` until then, with that
+  date as `end_date`. A repeal has
   `relation` `repeals`; a replacement found in the new ordinance has
   `relation` `amends`. Name the replacement in `leads` with its URL: it is a
   restriction of its own.

@@ -53,6 +53,8 @@ def test_a_settled_status_confirms_a_moratorium_past_its_old_end_date(tmp_path):
     (f"nrel:wind:31065,lifted,,{URL},2026-10-16,a + b,opened,", "needs the end_date"),
     (f"nrel:wind:31065,expired,June 2026,{URL},2026-10-16,a + b,opened,", "YYYY"),
     (f"nrel:wind:31065,active,,{URL},2026-10-16,a + b,snippet,", "never settles"),
+    (f"nrel:wind:31065,extended,2027-01,{URL},2026-10-16,a + b,opened,", "full YYYY-MM-DD"),
+    (f"nrel:wind:31065,lifted,2026-12-01,{URL},2026-10-16,a + b,opened,", "after the reading"),
     (f"nrel:wind:31065,active,,{URL},2026-10-16,a + b,seen,", "access"),
 ])
 def test_a_bad_status_row_is_an_error_and_changes_nothing(tmp_path, line, msg):

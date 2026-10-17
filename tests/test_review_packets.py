@@ -248,6 +248,8 @@ def test_a_status_card_points_at_status_resolutions():
     ({"evidence_date": ""}, "evidence_date"),
     ({"source_kind": "news"}, "never verifies"),
     ({"relation": "other"}, "neither confirms nor contradicts"),
+    ({"status": "extended", "relation": "extends", "end_date": "2027-01"}, "full YYYY-MM-DD"),
+    ({"status": "lifted", "relation": "repeals", "end_date": "2026-12-01"}, "after the reading"),
 ])
 def test_a_status_packet_must_settle_the_status_from_a_reading(change, error):
     errors, _ = rp.check_packet(status_reading(**change), TODAY)
