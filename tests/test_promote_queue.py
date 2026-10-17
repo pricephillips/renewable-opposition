@@ -256,3 +256,29 @@ def test_a_dry_run_leaves_no_trail(queue, tmp_path, monkeypatch):
     monkeypatch.setattr("sys.argv", ["promote_reviewed.py", "--dry-run"])
     code, seeds, _ = queue(row(mechanisms="setback", mechanism_detail="500 ft"))
     assert code == 0 and seeds == [] and not (tmp_path / "promotion_trail.csv").exists()
+
+
+def test_a_promoted_row_found_lifted_leaves_the_seed_and_the_trail_says_so(queue, tmp_path, capsys):
+    """A repeal read after promotion: the seed rows go (a first promotion would
+    not publish a lifted instrument), the queue row stays promoted, and the
+    trail records the change once."""
+    from common import read_csv
+    code, seeds, _ = queue(row(mechanisms="setback", mechanism_detail="500 ft", technology="solar;wind"))
+    assert code == 0 and len(seeds) == 2
+    qid = seeds[0]["queue_id"]
+    lifted = row(mechanisms="setback", mechanism_detail="500 ft", technology="solar;wind",
+                 review_status="promoted", queue_id=qid, status="lifted")
+    code, seeds, status = queue(lifted)
+    assert code == 0 and seeds == [] and status == ["promoted"]
+    out = capsys.readouterr().out
+    assert out.count("status lifted: the instrument is no longer in force") == 2
+    trail = read_csv(tmp_path / "promotion_trail.csv")
+    assert [r["action"] for r in trail] == ["promoted", "unpublished"]
+    # Already removed: a second run changes nothing and reports no problem.
+    code, seeds, _ = queue(lifted)
+    out = capsys.readouterr().out
+    assert code == 0 and seeds == [] and "0 field change(s)" in out and "no seed row is linked" not in out
+    assert len(read_csv(tmp_path / "promotion_trail.csv")) == 2
+    # Back in force but still marked promoted: reported, with the way to republish.
+    code, seeds, _ = queue(dict(lifted, status="active"))
+    assert seeds == [] and "set review_status to pending" in capsys.readouterr().out

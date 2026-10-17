@@ -10,6 +10,22 @@ def test_setback_feet_parses_feet_miles_and_words():
     assert b.setback_feet("no distance here") == 0
 
 
+def test_a_spacing_between_facilities_is_not_a_setback():
+    # Pasadena's Section 1208.4: the 1,500 ft between battery sites spaces them
+    # apart; the 1,000 ft from critical facilities is the setback.
+    text = ("150 ft from rear and side property lines; 1,500 ft from another BESS site, measured from the "
+            "nearest property line; 1,000 ft from all critical facilities, excluding other BESS sites")
+    assert b.setback_feet(text) == 1000
+    assert b.restriction_severity({"setback"}, "battery_storage", "active", text) == (
+        3, "battery_storage setback 1000 ft")
+    assert b.setback_feet("turbines 0.5 miles between turbines and 1,000 feet from homes") == 1000
+    assert b.setback_feet("2,000 feet from any other wind turbine; 600 feet from roads") == 600
+    assert b.setback_feet("turbines spaced 1,200 feet from each other") == 0
+    # "other" naming something that is not a facility is still a setback.
+    assert b.setback_feet("1,320 feet from other property lines") == 1320
+    assert b.setback_feet("1,000 feet from each other parcel") == 1000
+
+
 def test_height_multiplier():
     assert b.height_multiplier("the greater of 1 mile or 10 times turbine height") == 10
     assert b.height_multiplier("1.5x the total height") == 1.5

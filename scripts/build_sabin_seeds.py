@@ -299,16 +299,33 @@ _NUM = r"(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)"
 _WORD_NUM = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "half": 0.5, "one-half": 0.5}
 
 
+# A distance kept from another site of the same kind (1,500 ft between battery
+# sites, half a mile between turbines) spaces facilities apart and sets back
+# nothing a neighbor owns, so it does not count as a setback.
+_FACILITY = r"(?:bess|batter(?:y|ies)|sites?|facilit(?:y|ies)|systems?|turbines?|towers?|arrays?|projects?|wecs)\b"
+_SPACING = re.compile(r"^\W*(?:\w+\W+){0,3}?(?:(?:from|to|of)\s+(?:another|(?:any\s+)?other)\s+(?:[\w-]+\s+){0,2}?"
+                      + _FACILITY + r"|(?:from|of)\s+each\s+other(?!\s*[a-z])|between\s+(?:[\w-]+\s+){0,2}?"
+                      + _FACILITY + ")")
+
+
+def _spacing(t: str, end: int) -> bool:
+    return bool(_SPACING.search(t[end:end + 80].split(";")[0]))
+
+
 def setback_feet(text: str) -> float:
-    """Largest distance stated in feet or miles, in feet (0 if none)."""
+    """Largest distance stated in feet or miles, in feet (0 if none); a
+    spacing between facilities of one kind is not a setback (_SPACING)."""
     t = text.lower()
     best = 0.0
     for m in re.finditer(_NUM + r"[\s-]*(?:feet|foot|ft\b)", t):
-        best = max(best, float(m.group(1).replace(",", "")))
+        if not _spacing(t, m.end()):
+            best = max(best, float(m.group(1).replace(",", "")))
     for m in re.finditer(_NUM + r"[\s-]*miles?\b", t):
-        best = max(best, float(m.group(1).replace(",", "")) * 5280)
+        if not _spacing(t, m.end()):
+            best = max(best, float(m.group(1).replace(",", "")) * 5280)
     for m in re.finditer(r"\b(one-half|half|one|two|three|four|five)[\s-]+(?:a\s+)?miles?\b", t):
-        best = max(best, _WORD_NUM[m.group(1)] * 5280)
+        if not _spacing(t, m.end()):
+            best = max(best, _WORD_NUM[m.group(1)] * 5280)
     return best
 
 

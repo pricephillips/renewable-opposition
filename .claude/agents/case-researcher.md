@@ -90,8 +90,7 @@ project or restriction, the state, the technology, and the years. A case that
 turns out to concern a different project is `nothing_found` for this
 candidate, with the case named in `note` as a lead.
 
-`python scripts/review_packets.py check` covers restriction and outcome
-packets only; check this one against the shape above yourself.
+Then run `python scripts/review_packets.py check <packet>` and fix every error.
 
 ## Never
 

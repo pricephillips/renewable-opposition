@@ -264,7 +264,7 @@ def build_entity(entity: str, filename: str,
     if entity == "contested_projects":
         errors += resolutions.apply_outcomes(rows, qc_gate.VOCAB[entity]["outcome"])
     elif entity == "restrictions":
-        errors += resolutions.apply_restriction_sources(rows)
+        errors += resolutions.apply_restriction_sources(rows, retired=resolutions.retired_instruments())
     for row in rows:
         classify.stamp(entity, row)
     if fips_lookup is not None and entity in FIPS_ENTITIES:

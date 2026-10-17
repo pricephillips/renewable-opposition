@@ -59,6 +59,8 @@ SEVERITY_PROBES = [
     ("Solar setback of 500 feet", {"setback"}, "solar", "active", "Panels 500 feet from dwellings."),
     ("Battery storage setback of 1,000 feet", {"setback"}, "battery_storage", "active",
      "Batteries 1,000 feet from dwellings."),
+    ("Battery storage spacing of 1,500 feet between sites", {"setback"}, "battery_storage", "active",
+     "Each site 1,500 feet from another battery storage site."),
     ("Size cap", {"size_cap"}, "solar", "active", "No project over 50 acres."),
     ("Zoning restriction", {"zoning_restriction"}, "solar", "active", ""),
     ("Any restricting mechanism, pending", {"setback"}, "solar", "pending", "Panels 1,000 feet from dwellings."),

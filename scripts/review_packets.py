@@ -68,7 +68,7 @@ Subcommands
   blind-row negative_check FIPS        the county's held negative check, without note or drafter
   blind-row case SOURCE_RECORD_ID --draft DRAFT
                                        a case candidate and the court records the draft read
-  check PACKET...                      check packets; exit 1 on any error
+  check PACKET...                      check packets of any queue; exit 1 on any error
   reconcile CARD DRAFT REVIEW          compare the two readings; print JSON
   reconcile CARD DRAFT REVIEW --row    print the review-file row to append
                                        (exit 1 unless both readings agree and
@@ -254,10 +254,17 @@ def blind_row(kind: str, key: str, queue_rows: list[dict], candidate_rows: list[
         if kind == "lead":
             if status != "lead":
                 raise ValueError(f"{key} is {status}, not an untriaged lead")
-            # parse.py's notes say how the lead was found and placed; no reviewer
-            # has written in them yet.
-            record = {k: v for k, v in row.items() if _s(v) and k != "raw_path"}
-            return _blind("lead", key, {"record": record, "source_url": _s(row.get("source_url"))}, "lead")
+            # A harvested lead (parse.py sets raw_path) carries parse.py's notes on
+            # how it was found and placed; no reviewer has written in them yet. A
+            # hand-queued lead's notes were written by whoever read it first, so
+            # they stay out of the second reader's card.
+            harvested = bool(_s(row.get("raw_path")))
+            record = {k: v for k, v in row.items() if _s(v) and k != "raw_path"
+                      and (harvested or k != "reviewer_notes")}
+            body = {"record": record, "source_url": _s(row.get("source_url"))}
+            if not harvested and _s(row.get("reviewer_notes")):
+                body["notes_withheld"] = "queued by hand: its notes record an earlier reading and are left out"
+            return _blind("lead", key, body, "lead")
         claim = {k: v for k, v in row.items() if _s(v) and k not in HIDDEN}
         return _blind("queue_row", key, {"claim": claim, "source_url": _s(row.get("source_url")),
                                          "archived_url": _s(row.get("archived_url"))}, "claim")
@@ -285,6 +292,151 @@ def blind_row(kind: str, key: str, queue_rows: list[dict], candidate_rows: list[
 
 # ── Checks ───────────────────────────────────────────────────────────────────
 
+# Queues whose packets blind-row cards ask for (EXPECT) and that reconcile does
+# not compare: the record-editor applies them from both readings.
+ROW_QUEUES = ("lead", "queue_row", "negative_check", "case")
+CLAIM_VERDICTS = ("confirmed", "contradicts", "unverifiable")
+LEAD_DECISIONS = ("pending", "rejected", "duplicate")
+# What a triage judged from the headline alone may correct (lead-triager).
+HEADLINE_COLUMNS = {"state", "county", "municipality", "entity_type", "technology"}
+
+
+def _note_errors(item: dict, where: str = "") -> list[str]:
+    note = _s(item.get("note"))
+    if not note:
+        return [f"{where}note is required: what the document says, or what was searched"]
+    if EMDASH in note:
+        return [f"{where}note has an em dash; use a comma, colon or parentheses (quote the source in `quote`)"]
+    return []
+
+
+def _attempt_errors(item: dict, where: str = "") -> tuple[list[str], list]:
+    attempts = item.get("attempts") or []
+    if not isinstance(attempts, list) or any(
+            not isinstance(a, dict) or not _s(a.get("url")) or not _s(a.get("result")) for a in attempts):
+        return [f"{where}attempts must be a list of {{url, result}}"], []
+    return [], attempts
+
+
+def _reading_errors(item: dict, where: str = "") -> list[str]:
+    """A document that was read: its http(s) address and how it was seen."""
+    errors = []
+    if not _URL.match(_s(item.get("source_url"))):
+        errors.append(f"{where}source_url must be the http(s) address of the document read")
+    if _s(item.get("access")) == "snippet":
+        errors.append(f"{where}access snippet is not a reading: search-index text never verifies anything; "
+                      "use result not_read and list the attempts")
+    else:
+        bad = access_error(item)
+        if bad:
+            errors.append(where + bad)
+    return errors
+
+
+def _check_claim(p: dict) -> list[str]:
+    """A claim check of a drafted queue row or a held negative check."""
+    errors = _note_errors(p)
+    errs, attempts = _attempt_errors(p)
+    errors += errs
+    result, verdict = _s(p.get("result")), _s(p.get("verdict"))
+    if result not in ("read", "not_read"):
+        return errors + [f"result {result!r} must be read or not_read"]
+    if verdict not in CLAIM_VERDICTS:
+        return errors + [f"verdict {verdict!r} must be one of {', '.join(CLAIM_VERDICTS)}"]
+    if result == "not_read":
+        if verdict != "unverifiable":
+            errors.append(f"verdict {verdict} but nothing was read; a source that cannot be read is unverifiable")
+        if not attempts:
+            errors.append("result not_read needs attempts: every URL tried and what it returned")
+        return errors
+    errors += _reading_errors(p)
+    if verdict == "unverifiable":
+        return errors
+    if len(_s(p.get("quote"))) < MIN_QUOTE:
+        errors.append("quote is required: the operative text, verbatim")
+    fields = p.get("fields") or []
+    if not isinstance(fields, list) or not fields or any(
+            not isinstance(f, dict) or not _s(f.get("field")) or not isinstance(f.get("agrees"), bool)
+            for f in fields):
+        return errors + ["fields must list at least one {field, claimed, document, agrees (true or false)}"]
+    disagreements = [_s(f.get("field")) for f in fields if f.get("agrees") is False]
+    if verdict == "confirmed" and disagreements:
+        errors.append(f"verdict confirmed but fields disagree ({', '.join(disagreements)}): that is contradicts")
+    elif verdict == "contradicts" and not disagreements:
+        errors.append("verdict contradicts names no field that disagrees")
+    return errors
+
+
+def _check_lead(item: dict, where: str = "") -> list[str]:
+    """One lead's triage: a draft batch item (read true or false) or a
+    blind-row review (result read or not_read)."""
+    errors = _note_errors(item, where)
+    errs, _ = _attempt_errors(item, where)
+    errors += errs
+    decision = _s(item.get("decision"))
+    if decision not in LEAD_DECISIONS:
+        return errors + [f"{where}decision {decision!r} must be one of {', '.join(LEAD_DECISIONS)}"]
+    on_topic, placed = item.get("on_topic"), item.get("placed")
+    if not isinstance(on_topic, bool) or not isinstance(placed, bool):
+        return errors + [f"{where}on_topic and placed must be true or false"]
+    if decision == "pending" and not (on_topic and placed):
+        errors.append(f"{where}decision pending needs a lead that is on topic and placed")
+    if decision == "rejected" and on_topic and placed:
+        errors.append(f"{where}decision rejected, but the lead is on topic and placed: say which it is not")
+    if decision == "duplicate" and not _s(item.get("duplicate_of")):
+        errors.append(f"{where}decision duplicate needs duplicate_of: the queue_id or record it repeats")
+    read = item.get("read") is True or _s(item.get("result")) == "read"
+    access = _s(item.get("access"))
+    bad = access_error(item)
+    if bad:
+        errors.append(where + bad)
+    elif read and access == "snippet":
+        errors.append(f"{where}read, but access snippet: a source that was read is opened or archived")
+    elif not read and access in ("opened", "archived"):
+        errors.append(f"{where}access {access} for a source that was not read")
+    if item.get("set"):
+        if not isinstance(item["set"], dict):
+            return errors + [f"{where}set must map each column to change to the value the source states"]
+        beyond = sorted(set(item["set"]) - HEADLINE_COLUMNS)
+        if not read and beyond:
+            errors.append(f"{where}set {', '.join(beyond)} from a source that was not read: a headline "
+                          f"supports only {', '.join(sorted(HEADLINE_COLUMNS))}")
+        if not _s(item.get("quote")) or (read and len(_s(item.get("quote"))) < MIN_QUOTE):
+            errors.append(f"{where}set needs quote: the sentences each value rests on, verbatim")
+    return errors
+
+
+def _check_case(p: dict) -> list[str]:
+    """A case-researcher's reading or its blind second reading."""
+    errors = _note_errors(p)
+    errs, attempts = _attempt_errors(p)
+    errors += errs
+    result = _s(p.get("result"))
+    if result not in RESULTS:
+        return errors + [f"result {result!r} must be one of {', '.join(RESULTS)}"]
+    cases = p.get("cases") or []
+    if result != "read":
+        if cases:
+            errors.append(f"cases are named but the result is {result}; a case needs a court record that was read")
+        if result == "not_read" and not attempts:
+            errors.append("result not_read needs attempts: every URL tried and what it returned")
+        return errors
+    if not isinstance(cases, list) or not cases:
+        return errors + ["result read needs cases: each case the court record names"]
+    for i, c in enumerate(cases, start=1):
+        where = f"cases[{i}]: "
+        if not isinstance(c, dict):
+            errors.append(f"{where}must be an object")
+            continue
+        missing = [f for f in ("case_name", "court", "court_level") if not _s(c.get(f))]
+        if missing:
+            errors.append(f"{where}missing {', '.join(missing)}")
+        errors += _reading_errors({**c, "source_url": c.get("case_source_url")}, where)
+        if len(_s(c.get("quote"))) < MIN_QUOTE:
+            errors.append(f"{where}quote is required: the lines that name the case, court and disposition")
+    return errors
+
+
 def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[str]]:
     """(errors, warnings) for a draft or review packet."""
     today = today or date.today()
@@ -293,9 +445,10 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
     kind, queue, key = _s(p.get("packet")), _s(p.get("queue")), _s(p.get("key"))
     if kind not in ("draft", "review"):
         errors.append(f"packet {kind!r} must be draft or review")
-    if queue not in QUEUES:
-        return errors + [f"queue {queue!r} must be one of {', '.join(QUEUES)}"], warnings
-    if not key:
+    if queue not in QUEUES and queue not in ROW_QUEUES:
+        return errors + [f"queue {queue!r} must be one of {', '.join([*QUEUES, *ROW_QUEUES])}"], warnings
+    batch = queue == "lead" and "leads" in p
+    if not key and not batch:
         errors.append("key is required")
     agent = _s(p.get("agent"))
     if not agent:
@@ -307,19 +460,32 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
         errors.append(f"date {when!r} must be YYYY-MM-DD")
     elif date.fromisoformat(when) > today:
         errors.append(f"date {when} is after today")
+    if queue in ROW_QUEUES:
+        if batch:
+            leads = p.get("leads")
+            if not isinstance(leads, list) or not leads:
+                return errors + ["leads must list at least one triaged lead"], warnings
+            for i, item in enumerate(leads, start=1):
+                if not isinstance(item, dict):
+                    errors.append(f"leads[{i}]: must be an object")
+                    continue
+                where = f"leads[{i}] {_s(item.get('queue_id')) or '(no queue_id)'}: "
+                if not _s(item.get("queue_id")):
+                    errors.append(f"{where}queue_id is required")
+                errors += _check_lead(item, where)
+        elif queue == "lead":
+            errors += _check_lead(p)
+        elif queue == "case":
+            errors += _check_case(p)
+        else:
+            errors += _check_claim(p)
+        return errors, warnings
     result = _s(p.get("result"))
     if result not in RESULTS:
         return errors + [f"result {result!r} must be one of {', '.join(RESULTS)}"], warnings
-    note = _s(p.get("note"))
-    if not note:
-        errors.append("note is required: what the document says, or what was searched")
-    if EMDASH in note:
-        errors.append("note has an em dash; use a comma, colon or parentheses (quote the source in `quote`)")
-    attempts = p.get("attempts") or []
-    if not isinstance(attempts, list) or any(
-            not isinstance(a, dict) or not _s(a.get("url")) or not _s(a.get("result")) for a in attempts):
-        errors.append("attempts must be a list of {url, result}")
-        attempts = []
+    errors += _note_errors(p)
+    errs, attempts = _attempt_errors(p)
+    errors += errs
     conclusion = "verdict" if queue == "restriction" else "outcome"
 
     if result != "read":
@@ -331,17 +497,7 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
             errors.append("result not_read needs attempts: every URL tried and what it returned")
         return errors, warnings
 
-    url = _s(p.get("source_url"))
-    if not _URL.match(url):
-        errors.append("source_url must be the http(s) address of the document read")
-    access = _s(p.get("access"))
-    if access == "snippet":
-        errors.append("access snippet is not a reading: search-index text never verifies anything; "
-                      "use result not_read and list the attempts")
-    else:
-        bad = access_error(p)
-        if bad:
-            errors.append(bad)
+    errors += _reading_errors(p)
     kind_of = _s(p.get("source_kind"))
     if kind_of not in QUEUES[queue]["kinds"]:
         why = ("a news article or tracker locates an instrument but never verifies it"
