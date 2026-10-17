@@ -189,18 +189,23 @@ it compiled is still in force, so every NREL restriction is `unknown` until
 someone reads the body's current code or the minutes that acted on it.
 `data/review/status_resolutions.csv` holds those readings: one row per
 instrument, written only when two readings of the same document agree
-(`/check-status`: a `status-checker` drafts, a `blind-reviewer` reads it again,
-the `record-editor` writes the row). The build lays each row over every
-technology row of the instrument (`resolutions.apply_status_resolutions`),
-setting `status`, `status_checked_on` and `status_evidence_url`. `active` or
-`extended` makes the instrument `in_force`; a reading dated on or after a
-moratorium's end date also confirms it in force. `lifted` or `expired` takes
-the instrument out of the published data: the row and the log line keep the
-reading. Only an `opened` or `archived` source can settle a status, and
-`lifted` or `expired` needs the date the instrument stopped applying.
+(`/check-status`: a `status-checker` drafts, a `blind-reviewer` reads the
+document again without seeing the draft, the `record-editor` writes the row).
+The build lays each row over every technology row of the instrument
+(`resolutions.apply_status_resolutions`), setting `status`,
+`status_checked_on` and `status_evidence_url`, and `current_end_date_iso` when
+the reading gives a full end date. `active` or `extended` makes the instrument
+`in_force` unless its end date has passed since the reading and no later check
+confirms it (`classify.currency`); `pending` makes it `pending`. `lifted` or
+`expired` takes the instrument out of the published data: its row in
+`status_resolutions.csv` and its log line keep the reading. Only an `opened` or
+`archived` source can settle a status, and `lifted` or `expired` needs the date
+the instrument stopped applying.
 `python scripts/verification_batch.py --restrictions 0 --outcomes 0 --statuses 20`
-lists the next instruments to read: those whose source is already located
-first, then a county's only severe record, then a county's only record.
+lists the next unsettled instruments (`currency` `unknown` or
+`lapsed_unconfirmed`, no status row yet): those whose source is already
+located first, then a county's only severe restriction, then a county's only
+restriction, then by severity, highest first.
 
 **Re-verifying some instruments moves a county.** The restriction worklist
 also carries `county_impact`: `sole_severe` when the instrument is the only
@@ -386,7 +391,7 @@ Neither source file is committed; each manifest records the file's URL, release 
 
 `docs/AGENT_REVIEW.md` sets out how a reviewing agent checks a record and how the review is recorded. Nothing drafted here publishes without a recorded review, and nobody reviews their own work: a review-queue row drafted by an agent carries `review_status` `awaiting_review`, which holds it back until a different reviewer confirms it.
 
-`docs/AGENTS.md` describes the agents in `.claude/agents/` that do the work in Claude Code: six readers that extract what a document says (`instrument-reader`, `status-checker`, `outcome-reader`, `case-researcher`, `lead-triager`, `county-examiner`), a `blind-reviewer` that reads the same document without seeing the first reading, a `record-editor` that alone writes the review files, a `copy-editor` for prose, a `county-analyst` that writes pattern briefs from the published data, and a `qc-auditor` that audits a branch before it is pushed. A hook (`.claude/hooks/agent_lane.py`) holds each to its lane on every tool call: readers write only their packet, the blind reviewer cannot open `data/review/` or a draft, editors cannot browse, no agent commits, and none can reach reports from local contacts. `scripts/review_packets.py` builds the packets the agents pass, checks them, and reconciles the two readings into a row only when they agree; `scripts/review_lint.py` checks every review-file change a branch makes (a raised `access` with no note, a self-review, an unsigned confirmation, a file outside the lane). The commands `/verify-evidence`, `/check-status`, `/triage-leads`, `/examine-county`, `/sweep-counties`, `/research-cases`, `/analyze-counties` and `/qc-branch` run these pipelines. `/sweep-counties` runs the county check on a batch of unexamined counties in parallel waves (`scripts/examination_batch.py` picks them in worklist rank), and `data/review/examination_log.csv` records each county attempted so the next sweep skips it for 60 days.
+`docs/AGENTS.md` describes the agents in `.claude/agents/` that do the work in Claude Code: six readers that extract what a document says (`instrument-reader`, `status-checker`, `outcome-reader`, `case-researcher`, `lead-triager`, `county-examiner`), a `blind-reviewer` that reads the same document without seeing the first reading, a `record-editor` that alone writes the review files, a `copy-editor` for prose, a `county-analyst` that writes pattern briefs from the published data, and a `qc-auditor` that audits a branch before it is pushed. A hook (`.claude/hooks/agent_lane.py`) holds each to its lane on every tool call: readers write only their packet, the blind reviewer cannot open `data/review/` or a draft, editors cannot browse, no agent commits, and none can reach reports from local contacts. `scripts/review_packets.py` builds the packets the agents pass, checks them, and reconciles the two readings into a row only when they agree; `scripts/review_lint.py` checks every review-file change a branch makes (a raised `access` with no note, a self-review, an unsigned confirmation, a file outside the lane). The commands `/verify-evidence`, `/check-status`, `/triage-leads`, `/examine-county`, `/sweep-counties`, `/research-cases`, `/analyze-counties` and `/qc-branch` run these pipelines. `/sweep-counties` runs the county check on a batch of unexamined counties one wave at a time, the counties of a wave in parallel (`scripts/examination_batch.py` picks them in worklist rank), and `data/review/examination_log.csv` records each county attempted so the next sweep skips it for 60 days.
 
 ---
 
@@ -622,18 +627,22 @@ with the counts behind it. A county takes the first category it meets:
 | `contested_projects_only` | no restriction, at least one contested project |
 | `siting_standards_only` | only NREL siting standards |
 | `checked_none_found` | nothing published and a documented negative check |
-| `not_examined` | nothing published and no check: nobody has looked |
+| `not_examined` | nothing published and no documented negative check, which is not evidence that nothing happened |
 
-Every instrument placed in the county counts, including one that also covers
-data centers (`multi_sector` gives how many). The other columns are counts and
-context: instruments in force, severe, moratoria, pending and of unknown
-status; the technologies in force and the latest enactment year; contested
-projects by outcome; how many bordering counties are in an in-force category;
-the state's siting authority and whether state law limits local rules; and
-population and density from the ACS. It is descriptive only and reads no model
-score. `/analyze-counties` turns it into short pattern briefs for a state, a
-region or the nation (`county-analyst`, under `deliverables/state_briefs/`),
-every figure traced to a file in `data/processed/`.
+Every instrument placed in the county counts toward its category and the
+counts below, including one that also covers data centers (`multi_sector`
+gives how many); only `restrictions_renewables`, taken from
+`county_summary.csv`, leaves those out. The other columns are counts and
+context: instruments in force (with how many of those are severe and how many
+are moratoria), pending and of unknown status; the technologies in force and
+the latest enactment year; contested projects by outcome; how many bordering
+counties are in an in-force category; the state's siting authority and
+whether state law limits local rules; and population (ACS) and people per
+square mile of land (2024 Gazetteer land area). It is descriptive only and
+reads no model score. `/analyze-counties` turns it into short pattern briefs
+for a state, a region or the nation (`county-analyst`, under
+`deliverables/state_briefs/`), every figure traced to a file in
+`data/processed/`.
 
 ```bash
 python scripts/county_typology.py

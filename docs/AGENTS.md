@@ -7,7 +7,8 @@ work, read the document itself, say how it was seen, never guess); this file
 says how the agents in `.claude/agents/` carry them out, and what enforces
 them besides the agents' own instructions.
 
-The work splits four ways:
+The work splits four ways, and one agent (`county-analyst`) does analysis
+outside them: it reads only published data and writes pattern briefs.
 
 - **Research extraction.** A reader finds the document behind one item and
   reports what it says, field by field, in a packet. Readers write nothing in
@@ -28,7 +29,7 @@ The work splits four ways:
 | Agent | Lane | Part | Takes | Returns |
 |---|---|---|---|---|
 | `instrument-reader` | `reader` | extraction | a restriction card | a draft packet: the instrument, quoted, compared field by field, with a verdict |
-| `status-checker` | `reader` | extraction | a status card | a draft packet: the current code or the minutes that acted on an instrument, with the status it has today and its end date |
+| `status-checker` | `reader` | extraction | a status card | a draft packet: the current code or the minutes that acted on an instrument, with the status it has today and any end date |
 | `outcome-reader` | `reader` | extraction | an outcome card | a draft packet: the document that states a project's fate, with the outcome it supports |
 | `case-researcher` | `reader` | extraction | a case candidate | a draft packet: the court record's case name, court, level, docket and status |
 | `lead-triager` | `reader` | extraction | live-intake leads | a draft packet: on topic, placed, and the values a read source states |
@@ -148,8 +149,10 @@ with `verification_batch.py --statuses N` picking instruments whose status
 nobody has settled (`currency` `unknown` or `lapsed_unconfirmed`). The
 `status-checker` drafts, a `blind-reviewer` reads the same document, and the
 `record-editor` appends the agreed row to `status_resolutions.csv`. The next
-build lays it over the record: `active` or `extended` puts the instrument in
-force, and `lifted` or `expired` takes it out of the published data.
+build lays it over the record: `active` or `extended` makes the instrument
+`in_force` unless its end date has passed since the reading and no later
+check confirms it, `pending` makes it `pending`, and `lifted` or `expired`
+takes it out of the published data.
 
 **Triage** (`/triage-leads`): `lead-triager` drafts decisions for a batch. A
 lead it read and filled gets a `blind-reviewer` triage from

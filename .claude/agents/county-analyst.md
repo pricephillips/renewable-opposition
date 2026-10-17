@@ -49,8 +49,9 @@ local knowledge file or local contact's report.
 Keep it to about one page. Sections, in this order:
 
 1. **What the record covers.** How many counties the scope has, how many have
-   any published record, how many are `not_examined` (nobody has looked, which
-   is not evidence that nothing happened), and how many hold only
+   any published record, how many are `not_examined` (no published record and
+   no documented negative check, which is not evidence that nothing
+   happened), and how many hold only
    `restrictions_status_unknown` (instruments whose source does not say
    whether they are still in force). Every later figure is read against
    this.

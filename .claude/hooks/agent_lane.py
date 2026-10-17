@@ -15,10 +15,10 @@ trust dialog is accepted, and never runs them in a `-p` session; settings
 hooks run inside subagents too.
 
 Lanes
-  reader   Research extraction (instrument-reader, outcome-reader,
-           case-researcher, lead-triager, county-examiner). Reads anything in
-           the repository and on the web; writes only its packet, under
-           .packets/ or outside the repository.
+  reader   Research extraction (instrument-reader, status-checker,
+           outcome-reader, case-researcher, lead-triager, county-examiner).
+           Reads anything in the repository and on the web; writes only its
+           packet, under .packets/ or outside the repository.
   blind    The second reading (blind-reviewer). The reader lane, and it never
            sees what a drafter concluded: nothing under data/review/, no
            *.draft.json and no drafts/ folder, no git, no search over the

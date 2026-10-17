@@ -23,7 +23,7 @@ Most published instruments came from NREL's ordinance compilations, which do not
 
 Name the run `<today>-status` and keep its packets in `.packets/<run>/status/`. Give every agent a signature, `agent:<name>-<n> (Claude Code, <today>)`, numbering the agents of one role.
 
-1. **Pick.** `python scripts/verification_batch.py --restrictions 0 --outcomes 0 --statuses <N>` lists the next instruments: a county's only severe record first, then a county's only record, then by severity. It skips any instrument with a status row already and any attempted in the last 14 days. When ids were given, use those.
+1. **Pick.** `python scripts/verification_batch.py --restrictions 0 --outcomes 0 --statuses <N>` lists the next instruments: those whose source is already located first, then a county's only severe restriction, a county's only restriction, and higher severity. It skips any instrument with a status row already and any attempted in the last 14 days. When ids were given, use those.
 2. **Card.** For each: `python scripts/review_packets.py card status <instrument_id> > .packets/<run>/status/<slug>.card.json`.
 3. **First reading.** Start a `status-checker` per card with its signature and the draft path `<slug>.draft.json`. Start them in one message, a few at a time.
 4. **Second reading.** If the draft's `result` is `read`: `python scripts/review_packets.py blind <card> <draft> > <slug>.blind.json`, then start a `blind-reviewer` with the blind card only (never the draft or its summary), a signature that is not the drafter's, and `<slug>.review.json`.

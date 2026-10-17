@@ -40,9 +40,10 @@ many of the county's instruments also cover data centers.
   siting_standards_only        only NREL siting standards (rules that set
                                standards but no restriction)
   checked_none_found           nothing published and a documented negative check
-  not_examined                 nothing published and no check: nobody has
-                               looked, which is not evidence that nothing
-                               happened
+  not_examined                 nothing published and no documented negative
+                               check (a county a sweep attempted without
+                               finishing stays here), which is not evidence
+                               that nothing happened
 
 The other columns are counts and context a reader can filter on:
 `neighbors_with_rules_in_force` counts adjacent counties whose own category is
