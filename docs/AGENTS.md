@@ -35,6 +35,7 @@ The work splits four ways:
 | `blind-reviewer` | `blind` | quality control | a blind card | a review packet: its own reading, or a verdict on each claimed value |
 | `record-editor` | `editor` | editing | agreed packets and verdicts | rows in the review files, signed, appended to notes |
 | `copy-editor` | `copy` | editing | hand-written markdown | the same, to the house style, every number traced |
+| `county-analyst` | `copy` | analysis | a scope: states, a region or the nation | a pattern brief under `deliverables/state_briefs/`, every number traced to `data/processed/` |
 | `qc-auditor` | `qc` | quality control | a committed branch | a report: PASS, PASS WITH WARNINGS or FAIL, with every finding |
 
 `tests/test_agents.py` checks this table against `.claude/agents/`, and each

@@ -99,7 +99,7 @@ def test_the_roster_documents_every_agent_and_nothing_else():
 def test_commands_and_docs_name_only_agents_that_exist():
     """A command or doc that starts `some-reader` must find it in .claude/agents/."""
     names = set(agents())
-    role = re.compile(r"`([a-z]+(?:-[a-z]+)*-(?:reader|reviewer|editor|researcher|triager|examiner|auditor))`")
+    role = re.compile(r"`([a-z]+(?:-[a-z]+)*-(?:reader|reviewer|editor|researcher|triager|examiner|auditor|analyst|checker))`")
     used = set()
     for path in [*COMMANDS.glob("*.md"), ROSTER, ROOT / "docs" / "VERIFICATION_ROUTINE.md", ROOT / "README.md"]:
         for name in role.findall(path.read_text(encoding="utf-8")):
