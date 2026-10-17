@@ -163,6 +163,10 @@
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "A reviewing agent's verdict on each sampled NREL feature against the ordinance (docs/AGENT_REVIEW.md). Read by nrel_sample.py and siting_standards.py."
     },
+    "data/review/status_resolutions.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "Agreed status readings (status-checker plus blind-reviewer): whether a published instrument is still in force. resolutions.apply_status_resolutions lays them over the published status; lifted and expired instruments are not published."
+    },
     "data/review/restriction_sources.csv": {
       "layer": "review", "writers": ["scripts/nrel_sample.py"],
       "reason": "Hand-edited by reviewers; nrel_sample.py apply only appends a confirmed row for an NREL sample instrument whose every sampled feature a reviewer confirmed against the ordinance."

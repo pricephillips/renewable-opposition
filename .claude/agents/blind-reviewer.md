@@ -52,7 +52,7 @@ Keep downloads in /tmp or `.packets/<run>/`.
 
 ## Mode 1: independent reading
 
-Queues `restriction` and `outcome` (cards from `review_packets.py blind`).
+Queues `restriction`, `status` and `outcome` (cards from `review_packets.py blind`).
 Write a packet of exactly the drafter's shape (`scripts/review_packets.py`,
 module docstring), with `"packet": "review"`:
 
@@ -62,6 +62,13 @@ module docstring), with `"packet": "review"`:
   verdict). Then compare it with `record` field by field, and give `verdict`
   `confirmed` (every field checked agrees) or `contradicts` (any disagrees).
   The source must be the instrument, its adopting minutes or an official copy.
+- status: whether the record's instrument applies today. Say how the
+  document stands to it (`relation`, as for restriction), then give `status`
+  (`active`, `extended`, `pending`, `lifted` or `expired`), `end_date` (the
+  date it stopped applying; required for `lifted` and `expired`) and
+  `evidence_date` (the date of the document that shows the status: the code's
+  currency date, the meeting, the repeal). A repeal is `lifted`; a moratorium
+  past its end date with no extension found is `expired`.
 - outcome: the outcome the document supports (`blocked_confirmed`,
   `advanced_confirmed`, `restricted_conditional`, `pending`) and the
   `evidence_date` of the event.

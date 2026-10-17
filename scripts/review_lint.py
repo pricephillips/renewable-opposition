@@ -86,6 +86,7 @@ _DAY = re.compile(r"\d{4}-\d{2}-\d{2}")
 # file -> (key columns, required reviewer columns on a new or changed row)
 FILES = {
     "data/review/restriction_sources.csv": (("instrument_id",), ("reviewer", "checked_on")),
+    "data/review/status_resolutions.csv": (("instrument_id",), ("reviewer", "checked_on")),
     "data/review/outcome_resolutions.csv": (("source_record_id",), ("reviewer",)),
     "data/review/place_overrides.csv": (("instrument_id",), ("reviewer", "checked_on")),
     "data/review/nrel_sample_review.csv": (("standard_id",), ("reviewer", "checked_on")),
@@ -99,7 +100,7 @@ FILES = {
     "data/review/verification_log.csv": (("date", "queue", "key", "outcome", "note"), ()),
 }
 ACCESS_REQUIRED = ("data/review/restriction_sources.csv", "data/review/outcome_resolutions.csv",
-                   "data/review/place_overrides.csv")
+                   "data/review/place_overrides.csv", "data/review/status_resolutions.csv")
 # A queue row with no queue_id yet (hand-added before one was assigned).
 QUEUE_FALLBACK = ("source_id", "entity_type", "state", "county", "municipality", "project_name", "source_url")
 # profile_requests.csv: site_profile.py records each county profiled.

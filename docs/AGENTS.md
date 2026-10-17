@@ -28,6 +28,7 @@ The work splits four ways:
 | Agent | Lane | Part | Takes | Returns |
 |---|---|---|---|---|
 | `instrument-reader` | `reader` | extraction | a restriction card | a draft packet: the instrument, quoted, compared field by field, with a verdict |
+| `status-checker` | `reader` | extraction | a status card | a draft packet: the current code or the minutes that acted on an instrument, with the status it has today and its end date |
 | `outcome-reader` | `reader` | extraction | an outcome card | a draft packet: the document that states a project's fate, with the outcome it supports |
 | `case-researcher` | `reader` | extraction | a case candidate | a draft packet: the court record's case name, court, level, docket and status |
 | `lead-triager` | `reader` | extraction | live-intake leads | a draft packet: on topic, placed, and the values a read source states |
@@ -142,6 +143,14 @@ each restriction or outcome item:
    packet once; if they still differ, log `disputed` with both readings.
 5. `record-editor` appends the row (`--row`) and the log line (`--log`).
 
+**Status** (`/check-status`): the same five steps for the `status` queue,
+with `verification_batch.py --statuses N` picking instruments whose status
+nobody has settled (`currency` `unknown` or `lapsed_unconfirmed`). The
+`status-checker` drafts, a `blind-reviewer` reads the same document, and the
+`record-editor` appends the agreed row to `status_resolutions.csv`. The next
+build lays it over the record: `active` or `extended` puts the instrument in
+force, and `lifted` or `expired` takes it out of the published data.
+
 **Triage** (`/triage-leads`): `lead-triager` drafts decisions for a batch. A
 lead it read and filled gets a `blind-reviewer` triage from
 `blind-row lead`; agreement makes it `confirmed`, disagreement
@@ -161,6 +170,12 @@ negative check with `reviewer` blank; a `blind-reviewer` checks each claim
 (`blind-row queue_row`, `blind-row negative_check`); the `record-editor`
 writes the verdicts; the `copy-editor` edits the pass note in
 `docs/county_checks/`.
+
+**Analysis** (`/analyze-counties`): `county_typology.py` puts each county in
+one category from the published data; a `county-analyst` per scope writes a
+pattern brief under `deliverables/state_briefs/`, and the `copy-editor`
+checks every figure against its file. Nothing is read from `data/review/` or
+`data/model/`.
 
 **Every pipeline ends the same way**: commit, then the `qc-auditor`
 (`/qc-branch`), then push only on PASS or PASS WITH WARNINGS, with the

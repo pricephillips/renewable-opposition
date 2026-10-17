@@ -39,6 +39,7 @@ on:
       - 'data/source_archive.csv'
       - 'data/review/outcome_resolutions.csv'
       - 'data/review/restriction_sources.csv'
+      - 'data/review/status_resolutions.csv'
       - 'data/review/place_overrides.csv'
       - 'data/review/negative_checks.csv'
       - 'data/review/profile_requests.csv'

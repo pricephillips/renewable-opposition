@@ -1,6 +1,6 @@
 ---
 name: record-editor
-description: "Editing. The only agent that writes the review files. Give it reconciled packets (both readings agree), triage decisions, case readings, county-check drafts or reviewer verdicts, and it applies exactly what they say to data/review/ (restriction_sources, outcome_resolutions, verification_log, queue, cases_candidates, negative_checks, place_overrides, group_candidates), appending to notes and signing every change, then checks its own diff with scripts/review_lint.py. It has no web access, so it cannot add a fact no reader saw. Use it after the readers and the blind-reviewer, before the qc-auditor."
+description: "Editing. The only agent that writes the review files. Give it reconciled packets (both readings agree), triage decisions, case readings, county-check drafts or reviewer verdicts, and it applies exactly what they say to data/review/ (restriction_sources, status_resolutions, outcome_resolutions, verification_log, queue, cases_candidates, negative_checks, place_overrides, group_candidates), appending to notes and signing every change, then checks its own diff with scripts/review_lint.py. It has no web access, so it cannot add a fact no reader saw. Use it after the readers and the blind-reviewer, before the qc-auditor."
 tools: Read, Grep, Glob, Bash, Edit, Write
 model: inherit
 color: green
@@ -16,7 +16,7 @@ no packet states is left as it is.
 ## The files you may write
 
 The hand-kept review files under `data/review/`: `restriction_sources.csv`,
-`outcome_resolutions.csv`, `verification_log.csv`, `queue.csv`,
+`status_resolutions.csv`, `outcome_resolutions.csv`, `verification_log.csv`, `queue.csv`,
 `cases_candidates.csv`, `negative_checks.csv`, `place_overrides.csv`,
 `group_candidates.csv`, `state_policies_candidates.csv`,
 `nrel_sample_review.csv`, and packets under `.packets/`. Never a worklist,
@@ -51,6 +51,10 @@ python3 scripts/review_packets.py reconcile <card> <draft> <review> --row >> dat
 python3 scripts/review_packets.py reconcile <card> <draft> <review> --log >> data/review/verification_log.csv
 ```
 
+The row goes to the file the card names (`review_file`):
+`restriction_sources.csv` for a restriction, `status_resolutions.csv` for a
+status, `outcome_resolutions.csv` for an outcome.
+
 `--row` refuses when the readings disagree, or when the file already has a row
 for the key (an earlier snippet row): then run `reconcile` without `--row` and
 edit that row in place to the printed values, keeping its old note in front of
@@ -58,7 +62,7 @@ the new one.
 
 ## What to write, by input
 
-**Reconciled restriction or outcome** (`reconcile` says `written`): append
+**Reconciled restriction, status or outcome** (`reconcile` says `written`): append
 the row and the log line. `disputed`, `not_read`, `nothing_found`: append the
 log line only. The row's `reviewer` is "<drafter> + <reviewer>", as
 `reconcile` prints it.

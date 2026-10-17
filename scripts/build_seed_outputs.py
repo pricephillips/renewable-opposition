@@ -265,8 +265,16 @@ def build_entity(entity: str, filename: str,
         errors += resolutions.apply_outcomes(rows, qc_gate.VOCAB[entity]["outcome"])
     elif entity == "restrictions":
         errors += resolutions.apply_restriction_sources(rows)
+        errors += resolutions.apply_status_resolutions(rows)
     for row in rows:
         classify.stamp(entity, row)
+    if entity == "restrictions":
+        # A status reading that found the instrument lifted or expired: it is
+        # recorded in status_resolutions.csv and no longer published.
+        gone = {r.get("instrument_id") for r in rows if r.get("status") in resolutions.NOT_IN_FORCE}
+        if gone:
+            rows = [r for r in rows if r.get("instrument_id") not in gone]
+            print(f"Status resolutions: {len(gone)} instrument(s) lifted or expired, not published")
     if fips_lookup is not None and entity in FIPS_ENTITIES:
         stamp_fips(entity, rows, fips_lookup)
     return rows, errors
@@ -343,7 +351,7 @@ def main() -> int:
         if rows is not None:
             datasets[entity] = rows
     # Reviewer counties go last, over whatever classify.county_fips_all found.
-    errors += resolutions.apply_place_overrides(datasets, geo.known)
+    errors += resolutions.apply_place_overrides(datasets, geo.known, withdrawn=resolutions.withdrawn_ids())
     states = fips_states(fips_lookup)
     all_checks = negative_checks.load()
     errors += negative_checks.validate(all_checks, geo.known, states.get)

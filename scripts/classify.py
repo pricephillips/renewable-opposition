@@ -79,8 +79,9 @@ currency        restrictions only. Whether the instrument is known to be in
                   lapsed_unconfirmed  status active or extended, but
                                       current_end_date_iso is before today and
                                       no reviewer confirmed the instrument
-                                      against its primary source on or after
-                                      that date. A moratorium past its end
+                                      against its primary source, or settled
+                                      its status (status_resolutions.csv), on
+                                      or after that date. A moratorium past its end
                                       date is not known to be in force;
                                       nothing confirms an extension either.
                                       Severity and status are left as the
@@ -90,7 +91,8 @@ currency        restrictions only. Whether the instrument is known to be in
                                       the restriction worklist ranks it first.
                   pending             status pending
                   unknown             any other status (NREL ordinance rows
-                                      carry no status)
+                                      carry no status until a status reading
+                                      settles it: resolutions.apply_status_resolutions)
 
 status_as_of    restrictions only. The latest date on which the record's
                 status is known to have held: the latest "as of YYYY-MM-DD"
@@ -356,13 +358,16 @@ def currency(row: dict, today: date | None = None) -> str:
     if _s(row.get("primary_source_verdict")) == "confirmed" and _ISO_DATE.fullmatch(checked) \
             and checked[: len(end)] >= end:
         return "in_force"
+    settled = _s(row.get("status_checked_on"))
+    if _ISO_DATE.fullmatch(settled) and settled[: len(end)] >= end:
+        return "in_force"
     return "lapsed_unconfirmed"
 
 
 def status_as_of(row: dict) -> str:
     """The latest date the record's status is known to have held, or ""."""
     dates = _AS_OF.findall(_text(row))
-    dates += [_s(row.get(f)) for f in ("date_enacted_iso", "primary_source_checked_on")]
+    dates += [_s(row.get(f)) for f in ("date_enacted_iso", "primary_source_checked_on", "status_checked_on")]
     dates = [d for d in dates if _ISO_DATE.fullmatch(d)]
     return max(dates) if dates else ""
 
