@@ -197,6 +197,7 @@
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/processed/operations_summary.json": {"layer": "derived", "writers": ["scripts/operations_summary.py"]},
     "data/processed/operations_summary.md": {"layer": "derived", "writers": ["scripts/operations_summary.py"]},
+    "data/processed/county_typology.csv": {"layer": "derived", "writers": ["scripts/county_typology.py"]},
     "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/db/parquet/*": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/state_summary.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
