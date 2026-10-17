@@ -2,9 +2,9 @@
  "generated": "2026-10-17",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3351,
-  "severe": 1365,
-  "verified": 84,
+  "restriction_instruments": 3352,
+  "severe": 1366,
+  "verified": 85,
   "lapsed_unconfirmed": 1,
   "severe_where_state_limits_local": 944,
   "projects": 579,
@@ -49,7 +49,7 @@
   "county_coverage": {
    "counties": 3144,
    "with_any_record": 1413,
-   "with_restriction": 1266,
+   "with_restriction": 1267,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
@@ -101,7 +101,7 @@
    "by_reason": {}
   },
   "adjacency": {
-   "rows": 243
+   "rows": 249
   },
   "fips_misses": {
    "rows": 63,
@@ -113,20 +113,27 @@
   }
  },
  "promotion_trail": {
-  "decisions": 91,
+  "decisions": 92,
   "by_action": {
-   "promoted": 70,
+   "promoted": 71,
    "held": 13,
    "awaiting_review": 6,
    "rejected": 2
   },
   "by_file": {
-   "queue.csv": 43,
+   "queue.csv": 44,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-16",
+  "last": "2026-10-17",
   "recent": [
+   {
+    "date": "2026-10-17",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "TX Pasadena",
+    "reason": ""
+   },
    {
     "date": "2026-10-16",
     "file": "queue.csv",
@@ -175,24 +182,17 @@
     "action": "rejected",
     "what": "IA Linn County",
     "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "awaiting_review",
-    "what": "TX Baytown",
-    "reason": "awaiting review by someone other than its drafter"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 29,
+   "promoted": 30,
    "rejected": 2,
    "confirmed": 3,
    "pending": 2,
    "awaiting_review": 1,
-   "lead": 59
+   "lead": 58
   },
   "queue_by_entity": {
    "restriction": 53,
@@ -204,15 +204,15 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 93,
+  "snapshot_rows": 97,
   "snapshot_files": 5,
-  "headline_history_rows": 9,
+  "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-17",
+  "headline_last_change": "2026-10-16",
   "latest": {
-   "restrictions": "3351",
-   "severe_restrictions": "1365",
-   "verified_restrictions": "84",
+   "restrictions": "3352",
+   "severe_restrictions": "1366",
+   "verified_restrictions": "85",
    "multi_sector_restrictions": "85",
    "contested_projects": "579",
    "confirmed_outcomes": "145",
@@ -225,9 +225,9 @@
   }
  },
  "source_archive": {
-  "sources": 67,
+  "sources": 68,
   "archived": 11,
-  "archived_share": 0.164
+  "archived_share": 0.162
  },
  "evidence_checks": {
   "restriction_sources": {
