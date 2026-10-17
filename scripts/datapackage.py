@@ -118,6 +118,8 @@ DESCRIPTIONS = {
     "primary_source_verdict": "confirmed or contradicts: what the reviewer found when reading the primary source.",
     "primary_source_access": "How the primary source was seen: opened, archived or snippet.",
     "primary_source_checked_on": "The date the reviewer checked the primary source.",
+    "status_checked_on": "The date two reviewers settled the instrument's status from its code, the instrument or the minutes that acted on it (data/review/status_resolutions.csv); blank when no status reading has been made.",
+    "status_evidence_url": "The document the status reading rests on; blank when no status reading has been made.",
     "primary_source_archived_url": "The Internet Archive copy the reviewer read, when access is archived.",
     "queue_id": "The review-queue row a promoted record came from.",
     "source_kind": "What source_url is: instrument, minutes, official_copy, court_record, news, tracker or other.",

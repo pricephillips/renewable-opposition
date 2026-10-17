@@ -49,3 +49,22 @@ def test_the_log_vocabulary_and_the_window_match_the_routine_doc():
         assert f"`{outcome}`" in doc, outcome
     assert f"{vb.SKIP_DAYS} days" in doc
     assert ",".join(vb.LOG_FIELDS) == vb.LOG.read_text(encoding="utf-8").splitlines()[0]
+
+
+def p(iid, currency="unknown", severity=2, tech="wind"):
+    return {"instrument_id": iid, "state": "NE", "jurisdiction": iid, "technology": tech, "currency": currency,
+            "severity_score": str(severity), "legal_basis": ""}
+
+
+def test_status_rows_take_unsettled_instruments_once_ranked_by_county_impact():
+    published = [p("a"), p("a", tech="solar", severity=3), p("b", severity=4), p("c"), p("d", currency="in_force"),
+                 p("e", currency="lapsed_unconfirmed"), p("f")]
+    work = [{"instrument_id": "c", "county_impact": "sole_severe", "priority": "9"},
+            {"instrument_id": "e", "county_impact": "sole_record", "priority": "1"},
+            {"instrument_id": "b", "priority": "2", "located_url": "https://example.gov/b.pdf"}]
+    rows = vb.status_rows(published, work, [{"instrument_id": "f"}])         # f is settled
+    assert [x["instrument_id"] for x in rows] == ["c", "e", "b", "a"]          # d is in force
+    assert rows[3]["technologies"] == "wind;solar" and rows[3]["tier"].startswith("severity 3")
+    batch = vb.pick([], [], [{"date": "2026-10-13", "queue": "status", "key": "c", "outcome": "not_read"}],
+                    TODAY, 0, 0, rows, 2)
+    assert [(b["queue"], b["key"]) for b in batch] == [("status", "b"), ("status", "e")]  # located first
