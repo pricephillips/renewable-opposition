@@ -10,7 +10,7 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 
 ## Held back
 
-11 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 3 PRIMARY_SOURCE_CONTRADICTS.
+10 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 2 PRIMARY_SOURCE_CONTRADICTS.
 
 ## Worklists
 
@@ -26,10 +26,11 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 
 Queue: 30 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 92 decisions from 2026-10-13 to 2026-10-17 (new or changed decisions only): 71 promoted, 13 held, 6 awaiting_review, 2 rejected.
+Promotion trail: 93 decisions from 2026-10-13 to 2026-10-18 (new or changed decisions only): 71 promoted, 13 held, 6 awaiting_review, 2 rejected, 1 unpublished.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
+| 2026-10-18 | queue.csv | unpublished | TX Pasadena | status lifted: the instrument is no longer in force |
 | 2026-10-17 | queue.csv | promoted | TX Pasadena |  |
 | 2026-10-16 | queue.csv | promoted | TX Baytown |  |
 | 2026-10-16 | queue.csv | promoted | TX Baytown |  |
@@ -37,7 +38,6 @@ Promotion trail: 92 decisions from 2026-10-13 to 2026-10-17 (new or changed deci
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
 | 2026-10-16 | queue.csv | promoted | KY Nicholas County |  |
-| 2026-10-16 | queue.csv | rejected | IA Linn County |  |
 
 ## What checking found
 
@@ -76,4 +76,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-97 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 68, of which 11 have an Internet Archive snapshot.
+98 snapshot rows over 5 published files; 8 headline changes recorded (2026-09-29 to 2026-10-16). Sources: 68, of which 11 have an Internet Archive snapshot.

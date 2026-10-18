@@ -58,13 +58,13 @@
   }
  },
  "quarantine": {
-  "rows": 11,
+  "rows": 10,
   "by_entity": {
-   "restrictions": 11
+   "restrictions": 10
   },
   "by_blocking_code": {
    "SCOPE_DATA_CENTER_ONLY": 8,
-   "PRIMARY_SOURCE_CONTRADICTS": 3
+   "PRIMARY_SOURCE_CONTRADICTS": 2
   }
  },
  "worklists": {
@@ -113,20 +113,28 @@
   }
  },
  "promotion_trail": {
-  "decisions": 92,
+  "decisions": 93,
   "by_action": {
    "promoted": 71,
    "held": 13,
    "awaiting_review": 6,
-   "rejected": 2
+   "rejected": 2,
+   "unpublished": 1
   },
   "by_file": {
-   "queue.csv": 44,
+   "queue.csv": 45,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-17",
+  "last": "2026-10-18",
   "recent": [
+   {
+    "date": "2026-10-18",
+    "file": "queue.csv",
+    "action": "unpublished",
+    "what": "TX Pasadena",
+    "reason": "status lifted: the instrument is no longer in force"
+   },
    {
     "date": "2026-10-17",
     "file": "queue.csv",
@@ -175,13 +183,6 @@
     "action": "promoted",
     "what": "KY Nicholas County",
     "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "rejected",
-    "what": "IA Linn County",
-    "reason": ""
    }
   ]
  },
@@ -204,7 +205,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 97,
+  "snapshot_rows": 98,
   "snapshot_files": 5,
   "headline_history_rows": 8,
   "headline_first_change": "2026-09-29",
