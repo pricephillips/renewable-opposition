@@ -38,7 +38,9 @@ Checks (E: error, exit 1; W: warning)
                       evidence_date, date) not YYYY[-MM[-DD]], or after today
   EMDASH           W  an em dash in text a reviewer added to a note (text
                       quoted from a source keeps its own punctuation)
-  LOG              E  a verification_log.csv line with an unknown queue or outcome
+  LOG              E  a verification_log.csv line with an unknown queue or outcome,
+                      or an examination_log.csv line with an unknown result or a
+                      county_fips that is not five digits
   REMOVED          W  a review row deleted: say why in the pull request
   GENERATED        E  (--lane) a file a build regenerates was changed; restore it
   LANE             E  (--lane) a file outside the lane was changed
@@ -74,6 +76,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_sabin_seeds import MECHANISM_TYPE  # noqa: E402
 from common import ROOT  # noqa: E402
 from resolutions import access_error  # noqa: E402
+from examination_batch import RESULTS as EXAM_RESULTS  # noqa: E402
 from verification_batch import LOG_OUTCOMES, QUEUES  # noqa: E402
 
 LAYERS = ROOT / "config" / "layers.json"
@@ -86,6 +89,7 @@ _DAY = re.compile(r"\d{4}-\d{2}-\d{2}")
 # file -> (key columns, required reviewer columns on a new or changed row)
 FILES = {
     "data/review/restriction_sources.csv": (("instrument_id",), ("reviewer", "checked_on")),
+    "data/review/status_resolutions.csv": (("instrument_id",), ("reviewer", "checked_on")),
     "data/review/outcome_resolutions.csv": (("source_record_id",), ("reviewer",)),
     "data/review/place_overrides.csv": (("instrument_id",), ("reviewer", "checked_on")),
     "data/review/nrel_sample_review.csv": (("standard_id",), ("reviewer", "checked_on")),
@@ -97,9 +101,10 @@ FILES = {
     "data/review/sabin_edition_crosswalk.csv": (("rec_id",), ()),
     "data/review/sabin_state_level_dispositions.csv": (("sabin_record_id",), ()),
     "data/review/verification_log.csv": (("date", "queue", "key", "outcome", "note"), ()),
+    "data/review/examination_log.csv": (("date", "county_fips", "run"), ()),
 }
 ACCESS_REQUIRED = ("data/review/restriction_sources.csv", "data/review/outcome_resolutions.csv",
-                   "data/review/place_overrides.csv")
+                   "data/review/place_overrides.csv", "data/review/status_resolutions.csv")
 # A queue row with no queue_id yet (hand-added before one was assigned).
 QUEUE_FALLBACK = ("source_id", "entity_type", "state", "county", "municipality", "project_name", "source_url")
 # profile_requests.csv: site_profile.py records each county profiled.
@@ -258,6 +263,11 @@ def check_row(name: str, key: str, old: dict | None, new: dict, today: date) -> 
             add("E", "LOG", f"queue {new.get('queue')!r} must be one of {', '.join(QUEUES)}")
         if _s(new.get("outcome")) not in LOG_OUTCOMES:
             add("E", "LOG", f"outcome {new.get('outcome')!r} must be one of {', '.join(LOG_OUTCOMES)}")
+    if name.endswith("examination_log.csv"):
+        if _s(new.get("result")) not in EXAM_RESULTS:
+            add("E", "LOG", f"result {new.get('result')!r} must be one of {', '.join(EXAM_RESULTS)}")
+        if not re.fullmatch(r"\d{5}", _s(new.get("county_fips"))):
+            add("E", "LOG", f"county_fips {new.get('county_fips')!r} must be five digits")
     return f
 
 

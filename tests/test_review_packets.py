@@ -214,3 +214,72 @@ def test_a_case_blind_card_carries_the_court_records_and_not_the_reading():
     assert "Wike" not in json.dumps(card) and "earlier try" not in json.dumps(card)
     with pytest.raises(ValueError, match="--draft"):
         rp.blind_row("case", "REC-9", [], CANDIDATES, [], None)
+
+
+STATUS_DRAFTER = "agent:status-checker-1 (Claude Code, 2026-10-16)"
+NREL = [{"instrument_id": "nrel:wind:31065", "state": "NE", "jurisdiction": "Furnas County", "technology": "wind",
+         "status": "unknown", "restriction_type": "setback", "currency": "unknown"}]
+
+
+def status_reading(packet="draft", agent=STATUS_DRAFTER, **kw):
+    p = {"packet": packet, "queue": "status", "key": "nrel:wind:31065", "agent": agent, "date": "2026-10-16",
+         "result": "read", "source_url": "https://furnascounty.ne.gov/zoning.pdf", "access": "opened",
+         "archived_url": "", "source_kind": "official_copy",
+         "document": "Furnas County Zoning Regulations, Article 7, current through 2026-02-10", "relation": "is",
+         "quote": "No wind turbine shall be located within 2,000 feet of a non-participating dwelling.",
+         "fields": [{"field": "status", "record": "unknown", "document": "in the current code", "agrees": False}],
+         "status": "active", "end_date": "", "evidence_date": "2026-02-10",
+         "note": "The current zoning code holds the wind setbacks NREL compiled.", "attempts": []}
+    p.update(kw)
+    return p
+
+
+def test_a_status_card_points_at_status_resolutions():
+    c = rp.build_card("status", "nrel:wind:31065", NREL, [], [], [])
+    assert c["review_file"] == "data/review/status_resolutions.csv" and c["record"]["currency"] == "unknown"
+    assert "instrument" in c["source_kinds"] and "news" not in c["source_kinds"]
+
+
+@pytest.mark.parametrize("change, error", [
+    ({"status": "repealed"}, "status 'repealed'"),
+    ({"status": "lifted"}, "needs end_date"),
+    ({"status": "expired", "end_date": "June 2026"}, "end_date"),
+    ({"relation": "repeals"}, "a repealed instrument is lifted"),
+    ({"evidence_date": ""}, "evidence_date"),
+    ({"source_kind": "news"}, "never verifies"),
+    ({"relation": "other"}, "neither confirms nor contradicts"),
+    ({"status": "extended", "relation": "extends", "end_date": "2027-01"}, "full YYYY-MM-DD"),
+    ({"status": "lifted", "relation": "repeals", "end_date": "2026-12-01"}, "after the reading"),
+])
+def test_a_status_packet_must_settle_the_status_from_a_reading(change, error):
+    errors, _ = rp.check_packet(status_reading(**change), TODAY)
+    assert any(error in e for e in errors), errors
+
+
+def test_a_clean_status_reading_passes_and_lifted_needs_its_date():
+    assert rp.check_packet(status_reading(), TODAY) == ([], [])
+    lifted = status_reading(status="lifted", relation="repeals", end_date="2025-11-04")
+    assert rp.check_packet(lifted, TODAY) == ([], [])
+    failed = status_reading(result="not_read", status="", access="", note="Site and archive refused.",
+                            attempts=[{"url": "https://furnascounty.ne.gov/zoning.pdf", "result": "HTTP 403"}])
+    assert rp.check_packet(failed, TODAY) == ([], [])
+    assert any("status is set" in e for e in rp.check_packet({**failed, "status": "active"}, TODAY)[0])
+
+
+def test_two_agreeing_status_readings_make_one_status_row():
+    c = rp.build_card("status", "nrel:wind:31065", NREL, [], [], [])
+    draft = status_reading(status="lifted", relation="repeals", end_date="2025-11")
+    review = status_reading("review", REVIEWER, status="lifted", relation="repeals", end_date="2025-11-04",
+                            note="Ordinance 2025-9 repealed Article 7.")
+    res = rp.reconcile(c, draft, review, [], TODAY)
+    assert res["result"] == "written"
+    row = res["row"]
+    assert list(row) == rp.STATUS_FIELDS
+    assert row["status"] == "lifted" and row["end_date"] == "2025-11-04"          # the more precise date
+    assert row["evidence_date"] == "2026-02-10" and row["reviewer"] == f"{STATUS_DRAFTER} + {REVIEWER}"
+    assert row["jurisdiction"] == "Furnas County" and res["log"]["queue"] == "status"
+    other = rp.reconcile(c, draft, {**review, "end_date": "2024-03-01"}, [], TODAY)
+    assert other["result"] == "disputed" and any(d.startswith("end_date") for d in other["differences"])
+    active = rp.reconcile(c, status_reading(), status_reading("review", REVIEWER, status="lifted",
+                                                              relation="repeals", end_date="2025-11"), [], TODAY)
+    assert active["result"] == "disputed" and any(d.startswith("status") for d in active["differences"])
