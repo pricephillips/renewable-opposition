@@ -56,6 +56,7 @@
     "data/processed/operations_summary.json": "what the pipeline did and holds; a page may read it later",
     "data/processed/operations_summary.md": "the same, for a reader",
     "data/processed/state_policies_held.csv": "state policy rows held back, with the reason",
-    "data/processed/negative_checks.csv": "the negative checks the last build validated, which build_database.py reads; pages read data/db/ instead"
+    "data/processed/negative_checks.csv": "the negative checks the last build validated, which build_database.py reads; pages read data/db/ instead",
+    "data/processed/county_typology.csv": "one category per county read off the published data (scripts/county_typology.py); the county-analyst agent and /analyze-counties read it, no page does yet"
   }
 }

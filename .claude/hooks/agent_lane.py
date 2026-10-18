@@ -15,10 +15,10 @@ trust dialog is accepted, and never runs them in a `-p` session; settings
 hooks run inside subagents too.
 
 Lanes
-  reader   Research extraction (instrument-reader, outcome-reader,
-           case-researcher, lead-triager, county-examiner). Reads anything in
-           the repository and on the web; writes only its packet, under
-           .packets/ or outside the repository.
+  reader   Research extraction (instrument-reader, status-checker,
+           outcome-reader, case-researcher, lead-triager, county-examiner).
+           Reads anything in the repository and on the web; writes only its
+           packet, under .packets/ or outside the repository.
   blind    The second reading (blind-reviewer). The reader lane, and it never
            sees what a drafter concluded: nothing under data/review/, no
            *.draft.json and no drafts/ folder, no git, no search over the
@@ -84,7 +84,7 @@ PROSE_PREFIXES = ("docs/", "deliverables/")
 PROSE_FILES = {"README.md"}
 
 # Scripts any lane but blind may run: they write nothing.
-LOOK_SCRIPTS = {"review_packets.py", "review_lint.py", "verification_batch.py"}
+LOOK_SCRIPTS = {"review_packets.py", "review_lint.py", "verification_batch.py", "examination_batch.py"}
 # The blind lane runs only what reads no review file: checking its own packet.
 BLIND_SCRIPTS = {"review_packets.py": {"check"}}
 # Scripts allowed only with a flag (all lanes): the flag keeps them from writing

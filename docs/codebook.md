@@ -167,7 +167,7 @@ A row with any CRITICAL or HIGH issue is quarantined in `data/processed/quaranti
 | `SCOPE_DATA_CENTER_ONLY` | HIGH | a restriction whose text names data centers and no renewable technology | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | `DATE_UNPARSEABLE` | LOW | an ISO date column that is not YYYY[-MM[-DD]] | nothing to do: reported only; rewrite the date as YYYY, YYYY-MM or YYYY-MM-DD when touching the row |
 | `LINK_MISSING` | MEDIUM | a case whose source_record_id names no published project or restriction | set the case's source_record_id to the published record it concerns, or restore that record (it may be quarantined or held); the case stays published meanwhile |
-| `END_DATE_PASSED` | MEDIUM | an active or extended restriction whose own end date has passed with no reviewer confirmation since; the source's status may be out of date | nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv row checked on or after the end date restores it to in_force |
+| `END_DATE_PASSED` | MEDIUM | an active or extended restriction whose own end date has passed with no reviewer confirmation since; the source's status may be out of date | nothing to do here: reported only; the restriction worklist lists it first, and a restriction_sources.csv row checked on or after the end date, or a status_resolutions.csv reading on or after it, restores it to in_force |
 
 ## Counting (`scripts/headline_metrics.py`)
 

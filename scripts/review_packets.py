@@ -11,7 +11,8 @@ them, so the rules in docs/AGENT_REVIEW.md hold whatever an agent wrote:
   draft    What the drafter returns: the document it read, how it was seen,
            the operative text quoted, a field-by-field comparison with the
            record, and its conclusion (a verdict for an instrument, the
-           outcome the document supports for a project).
+           outcome the document supports for a project, or the status an
+           instrument has today).
   blind    What the second reader gets: the card without the earlier
            attempts, plus the drafter's source URL and archived copy. Never
            the drafter's conclusion, quote, comparison or note.
@@ -24,7 +25,8 @@ from every *.draft.json.
 
 Packet fields (draft and review)
   packet         draft | review
-  queue, key     restriction + instrument_id, or outcome + source_record_id
+  queue, key     restriction + instrument_id, outcome + source_record_id, or
+                 status + instrument_id (is the instrument still in force?)
   agent          who read it: agent:<role>-<n> (Claude Code, YYYY-MM-DD)
   date           YYYY-MM-DD of the reading
   result         read | not_read (no copy could be opened) |
@@ -33,12 +35,12 @@ Packet fields (draft and review)
   access         opened | archived (with archived_url); a reading is never
                  snippet: search-index text is not a reading
   archived_url   the Internet Archive copy read, when access is archived
-  source_kind    restriction: instrument | minutes | official_copy (a news
+  source_kind    restriction and status: instrument | minutes | official_copy (a news
                  article locates an instrument and never verifies it);
                  outcome: those, court_record, news, or inventory (an
                  EIA-860M, USWTDB or USPVDB entry read in the file itself)
   document       what the document is, in words (title, body, date)
-  relation       restriction: how the document stands to the record's
+  relation       restriction and status: how the document stands to the record's
                  instrument: is (the instrument or an official copy),
                  adopts (the minutes that adopted it), amends, extends,
                  repeals, or other (a different instrument of the same body,
@@ -48,7 +50,16 @@ Packet fields (draft and review)
                  record checked against the document
   verdict        restriction: confirmed | contradicts
   outcome        outcome: the contested_projects outcome the document supports
-  evidence_date  outcome: YYYY[-MM[-DD]] of the event the document records
+  status         status: active | extended | pending | lifted | expired, as
+                 the document shows the instrument today (resolutions.py,
+                 RESOLVED_STATUSES); a repeal (relation repeals) is lifted
+  end_date       status: YYYY[-MM[-DD]] the instrument stopped applying
+                 (required for lifted and expired, and not after the
+                 reading), or a full YYYY-MM-DD current end date for an
+                 active or extended instrument
+  evidence_date  outcome and status: YYYY[-MM[-DD]] of the event the document
+                 records (for a status, the code's currency date, the meeting
+                 or the repeal)
   note           what the document says, in the reader's words, for the
                  review file; no em dash (quote the source in `quote`)
   attempts       [{url, result}]: every URL tried that could not be read,
@@ -78,6 +89,7 @@ Subcommands
 Writes nothing. The record-editor appends what --row and --log print:
 
   python scripts/review_packets.py reconcile C D R --row >> data/review/restriction_sources.csv
+  (status_resolutions.csv for the status queue, outcome_resolutions.csv for outcome)
   python scripts/review_packets.py reconcile C D R --log >> data/review/verification_log.csv
 """
 from __future__ import annotations
@@ -95,7 +107,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from classify import EVENT_KINDS, INSTRUMENT_KINDS  # noqa: E402
 from common import PROCESSED_DIR, REVIEW_DIR, read_csv  # noqa: E402
 from resolutions import (  # noqa: E402
-    OUTCOME_FIELDS, OUTCOME_PATH, RESTRICTION_FIELDS, RESTRICTION_PATH, VERDICTS, access_error,
+    NOT_IN_FORCE, OUTCOME_FIELDS, OUTCOME_PATH, RESOLVED_STATUSES, RESTRICTION_FIELDS, RESTRICTION_PATH,
+    STATUS_FIELDS, STATUS_PATH, VERDICTS, access_error,
 )
 from verification_batch import LOG, LOG_FIELDS  # noqa: E402
 
@@ -132,6 +145,22 @@ QUEUES = {
         "work": ["tier", "flags", "county_impact", "located_url", "search_query"],
         "kinds": INSTRUMENT_KINDS,
     },
+    # Whether an instrument is still in force today: the same records, read for
+    # the instrument's current standing (the body's current code, or the
+    # minutes that extended, amended or repealed it) rather than its terms.
+    "status": {
+        "key": "instrument_id",
+        "records": PROCESSED_DIR / "restrictions.csv",
+        "worklist": REVIEW_DIR / "restriction_worklist.csv",
+        "review_file": STATUS_PATH,
+        "review_fields": STATUS_FIELDS,
+        "record": ["instrument_id", "state", "jurisdiction", "jurisdiction_type", "technology",
+                   "restriction_type", "status", "date_enacted_iso", "current_end_date_iso", "date_text",
+                   "mechanisms", "severity_score", "description", "legal_basis", "source", "source_url",
+                   "primary_source_url", "verification", "currency", "status_as_of"],
+        "work": ["tier", "flags", "county_impact", "located_url", "search_query"],
+        "kinds": INSTRUMENT_KINDS,
+    },
     "outcome": {
         "key": "source_record_id",
         "records": PROCESSED_DIR / "contested_projects.csv",
@@ -149,6 +178,10 @@ QUEUES = {
         "kinds": EVENT_KINDS + ("inventory",),
     },
 }
+
+
+# The field that carries each queue's conclusion.
+CONCLUSION = {"restriction": "verdict", "outcome": "outcome", "status": "status"}
 
 
 def _s(v) -> str:
@@ -486,7 +519,7 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
     errors += _note_errors(p)
     errs, attempts = _attempt_errors(p)
     errors += errs
-    conclusion = "verdict" if queue == "restriction" else "outcome"
+    conclusion = CONCLUSION[queue]
 
     if result != "read":
         if _s(p.get(conclusion)):
@@ -501,7 +534,7 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
     kind_of = _s(p.get("source_kind"))
     if kind_of not in QUEUES[queue]["kinds"]:
         why = ("a news article or tracker locates an instrument but never verifies it"
-               if queue == "restriction" else
+               if queue in ("restriction", "status") else
                "an outcome rests on an official record, a court record, news or a plant inventory")
         errors.append(f"source_kind {kind_of!r} must be one of {', '.join(QUEUES[queue]['kinds'])}: {why}")
     if len(_s(p.get("quote"))) < MIN_QUOTE:
@@ -516,8 +549,8 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
         fields = []
     disagreements = [_s(f.get("field")) for f in fields if f.get("agrees") is False]
 
-    if queue == "restriction":
-        verdict, relation = _s(p.get("verdict")), _s(p.get("relation"))
+    if queue in ("restriction", "status"):
+        relation = _s(p.get("relation"))
         if relation not in RELATIONS:
             errors.append(f"relation {relation!r} must be one of {', '.join(RELATIONS)}: is the document the "
                           "record's instrument, the minutes that adopted it, or one that amends, extends or "
@@ -526,6 +559,27 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
             errors.append("relation other: a different instrument neither confirms nor contradicts the record; "
                           "put it in leads, keep looking for the record's own instrument, and if it cannot be "
                           "found return nothing_found")
+    if queue == "status":
+        status, end, ev = _s(p.get("status")), _s(p.get("end_date")), _s(p.get("evidence_date"))
+        if status not in RESOLVED_STATUSES:
+            errors.append(f"status {status!r} must be one of {', '.join(RESOLVED_STATUSES)}")
+        elif status in NOT_IN_FORCE and not end:
+            errors.append(f"status {status} needs end_date: the date the instrument stopped applying")
+        elif _s(p.get("relation")) == "repeals" and status != "lifted":
+            errors.append(f"relation repeals with status {status}: a repealed instrument is lifted")
+        if end and not _PARTIAL.match(end):
+            errors.append(f"end_date {end!r} must be YYYY[-MM[-DD]]")
+        elif end and status in RESOLVED_STATUSES and status not in NOT_IN_FORCE and not _DAY.match(end):
+            errors.append(f"end_date {end!r}: an {status} instrument's end date must be a full YYYY-MM-DD "
+                          "(or blank when the document gives none), so the build can tell when it passes")
+        elif end and status in NOT_IN_FORCE and _DAY.match(when) and end > when[: len(end)]:
+            errors.append(f"end_date {end} is after the reading ({when}): an instrument that still applies "
+                          "is active until then, with that end_date")
+        if not _PARTIAL.match(ev):
+            errors.append(f"evidence_date {ev!r} must be YYYY[-MM[-DD]]: the date of the document that shows "
+                          "the status (the code's currency date, the meeting, the repeal)")
+    elif queue == "restriction":
+        verdict = _s(p.get("verdict"))
         if verdict not in VERDICTS:
             errors.append(f"verdict {verdict!r} must be one of {', '.join(sorted(VERDICTS))}")
         elif verdict == "confirmed" and disagreements:
@@ -580,7 +634,7 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
         return out
 
     spec = QUEUES[queue]
-    conclusion = "verdict" if queue == "restriction" else "outcome"
+    conclusion = CONCLUSION[queue]
     d_res, r_res = _s(draft.get("result")), _s(review.get("result"))
     if d_res != "read":
         out["result"] = LOG_FOR_RESULT[d_res]
@@ -595,8 +649,10 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
         diffs = []
         if _s(draft.get(conclusion)) != _s(review.get(conclusion)):
             diffs.append(f"{conclusion}: draft {draft.get(conclusion)}, review {review.get(conclusion)}")
-        if queue == "restriction" and _s(draft.get("relation")) != _s(review.get("relation")):
+        if queue in ("restriction", "status") and _s(draft.get("relation")) != _s(review.get("relation")):
             diffs.append(f"relation: draft {draft.get('relation')}, review {review.get('relation')}")
+        if queue == "status" and not _dates_agree(_s(draft.get("end_date")), _s(review.get("end_date"))):
+            diffs.append(f"end_date: draft {draft.get('end_date')}, review {review.get('end_date')}")
         if queue == "outcome" and not _dates_agree(_s(draft.get("evidence_date")), _s(review.get("evidence_date"))):
             diffs.append(f"evidence_date: draft {draft.get('evidence_date')}, review {review.get('evidence_date')}")
         rf = {_s(f.get("field")): f for f in review.get("fields") or []}
@@ -627,6 +683,14 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
                        "state": record.get("state", ""), "primary_source_url": draft["source_url"],
                        "verdict": draft["verdict"], "checked_on": checked_on, "note": text, "reviewer": signed,
                        "access": draft["access"], "archived_url": _s(draft.get("archived_url"))}
+            elif queue == "status":
+                # Of two end dates that agree, the more precise one.
+                end = max(_s(draft.get("end_date")), _s(review.get("end_date")), key=len)
+                row = {"instrument_id": key, "jurisdiction": record.get("jurisdiction", ""),
+                       "state": record.get("state", ""), "status": draft["status"], "end_date": end,
+                       "evidence_url": draft["source_url"], "evidence_date": draft["evidence_date"],
+                       "checked_on": checked_on, "note": text, "reviewer": signed, "access": draft["access"],
+                       "archived_url": _s(draft.get("archived_url"))}
             else:
                 row = {"source_record_id": key, "project_name": record.get("project_name", ""),
                        "outcome": draft["outcome"], "evidence_url": draft["source_url"],

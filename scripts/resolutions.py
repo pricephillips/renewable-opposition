@@ -80,9 +80,7 @@ OUTCOME_PATH = REVIEW_DIR / "outcome_resolutions.csv"
 RESTRICTION_PATH = REVIEW_DIR / "restriction_sources.csv"
 PLACE_OVERRIDE_PATH = REVIEW_DIR / "place_overrides.csv"
 QUEUE_PATH = REVIEW_DIR / "queue.csv"
-# Queue statuses of an instrument that is no longer in force
-# (promote_reviewed.NOT_IN_FORCE): recorded, not published.
-RETIRED_STATUS = {"lifted", "expired"}
+STATUS_PATH = REVIEW_DIR / "status_resolutions.csv"
 
 OUTCOME_FIELDS = ["source_record_id", "project_name", "outcome", "evidence_url",
                   "evidence_date", "evidence_note", "reviewer", "access", "archived_url"]
@@ -90,6 +88,13 @@ RESTRICTION_FIELDS = ["instrument_id", "jurisdiction", "state", "primary_source_
                       "verdict", "checked_on", "note", "reviewer", "access", "archived_url"]
 PLACE_OVERRIDE_FIELDS = ["instrument_id", "county_fips", "evidence_url", "evidence_note",
                          "reviewer", "checked_on", "access", "archived_url"]
+STATUS_FIELDS = ["instrument_id", "jurisdiction", "state", "status", "end_date", "evidence_url",
+                 "evidence_date", "checked_on", "note", "reviewer", "access", "archived_url"]
+# What a status reading can settle. lifted and expired are not in force: the
+# build drops the instrument from the published data (docs/COUNTY_CHECK.md,
+# section 3: lapsed or repealed instruments are recorded, not published).
+RESOLVED_STATUSES = ("active", "extended", "pending", "lifted", "expired")
+NOT_IN_FORCE = ("lifted", "expired")
 VERDICTS = {"confirmed", "contradicts"}
 ACCESS = ("opened", "archived", "snippet")
 # How a source must have been seen before it can upgrade a record.
@@ -187,7 +192,7 @@ def retired_instruments(path: Path | None = None) -> set[str]:
         return set()
     return {f"queue:{_s(r.get('queue_id'))}" for r in read_csv(path)
             if _s(r.get("entity_type")) == "restriction" and _s(r.get("review_status")) == "promoted"
-            and _s(r.get("status")) in RETIRED_STATUS and _s(r.get("queue_id"))}
+            and _s(r.get("status")) in NOT_IN_FORCE and _s(r.get("queue_id"))}
 
 
 def apply_restriction_sources(rows: list[dict], path: Path | None = None,
@@ -231,10 +236,80 @@ def apply_restriction_sources(rows: list[dict], path: Path | None = None,
     return errors
 
 
-def apply_place_overrides(datasets: dict[str, list[dict]], known, path: Path | None = None) -> list[str]:
+def apply_status_resolutions(rows: list[dict], path: Path | None = None) -> list[str]:
+    """Lay agreed status readings (data/review/status_resolutions.csv) over the
+    published status: two readers of the instrument, its code or the minutes
+    that acted on it agree what the instrument's status is today. Sets
+    `status`, `status_checked_on` and `status_evidence_url` on every row of the
+    instrument, and `current_end_date_iso` when the reading gives a full end
+    date. Only a read source (opened or archived) settles a status."""
+    path = path or STATUS_PATH
+    errors: list[str] = []
+    by_iid: dict[str, list[dict]] = {}
+    for r in rows:
+        by_iid.setdefault(_s(r.get("instrument_id")), []).append(r)
+    seen: set[str] = set()
+    for i, res in _load(path):
+        where = f"{path.name}: row {i}"
+        iid, status, url = _s(res.get("instrument_id")), _s(res.get("status")), _s(res.get("evidence_url"))
+        end = _s(res.get("end_date"))
+        if iid in seen:
+            errors.append(f"{where}: {iid} is listed twice")
+            continue
+        seen.add(iid)
+        if iid not in by_iid or not iid:
+            errors.append(f"{where}: no restriction has instrument_id {iid!r}")
+            continue
+        if status not in RESOLVED_STATUSES:
+            errors.append(f"{where}: status {status!r} is not one of {', '.join(RESOLVED_STATUSES)}")
+            continue
+        if not _URL.match(url):
+            errors.append(f"{where}: evidence_url is required and must be http(s)")
+            continue
+        if end and not _ISO.match(end):
+            errors.append(f"{where}: end_date {end!r} must be YYYY[-MM[-DD]]")
+            continue
+        if status in NOT_IN_FORCE and not end:
+            errors.append(f"{where}: status {status} needs the end_date the reading found")
+            continue
+        if status not in NOT_IN_FORCE and end and len(end) != 10:
+            errors.append(f"{where}: an {status} instrument's end_date must be a full YYYY-MM-DD, "
+                          "or blank when the reading gives none")
+            continue
+        checked = _s(res.get("checked_on"))
+        if status in NOT_IN_FORCE and _ISO.match(checked) and end > checked[: len(end)]:
+            errors.append(f"{where}: status {status} with end_date {end} after the reading ({checked}); "
+                          "an instrument that still applies is active until then")
+            continue
+        bad = access_error(res)
+        if bad:
+            errors.append(f"{where}: {bad}")
+            continue
+        if not is_read(res.get("access")):
+            errors.append(f"{where}: access snippet never settles a status; read the source")
+            continue
+        for row in by_iid[iid]:
+            row["status"] = status
+            row["status_checked_on"] = _s(res.get("checked_on"))
+            row["status_evidence_url"] = url
+            if end and status not in NOT_IN_FORCE:
+                row["current_end_date_iso"] = end
+    return errors
+
+
+def withdrawn_ids(path: Path | None = None) -> set[str]:
+    """Instruments a status reading found lifted or expired: the build drops
+    them, so a review row that names one is not an error."""
+    return {_s(r.get("instrument_id")) for _, r in _load(path or STATUS_PATH)
+            if _s(r.get("status")) in NOT_IN_FORCE}
+
+
+def apply_place_overrides(datasets: dict[str, list[dict]], known, path: Path | None = None,
+                          withdrawn: set[str] | frozenset = frozenset()) -> list[str]:
     """Lay reviewer counties over county_fips_all. ``known(fips) -> bool`` says
     whether a code is a 2024 county (geo.known); injected to keep this free of
-    the geometry file."""
+    the geometry file. An override for a `withdrawn` instrument (withdrawn_ids)
+    is skipped."""
     path = path or PLACE_OVERRIDE_PATH
     errors: list[str] = []
     by_iid: dict[str, list[dict]] = {}
@@ -250,6 +325,8 @@ def apply_place_overrides(datasets: dict[str, list[dict]], known, path: Path | N
             errors.append(f"{where}: {iid} is listed twice")
             continue
         seen.add(iid)
+        if iid in withdrawn and iid not in by_iid:
+            continue
         if iid not in by_iid or not iid:
             errors.append(f"{where}: no restriction or contested project has instrument_id {iid!r}")
             continue

@@ -106,6 +106,7 @@ published as a download, or internal with a reason.
 | `data/processed/contested_projects.json` | processed-data.js |
 | `data/processed/county_summary.csv` | downloads: one row per county; the dashboard reads data/db/county_summary.json instead |
 | `data/processed/county_summary.json` | downloads: the same, one record per line |
+| `data/processed/county_typology.csv` | internal: one category per county read off the published data (scripts/county_typology.py); the county-analyst agent and /analyze-counties read it, no page does yet |
 | `data/processed/coverage_delta.md` | internal: column fill rates against the previous commit |
 | `data/processed/datapackage.json` | downloads: the Frictionless data package: every table, its fields and what they mean |
 | `data/processed/diff_summary.md` | internal: what the last build changed, keyed on id |
@@ -129,4 +130,4 @@ published as a download, or internal with a reason.
 | `data/snapshots/headline_history.csv` | downloads: the headline figures by day; the dashboard reads data/db/history.json, built from it |
 | `data/snapshots/manifest.csv` | national-dashboard.js |
 
-119 outputs; 0 finding(s).
+120 outputs; 0 finding(s).

@@ -7,7 +7,8 @@ work, read the document itself, say how it was seen, never guess); this file
 says how the agents in `.claude/agents/` carry them out, and what enforces
 them besides the agents' own instructions.
 
-The work splits four ways:
+The work splits four ways, and one agent (`county-analyst`) does analysis
+outside them: it reads only published data and writes pattern briefs.
 
 - **Research extraction.** A reader finds the document behind one item and
   reports what it says, field by field, in a packet. Readers write nothing in
@@ -28,6 +29,7 @@ The work splits four ways:
 | Agent | Lane | Part | Takes | Returns |
 |---|---|---|---|---|
 | `instrument-reader` | `reader` | extraction | a restriction card | a draft packet: the instrument, quoted, compared field by field, with a verdict |
+| `status-checker` | `reader` | extraction | a status card | a draft packet: the current code or the minutes that acted on an instrument, with the status it has today and any end date |
 | `outcome-reader` | `reader` | extraction | an outcome card | a draft packet: the document that states a project's fate, with the outcome it supports |
 | `case-researcher` | `reader` | extraction | a case candidate | a draft packet: the court record's case name, court, level, docket and status |
 | `lead-triager` | `reader` | extraction | live-intake leads | a draft packet: on topic, placed, and the values a read source states |
@@ -35,6 +37,7 @@ The work splits four ways:
 | `blind-reviewer` | `blind` | quality control | a blind card | a review packet: its own reading, or a verdict on each claimed value |
 | `record-editor` | `editor` | editing | agreed packets and verdicts | rows in the review files, signed, appended to notes |
 | `copy-editor` | `copy` | editing | hand-written markdown | the same, to the house style, every number traced |
+| `county-analyst` | `copy` | analysis | a scope: states, a region or the nation | a pattern brief under `deliverables/state_briefs/`, every number traced to `data/processed/` |
 | `qc-auditor` | `qc` | quality control | a committed branch | a report: PASS, PASS WITH WARNINGS or FAIL, with every finding |
 
 `tests/test_agents.py` checks this table against `.claude/agents/`, and each
@@ -58,7 +61,7 @@ and `data/review/` unopposed.
 
 | Lane | Reads | Writes | Runs |
 |---|---|---|---|
-| `reader` | the repository and the web | its packet under `.packets/`, or outside the repository | scripts that write nothing (`review_packets.py`, `review_lint.py`, `verification_batch.py`); git to look |
+| `reader` | the repository and the web | its packet under `.packets/`, or outside the repository | scripts that write nothing (`review_packets.py`, `review_lint.py`, `verification_batch.py`, `examination_batch.py`); git to look |
 | `blind` | the web, the published data, code and docs; never `data/review/`, a `*.draft.json` or a `drafts/` folder | its own `*.review.json` | `review_packets.py check` only; no git; searches name a path the hook checks (never the repository root or `data/`); no `xargs` |
 | `editor` | the repository; no web tools | the hand-kept review files, packets | the same scripts as a reader, `promote_reviewed.py --dry-run`; git to look |
 | `copy` | the repository; no web tools | hand-written markdown (README, docs/, deliverables/); never a generated doc | `precommit_gates.py emdash`, Vale; git to look |
@@ -141,6 +144,16 @@ each restriction or outcome item:
    packet once; if they still differ, log `disputed` with both readings.
 5. `record-editor` appends the row (`--row`) and the log line (`--log`).
 
+**Status** (`/check-status`): the same five steps for the `status` queue,
+with `verification_batch.py --statuses N` picking instruments whose status
+nobody has settled (`currency` `unknown` or `lapsed_unconfirmed`). The
+`status-checker` drafts, a `blind-reviewer` reads the same document, and the
+`record-editor` appends the agreed row to `status_resolutions.csv`. The next
+build lays it over the record: `active` or `extended` makes the instrument
+`in_force` unless its end date has passed since the reading and no later
+check confirms it, `pending` makes it `pending`, and `lifted` or `expired`
+takes it out of the published data.
+
 **Triage** (`/triage-leads`): `lead-triager` drafts decisions for a batch. A
 lead it read and filled gets a `blind-reviewer` triage from
 `blind-row lead`; agreement makes it `confirmed`, disagreement
@@ -160,6 +173,20 @@ negative check with `reviewer` blank; a `blind-reviewer` checks each claim
 (`blind-row queue_row`, `blind-row negative_check`); the `record-editor`
 writes the verdicts; the `copy-editor` edits the pass note in
 `docs/county_checks/`.
+
+**Sweeps** (`/sweep-counties`): the county-check steps for many counties,
+in waves. `examination_batch.py` picks counties in worklist rank, skipping any
+attempted in the last 60 days and any with a negative check waiting for
+review. Each wave runs `county-examiner`, `record-editor`, `blind-reviewer`
+and `record-editor` again. The `record-editor` also appends one line per
+county to `examination_log.csv`, and the sweep ends with one pass note and
+one PR.
+
+**Analysis** (`/analyze-counties`): `county_typology.py` puts each county in
+one category from the published data; a `county-analyst` per scope writes a
+pattern brief under `deliverables/state_briefs/`, and the `copy-editor`
+checks every figure against its file. Nothing is read from `data/review/` or
+`data/model/`.
 
 **Every pipeline ends the same way**: commit, then the `qc-auditor`
 (`/qc-branch`), then push only on PASS or PASS WITH WARNINGS, with the
