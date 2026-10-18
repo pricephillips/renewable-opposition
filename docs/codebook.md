@@ -55,6 +55,7 @@ text the row carries. A pending instrument is capped at 2.
 | Solar setback of 1,000 feet | solar | active | 3 | solar setback 1000 ft |
 | Solar setback of 500 feet | solar | active | 2 | restricting mechanism (default) |
 | Battery storage setback of 1,000 feet | battery_storage | active | 3 | battery_storage setback 1000 ft |
+| Battery storage spacing of 1,500 feet between sites | battery_storage | active | 2 | restricting mechanism (default) |
 | Size cap | solar | active | 2 | restricting mechanism (default) |
 | Zoning restriction | solar | active | 2 | restricting mechanism (default) |
 | Any restricting mechanism, pending | solar | pending | 2 | solar setback 1000 ft; capped at 2 (pending) |

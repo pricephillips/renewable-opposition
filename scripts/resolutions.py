@@ -79,6 +79,7 @@ from common import REVIEW_DIR, read_csv
 OUTCOME_PATH = REVIEW_DIR / "outcome_resolutions.csv"
 RESTRICTION_PATH = REVIEW_DIR / "restriction_sources.csv"
 PLACE_OVERRIDE_PATH = REVIEW_DIR / "place_overrides.csv"
+QUEUE_PATH = REVIEW_DIR / "queue.csv"
 STATUS_PATH = REVIEW_DIR / "status_resolutions.csv"
 
 OUTCOME_FIELDS = ["source_record_id", "project_name", "outcome", "evidence_url",
@@ -182,8 +183,24 @@ def apply_outcomes(rows: list[dict], allowed: set[str], path: Path | None = None
     return errors
 
 
-def apply_restriction_sources(rows: list[dict], path: Path | None = None) -> list[str]:
+def retired_instruments(path: Path | None = None) -> set[str]:
+    """Instrument ids of promoted queue restrictions now lifted or expired.
+    promote_reviewed.py takes them out of the seed, so they are not published,
+    but the verdict that found the repeal stays in restriction_sources.csv."""
+    path = path or QUEUE_PATH
+    if not path.exists():
+        return set()
+    return {f"queue:{_s(r.get('queue_id'))}" for r in read_csv(path)
+            if _s(r.get("entity_type")) == "restriction" and _s(r.get("review_status")) == "promoted"
+            and _s(r.get("status")) in NOT_IN_FORCE and _s(r.get("queue_id"))}
+
+
+def apply_restriction_sources(rows: list[dict], path: Path | None = None,
+                              retired: set[str] | None = None) -> list[str]:
+    """Lay reviewer verdicts over the restrictions. A verdict on an instrument
+    in ``retired`` (retired_instruments) is checked but has no row to lay on."""
     path = path or RESTRICTION_PATH
+    retired = retired or set()
     errors: list[str] = []
     by_iid: dict[str, list[dict]] = {}
     for r in rows:
@@ -197,7 +214,7 @@ def apply_restriction_sources(rows: list[dict], path: Path | None = None) -> lis
             errors.append(f"{where}: {iid} is listed twice")
             continue
         seen.add(iid)
-        if iid not in by_iid or not iid:
+        if (iid not in by_iid and iid not in retired) or not iid:
             errors.append(f"{where}: no restriction has instrument_id {iid!r}")
             continue
         if not _URL.match(url):
@@ -210,7 +227,7 @@ def apply_restriction_sources(rows: list[dict], path: Path | None = None) -> lis
         if bad:
             errors.append(f"{where}: {bad}")
             continue
-        for row in by_iid[iid]:
+        for row in by_iid.get(iid, []):
             row["primary_source_url"] = url
             row["primary_source_verdict"] = verdict
             row["primary_source_checked_on"] = _s(res.get("checked_on"))

@@ -80,7 +80,8 @@ Run `python scripts/review_packets.py check <packet>` and fix every error.
 Queues `lead` and `case`: the card holds the lead's or candidate's own columns
 and the source URL. Write your own triage (on topic, placed, the values the
 source states) or your own court-record reading (case name, court, level,
-docket, status) in the shape the card's `expect` field gives.
+docket, status) in the shape the card's `expect` field gives, then run
+`python scripts/review_packets.py check <packet>` and fix every error.
 
 ## Mode 2: claim check
 
@@ -113,6 +114,8 @@ corrected row gets a fresh review.
   "quote": "<verbatim>", "note": "<no em dash>", "attempts": []
 }
 ```
+
+Run `python scripts/review_packets.py check <packet>` and fix every error.
 
 ## Never
 

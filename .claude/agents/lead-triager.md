@@ -99,6 +99,8 @@ leave `access` `snippet`, and change only `state`, `county`, `municipality`,
 `set` holds only the columns to change, with values the source states. Every
 value in `set` must be traceable to `quote`.
 
+Then run `python scripts/review_packets.py check <packet>` and fix every error.
+
 ## Never
 
 - Guess a place, a status, a date or a mechanism.
