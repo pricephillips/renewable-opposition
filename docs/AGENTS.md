@@ -117,10 +117,12 @@ reader of the repository needs.
   each reader's wording quoted when the two differ, and is not disputed.
   Values count as the same when they differ only in case, spacing,
   punctuation or thousands separators, or when one is the other followed by
-  unit words ("297" and "297 MW nameplate"). In a name field, such as
-  `project_name`, other annotation may follow too, unless it starts with a
-  number or includes a word that changes what the name refers to ("no",
-  "except", "formerly"). Any other added word ("until", "through",
+  a unit ("297" and "297 MW nameplate"). Only one unit may appear, and a
+  unit of another size (kW, GW, MWh, metres) is a different value. In a field
+  named `name` or ending in `_name`, such as `project_name`, other annotation
+  may follow when punctuation sets it off ("Big Sky Solar (Lightsource bp)"),
+  unless it includes a word that changes what the name refers to ("no",
+  "except", "phase", "II"). Any other added word ("until", "through",
   "repealed", "maximum") makes a different reading, and decimal points,
   signs and comparison symbols are part of the value. When the readings
   differ on a field's judgment, a `contradicts` verdict also needs a field

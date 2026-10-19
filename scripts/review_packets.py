@@ -82,8 +82,8 @@ Subcommands
   check PACKET...                      check packets of any queue; exit 1 on any error
   reconcile CARD DRAFT REVIEW          compare the two readings; print JSON. A field the
                                        two read as the same value (apart from case, spacing,
-                                       punctuation, thousands separators, unit words after
-                                       it, or in a name field annotation after it) but judged
+                                       punctuation, thousands separators, a unit after it,
+                                       or in a name field annotation set off after it) but judged
                                        differently against the record is listed in
                                        judgment_differences and the row's note, not disputed
   reconcile CARD DRAFT REVIEW --row    print the review-file row to append
@@ -627,29 +627,29 @@ def _one_line(text: str) -> str:
 # Words, numbers (sign and decimal point kept) and the symbols that change a value's meaning.
 _TOKEN = re.compile(r"(?<![\w.])[-+]?(?:\d+(?:\.\d+)?|\.\d+)|[a-z0-9]+|[<>≤≥=%§$/~²]")
 # Words that may follow a value without changing it ("297" and "297 MW nameplate").
-_UNIT_WORDS = {
-    "mw", "mwac", "mwdc", "megawatt", "megawatts", "mwh", "kw", "kv", "gw", "nameplate", "ft", "feet", "foot",
-    "mi", "mile", "miles", "acre", "acres", "m", "meters", "metres",
-}
-# In a name field more may follow ("Jacumba Valley Ranch (JVR) Energy Park, BayWa r.e., 127 MW"),
-# unless it includes a word that can change what the name refers to.
+# One unit at most, plus "nameplate"; units of another size (kW, GW, MWh, m) are a different value.
+_UNIT_WORDS = {"mw", "mwac", "mwdc", "megawatt", "megawatts", "ft", "feet", "foot", "mi", "mile", "miles",
+               "acre", "acres"}
+# In a name field more may follow, set off by punctuation ("Jacumba Valley Ranch (JVR) Energy Park,
+# BayWa r.e., 127 MW"), unless it includes a word that can change what the name refers to.
 _CHANGE_WORDS = {
     "not", "no", "non", "never", "none", "nothing", "neither", "nor", "without", "except", "excluding",
     "excluded", "exclude", "excludes", "but", "until", "unless", "only", "formerly", "previously",
-    "renamed", "replaced", "superseded", "withdrawn", "cancelled", "canceled",
+    "renamed", "replaced", "superseded", "withdrawn", "cancelled", "canceled", "phase", "unit", "expansion",
+    "extension", "ii", "iii", "iv",
 }
 
 
 def _words(text: str) -> list[str]:
     """A document value as tokens: lowercase, thousands separators and other punctuation dropped."""
-    return _TOKEN.findall(re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower().replace("\u2212", "-")))
+    return _TOKEN.findall(re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower().replace("\u2212", "-").replace("\u2013", "-")))
 
 
 def _same_value(a: str, b: str, field: str = "") -> bool:
     """Two readings of one document value that differ only in formatting: the same tokens, or the
-    tokens of one followed by unit words ("297" and "297 MW nameplate"). In a name field the
-    added words may be any annotation that starts with a word and includes none that can change
-    what the name refers to ("no", "except", "formerly"). An empty value matches only another
+    tokens of one followed by one unit word ("297" and "297 MW nameplate"). In a name field the
+    added words may be any annotation set off by punctuation that includes none that can change
+    what the name refers to ("no", "except", "phase"). An empty value matches only another
     empty value."""
     ra, rb = _one_line(a).strip(), _one_line(b).strip()
     if not ra or not rb:
@@ -661,10 +661,17 @@ def _same_value(a: str, b: str, field: str = "") -> bool:
     if long_[:len(short)] != short:
         return False
     added = long_[len(short):]
-    if not added or set(added) <= _UNIT_WORDS:
+    if not added or (set(added) <= _UNIT_WORDS | {"nameplate"}
+                     and sum(w in _UNIT_WORDS for w in long_) <= 1):
         return True
-    return ("name" in field and bool(re.fullmatch(r"[a-z]\w*", added[0]))
-            and not _CHANGE_WORDS & set(added))
+    if not (field == "name" or field.endswith("_name")) or _CHANGE_WORDS & set(added):
+        return False
+    # The annotation must be set off from the name: "Stony Creek Wind Farm, Wyoming County" annotates,
+    # "Stony Creek Wind Farm Phase 2" or "Big Sky Solar Storage" names something else.
+    longer = a if len(wa) > len(wb) else b
+    head = re.match(r"\W*" + r"\W+".join(map(re.escape, short)),
+                    re.sub(r"(?<=\d),(?=\d{3})", "", _s(longer).lower()))
+    return bool(head) and bool(re.match(r"\s*[)\]]?\s*[,;:(]", longer.lower()[head.end():]))
 
 
 def _same_text(a: str, b: str) -> bool:

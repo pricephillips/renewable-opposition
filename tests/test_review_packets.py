@@ -149,6 +149,7 @@ ADOPTED = {"field": "restriction_type", "record": "moratorium", "document": "sit
      "project_name"),
     ("Stony Creek Wind Farm NY (EIA plant 58088)", "Stony Creek Wind Farm NY (EIA plant 58088), Wyoming County",
      "project_name"),
+    ("Big Sky Solar", "Big Sky Solar (Lightsource bp)", "name"),
     ("", "", "status"),
     ("§", " § ", "status"),
 ])
@@ -179,6 +180,16 @@ def test_values_that_differ_only_in_formatting_are_the_same(a, b, field):
     (".5 mile", "5 mile", "setback"), ("1/2", "1-2", "setback"), ("~300", "300", "setback"),
     # A value of symbols alone is not empty.
     ("§", "", "status"), ("§", "—", "status"),
+    # Only exact name fields get the looser rule, and a name's suffix may name another project or phase.
+    ("297", "297 MW, later reduced to 250", "nameplate_mw"), ("297", "297 then 150", "nameplate_capacity"),
+    ("Stony Creek Wind Farm", "Stony Creek Wind Farm Phase 2", "project_name"),
+    ("Stony Creek Wind Farm", "Stony Creek Wind Farm II", "project_name"),
+    ("Stony Creek Wind Farm", "Stony Creek Wind Farm, Phase 2", "project_name"),
+    ("Big Sky Solar", "Big Sky Solar Storage", "project_name"), ("Jacumba Solar", "Jacumba Solar East", "name"),
+    # A unit of another size, or two units, is a different value.
+    ("297", "297 kW", "capacity"), ("297", "297 GW", "capacity"), ("297", "297 MWh", "capacity"),
+    ("500", "500 m", "setback"), ("500 ft", "500 ft m", "setback"), ("1 mile", "1 mile ft", "setback"),
+    ("\u20135", "5", "change"),
 ])
 def test_values_that_say_different_things_are_not_the_same(a, b, field):
     assert not rp._same_value(a, b, field) and not rp._same_value(b, a, field)
