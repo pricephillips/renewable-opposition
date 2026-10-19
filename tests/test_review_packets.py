@@ -135,7 +135,7 @@ def test_readings_that_differ_are_disputed_and_write_nothing():
     assert res["log"]["outcome"] == "disputed" and REVIEWER in res["log"]["note"]
 
 
-# A field only the review checked, so its "contradicts" verdict still names a disagreeing field.
+# A field both readings can fault, so a "contradicts" verdict names a disagreeing field.
 ADOPTED = {"field": "restriction_type", "record": "moratorium", "document": "siting law", "agrees": False}
 
 
@@ -145,9 +145,10 @@ ADOPTED = {"field": "restriction_type", "record": "moratorium", "document": "sit
     ("1,200 acres", "1200 Acres."),
     ("Jacumba Valley Ranch (JVR) Energy Park",
      "Jacumba Valley Ranch (JVR) Energy Park, BayWa r.e., 127 MW solar and 70 MW storage in Jacumba"),
-    ("Stony Creek Wind Farm NY (EIA plant 58088)",
-     "Stony Creek Wind Farm NY (EIA plant 58088); no EIA-860M plant is named Orangeville"),
+    ("Stony Creek Wind Farm NY (EIA plant 58088)", "Stony Creek Wind Farm NY (EIA plant 58088), Wyoming County"),
+    ("2.5 MW", "2.5 MW (nameplate)"),
     ("", ""),
+    ("§", " § "),
 ])
 def test_values_that_differ_only_in_formatting_are_the_same(a, b):
     assert rp._same_value(a, b) and rp._same_value(b, a)
@@ -155,24 +156,57 @@ def test_values_that_differ_only_in_formatting_are_the_same(a, b):
 
 @pytest.mark.parametrize("a, b", [
     ("297", "300"), ("not 300", "300"), ("2970", "297"), ("297", ""), ("storage and solar", "battery storage only"),
+    # Added words that change what the value says.
+    ("in force", "in force until 2025-03-01, since lapsed"), ("moratorium", "moratorium lifted"),
+    ("adopted", "adopted, later repealed"), ("solar", "solar excluded"), ("300", "300 not"),
+    ("battery storage", "battery storage not covered"), ("yes", "yes, but repealed in 2025"),
+    ("Stony Creek Wind Farm NY (EIA plant 58088)",
+     "Stony Creek Wind Farm NY (EIA plant 58088); no EIA-860M plant is named Orangeville"),
+    # Decimals, signs, comparisons and digit groups are part of the value.
+    ("2", "2.5 MW"), ("297", "297.5"), ("0", "0.5 mile"), ("1", "1 000"), (">= 300 ft", "<= 300 ft"),
+    ("<500", ">500"), ("-5", "5"), ("≥ 1,000 ft", "≤ 1,000 ft"),
+    # A value of symbols alone is not empty.
+    ("§", ""), ("§", "—"),
 ])
 def test_values_that_say_different_things_are_not_the_same(a, b):
     assert not rp._same_value(a, b) and not rp._same_value(b, a)
 
 
 def test_the_same_value_judged_differently_is_noted_not_disputed():
-    fields = [{"field": "status", "record": "extended", "document": "in force", "agrees": True},
+    draft = reading(fields=reading()["fields"] + [ADOPTED])
+    fields = [{"field": "status", "record": "extended", "document": "In force.", "agrees": True},
               {"field": "technology", "record": "battery_storage; solar",
                "document": "Battery storage only, per Section 2", "agrees": True}, ADOPTED]
-    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, fields=fields), [], TODAY)
+    res = rp.reconcile(card(), draft, reading("review", REVIEWER, fields=fields), [], TODAY)
     assert res["result"] == "written" and res["differences"] == []
     assert res["judgment_differences"] == [
-        "technology (both read 'battery storage only'; draft says it differs from the record, "
-        "review says it matches the record)"]
-    assert "judged differently against the record: technology" in res["row"]["note"]
-    assert "judged differently against the record: technology" in res["log"]["note"]
+        "technology (draft read 'battery storage only', review read 'Battery storage only, per Section 2'; "
+        "draft says it differs from the record, review says it matches the record)"]
+    assert "judged differently against the record: technology (draft read" in res["row"]["note"]
+    assert "judged differently against the record: technology (draft read" in res["log"]["note"]
+    same = [{**fields[1], "document": "Battery storage ONLY"}, ADOPTED]
+    res = rp.reconcile(card(), draft, reading("review", REVIEWER, fields=same), [], TODAY)
+    assert res["result"] == "written" and res["judgment_differences"][0].startswith(
+        "technology (both read 'battery storage only';")
     plain = rp.reconcile(card(), reading(), reading("review", REVIEWER), [], TODAY)
     assert "judgment_differences" not in plain and "judged differently" not in plain["row"]["note"]
+
+
+def test_a_contradiction_needs_a_field_both_readings_fault():
+    fields = [{"field": "technology", "record": "battery_storage; solar", "document": "battery storage only",
+               "agrees": True}, ADOPTED]
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, fields=fields), [], TODAY)
+    assert res["result"] == "disputed" and res["row"] is None
+    assert res["differences"] == ["verdict contradicts: no field both readings mark as disagreeing"]
+
+
+def test_a_value_extended_with_words_that_change_it_is_disputed():
+    fields = [{"field": "status", "record": "extended", "document": "in force until 2025-03-01, since lapsed",
+               "agrees": False}, reading()["fields"][1]]
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, fields=fields), [], TODAY)
+    assert res["result"] == "disputed" and res["differences"] == [
+        "status: draft reads 'in force' and says it matches the record, review reads "
+        "'in force until 2025-03-01, since lapsed' and says it differs from the record"]
 
 
 def test_a_dispute_names_both_values_and_both_judgments():

@@ -82,9 +82,10 @@ Subcommands
   check PACKET...                      check packets of any queue; exit 1 on any error
   reconcile CARD DRAFT REVIEW          compare the two readings; print JSON. A field the
                                        two read as the same value (apart from case, spacing,
-                                       punctuation, thousands separators or added words after
-                                       it) but judged differently against the record is listed
-                                       in judgment_differences and the row's note, not disputed
+                                       punctuation, thousands separators or words after it
+                                       that annotate it) but judged differently against the
+                                       record is listed in judgment_differences and the row's
+                                       note, not disputed
   reconcile CARD DRAFT REVIEW --row    print the review-file row to append
                                        (exit 1 unless both readings agree and
                                        the file has no row for the key yet)
@@ -623,20 +624,39 @@ def _one_line(text: str) -> str:
     return re.sub(r"\s+", " ", _s(text))
 
 
+# Words, numbers (sign and decimal point kept) and the symbols that change a value's meaning.
+_TOKEN = re.compile(r"(?<![\w.])[-+]?\d+(?:\.\d+)?|[a-z0-9]+|[<>≤≥=%§$]")
+# Words after a value that can change what it says: "in force" and "in force until 2025, since
+# lapsed" are not the same reading.
+_CHANGE_WORDS = {
+    "not", "no", "non", "never", "none", "nothing", "neither", "nor", "without", "except", "excluding",
+    "excluded", "exclude", "excludes", "but", "until", "unless", "only", "lifted", "lapsed", "expired",
+    "repealed", "rescinded", "revoked", "withdrawn", "denied", "cancelled", "canceled", "superseded",
+    "replaced", "amended", "suspended", "terminated", "ended", "later", "since", "formerly", "previously",
+}
+
+
 def _words(text: str) -> list[str]:
-    """A document value as words: lowercase, thousands separators and punctuation dropped."""
-    return re.sub(r"[^a-z0-9]+", " ", re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower())).split()
+    """A document value as tokens: lowercase, thousands separators and other punctuation dropped."""
+    return _TOKEN.findall(re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower()))
 
 
 def _same_value(a: str, b: str) -> bool:
-    """Two readings of one document value that differ only in formatting: the same words, or the
-    words of one followed by more ("297" and "297 MW nameplate"). An empty value matches only
-    another empty value."""
+    """Two readings of one document value that differ only in formatting: the same tokens, or the
+    tokens of one followed by words that annotate it ("297" and "297 MW nameplate"). Added words
+    that start with a number or include a word that can change the value ("not", "until",
+    "repealed") make a different reading. An empty value matches only another empty value."""
+    ra, rb = _one_line(a).strip(), _one_line(b).strip()
+    if not ra or not rb:
+        return ra == rb
     wa, wb = _words(a), _words(b)
     if not wa or not wb:
-        return wa == wb
+        return ra == rb
     short, long_ = sorted((wa, wb), key=len)
-    return long_[:len(short)] == short
+    if long_[:len(short)] != short:
+        return False
+    added = long_[len(short):]
+    return not added or (not re.match(r"[-+]?\d", added[0]) and not _CHANGE_WORDS & set(added))
 
 
 def _matches(f: dict) -> str:
@@ -700,14 +720,25 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             if other is None or bool(other.get("agrees")) == bool(f.get("agrees")):
                 continue
             if _same_value(f.get("document"), other.get("document")):
-                judged.append(f"{f.get('field')} (both read {_one_line(f.get('document'))!r}; draft says it "
-                              f"{_matches(f)}, review says it {_matches(other)})")
+                if _words(f.get("document")) == _words(other.get("document")):
+                    read = f"both read {_one_line(f.get('document'))!r}"
+                else:
+                    read = (f"draft read {_one_line(f.get('document'))!r}, review read "
+                            f"{_one_line(other.get('document'))!r}")
+                judged.append(f"{f.get('field')} ({read}; draft says it {_matches(f)}, review says it "
+                              f"{_matches(other)})")
             else:
                 diffs.append(f"{f.get('field')}: draft reads {_one_line(f.get('document'))!r} and says it "
                              f"{_matches(f)}, review reads {_one_line(other.get('document'))!r} and says it "
                              f"{_matches(other)}")
         if judged:
             out["judgment_differences"] = judged
+            # A contradicts verdict still needs a field both readings call wrong: a judgment
+            # difference must not leave the verdict resting on fields only one reader faulted.
+            if queue == "restriction" and _s(draft.get("verdict")) == "contradicts" and not any(
+                    not f.get("agrees") and rf.get(_s(f.get("field"))) is not None
+                    and not rf[_s(f.get("field"))].get("agrees") for f in draft.get("fields") or []):
+                diffs.append("verdict contradicts: no field both readings mark as disagreeing")
         unchecked = sorted({_s(f.get("field")) for f in draft.get("fields") or []} - set(rf))
         if unchecked:
             out["unchecked_by_review"] = unchecked

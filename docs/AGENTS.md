@@ -110,15 +110,19 @@ reader of the repository needs.
   verdict over a field that disagrees, an em dash in the note.
 - `reconcile` compares a draft and a review for restrictions and outcomes:
   `written` when both read the document and agree on the verdict or outcome,
-  the event date and every field both checked; `disputed` otherwise;
-  `not_read` when either could not open it. A field disputes only when the
-  two read different values. When both read the same value and differ only
-  on whether it matches the record, the field is listed in
-  `judgment_differences` and in the row's note and log line, and is not
-  disputed. Values count as the same when they differ only in case,
-  spacing, punctuation or thousands separators, or when one is the other
-  with words added after it ("297" and "297 MW nameplate"). Only `written`
-  yields a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a
+  the event date and the value of every field both checked; `disputed`
+  otherwise; `not_read` when either could not open it. When both read the
+  same value but differ on whether it matches the record, the field is
+  listed in `judgment_differences` and in the row's note and log line, with
+  each reader's wording quoted when the two differ, and is not disputed.
+  Values count as the same when they differ only in case, spacing,
+  punctuation or thousands separators, or when one is the other with
+  annotating words after it ("297" and "297 MW nameplate"). Added words that
+  start with a number or can change the value ("not", "until", "repealed",
+  "except") make a different reading, and decimal points, signs and
+  comparison symbols are part of the value. A `contradicts` verdict still
+  needs a field that both readings mark as disagreeing. Only `written` yields
+  a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a
   `verification_log.csv` line (`--log`). A drafter and reviewer with the same
   signature are refused.
 - `blind-row` builds the blind card for a lead, a case, a drafted queue row or
@@ -205,7 +209,7 @@ step.
 |---|---|
 | the lane hook | a reader writing a review file, a reviewer opening a draft, a commit from an agent, a local report read |
 | `review_packets.py check` | a reading claimed without a document, quote or comparison; a verdict that contradicts its own fields |
-| the blind second reading | a misread document, a wrong field, a confirmation the document does not support |
+| the blind second reading | a misread document, a misread field value, a confirmation the document does not support |
 | `review_packets.py reconcile` | two readings that differ; a self-review |
 | `review_lint.py` | an access raised with no note, a self-review, an unsigned confirmation, triage with no note, an unknown mechanism, a bad date, a file outside the lane, a generated file committed |
 | `qc-auditor` | everything above on the committed branch, the CI checks, and a sample of sources re-opened to confirm the quoted text is there |
