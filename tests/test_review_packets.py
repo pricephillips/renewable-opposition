@@ -51,7 +51,7 @@ def test_card_joins_technology_rows_and_carries_earlier_attempts():
     assert c["prior"]["review_rows"][0]["access"] == "snippet" and c["prior"]["log"][0]["outcome"] == "not_read"
     assert c["review_file"] == "data/review/restriction_sources.csv"
     assert c["slug"] == "mn_ny-x"
-    with pytest.raises(ValueError, match="no published restriction"):
+    with pytest.raises(ValueError, match="no published or quarantined restriction"):
         rp.build_card("restriction", "nope", RECORDS, WORK, PRIOR, [])
 
 
@@ -363,3 +363,17 @@ def test_case_packets_need_a_court_record_for_each_case():
     assert any("missing court" in e for e in errors) and any("snippet" in e for e in errors)
     assert any("needs cases" in e for e in rp.check_packet({**p, "cases": []}, TODAY)[0])
     assert any("queue 'other'" in e for e in rp.check_packet({**p, "queue": "other"}, TODAY)[0])
+
+
+def test_a_quarantined_record_gets_a_card_that_says_why_it_is_held():
+    held = [{**RECORDS[0], "entity": "restrictions",
+             "qc_issues": [{"code": "PRIMARY_SOURCE_CONTRADICTS", "severity": "HIGH"}]},
+            {"entity": "contested_projects", "instrument_id": "mn:ny-x"}]
+    c = rp.build_card("status", "mn:ny-x", [], [], [], [], held)
+    assert c["quarantined"] == ["PRIMARY_SOURCE_CONTRADICTS"] and c["rows"] == 1
+    assert c["record"]["jurisdiction"] == "Glenville"
+    # A published record is carded from the published rows, with no quarantine line.
+    assert "quarantined" not in rp.build_card("status", "mn:ny-x", RECORDS, [], [], [], held)
+    # The blind card never says the record is held for a contradiction.
+    draft = {"queue": "status", "key": "mn:ny-x", "result": "read", "source_url": URL}
+    assert "quarantined" not in rp.blind_card(c, draft) and "CONTRADICTS" not in json.dumps(rp.blind_card(c, draft))

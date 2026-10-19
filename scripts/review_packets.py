@@ -72,7 +72,7 @@ carries the row's own columns or claimed values and the source, and never a
 note, a drafter or a reviewer; `expect` gives the shape of the review packet.
 
 Subcommands
-  card QUEUE KEY                       print the card for one item
+  card QUEUE KEY                       print the card for one item, published or quarantined
   blind CARD DRAFT                     print the blind card
   blind-row lead QUEUE_ID              a lead as parse.py queued it, for an independent triage
   blind-row queue_row QUEUE_ID         a drafted queue row's claims, without its notes
@@ -131,6 +131,7 @@ MIN_QUOTE = 20
 QUEUES = {
     "restriction": {
         "key": "instrument_id",
+        "entity": "restrictions",
         "records": PROCESSED_DIR / "restrictions.csv",
         "worklist": REVIEW_DIR / "restriction_worklist.csv",
         "review_file": RESTRICTION_PATH,
@@ -150,6 +151,7 @@ QUEUES = {
     # minutes that extended, amended or repealed it) rather than its terms.
     "status": {
         "key": "instrument_id",
+        "entity": "restrictions",
         "records": PROCESSED_DIR / "restrictions.csv",
         "worklist": REVIEW_DIR / "restriction_worklist.csv",
         "review_file": STATUS_PATH,
@@ -163,6 +165,7 @@ QUEUES = {
     },
     "outcome": {
         "key": "source_record_id",
+        "entity": "contested_projects",
         "records": PROCESSED_DIR / "contested_projects.csv",
         "worklist": REVIEW_DIR / "outcome_worklist.csv",
         "review_file": OUTCOME_PATH,
@@ -201,12 +204,19 @@ def _join(rows: list[dict], col: str) -> str:
 
 
 def build_card(queue: str, key: str, records: list[dict], worklist: list[dict],
-               review_rows: list[dict], log_rows: list[dict]) -> dict:
+               review_rows: list[dict], log_rows: list[dict], held: list[dict] | None = None) -> dict:
+    """held: the build's quarantined records (quarantine.json). A record the QC
+    gate holds back is not published, and is often the one that most needs a
+    reading (a contradicted status, for one); its card says why it is held."""
     spec = QUEUES[queue]
     kcol = spec["key"]
     mine = [r for r in records if _s(r.get(kcol)) == key]
+    quarantined = []
     if not mine:
-        raise ValueError(f"no published {queue} record has {kcol} {key!r}")
+        mine = [r for r in held or [] if r.get("entity") == spec["entity"] and _s(r.get(kcol)) == key]
+        quarantined = sorted({_s(i.get("code")) for r in mine for i in r.get("qc_issues") or []} - {""})
+    if not mine:
+        raise ValueError(f"no published or quarantined {queue} record has {kcol} {key!r}")
     record = {c: _join(mine, c) for c in spec["record"] if _join(mine, c)}
     work = next((w for w in worklist if _s(w.get(kcol)) == key), {})
     return {
@@ -216,6 +226,7 @@ def build_card(queue: str, key: str, records: list[dict], worklist: list[dict],
         "slug": slug(key),
         "record": record,
         "rows": len(mine),
+        **({"quarantined": quarantined} if quarantined else {}),
         "worklist": {c: _s(work.get(c)) for c in spec["work"] if _s(work.get(c))},
         "prior": {
             "review_rows": [{k: v for k, v in r.items() if _s(v)} for r in review_rows
@@ -723,6 +734,11 @@ def _header(path: Path, default: list[str]) -> list[str]:
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
+def _held() -> list[dict]:
+    path = PROCESSED_DIR / "quarantine.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+
+
 def _load(path: str) -> dict:
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -758,7 +774,7 @@ def main(argv=None) -> int:
         spec = QUEUES[a.queue]
         try:
             card = build_card(a.queue, a.key, read_csv(spec["records"]), read_csv(spec["worklist"]),
-                              read_csv(spec["review_file"]), read_csv(LOG))
+                              read_csv(spec["review_file"]), read_csv(LOG), _held())
         except ValueError as e:
             print(e, file=sys.stderr)
             return 1

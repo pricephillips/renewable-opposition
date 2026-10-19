@@ -176,8 +176,11 @@ def test_lanes():
 
 def test_the_committed_review_files_have_no_errors():
     """Every row as it stands passes the row checks (warnings allowed): the
-    lint starts clean, so an error on a branch is the branch's."""
-    findings = [f for name in rl.FILES for f in rl.lint_file(name, "", rl.text_at(None, name), T, every_row=True)]
+    lint starts clean, so an error on a branch is the branch's. Checked as of
+    today: a row read today is not "after today", whatever T says."""
+    today = date.today()
+    findings = [f for name in rl.FILES for f in rl.lint_file(name, "", rl.text_at(None, name), today,
+                                                             every_row=True)]
     assert [str(f) for f in findings if f.level == "E"] == []
 
 
