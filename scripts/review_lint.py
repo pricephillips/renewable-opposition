@@ -76,7 +76,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_sabin_seeds import MECHANISM_TYPE  # noqa: E402
+from build_sabin_seeds import MECHANISM_TYPE, mechanism_name  # noqa: E402
 from common import ROOT  # noqa: E402
 from resolutions import access_error  # noqa: E402
 from examination_batch import RESULTS as EXAM_RESULTS  # noqa: E402
@@ -308,7 +308,7 @@ def _queue_row(where: str, old: dict | None, new: dict, today: date) -> list[Fin
                          f"moved from lead to {status} with no note: append the date, what was read and why"))
     # Exactly as promote_reviewed.mechanism_list and score_restriction read it.
     for m in (x.strip() for x in _s(new.get("mechanisms")).split(";")):
-        if m and m not in MECHANISM_TYPE:
+        if m and mechanism_name(m) not in MECHANISM_TYPE:
             f.append(Finding("E", "MECHANISM", where,
                              f"mechanism {m!r} is not in build_sabin_seeds.MECHANISM_TYPE"))
     return f

@@ -60,7 +60,7 @@ the lint cannot judge:
 ## 2. The packets (when a run directory is given)
 
 `python3 scripts/review_packets.py check` on every `*.draft.json` and
-`*.review.json`; it covers every queue but `county`. For each row
+`*.review.json` of every queue. For each row
 the branch added to `restriction_sources.csv`, `status_resolutions.csv` or
 `outcome_resolutions.csv`, run `reconcile` on its card, draft and review and
 confirm the row matches what it prints (`written`, same verdict, status and

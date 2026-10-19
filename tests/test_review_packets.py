@@ -541,3 +541,50 @@ def test_a_skipped_end_date_counts_as_compared_only_when_both_readings_give_one(
         "current_end_date_iso: draft says it differs from the record, review did not check it"]
     dated = status_reading("review", REVIEWER, status="extended", end_date="2027-06-30")
     assert rp.reconcile(c, draft, dated, [], TODAY)["result"] == "written"
+
+
+def county(**kw):
+    p = {"packet": "draft", "queue": "county", "key": "19113", "agent": DRAFTER, "date": "2026-10-16",
+         "county": "Linn County", "state": "IA",
+         "governments_checked": "Linn County (zoning of unincorporated land); Cedar Rapids",
+         "governments_not_covered": [],
+         "sources_checked": [{"entry": "code: Linn County Code, solar (https://linncountyia.gov/code)", "opened": True},
+                             {"entry": "minutes: Board of Supervisors 2023-2026 (https://linncountyia.gov/m)",
+                              "opened": True},
+                             {"entry": "news search: Linn County solar moratorium", "opened": True}],
+         "restrictions": [{"entity_type": "restriction", "state": "IA", "county": "Linn County",
+                           "technology": "solar", "mechanisms": "setback; cap on acreage (solar)",
+                           "mechanism_detail": "1,000 ft from dwellings", "status": "active", "end_date": "",
+                           "adopted_date": "2024-05-01", "evidence_text": "Solar arrays shall be 1,000 feet from dwellings.",
+                           "source_url": "https://linncountyia.gov/code/ch12.pdf", "access": "opened",
+                           "archived_url": "", "source_kind": "instrument"}],
+         "negative_check": None, "standards_noted": "", "leads": [], "attempts": [],
+         "note": "The county code sets a solar setback; Cedar Rapids has none."}
+    p.update(kw)
+    return p
+
+
+def test_county_drafts_are_checked():
+    assert rp.check_packet(county(), TODAY) == ([], [])
+    row = county()["restrictions"][0]
+    errors = rp.check_packet(county(key="Linn", restrictions=[{**row, "mechanisms": "vibes", "access": "snippet",
+                                                              "source_kind": "news", "severity_score": "3"}]),
+                             TODAY)[0]
+    for want in ("five-digit FIPS", "MECHANISM_TYPE", "snippet", "source_kind", "severity_score is typed"):
+        assert any(want in e for e in errors), want
+    assert any("concludes nothing" in e for e in rp.check_packet(county(restrictions=[]), TODAY)[0])
+
+
+def test_a_county_negative_check_needs_full_coverage_and_both_classes_opened():
+    check = {"scope": "restrictions", "result": "none_found", "note": "Codes set road setbacks only."}
+    assert rp.check_packet(county(restrictions=[], negative_check=check), TODAY) == ([], [])
+    errors = rp.check_packet(county(negative_check=check), TODAY)[0]
+    assert any("alongside drafted restrictions" in e for e in errors)
+    gap = county(restrictions=[], negative_check=check,
+                 governments_not_covered=[{"name": "Marion", "why": "code not online"}])
+    assert any("governments not covered" in e for e in rp.check_packet(gap, TODAY)[0])
+    no_minutes = county(restrictions=[], negative_check=check,
+                        sources_checked=[{"entry": "code: Linn County Code (https://x.gov)", "opened": True},
+                                         {"entry": "minutes: Board (https://x.gov/m)", "opened": False}])
+    errors, warnings = rp.check_packet(no_minutes, TODAY)
+    assert any("opened proceeding" in e for e in errors) and any("news search" in w for w in warnings)
