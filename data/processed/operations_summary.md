@@ -24,7 +24,7 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 
 ## Review and promotion
 
-Queue: 30 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 30 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 59 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
 Promotion trail: 93 decisions from 2026-10-13 to 2026-10-18 (new or changed decisions only): 71 promoted, 13 held, 6 awaiting_review, 2 rejected, 1 unpublished.
 
@@ -76,4 +76,4 @@ Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: 
 
 ## History and archive
 
-101 snapshot rows over 5 published files; 9 headline changes recorded (2026-09-29 to 2026-10-19). Sources: 68, of which 11 have an Internet Archive snapshot.
+102 snapshot rows over 5 published files; 9 headline changes recorded (2026-09-29 to 2026-10-19). Sources: 68, of which 22 have an Internet Archive snapshot.

@@ -193,10 +193,10 @@
    "confirmed": 3,
    "pending": 2,
    "awaiting_review": 1,
-   "lead": 58
+   "lead": 59
   },
   "queue_by_entity": {
-   "restriction": 53,
+   "restriction": 54,
    "contested_project": 42,
    "case": 1
   },
@@ -205,7 +205,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 101,
+  "snapshot_rows": 102,
   "snapshot_files": 5,
   "headline_history_rows": 9,
   "headline_first_change": "2026-09-29",
@@ -227,8 +227,8 @@
  },
  "source_archive": {
   "sources": 68,
-  "archived": 11,
-  "archived_share": 0.162
+  "archived": 22,
+  "archived_share": 0.324
  },
  "evidence_checks": {
   "restriction_sources": {

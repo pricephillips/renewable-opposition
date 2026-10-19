@@ -19,7 +19,7 @@
 ["parquet/restriction.parquet","restriction","table",3640,352514],
 ["parquet/restriction_instrument.parquet","restriction_instrument","table",3435,87276],
 ["parquet/siting_standard.parquet","siting_standard","table",23778,569954],
-["parquet/source_document.parquet","source_document","table",68,10747],
+["parquet/source_document.parquet","source_document","table",68,11398],
 ["parquet/state.parquet","state","table",52,1115],
 ["parquet/state_policy.parquet","state_policy","table",122,26983],
 ["parquet/v_county_coverage_totals.parquet","v_county_coverage_totals","view",1,1174],
