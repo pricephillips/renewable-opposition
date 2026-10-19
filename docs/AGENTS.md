@@ -124,7 +124,10 @@ reader of the repository needs.
   unless it includes a word that changes what the name refers to ("no",
   "except", "phase", "II"). Any other added word ("until", "through",
   "repealed", "maximum") makes a different reading, and decimal points,
-  signs and comparison symbols are part of the value. When the readings
+  signs and comparison symbols are part of the value. When one reading
+  extends the other, the fuller one must be the reading that says the value
+  matches the record; if it says the value differs, the field disputes,
+  since its extra words are likely the reason. When the readings
   differ on a field's judgment, a `contradicts` verdict also needs a field
   that both readings mark as disagreeing. Only `written` yields
   a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a

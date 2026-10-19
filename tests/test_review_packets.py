@@ -215,6 +215,25 @@ def test_the_same_value_judged_differently_is_noted_not_disputed():
     assert "judgment_differences" not in plain and "judged differently" not in plain["row"]["note"]
 
 
+def test_an_extended_value_is_the_same_only_when_the_fuller_reading_says_it_matches():
+    draft = reading(fields=[{"field": "project_name", "record": "Big Sky Solar", "document": "Big Sky Solar",
+                             "agrees": True}, ADOPTED])
+    review = reading("review", REVIEWER, fields=[
+        {"field": "project_name", "record": "Big Sky Solar", "document": "Big Sky Solar (a different project)",
+         "agrees": False}, ADOPTED])
+    res = rp.reconcile(card(), draft, review, [], TODAY)
+    assert res["result"] == "disputed" and res["differences"][0].startswith("project_name: draft reads")
+    flipped = [{**draft["fields"][0], "agrees": False}, ADOPTED]
+    fuller = [{**review["fields"][0], "agrees": True}, ADOPTED]
+    res = rp.reconcile(card(), reading(fields=flipped), reading("review", REVIEWER, fields=fuller), [], TODAY)
+    assert res["result"] == "written" and res["judgment_differences"][0].startswith("project_name (draft read")
+
+
+def test_name_annotation_offsets_survive_spacing_and_digit_groups():
+    assert rp._same_value(" Big Sky Solar", "  Big Sky Solar, LLC", "project_name")
+    assert rp._same_value("Solar 1,000", "Solar 1,000, LLC", "project_name")
+
+
 def test_a_contradiction_needs_a_field_both_readings_fault():
     fields = [{"field": "technology", "record": "battery_storage; solar", "document": "battery storage only",
                "agrees": True}, ADOPTED]

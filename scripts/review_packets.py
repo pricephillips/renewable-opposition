@@ -668,10 +668,9 @@ def _same_value(a: str, b: str, field: str = "") -> bool:
         return False
     # The annotation must be set off from the name: "Stony Creek Wind Farm, Wyoming County" annotates,
     # "Stony Creek Wind Farm Phase 2" or "Big Sky Solar Storage" names something else.
-    longer = a if len(wa) > len(wb) else b
-    head = re.match(r"\W*" + r"\W+".join(map(re.escape, short)),
-                    re.sub(r"(?<=\d),(?=\d{3})", "", _s(longer).lower()))
-    return bool(head) and bool(re.match(r"\s*[)\]]?\s*[,;:(]", longer.lower()[head.end():]))
+    longer = re.sub(r"(?<=\d),(?=\d{3})", "", _s(a if len(wa) > len(wb) else b).lower())
+    head = re.match(r"\W*" + r"\W+".join(map(re.escape, short)), longer)
+    return bool(head) and bool(re.match(r"\s*[)\]]?\s*[,;:(]", longer[head.end():]))
 
 
 def _same_text(a: str, b: str) -> bool:
@@ -738,7 +737,12 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             other = rf.get(_s(f.get("field")))
             if other is None or bool(other.get("agrees")) == bool(f.get("agrees")):
                 continue
-            if _same_value(f.get("document"), other.get("document"), _s(f.get("field"))):
+            fuller = max((f, other), key=lambda x: len(_words(x.get("document"))))
+            same_words = _words(f.get("document")) == _words(other.get("document"))
+            # When one reading extends the other, the fuller one must be the reading that says the
+            # value matches: if it says the value differs, its extra words are likely why.
+            if _same_value(f.get("document"), other.get("document"), _s(f.get("field"))) and (
+                    same_words or fuller.get("agrees")):
                 if _same_text(f.get("document"), other.get("document")):
                     read = f"both read {_one_line(f.get('document'))!r}"
                 else:
