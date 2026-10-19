@@ -1,0 +1,76 @@
+name: Review pipeline freshness
+
+# Raises one issue when the agent review pipeline has stopped producing work
+# (scripts/pipeline_freshness.py): more than 3 days with no new line in
+# data/review/verification_log.csv on main and no open "Verification: ..."
+# pull request. The issue stays open without daily comments, and closes
+# itself once activity resumes. From 2026-10-13 to
+# 2026-10-19 the daily verification routine fired every morning, reported
+# success and read nothing, and nothing noticed; this is that check.
+#
+# Reads the repository and the open pull requests, writes only the issue.
+# Daily, after the routine (07:48 UTC) has had time to open its pull request.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "37 13 * * *"
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: write
+
+concurrency:
+  group: pipeline-freshness
+  cancel-in-progress: false
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Self-test
+        run: python scripts/pipeline_freshness.py --selftest
+
+      - name: List open pull requests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api "repos/${GITHUB_REPOSITORY}/pulls?state=open&per_page=100" > open_prs.json
+
+      - name: Check freshness
+        id: check
+        run: python scripts/pipeline_freshness.py --prs open_prs.json --github-output "$GITHUB_OUTPUT"
+
+      - name: Open, update or close the issue
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        env:
+          STALE: ${{ steps.check.outputs.stale }}
+          MESSAGE: ${{ steps.check.outputs.message }}
+        with:
+          script: |
+            const title = 'Review pipeline stale: no verification runs';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const open = await github.paginate(github.rest.issues.listForRepo,
+              { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
+            const issue = open.find(i => !i.pull_request && i.title === title);
+            const stale = process.env.STALE === 'true';
+            if (stale && !issue) {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title,
+                body: `${process.env.MESSAGE}\n\nRun: ${run}\n\nThis issue closes itself once a verification run lands or opens its pull request.` });
+            } else if (!stale && issue) {
+              await github.rest.issues.createComment({ owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: issue.number, body: `Activity resumed. ${process.env.MESSAGE} Run: ${run}` });
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: issue.number, state: 'closed', state_reason: 'completed' });
+            }

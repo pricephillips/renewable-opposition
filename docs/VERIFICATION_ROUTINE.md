@@ -119,3 +119,14 @@ reason. If nothing was written, commit the log alone, so tomorrow's run
 skips what failed today, and say so in the description.
 
 Stop after the batch. Do not edit code, workflows or any other file.
+
+## When the routine stops
+
+The routine can fail without reading anything and still report success: from
+2026-10-13 to 2026-10-19 its session could not push, so every run stopped
+after a minute. The `Review pipeline freshness` workflow
+(`.github/workflows/pipeline-freshness.yml`) checks daily at 13:37 UTC. When
+more than 3 days pass with no new line in `data/review/verification_log.csv`
+on `main` and no open `Verification: <date>` pull request, it opens the issue
+"Review pipeline stale: no verification runs". The issue closes itself when a
+run lands or opens its pull request.

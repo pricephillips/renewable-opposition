@@ -98,7 +98,7 @@ reader of the repository needs.
 |---|---|---|
 | `card` | `review_packets.py card` | the published record, where to start, earlier attempts |
 | `draft` | a reader | the document read, how it was seen, the quote, a field-by-field comparison, the conclusion, every failed URL |
-| `blind` | `review_packets.py blind` or `blind-row` | the record or the claimed values, and the source; never a conclusion, note, drafter or earlier attempt |
+| `blind` | `review_packets.py blind` or `blind-row` | the record or the claimed values, the source, and the names of the fields the draft compared (`check_fields`); never a conclusion, note, drafter or earlier attempt |
 | `review` | the blind-reviewer | its own reading, in the draft's shape (or the shape the blind card's `expect` gives) |
 
 `scripts/review_packets.py` (module docstring) defines the fields.
@@ -129,7 +129,9 @@ reader of the repository needs.
   matches the record; if it says the value differs, the field disputes,
   since its extra words are likely the reason. When the readings
   differ on a field's judgment, a `contradicts` verdict also needs a field
-  that both readings mark as disagreeing. Only `written` yields
+  that both readings mark as disagreeing. A field the draft says is wrong
+  and the review did not check is disputed, unless the outcome, status or
+  date comparison already covers it. Only `written` yields
   a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a
   `verification_log.csv` line (`--log`). A drafter and reviewer with the same
   signature are refused.
@@ -222,6 +224,7 @@ step.
 | `review_lint.py` | an access raised with no note, a self-review, an unsigned confirmation, triage with no note, an unknown mechanism, a bad date, a file outside the lane, a generated file committed |
 | `qc-auditor` | everything above on the committed branch, the CI checks, and a sample of sources re-opened to confirm the quoted text is there |
 | CI and the build | the whole-file rules (`resolutions.py`, `promote_reviewed.py`, `qc_gate.py`) |
+| `pipeline-freshness.yml` | a pipeline that has stopped: more than 3 days with no verification run |
 | merging the pull request | a person's judgment |
 
 ## Adding an agent
