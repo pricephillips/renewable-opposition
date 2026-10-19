@@ -116,8 +116,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_sabin_seeds import (  # noqa: E402
-    MECHANISM_TYPE, OUTCOME, QUALIFIER_TECH, RESTRICTION_STATUS, RESTRICTION_TECH, driving_type,
-    finalize_outcome, mechanism_name, mechanisms_for, project_severity, restriction_severity, text_about,
+    MECHANISM_TYPE, OUTCOME, RESTRICTION_STATUS, RESTRICTION_TECH, driving_type, finalize_outcome,
+    mechanism_name, mechanism_problems, mechanisms_for, project_severity, restriction_severity, text_about,
 )
 from build_seed_outputs import REQUIRED, normalize_row, record_id  # noqa: E402
 from promotion_trail import new_decisions  # noqa: E402
@@ -277,15 +277,6 @@ def mechanism_list(row: dict) -> list[str]:
     return [m.strip() for m in (row.get("mechanisms") or "").split(";") if m.strip()]
 
 
-def mechanism_qualifiers(m: str) -> list[str]:
-    """The technologies a qualified mechanism names ("setback (solar+battery_storage)"),
-    [] when it is unqualified (it applies to every technology on the row)."""
-    if mechanism_name(m) == m.strip():
-        return []
-    inner = m.strip()[len(mechanism_name(m)):].strip()[1:-1]
-    return [t.strip() for t in inner.split("+") if t.strip()]
-
-
 def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict], list[str]]:
     """One scored seed row per technology, or ([], problems). Raises
     PromotionError on a mechanism outside MECHANISM_TYPE. A mechanism may be
@@ -297,10 +288,9 @@ def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict]
     if unknown:
         raise PromotionError(f"unknown mechanism(s) {unknown}; use the build_sabin_seeds.MECHANISM_TYPE "
                              "vocabulary, separated by semicolons")
-    bad = [m for m in mechanisms if any(t not in QUALIFIER_TECH for t in mechanism_qualifiers(m))]
+    bad = mechanism_problems(mechanisms)
     if bad:
-        raise PromotionError(f"mechanism qualifier(s) in {bad} must name {', '.join(RESTRICTION_TECH)}, "
-                             "joined with +")
+        raise PromotionError("; ".join(bad))
     if not mechanisms:
         return [], ["mechanisms is blank; list every mechanism the instrument uses"]
     status = (row.get("status") or "").strip()
@@ -319,9 +309,9 @@ def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict]
     off = [t for t in techs if t not in RESTRICTION_TECH]
     if off or not techs:
         return [], [f"technology must be among {', '.join(RESTRICTION_TECH)} to be scored"]
-    named = {QUALIFIER_TECH[t] for m in mechanisms for t in mechanism_qualifiers(m)}
-    if named - set(techs):
-        return [], [f"a mechanism names {', '.join(sorted(named - set(techs)))}, which technology does not list"]
+    off = mechanism_problems(mechanisms, techs)
+    if off:
+        return [], off
     own = {tech: mechanisms_for(mechanisms, tech) for tech in techs}
     bare = [tech for tech in techs if not own[tech]]
     if bare:

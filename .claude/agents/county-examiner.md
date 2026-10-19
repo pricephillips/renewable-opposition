@@ -87,7 +87,7 @@ Internet Archive. Record every URL that failed in `attempts`.
                      "note": "<standards the codes do set; anything not opened, with URL and response>"},
   "standards_noted": "<non-restricting standards found>",
   "leads": [{"what": "", "urls": [""]}],
-  "attempts": [{"url": "", "result": ""}],
+  "attempts": [{"url": "<every URL that failed>", "result": "<what it returned>"}],
   "note": "<the pass in two or three sentences; no em dash>"
 }
 ```

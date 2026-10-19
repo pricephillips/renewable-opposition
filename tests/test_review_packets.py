@@ -588,3 +588,11 @@ def test_a_county_negative_check_needs_full_coverage_and_both_classes_opened():
                                          {"entry": "minutes: Board (https://x.gov/m)", "opened": False}])
     errors, warnings = rp.check_packet(no_minutes, TODAY)
     assert any("opened proceeding" in e for e in errors) and any("news search" in w for w in warnings)
+
+
+def test_a_county_row_qualifier_must_be_known_and_name_a_listed_technology():
+    row = county()["restrictions"][0]
+    for mech, want in (("setback (wind)", "which technology does not list"), ("setback (sunshine)", "qualifier"),
+                       ("noise limit ()", "qualifier")):
+        errors = rp.check_packet(county(restrictions=[{**row, "mechanisms": mech}]), TODAY)[0]
+        assert any(want in e for e in errors), (mech, errors)

@@ -217,3 +217,9 @@ def test_a_qualified_mechanism_is_in_the_vocabulary():
     assert "MECHANISM" not in codes(rl.lint_file(Q, "", text(Q_FIELDS, [ok]), T))
     bad = q(entity_type="restriction", access="opened", mechanisms="vibes (solar)")
     assert "MECHANISM" in codes(rl.lint_file(Q, "", text(Q_FIELDS, [bad]), T), "E")
+
+
+def test_a_qualifier_that_would_stop_promotion_is_an_error():
+    for bad in ("setback (sunshine)", "setback (Solar)", "noise limit ()"):
+        row = q(entity_type="restriction", access="opened", mechanisms=f"setback; {bad}")
+        assert "MECHANISM" in codes(rl.lint_file(Q, "", text(Q_FIELDS, [row]), T), "E"), bad

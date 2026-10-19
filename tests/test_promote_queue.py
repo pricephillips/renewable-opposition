@@ -337,4 +337,11 @@ def test_a_qualifier_must_name_a_listed_technology_and_leave_none_bare(queue, ca
     _, seeds, _ = queue(row(technology="solar;wind", mechanisms="setback (wind)"))
     assert seeds == [] and "no mechanism applies to solar" in capsys.readouterr().out
     code, seeds, _ = queue(row(technology="solar", mechanisms="setback (sunshine)"))
-    assert code == 1 and seeds == [] and "mechanism qualifier" in capsys.readouterr().err
+    assert code == 1 and seeds == [] and "a qualifier names" in capsys.readouterr().err
+
+
+def test_an_empty_qualifier_stops_the_run_rather_than_dropping_the_mechanism(queue, capsys):
+    code, seeds, _ = queue(row(technology="solar", mechanisms="setback; noise limit ()"))
+    assert code == 1 and seeds == [] and "a qualifier names" in capsys.readouterr().err
+    code, seeds, _ = queue(row(technology="solar;battery_storage", mechanisms="setback; cap on acreage (storage)"))
+    assert code == 0 and {s["technology"] for s in seeds} == {"solar", "battery_storage"}   # the alias

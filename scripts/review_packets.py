@@ -72,6 +72,11 @@ and the claim check of a drafted queue row or a held negative check. Each
 carries the row's own columns or claimed values and the source, and never a
 note, a drafter or a reviewer; `expect` gives the shape of the review packet.
 
+County drafts (queue `county`): the county-examiner's packet, in the shape
+.claude/agents/county-examiner.md gives; `check` holds its restriction rows to
+the rules promote_reviewed.py applies and a negative check to
+docs/COUNTY_CHECK.md section 2.
+
 Subcommands
   card QUEUE KEY                       print the card for one item, published or quarantined
   blind CARD DRAFT                     print the blind card
@@ -110,10 +115,11 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_sabin_seeds import MECHANISM_TYPE, mechanism_name  # noqa: E402
+from build_sabin_seeds import mechanism_problems  # noqa: E402
 from classify import EVENT_KINDS, INSTRUMENT_KINDS  # noqa: E402
 from common import STATE_CODES  # noqa: E402
 from negative_checks import family_of  # noqa: E402
+from promote_reviewed import QUEUE_RESTRICTION_STATUS  # noqa: E402
 from common import PROCESSED_DIR, REVIEW_DIR, read_csv  # noqa: E402
 from resolutions import (  # noqa: E402
     NOT_IN_FORCE, OUTCOME_FIELDS, OUTCOME_PATH, RESOLVED_STATUSES, RESTRICTION_FIELDS, RESTRICTION_PATH,
@@ -351,11 +357,10 @@ def blind_row(kind: str, key: str, queue_rows: list[dict], candidate_rows: list[
 
 # ── Checks ───────────────────────────────────────────────────────────────────
 
-# Queues whose packets blind-row cards ask for (EXPECT) and that reconcile does
-# not compare: the record-editor applies them from both readings.
+# Queues that reconcile does not compare: the blind-row queues (cards and
+# EXPECT shapes above) and the county-examiner's `county` drafts, whose rows
+# the record-editor writes once a second reader has checked them.
 ROW_QUEUES = ("lead", "queue_row", "negative_check", "case", "county")
-# The county-examiner's restriction rows: the statuses promote_reviewed.py accepts.
-COUNTY_STATUS = ("active", "extended", "pending", "lifted", "expired")
 _FIPS = re.compile(r"^\d{5}$")
 _END = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 CLAIM_VERDICTS = ("confirmed", "contradicts", "unverifiable")
@@ -537,13 +542,13 @@ def _check_county(p: dict) -> tuple[list[str], list[str]]:
             continue
         if _s(r.get("entity_type")) != "restriction":
             errors.append(f"{where}entity_type must be restriction")
-        unknown = [m for m in (x.strip() for x in _s(r.get("mechanisms")).split(";"))
-                   if m and mechanism_name(m) not in MECHANISM_TYPE]
-        if unknown or not _s(r.get("mechanisms")):
-            errors.append(f"{where}mechanisms must list MECHANISM_TYPE names separated by semicolons"
-                          + (f"; unknown: {unknown}" if unknown else ""))
-        if _s(r.get("status")) not in COUNTY_STATUS:
-            errors.append(f"{where}status {r.get('status')!r} must be one of {', '.join(COUNTY_STATUS)}")
+        mechanisms = [x.strip() for x in _s(r.get("mechanisms")).split(";") if x.strip()]
+        techs = [t.strip() for t in re.split(r"[;,]", _s(r.get("technology"))) if t.strip()]
+        if not mechanisms:
+            errors.append(f"{where}mechanisms must list MECHANISM_TYPE names separated by semicolons")
+        errors += [where + e for e in mechanism_problems(mechanisms, techs)]
+        if _s(r.get("status")) not in QUEUE_RESTRICTION_STATUS:
+            errors.append(f"{where}status {r.get('status')!r} must be one of {', '.join(QUEUE_RESTRICTION_STATUS)}")
         end = _s(r.get("end_date"))
         if end and not _END.match(end):
             errors.append(f"{where}end_date {end!r} must be YYYY-MM or YYYY-MM-DD")

@@ -480,6 +480,34 @@ def mechanism_name(m: str) -> str:
     return _QUALIFIER.sub("", m).strip()
 
 
+def mechanism_qualifiers(m: str) -> list[str]:
+    """The technologies a qualified mechanism names ("setback (solar+storage)"),
+    [] when it is unqualified. An empty qualifier ("setback ()") gives [""],
+    which no technology matches."""
+    q = _QUALIFIER.search(m)
+    return [t.strip() for t in q.group(1).split("+")] if q else []
+
+
+def mechanism_problems(mechanisms: list[str], techs: list[str] | None = None) -> list[str]:
+    """Why a queue row's mechanisms cannot be scored, as promote_reviewed.py
+    reads them: a name outside MECHANISM_TYPE, a qualifier that is empty or
+    names no known technology, or (given the row's technologies) one that
+    names a technology the row does not list. [] when they can be."""
+    out = []
+    for m in mechanisms:
+        if mechanism_name(m) not in MECHANISM_TYPE:
+            out.append(f"mechanism {m!r} is not in build_sabin_seeds.MECHANISM_TYPE")
+            continue
+        bad = [t for t in mechanism_qualifiers(m) if t not in QUALIFIER_TECH]
+        if bad:
+            out.append(f"mechanism {m!r}: a qualifier names {', '.join(sorted(QUALIFIER_TECH))}, joined with +")
+        elif techs is not None:
+            off = sorted({QUALIFIER_TECH[t] for t in mechanism_qualifiers(m)} - set(techs))
+            if off:
+                out.append(f"mechanism {m!r} names {', '.join(off)}, which technology does not list")
+    return out
+
+
 def mechanisms_for(mechanisms: list[str], tech: str) -> list[str]:
     """The mechanisms that apply to tech: unqualified ones, and those whose
     qualifier names it ("moratorium (solar+storage)")."""
