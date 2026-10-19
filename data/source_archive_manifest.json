@@ -1,25 +1,25 @@
 {
-  "run_at": "2026-10-05T18:41:58Z",
+  "run_at": "2026-10-19T16:43:00Z",
   "credentials": "anonymous",
-  "cited_urls": 28,
-  "lookups": 27,
-  "saves": 16,
-  "stop_reason": "complete",
-  "stop_at_url": "",
+  "cited_urls": 68,
+  "lookups": 30,
+  "saves": 19,
+  "stop_reason": "time_budget",
+  "stop_at_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/",
   "counts_by_status": {
-    "archived": 12,
-    "requested": 1,
-    "not_archived": 15,
+    "archived": 23,
+    "requested": 0,
+    "not_archived": 34,
     "unresolved_redirect": 0,
     "failed": 0
   },
   "errors": {
     "save 520": 1,
-    "save no response": 14
+    "save no response": 33
   },
-  "resolvable": 28,
-  "archived": 12,
-  "coverage": 0.4286,
+  "resolvable": 54,
+  "archived": 22,
+  "coverage": 0.4074,
   "history": [
     {
       "run_at": "2026-09-29T17:00:18Z",
@@ -34,6 +34,13 @@
       "resolvable": 28,
       "coverage": 0.4286,
       "stop_reason": "complete"
+    },
+    {
+      "run_at": "2026-10-19T16:43:00Z",
+      "archived": 22,
+      "resolvable": 54,
+      "coverage": 0.4074,
+      "stop_reason": "time_budget"
     }
   ]
 }
