@@ -43,7 +43,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
-      "rows": 3642,
+      "rows": 3640,
       "schema": {
         "fields": [
           {
@@ -325,6 +325,16 @@
             "name": "placement_access",
             "type": "string",
             "description": "How that document was seen: opened, archived or snippet."
+          },
+          {
+            "name": "status_checked_on",
+            "type": "string",
+            "description": "The date two reviewers settled the instrument's status from its code, the instrument or the minutes that acted on it (data/review/status_resolutions.csv); blank when no status reading has been made."
+          },
+          {
+            "name": "status_evidence_url",
+            "type": "string",
+            "description": "The document the status reading rests on; blank when no status reading has been made."
           }
         ]
       },

@@ -809,7 +809,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 19033,IA,Cerro Gordo,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind;battery_storage,,0,0,0,0,1,,5,3,hybrid,yes,42632,75.02
 19035,IA,Cherokee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,11600,20.11
 19037,IA,Chickasaw,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,5,1,hybrid,yes,11807,23.41
-19039,IA,Clarke,yes,moratorium_in_force,3,1,1,1,0,2,0,solar,2024,0,0,0,0,2,,5,3,hybrid,yes,9662,22.41
+19039,IA,Clarke,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,2024,0,0,0,0,2,,5,3,hybrid,yes,9662,22.41
 19041,IA,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,hybrid,yes,16461,29.02
 19043,IA,Clayton,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,hybrid,yes,17013,21.85
 19045,IA,Clinton,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,0,0,0,0,2,,7,3,hybrid,yes,46268,66.58
@@ -1687,7 +1687,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31059,NE,Fillmore,yes,moratorium_in_force,3,1,1,1,0,2,0,solar,2026,0,0,0,0,2,,5,2,local_government,no,5541,9.63
 31061,NE,Franklin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,2846,4.94
 31063,NE,Frontier,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,1,,7,4,local_government,no,2569,2.64
-31065,NE,Furnas,yes,moratorium_in_force,1,1,1,1,0,1,1,solar;wind,2025,0,0,0,0,1,,7,3,local_government,no,4568,6.35
+31065,NE,Furnas,yes,moratorium_in_force,1,2,1,1,0,0,1,solar;wind,2025,0,0,0,0,1,,7,3,local_government,no,4568,6.35
 31067,NE,Gage,yes,moratorium_in_force,3,1,1,1,0,2,0,solar;wind,,0,0,0,0,2,,7,3,local_government,no,21629,25.4
 31069,NE,Garden,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,1761,1.03
 31071,NE,Garfield,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,3,local_government,no,1718,3.02
@@ -1866,7 +1866,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 36069,NY,Ontario,yes,moratorium_in_force,12,2,1,1,0,10,0,solar;battery_storage,2024,0,0,0,0,12,,6,3,hybrid,yes,112625,174.86
 36071,NY,Orange,yes,moratorium_in_force,15,1,1,1,0,14,0,battery_storage,2025,0,0,0,0,14,,8,5,hybrid,yes,406616,500.71
 36073,NY,Orleans,yes,moratorium_in_force,10,2,2,1,0,8,0,wind;battery_storage,,1,1,0,0,8,,3,2,hybrid,yes,39608,101.23
-36075,NY,Oswego,yes,moratorium_in_force,7,3,3,2,0,5,1,solar;wind;battery_storage,2026,1,1,0,0,7,,6,5,hybrid,yes,117953,123.95
+36075,NY,Oswego,yes,moratorium_in_force,7,4,3,2,0,4,1,solar;wind;battery_storage,2026,1,1,0,0,7,,6,5,hybrid,yes,117953,123.95
 36077,NY,Otsego,yes,moratorium_in_force,5,1,1,1,0,4,0,solar,2026,1,0,1,0,4,,7,5,hybrid,yes,60108,60.0
 36079,NY,Putnam,yes,moratorium_in_force,3,1,1,1,0,2,0,battery_storage,2024,1,1,0,0,2,,5,5,hybrid,yes,98107,426.09
 36081,NY,Queens,yes,rules_in_force,2,1,0,0,0,1,0,solar;wind;battery_storage,,1,0,0,1,1,,4,4,hybrid,yes,2323052,21366.51
@@ -2414,7 +2414,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 46099,SD,Minnehaha,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,203289,251.95
 46101,SD,Moody,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,6397,12.32
 46102,SD,Oglala Lakota,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,13491,6.44
-46103,SD,Pennington,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;wind,2024,0,0,0,0,2,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,113512,40.88
+46103,SD,Pennington,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind,2024,0,0,0,0,2,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,113512,40.88
 46105,SD,Perkins,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,3001,1.05
 46107,SD,Potter,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2388,2.77
 46109,SD,Roberts,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,10221,9.28

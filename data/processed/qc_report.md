@@ -6,7 +6,7 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 3651 | 9 |
+| restrictions | 3649 | 9 |
 | contested_projects | 579 | 0 |
 | cases | 40 | 0 |
 
