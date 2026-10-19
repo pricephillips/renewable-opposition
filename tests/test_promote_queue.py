@@ -293,7 +293,9 @@ def test_an_end_date_reaches_the_seed_and_a_malformed_one_holds_the_row(queue, c
     assert code == 0 and status == ["promoted", "confirmed"]
     (s,) = seeds
     assert s["current_end_date_iso"] == "2027-03-31"
-    assert "end_date 'March 2027' must be YYYY[-MM[-DD]]" in capsys.readouterr().out
+    assert "end_date 'March 2027' must be YYYY-MM or YYYY-MM-DD" in capsys.readouterr().out
+    _, _, status = queue(row(mechanisms="moratorium", end_date="2027"))
+    assert status == ["confirmed"]     # a bare year never lapses, so it is not accepted
     # Past its end date with no confirmation since, the moratorium reads as lapsed.
     stamped = classify.stamp("restrictions", bso.normalize_row(s))
     assert classify.currency(stamped, today=date(2027, 4, 1)) == "lapsed_unconfirmed"

@@ -173,7 +173,7 @@ class CandidateRecord:
     mechanism_detail: str = ""           # the mechanisms' values: distances, dBA and hours, acreage, caps
     adopted_date: str = ""
     effective_date: str = ""
-    end_date: str = ""                   # YYYY[-MM[-DD]]: the date the instrument runs to (a moratorium's
+    end_date: str = ""                   # YYYY-MM[-DD]: the date the instrument runs to (a moratorium's
                                          # term) or, when lifted or expired, the date it stopped applying
 
     # Contested project-specific

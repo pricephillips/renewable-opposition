@@ -34,7 +34,7 @@ Checks (E: error, exit 1; W: warning)
   NOTE_REWRITTEN   W  a note that lost text it had: notes are appended to
   MECHANISM        E  a queue row naming a mechanism outside
                       build_sabin_seeds.MECHANISM_TYPE
-  DATE (queue)     E  a queue end_date not YYYY[-MM[-DD]], or a lifted or
+  DATE (queue)     E  a queue end_date not YYYY-MM[-DD], or a lifted or
                       expired restriction whose end_date is after today
   NO_END_DATE      W  a lifted or expired restriction with no end_date
   DATE             E  a reviewer's date (checked_on, reviewed_on, drafted_on,
@@ -87,6 +87,8 @@ EMDASH = "—"
 NOTE_COLUMNS = ("note", "evidence_note", "reviewer_notes", "review_note", "draft_note")
 DATE_COLUMNS = ("checked_on", "reviewed_on", "drafted_on", "evidence_date", "date")
 _PARTIAL = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
+# A queue end_date: the precision classify.currency reads (a bare year never lapses).
+_END = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 _DAY = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 # file -> (key columns, required reviewer columns on a new or changed row)
@@ -280,8 +282,8 @@ def _queue_row(where: str, old: dict | None, new: dict, today: date) -> list[Fin
     # for one lifted or expired, the date it stopped, never after today.
     end, rstatus = _s(new.get("end_date")), _s(new.get("status"))
     gone = _s(new.get("entity_type")) == "restriction" and rstatus in ("lifted", "expired")
-    if end and not _PARTIAL.match(end):
-        f.append(Finding("E", "DATE", where, f"end_date {end!r} is not YYYY[-MM[-DD]]"))
+    if end and not _END.match(end):
+        f.append(Finding("E", "DATE", where, f"end_date {end!r} is not YYYY-MM or YYYY-MM-DD"))
     elif gone and end and end > today.isoformat()[: len(end)]:
         f.append(Finding("E", "DATE", where, f"status {rstatus} with end_date {end} after today; an instrument "
                                              "that still applies is active until then"))
@@ -322,8 +324,8 @@ def lint_file(name: str, base_text: str, head_text: str, today: date, every_row:
         prior = old.get(key)
         # A column added to the file since the base, left blank, is not an
         # edit of the row.
-        same = prior is not None and all(_s(prior.get(k)) == _s(v) for k, v in row.items()) \
-            and set(prior) <= set(row)
+        same = prior is not None and set(prior) <= set(row) \
+            and all(prior[k] == v if k in prior else not _s(v) for k, v in row.items())
         if same and not every_row:
             continue
         findings += check_row(name, key, None if every_row else prior, row, today)
