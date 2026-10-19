@@ -66,7 +66,9 @@ or `official_copy` for the ordinance, the minutes or an official copy;
 record and not the instrument), and you may draft from what you read:
 `status`, `mechanisms` (semicolon list in `MECHANISM_TYPE`,
 `scripts/build_sabin_seeds.py`), `mechanism_detail` (distances, dBA and hours,
-acreage, caps), `adopted_date`, `project_name`, `technology`, `description`,
+acreage, caps), `adopted_date`, `end_date` (the date a moratorium runs to, or
+when a lifted or expired instrument stopped applying), `project_name`,
+`technology`, `description`,
 `evidence_text` (quoted). Never type a `severity_score`: the build computes it.
 
 Restriction `status`: `active`, `extended`, `pending`, `lifted`, `expired`.

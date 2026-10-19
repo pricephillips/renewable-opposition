@@ -56,6 +56,10 @@ Restriction status. A restriction candidate needs a status, one of active,
 extended, pending, lifted or expired; a blank or other status stops its
 promotion and is listed. A lifted or expired instrument is no longer in force
 and is not published (as for Sabin rows); it stays in the queue, listed.
+`end_date` (YYYY-MM[-DD]) is the date the instrument runs to, carried to the
+seed's current_end_date_iso, so an active moratorium whose end date passes
+reads as lapsed_unconfirmed (classify.currency) until someone confirms it; on
+a lifted or expired row it records when the instrument stopped applying.
 
 Evidence. `source_kind` says what source_url is (classify.SOURCE_KINDS). A
 restriction whose access is opened or archived and whose source_kind is
@@ -140,7 +144,7 @@ QUEUE_COMMON = ["state", "technology", "severity_score", "description", "source_
 QUEUE_SPECIFIC = {
     "restriction": {"jurisdiction_type": "jurisdiction_type", "restriction_type": "restriction_type",
                     "status": "status", "adopted_date": "date_enacted_iso",
-                    "mechanism_detail": "long_description"},
+                    "end_date": "current_end_date_iso", "mechanism_detail": "long_description"},
     "contested_project": {"project_name": "project_name", "county": "county",
                           "municipality": "municipality", "opposition_type": "opposition_type",
                           "first_event_date": "event_date_text", "status": "status",
@@ -163,6 +167,8 @@ EVIDENCE_COLUMNS = ["queue_id", "pinned_id", "source_kind", "source_access", "pr
                     "primary_source_access", "primary_source_archived_url", "primary_source_verdict"]
 _PROMOTED_ON = re.compile(r"promoted automatically from \S+ on (\d{4}-\d{2}-\d{2})")
 _URL = re.compile(r"^https?://[^\s/]+\.[^\s]+$")
+# YYYY-MM or YYYY-MM-DD: the precision classify.currency reads (a bare year never lapses).
+_END_DATE = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 
 
 def provenance(row: dict, kind: str, auto_on: str | None = None) -> str:
@@ -287,6 +293,9 @@ def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict]
                     "a blank status stops promotion"]
     if status in NOT_IN_FORCE:
         return [], [f"status {status}: the instrument is no longer in force, so it is not published"]
+    end = (row.get("end_date") or "").strip()
+    if end and not _END_DATE.match(end):
+        return [], [f"end_date {end!r} must be YYYY-MM or YYYY-MM-DD"]
     try:
         techs = technology_tokens(row.get("technology", ""))
     except ValueError as exc:

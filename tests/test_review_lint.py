@@ -186,3 +186,27 @@ def test_the_committed_review_files_have_no_errors():
 
 def test_selftest():
     assert rl.main(["--selftest"]) == 0
+
+
+def test_queue_end_dates():
+    fields = Q_FIELDS + ["status", "end_date"]
+
+    def lint(**kw):
+        return rl.lint_file(Q, "", text(fields, [q(entity_type="restriction", access="opened", **kw)]), T)
+    assert codes(lint(status="active", end_date="2027-03-31")) == set()     # a term that runs on
+    assert "DATE" in codes(lint(status="active", end_date="March 2027"), "E")
+    assert "DATE" in codes(lint(status="active", end_date="2027"), "E")    # a bare year never lapses
+    assert "DATE" in codes(lint(status="expired", end_date="2026-12-01"), "E")
+    assert codes(lint(status="lifted", end_date="2026-01-19")) == set()
+    assert codes(lint(status="expired", end_date="2026-10")) == set()      # this month: not after today
+    assert "NO_END_DATE" in codes(lint(status="lifted"), "W")
+
+
+def test_a_new_blank_column_does_not_change_a_row():
+    base = text(Q_FIELDS, [q(reviewer_notes="")])
+    migrated = text(Q_FIELDS + ["end_date"], [q(reviewer_notes="", end_date="")])
+    assert rl.lint_file(Q, base, migrated, T) == []
+    filled = text(Q_FIELDS + ["end_date"], [q(reviewer_notes="", end_date="2025-04-06")])
+    assert rl.lint_file(Q, base, filled, T) != []      # an edited row is checked again
+    spaced = text(Q_FIELDS + ["end_date"], [q(reviewer_notes=" ", end_date="")])
+    assert rl.lint_file(Q, base, spaced, T) != []      # so is a whitespace-only edit
