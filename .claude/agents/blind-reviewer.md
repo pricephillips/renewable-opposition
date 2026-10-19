@@ -53,6 +53,10 @@ Keep downloads in /tmp or `.packets/<run>/`.
 ## Mode 1: independent reading
 
 Queues `restriction`, `status` and `outcome` (cards from `review_packets.py blind`).
+The card's `check_fields` names the record fields the first reading compared,
+without what it found. Compare every one of them in `fields`, and any other
+field the document bears on. A field the first reading says is wrong and you
+leave out is disputed.
 Write a packet of exactly the drafter's shape (`scripts/review_packets.py`,
 module docstring), with `"packet": "review"`:
 

@@ -248,6 +248,10 @@
       "files": ["data/processed/state_policies_held.csv", "data/review/facility_matches.csv"],
       "reason": "state_policies.HELD_PATH and facility_matches.WORKLIST_PATH, module constants of scripts/state_policies.py and scripts/facility_matches.py."
     },
+    "scripts/pipeline_freshness.py": {
+      "files": [],
+      "reason": "--github-output appends the verdict to $GITHUB_OUTPUT in Actions, a file outside the repository; it owns no data and only reads data/review/verification_log.csv."
+    },
     "scripts/run_pipeline.py": {
       "files": [],
       "reason": "--summary appends stage output to a file outside the repository ($GITHUB_STEP_SUMMARY in Actions); it owns no data. Every data file is written by the stage scripts it runs."

@@ -66,7 +66,8 @@ Never treat search-result text as a reading, and never mark `access`
 
 Give each draft that read its document to a `blind-reviewer`, with only
 the blind card (`python scripts/review_packets.py blind <card> <draft>`): the
-published record and the source URL, never the drafter's conclusion. Its lane
+published record, the source URL and the names of the fields the drafter
+compared, never the drafter's conclusion or what it found in them. Its lane
 keeps it away from the draft packets and `data/review/`. The reviewer opens
 the source itself and writes a review packet of the same shape.
 `python scripts/review_packets.py reconcile <card> <draft> <review>` compares
@@ -119,3 +120,14 @@ reason. If nothing was written, commit the log alone, so tomorrow's run
 skips what failed today, and say so in the description.
 
 Stop after the batch. Do not edit code, workflows or any other file.
+
+## When the routine stops
+
+The routine can fail without reading anything and still report success: from
+2026-10-13 to 2026-10-19 its session could not push, so every run stopped
+after a minute. The `Review pipeline freshness` workflow
+(`.github/workflows/pipeline-freshness.yml`) checks daily at 13:37 UTC. When
+more than 3 days pass with no new line in `data/review/verification_log.csv`
+on `main` and no open `Verification: <date>` pull request, it opens the issue
+"Review pipeline stale: no verification runs". The issue closes itself when a
+run lands or opens its pull request.

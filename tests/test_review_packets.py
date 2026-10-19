@@ -66,6 +66,26 @@ def test_blind_card_carries_the_document_and_nothing_the_drafter_concluded():
         rp.blind_card(card(), reading(result="not_read", attempts=[{"url": URL, "result": "HTTP 403"}]))
 
 
+def test_the_blind_card_names_the_fields_to_check_and_not_their_values():
+    blind = rp.blind_card(card(), reading())
+    assert blind["check_fields"] == ["status", "technology"]
+    text = json.dumps(blind)
+    for leaked in ("in force", "battery storage only", "agrees"):
+        assert leaked not in text, leaked
+
+
+def test_a_field_the_draft_faults_and_the_review_skips_is_disputed():
+    review = reading("review", REVIEWER, fields=[reading()["fields"][0], ADOPTED])
+    res = rp.reconcile(card(), reading(fields=reading()["fields"] + [ADOPTED]), review, [], TODAY)
+    assert res["result"] == "disputed" and res["differences"] == [
+        "technology: draft says it differs from the record, review did not check it"]
+    # A field the draft found in agreement and the review skipped is reported, not disputed.
+    draft = reading(fields=[{"field": "jurisdiction", "record": "Glenville", "document": "Town of Glenville",
+                             "agrees": True}] + reading()["fields"])
+    res = rp.reconcile(card(), draft, reading("review", REVIEWER), [], TODAY)
+    assert res["result"] == "written" and res["unchecked_by_review"] == ["jurisdiction"]
+
+
 @pytest.mark.parametrize("change, error", [
     ({"access": "snippet"}, "not a reading"),
     ({"access": "archived"}, "archived_url"),
@@ -502,3 +522,22 @@ def test_a_quarantined_record_gets_a_card_that_says_why_it_is_held():
     # The blind card never says the record is held for a contradiction.
     draft = {"queue": "status", "key": "mn:ny-x", "result": "read", "source_url": URL}
     assert "quarantined" not in rp.blind_card(c, draft) and "CONTRADICTS" not in json.dumps(rp.blind_card(c, draft))
+
+
+def test_a_skipped_field_the_conclusion_already_compares_is_not_disputed():
+    c = rp.build_card("status", "nrel:wind:31065", NREL, [], [], [])
+    setback = {"field": "setback", "record": "2000 feet", "document": "2,000 feet", "agrees": True}
+    res = rp.reconcile(c, status_reading(), status_reading("review", REVIEWER, fields=[setback]), [], TODAY)
+    assert res["result"] == "written" and res["unchecked_by_review"] == ["status"]
+
+
+def test_a_skipped_end_date_counts_as_compared_only_when_both_readings_give_one():
+    c = rp.build_card("status", "nrel:wind:31065", NREL, [], [], [])
+    end = {"field": "current_end_date_iso", "record": "", "document": "2027-06-30", "agrees": False}
+    draft = status_reading(status="extended", end_date="2027-06-30", fields=status_reading()["fields"] + [end])
+    blank = status_reading("review", REVIEWER, status="extended", end_date="")
+    res = rp.reconcile(c, draft, blank, [], TODAY)
+    assert res["result"] == "disputed" and res["differences"] == [
+        "current_end_date_iso: draft says it differs from the record, review did not check it"]
+    dated = status_reading("review", REVIEWER, status="extended", end_date="2027-06-30")
+    assert rp.reconcile(c, draft, dated, [], TODAY)["result"] == "written"

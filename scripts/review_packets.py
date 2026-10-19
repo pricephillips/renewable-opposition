@@ -14,8 +14,9 @@ them, so the rules in docs/AGENT_REVIEW.md hold whatever an agent wrote:
            outcome the document supports for a project, or the status an
            instrument has today).
   blind    What the second reader gets: the card without the earlier
-           attempts, plus the drafter's source URL and archived copy. Never
-           the drafter's conclusion, quote, comparison or note.
+           attempts, plus the drafter's source URL and archived copy and the
+           names of the fields it compared (check_fields). Never the
+           drafter's conclusion, quote, comparison, field values or note.
   review   What the second reader returns: a packet of the draft's shape,
            from its own reading.
 
@@ -190,6 +191,10 @@ QUEUES = {
 
 # The field that carries each queue's conclusion.
 CONCLUSION = {"restriction": "verdict", "outcome": "outcome", "status": "status"}
+# Record fields that reconcile already compares through each reading's own conclusion and dates.
+# An end date is compared only when both readings give one (a blank agrees with any date).
+CONCLUSION_FIELDS = {"restriction": set(), "outcome": {"outcome", "event_date_text"}, "status": {"status"}}
+END_DATE_FIELDS = {"end_date", "current_end_date_iso"}
 
 
 def _s(v) -> str:
@@ -245,7 +250,8 @@ def build_card(queue: str, key: str, records: list[dict], worklist: list[dict],
 
 def blind_card(card: dict, draft: dict) -> dict:
     """The card a second reader gets: no earlier attempts (they live in
-    data/review/), and of the draft only the document's address."""
+    data/review/), and of the draft only the document's address and the names
+    of the fields it compared, so both readings check the same fields."""
     if _s(draft.get("result")) != "read":
         raise ValueError("the draft read nothing, so there is nothing to read a second time; log it as "
                          f"{LOG_FOR_RESULT.get(_s(draft.get('result')), 'not_read')}")
@@ -261,6 +267,7 @@ def blind_card(card: dict, draft: dict) -> dict:
         "source_url": _s(draft.get("source_url")),
         "archived_url": _s(draft.get("archived_url")),
         "source_kinds": card.get("source_kinds", []),
+        "check_fields": sorted({_s(f.get("field")) for f in draft.get("fields") or []} - {""}),
     }
 
 
@@ -762,6 +769,15 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
                     not f.get("agrees") and rf.get(_s(f.get("field"))) is not None
                     and not rf[_s(f.get("field"))].get("agrees") for f in draft.get("fields") or []):
                 diffs.append("verdict contradicts: no field both readings mark as disagreeing")
+        # The blind card names every field the draft compared, so a field the draft says differs from
+        # the record and the review left out has had one reading, not two (unless the conclusion or
+        # date checks above already compare it).
+        covered = set(CONCLUSION_FIELDS[queue])
+        if queue == "status" and _s(draft.get("end_date")) and _s(review.get("end_date")):
+            covered |= END_DATE_FIELDS
+        for f in draft.get("fields") or []:
+            if not f.get("agrees") and _s(f.get("field")) not in rf and _s(f.get("field")) not in covered:
+                diffs.append(f"{f.get('field')}: draft says it differs from the record, review did not check it")
         unchecked = sorted({_s(f.get("field")) for f in draft.get("fields") or []} - set(rf))
         if unchecked:
             out["unchecked_by_review"] = unchecked
