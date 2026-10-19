@@ -8,7 +8,7 @@
 requests==2.34.2
 PyYAML==6.0.3
 pytest==9.1.1
-ruff>=0.16.10
+ruff>=0.17.1
 daff>=1.4
 vale>=3.12
 # Reads NREL's siting ordinance spreadsheets (scripts/nrel_ordinances.py).
@@ -18,5 +18,5 @@ duckdb==1.5.6
 # Runs the tests in parallel in CI (validate.yml: python -m pytest -n 2 --dist loadfile).
 pytest-xdist>=3.8
 # The county restriction model (scripts/county_restriction_model.py; plan decision 3, 2026-10-15).
-numpy>=2.2
+numpy>=2.5.4
 scikit-learn>=1.6
