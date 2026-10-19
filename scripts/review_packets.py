@@ -82,10 +82,10 @@ Subcommands
   check PACKET...                      check packets of any queue; exit 1 on any error
   reconcile CARD DRAFT REVIEW          compare the two readings; print JSON. A field the
                                        two read as the same value (apart from case, spacing,
-                                       punctuation, thousands separators or words after it
-                                       that annotate it) but judged differently against the
-                                       record is listed in judgment_differences and the row's
-                                       note, not disputed
+                                       punctuation, thousands separators, unit words after
+                                       it, or in a name field annotation after it) but judged
+                                       differently against the record is listed in
+                                       judgment_differences and the row's note, not disputed
   reconcile CARD DRAFT REVIEW --row    print the review-file row to append
                                        (exit 1 unless both readings agree and
                                        the file has no row for the key yet)
@@ -625,27 +625,32 @@ def _one_line(text: str) -> str:
 
 
 # Words, numbers (sign and decimal point kept) and the symbols that change a value's meaning.
-_TOKEN = re.compile(r"(?<![\w.])[-+]?\d+(?:\.\d+)?|[a-z0-9]+|[<>≤≥=%§$]")
-# Words after a value that can change what it says: "in force" and "in force until 2025, since
-# lapsed" are not the same reading.
+_TOKEN = re.compile(r"(?<![\w.])[-+]?(?:\d+(?:\.\d+)?|\.\d+)|[a-z0-9]+|[<>≤≥=%§$/~²]")
+# Words that may follow a value without changing it ("297" and "297 MW nameplate").
+_UNIT_WORDS = {
+    "mw", "mwac", "mwdc", "megawatt", "megawatts", "mwh", "kw", "kv", "gw", "nameplate", "ft", "feet", "foot",
+    "mi", "mile", "miles", "acre", "acres", "m", "meters", "metres",
+}
+# In a name field more may follow ("Jacumba Valley Ranch (JVR) Energy Park, BayWa r.e., 127 MW"),
+# unless it includes a word that can change what the name refers to.
 _CHANGE_WORDS = {
     "not", "no", "non", "never", "none", "nothing", "neither", "nor", "without", "except", "excluding",
-    "excluded", "exclude", "excludes", "but", "until", "unless", "only", "lifted", "lapsed", "expired",
-    "repealed", "rescinded", "revoked", "withdrawn", "denied", "cancelled", "canceled", "superseded",
-    "replaced", "amended", "suspended", "terminated", "ended", "later", "since", "formerly", "previously",
+    "excluded", "exclude", "excludes", "but", "until", "unless", "only", "formerly", "previously",
+    "renamed", "replaced", "superseded", "withdrawn", "cancelled", "canceled",
 }
 
 
 def _words(text: str) -> list[str]:
     """A document value as tokens: lowercase, thousands separators and other punctuation dropped."""
-    return _TOKEN.findall(re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower()))
+    return _TOKEN.findall(re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower().replace("\u2212", "-")))
 
 
-def _same_value(a: str, b: str) -> bool:
+def _same_value(a: str, b: str, field: str = "") -> bool:
     """Two readings of one document value that differ only in formatting: the same tokens, or the
-    tokens of one followed by words that annotate it ("297" and "297 MW nameplate"). Added words
-    that start with a number or include a word that can change the value ("not", "until",
-    "repealed") make a different reading. An empty value matches only another empty value."""
+    tokens of one followed by unit words ("297" and "297 MW nameplate"). In a name field the
+    added words may be any annotation that starts with a word and includes none that can change
+    what the name refers to ("no", "except", "formerly"). An empty value matches only another
+    empty value."""
     ra, rb = _one_line(a).strip(), _one_line(b).strip()
     if not ra or not rb:
         return ra == rb
@@ -656,7 +661,14 @@ def _same_value(a: str, b: str) -> bool:
     if long_[:len(short)] != short:
         return False
     added = long_[len(short):]
-    return not added or (not re.match(r"[-+]?\d", added[0]) and not _CHANGE_WORDS & set(added))
+    if not added or set(added) <= _UNIT_WORDS:
+        return True
+    return ("name" in field and bool(re.fullmatch(r"[a-z]\w*", added[0]))
+            and not _CHANGE_WORDS & set(added))
+
+
+def _same_text(a: str, b: str) -> bool:
+    return _one_line(a).strip().casefold() == _one_line(b).strip().casefold()
 
 
 def _matches(f: dict) -> str:
@@ -719,8 +731,8 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             other = rf.get(_s(f.get("field")))
             if other is None or bool(other.get("agrees")) == bool(f.get("agrees")):
                 continue
-            if _same_value(f.get("document"), other.get("document")):
-                if _words(f.get("document")) == _words(other.get("document")):
+            if _same_value(f.get("document"), other.get("document"), _s(f.get("field"))):
+                if _same_text(f.get("document"), other.get("document")):
                     read = f"both read {_one_line(f.get('document'))!r}"
                 else:
                     read = (f"draft read {_one_line(f.get('document'))!r}, review read "

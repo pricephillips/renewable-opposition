@@ -116,12 +116,15 @@ reader of the repository needs.
   listed in `judgment_differences` and in the row's note and log line, with
   each reader's wording quoted when the two differ, and is not disputed.
   Values count as the same when they differ only in case, spacing,
-  punctuation or thousands separators, or when one is the other with
-  annotating words after it ("297" and "297 MW nameplate"). Added words that
-  start with a number or can change the value ("not", "until", "repealed",
-  "except") make a different reading, and decimal points, signs and
-  comparison symbols are part of the value. A `contradicts` verdict still
-  needs a field that both readings mark as disagreeing. Only `written` yields
+  punctuation or thousands separators, or when one is the other followed by
+  unit words ("297" and "297 MW nameplate"). In a name field, such as
+  `project_name`, other annotation may follow too, unless it starts with a
+  number or includes a word that changes what the name refers to ("no",
+  "except", "formerly"). Any other added word ("until", "through",
+  "repealed", "maximum") makes a different reading, and decimal points,
+  signs and comparison symbols are part of the value. When the readings
+  differ on a field's judgment, a `contradicts` verdict also needs a field
+  that both readings mark as disagreeing. Only `written` yields
   a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a
   `verification_log.csv` line (`--log`). A drafter and reviewer with the same
   signature are refused.
