@@ -4,9 +4,10 @@ name: Review pipeline freshness
 # (scripts/pipeline_freshness.py): more than 3 days with no new line in
 # data/review/verification_log.csv on main and no open "Verification: ..."
 # pull request. The issue stays open without daily comments, and closes
-# itself once activity resumes. From 2026-10-13 to
-# 2026-10-19 the daily verification routine fired every morning, reported
-# success and read nothing, and nothing noticed; this is that check.
+# itself once activity resumes. From 2026-10-13 to 2026-10-19 the daily
+# verification routine fired every morning, reported success and read
+# nothing. Any log line counts, so this check fires once hand runs have
+# stopped too: it is the backstop, not a per-routine monitor.
 #
 # Reads the repository and the open pull requests, writes only the issue.
 # Daily, after the routine (07:48 UTC) has had time to open its pull request.
@@ -46,7 +47,7 @@ jobs:
       - name: List open pull requests
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api "repos/${GITHUB_REPOSITORY}/pulls?state=open&per_page=100" > open_prs.json
+        run: gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/pulls?state=open&per_page=100" | jq 'add // []' > open_prs.json
 
       - name: Check freshness
         id: check

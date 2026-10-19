@@ -10,7 +10,10 @@ def test_the_newest_log_line_is_found_and_bad_dates_are_skipped(tmp_path):
     log = tmp_path / "verification_log.csv"
     log.write_text("date,queue,key,outcome,note\n2026-10-16,outcome,a,written,x\nbad,outcome,b,written,x\n"
                    "2026-10-18,status,c,disputed,x\n")
-    assert pf.last_log_date(log) == date(2026, 10, 18)
+    assert pf.last_log_date(log, TODAY) == date(2026, 10, 18)
+    with log.open("a") as f:
+        f.write("2062-10-01,outcome,d,written,a typo in the future\n")
+    assert pf.last_log_date(log, TODAY) == date(2026, 10, 18)
     assert pf.last_log_date(tmp_path / "missing.csv") is None
 
 

@@ -14,8 +14,9 @@ them, so the rules in docs/AGENT_REVIEW.md hold whatever an agent wrote:
            outcome the document supports for a project, or the status an
            instrument has today).
   blind    What the second reader gets: the card without the earlier
-           attempts, plus the drafter's source URL and archived copy. Never
-           the drafter's conclusion, quote, comparison or note.
+           attempts, plus the drafter's source URL and archived copy and the
+           names of the fields it compared (check_fields). Never the
+           drafter's conclusion, quote, comparison, field values or note.
   review   What the second reader returns: a packet of the draft's shape,
            from its own reading.
 
@@ -191,8 +192,9 @@ QUEUES = {
 # The field that carries each queue's conclusion.
 CONCLUSION = {"restriction": "verdict", "outcome": "outcome", "status": "status"}
 # Record fields that reconcile already compares through each reading's own conclusion and dates.
-CONCLUSION_FIELDS = {"restriction": set(), "outcome": {"outcome", "event_date_text"},
-                     "status": {"status", "end_date", "current_end_date_iso"}}
+# An end date is compared only when both readings give one (a blank agrees with any date).
+CONCLUSION_FIELDS = {"restriction": set(), "outcome": {"outcome", "event_date_text"}, "status": {"status"}}
+END_DATE_FIELDS = {"end_date", "current_end_date_iso"}
 
 
 def _s(v) -> str:
@@ -770,9 +772,11 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
         # The blind card names every field the draft compared, so a field the draft says differs from
         # the record and the review left out has had one reading, not two (unless the conclusion or
         # date checks above already compare it).
+        covered = set(CONCLUSION_FIELDS[queue])
+        if queue == "status" and _s(draft.get("end_date")) and _s(review.get("end_date")):
+            covered |= END_DATE_FIELDS
         for f in draft.get("fields") or []:
-            if (not f.get("agrees") and _s(f.get("field")) not in rf
-                    and _s(f.get("field")) not in CONCLUSION_FIELDS[queue]):
+            if not f.get("agrees") and _s(f.get("field")) not in rf and _s(f.get("field")) not in covered:
                 diffs.append(f"{f.get('field')}: draft says it differs from the record, review did not check it")
         unchecked = sorted({_s(f.get("field")) for f in draft.get("fields") or []} - set(rf))
         if unchecked:

@@ -529,3 +529,15 @@ def test_a_skipped_field_the_conclusion_already_compares_is_not_disputed():
     setback = {"field": "setback", "record": "2000 feet", "document": "2,000 feet", "agrees": True}
     res = rp.reconcile(c, status_reading(), status_reading("review", REVIEWER, fields=[setback]), [], TODAY)
     assert res["result"] == "written" and res["unchecked_by_review"] == ["status"]
+
+
+def test_a_skipped_end_date_counts_as_compared_only_when_both_readings_give_one():
+    c = rp.build_card("status", "nrel:wind:31065", NREL, [], [], [])
+    end = {"field": "current_end_date_iso", "record": "", "document": "2027-06-30", "agrees": False}
+    draft = status_reading(status="extended", end_date="2027-06-30", fields=status_reading()["fields"] + [end])
+    blank = status_reading("review", REVIEWER, status="extended", end_date="")
+    res = rp.reconcile(c, draft, blank, [], TODAY)
+    assert res["result"] == "disputed" and res["differences"] == [
+        "current_end_date_iso: draft says it differs from the record, review did not check it"]
+    dated = status_reading("review", REVIEWER, status="extended", end_date="2027-06-30")
+    assert rp.reconcile(c, draft, dated, [], TODAY)["result"] == "written"

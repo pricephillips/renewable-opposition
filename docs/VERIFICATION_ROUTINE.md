@@ -66,7 +66,8 @@ Never treat search-result text as a reading, and never mark `access`
 
 Give each draft that read its document to a `blind-reviewer`, with only
 the blind card (`python scripts/review_packets.py blind <card> <draft>`): the
-published record and the source URL, never the drafter's conclusion. Its lane
+published record, the source URL and the names of the fields the drafter
+compared, never the drafter's conclusion or what it found in them. Its lane
 keeps it away from the draft packets and `data/review/`. The reviewer opens
 the source itself and writes a review packet of the same shape.
 `python scripts/review_packets.py reconcile <card> <draft> <review>` compares

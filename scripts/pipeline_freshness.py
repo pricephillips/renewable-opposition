@@ -4,7 +4,8 @@ Every reading run, scheduled or by hand, ends in a pull request that adds lines 
 data/review/verification_log.csv. The daily verification routine
 (docs/VERIFICATION_ROUTINE.md) can fail without anyone seeing it: from 2026-10-13
 to 2026-10-19 it fired every morning, reported success, and read nothing because
-its session could not push. This check makes that visible.
+its session could not push. Any log line counts as activity, so this check
+makes a stop like that visible once hand runs are not filling the log either.
 
 The pipeline is stale when, for more than --max-days days, main has gained no
 verification log line and no open pull request titled "Verification: ..." has
@@ -32,7 +33,7 @@ MAX_DAYS = 3
 RUN_TITLE = "verification:"
 
 
-def last_log_date(path: Path = LOG) -> date | None:
+def last_log_date(path: Path = LOG, today: date | None = None) -> date | None:
     if not path.exists():
         return None
     with path.open(newline="", encoding="utf-8-sig") as f:
@@ -43,7 +44,8 @@ def last_log_date(path: Path = LOG) -> date | None:
             parsed.append(date.fromisoformat(d))
         except ValueError:
             continue
-    return max(parsed, default=None)
+    # A date after today is a typo (review_lint refuses one); it must not hold the alarm off.
+    return max((d for d in parsed if d <= (today or date.today())), default=None)
 
 
 def last_run_pr(prs: list[dict]) -> date | None:
@@ -93,7 +95,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     today = date.fromisoformat(a.today) if a.today else date.today()
     prs = json.loads(Path(a.prs).read_text()) if a.prs else []
-    stale, message = check(last_log_date(), last_run_pr(prs), today, a.max_days)
+    stale, message = check(last_log_date(today=today), last_run_pr(prs), today, a.max_days)
     print(("STALE: " if stale else "ok: ") + message)
     if a.github_output:
         with open(a.github_output, "a", encoding="utf-8") as f:
