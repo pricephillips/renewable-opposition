@@ -90,6 +90,7 @@ claimed values (`claim`) and its sources, without the drafter's notes.
 
 - `queue_row`: open the source and check every claimed value
   (`technology`, `mechanisms`, `mechanism_detail`, `status`, `adopted_date`,
+  `end_date`,
   `description`, `evidence_text`, place). `evidence_text` must appear in the
   document verbatim.
 - `negative_check`: reopen the sources (at least every code), check that

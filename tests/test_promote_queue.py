@@ -282,3 +282,31 @@ def test_a_promoted_row_found_lifted_leaves_the_seed_and_the_trail_says_so(queue
     # Back in force but still marked promoted: reported, with the way to republish.
     code, seeds, _ = queue(dict(lifted, status="active"))
     assert seeds == [] and "set review_status to pending" in capsys.readouterr().out
+
+
+def test_an_end_date_reaches_the_seed_and_a_malformed_one_holds_the_row(queue, capsys):
+    import build_seed_outputs as bso
+    import classify
+    from datetime import date
+    code, seeds, status = queue(row(mechanisms="moratorium", end_date="2027-03-31"),
+                                row(county="Other County", mechanisms="moratorium", end_date="March 2027"))
+    assert code == 0 and status == ["promoted", "confirmed"]
+    (s,) = seeds
+    assert s["current_end_date_iso"] == "2027-03-31"
+    assert "end_date 'March 2027' must be YYYY[-MM[-DD]]" in capsys.readouterr().out
+    # Past its end date with no confirmation since, the moratorium reads as lapsed.
+    stamped = classify.stamp("restrictions", bso.normalize_row(s))
+    assert classify.currency(stamped, today=date(2027, 4, 1)) == "lapsed_unconfirmed"
+
+
+def test_appending_to_a_queue_written_before_a_field_existed_realigns_it(tmp_path):
+    import csv
+    path = tmp_path / "queue.csv"
+    old_fields = [f for f in parse.QUEUE_FIELDS if f != "end_date"]
+    common.write_csv(path, [{**dict.fromkeys(old_fields, ""), "source_id": "old", "status": "active"}], old_fields)
+    parse.append_queue(path, [parse.CandidateRecord(source_id="new", entity_type="restriction", end_date="2027")])
+    with open(path, newline="", encoding="utf-8") as f:
+        header, *rows = list(csv.reader(f))
+    assert header == parse.QUEUE_FIELDS and all(len(r) == len(header) for r in rows)
+    got = list(csv.DictReader(open(path, newline="", encoding="utf-8")))
+    assert [(r["source_id"], r["status"], r["end_date"]) for r in got] == [("old", "active", ""), ("new", "", "2027")]

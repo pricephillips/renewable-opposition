@@ -88,6 +88,8 @@ Lapsed or repealed instruments are recorded as such (status `lifted` or
 `reviewer_notes` beginning `Drafted by <drafter>`. Fill `technology`,
 `mechanisms` and `mechanism_detail` (the build scores severity from them;
 never type a severity), `description`, `adopted_date`, `status`,
+`end_date` (the date the instrument runs to, if the document gives one, or the
+date a lifted or expired instrument stopped applying, from the document),
 `evidence_text` quoted from the document, `source_url`, `access` and
 `source_kind` (`instrument` or `minutes` when the document itself was
 read). A second reviewer sets `review_status` to `confirmed`.

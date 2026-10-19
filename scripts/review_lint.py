@@ -34,6 +34,9 @@ Checks (E: error, exit 1; W: warning)
   NOTE_REWRITTEN   W  a note that lost text it had: notes are appended to
   MECHANISM        E  a queue row naming a mechanism outside
                       build_sabin_seeds.MECHANISM_TYPE
+  DATE (queue)     E  a queue end_date not YYYY[-MM[-DD]], or a lifted or
+                      expired restriction whose end_date is after today
+  NO_END_DATE      W  a lifted or expired restriction with no end_date
   DATE             E  a reviewer's date (checked_on, reviewed_on, drafted_on,
                       evidence_date, date) not YYYY[-MM[-DD]], or after today
   EMDASH           W  an em dash in text a reviewer added to a note (text
@@ -238,7 +241,7 @@ def check_row(name: str, key: str, old: dict | None, new: dict, today: date) -> 
         if len(set(halves)) < len(halves):
             add("E", "SELF_REVIEW", f"both readings in {rev!r} are by one agent")
     if name.endswith("queue.csv"):
-        f += _queue_row(where, old, new)
+        f += _queue_row(where, old, new, today)
     # notes are appended to
     if old is not None:
         for col in _note_cols(new):
@@ -271,8 +274,20 @@ def check_row(name: str, key: str, old: dict | None, new: dict, today: date) -> 
     return f
 
 
-def _queue_row(where: str, old: dict | None, new: dict) -> list[Finding]:
+def _queue_row(where: str, old: dict | None, new: dict, today: date) -> list[Finding]:
     f: list[Finding] = []
+    # end_date: any date for an instrument still running (a moratorium's term);
+    # for one lifted or expired, the date it stopped, never after today.
+    end, rstatus = _s(new.get("end_date")), _s(new.get("status"))
+    gone = _s(new.get("entity_type")) == "restriction" and rstatus in ("lifted", "expired")
+    if end and not _PARTIAL.match(end):
+        f.append(Finding("E", "DATE", where, f"end_date {end!r} is not YYYY[-MM[-DD]]"))
+    elif gone and end and end > today.isoformat()[: len(end)]:
+        f.append(Finding("E", "DATE", where, f"status {rstatus} with end_date {end} after today; an instrument "
+                                             "that still applies is active until then"))
+    elif gone and not end:
+        f.append(Finding("W", "NO_END_DATE", where, f"status {rstatus} with no end_date: record the date it "
+                                                   "stopped applying, from the source"))
     status, notes = _s(new.get("review_status")), _s(new.get("reviewer_notes"))
     before = _s(old.get("review_status")) if old else ""
     drafters = {who(m) for m in _DRAFTED.findall(notes)}
@@ -305,7 +320,11 @@ def lint_file(name: str, base_text: str, head_text: str, today: date, every_row:
     old, new = keyed(name, base_rows), keyed(name, head_rows)
     for key, row in new.items():
         prior = old.get(key)
-        if prior == row and not every_row:
+        # A column added to the file since the base, left blank, is not an
+        # edit of the row.
+        same = prior is not None and all(_s(prior.get(k)) == _s(v) for k, v in row.items()) \
+            and set(prior) <= set(row)
+        if same and not every_row:
             continue
         findings += check_row(name, key, None if every_row else prior, row, today)
     for key in old.keys() - new.keys():

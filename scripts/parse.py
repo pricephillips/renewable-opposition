@@ -173,6 +173,8 @@ class CandidateRecord:
     mechanism_detail: str = ""           # the mechanisms' values: distances, dBA and hours, acreage, caps
     adopted_date: str = ""
     effective_date: str = ""
+    end_date: str = ""                   # YYYY[-MM[-DD]]: the date the instrument runs to (a moratorium's
+                                         # term) or, when lifted or expired, the date it stopped applying
 
     # Contested project-specific
     opposition_type: str = ""            # public_hearing | petition | permit_denial | campaign | settlement
@@ -245,6 +247,21 @@ def append_queue(path: Path, candidates: list[CandidateRecord]) -> None:
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     write_header = not path.exists()
+    if not write_header:
+        with open(path, newline="", encoding="utf-8") as f:
+            header = next(csv.reader(f), [])
+        if header != QUEUE_FIELDS:
+            # A field added to CandidateRecord since the file was written: bring
+            # the file to the current columns first, so appended rows line up.
+            with open(path, newline="", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+            unknown = sorted(set(header) - set(QUEUE_FIELDS))
+            if unknown:
+                raise SystemExit(f"{path}: columns {unknown} are not CandidateRecord fields")
+            with open(path, "w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=QUEUE_FIELDS, lineterminator="\n")
+                writer.writeheader()
+                writer.writerows(rows)
     with open(path, "a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=QUEUE_FIELDS, lineterminator="\n")
         if write_header:

@@ -79,7 +79,7 @@ Internet Archive. Record every URL that failed in `attempts`.
     "entity_type": "restriction", "state": "", "county": "", "municipality": "", "jurisdiction_type": "",
     "technology": "solar; battery_storage", "mechanisms": "setback; cap on acreage",
     "mechanism_detail": "1,000 ft from non-participating dwellings; 500 acres per project",
-    "description": "", "adopted_date": "YYYY-MM-DD", "status": "active",
+    "description": "", "adopted_date": "YYYY-MM-DD", "status": "active", "end_date": "",
     "evidence_text": "<verbatim>", "source_url": "", "access": "opened | archived",
     "archived_url": "", "source_kind": "instrument | minutes | official_copy"
   }],
