@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-18",
+ "generated": "2026-10-19",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
   "restriction_instruments": 3352,
@@ -58,13 +58,13 @@
   }
  },
  "quarantine": {
-  "rows": 10,
+  "rows": 9,
   "by_entity": {
-   "restrictions": 10
+   "restrictions": 9
   },
   "by_blocking_code": {
    "SCOPE_DATA_CENTER_ONLY": 8,
-   "PRIMARY_SOURCE_CONTRADICTS": 2
+   "PRIMARY_SOURCE_CONTRADICTS": 1
   }
  },
  "worklists": {

@@ -1,6 +1,6 @@
 # Operations summary
 
-Generated 2026-10-18 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-19 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
@@ -10,7 +10,7 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 
 ## Held back
 
-10 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 2 PRIMARY_SOURCE_CONTRADICTS.
+9 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 8 SCOPE_DATA_CENTER_ONLY, 1 PRIMARY_SOURCE_CONTRADICTS.
 
 ## Worklists
 
