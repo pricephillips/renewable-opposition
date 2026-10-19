@@ -80,7 +80,11 @@ Subcommands
   blind-row case SOURCE_RECORD_ID --draft DRAFT
                                        a case candidate and the court records the draft read
   check PACKET...                      check packets of any queue; exit 1 on any error
-  reconcile CARD DRAFT REVIEW          compare the two readings; print JSON
+  reconcile CARD DRAFT REVIEW          compare the two readings; print JSON. A field the
+                                       two read as the same value (apart from case, spacing,
+                                       punctuation, thousands separators or added words after
+                                       it) but judged differently against the record is listed
+                                       in judgment_differences and the row's note, not disputed
   reconcile CARD DRAFT REVIEW --row    print the review-file row to append
                                        (exit 1 unless both readings agree and
                                        the file has no row for the key yet)
@@ -619,6 +623,26 @@ def _one_line(text: str) -> str:
     return re.sub(r"\s+", " ", _s(text))
 
 
+def _words(text: str) -> list[str]:
+    """A document value as words: lowercase, thousands separators and punctuation dropped."""
+    return re.sub(r"[^a-z0-9]+", " ", re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower())).split()
+
+
+def _same_value(a: str, b: str) -> bool:
+    """Two readings of one document value that differ only in formatting: the same words, or the
+    words of one followed by more ("297" and "297 MW nameplate"). An empty value matches only
+    another empty value."""
+    wa, wb = _words(a), _words(b)
+    if not wa or not wb:
+        return wa == wb
+    short, long_ = sorted((wa, wb), key=len)
+    return long_[:len(short)] == short
+
+
+def _matches(f: dict) -> str:
+    return "matches the record" if f.get("agrees") else "differs from the record"
+
+
 def _attempts(p: dict) -> str:
     return "; ".join(f"{_s(a.get('url'))} ({_s(a.get('result'))})" for a in p.get("attempts") or [])
 
@@ -666,12 +690,24 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             diffs.append(f"end_date: draft {draft.get('end_date')}, review {review.get('end_date')}")
         if queue == "outcome" and not _dates_agree(_s(draft.get("evidence_date")), _s(review.get("evidence_date"))):
             diffs.append(f"evidence_date: draft {draft.get('evidence_date')}, review {review.get('evidence_date')}")
+        # A field disputes only when the two readers read different values. Both reading the same
+        # value (apart from formatting) and judging its match to the record differently is noted
+        # with the row, not disputed: the conclusion checks above decide whether the row stands.
         rf = {_s(f.get("field")): f for f in review.get("fields") or []}
+        judged = []
         for f in draft.get("fields") or []:
             other = rf.get(_s(f.get("field")))
-            if other is not None and bool(other.get("agrees")) != bool(f.get("agrees")):
-                diffs.append(f"{f.get('field')}: draft reads {f.get('document')!r}, review reads "
-                             f"{other.get('document')!r}")
+            if other is None or bool(other.get("agrees")) == bool(f.get("agrees")):
+                continue
+            if _same_value(f.get("document"), other.get("document")):
+                judged.append(f"{f.get('field')} (both read {_one_line(f.get('document'))!r}; draft says it "
+                              f"{_matches(f)}, review says it {_matches(other)})")
+            else:
+                diffs.append(f"{f.get('field')}: draft reads {_one_line(f.get('document'))!r} and says it "
+                             f"{_matches(f)}, review reads {_one_line(other.get('document'))!r} and says it "
+                             f"{_matches(other)}")
+        if judged:
+            out["judgment_differences"] = judged
         unchecked = sorted({_s(f.get("field")) for f in draft.get("fields") or []} - set(rf))
         if unchecked:
             out["unchecked_by_review"] = unchecked
@@ -687,6 +723,8 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             signed = f"{draft['agent']} + {review['agent']}"
             text = (f"{_one_line(draft.get('note'))} Quoted: \"{_one_line(draft.get('quote'))}\" "
                     f"Second reading ({review['agent']}, {review.get('access')}): {_one_line(review.get('note'))}")
+            if judged:
+                text += f" Same value, judged differently against the record: {'; '.join(judged)}."
             checked_on = max(_s(draft.get("date")), _s(review.get("date")))
             record = card.get("record", {})
             if queue == "restriction":
@@ -712,6 +750,8 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             if held:
                 out["existing"] = held
             note = f"{conclusion} {draft[conclusion]}: {draft['source_url']} ({draft['access']}); signed {signed}."
+            if judged:
+                note += f" Same value, judged differently against the record: {'; '.join(judged)}."
     out["log"] = {"date": today.isoformat(), "queue": queue, "key": key, "outcome": out["result"],
                   "note": _one_line(note)}
     return out

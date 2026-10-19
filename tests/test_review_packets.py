@@ -135,6 +135,55 @@ def test_readings_that_differ_are_disputed_and_write_nothing():
     assert res["log"]["outcome"] == "disputed" and REVIEWER in res["log"]["note"]
 
 
+# A field only the review checked, so its "contradicts" verdict still names a disagreeing field.
+ADOPTED = {"field": "restriction_type", "record": "moratorium", "document": "siting law", "agrees": False}
+
+
+@pytest.mark.parametrize("a, b", [
+    ("297", "297"),
+    ("297 MW nameplate", "297"),
+    ("1,200 acres", "1200 Acres."),
+    ("Jacumba Valley Ranch (JVR) Energy Park",
+     "Jacumba Valley Ranch (JVR) Energy Park, BayWa r.e., 127 MW solar and 70 MW storage in Jacumba"),
+    ("Stony Creek Wind Farm NY (EIA plant 58088)",
+     "Stony Creek Wind Farm NY (EIA plant 58088); no EIA-860M plant is named Orangeville"),
+    ("", ""),
+])
+def test_values_that_differ_only_in_formatting_are_the_same(a, b):
+    assert rp._same_value(a, b) and rp._same_value(b, a)
+
+
+@pytest.mark.parametrize("a, b", [
+    ("297", "300"), ("not 300", "300"), ("2970", "297"), ("297", ""), ("storage and solar", "battery storage only"),
+])
+def test_values_that_say_different_things_are_not_the_same(a, b):
+    assert not rp._same_value(a, b) and not rp._same_value(b, a)
+
+
+def test_the_same_value_judged_differently_is_noted_not_disputed():
+    fields = [{"field": "status", "record": "extended", "document": "in force", "agrees": True},
+              {"field": "technology", "record": "battery_storage; solar",
+               "document": "Battery storage only, per Section 2", "agrees": True}, ADOPTED]
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, fields=fields), [], TODAY)
+    assert res["result"] == "written" and res["differences"] == []
+    assert res["judgment_differences"] == [
+        "technology (both read 'battery storage only'; draft says it differs from the record, "
+        "review says it matches the record)"]
+    assert "judged differently against the record: technology" in res["row"]["note"]
+    assert "judged differently against the record: technology" in res["log"]["note"]
+    plain = rp.reconcile(card(), reading(), reading("review", REVIEWER), [], TODAY)
+    assert "judgment_differences" not in plain and "judged differently" not in plain["row"]["note"]
+
+
+def test_a_dispute_names_both_values_and_both_judgments():
+    fields = [{"field": "technology", "record": "battery_storage; solar", "document": "storage and solar",
+               "agrees": True}, ADOPTED]
+    res = rp.reconcile(card(), reading(), reading("review", REVIEWER, fields=fields), [], TODAY)
+    assert res["result"] == "disputed" and res["differences"] == [
+        "technology: draft reads 'battery storage only' and says it differs from the record, "
+        "review reads 'storage and solar' and says it matches the record"]
+
+
 def test_no_self_review_and_no_mixed_items():
     res = rp.reconcile(card(), reading(), reading("review", DRAFTER), [], TODAY)
     assert res["result"] == "invalid" and any("own reading" in e for e in res["errors"])

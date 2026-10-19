@@ -111,8 +111,14 @@ reader of the repository needs.
 - `reconcile` compares a draft and a review for restrictions and outcomes:
   `written` when both read the document and agree on the verdict or outcome,
   the event date and every field both checked; `disputed` otherwise;
-  `not_read` when either could not open it. Only `written` yields a row
-  (`--row`), signed "<drafter> + <reviewer>"; every result yields a
+  `not_read` when either could not open it. A field disputes only when the
+  two read different values. When both read the same value and differ only
+  on whether it matches the record, the field is listed in
+  `judgment_differences` and in the row's note and log line, and is not
+  disputed. Values count as the same when they differ only in case,
+  spacing, punctuation or thousands separators, or when one is the other
+  with words added after it ("297" and "297 MW nameplate"). Only `written`
+  yields a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a
   `verification_log.csv` line (`--log`). A drafter and reviewer with the same
   signature are refused.
 - `blind-row` builds the blind card for a lead, a case, a drafted queue row or
