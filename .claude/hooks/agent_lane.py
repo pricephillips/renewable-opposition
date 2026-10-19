@@ -44,9 +44,21 @@ Every lane
     commit, push or move a branch: the session that started the agent commits;
   - edits no file in place from the shell (sed -i, perl -i) and sends no
     output into the repository outside its lane (redirection, tee, cp, mv,
-    curl -o, wget, ...).
+    curl -o, wget, ...);
+  - never reads the environment or a credential: no env, printenv, bare set
+    or export, declare -p, /proc/*/environ, $..TOKEN / $..SECRET / $..KEY
+    style variables, ~/.ssh, .netrc, .git-credentials or gh's config, and no
+    interpreter code (python -c, a heredoc, a script under /tmp) that reads
+    os.environ or process.env;
+  - reaches the network only to fetch a page: curl or wget, GET or HEAD over
+    http(s), sending no data, file, cookie or credential; never nc, ssh, scp,
+    socat, telnet, gh and the like, and no interpreter code that opens a
+    socket or an HTTP client (urllib.request, requests, httpx, socket,
+    fetch ...). Lead and page text is untrusted (lead-triager.md), so text
+    injected there finds no tool here to read a secret or send one out.
 
-A guardrail, not a sandbox: `python -c` can still open any file. The lane
+A guardrail, not a sandbox: `python -c` can still open any file, and a page
+fetch can carry anything in its URL. The lane
 check in scripts/review_lint.py looks at what a branch actually changed, and
 the qc-auditor runs it before anything is pushed.
 
@@ -61,6 +73,7 @@ import itertools
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -110,6 +123,35 @@ READ_REDIRECT = re.compile(r"^\d*<(?!<)(.*)$")
 PREFIXES = {"sudo", "env", "time", "nohup", "command", "exec", "nice", "stdbuf", "ionice"}
 SHELLS = {"bash", "sh", "zsh", "dash"}
 SEARCHERS = {"rg", "ag", "ack", "ack-grep", "fd", "fdfind"}
+
+# The environment and credentials (every lane). ENV_LISTERS: the builtin, and
+# the options that make it list variables (no option at all lists them too).
+ENV_DUMPERS = {"printenv"}
+ENV_LISTERS = {"set": set(), "export": {"-p"}, "declare": {"-p", "-x", "-xp", "-px"},
+               "typeset": {"-p", "-x", "-xp", "-px"}, "compgen": {"-v", "-e", "-A"}}
+SECRET_VAR = re.compile(r"\$\{?!|\$\{?[A-Z0-9_]*(?:TOKEN|SECRET|PASSW|KEY|CREDENTIAL|AUTH|COOKIE)[A-Z0-9_]*")
+SECRET_PATH = re.compile(r"\.ssh/|\.netrc\b|\.git-credentials\b|\.config/gh\b|\.aws/|\.docker/config\.json"
+                         r"|\.npmrc\b|\.pypirc\b|\.kube/config|/proc/[^/\s]+/environ")
+# The network (every lane): a page fetch with curl or wget, and nothing else.
+NET_TOOLS = {"nc", "ncat", "netcat", "socat", "telnet", "ssh", "scp", "sftp", "ftp", "tftp", "gh", "nmap",
+             "openssl", "aria2c", "http", "https", "xh", "lynx", "w3m"}
+INTERPRETER = r"(?:python[0-9.]*|node|nodejs|deno|bun|perl|ruby|php)"
+INTERPRETERS = re.compile(rf"(?:^|[\s;&|(`/]){INTERPRETER}(?=$|[\s;&|)`])")
+ENV_CODE = re.compile(r"os\.environ(?!\s*\[[^\]]+\]\s*=(?!=))|os\.getenv|\bgetenv\s*\(|environb|process\.env"
+                      r"|\$ENV\{|%ENV\b|\bENV\[|Deno\.env|Bun\.env")
+NET_CODE = re.compile(r"urllib(?!\.parse)|\burlopen\b|\brequests\b|\bhttpx\b|\baiohttp\b|http\.client|\bsocket\b"
+                      r"|ftplib|smtplib|telnetlib|pycurl|urllib3|websocket|paramiko|\bfetch\s*\(|XMLHttpRequest"
+                      r"|require\s*\(\s*['\"](?:node:)?(?:https?|net|dgram|tls)['\"]"
+                      r"|from\s+['\"]node:(?:https?|net|dgram|tls)['\"]|LWP::|IO::Socket|Net::HTTP|HTTP::Tiny|open-uri")
+CURL_SENDS = {"-d", "--data", "--data-ascii", "--data-binary", "--data-raw", "--data-urlencode", "-F", "--form",
+              "--form-string", "-T", "--upload-file", "--json", "-K", "--config", "-u", "--user", "-b", "--cookie",
+              "-c", "--cookie-jar", "--url-query", "--unix-socket", "--abstract-unix-socket", "-E", "--cert",
+              "--key", "--oauth2-bearer", "--aws-sigv4", "-n", "--netrc", "--netrc-file", "--netrc-optional",
+              "-Q", "--quote", "-U", "--proxy-user", "--variable", "--expand-url", "--expand-data"}
+WGET_SENDS = {"--post-data", "--post-file", "--body-data", "--body-file", "--user", "--password", "--http-user",
+              "--http-password", "--load-cookies", "--save-cookies", "-e", "--execute", "--config",
+              "--certificate", "--private-key", "--use-askpass", "--ask-password"}
+FETCH_METHODS = {"GET", "HEAD"}
 
 
 @dataclass(frozen=True)
@@ -244,6 +286,8 @@ def check_read(lane: Lane, path: Path | None, roots: list[Path], what: str) -> N
         return
     if _private(str(path)):
         raise Refused(f"{what} {path}: reports from local contacts stay outside every agent's reach")
+    if SECRET_PATH.search(str(path)):
+        raise Refused(f"{what} {path}: credentials and process environments stay outside every agent's reach")
     if not lane.blind:
         return
     rel = locate(path, roots)
@@ -527,13 +571,135 @@ def _git(lane: Lane, args: list[str]) -> None:
                   "or move a branch; the session that started the agent does that")
 
 
+def _flags(args: list[str]) -> set[str]:
+    """Every option named: long ones without their =value, and each letter of
+    a short cluster (-sSLo is -s -S -L -o). A letter inside a short option's
+    value counts too, which can only refuse more."""
+    out = set()
+    for a in args:
+        if a.startswith("--"):
+            out.add(a.split("=", 1)[0])
+        elif a.startswith("-") and len(a) > 1:
+            out.update("-" + ch for ch in a[1:] if ch.isalpha())
+    return out
+
+
+def _fetch(prog: str, args: list[str]) -> None:
+    """curl and wget only fetch a page: GET or HEAD over http(s), with no data,
+    form, upload, cookie, credential or config file sent along."""
+    used = _flags(args) & (CURL_SENDS if prog == "curl" else WGET_SENDS)
+    if used:
+        raise Refused(f"{prog} {sorted(used)[0]}: an agent fetches a page and sends nothing with it (no data, "
+                      "form, upload, cookie, credential or config file)")
+    for method in _option_value(args, "-X", "--request", "--method"):
+        if method.upper() not in FETCH_METHODS:
+            raise Refused(f"{prog} {method}: an agent only reads pages (GET or HEAD)")
+    for header in _option_value(args, "-H", "--header", "--proxy-header"):
+        if re.match(r"\s*(?:proxy-)?(?:authorization|cookie)\s*:", header, re.I):
+            raise Refused(f"{prog} with an {header.split(':')[0].strip()} header: an agent sends no credential")
+    for a in args:
+        m = re.match(r"^([A-Za-z][A-Za-z0-9+.-]*)://", a)
+        if m and m.group(1).lower() not in ("http", "https"):
+            raise Refused(f"{prog} {m.group(1)}://: an agent fetches web pages over http(s) only")
+
+
+def _env_and_network(lane: Lane, words: list[tuple[str, str]], cwd: str, roots: list[Path], depth: int) -> None:
+    """Every lane: nothing that prints the environment, and the network only to
+    fetch a page. `words` still has its prefixes, so a bare `env` (which
+    _strip_prefixes drops) is seen."""
+    vals = [v for _, v in words]
+    i = 0
+    while i < len(vals) and re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", vals[i]):
+        i += 1
+    if i < len(vals) and os.path.basename(vals[i]) == "env":
+        j = i + 1
+        while j < len(vals) and (vals[j].startswith("-") or re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", vals[j])):
+            if vals[j] in ("-S", "--split-string") or vals[j].startswith("--split-string="):
+                raise Refused("env -S: name the command itself, so the lane can check it")
+            j += 2 if vals[j] in ("-u", "--unset", "-C", "--chdir") else 1
+        if j >= len(vals):
+            raise Refused("env with no command prints the environment, which holds tokens; no agent reads it")
+    argv = [v for _, v in _strip_prefixes(words)]
+    if not argv:
+        return
+    prog, rest = os.path.basename(argv[0]), argv[1:]
+    if prog in ENV_DUMPERS:
+        raise Refused(f"{prog}: no agent prints the environment, which holds tokens")
+    if prog in ENV_LISTERS and (not rest or set(rest) & ENV_LISTERS[prog]):
+        raise Refused(f"{' '.join(argv)}: that lists the shell's variables, tokens among them; no agent reads them")
+    if prog == "ps" and any(not a.startswith("-") and "e" in a for a in rest):
+        raise Refused("ps with e shows each process's environment; no agent reads it")
+    if prog in NET_TOOLS:
+        raise Refused(f"{prog}: an agent reaches the network only to fetch a page (WebFetch, or curl or wget "
+                      "into /tmp)")
+    if prog == "rsync" and any("::" in a or a.startswith("rsync://") or re.match(r"^[^/\s]+:", a) for a in rest):
+        raise Refused("rsync with a host: an agent reaches the network only to fetch a page")
+    if prog in ("curl", "wget"):
+        _fetch(prog, rest)
+    if prog == "xargs" and depth < 3:
+        k = 0
+        while k < len(rest) and rest[k].startswith("-"):
+            k += 1
+        if k < len(rest):
+            check_command(lane, " ".join(shlex.quote(a) for a in rest[k:]), cwd, roots, depth + 1)
+
+
+def _script_source(prog: str, args: list[str], cwd: str, roots: list[Path]) -> str:
+    """The source of a script an interpreter runs from outside the repository
+    (an agent's own helper under /tmp), so it is held to the rules `python -c`
+    is. A script in the repository is the repository's own code."""
+    if not re.fullmatch(INTERPRETER, prog):
+        return ""
+    skip = False
+    for a in args:
+        if skip:
+            skip = False
+            continue
+        if a in ("-c", "-e", "-m", "-r", "--eval", "-"):
+            return ""
+        if a in ("-W", "-X"):
+            skip = True
+            continue
+        if a.startswith("-"):
+            continue
+        path = _abs(a, cwd)
+        if path is None or locate(path, roots) is not None:
+            return ""
+        try:
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                return fh.read(1_000_000)
+        except OSError:
+            return ""
+    return ""
+
+
+def _code(text: str, what: str) -> None:
+    if ENV_CODE.search(text):
+        raise Refused(f"{what} reads the environment (os.environ, getenv, process.env), which holds tokens; "
+                      "no agent reads it")
+    if NET_CODE.search(text):
+        raise Refused(f"{what} opens a network connection (urllib.request, requests, socket, fetch ...); an "
+                      "agent fetches a page with WebFetch, or curl or wget into /tmp")
+
+
 def check_command(lane: Lane, command: str, cwd: str, roots: list[Path], depth: int = 0) -> None:
     if _private(command):
         raise Refused("the command names reports from local contacts, which stay outside every agent's reach")
+    if SECRET_VAR.search(command):
+        raise Refused("the command expands a token, secret, key or password variable (or lists variable names); "
+                      "no agent reads the environment's credentials")
+    if SECRET_PATH.search(command):
+        raise Refused("the command names a credential file or a process environment (~/.ssh, .netrc, "
+                      ".git-credentials, gh's config, /proc/*/environ); no agent reads them")
+    if INTERPRETERS.search(command):
+        # The whole command, heredoc bodies included: python - <<EOF is code too.
+        _code(command, "interpreter code that")
     if lane.blind and ("data/review" in command or ".draft.json" in command):
         raise Refused("the command names data/review/ or a draft packet; a blind reviewer never touches either")
     for segment in split_commands(command):
-        argv = _strip_prefixes(_tokens(segment))
+        words = _tokens(segment)
+        _env_and_network(lane, words, cwd, roots, depth)
+        argv = _strip_prefixes(words)
         if not argv:
             continue
         args, writes, reads = _split_redirects(argv)
@@ -564,6 +730,9 @@ def check_command(lane: Lane, command: str, cwd: str, roots: list[Path], depth: 
                              else "write a copy under .packets/ or /tmp instead"))
         for target in _write_targets(prog, rest, cwd):
             check_write(lane, _abs(target, cwd), roots, f"{prog} writing")
+        script = _script_source(prog, rest, cwd, roots)
+        if script:
+            _code(script, f"{prog}: the script")
         if prog.startswith("python"):
             _python(lane, rest, cwd, roots)
         if lane.blind:

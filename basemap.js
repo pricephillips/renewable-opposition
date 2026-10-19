@@ -138,6 +138,20 @@
     'https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js',
     'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js'
   ];
+  // Subresource integrity (sha384) for each CDN file above, so a changed copy
+  // fails to load instead of running. The stylesheet and the binding get it
+  // as an attribute here. import() takes no integrity option, so a page that
+  // loads this file pins the MapLibre module in its import map's "integrity"
+  // (map-audit.html); tests/ui/basemap.spec.js checks both against the files
+  // the tests serve. MapLibre's own worker (maplibre-gl-worker.mjs, which it
+  // starts itself) is not covered: import maps do not reach workers.
+  var SRI = {
+    'https://cdn.jsdelivr.net/npm/maplibre-gl@6.11.2/dist/maplibre-gl.mjs': 'sha384-KQzExYlfg1SnYNpLaXHTnaCTjr5wmiZ6X3sasvPb94caZfH+3+T1Sl4eJziXUtmN',
+    'https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs': 'sha384-KQzExYlfg1SnYNpLaXHTnaCTjr5wmiZ6X3sasvPb94caZfH+3+T1Sl4eJziXUtmN',
+    'https://cdn.jsdelivr.net/npm/maplibre-gl@6.11.2/dist/maplibre-gl.css': 'sha384-ntw3zEt6rcVML7jDK0ULmHa5hxLB23afsPqzqfY+gLgMfAkbFCnCgPpkZvV5mmZX',
+    'https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js': 'sha384-tXYNKOHx4T02jMP7YYCtBxPIv1B5gaA5mcVPBzqMp6d7VzWzxJgI2aWF/nJLrQdS',
+    'https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/leaflet-maplibre-gl.js': 'sha384-tXYNKOHx4T02jMP7YYCtBxPIv1B5gaA5mcVPBzqMp6d7VzWzxJgI2aWF/nJLrQdS'
+  };
   var LOAD_TIMEOUT_MS = 8000;
   // The chain's map zoom ceiling. A raster fallback with a lower native
   // ceiling (Esri, 16) upscales its last tiles past it rather than capping
@@ -182,6 +196,7 @@
       var doc = global.document;
       if (!doc) { reject(new Error('no document')); return; }
       var el = doc.createElement('script');
+      if (SRI[url]) { el.integrity = SRI[url]; el.crossOrigin = 'anonymous'; }
       el.src = url;
       el.onload = function () { resolve(); };
       el.onerror = function () { reject(new Error('failed ' + url)); };
@@ -201,6 +216,8 @@
     if (doc && !doc.querySelector('link[data-basemap-css]')) {
       var link = doc.createElement('link');
       link.rel = 'stylesheet';
+      link.integrity = SRI[MAPLIBRE_CSS];
+      link.crossOrigin = 'anonymous';
       link.href = MAPLIBRE_CSS;
       link.setAttribute('data-basemap-css', '');
       doc.head.appendChild(link);
@@ -396,6 +413,7 @@
     PROVIDER_LIGHT: PROVIDER_LIGHT,
     CHAIN_LIGHT: CHAIN_LIGHT,
     LOAD_TIMEOUT_MS: LOAD_TIMEOUT_MS,
+    SRI: SRI,
     MAX_ZOOM: MAX_ZOOM,
     spec: spec,
     nextProvider: nextProvider,
