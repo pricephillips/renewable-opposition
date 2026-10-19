@@ -110,9 +110,27 @@ reader of the repository needs.
   verdict over a field that disagrees, an em dash in the note.
 - `reconcile` compares a draft and a review for restrictions and outcomes:
   `written` when both read the document and agree on the verdict or outcome,
-  the event date and every field both checked; `disputed` otherwise;
-  `not_read` when either could not open it. Only `written` yields a row
-  (`--row`), signed "<drafter> + <reviewer>"; every result yields a
+  the event date and the value of every field both checked; `disputed`
+  otherwise; `not_read` when either could not open it. When both read the
+  same value but differ on whether it matches the record, the field is
+  listed in `judgment_differences` and in the row's note and log line, with
+  each reader's wording quoted when the two differ, and is not disputed.
+  Values count as the same when they differ only in case, spacing,
+  punctuation or thousands separators, or when one is the other followed by
+  a unit ("297" and "297 MW nameplate"). Only one unit may appear, and a
+  unit of another size (kW, GW, MWh, metres) is a different value. In a field
+  named `name` or ending in `_name`, such as `project_name`, other annotation
+  may follow when punctuation sets it off ("Big Sky Solar (Lightsource bp)"),
+  unless it includes a word that changes what the name refers to ("no",
+  "except", "phase", "II"). Any other added word ("until", "through",
+  "repealed", "maximum") makes a different reading, and decimal points,
+  signs and comparison symbols are part of the value. When one reading
+  extends the other, the fuller one must be the reading that says the value
+  matches the record; if it says the value differs, the field disputes,
+  since its extra words are likely the reason. When the readings
+  differ on a field's judgment, a `contradicts` verdict also needs a field
+  that both readings mark as disagreeing. Only `written` yields
+  a row (`--row`), signed "<drafter> + <reviewer>"; every result yields a
   `verification_log.csv` line (`--log`). A drafter and reviewer with the same
   signature are refused.
 - `blind-row` builds the blind card for a lead, a case, a drafted queue row or
@@ -199,7 +217,7 @@ step.
 |---|---|
 | the lane hook | a reader writing a review file, a reviewer opening a draft, a commit from an agent, a local report read |
 | `review_packets.py check` | a reading claimed without a document, quote or comparison; a verdict that contradicts its own fields |
-| the blind second reading | a misread document, a wrong field, a confirmation the document does not support |
+| the blind second reading | a misread document, a misread field value, a confirmation the document does not support |
 | `review_packets.py reconcile` | two readings that differ; a self-review |
 | `review_lint.py` | an access raised with no note, a self-review, an unsigned confirmation, triage with no note, an unknown mechanism, a bad date, a file outside the lane, a generated file committed |
 | `qc-auditor` | everything above on the committed branch, the CI checks, and a sample of sources re-opened to confirm the quoted text is there |

@@ -80,7 +80,12 @@ Subcommands
   blind-row case SOURCE_RECORD_ID --draft DRAFT
                                        a case candidate and the court records the draft read
   check PACKET...                      check packets of any queue; exit 1 on any error
-  reconcile CARD DRAFT REVIEW          compare the two readings; print JSON
+  reconcile CARD DRAFT REVIEW          compare the two readings; print JSON. A field the
+                                       two read as the same value (apart from case, spacing,
+                                       punctuation, thousands separators, a unit after it,
+                                       or in a name field annotation set off after it) but judged
+                                       differently against the record is listed in
+                                       judgment_differences and the row's note, not disputed
   reconcile CARD DRAFT REVIEW --row    print the review-file row to append
                                        (exit 1 unless both readings agree and
                                        the file has no row for the key yet)
@@ -619,6 +624,63 @@ def _one_line(text: str) -> str:
     return re.sub(r"\s+", " ", _s(text))
 
 
+# Words, numbers (sign and decimal point kept) and the symbols that change a value's meaning.
+_TOKEN = re.compile(r"(?<![\w.])[-+]?(?:\d+(?:\.\d+)?|\.\d+)|[a-z0-9]+|[<>≤≥=%§$/~²]")
+# Words that may follow a value without changing it ("297" and "297 MW nameplate").
+# One unit at most, plus "nameplate"; units of another size (kW, GW, MWh, m) are a different value.
+_UNIT_WORDS = {"mw", "mwac", "mwdc", "megawatt", "megawatts", "ft", "feet", "foot", "mi", "mile", "miles",
+               "acre", "acres"}
+# In a name field more may follow, set off by punctuation ("Jacumba Valley Ranch (JVR) Energy Park,
+# BayWa r.e., 127 MW"), unless it includes a word that can change what the name refers to.
+_CHANGE_WORDS = {
+    "not", "no", "non", "never", "none", "nothing", "neither", "nor", "without", "except", "excluding",
+    "excluded", "exclude", "excludes", "but", "until", "unless", "only", "formerly", "previously",
+    "renamed", "replaced", "superseded", "withdrawn", "cancelled", "canceled", "phase", "unit", "expansion",
+    "extension", "ii", "iii", "iv",
+}
+
+
+def _words(text: str) -> list[str]:
+    """A document value as tokens: lowercase, thousands separators and other punctuation dropped."""
+    return _TOKEN.findall(re.sub(r"(?<=\d),(?=\d{3})", "", _s(text).lower().replace("\u2212", "-").replace("\u2013", "-")))
+
+
+def _same_value(a: str, b: str, field: str = "") -> bool:
+    """Two readings of one document value that differ only in formatting: the same tokens, or the
+    tokens of one followed by one unit word ("297" and "297 MW nameplate"). In a name field the
+    added words may be any annotation set off by punctuation that includes none that can change
+    what the name refers to ("no", "except", "phase"). An empty value matches only another
+    empty value."""
+    ra, rb = _one_line(a).strip(), _one_line(b).strip()
+    if not ra or not rb:
+        return ra == rb
+    wa, wb = _words(a), _words(b)
+    if not wa or not wb:
+        return ra == rb
+    short, long_ = sorted((wa, wb), key=len)
+    if long_[:len(short)] != short:
+        return False
+    added = long_[len(short):]
+    if not added or (set(added) <= _UNIT_WORDS | {"nameplate"}
+                     and sum(w in _UNIT_WORDS for w in long_) <= 1):
+        return True
+    if not (field == "name" or field.endswith("_name")) or _CHANGE_WORDS & set(added):
+        return False
+    # The annotation must be set off from the name: "Stony Creek Wind Farm, Wyoming County" annotates,
+    # "Stony Creek Wind Farm Phase 2" or "Big Sky Solar Storage" names something else.
+    longer = re.sub(r"(?<=\d),(?=\d{3})", "", _s(a if len(wa) > len(wb) else b).lower())
+    head = re.match(r"\W*" + r"\W+".join(map(re.escape, short)), longer)
+    return bool(head) and bool(re.match(r"\s*[)\]]?\s*[,;:(]", longer[head.end():]))
+
+
+def _same_text(a: str, b: str) -> bool:
+    return _one_line(a).strip().casefold() == _one_line(b).strip().casefold()
+
+
+def _matches(f: dict) -> str:
+    return "matches the record" if f.get("agrees") else "differs from the record"
+
+
 def _attempts(p: dict) -> str:
     return "; ".join(f"{_s(a.get('url'))} ({_s(a.get('result'))})" for a in p.get("attempts") or [])
 
@@ -666,12 +728,40 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             diffs.append(f"end_date: draft {draft.get('end_date')}, review {review.get('end_date')}")
         if queue == "outcome" and not _dates_agree(_s(draft.get("evidence_date")), _s(review.get("evidence_date"))):
             diffs.append(f"evidence_date: draft {draft.get('evidence_date')}, review {review.get('evidence_date')}")
+        # A field disputes only when the two readers read different values. Both reading the same
+        # value (apart from formatting) and judging its match to the record differently is noted
+        # with the row, not disputed: the conclusion checks above decide whether the row stands.
         rf = {_s(f.get("field")): f for f in review.get("fields") or []}
+        judged = []
         for f in draft.get("fields") or []:
             other = rf.get(_s(f.get("field")))
-            if other is not None and bool(other.get("agrees")) != bool(f.get("agrees")):
-                diffs.append(f"{f.get('field')}: draft reads {f.get('document')!r}, review reads "
-                             f"{other.get('document')!r}")
+            if other is None or bool(other.get("agrees")) == bool(f.get("agrees")):
+                continue
+            fuller = max((f, other), key=lambda x: len(_words(x.get("document"))))
+            same_words = _words(f.get("document")) == _words(other.get("document"))
+            # When one reading extends the other, the fuller one must be the reading that says the
+            # value matches: if it says the value differs, its extra words are likely why.
+            if _same_value(f.get("document"), other.get("document"), _s(f.get("field"))) and (
+                    same_words or fuller.get("agrees")):
+                if _same_text(f.get("document"), other.get("document")):
+                    read = f"both read {_one_line(f.get('document'))!r}"
+                else:
+                    read = (f"draft read {_one_line(f.get('document'))!r}, review read "
+                            f"{_one_line(other.get('document'))!r}")
+                judged.append(f"{f.get('field')} ({read}; draft says it {_matches(f)}, review says it "
+                              f"{_matches(other)})")
+            else:
+                diffs.append(f"{f.get('field')}: draft reads {_one_line(f.get('document'))!r} and says it "
+                             f"{_matches(f)}, review reads {_one_line(other.get('document'))!r} and says it "
+                             f"{_matches(other)}")
+        if judged:
+            out["judgment_differences"] = judged
+            # A contradicts verdict still needs a field both readings call wrong: a judgment
+            # difference must not leave the verdict resting on fields only one reader faulted.
+            if queue == "restriction" and _s(draft.get("verdict")) == "contradicts" and not any(
+                    not f.get("agrees") and rf.get(_s(f.get("field"))) is not None
+                    and not rf[_s(f.get("field"))].get("agrees") for f in draft.get("fields") or []):
+                diffs.append("verdict contradicts: no field both readings mark as disagreeing")
         unchecked = sorted({_s(f.get("field")) for f in draft.get("fields") or []} - set(rf))
         if unchecked:
             out["unchecked_by_review"] = unchecked
@@ -687,6 +777,8 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             signed = f"{draft['agent']} + {review['agent']}"
             text = (f"{_one_line(draft.get('note'))} Quoted: \"{_one_line(draft.get('quote'))}\" "
                     f"Second reading ({review['agent']}, {review.get('access')}): {_one_line(review.get('note'))}")
+            if judged:
+                text += f" Same value, judged differently against the record: {'; '.join(judged)}."
             checked_on = max(_s(draft.get("date")), _s(review.get("date")))
             record = card.get("record", {})
             if queue == "restriction":
@@ -712,6 +804,8 @@ def reconcile(card: dict, draft: dict, review: dict, existing: list[dict] | None
             if held:
                 out["existing"] = held
             note = f"{conclusion} {draft[conclusion]}: {draft['source_url']} ({draft['access']}); signed {signed}."
+            if judged:
+                note += f" Same value, judged differently against the record: {'; '.join(judged)}."
     out["log"] = {"date": today.isoformat(), "queue": queue, "key": key, "outcome": out["result"],
                   "note": _one_line(note)}
     return out
