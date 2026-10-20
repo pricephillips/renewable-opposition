@@ -72,6 +72,11 @@ and the claim check of a drafted queue row or a held negative check. Each
 carries the row's own columns or claimed values and the source, and never a
 note, a drafter or a reviewer; `expect` gives the shape of the review packet.
 
+County drafts (queue `county`): the county-examiner's packet, in the shape
+.claude/agents/county-examiner.md gives; `check` holds its restriction rows to
+the rules promote_reviewed.py applies and a negative check to
+docs/COUNTY_CHECK.md section 2.
+
 Subcommands
   card QUEUE KEY                       print the card for one item, published or quarantined
   blind CARD DRAFT                     print the blind card
@@ -110,7 +115,11 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from build_sabin_seeds import mechanism_problems  # noqa: E402
 from classify import EVENT_KINDS, INSTRUMENT_KINDS  # noqa: E402
+from common import STATE_CODES  # noqa: E402
+from negative_checks import family_of  # noqa: E402
+from promote_reviewed import QUEUE_RESTRICTION_STATUS  # noqa: E402
 from common import PROCESSED_DIR, REVIEW_DIR, read_csv  # noqa: E402
 from resolutions import (  # noqa: E402
     NOT_IN_FORCE, OUTCOME_FIELDS, OUTCOME_PATH, RESOLVED_STATUSES, RESTRICTION_FIELDS, RESTRICTION_PATH,
@@ -348,9 +357,12 @@ def blind_row(kind: str, key: str, queue_rows: list[dict], candidate_rows: list[
 
 # ── Checks ───────────────────────────────────────────────────────────────────
 
-# Queues whose packets blind-row cards ask for (EXPECT) and that reconcile does
-# not compare: the record-editor applies them from both readings.
-ROW_QUEUES = ("lead", "queue_row", "negative_check", "case")
+# Queues that reconcile does not compare: the blind-row queues (cards and
+# EXPECT shapes above) and the county-examiner's `county` drafts, whose rows
+# the record-editor writes once a second reader has checked them.
+ROW_QUEUES = ("lead", "queue_row", "negative_check", "case", "county")
+_FIPS = re.compile(r"^\d{5}$")
+_END = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 CLAIM_VERDICTS = ("confirmed", "contradicts", "unverifiable")
 LEAD_DECISIONS = ("pending", "rejected", "duplicate")
 # What a triage judged from the headline alone may correct (lead-triager).
@@ -493,6 +505,86 @@ def _check_case(p: dict) -> list[str]:
     return errors
 
 
+def _check_county(p: dict) -> tuple[list[str], list[str]]:
+    """A county-examiner draft (docs/COUNTY_CHECK.md): restriction rows from an
+    instrument that was read, a negative check only when every government was
+    covered with primary law and proceedings opened, or leads."""
+    errors, warnings = _note_errors(p), []
+    errs, _ = _attempt_errors(p)
+    errors += errs
+    if not _FIPS.match(_s(p.get("key"))):
+        errors.append(f"key {p.get('key')!r} must be the county's five-digit FIPS code")
+    if _s(p.get("state")) not in STATE_CODES:
+        errors.append(f"state {p.get('state')!r} must be a two-letter state code")
+    if not _s(p.get("county")) or not _s(p.get("governments_checked")):
+        errors.append("county and governments_checked are required: every government that zones land there")
+    sources = p.get("sources_checked") or []
+    if not isinstance(sources, list) or any(not isinstance(x, dict) or not _s(x.get("entry"))
+                                             or not isinstance(x.get("opened"), bool) for x in sources):
+        errors.append("sources_checked must be a list of {entry, opened (true or false)}")
+        sources = []
+    uncovered = p.get("governments_not_covered") or []
+    if not isinstance(uncovered, list) or any(not isinstance(g, dict) or not _s(g.get("name"))
+                                               or not _s(g.get("why")) for g in uncovered):
+        errors.append("governments_not_covered must be a list of {name, why}")
+    leads = p.get("leads") or []
+    if not isinstance(leads, list) or any(not isinstance(x, dict) or not _s(x.get("what")) for x in leads):
+        errors.append("leads must be a list of {what, urls}")
+        leads = []
+    rows = p.get("restrictions") or []
+    if not isinstance(rows, list):
+        errors.append("restrictions must be a list of queue rows")
+        rows = []
+    for i, r in enumerate(rows, start=1):
+        where = f"restrictions[{i}]: "
+        if not isinstance(r, dict):
+            errors.append(f"{where}must be an object")
+            continue
+        if _s(r.get("entity_type")) != "restriction":
+            errors.append(f"{where}entity_type must be restriction")
+        mechanisms = [x.strip() for x in _s(r.get("mechanisms")).split(";") if x.strip()]
+        techs = [t.strip() for t in re.split(r"[;,]", _s(r.get("technology"))) if t.strip()]
+        if not mechanisms:
+            errors.append(f"{where}mechanisms must list MECHANISM_TYPE names separated by semicolons")
+        errors += [where + e for e in mechanism_problems(mechanisms, techs)]
+        if _s(r.get("status")) not in QUEUE_RESTRICTION_STATUS:
+            errors.append(f"{where}status {r.get('status')!r} must be one of {', '.join(QUEUE_RESTRICTION_STATUS)}")
+        end = _s(r.get("end_date"))
+        if end and not _END.match(end):
+            errors.append(f"{where}end_date {end!r} must be YYYY-MM or YYYY-MM-DD")
+        if _s(r.get("adopted_date")) and not _PARTIAL.match(_s(r.get("adopted_date"))):
+            errors.append(f"{where}adopted_date {r.get('adopted_date')!r} must be YYYY[-MM[-DD]]")
+        errors += _reading_errors(r, where)
+        if _s(r.get("source_kind")) not in INSTRUMENT_KINDS:
+            errors.append(f"{where}source_kind must be one of {', '.join(INSTRUMENT_KINDS)}: a restriction "
+                          "rests on the instrument, its minutes or an official copy")
+        if len(_s(r.get("evidence_text"))) < MIN_QUOTE:
+            errors.append(f"{where}evidence_text is required: the operative text, verbatim")
+        if _s(r.get("severity_score")):
+            errors.append(f"{where}severity_score is typed: the build computes it")
+    check = p.get("negative_check")
+    if check:
+        if not isinstance(check, dict) or _s(check.get("scope")) not in ("restrictions", "projects", "both") \
+                or _s(check.get("result")) != "none_found" or not _s(check.get("note")):
+            errors.append("negative_check must be {scope: restrictions | projects | both, result: none_found, note}")
+        else:
+            if uncovered:
+                errors.append("a negative check with governments not covered: COUNTY_CHECK.md section 2 needs "
+                              "every government that zones; record leads instead")
+            if rows and _s(check.get("scope")) in ("restrictions", "both"):
+                errors.append("a negative check for restrictions alongside drafted restrictions")
+            opened = {family_of(_s(x.get("entry"))) for x in sources if x.get("opened")}
+            missing = [f for f in ("primary_law", "proceeding") if f not in opened]
+            if missing:
+                errors.append(f"a negative check needs opened {' and '.join(missing)} sources (COUNTY_CHECK.md "
+                              "section 2); search results alone are never enough")
+            if not any(_s(x.get("entry")).lower().startswith("news search") for x in sources):
+                warnings.append("no news search in sources_checked")
+    if not rows and not check and not leads:
+        errors.append("the draft concludes nothing: draft restrictions, a negative check, or leads")
+    return errors, warnings
+
+
 def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[str]]:
     """(errors, warnings) for a draft or review packet."""
     today = today or date.today()
@@ -533,6 +625,10 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
             errors += _check_lead(p)
         elif queue == "case":
             errors += _check_case(p)
+        elif queue == "county":
+            errs, warns = _check_county(p)
+            errors += errs
+            warnings += warns
         else:
             errors += _check_claim(p)
         return errors, warnings

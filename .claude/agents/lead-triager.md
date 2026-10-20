@@ -65,7 +65,8 @@ or `official_copy` for the ordinance, the minutes or an official copy;
 `court_record`; `other` for a Legistar matter page, which is the clerk's
 record and not the instrument), and you may draft from what you read:
 `status`, `mechanisms` (semicolon list in `MECHANISM_TYPE`,
-`scripts/build_sabin_seeds.py`), `mechanism_detail` (distances, dBA and hours,
+`scripts/build_sabin_seeds.py`; a mechanism that covers only some of the
+row's technologies names them, as in `cap on acreage (battery_storage)`), `mechanism_detail` (distances, dBA and hours,
 acreage, caps), `adopted_date`, `end_date` (the date a moratorium runs to, or
 when a lifted or expired instrument stopped applying), `project_name`,
 `technology`, `description`,

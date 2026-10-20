@@ -117,7 +117,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_sabin_seeds import (  # noqa: E402
     MECHANISM_TYPE, OUTCOME, RESTRICTION_STATUS, RESTRICTION_TECH, driving_type, finalize_outcome,
-    project_severity, restriction_severity, text_about,
+    mechanism_name, mechanism_problems, mechanisms_for, project_severity, restriction_severity, text_about,
 )
 from build_seed_outputs import REQUIRED, normalize_row, record_id  # noqa: E402
 from promotion_trail import new_decisions  # noqa: E402
@@ -279,12 +279,18 @@ def mechanism_list(row: dict) -> list[str]:
 
 def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict], list[str]]:
     """One scored seed row per technology, or ([], problems). Raises
-    PromotionError on a mechanism outside MECHANISM_TYPE."""
+    PromotionError on a mechanism outside MECHANISM_TYPE. A mechanism may be
+    qualified with the technologies it applies to, as Sabin rows are
+    ("setback; cap on acreage (battery_storage)"): each technology's row is
+    scored on the unqualified mechanisms and those that name it."""
     mechanisms = mechanism_list(row)
-    unknown = [m for m in mechanisms if m not in MECHANISM_TYPE]
+    unknown = [m for m in mechanisms if mechanism_name(m) not in MECHANISM_TYPE]
     if unknown:
         raise PromotionError(f"unknown mechanism(s) {unknown}; use the build_sabin_seeds.MECHANISM_TYPE "
                              "vocabulary, separated by semicolons")
+    bad = mechanism_problems(mechanisms)
+    if bad:
+        raise PromotionError("; ".join(bad))
     if not mechanisms:
         return [], ["mechanisms is blank; list every mechanism the instrument uses"]
     status = (row.get("status") or "").strip()
@@ -303,12 +309,19 @@ def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict]
     off = [t for t in techs if t not in RESTRICTION_TECH]
     if off or not techs:
         return [], [f"technology must be among {', '.join(RESTRICTION_TECH)} to be scored"]
-    types = {MECHANISM_TYPE[m] for m in mechanisms}
+    off = mechanism_problems(mechanisms, techs)
+    if off:
+        return [], off
+    own = {tech: mechanisms_for(mechanisms, tech) for tech in techs}
+    bare = [tech for tech in techs if not own[tech]]
+    if bare:
+        return [], [f"no mechanism applies to {', '.join(bare)}: qualify fewer, or drop it from technology"]
     text = " ".join(x for x in ((row.get("mechanism_detail") or "").strip(),
                                 (row.get("description") or "").strip()) if x)
     typed = (row.get("severity_score") or "").strip()
     out, problems = [], []
     for tech in techs:
+        types = {MECHANISM_TYPE[mechanism_name(m)] for m in own[tech]}
         score, basis = restriction_severity(types, tech, status, text_about(text, tech))
         if typed and typed != str(score):
             problems.append(f"typed severity_score {typed} conflicts with the computed {score} for {tech} "
@@ -317,7 +330,7 @@ def score_restriction(row: dict, auto_on: str | None = None) -> tuple[list[dict]
         seed = queue_to_seed(row, auto_on)
         seed.update(technology=tech, severity_score=score, severity_basis=basis,
                     restriction_type=driving_type(types, basis), status=status,
-                    mechanisms=", ".join(mechanisms))
+                    mechanisms=", ".join(own[tech]))
         out.append(seed)
     return ([] if problems else out), problems
 

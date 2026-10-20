@@ -87,14 +87,16 @@ Internet Archive. Record every URL that failed in `attempts`.
                      "note": "<standards the codes do set; anything not opened, with URL and response>"},
   "standards_noted": "<non-restricting standards found>",
   "leads": [{"what": "", "urls": [""]}],
-  "attempts": [{"url": "", "result": ""}],
+  "attempts": [{"url": "<every URL that failed>", "result": "<what it returned>"}],
   "note": "<the pass in two or three sentences; no em dash>"
 }
 ```
 
 Set `negative_check` to null unless the check meets section 2 in full.
-`mechanisms` uses `MECHANISM_TYPE` in `scripts/build_sabin_seeds.py`; never
-type a severity. A restriction row becomes a queue row with `review_status`
+`mechanisms` uses `MECHANISM_TYPE` in `scripts/build_sabin_seeds.py` (a
+mechanism that covers only some of the row's technologies names them, as in
+`cap on acreage (battery_storage)`); never type a severity. Run
+`python scripts/review_packets.py check <packet>` and fix every error. A restriction row becomes a queue row with `review_status`
 `awaiting_review` and `reviewer_notes` beginning "Drafted by <your signature>"
 when the record-editor writes it; a negative check becomes a row with
 `drafted_by` set and `reviewer` blank. Neither counts until someone else

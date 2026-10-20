@@ -312,3 +312,36 @@ def test_appending_to_a_queue_written_before_a_field_existed_realigns_it(tmp_pat
     assert header == parse.QUEUE_FIELDS and all(len(r) == len(header) for r in rows)
     got = list(csv.DictReader(open(path, newline="", encoding="utf-8")))
     assert [(r["source_id"], r["status"], r["end_date"]) for r in got] == [("old", "active", ""), ("new", "", "2027")]
+
+
+def test_a_mechanism_can_name_the_technologies_it_applies_to(queue, capsys):
+    """Pasadena's fire code shape: a side setback for solar and storage, the
+    acreage cap and site spacing for storage only. Each technology's row is
+    scored on its own mechanisms."""
+    code, seeds, status = queue(row(technology="solar;battery_storage",
+                                    mechanisms="setback; cap on acreage (battery_storage)",
+                                    mechanism_detail="Battery storage sites no larger than five acres and 1,000 "
+                                                     "feet from critical facilities. Solar arrays 150 feet from "
+                                                     "side and rear lot lines."))
+    assert code == 0 and status == ["promoted"]
+    by_tech = {s["technology"]: s for s in seeds}
+    assert by_tech["solar"]["mechanisms"] == "setback"
+    assert by_tech["battery_storage"]["mechanisms"] == "setback, cap on acreage (battery_storage)"
+    assert (by_tech["solar"]["severity_score"], by_tech["battery_storage"]["severity_score"]) == ("2", "3")
+    assert by_tech["solar"]["queue_id"] == by_tech["battery_storage"]["queue_id"]   # one instrument
+
+
+def test_a_qualifier_must_name_a_listed_technology_and_leave_none_bare(queue, capsys):
+    code, seeds, _ = queue(row(technology="solar", mechanisms="setback (wind)"))
+    assert code == 0 and seeds == [] and "names wind, which technology does not list" in capsys.readouterr().out
+    _, seeds, _ = queue(row(technology="solar;wind", mechanisms="setback (wind)"))
+    assert seeds == [] and "no mechanism applies to solar" in capsys.readouterr().out
+    code, seeds, _ = queue(row(technology="solar", mechanisms="setback (sunshine)"))
+    assert code == 1 and seeds == [] and "a qualifier names" in capsys.readouterr().err
+
+
+def test_an_empty_qualifier_stops_the_run_rather_than_dropping_the_mechanism(queue, capsys):
+    code, seeds, _ = queue(row(technology="solar", mechanisms="setback; noise limit ()"))
+    assert code == 1 and seeds == [] and "a qualifier names" in capsys.readouterr().err
+    code, seeds, _ = queue(row(technology="solar;battery_storage", mechanisms="setback; cap on acreage (storage)"))
+    assert code == 0 and {s["technology"] for s in seeds} == {"solar", "battery_storage"}   # the alias

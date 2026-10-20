@@ -210,3 +210,16 @@ def test_a_new_blank_column_does_not_change_a_row():
     assert rl.lint_file(Q, base, filled, T) != []      # an edited row is checked again
     spaced = text(Q_FIELDS + ["end_date"], [q(reviewer_notes=" ", end_date="")])
     assert rl.lint_file(Q, base, spaced, T) != []      # so is a whitespace-only edit
+
+
+def test_a_qualified_mechanism_is_in_the_vocabulary():
+    ok = q(entity_type="restriction", access="opened", mechanisms="setback; cap on acreage (battery_storage)")
+    assert "MECHANISM" not in codes(rl.lint_file(Q, "", text(Q_FIELDS, [ok]), T))
+    bad = q(entity_type="restriction", access="opened", mechanisms="vibes (solar)")
+    assert "MECHANISM" in codes(rl.lint_file(Q, "", text(Q_FIELDS, [bad]), T), "E")
+
+
+def test_a_qualifier_that_would_stop_promotion_is_an_error():
+    for bad in ("setback (sunshine)", "setback (Solar)", "noise limit ()"):
+        row = q(entity_type="restriction", access="opened", mechanisms=f"setback; {bad}")
+        assert "MECHANISM" in codes(rl.lint_file(Q, "", text(Q_FIELDS, [row]), T), "E"), bad
