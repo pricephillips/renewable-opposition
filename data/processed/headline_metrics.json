@@ -1,40 +1,40 @@
 {
   "restrictions": {
-    "rows": 3640,
-    "instruments": 3435,
+    "rows": 3642,
+    "instruments": 3437,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3350,
-        "severe_instruments": 1365,
+        "instruments": 3352,
+        "severe_instruments": 1367,
         "states": 51,
         "by_status": {
-          "active": 899,
+          "active": 903,
           "extended": 57,
           "pending": 5,
-          "unknown": 2389
+          "unknown": 2387
         },
         "by_technology": {
-          "battery_storage": 139,
-          "solar": 1666,
+          "battery_storage": 140,
+          "solar": 1667,
           "wind": 1707
         },
         "by_evidence_level": {
-          "compiled_flagged": 2390,
+          "compiled_flagged": 2388,
           "compiled_record": 61,
-          "primary_source": 85,
+          "primary_source": 89,
           "report_citation": 814
         },
         "by_verification": {
-          "unverified": 3265,
-          "verified": 85
+          "unverified": 3263,
+          "verified": 89
         },
         "by_currency": {
-          "in_force": 955,
+          "in_force": 959,
           "lapsed_unconfirmed": 1,
           "pending": 5,
-          "unknown": 2389
+          "unknown": 2387
         },
-        "severe_where_state_limits_local": 943
+        "severe_where_state_limits_local": 945
       },
       "multi_sector_data_centers": {
         "instruments": 85,
@@ -84,10 +84,10 @@
         }
       },
       "NREL": {
-        "instruments": 2391,
+        "instruments": 2389,
         "severe_instruments": 662,
         "by_verification": {
-          "unverified": 2360,
+          "unverified": 2358,
           "verified": 31
         }
       },
@@ -100,17 +100,17 @@
         }
       },
       "review queue": {
-        "instruments": 24,
-        "severe_instruments": 9,
+        "instruments": 28,
+        "severe_instruments": 11,
         "by_verification": {
           "unverified": 4,
-          "verified": 20
+          "verified": 24
         }
       }
     },
     "by_verification": {
-      "unverified": 3341,
-      "verified": 94
+      "unverified": 3339,
+      "verified": 98
     }
   },
   "contested_projects": {

@@ -92,3 +92,7 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-16,queue.csv,q_b4907e2bbd,contested_project,TX,Baytown,promoted,
 2026-10-17,queue.csv,q_bbb012a590-2,restriction,TX,Pasadena,promoted,
 2026-10-18,queue.csv,q_bbb012a590,restriction,TX,Pasadena,unpublished,status lifted: the instrument is no longer in force
+2026-10-20,queue.csv,q_36bf377222,restriction,IA,Mitchell County,promoted,
+2026-10-20,queue.csv,q_97db31510f,restriction,CO,Logan County,promoted,
+2026-10-20,queue.csv,q_ad0ab51312,restriction,CO,Logan County,promoted,
+2026-10-20,queue.csv,q_97d13b5f41,restriction,CO,Logan County,promoted,

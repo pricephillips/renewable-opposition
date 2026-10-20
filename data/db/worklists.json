@@ -1,5 +1,5 @@
 {"columns":["worklist","description","rows"],"rows":[
-["adjacency_worklist","Counties next to a recent restriction that nobody has checked",249],
+["adjacency_worklist","Counties next to a recent restriction that nobody has checked",256],
 ["cases_candidates","Litigated projects waiting for a court record",190],
 ["coverage_gaps","Moratoria found in only one of the two compiled sources",177],
 ["examination_worklist","Counties to examine, check again, or whose drafted check awaits review",1730],
@@ -8,5 +8,5 @@
 ["negative_check_worklist","Profiled counties with no restriction and no documented check",0],
 ["outcome_worklist","Contested-project outcomes not yet confirmed by a source someone read",428],
 ["queue","Candidate records waiting for a reviewer",2],
-["restriction_worklist","Restrictions whose instrument or adopting minutes nobody has read yet",3341]
+["restriction_worklist","Restrictions whose instrument or adopting minutes nobody has read yet",3339]
 ]}

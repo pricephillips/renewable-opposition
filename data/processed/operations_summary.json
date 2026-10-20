@@ -2,11 +2,11 @@
  "generated": "2026-10-20",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3350,
-  "severe": 1365,
-  "verified": 85,
+  "restriction_instruments": 3352,
+  "severe": 1367,
+  "verified": 89,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 943,
+  "severe_where_state_limits_local": 945,
   "projects": 579,
   "projects_confirmed": 145,
   "decided": {
@@ -58,13 +58,13 @@
   }
  },
  "quarantine": {
-  "rows": 9,
+  "rows": 11,
   "by_entity": {
-   "restrictions": 9
+   "restrictions": 11
   },
   "by_blocking_code": {
    "SCOPE_DATA_CENTER_ONLY": 8,
-   "PRIMARY_SOURCE_CONTRADICTS": 1
+   "PRIMARY_SOURCE_CONTRADICTS": 3
   }
  },
  "worklists": {
@@ -81,16 +81,16 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3341,
+   "rows": 3339,
    "by_tier": {
     "compiled_record": 128,
-    "compiled_flagged": 2399,
+    "compiled_flagged": 2397,
     "report_citation": 814
    },
    "lapsed": 2,
    "by_county_impact": {
-    "none": 2562,
-    "sole_severe": 431,
+    "none": 2561,
+    "sole_severe": 430,
     "sole_record": 348
    },
    "with_located_url": 11,
@@ -101,7 +101,7 @@
    "by_reason": {}
   },
   "adjacency": {
-   "rows": 249
+   "rows": 256
   },
   "fips_misses": {
    "rows": 63,
@@ -113,21 +113,49 @@
   }
  },
  "promotion_trail": {
-  "decisions": 93,
+  "decisions": 97,
   "by_action": {
-   "promoted": 71,
+   "promoted": 75,
    "held": 13,
    "awaiting_review": 6,
    "rejected": 2,
    "unpublished": 1
   },
   "by_file": {
-   "queue.csv": 45,
+   "queue.csv": 49,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-18",
+  "last": "2026-10-20",
   "recent": [
+   {
+    "date": "2026-10-20",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "CO Logan County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-20",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "CO Logan County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-20",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "CO Logan County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-20",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IA Mitchell County",
+    "reason": ""
+   },
    {
     "date": "2026-10-18",
     "file": "queue.csv",
@@ -155,48 +183,20 @@
     "action": "promoted",
     "what": "TX Baytown",
     "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "TX Tomball",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "KY Nicholas County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "KY Nicholas County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-16",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "KY Nicholas County",
-    "reason": ""
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 30,
+   "promoted": 34,
    "rejected": 2,
    "confirmed": 3,
    "pending": 2,
    "awaiting_review": 1,
-   "lead": 59
+   "lead": 58
   },
   "queue_by_entity": {
-   "restriction": 54,
+   "restriction": 57,
    "contested_project": 42,
    "case": 1
   },
@@ -205,15 +205,15 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 102,
+  "snapshot_rows": 105,
   "snapshot_files": 5,
-  "headline_history_rows": 9,
+  "headline_history_rows": 10,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-19",
+  "headline_last_change": "2026-10-20",
   "latest": {
-   "restrictions": "3350",
-   "severe_restrictions": "1365",
-   "verified_restrictions": "85",
+   "restrictions": "3352",
+   "severe_restrictions": "1367",
+   "verified_restrictions": "89",
    "multi_sector_restrictions": "85",
    "contested_projects": "579",
    "confirmed_outcomes": "145",
@@ -226,9 +226,9 @@
   }
  },
  "source_archive": {
-  "sources": 68,
+  "sources": 72,
   "archived": 22,
-  "archived_share": 0.324
+  "archived_share": 0.306
  },
  "evidence_checks": {
   "restriction_sources": {
@@ -240,9 +240,10 @@
     "contradicts": 2
    },
    "NREL": {
-    "access_opened": 31,
-    "checked": 31,
-    "confirmed": 31
+    "access_opened": 33,
+    "checked": 33,
+    "confirmed": 31,
+    "contradicts": 2
    },
    "Sabin": {
     "access_opened": 1,

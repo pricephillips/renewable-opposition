@@ -43,7 +43,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
-      "rows": 3640,
+      "rows": 3642,
       "schema": {
         "fields": [
           {
@@ -1264,7 +1264,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "One row per cited source document, with its Internet Archive snapshot.",
-      "rows": 68,
+      "rows": 72,
       "schema": {
         "fields": [
           {
