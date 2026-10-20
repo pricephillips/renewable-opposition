@@ -73,8 +73,11 @@ module docstring), with `"packet": "review"`:
   after your reading; or, for `active` and `extended`, its current end date
   as a full YYYY-MM-DD, blank when it has none) and
   `evidence_date` (the date of the document that shows the status: the code's
-  currency date, the meeting, the repeal). A repeal is `lifted`; a moratorium
-  past its end date with no extension found is `expired`.
+  currency date, the meeting, the repeal). A repeal is `lifted`; so is a
+  later ordinance that replaces the instrument with different terms, and its
+  `relation` is `amends`, not `repeals` (the drafter's rule in
+  `status-checker.md`). A moratorium past its end date with no extension found
+  is `expired`.
 - outcome: the outcome the document supports (`blocked_confirmed`,
   `advanced_confirmed`, `restricted_conditional`, `pending`) and the
   `evidence_date` of the event.

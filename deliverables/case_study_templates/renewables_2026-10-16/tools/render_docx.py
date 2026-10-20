@@ -396,5 +396,17 @@ cp.author = "Hawthorn Intelligence"
 # The template's own last editor would otherwise carry over into every file.
 cp.last_modified_by = "Hawthorn Intelligence"
 cp.comments = ""
+# The template also carries a link to its author's local .dotx (a path with a
+# user name) and custom properties such as a Grammarly document id: drop both.
+settings = d.settings.element
+for at in settings.findall(qn("w:attachedTemplate")):
+    settings.remove(at)
+settings_part = d.part.part_related_by(RT.SETTINGS)
+for rid, rel in list(settings_part.rels.items()):
+    if rel.reltype.endswith("/attachedTemplate"):
+        settings_part.rels.pop(rid)
+for rid, rel in list(d.part.package.rels.items()):
+    if rel.reltype == RT.CUSTOM_PROPERTIES:
+        d.part.package.rels.pop(rid)
 d.save(OUT)
 print("wrote", OUT, "tables", table_count, "footnotes", len(footnote_ids))
