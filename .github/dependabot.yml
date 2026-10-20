@@ -20,3 +20,8 @@ updates:
     groups:
       all:
         patterns: ["*"]
+    # numpy 2.5 requires Python 3.12; #78 bumped it and CI failed at install.
+    # Lift this when the workflows move to 3.12.
+    ignore:
+      - dependency-name: numpy
+        versions: [">=2.5"]
