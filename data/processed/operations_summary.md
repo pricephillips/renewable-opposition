@@ -1,6 +1,6 @@
 # Operations summary
 
-Generated 2026-10-19 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-20 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
