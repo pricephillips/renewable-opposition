@@ -193,12 +193,12 @@
    "confirmed": 3,
    "pending": 2,
    "awaiting_review": 1,
-   "lead": 58
+   "lead": 70
   },
   "queue_by_entity": {
    "restriction": 57,
-   "contested_project": 42,
-   "case": 1
+   "contested_project": 46,
+   "case": 9
   },
   "case_candidates": 230,
   "case_candidates_started": 8,
@@ -271,25 +271,39 @@
  },
  "intake": {
   "courtlistener_renewables": {
-   "requests": 1,
-   "stored": 1,
+   "requests": 2,
+   "stored": 2,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-10-13",
-   "last_changed": "2026-10-13",
+   "last_fetch": "2026-10-20",
+   "last_changed": "2026-10-20",
    "last_error": null,
-   "files_parsed": 1,
-   "leads_queued": 1,
+   "files_parsed": 2,
+   "leads_queued": 9,
    "queue_by_status": {
-    "lead": 1
+    "lead": 9
+   }
+  },
+  "gdelt_renewable_news": {
+   "requests": 5,
+   "stored": 3,
+   "unchanged": 0,
+   "failed": 2,
+   "last_fetch": "2026-10-20",
+   "last_changed": "2026-10-20",
+   "last_error": "2026-10-20: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
+   "files_parsed": 3,
+   "leads_queued": 3,
+   "queue_by_status": {
+    "lead": 3
    }
   },
   "legistar_renewable_matters": {
-   "requests": 11,
+   "requests": 22,
    "stored": 11,
-   "unchanged": 0,
+   "unchanged": 11,
    "failed": 0,
-   "last_fetch": "2026-10-13",
+   "last_fetch": "2026-10-20",
    "last_changed": "2026-10-13",
    "last_error": null,
    "files_parsed": 8,
@@ -299,12 +313,12 @@
    }
   },
   "moratorium_nation_upstream": {
-   "requests": 1,
-   "stored": 0,
+   "requests": 2,
+   "stored": 1,
    "unchanged": 0,
    "failed": 1,
-   "last_fetch": "2026-10-13",
-   "last_changed": null,
+   "last_fetch": "2026-10-20",
+   "last_changed": "2026-10-20",
    "last_error": "2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1"
   },
   "nrel_solar_ordinances_2025": {
@@ -326,17 +340,17 @@
    "last_error": null
   },
   "ny_ores_permit_applications": {
-   "requests": 1,
-   "stored": 1,
+   "requests": 2,
+   "stored": 2,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-10-13",
-   "last_changed": "2026-10-13",
+   "last_fetch": "2026-10-20",
+   "last_changed": "2026-10-20",
    "last_error": null,
-   "files_parsed": 1,
-   "leads_queued": 7,
+   "files_parsed": 2,
+   "leads_queued": 8,
    "queue_by_status": {
-    "lead": 7
+    "lead": 8
    }
   },
   "sabin_2026_09_landing_html": {
@@ -385,20 +399,20 @@
    "last_error": null
   },
   "sabin_web_database_projects": {
-   "requests": 1,
+   "requests": 2,
    "stored": 1,
-   "unchanged": 0,
+   "unchanged": 1,
    "failed": 0,
-   "last_fetch": "2026-10-13",
+   "last_fetch": "2026-10-20",
    "last_changed": "2026-10-13",
    "last_error": null
   },
   "sabin_web_database_restrictions": {
-   "requests": 1,
+   "requests": 2,
    "stored": 1,
-   "unchanged": 0,
+   "unchanged": 1,
    "failed": 0,
-   "last_fetch": "2026-10-13",
+   "last_fetch": "2026-10-20",
    "last_changed": "2026-10-13",
    "last_error": null
   }

@@ -24,7 +24,7 @@ Decided projects (events older than 90 days): 333, of which 244 blocked; confirm
 
 ## Review and promotion
 
-Queue: 34 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 58 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 34 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 70 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
 Promotion trail: 97 decisions from 2026-10-13 to 2026-10-20 (new or changed decisions only): 75 promoted, 13 held, 6 awaiting_review, 2 rejected, 1 unpublished.
 
@@ -58,21 +58,22 @@ Per source in `data/raw/manifest.csv`: requests made, new content stored, unchan
 
 | Source | Requests | Stored | Unchanged | Failed | Last fetch | Last changed | Leads queued | Queue now |
 |---|---:|---:|---:|---:|---|---|---:|---|
-| courtlistener_renewables | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 | 1 | 1 lead |
-| legistar_renewable_matters | 11 | 11 | 0 | 0 | 2026-10-13 | 2026-10-13 | 50 | 50 lead |
-| moratorium_nation_upstream | 1 | 0 | 0 | 1 | 2026-10-13 |  |  |  |
+| courtlistener_renewables | 2 | 2 | 0 | 0 | 2026-10-20 | 2026-10-20 | 9 | 9 lead |
+| gdelt_renewable_news | 5 | 3 | 0 | 2 | 2026-10-20 | 2026-10-20 | 3 | 3 lead |
+| legistar_renewable_matters | 22 | 11 | 11 | 0 | 2026-10-20 | 2026-10-13 | 50 | 50 lead |
+| moratorium_nation_upstream | 2 | 1 | 0 | 1 | 2026-10-20 | 2026-10-20 |  |  |
 | nrel_solar_ordinances_2025 | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | nrel_wind_ordinances_2025 | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
-| ny_ores_permit_applications | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 | 7 | 7 lead |
+| ny_ores_permit_applications | 2 | 2 | 0 | 0 | 2026-10-20 | 2026-10-20 | 8 | 8 lead |
 | sabin_2026_09_landing_html | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_projects_csv | 2 | 1 | 1 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_report_html | 2 | 2 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_report_pdf | 2 | 0 | 0 | 2 | 2026-10-09 |  |  |  |
 | sabin_2026_09_restrictions_csv | 2 | 1 | 1 | 0 | 2026-10-09 | 2026-10-09 |  |  |
-| sabin_web_database_projects | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 |  |  |
-| sabin_web_database_restrictions | 1 | 1 | 0 | 0 | 2026-10-13 | 2026-10-13 |  |  |
+| sabin_web_database_projects | 2 | 1 | 1 | 0 | 2026-10-20 | 2026-10-13 |  |  |
+| sabin_web_database_restrictions | 2 | 1 | 1 | 0 | 2026-10-20 | 2026-10-13 |  |  |
 
-Last error by source: moratorium_nation_upstream (2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1); sabin_2026_09_report_pdf (2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change).
+Last error by source: gdelt_renewable_news (2026-10-20: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+); moratorium_nation_upstream (2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1); sabin_2026_09_report_pdf (2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change).
 
 ## History and archive
 
