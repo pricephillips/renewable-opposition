@@ -9,7 +9,7 @@ review_status only ever holds a row back:
   awaiting_review
              drafted by an agent or person and not yet reviewed by someone
              else (docs/AGENT_REVIEW.md): held and listed until a reviewer
-             sets it to confirmed
+             sets it to confirmed (queue.csv and cases_candidates.csv alike)
   lead       (queue.csv) harvested by live intake (parse.py) and not yet
              triaged: held, counted and never promoted, however complete,
              until a reviewer sets it to pending (on topic and placed) or
@@ -597,6 +597,12 @@ def main() -> int:
         status = (row.get("review_status") or "").strip()
         if status in NEVER:
             decisions.append(decision(CANDIDATES_PATH.name, candidate_key(row), row, status))
+            continue
+        if status == AWAITING:
+            problems.append(f"cases_candidates.csv row {i}: awaiting review by someone other than its drafter "
+                            "(docs/AGENT_REVIEW.md); set review_status to confirmed once reviewed")
+            decisions.append(decision(CANDIDATES_PATH.name, candidate_key(row), row, AWAITING,
+                                      "awaiting review by someone other than its drafter"))
             continue
         need = [f for f in ("case_name", "court", "court_level", "case_source_url") if not row.get(f, "").strip()]
         if not need and not _URL.match(row["case_source_url"].strip()):

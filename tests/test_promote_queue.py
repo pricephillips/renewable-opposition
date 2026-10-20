@@ -232,6 +232,19 @@ def test_a_row_awaiting_review_is_held_until_someone_else_confirms_it(queue, cap
     assert "awaiting review by someone other than its drafter" in capsys.readouterr().out
 
 
+def test_a_filled_case_candidate_awaiting_review_is_held(queue, tmp_path, capsys):
+    cand = {"State": "IA", "project_name": "Example Wind", "technology": "wind", "source_record_id": "REC-9",
+            "linked_entity": "contested_project", "case_name": "A v. B", "court": "Iowa Court of Appeals",
+            "court_level": "state_appellate", "case_source_url": "https://www.courtlistener.com/o/1/",
+            "case_status": "pending", "review_status": "awaiting_review", "reviewer_notes": "Drafted by agent:x"}
+    common.write_csv(tmp_path / "review" / "cases_candidates.csv", [cand], list(cand))
+    code, _, _ = queue()
+    out = capsys.readouterr().out
+    assert code == 0 and not common.read_csv(tmp_path / "seed" / "cases_seed.csv")
+    assert common.read_csv(tmp_path / "review" / "cases_candidates.csv")[0]["review_status"] == "awaiting_review"
+    assert "awaiting review by someone other than its drafter" in out
+
+
 def test_the_trail_records_each_decision_once_and_every_change(queue, tmp_path):
     from common import read_csv
     trail = tmp_path / "promotion_trail.csv"   # conftest points pr.TRAIL_PATH here
