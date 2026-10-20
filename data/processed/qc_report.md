@@ -6,15 +6,15 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 3653 | 11 |
+| restrictions | 3653 | 14 |
 | contested_projects | 579 | 0 |
 | cases | 40 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
-| PRIMARY_SOURCE_CONTRADICTS | HIGH | 3 |
-| END_DATE_PASSED | MEDIUM | 2 |
+| PRIMARY_SOURCE_CONTRADICTS | HIGH | 6 |
+| END_DATE_PASSED | MEDIUM | 1 |
 
 ## Quarantined rows
 
@@ -25,11 +25,14 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_4124ff9c37 | CO | Logan County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_f6a41d8f1c | CO | Logan County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_a481e40503 | CO | Washington County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_2b245a9f03 | IA | Franklin County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_ed74c81f36 | KS | Lyon County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_1db2edee89 | KS | Miami County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_2b2ec8577b | KS | Miami County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_801654bae6 | KS | Miami County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_cae849b9c8 | KS | Topeka | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
+| restrictions | res_7624c83c5e | NE | Furnas County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_7a380d2200 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_ec310da5f0 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_f3189af0c4 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
+| restrictions | res_12732a2c15 | NY | Frankfort Town | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
