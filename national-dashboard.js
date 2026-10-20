@@ -34,7 +34,7 @@
  *   #/restriction/<id>      one record (also #/project/<id>, #/case/<id>)
  *   #/coverage              coverage, verification and worklist sizes
  *   #/data                  downloads, data dictionary, example queries
- *   #/sql?q=<sql>           SQL console (loads DuckDB-WASM, only here)
+ *   #/sql?q=<sql>           SQL console, <sql> in the box until Run (loads DuckDB-WASM, only here)
  *   ?m=<metric>             the map metric, on the map routes
  */
 (function () {
@@ -1766,7 +1766,8 @@
         return r.map(csvCell).join(',');
       })).join('\r\n') + '\r\n', 'text/csv');
     });
-    if (route.params.get('q')) setTimeout(execute, 0);
+    // A #/sql?q= link only fills the box: the reader runs it with the button,
+    // so a link someone else wrote never runs a query on load.
     return view;
   }
 

@@ -130,6 +130,12 @@ test('SQL console: DuckDB-WASM answers with the published numbers, offline', asy
   if (!fs.existsSync(EXT)) throw new Error('missing ' + EXT + ': run tests/ui/fetch_duckdb_extension.sh');
   const sql = "SELECT count(*) AS n FROM restriction_instrument WHERE scope = 'renewables_only'";
   await open(page, '#/sql?q=' + encodeURIComponent(sql), 'sql');
+  // A linked query fills the box and waits for Run: nothing loads or runs first.
+  await expect(page.locator('#sqlInput')).toHaveValue(sql);
+  await page.waitForTimeout(500);
+  await expect(page.locator('#sqlStatus')).toHaveText('');
+  expect(page.requested.some(u => u.includes('duckdb-wasm')), 'engine loaded before Run').toBe(false);
+  await page.click('#sqlRun');
   await expect(page.locator('#sqlStatus')).toContainText(/row in|Error/, { timeout: 180000 });
   await expect(page.locator('#sqlStatus')).toContainText('1 row in');
   await expect(page.locator('#sqlTable tbody td')).toHaveText(String(M.restrictions.by_scope.renewables_only.instruments));
@@ -163,6 +169,30 @@ test('DuckDB-WASM, Arrow and their imports are pinned to the resolved versions',
   // duckdb-wasm 1.29.x ships DuckDB v1.1.1, whose extensions fetch_duckdb_extension.sh pins.
   expect(v('@duckdb/duckdb-wasm')).toMatch(/^1\.29\./);
   expect(fs.readFileSync(path.join(__dirname, 'fetch_duckdb_extension.sh'), 'utf8')).toContain('v1.1.1/wasm_eh/');
+});
+
+// The import map pins every module the console loads from the CDN by sha384
+// of the copy the tests serve: each hash is right, and no reachable module
+// (DuckDB's entry, Arrow and everything their imports reach) is left out.
+test('the SQL console\'s CDN modules are all pinned by integrity', () => {
+  const crypto = require('crypto');
+  const { cdnToLocal } = require('./fixtures');
+  const html = fs.readFileSync(path.join(ROOT, 'national-dashboard.html'), 'utf8');
+  const js = fs.readFileSync(path.join(ROOT, 'national-dashboard.js'), 'utf8');
+  const map = JSON.parse(/<script type="importmap">([\s\S]*?)<\/script>/.exec(html)[1]);
+  const sri = f => 'sha384-' + crypto.createHash('sha384').update(fs.readFileSync(f)).digest('base64');
+  const roots = Object.values(map.imports).concat(/var DUCKDB = '([^']+)'/.exec(js)[1]);
+  const want = {};
+  const stack = roots.slice();
+  while (stack.length) {
+    const u = stack.pop();
+    if (want[u]) continue;
+    const file = cdnToLocal(u);
+    want[u] = sri(file);
+    const src = fs.readFileSync(file, 'utf8');
+    for (const m of src.matchAll(/(?:from|import)\s*['"](\.[^'"]+)['"]/g)) stack.push(new URL(m[1], u).href);
+  }
+  expect(map.integrity).toEqual(want);
 });
 
 test('coverage: states with every county examined, and each negative check with its grade', async ({ page }) => {

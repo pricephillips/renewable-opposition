@@ -393,6 +393,8 @@ fn_part._blob = etree.tostring(fn_root, xml_declaration=True, encoding="UTF-8", 
 cp = d.core_properties
 cp.title = TITLE
 cp.author = "Hawthorn Intelligence"
+# The template's own last editor would otherwise carry over into every file.
+cp.last_modified_by = "Hawthorn Intelligence"
 cp.comments = ""
 d.save(OUT)
 print("wrote", OUT, "tables", table_count, "footnotes", len(footnote_ids))

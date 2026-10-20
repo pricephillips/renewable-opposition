@@ -1,0 +1,102 @@
+name: Deploy dashboard to GitHub Pages
+
+# Publishes only what the public pages read, not the repository. Serving the
+# repository root (the old "Deploy from a branch" setting) made every file in
+# it fetchable from the Pages site: agent definitions, hand-offs, client
+# deliverables and model inputs among them. Settings > Pages > Source must be
+# "GitHub Actions" for this workflow to be what the site serves.
+#
+# What the pages fetch (keep this list in step with them):
+#   the five root pages and national-dashboard.js, basemap.js, processed-data.js;
+#   data/processed/ (map-audit.html through processed-data.js, and
+#   headline_metrics.json for the dashboard), data/db/ (summaries, state
+#   files, Parquet), data/geo/ (county TopoJSON), data/snapshots/manifest.csv
+#   (the data date) and db/schema.sql (the data dictionary).
+#
+# Build dashboard data commits new data/processed/ and data/db/ with
+# GITHUB_TOKEN, which starts no push run, so its completion on main starts a
+# deploy too (workflow_run). That trigger runs this file from main and checks
+# out main; it reads nothing from the triggering run, whose own triggers are
+# push to main, schedule and dispatch, never a pull request, so zizmor's
+# dangerous-triggers finding is suppressed on that line.
+
+on:
+  push:
+    branches: [main]
+  workflow_run:  # zizmor: ignore[dangerous-triggers] (see above)
+    workflows: [Build dashboard data]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deploy at a time; a deploy in progress finishes (GitHub's advice for
+# Pages), and the newest waiting one replaces any older waiting one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Stage the public site
+        run: |
+          set -euo pipefail
+          site="$RUNNER_TEMP/site"
+          rm -rf "$site"
+          mkdir -p "$site/data/snapshots" "$site/db"
+          cp index.html dashboard.html renewable-opposition-map.html map-audit.html national-dashboard.html \
+             national-dashboard.js basemap.js processed-data.js "$site/"
+          cp -R data/processed data/db data/geo "$site/data/"
+          cp data/snapshots/manifest.csv "$site/data/snapshots/"
+          cp db/schema.sql "$site/db/"
+          du -sh "$site"
+
+      - name: Refuse private files
+        run: |
+          set -euo pipefail
+          SITE="$RUNNER_TEMP/site"
+          bad=$(find "$SITE" \( -name CLAUDE.md -o -name .claude -o -name docs -o -name deliverables \
+                  -o -path "$SITE/data/model" -o -path "$SITE/data/review" -o -iname '*.docx' \
+                  -o -iname '*local_knowledge*' -o -name '.env*' \) -print)
+          if [ -n "$bad" ]; then
+            echo "::error::the staged site holds files that must not be published:"
+            echo "$bad"
+            exit 1
+          fi
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: ${{ runner.temp }}/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

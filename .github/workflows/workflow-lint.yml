@@ -8,6 +8,7 @@ name: Workflow Lint
 #               remaining medium findings (artipacked on build-data.yml,
 #               source-archive.yml and intake.yml, which must keep credentials
 #               to push) are listed, not blocking.
+# Both tools are pinned to an exact PyPI release; bump them on purpose.
 # One job, and push runs on main only: a branch's workflow change is linted by
 # its pull request, so the same commit is not linted twice (as data-center-map
 # did in its 3643691 and ce7e194).
@@ -39,12 +40,12 @@ jobs:
           persist-credentials: false
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
       - name: actionlint (with the runner's shellcheck)
-        run: uvx --from actionlint-py actionlint
+        run: uvx --from actionlint-py==1.7.12.25 actionlint
       - name: zizmor (report-only)
         if: always()
         continue-on-error: true
         run: |
-          uvx zizmor --offline --format plain .github/workflows > zizmor.txt || true
+          uvx zizmor@1.31.1 --offline --format plain .github/workflows > zizmor.txt || true
           {
             echo "## zizmor (report-only)"
             echo '```'
