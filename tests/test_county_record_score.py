@@ -119,3 +119,38 @@ def test_the_rubric_is_complete():
     assert [t["min"] for t in CFG["tiers"]] == sorted((t["min"] for t in CFG["tiers"]), reverse=True)
     for c in CFG["zoning_transition"]["counties"]:
         assert c["state"] in CFG["zoning_transition"]["states"] and c["sources"]
+
+
+def _plant(fips, year, mw=50, tech="solar", status="operating", source="eia860m"):
+    return {"county_fips": fips, "year": str(year), "capacity_mw": str(mw), "technology": tech,
+            "status": status, "source": source}
+
+
+def test_plants_built_after_the_latest_rule_count_as_uncontested_approvals():
+    restrictions = [{**_r("a", "A", 2), "date_enacted_iso": "2022-05-01"}]
+    facilities = [_plant("A", 2021), _plant("A", 2023), _plant("A", 2024, tech="battery_storage;solar"),
+                  _plant("A", 2025, mw=5), _plant("A", 2025, source="uspvdb"), _plant("A", 2026, tech="geothermal")]
+    out = {r["county_fips"]: r for r in rs.build(restrictions, [], _summary("A"), _profile({"A": 0.2}), NO_ZONING,
+                                                  "2026-10-21", facilities)}
+    # Two plants qualify (2023, 2024): 6 points, capped at half of 12.
+    assert out["A"]["plants_built"] == 2 and out["A"]["record_points"] == 6
+
+
+def test_contested_approvals_are_assumed_to_be_among_the_plants():
+    facilities = [_plant("A", 2024), _plant("A", 2025)]
+    out = {r["county_fips"]: r for r in rs.build([_r("a", "A", 3)], [_p("A", "advanced_confirmed")], _summary("A"),
+                                                  _profile({"A": 0.2}), NO_ZONING, "2026-10-21", facilities)}
+    assert out["A"]["plants_built"] == 1 and out["A"]["approval_credit"] == 13
+
+
+def test_build_out_alone_puts_a_county_on_evidence():
+    fips = [f"{i:02d}" for i in range(20)]
+    profile = {f: i / 100 for i, f in enumerate(fips)}
+    out = {r["county_fips"]: r for r in rs.build([_r("m", "19", 4, "moratorium")], [],
+                                                  _summary(*fips[:19], coverage="none") + _summary("19"),
+                                                  _profile(profile), NO_ZONING, "2026-10-21",
+                                                  [_plant("18", 2024)])}
+    # 18 and 19 share the top decile, with a mean of 20 points; build-out
+    # weighs 18's own record (0 points) at 0.6 against that prior.
+    assert out["18"]["basis"] == "build_out" and out["18"]["combined"] == 8
+    assert out["17"]["basis"] == "profile_only"

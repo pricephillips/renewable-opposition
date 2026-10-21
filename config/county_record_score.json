@@ -18,7 +18,8 @@
   "projects": {
     "_note": "Contested projects placed in the county, by outcome. A confirmed outcome counts fully, a recorded but unconfirmed one half. Approvals lower the score: a county that has approved contested projects is shown to be open under its rules.",
     "points": {"blocked_confirmed": 10, "blocked_unverified": 5, "restricted_conditional": 4, "restricted_unverified": 2,
-               "advanced_confirmed": -10, "advanced_unverified": -5, "pending": 0, "needs_review": 0},
+               "advanced_confirmed": -10, "advanced_unverified": -5, "pending": 0, "needs_review": 0,
+               "built": -3},
     "blocked_cap": 25,
     "approval_cap": 25,
     "approval_max_share_of_instruments": 0.5,
@@ -45,11 +46,21 @@
     ]
   },
 
+  "build_out": {
+    "_note": "Plants built without a recorded fight are uncontested approvals: the record holds only the projects that drew opposition, so without these a county that approved everything quietly looks the same as one never asked. Counted from EIA-860M (one source, so no plant twice): solar, wind or battery storage plants of at least min_mw, operating or under construction, whose year (online, or planned online) is since_year or later and no earlier than the year of the county's latest instrument in force, so a plant that predates a rule is not read as that rule's approval. A county's contested projects that advanced are assumed to be among its plants, so only plants beyond that number count. Each counts as the 'built' outcome in projects.points, inside the same approval caps.",
+    "source": "eia860m",
+    "technologies": ["solar", "wind", "battery_storage"],
+    "statuses": ["operating", "under_construction"],
+    "min_mw": 20,
+    "since_year": 2020
+  },
+
   "evidence_weight": {
     "_note": "How far the record speaks for itself. combined = weight x record points + (1 - weight) x profile points, where profile points are the mean record points of all counties in the same decile of the resemblance score, a county with no record counting as zero (a floor, since most counties have never been examined). A county with no record and no negative check is scored on its profile alone.",
     "verified_record": 1.0,
     "unverified_record": 0.75,
     "negative_check": 0.9,
+    "build_out": 0.6,
     "none": 0.0
   },
 

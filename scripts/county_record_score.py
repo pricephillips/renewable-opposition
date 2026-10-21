@@ -21,12 +21,16 @@ config/county_record_score.json; read it first. In short:
   projects     blocked projects add points; approved ones take points off,
                at most half the instrument points, and never below a
                severity 4 county-wide instrument in force.
+  build-out    utility-scale plants built since 2020 (EIA-860M), after the
+               county's latest rule in force, count as uncontested
+               approvals, inside the same limits.
   combined     evidence weight x record points + (1 - weight) x profile
                points; the profile points are the mean record points of all
                counties in the same resemblance decile (no record counts as
                zero).
 
 Reads   data/processed/restrictions.csv, contested_projects.csv, county_summary.csv
+        data/reference/facilities.csv
         data/model/county_restriction_scores.csv (has_severe, queue run)
         config/county_record_score.json
 Writes  data/model/county_record_scores.csv   one row per county
@@ -52,6 +56,7 @@ CONFIG_PATH = ROOT / "config" / "county_record_score.json"
 RESTRICTIONS_PATH = PROCESSED_DIR / "restrictions.csv"
 PROJECTS_PATH = PROCESSED_DIR / "contested_projects.csv"
 SUMMARY_PATH = PROCESSED_DIR / "county_summary.csv"
+FACILITIES_PATH = ROOT / "data" / "reference" / "facilities.csv"
 PROFILE_PATH = ROOT / "data" / "model" / "county_restriction_scores.csv"
 PROFILE_COLUMN = "has_severe__queue"
 SCORES_PATH = ROOT / "data" / "model" / "county_record_scores.csv"
@@ -61,7 +66,7 @@ FIELDS = [
     "county_fips", "state", "county", "tier", "combined", "combined_pct_us", "state_rank", "state_n",
     "basis", "evidence_weight", "record_points", "instrument_points", "zoning_points", "blocked_points",
     "approval_credit", "top_instrument", "instruments", "verified_instruments", "projects_blocked",
-    "projects_advanced", "profile_score", "profile_decile", "profile_points",
+    "projects_advanced", "plants_built", "profile_score", "profile_decile", "profile_points",
 ]
 
 
@@ -91,7 +96,7 @@ def instruments(rows: list[dict]) -> dict[str, dict]:
         iid = _s(r.get("instrument_id")) or _s(r.get("id"))
         cur = out.setdefault(iid, {"id": iid, "fips": set(), "techs": set(), "severity": 0, "currency": "",
                                     "jurisdiction_type": "", "restriction_type": "", "jurisdiction": "",
-                                    "verified": False})
+                                    "verified": False, "year": ""})
         cur["fips"].update(_fips(r))
         if _s(r.get("technology")):
             cur["techs"].add(_s(r["technology"]))
@@ -101,6 +106,9 @@ def instruments(rows: list[dict]) -> dict[str, dict]:
         for field in ("currency", "jurisdiction_type", "jurisdiction"):
             cur[field] = cur[field] or _s(r.get(field))
         cur["verified"] = cur["verified"] or _s(r.get("verification")) == "verified"
+        year = _s(r.get("date_enacted_iso"))[:4]
+        if year.isdigit():
+            cur["year"] = max(cur["year"], year)
     return out
 
 
@@ -135,8 +143,35 @@ def zoning_instruments(cfg: dict, as_of: str) -> dict[str, dict]:
                                  "techs": set(c["technologies"]), "severity": z["severity"],
                                  "currency": "in_force", "jurisdiction_type": "County",
                                  "restriction_type": "zoning_transition", "jurisdiction": c["county"],
-                                 "verified": False}
+                                 "verified": False, "year": _s(c.get("drafting_since"))[:4]}
     return out
+
+
+def plants(facility_rows: list[dict], cfg: dict) -> dict[str, list[int]]:
+    """county_fips -> years of the build-out plants placed in it."""
+    b = cfg["build_out"]
+    out: dict[str, list[int]] = defaultdict(list)
+    for p in facility_rows:
+        if p.get("source") != b["source"] or p.get("status") not in b["statuses"]:
+            continue
+        if not set(_s(p.get("technology")).split(";")) & set(b["technologies"]):
+            continue
+        year = _s(p.get("year"))[:4]
+        try:
+            mw = float(p.get("capacity_mw") or 0)
+        except ValueError:
+            continue
+        if mw >= b["min_mw"] and year.isdigit() and int(year) >= b["since_year"] and _s(p.get("county_fips")):
+            out[p["county_fips"]].append(int(year))
+    return out
+
+
+def uncontested_builds(years: list[int], insts: list[dict], zoning: dict | None, advanced: int) -> int:
+    """Plants no earlier than the county's latest instrument in force, less
+    the contested projects that advanced (assumed to be among them)."""
+    rules = [i for i in insts + ([zoning] if zoning else []) if i["currency"] == "in_force" and i["year"]]
+    latest = max((int(i["year"]) for i in rules), default=0)
+    return max(0, sum(1 for y in years if y >= latest) - advanced)
 
 
 # ── Score ───────────────────────────────────────────────────────────────────
@@ -193,7 +228,7 @@ def pct(values: list[float], v: float) -> float:
 
 
 def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: list[dict],
-          profile_rows: list[dict], cfg: dict, as_of: str) -> list[dict]:
+          profile_rows: list[dict], cfg: dict, as_of: str, facility_rows: list[dict] = ()) -> list[dict]:
     by_county: dict[str, list[dict]] = defaultdict(list)
     for inst in instruments(restriction_rows).values():
         for f in inst["fips"]:
@@ -203,6 +238,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         for f in _fips(p):
             outcomes[f].append(_s(p.get("outcome")))
     zoning = zoning_instruments(cfg, as_of)
+    built_years = plants(list(facility_rows), cfg)
     profile = {_s(r["county_fips"]): float(r[PROFILE_COLUMN]) for r in profile_rows
                if _s(r.get(PROFILE_COLUMN))}
     pdec = deciles(profile)
@@ -214,22 +250,27 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         if f.startswith("72"):
             continue
         insts = by_county.get(f, [])
-        rec = record(insts, zoning.get(f), outcomes.get(f, []), cfg)
+        contested = outcomes.get(f, [])
+        advanced = sum(1 for o in contested if o.startswith("advanced"))
+        built = uncontested_builds(built_years.get(f, []), insts, zoning.get(f), advanced)
+        rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg)
         verified = sum(1 for i in insts if i["verified"])
-        confirmed = any(o.endswith("_confirmed") for o in outcomes.get(f, []))
-        has_record = bool(insts) or bool(outcomes.get(f)) or f in zoning
+        confirmed = any(o.endswith("_confirmed") for o in contested)
+        has_record = bool(insts) or bool(contested) or f in zoning
         if has_record:
             basis = "record"
             weight = ew["verified_record"] if (verified or confirmed) else ew["unverified_record"]
         elif _s(s.get("coverage")) == "negative_check":
             basis, weight = "negative_check", ew["negative_check"]
+        elif built:
+            basis, weight = "build_out", ew["build_out"]
         else:
             basis, weight = "profile_only", ew["none"]
         rows.append({"county_fips": f, "state": _s(s.get("state")), "county": _s(s.get("county")),
                      "basis": basis, "evidence_weight": weight, **rec,
                      "instruments": len(insts), "verified_instruments": verified,
                      "projects_blocked": sum(1 for o in outcomes.get(f, []) if o.startswith("blocked")),
-                     "projects_advanced": sum(1 for o in outcomes.get(f, []) if o.startswith("advanced")),
+                     "projects_advanced": advanced, "plants_built": built,
                      "profile_score": profile.get(f, ""), "profile_decile": pdec.get(f, "")})
 
     # Profile points: the mean record points of every county in the same
@@ -291,6 +332,10 @@ def report(rows: list[dict], cfg: dict) -> str:
     L += ["", "## Highest combined scores", "", "| County | Tier | Combined | Top instrument |", "|---|---|---:|---|"]
     for r in sorted(rows, key=lambda r: (-r["combined"], r["county_fips"]))[:15]:
         L.append(f"| {r['county']}, {r['state']} | {r['tier']} | {r['combined']} | {r['top_instrument']} |")
+    L += ["## Build-out", "",
+          f"{sum(1 for r in rows if r['plants_built'])} counties have at least one uncontested plant counted as an "
+          f"approval ({sum(r['plants_built'] for r in rows)} plants); for "
+          f"{sum(1 for r in rows if r['basis'] == 'build_out')} of them it is the only evidence on record.", ""]
     rec = [r for r in rows if r["basis"] == "record"]
     L += ["", "## Record against resemblance", "",
           f"{len(rec)} counties have a record. Of those in the top three resemblance deciles, "
@@ -305,7 +350,7 @@ def main() -> int:
     import datetime as dt
     cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     rows = build(read_csv(RESTRICTIONS_PATH), read_csv(PROJECTS_PATH), read_csv(SUMMARY_PATH),
-                 read_csv(PROFILE_PATH), cfg, dt.date.today().isoformat())
+                 read_csv(PROFILE_PATH), cfg, dt.date.today().isoformat(), read_csv(FACILITIES_PATH))
     write_csv(SCORES_PATH, rows, FIELDS)
     REPORT_PATH.write_text(report(rows, cfg), encoding="utf-8")
     counts = {t: sum(1 for r in rows if r["tier"] == t) for t in [x["name"] for x in cfg["tiers"]] + ["no_record"]}
