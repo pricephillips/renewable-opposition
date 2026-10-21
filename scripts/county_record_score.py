@@ -24,6 +24,9 @@ config/county_record_score.json; read it first. In short:
   build-out    utility-scale plants built since 2020 (EIA-860M), after the
                county's latest rule in force, count as uncontested
                approvals, inside the same limits.
+  no zoning    in a state whose counties cannot zone (config no_county_zoning),
+               a county with no record has evidence too: its government
+               cannot restrict.
   combined     evidence weight x record points + (1 - weight) x profile
                points; the profile points are the mean record points of all
                counties in the same resemblance decile (no record counts as
@@ -264,6 +267,8 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
             basis, weight = "negative_check", ew["negative_check"]
         elif built:
             basis, weight = "build_out", ew["build_out"]
+        elif _s(s.get("state")) in cfg["no_county_zoning"]["states"]:
+            basis, weight = "no_county_zoning", ew["no_county_zoning"]
         else:
             basis, weight = "profile_only", ew["none"]
         rows.append({"county_fips": f, "state": _s(s.get("state")), "county": _s(s.get("county")),

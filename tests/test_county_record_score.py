@@ -154,3 +154,14 @@ def test_build_out_alone_puts_a_county_on_evidence():
     # weighs 18's own record (0 points) at 0.6 against that prior.
     assert out["18"]["basis"] == "build_out" and out["18"]["combined"] == 8
     assert out["17"]["basis"] == "profile_only"
+
+
+def test_a_county_that_cannot_zone_is_not_scored_on_its_profile_alone():
+    fips = [f"{i:02d}" for i in range(20)]
+    summary = [{"county_fips": f, "state": "TX" if f == "18" else "OK", "county": f, "coverage": "none"} for f in fips]
+    summary[19]["coverage"] = "record"
+    out = {r["county_fips"]: r for r in rs.build([_r("m", "19", 4, "moratorium")], [], summary,
+                                                  _profile({f: i / 100 for i, f in enumerate(fips)}), NO_ZONING,
+                                                  "2026-10-21")}
+    assert out["18"]["basis"] == "no_county_zoning" and out["18"]["combined"] == 8
+    assert out["17"]["basis"] == "profile_only"

@@ -11,9 +11,9 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 | closed | 117 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
 | severe | 308 | Severe: rules likely to block most projects |
 | restrictive | 342 | Restrictive: material rules, or blocked projects |
-| regulated | 685 | Regulated but open: rules in force, projects approved under them |
-| open | 317 | Open: nothing restrictive on record |
-| no_record | 1375 | No record and no negative check: scored on the profile prior alone |
+| regulated | 692 | Regulated but open: rules in force, projects approved under them |
+| open | 414 | Open: nothing restrictive on record |
+| no_record | 1271 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
 
@@ -21,8 +21,8 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---|---|---:|---:|---:|---:|---:|---|---|
 | Nicholas, KY | closed | 57.5 (99.5) | 57.5 | 57.5 | 0.0 | 0 | 0.0 | 0.0483 (1) | queue:q_ef439d5e2f-2 (moratorium, severity 4, in_force, Nicholas County) |
 | Cherokee, KS | closed | 64.5 (99.8) | 64.5 | 55.5 | 9.0 | 0 | 0.0 | 0.1346 (5) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
-| Harris, TX | restrictive | 12.5 (71.9) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
-| Linn, IA | regulated | 7.35 (55.9) | 7.35 | 14.7 | 0.0 | 0 | 7.35 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
+| Harris, TX | restrictive | 12.5 (72.0) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
+| Linn, IA | regulated | 7.35 (56.4) | 7.35 | 14.7 | 0.0 | 0 | 7.35 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
 ## Highest combined scores
 

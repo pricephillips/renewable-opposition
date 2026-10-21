@@ -55,12 +55,18 @@
     "since_year": 2020
   },
 
+  "no_county_zoning": {
+    "_note": "States whose counties have no general zoning power, so no county can adopt a siting rule for unincorporated land; only its cities can, inside their limits. In these states an empty record is evidence in itself: the county government cannot restrict, so a county with no record is weighed at evidence_weight.no_county_zoning against its profile prior instead of being scored on the prior alone. Each state names the verified state_policies.csv row that says so.",
+    "states": {"TX": "TX-siting_authority-1"}
+  },
+
   "evidence_weight": {
     "_note": "How far the record speaks for itself. combined = weight x record points + (1 - weight) x profile points, where profile points are the mean record points of all counties in the same decile of the resemblance score, a county with no record counting as zero (a floor, since most counties have never been examined). A county with no record and no negative check is scored on its profile alone.",
     "verified_record": 1.0,
     "unverified_record": 0.75,
     "negative_check": 0.9,
     "build_out": 0.6,
+    "no_county_zoning": 0.6,
     "none": 0.0
   },
 
