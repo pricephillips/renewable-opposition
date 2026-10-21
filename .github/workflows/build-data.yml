@@ -27,6 +27,8 @@ on:
       - 'data/seed/*.csv'
       - 'scripts/build_seed_outputs.py'
       - 'scripts/county_typology.py'
+      - 'scripts/county_record_score.py'
+      - 'config/county_record_score.json'
       - 'scripts/build_database.py'
       - 'scripts/geoid_match.py'
       - 'scripts/headline_history.py'
@@ -149,7 +151,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/processed/ data/snapshots/manifest.csv data/snapshots/headline_history.csv data/reference/facilities.csv data/reference/facilities_manifest.csv data/review/facility_matches.csv data/review/outcome_worklist.csv data/review/restriction_worklist.csv data/review/fips_misses.csv data/review/negative_check_worklist.csv data/review/group_review.csv data/review/adjacency_worklist.csv
           git add data/seed/ data/review/queue.csv data/review/cases_candidates.csv data/review/promotion_trail.csv docs/codebook.md
-          git add data/db/ data/review/geoid_worklist.csv data/review/examination_worklist.csv
+          git add data/db/ data/review/geoid_worklist.csv data/review/examination_worklist.csv data/model/county_record_scores.csv data/model/county_record_report.md
           git diff --cached --quiet && exit 0
           git commit -m "Build processed dashboard data"
           # Another workflow may have moved the branch since checkout. Rebase

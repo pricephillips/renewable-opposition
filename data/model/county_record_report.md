@@ -8,12 +8,12 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 132 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
-| severe | 315 | Severe: rules likely to block most projects |
-| restrictive | 359 | Restrictive: material rules, or blocked projects |
-| regulated | 527 | Regulated but open: rules in force, projects approved under them |
-| open | 60 | Open: nothing restrictive on record |
-| no_record | 1751 | No record and no negative check: scored on the profile prior alone |
+| closed | 118 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| severe | 312 | Severe: rules likely to block most projects |
+| restrictive | 343 | Restrictive: material rules, or blocked projects |
+| regulated | 689 | Regulated but open: rules in force, projects approved under them |
+| open | 412 | Open: nothing restrictive on record |
+| no_record | 1270 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
 
@@ -21,8 +21,8 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---|---|---:|---:|---:|---:|---:|---|---|
 | Nicholas, KY | closed | 57.5 (99.5) | 57.5 | 57.5 | 0.0 | 0 | 0.0 | 0.0483 (1) | queue:q_ef439d5e2f-2 (moratorium, severity 4, in_force, Nicholas County) |
 | Cherokee, KS | closed | 64.5 (99.8) | 64.5 | 55.5 | 9.0 | 0 | 0.0 | 0.1346 (5) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
-| Harris, TX | restrictive | 12.5 (68.0) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
-| Linn, IA | regulated | 7.35 (49.1) | 7.35 | 14.7 | 0.0 | 0 | 7.35 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
+| Harris, TX | restrictive | 12.5 (71.8) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
+| Linn, IA | regulated | 7.35 (56.3) | 7.35 | 14.7 | 0.0 | 0 | 7.35 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
 ## Highest combined scores
 
@@ -30,21 +30,25 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---|---:|---|
 | Onondaga, NY | closed | 75.0 | sabin:S26R-5715 (ban_or_moratorium, severity 4, in_force, DeWitt) |
 | McLean, ND | closed | 73.0 | sabin:REC-0324 (ban, severity 4, in_force, McLean County) |
-| Steuben, NY | closed | 70.0 | mn:ny-cameron-2024 (moratorium, severity 4, in_force, Cameron) |
 | Erie, NY | closed | 68.5 | mn:ny-aurora-erie-county-2025 (moratorium, severity 4, in_force, Aurora (Erie County)) |
-| Mecklenburg, VA | closed | 66.5 | sabin:S26R-5447 (ban, severity 4, in_force, Mecklenburg County) |
+| Steuben, NY | closed | 67.0 | mn:ny-cameron-2024 (moratorium, severity 4, in_force, Cameron) |
 | Chautauqua, NY | closed | 65.0 | sabin:REC-0293 (ban_or_moratorium, severity 4, in_force, Chautauqua County) |
 | Cherokee, KS | closed | 64.5 | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
 | Washington, PA | closed | 63.75 | sabin:S26R-5535 (ban_or_moratorium, severity 4, in_force, Washington County) |
-| Worcester, MA | closed | 62.83 | sabin:REC-0186 (ban, severity 4, in_force, Town of Charlton) |
-| Huron, MI | closed | 62.75 | mn:mi-huron-county-solar-and-battery-storage-2026 (moratorium, severity 4, in_force, Huron County (solar and battery storage)) |
 | Saratoga, NY | closed | 62.25 | mn:ny-milton-saratoga-county-2024 (moratorium, severity 4, in_force, Milton (Saratoga County)) |
 | Chester, PA | closed | 62.12 | sabin:S26R-5557 (ban_or_moratorium, severity 4, in_force, East Pikeland) |
+| Huron, MI | closed | 60.26 | mn:mi-huron-county-solar-and-battery-storage-2026 (moratorium, severity 4, in_force, Huron County (solar and battery storage)) |
 | Westchester, NY | closed | 60.25 | mn:ny-bedford-2024 (moratorium, severity 4, in_force, Bedford) |
 | Shelby, IA | closed | 60.0 | mn:ia-shelby-county-2026-2 (moratorium, severity 4, in_force, Shelby County) |
-| Navajo, AZ | closed | 59.25 | sabin:S26R-6256 (ban_or_moratorium, severity 4, in_force, Navajo County) |
+| Worcester, MA | closed | 59.83 | sabin:REC-0186 (ban, severity 4, in_force, Town of Charlton) |
+| Lewis, NY | closed | 58.2 | mn:ny-greig-lewis-county-2026 (moratorium, severity 4, in_force, Greig (Lewis County)) |
+| Madison, IN | closed | 57.5 | sabin:REC-0098 (moratorium, severity 4, in_force, Madison County) |
+## Build-out
+
+768 counties have at least one uncontested plant counted as an approval (1781 plants); for 374 of them it is the only evidence on record.
+
 
 ## Record against resemblance
 
-1392 counties have a record. Of those in the top three resemblance deciles, 228 are open or regulated on their record; of those in the bottom three, 28 are closed or severe. These are the counties where the two scores disagree most.
+1395 counties have a record. Of those in the top three resemblance deciles, 245 are open or regulated on their record; of those in the bottom three, 28 are closed or severe. These are the counties where the two scores disagree most.
 

@@ -42,3 +42,16 @@ def test_state_filter_and_count():
 def test_the_log_header_matches_the_documented_columns():
     with eb.LOG.open(encoding="utf-8") as f:
         assert f.readline().strip().split(",") == eb.LOG_FIELDS
+
+
+def test_by_activity_orders_by_active_queue_megawatts():
+    wl = [{"rank": str(i), "county_fips": f, "state": "KS"} for i, f in enumerate(["A", "B", "C"], 1)]
+    queue = [{"county_fips": "C", "status": "active", "solar_mw": "200", "wind_mw": "", "storage_mw": "50"},
+             {"county_fips": "B", "status": "suspended", "solar_mw": "", "wind_mw": "100", "storage_mw": ""},
+             {"county_fips": "A", "status": "withdrawn", "solar_mw": "900", "wind_mw": "", "storage_mw": ""}]
+    mw = eb.activity(queue)
+    got = eb.pick(wl, [], eb.date(2026, 10, 21), mw=mw)
+    assert [r["county_fips"] for r in got] == ["C", "B", "A"]
+    assert [r["active_queue_mw"] for r in got] == ["250", "100", "0"]
+    assert [r["county_fips"] for r in eb.pick(wl, [], eb.date(2026, 10, 21), mw=mw, active_only=True)] == ["C", "B"]
+    assert [r["county_fips"] for r in eb.pick(wl, [], eb.date(2026, 10, 21))] == ["A", "B", "C"]

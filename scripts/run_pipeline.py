@@ -54,8 +54,6 @@ REFRESH = [
      "county restriction model labels into data/model/county_labels.csv", True),
     ("county_restriction_model", ["scripts/county_restriction_model.py"],
      "the registered county restriction model (internal outputs in data/model/)", True),
-    ("county_record_score", ["scripts/county_record_score.py"],
-     "the county record score, with the model's score as its prior (internal, data/model/)", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
 ]
@@ -63,6 +61,8 @@ BUILD = [
     ("promote_reviewed", ["scripts/promote_reviewed.py"], "complete review rows into the seeds", True),
     ("build_seed_outputs", ["scripts/build_seed_outputs.py"], "validate, QC and write data/processed/", False),
     ("county_typology", ["scripts/county_typology.py"], "one category per county", False),
+    ("county_record_score", ["scripts/county_record_score.py"],
+     "the county record score, rescored on each build (internal, data/model/)", False),
     ("codebook", ["scripts/codebook.py"], "docs/codebook.md from the rules' own constants", False),
     ("verification_worklist", ["scripts/verification_worklist.py"], "rank what to verify next", False),
     ("adjacency_worklist", ["scripts/adjacency_worklist.py"], "neighbor watch", False),
