@@ -27,10 +27,11 @@ On the data of October 21, 2026: 118 counties closed, 312 severe, 343 restrictiv
 
 ## In flight when this was written
 
-Neither is committed. `.packets/` is not tracked and the session scratchpad does not survive the session, so a new session may have to redo them.
+The Kansas zoning pass is complete; its results are below.
+
+It is not committed. `.packets/` is not tracked and the session scratchpad does not survive the session, so a new session may have to redo it.
 
 1. **Status sample (run `2026-10-21-status`).** Sixty NREL-compiled instruments whose currency is `unknown`, drawn to measure how many are still in force and replace the flat 0.5 weight for unknown status (`instruments.currency.unknown`). Ten `status-checker` agents were drafting first readings; 12 drafts were back when this was written. To redraw the same sample: take NREL instruments with currency `unknown` from `data/processed/restrictions.csv`, drop those with a row in `data/review/status_resolutions.csv` or a `verification_log.csv` line dated 2026-10-07 or later, group them by technology and highest severity, sort each group by instrument id, and draw with `random.Random(20261021)` in sorted group order: solar 2: 26, solar 3: 3, solar 4: 3, wind 2: 13, wind 3: 12, wind 4: 3 (group sizes 1,144, 59, 12, 578, 503 and 62).
-2. **Kansas zoning, batch 2** (Doniphan to Hodgeman, 21 counties) had not reported. Its results are not in the config.
 
 ## Next steps
 
@@ -44,18 +45,17 @@ Neither is committed. `.packets/` is not tracked and the session scratchpad does
 
 ## Kansas zoning pass, October 21
 
-One research reading per county, by five agents. A shared cap of 200 web searches per turn ran out partway through, so some counties rest only on county sites and a March 2021 Kansas Senate testimony list of zoned and unzoned counties (`kslegislature.gov`, 20210322_76.pdf).
+One research reading per county, by five agents, covering all 104 Kansas counties besides Cherokee. A shared cap of 200 web searches per turn ran out partway through, so some counties rest only on county sites and a March 2021 Kansas Senate testimony list of zoned and unzoned counties (`kslegislature.gov`, 20210322_76.pdf).
 
 | Result | Counties |
 |---|---|
 | Listed as transitions | Bourbon, Brown, Crawford, Kiowa, Labette, Nemaha (and Cherokee, from October 16) |
 | Discussion only, not listed | Barber (a 2024 countywide zoning survey) |
-| Zoned before the window (no transition) | 40 counties, among them Linn, KS (a 2023 rewrite of existing zoning), Marion and Seward (wind or solar rules added to codes they already had); Crawford is listed above because its earlier zoning covered only a southeast area |
-| Unzoned, no zoning activity found | Atchison, Chase, Cheyenne, Cloud, Jewell, Logan, Marshall, Meade, Morris, Morton, Neosho, Ness, Osborne, Phillips, Rawlins, Republic, Scott, Thomas, Wallace, Washington, Wichita |
-| Not settled | Chautauqua, Clark, Comanche, Decatur, Kearny, Lane, Lincoln, Mitchell, Norton, Rooks, Sheridan, Sherman, Smith, Stanton, Trego |
-| Not reported | the 21 counties of batch 2 (Doniphan to Hodgeman) |
+| Zoned before the window (no transition) | 51 counties, among them Linn, KS (a 2023 rewrite of existing zoning), Marion and Seward (wind or solar rules added to codes they already had); Crawford is listed above because its earlier zoning covered only a southeast area |
+| Unzoned, no zoning activity found | Atchison, Chase, Cheyenne, Cloud, Elk, Ellsworth, Gove, Grant, Greeley, Jewell, Logan, Marshall, Meade, Morris, Morton, Neosho, Ness, Osborne, Phillips, Rawlins, Republic, Scott, Thomas, Wallace, Washington, Wichita |
+| Not settled | Chautauqua, Clark, Comanche, Decatur, Edwards, Graham, Harper, Haskell, Hodgeman, Kearny, Lane, Lincoln, Mitchell, Norton, Rooks, Sheridan, Sherman, Smith, Stanton, Trego |
 
-Worth a second look: Trego (its website lists a county planning and zoning board, but no county zoning resolution was found); Mitchell (a planning commission since at least 2018 and a data center moratorium being drafted in October 2026); Marshall and Morris (data centers and battery storage raised in 2026 commission meetings, without a zoning step).
+The 2021 testimony list proved unreliable: it lists Greenwood and Hamilton as unzoned, though their own documents show zoning since 2001 and 1993. Worth a second look: Trego (its website lists a county planning and zoning board, but no county zoning resolution was found); Mitchell (a planning commission since at least 2018 and a data center moratorium being drafted in October 2026); Marshall and Morris (data centers and battery storage raised in 2026 commission meetings, without a zoning step); Ellsworth (a 2022 county vision plan surveyed residents on zoning, with no step since); Graham (a 2013 conditional use permit for a wind farm, though listed as unzoned).
 
 ## What limited this session
 
