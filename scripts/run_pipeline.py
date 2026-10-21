@@ -54,6 +54,8 @@ REFRESH = [
      "county restriction model labels into data/model/county_labels.csv", True),
     ("county_restriction_model", ["scripts/county_restriction_model.py"],
      "the registered county restriction model (internal outputs in data/model/)", True),
+    ("county_record_score", ["scripts/county_record_score.py"],
+     "the county record score, with the model's score as its prior (internal, data/model/)", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
 ]

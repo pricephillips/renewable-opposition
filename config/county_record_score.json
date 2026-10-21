@@ -1,0 +1,68 @@
+{
+  "_comment": "The county record score (scripts/county_record_score.py): how restrictive a county is for wind, solar and battery storage, read from its own published record rather than from its resemblance to other counties. Hand-edited; no process writes it. Added 2026-10-21 after the October 16 case studies scored Linn County, IA (two contested solar projects approved, rules in force no stricter than severity 2) above Nicholas County, KY and Cherokee County, KS (each with a moratorium in force). The resemblance score (config/county_model_registration.json) is kept, unchanged, as the profile prior for counties with no record. Like that score, this one is internal: nothing on a page or in a county report reads it without a separate decision by Price.",
+  "version": "2026-10-21",
+
+  "instruments": {
+    "_note": "Points for one restriction instrument (rows sharing an instrument_id are one instrument; its severity is the highest of its rows). Points = severity points x currency x jurisdiction x technology breadth.",
+    "severity_points": {"4": 40, "3": 30, "2": 12, "1": 4},
+    "currency": {"in_force": 1.0, "unknown": 0.5, "pending": 0.3, "lapsed_unconfirmed": 0.0},
+    "jurisdiction": {"_note": "A county-wide instrument governs the whole county; a city, town, township or village instrument governs part of it.",
+                     "county_types": ["County", "Parish"], "county": 1.0, "other": 0.5},
+    "breadth_per_extra_technology": 0.1,
+    "breadth_technologies": ["solar", "wind", "battery_storage"],
+    "others_weight": 0.25,
+    "_others_note": "A county's instrument points are its largest instrument's points plus others_weight times the sum of the rest, so a second and third instrument add to the score without a long list of minor rules outweighing one moratorium.",
+    "cap": 70
+  },
+
+  "projects": {
+    "_note": "Contested projects placed in the county, by outcome. A confirmed outcome counts fully, a recorded but unconfirmed one half. Approvals lower the score: a county that has approved contested projects is shown to be open under its rules.",
+    "points": {"blocked_confirmed": 10, "blocked_unverified": 5, "restricted_conditional": 4, "restricted_unverified": 2,
+               "advanced_confirmed": -10, "advanced_unverified": -5, "pending": 0, "needs_review": 0},
+    "blocked_cap": 25,
+    "approval_cap": 25,
+    "approval_max_share_of_instruments": 0.5,
+    "_approval_note": "Approvals can take off at most this share of the county's instrument and zoning points, and never take the score below the points of a severity 4 county-wide instrument in force: a moratorium in force outweighs earlier approvals."
+  },
+
+  "zoning_transition": {
+    "_note": "In these states a county without zoning has no local permit over a wind or solar project (state_policies.csv: the county is the siting authority, through planning and zoning, and no state body sites these projects). A county that moves from no zoning to zoning while projects are proposed is setting up the means to restrict them, so the move counts as a county-wide instrument at the severity below, in force from the date drafting began until counts_for_years_after_adoption after the code is adopted.",
+    "states": ["KS"],
+    "severity": 3,
+    "counts_for_years_after_adoption": 3,
+    "counties": [
+      {
+        "county_fips": "20021", "state": "KS", "county": "Cherokee",
+        "status": "drafting_first_code", "drafting_since": "2025-10", "adopted_on": "",
+        "technologies": ["solar", "wind", "battery_storage"],
+        "summary": "Cherokee County has no zoning. A consultant (Confluence) is drafting its first zoning code for the county planning commission, under a draft comprehensive plan that lists wind farms, solar farms, battery storage and data centers as high-impact uses and records that many residents supported prohibiting them or regulating them strictly.",
+        "sources": [
+          {"url": "https://engage.thinkconfluence.com/download_file/3051/832", "what": "draft comprehensive plan (Confluence), with the October 2025 workshop results"}
+        ],
+        "found_in": "deliverables/case_study_templates/renewables_2026-10-16/sources/cherokee_ks.md",
+        "review": "Hand-entered on 2026-10-21 from the October 16 case-study review. Not yet a review row."
+      }
+    ]
+  },
+
+  "evidence_weight": {
+    "_note": "How far the record speaks for itself. combined = weight x record points + (1 - weight) x profile points, where profile points are the mean record points of all counties in the same decile of the resemblance score, a county with no record counting as zero (a floor, since most counties have never been examined). A county with no record and no negative check is scored on its profile alone.",
+    "verified_record": 1.0,
+    "unverified_record": 0.75,
+    "negative_check": 0.9,
+    "none": 0.0
+  },
+
+  "tiers": [
+    {"name": "closed", "min": 40, "label": "Closed: a moratorium or ban in force, or rules that act as one, county-wide"},
+    {"name": "severe", "min": 25, "label": "Severe: rules likely to block most projects"},
+    {"name": "restrictive", "min": 12, "label": "Restrictive: material rules, or blocked projects"},
+    {"name": "regulated", "min": 3, "label": "Regulated but open: rules in force, projects approved under them"},
+    {"name": "open", "min": 0, "label": "Open: nothing restrictive on record"}
+  ],
+
+  "reference_counties": {
+    "_note": "The counties of the October 16 case studies, printed in the report so a change to the rubric shows its effect on them. The October 2026 review of the four reports read Nicholas and Cherokee as much less friendly than Linn.",
+    "fips": ["21181", "20021", "48201", "19113"]
+  }
+}
