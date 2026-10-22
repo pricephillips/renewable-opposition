@@ -8,10 +8,10 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 163 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
-| severe | 362 | Severe: rules likely to block most projects |
+| closed | 162 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| severe | 364 | Severe: rules likely to block most projects |
 | restrictive | 383 | Restrictive: material rules, or blocked projects |
-| regulated | 624 | Regulated but open: rules in force, projects approved under them |
+| regulated | 623 | Regulated but open: rules in force, projects approved under them |
 | open | 342 | Open: nothing restrictive on record |
 | no_record | 1270 | No record and no negative check: scored on the profile prior alone |
 
@@ -22,7 +22,7 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 | Nicholas, KY | closed | 57.5 (99.3) | 57.5 | 57.5 | 0.0 | 0 | 0.0 | 0.0483 (1) | queue:q_ef439d5e2f-2 (moratorium, severity 4, in_force, Nicholas County) |
 | Cherokee, KS | closed | 64.5 (99.6) | 64.5 | 55.5 | 9.0 | 0 | 0.0 | 0.1346 (5) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
 | Harris, TX | restrictive | 12.5 (67.3) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
-| Linn, IA | regulated | 7.88 (50.5) | 7.88 | 15.75 | 0.0 | 0 | 7.88 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
+| Linn, IA | regulated | 7.88 (50.4) | 7.88 | 15.75 | 0.0 | 0 | 7.88 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
 ## Highest combined scores
 
@@ -31,14 +31,14 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 | Onondaga, NY | closed | 75.0 | sabin:S26R-5715 (ban_or_moratorium, severity 4, in_force, DeWitt) |
 | Lancaster, PA | closed | 73.34 | nrel:wind:4207121344 (moratorium, severity 4, unknown, East Lampeter Township) |
 | McLean, ND | closed | 73.0 | sabin:REC-0324 (ban, severity 4, in_force, McLean County) |
-| Lackawanna, PA | closed | 72.06 | nrel:wind:4206971872 (ban, severity 4, unknown, South Abington Township) |
+| Lackawanna, PA | closed | 72.29 | nrel:wind:4206971872 (ban, severity 4, unknown, South Abington Township) |
 | Erie, NY | closed | 70.0 | mn:ny-aurora-erie-county-2025 (moratorium, severity 4, in_force, Aurora (Erie County)) |
 | Chester, PA | closed | 70.0 | sabin:S26R-5557 (ban_or_moratorium, severity 4, in_force, East Pikeland) |
 | Washington, PA | closed | 70.0 | sabin:S26R-5535 (ban_or_moratorium, severity 4, in_force, Washington County) |
+| St. Lawrence, NY | closed | 67.19 | mn:ny-brasher-2024 (moratorium, severity 4, in_force, Brasher) |
 | Worcester, MA | closed | 67.0 | sabin:REC-0186 (ban, severity 4, in_force, Town of Charlton) |
 | Steuben, NY | closed | 67.0 | mn:ny-cameron-2024 (moratorium, severity 4, in_force, Cameron) |
 | Jefferson, NY | closed | 66.86 | sabin:S26R-5735 (moratorium, severity 4, in_force, Town of Lyme) |
-| St. Lawrence, NY | closed | 66.06 | mn:ny-brasher-2024 (moratorium, severity 4, in_force, Brasher) |
 | Saratoga, NY | closed | 65.92 | mn:ny-milton-saratoga-county-2024 (moratorium, severity 4, in_force, Milton (Saratoga County)) |
 | Chautauqua, NY | closed | 65.0 | sabin:REC-0293 (ban_or_moratorium, severity 4, in_force, Chautauqua County) |
 | Cherokee, KS | closed | 64.5 | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |

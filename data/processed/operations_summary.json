@@ -1,12 +1,12 @@
 {
- "generated": "2026-10-21",
+ "generated": "2026-10-22",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3342,
-  "severe": 1358,
+  "restriction_instruments": 3335,
+  "severe": 1355,
   "verified": 96,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 939,
+  "severe_where_state_limits_local": 936,
   "projects": 579,
   "projects_confirmed": 148,
   "decided": {
@@ -81,16 +81,16 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3321,
+   "rows": 3314,
    "by_tier": {
     "compiled_record": 127,
-    "compiled_flagged": 2385,
+    "compiled_flagged": 2378,
     "report_citation": 809
    },
    "lapsed": 1,
    "by_county_impact": {
-    "none": 2552,
-    "sole_severe": 419,
+    "none": 2544,
+    "sole_severe": 420,
     "sole_record": 350
    },
    "with_located_url": 4,
@@ -205,14 +205,14 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 113,
+  "snapshot_rows": 116,
   "snapshot_files": 5,
-  "headline_history_rows": 11,
+  "headline_history_rows": 12,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-21",
+  "headline_last_change": "2026-10-22",
   "latest": {
-   "restrictions": "3342",
-   "severe_restrictions": "1358",
+   "restrictions": "3335",
+   "severe_restrictions": "1355",
    "verified_restrictions": "96",
    "multi_sector_restrictions": "85",
    "contested_projects": "579",

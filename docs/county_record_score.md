@@ -34,7 +34,7 @@ From `data/model/county_record_report.md`, on the data of October 22, 2026. The 
 | Cherokee, KS | closed | 64.5 (99.6) | the moratorium in force (48), the wind setback and the zoning transition |
 | Nicholas, KY | closed | 57.5 (99.3) | the solar moratorium (40), the wind moratorium and the solar setback |
 | Harris, TX | restrictive | 12.5 (67.3) | Pasadena's severity 3 storage rule at city weight (15), one blocked and two approved projects, all unconfirmed |
-| Linn, IA | regulated | 7.88 (50.5) | instrument points of 15.75 (the severity 2 ordinance, 13.2, and a quarter of an NREL-compiled wind ordinance of unknown status, 2.55), halved by two confirmed approvals |
+| Linn, IA | regulated | 7.88 (50.4) | instrument points of 15.75 (the severity 2 ordinance, 13.2, and a quarter of an NREL-compiled wind ordinance of unknown status, 2.55), halved by two confirmed approvals |
 
 Cherokee's moratorium runs through March 31, 2027. Without it, the rubric gives Cherokee 43.5 from the zoning transition and the wind setback, in the closed tier; without the zoning transition as well, it gives 30, in the severe tier.
 
