@@ -5,7 +5,8 @@
   "instruments": {
     "_note": "Points for one restriction instrument (rows sharing an instrument_id are one instrument; its severity is the highest of its rows). Points = severity points x currency x jurisdiction x technology breadth.",
     "severity_points": {"4": 40, "3": 30, "2": 12, "1": 4},
-    "currency": {"in_force": 1.0, "unknown": 0.5, "pending": 0.3, "lapsed_unconfirmed": 0.0},
+    "currency": {"in_force": 1.0, "unknown": 0.85, "pending": 0.3, "lapsed_unconfirmed": 0.0},
+    "_currency_note": "unknown is the share of status-unknown instruments found in force by the 2026-10-21 status sample (60 NREL instruments, seeded and stratified by technology and severity, two readers each): 40 of the 47 settled were in force, 89 percent weighted by group size; counting the 4 whose record matched no adopted instrument as not in force gives about 78 percent. 0.85 lies between the two.",
     "jurisdiction": {"_note": "A county-wide instrument governs the whole county; a city, town, township or village instrument governs part of it.",
                      "county_types": ["County", "Parish"], "county": 1.0, "other": 0.5},
     "breadth_per_extra_technology": 0.1,
