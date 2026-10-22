@@ -59,7 +59,7 @@ def test_currency_jurisdiction_and_breadth_scale_an_instrument():
     out = _build([_r("a", "A", 3), _r("b", "B", 3, jtype="Township"), _r("c", "C", 3, currency="unknown"),
                   _r("d", "D", 3, currency="pending"), _r("e", "E", 3), _r("e", "E", 3, tech="wind")],
                  summary=_summary(*"ABCDE"))
-    assert [out[f]["record_points"] for f in "ABCDE"] == [30, 15, 15, 9, 33]
+    assert [out[f]["record_points"] for f in "ABCDE"] == [30, 15, 25.5, 9, 33]
 
 
 def test_the_largest_instrument_counts_in_full_and_the_rest_at_a_quarter():

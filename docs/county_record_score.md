@@ -18,7 +18,7 @@ The October review of the four reports read Nicholas and Cherokee as much less f
 
 Every weight is in `config/county_record_score.json`.
 
-1. **Instruments.** Each restriction instrument (rows for different technologies under one law are one instrument) scores its severity points (severity 4: 40, 3: 30, 2: 12, 1: 4), times its currency (in force 1, status unknown 0.5, pending 0.3), times its reach (county-wide 1, a city, town, township or village 0.5), times its breadth (1, plus 0.1 for each technology beyond the first). The county's largest instrument counts in full and the rest at a quarter, up to 70. An instrument that also covers data centers or other uses counts in full, as in `scripts/county_typology.py`: a moratorium on wind, solar and data centers is a moratorium on wind and solar.
+1. **Instruments.** Each restriction instrument (rows for different technologies under one law are one instrument) scores its severity points (severity 4: 40, 3: 30, 2: 12, 1: 4), times its currency (in force 1, status unknown 0.85, pending 0.3), times its reach (county-wide 1, a city, town, township or village 0.5), times its breadth (1, plus 0.1 for each technology beyond the first). The county's largest instrument counts in full and the rest at a quarter, up to 70. An instrument that also covers data centers or other uses counts in full, as in `scripts/county_typology.py`: a moratorium on wind, solar and data centers is a moratorium on wind and solar.
 2. **Zoning transitions.** In Kansas a county without zoning issues no permit for a wind or solar project, and no state body sites them (`state_policies.csv`, K.S.A. 12-741). A county that moves from no zoning to zoning while projects are proposed counts as a county-wide severity 3 instrument, from when drafting began until three years after the code is adopted. The counties are listed by hand in the config, with sources: Bourbon, Brown, Cherokee, Crawford, Kiowa, Labette and Nemaha as of October 21, 2026. Other states can be added to the list where the same holds.
 3. **Contested projects.** A blocked project adds 10 points (5 if its outcome is recorded but unconfirmed), up to 25. An approved project takes off 10 (5 unconfirmed), up to 25, and at most half the instrument points, so approvals mark a county as open under its rules without erasing them. Approvals never take a county below the points of a severity 4 county-wide instrument in force: a moratorium in force today outweighs earlier approvals.
    **Plants built without a recorded fight** count as approvals too, at 3 points each, inside the same limits. The record holds only projects that drew opposition, so without them a county that approved projects quietly looks the same as one never asked. They come from EIA-860M (`data/reference/facilities.csv`): solar, wind or storage plants of 20 MW or more, operating or under construction, online (or due online) in 2020 or later and no earlier than the county's latest instrument in force. A county's contested projects that advanced are assumed to be among its plants, so only the plants beyond that number count.
@@ -27,14 +27,14 @@ Every weight is in `config/county_record_score.json`.
 
 ## The four case-study counties
 
-From `data/model/county_record_report.md`, on the data of October 21, 2026. The U.S. percentile is the share of U.S. counties with a lower combined score, plus half the share tied with it.
+From `data/model/county_record_report.md`, on the data of October 22, 2026. The U.S. percentile is the share of U.S. counties with a lower combined score, plus half the share tied with it.
 
 | County | Tier | Combined score (U.S. percentile) | What drives it |
 |---|---|---|---|
-| Cherokee, KS | closed | 64.5 (99.8) | the moratorium in force (48), the wind setback and the zoning transition |
-| Nicholas, KY | closed | 57.5 (99.5) | the solar moratorium (40), the wind moratorium and the solar setback |
-| Harris, TX | restrictive | 12.5 (68.0) | Pasadena's severity 3 storage rule at city weight (15), one blocked and two approved projects, all unconfirmed |
-| Linn, IA | regulated | 7.35 (49.1) | instrument points of 14.7 (the severity 2 ordinance, 13.2, and a quarter of an NREL-compiled wind ordinance of unknown status, 1.5), halved by two confirmed approvals |
+| Cherokee, KS | closed | 64.5 (99.6) | the moratorium in force (48), the wind setback and the zoning transition |
+| Nicholas, KY | closed | 57.5 (99.3) | the solar moratorium (40), the wind moratorium and the solar setback |
+| Harris, TX | restrictive | 12.5 (67.3) | Pasadena's severity 3 storage rule at city weight (15), one blocked and two approved projects, all unconfirmed |
+| Linn, IA | regulated | 7.88 (50.4) | instrument points of 15.75 (the severity 2 ordinance, 13.2, and a quarter of an NREL-compiled wind ordinance of unknown status, 2.55), halved by two confirmed approvals |
 
 Cherokee's moratorium runs through March 31, 2027. Without it, the rubric gives Cherokee 43.5 from the zoning transition and the wind setback, in the closed tier; without the zoning transition as well, it gives 30, in the severe tier.
 
@@ -43,6 +43,6 @@ Cherokee's moratorium runs through March 31, 2027. Without it, the rubric gives 
 - The rubric is a set of rules, not a fitted model. Its weights are set by hand, not estimated from outcomes, because too few projects have a confirmed outcome and a decision date to fit them (`docs/predictive_foundation_design.md`, section 7).
 - Build-out shows that plants were built, not how the county decided them; a plant in a city or on land the county does not zone counts the same as one the county approved.
 - It reads the published record, so it inherits the record's gaps. A county with no record is scored on its profile, and a county whose instruments come only from a compiled tracker leans partly on that profile too.
-- Instruments with an unknown status (every NREL ordinance until a reviewer settles it) count at half.
+- Instruments with an unknown status (every NREL ordinance until a reviewer settles it) count at 0.85. A seeded random sample of 60, read by two readers each on October 21, 2026, found 40 of the 47 it settled still in force (89 percent weighted by group size); four more records matched no adopted instrument, and counting them as not in force gives about 78 percent.
 - The Kansas list comes from one research reading per county, without a second reading, and some counties could not be settled because their sites blocked automated access. Other states where counties may be unzoned (Missouri, Kentucky) have not been checked.
 - Lapsed instruments are not counted, so a county that paused and then reopened (Linn's 2022 to 2023 utility-scale solar moratorium) is scored on what is in force now.
