@@ -26,7 +26,8 @@ config/county_record_score.json; read it first. In short:
                approvals, inside the same limits.
   no zoning    in a state whose counties cannot zone (config no_county_zoning),
                a county with no record has evidence too: its government
-               cannot restrict.
+               cannot restrict. Counties that zone anyway by local act are
+               listed as exceptions.
   combined     evidence weight x record points + (1 - weight) x profile
                points; the profile points are the mean record points of all
                counties in the same resemblance decile (no record counts as
@@ -267,7 +268,8 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
             basis, weight = "negative_check", ew["negative_check"]
         elif built:
             basis, weight = "build_out", ew["build_out"]
-        elif _s(s.get("state")) in cfg["no_county_zoning"]["states"]:
+        elif (_s(s.get("state")) in cfg["no_county_zoning"]["states"]
+              and f not in cfg["no_county_zoning"].get("except_counties", {})):
             basis, weight = "no_county_zoning", ew["no_county_zoning"]
         else:
             basis, weight = "profile_only", ew["none"]

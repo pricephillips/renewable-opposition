@@ -151,8 +151,30 @@
   },
 
   "no_county_zoning": {
-    "_note": "States whose counties have no general zoning power, so no county can adopt a siting rule for unincorporated land; only its cities can, inside their limits. In these states an empty record is evidence in itself: the county government cannot restrict, so a county with no record is weighed at evidence_weight.no_county_zoning against its profile prior instead of being scored on the prior alone. Each state names the verified state_policies.csv row that says so.",
-    "states": {"TX": "TX-siting_authority-1"}
+    "_note": "States whose counties have no general zoning power, so no county can adopt a siting rule for unincorporated land; only its cities can, inside their limits. In these states an empty record is evidence in itself: the county government cannot restrict, so a county with no record is weighed at evidence_weight.no_county_zoning against its profile prior instead of being scored on the prior alone. Each state names its evidence: the verified state_policies.csv row, or the statute and the two readings recorded in config/county_zoning_authority.json. except_counties lists the counties of those states that zone anyway (by local act) or must permit wind or solar under a local act; they are scored as in any other state.",
+    "states": {
+      "TX": "TX-siting_authority-1",
+      "AL": "Ala. Code 11-3A-2(f): no general county zoning power; two readings on 2026-10-23 (config/county_zoning_authority.json)"
+    },
+    "except_counties": {
+      "01003": "Baldwin, AL: zoning by local act in opt-in planning districts (Act 91-719); zoning authority over wind facilities (Act 2013-440)",
+      "01073": "Jefferson, AL: zoning of the unincorporated area by a 1947 local act",
+      "01117": "Shelby, AL: zoning by local act in opt-in beats (Acts 82-693, 82-771)",
+      "01081": "Lee, AL: zoning by local act in opt-in beats (Acts 2007-401, 2007-477)",
+      "01087": "Macon, AL: zoning by local act in opt-in beats (Act 2001-562)",
+      "01113": "Russell, AL: zoning of the unincorporated area by local act (Act 95-573)",
+      "01083": "Limestone, AL: zoning outside towns by local act (Act 99-179)",
+      "01097": "Mobile, AL: zoning by local act in two named areas (Acts 2005-75, 2009-782)",
+      "01125": "Tuscaloosa, AL: local act subject to a 2002 referendum whose result was not found (Act 2001-962)",
+      "01005": "Barbour, AL: zoning by a 1971 local act (reported in the Local Laws Index, not read)",
+      "01017": "Chambers, AL: zoning by a 1956 local act (reported in the Local Laws Index, not read)",
+      "01069": "Houston, AL: zoning by a 1973 local act (reported in the Local Laws Index, not read)",
+      "01045": "Dale, AL: a 1977 local act on planning (reported in the Local Laws Index, not read)",
+      "01115": "St. Clair, AL: a 1975 local act on zoning (reported in the Local Laws Index, not read)",
+      "01019": "Cherokee, AL: county or city permit required for any wind system (Act 2014-190)",
+      "01049": "DeKalb, AL: county or city permit required for any wind system (Acts 2015-348, 2015-387)",
+      "01055": "Etowah, AL: county or city permit required for any wind system (Act 2014-191)"
+    }
   },
 
   "evidence_weight": {

@@ -177,3 +177,9 @@ def test_a_county_that_cannot_zone_is_not_scored_on_its_profile_alone():
                                                   "2026-10-21")}
     assert out["18"]["basis"] == "no_county_zoning" and out["18"]["combined"] == 8
     assert out["17"]["basis"] == "profile_only"
+    # A county of such a state that zones by local act is scored as anywhere else.
+    cfg = {**NO_ZONING, "no_county_zoning": {**CFG["no_county_zoning"], "except_counties": {"18": "local act"}}}
+    out = {r["county_fips"]: r for r in rs.build([_r("m", "19", 4, "moratorium")], [], summary,
+                                                  _profile({f: i / 100 for i, f in enumerate(fips)}), cfg,
+                                                  "2026-10-21")}
+    assert out["18"]["basis"] == "profile_only"

@@ -73,7 +73,13 @@
           "url": "https://alison.legislature.state.al.us/code-of-alabama?section=11-52-30",
           "opened": true
         }
-      ]
+      ],
+      "second_reading": {
+        "date": "2026-10-23",
+        "result": "agrees: no general county zoning power (Ala. Code 11-3A-2(f)); names the counties with zoning or wind permits by local act",
+        "no_county_zoning": "applied, with the 17 counties in config/county_record_score.json no_county_zoning.except_counties",
+        "source": "https://alison.legislature.state.al.us/files/pdf/lsa/ALI/Publications/Handbook_for_Alabama_County_Commissioners_14th_Edition.pdf"
+      }
     },
     "AR": {
       "county_zoning_power": "optional",
@@ -1061,7 +1067,13 @@
           "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os17.rtf",
           "opened": true
         }
-      ]
+      ],
+      "second_reading": {
+        "date": "2026-10-23",
+        "result": "agrees: no general county zoning power; counties zone only under 19 O.S. 863, 865.51, 866, 868 or 869",
+        "no_county_zoning": "not applied: at least six counties zone through those routes (Oklahoma, Tulsa, Wagoner, Rogers, Creek, Osage) and the list of the rest is incomplete",
+        "source": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf"
+      }
     },
     "OR": {
       "county_zoning_power": "general",
