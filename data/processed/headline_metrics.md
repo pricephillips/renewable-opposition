@@ -8,28 +8,28 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3334 | 85 |
-| Severe (severity 3 or 4) | 1355 | 76 |
+| Instruments | 3344 | 87 |
+| Severe (severity 3 or 4) | 1358 | 78 |
 | States | 51 | 28 |
 | Evidence: compiled_flagged | 2368 | 9 |
 | Evidence: compiled_record | 61 | 66 |
-| Evidence: primary_source | 96 | 10 |
+| Evidence: primary_source | 106 | 12 |
 | Evidence: report_citation | 809 | 0 |
-| Verification: verified | 96 | 10 |
+| Verification: verified | 106 | 12 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 3238 | 75 |
-| Currency: in_force | 1003 | 77 |
+| Currency: in_force | 1012 | 79 |
 | Currency: lapsed_unconfirmed | 1 | 0 |
-| Currency: pending | 5 | 8 |
+| Currency: pending | 6 | 8 |
 | Currency: unknown | 2325 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-Of the severe instruments, 936 (renewables only) and 34 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
+Of the severe instruments, 937 (renewables only) and 34 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3624 published rows describe 3419 instruments.
+3641 published rows describe 3431 instruments.
 
 ## Contested projects
 
@@ -118,7 +118,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 0 | 0 | 55 |
 | Restrictions | NREL | 2371 | 650 | 33 | 0 | 2338 |
 | Restrictions | Moratorium Nation | 209 | 198 | 43 | 0 | 166 |
-| Restrictions | review queue | 28 | 11 | 24 | 0 | 4 |
+| Restrictions | review queue | 40 | 16 | 36 | 0 | 4 |
 | Contested projects | Sabin 2026 | 568 |  | 148 | 0 | 420 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 2 | 0 | 4 |
 | Contested projects | review queue | 5 |  | 5 | 0 | 0 |
@@ -137,12 +137,12 @@ Of 3144 counties and county equivalents (50 states and DC):
 
 | | Counties |
 |---|---:|
-| Any published record | 1413 |
-| A restriction | 1263 |
+| Any published record | 1420 |
+| A restriction | 1270 |
 | A contested project | 458 |
 | An NREL siting standard | 1158 |
 | A documented negative check | 1 |
 | A negative check and no record | 1 |
-| Neither a record nor a check | 1730 |
+| Neither a record nor a check | 1723 |
 
 A county with neither has not been looked at; it is not evidence that nothing happened.
