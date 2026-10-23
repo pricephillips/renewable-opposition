@@ -295,7 +295,7 @@
 ["08095","CO","Phillips",true,2,1,0,0,1,4,0,0,0,0,12,1,0,null,null,null,"has_records"],
 ["08097","CO","Pitkin",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["08099","CO","Prowers",true,1,0,0,0,0,2,0,0,0,0,16,1,0,null,null,null,"has_records"],
-["08101","CO","Pueblo",true,2,0,0,0,0,2,2,2,0,0,17,0,0,null,null,null,"has_records"],
+["08101","CO","Pueblo",true,1,0,0,0,0,2,2,2,0,0,17,0,0,null,null,null,"has_records"],
 ["08103","CO","Rio Blanco",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["08105","CO","Rio Grande",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["08107","CO","Routt",true,1,0,0,0,0,2,0,0,0,0,8,1,0,null,null,null,"has_records"],

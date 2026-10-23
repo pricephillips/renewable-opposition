@@ -295,7 +295,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 08095,CO,Phillips,record,2,1,0,0,0,0,0,0,0,0,2,,
 08097,CO,Pitkin,none,0,0,0,0,0,0,0,0,0,0,0,,
 08099,CO,Prowers,record,1,0,0,0,0,0,0,0,0,0,2,,
-08101,CO,Pueblo,record,2,0,0,0,2,2,0,0,0,0,2,,
+08101,CO,Pueblo,record,1,0,0,0,2,2,0,0,0,0,2,,
 08103,CO,Rio Blanco,none,0,0,0,0,0,0,0,0,0,0,0,,
 08105,CO,Rio Grande,none,0,0,0,0,0,0,0,0,0,0,0,,
 08107,CO,Routt,record,1,0,0,0,0,0,0,0,0,0,1,,

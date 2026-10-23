@@ -1,10 +1,10 @@
 # Operations summary
 
-Generated 2026-10-22 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-23 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
-3335 renewables-only restriction instruments (1355 severe, 96 verified, 1 past their end date with no confirmed extension, 936 severe ones in states whose siting law limits local reach); 579 contested projects (148 confirmed); 39 cases.
+3334 renewables-only restriction instruments (1355 severe, 96 verified, 1 past their end date with no confirmed extension, 936 severe ones in states whose siting law limits local reach); 579 contested projects (148 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 335, of which 244 blocked; confirmed outcomes only: 147, 80 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -17,7 +17,7 @@ Decided projects (events older than 90 days): 335, of which 244 blocked; confirm
 | Worklist | Rows | Notes |
 |---|---:|---|
 | outcome_worklist.csv | 425 | 141 overdue, 12 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3314 | 1 lapsed, 420 sole severe in a county, 4 with a located source |
+| restriction_worklist.csv | 3313 | 1 lapsed, 420 sole severe in a county, 4 with a located source |
 | negative_check_worklist.csv | 0 |  |
 | adjacency_worklist.csv | 256 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
@@ -77,4 +77,4 @@ Last error by source: gdelt_renewable_news (2026-10-20: 429 Client Error: Too Ma
 
 ## History and archive
 
-116 snapshot rows over 5 published files; 12 headline changes recorded (2026-09-29 to 2026-10-22). Sources: 72, of which 22 have an Internet Archive snapshot.
+119 snapshot rows over 5 published files; 13 headline changes recorded (2026-09-29 to 2026-10-23). Sources: 72, of which 22 have an Internet Archive snapshot.

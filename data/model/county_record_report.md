@@ -10,8 +10,8 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---:|---|
 | closed | 163 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
 | severe | 363 | Severe: rules likely to block most projects |
-| restrictive | 383 | Restrictive: material rules, or blocked projects |
-| regulated | 623 | Regulated but open: rules in force, projects approved under them |
+| restrictive | 385 | Restrictive: material rules, or blocked projects |
+| regulated | 621 | Regulated but open: rules in force, projects approved under them |
 | open | 342 | Open: nothing restrictive on record |
 | no_record | 1270 | No record and no negative check: scored on the profile prior alone |
 
