@@ -28,8 +28,8 @@
   },
 
   "zoning_transition": {
-    "_note": "In these states a county without zoning has no local permit over a wind or solar project (state_policies.csv: the county is the siting authority, through planning and zoning, and no state body sites these projects). A county that moves from no zoning to zoning while projects are proposed is setting up the means to restrict them, so the move counts as a county-wide instrument at the severity below, in force from the date drafting began until counts_for_years_after_adoption after the code is adopted.",
-    "states": ["KS"],
+    "_note": "In these states counties may stay unzoned, the county is the body that zones unincorporated land, and no statute gives an unzoned county a siting permit or siting power over wind or solar outside zoning (general home-rule or ordinance powers, which Kansas counties also hold, do not count) (config/county_zoning_authority.json, zoning_transition; a state siting body may still review large plants). A county that moves from no zoning to zoning while projects are proposed is setting up the means to restrict them, so the move counts as a county-wide instrument at the severity below, in force from the date drafting began until counts_for_years_after_adoption after the code is adopted. tests/test_county_record_score.py keeps this list equal to the states marked in county_zoning_authority.json.",
+    "states": ["AR", "AZ", "GA", "IA", "IN", "KS", "KY", "LA", "MD", "MO", "MS", "MT", "NC", "NM", "SC", "SD", "TN", "VA", "WV"],
     "severity": 3,
     "counts_for_years_after_adoption": 3,
     "counties": [
@@ -52,10 +52,10 @@
         "drafting_since": "2026-06",
         "adopted_on": "",
         "technologies": ["solar", "wind", "battery_storage"],
-        "summary": "Bourbon County has no county zoning. In June 2026 the commission adopted a 365-day moratorium on utility-scale power generation and other uses and chose Confluence to write its comprehensive plan and zoning regulations; on September 16, 2026 it approved a $116,500 agreement for the county's first plan and zoning code, which is to cover wind, solar, battery storage and data centers.",
+        "summary": "Bourbon County has no county zoning. In June 2026 the commission adopted a 365-day moratorium on utility-scale power generation and other uses and chose Confluence to write its comprehensive plan and zoning regulations; on September 14, 2026 it approved a $116,500 agreement for the county's first plan and zoning code, which is to cover wind, solar, battery storage and data centers.",
         "sources": [
           {"url": "https://www.bourboncountymonitor.com/bourbon-county-enacts-365-day-development-moratorium-selects-planning-zoning-consulting-firm/", "what": "June 2026 moratorium and consultant selection (read)"},
-          {"url": "https://fortscott.biz/news/commission-exceeds-the-revenue-neutral-rate-approves-payment-for-comprehensive-plan-zoning-work", "what": "September 16, 2026 agreement with Confluence (read)"}
+          {"url": "https://fortscott.biz/news/commission-exceeds-the-revenue-neutral-rate-approves-payment-for-comprehensive-plan-zoning-work", "what": "agreement with Confluence, approved September 14, 2026 and reported September 16 (read)"}
         ],
         "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
       },
@@ -79,17 +79,19 @@
         "county_fips": "20037",
         "state": "KS",
         "county": "Crawford",
-        "status": "adopted_first_code",
+        "status": "drafting_first_code",
         "drafting_since": "",
-        "adopted_on": "2026-07-10",
+        "adopted_on": "",
         "technologies": ["solar", "wind", "battery_storage"],
-        "summary": "Crawford County zoned only a southeast part of the county from 1967; the rest of its unincorporated land had no zoning. After moratoriums on wind, solar, battery storage and other uses, the commission approved zoning of all unincorporated land and a ban on future wind projects on July 10, 2026 (Motions 26-319 and 26-320). Counted here as a transition because most of the county moved from no zoning to zoning.",
+        "summary": "Crawford County zoned only a southeast part of the county from 1967; the rest of its unincorporated land had no zoning. After moratoriums on wind, solar, battery storage and other uses, the commission voted on July 10, 2026 to zone all unincorporated land and to ban future wind projects (Motions 26-319 and 26-320). On September 25, 2026 it sent the regulations back to the Planning and Zoning Board (motion 26-453), and no resolution has adopted them. Counted here as a transition because most of the county is moving from no zoning to zoning.",
         "sources": [
           {"url": "https://crawfordcountykansas.org/about-us1.html", "what": "county page: zoning since 1967 for the southeast only (read)"},
           {"url": "https://www.crawfordcountykansas.org/uploads/6/2/7/8/62784259/07-14-2026_regular_meeting_agenda.pdf", "what": "agenda listing Motions 26-319 and 26-320 (read)"},
-          {"url": "https://morningsun.net/news/local-news/commission-oks-countywide-zoning/", "what": "countywide zoning approved, no new wind farms (read)"}
+          {"url": "https://morningsun.net/news/local-news/commission-oks-countywide-zoning/", "what": "countywide zoning approved, no new wind farms (read)"},
+          {"url": "https://www.crawfordcountykansas.org/uploads/6/2/7/8/62784259/journal_minutes_for_july_10_2026.pdf", "what": "July 10, 2026 journal: Motions 26-319 and 26-320 (read in the 2026-10-22 sweep)"},
+          {"url": "https://www.crawfordcountykansas.org/uploads/6/2/7/8/62784259/journal_minutes_for_september_25_2026.pdf", "what": "September 25, 2026 journal: motion 26-453 returns the regulations to the Planning and Zoning Board (read in the 2026-10-22 sweep)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Status corrected on 2026-10-23 from the journals two blind reviewers read in the 2026-10-22 sweep (review packets for queue rows q_a7ea2ffcf0 and q_c0783bb26d). Not yet a review row."
       },
       {
         "county_fips": "20097",
@@ -149,8 +151,30 @@
   },
 
   "no_county_zoning": {
-    "_note": "States whose counties have no general zoning power, so no county can adopt a siting rule for unincorporated land; only its cities can, inside their limits. In these states an empty record is evidence in itself: the county government cannot restrict, so a county with no record is weighed at evidence_weight.no_county_zoning against its profile prior instead of being scored on the prior alone. Each state names the verified state_policies.csv row that says so.",
-    "states": {"TX": "TX-siting_authority-1"}
+    "_note": "States whose counties have no general zoning power, so no county can adopt a siting rule for unincorporated land; only its cities can, inside their limits. In these states an empty record is evidence in itself: the county government cannot restrict, so a county with no record is weighed at evidence_weight.no_county_zoning against its profile prior instead of being scored on the prior alone. Each state names its evidence: the verified state_policies.csv row, or the statute and the two readings recorded in config/county_zoning_authority.json. except_counties lists the counties of those states that zone anyway (by local act) or must permit wind or solar under a local act; they are scored as in any other state.",
+    "states": {
+      "TX": "TX-siting_authority-1",
+      "AL": "Ala. Code 11-3A-2(f): no general county zoning power; two readings on 2026-10-23 (config/county_zoning_authority.json)"
+    },
+    "except_counties": {
+      "01003": "Baldwin, AL: zoning by local act in opt-in planning districts (Act 91-719); zoning authority over wind facilities (Act 2013-440)",
+      "01073": "Jefferson, AL: zoning of the unincorporated area by a 1947 local act",
+      "01117": "Shelby, AL: zoning by local act in opt-in beats (Acts 82-693, 82-771)",
+      "01081": "Lee, AL: zoning by local act in opt-in beats (Acts 2007-401, 2007-477)",
+      "01087": "Macon, AL: zoning by local act in opt-in beats (Act 2001-562)",
+      "01113": "Russell, AL: zoning of the unincorporated area by local act (Act 95-573)",
+      "01083": "Limestone, AL: zoning outside towns by local act (Act 99-179)",
+      "01097": "Mobile, AL: zoning by local act in two named areas (Acts 2005-75, 2009-782)",
+      "01125": "Tuscaloosa, AL: local act subject to a 2002 referendum whose result was not found (Act 2001-962)",
+      "01005": "Barbour, AL: zoning by a 1971 local act (reported in the Local Laws Index, not read)",
+      "01017": "Chambers, AL: zoning by a 1956 local act (reported in the Local Laws Index, not read)",
+      "01069": "Houston, AL: zoning by a 1973 local act (reported in the Local Laws Index, not read)",
+      "01045": "Dale, AL: a 1977 local act on planning (reported in the Local Laws Index, not read)",
+      "01115": "St. Clair, AL: a 1975 local act on zoning (reported in the Local Laws Index, not read)",
+      "01019": "Cherokee, AL: county or city permit required for any wind system (Act 2014-190)",
+      "01049": "DeKalb, AL: county or city permit required for any wind system (Acts 2015-348, 2015-387)",
+      "01055": "Etowah, AL: county or city permit required for any wind system (Act 2014-191)"
+    }
   },
 
   "evidence_weight": {

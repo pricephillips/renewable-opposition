@@ -78,6 +78,19 @@ standards outside that list (road setbacks, fencing, decommissioning,
 screening), has no restriction. Such a county can get a negative check, and
 its note says which standards the code does set.
 
+The 2026-10-22 sweep (`docs/county_checks/2026-10-22_sweep.md`) settled three
+cases the list above leaves open:
+
+- District standards that apply to every use in a district (yards, lot
+  coverage, height) are not restrictions, even where the district is the one
+  a wind or solar project would use.
+- A county that keeps the state's review thresholds, for example an Oregon
+  county opting out of OAR 660-033-0130(44) and keeping the (38) limits, has
+  no restriction from that choice.
+- A use table that marks a solar, wind or storage use "not allowed" or "not
+  permitted" in named districts is a restriction: districts where the use is
+  prohibited.
+
 Lapsed or repealed instruments are recorded as such (status `lifted` or
 `expired`) and are not published.
 
