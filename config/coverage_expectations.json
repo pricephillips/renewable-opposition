@@ -22,8 +22,8 @@
       "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 1,747 of 1,754 such rows on 2026-10-09, up from 313 of 317: the Sabin September 2026 edition and NREL's county ordinances (2,393 NREL restrictions) added county-level instruments."
     },
     "county_fips_all": {
-      "min_filled": 3621,
-      "reason": "County-level instruments by name, town-level ones by coordinates, the Census place index, reviewer overrides and, new on 2026-10-09, the county code the source itself gives (method source_fips: NREL's FIPS code, the Sabin 2026 export's county FIPS). 3,621 of 3,625 on 2026-10-09, up from 602 of 610."
+      "min_filled": 3620,
+      "reason": "County-level instruments by name, town-level ones by coordinates, the Census place index, reviewer overrides and, new on 2026-10-09, the county code the source itself gives (method source_fips: NREL's FIPS code, the Sabin 2026 export's county FIPS). 3,621 of 3,625 on 2026-10-09, up from 602 of 610. Lowered to 3,620 on 2026-10-22: a status review found Pueblo County, CO's NREL solar instrument (nrel:solar:08101) lifted on 2024-10-22, so its row leaves the published file; no value was lost."
     },
     "primary_source_access": {
       "min_filled": 92,
