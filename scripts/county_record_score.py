@@ -12,7 +12,7 @@ config/county_record_score.json; read it first. In short:
 
   instruments  each restriction instrument placed in the county: severity
                points (4: 40, 3: 30, 2: 12, 1: 4) x currency (in force 1,
-               status unknown 0.5, pending 0.3) x jurisdiction (county-wide
+               status unknown 0.85, pending 0.3) x jurisdiction (county-wide
                1, a city or township 0.5) x technology breadth. The largest
                counts fully, the rest at a quarter, capped.
   zoning       a listed county moving from no zoning to zoning, in a state
