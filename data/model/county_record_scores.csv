@@ -1191,7 +1191,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 23021,ME,Piscataquis,regulated,9.28,56.9,15,16,record,0.75,3.38,6.38,0.0,0,3.0,"nrel:solar:2302156765 (height_limit, severity 2, unknown, Parkman Town)",2,0,0,0,1,0.6678,10,26.99
 23023,ME,Sagadahoc,regulated,10.62,60.3,14,16,record,0.75,7.65,7.65,0.0,0,0.0,"nrel:solar:2302381930 (height_limit, severity 2, unknown, West Bath Town)",3,0,0,0,0,0.3926,9,19.52
 23025,ME,Somerset,severe,31.81,88.4,6,16,record,0.75,33.42,36.42,0.0,0,3.0,"sabin:S26R-5997 (ban, severity 4, in_force, Town of Moscow)",10,0,0,0,1,0.6983,10,26.99
-23027,ME,Waldo,severe,29.75,87.0,7,16,record,0.75,30.67,30.67,0.0,0,0.0,"sabin:REC-0168 (setback, severity 3, in_force, Town of Freedom)",9,0,0,0,0,0.5657,10,26.99
+23027,ME,Waldo,severe,29.76,87.0,7,16,record,0.75,30.68,30.68,0.0,0,0.0,"sabin:REC-0168 (setback, severity 3, in_force, Town of Freedom)",9,0,0,0,0,0.5657,10,26.99
 23029,ME,Washington,severe,28.59,86.5,8,16,record,0.75,29.12,32.12,0.0,0,3.0,"sabin:REC-0165 (moratorium, severity 4, in_force, Town of Cutler)",5,0,0,0,1,0.7194,10,26.99
 23031,ME,York,regulated,8.66,51.7,16,16,record,0.75,2.55,5.1,0.0,0,2.55,"nrel:solar:2303164675 (setback, severity 2, unknown, Saco City)",1,0,0,0,2,0.5803,10,26.99
 24001,MD,Allegany,severe,25.1,82.7,10,24,record,1.0,25.1,35.1,0.0,0,10.0,"sabin:REC-0172 (setback, severity 3, in_force, Allegany County)",3,0,0,1,0,0.1956,6,9.1
@@ -1225,7 +1225,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 25009,MA,Essex,closed,49.28,98.6,3,14,record,0.75,56.71,56.71,0.0,0,0.0,"sabin:S26R-5966 (ban_or_moratorium, severity 4, in_force, Methuen Town)",17,0,0,0,0,0.8918,10,26.99
 25011,MA,Franklin,closed,47.0,97.7,8,14,record,0.75,53.67,53.67,0.0,0,0.0,"sabin:REC-0187 (moratorium, severity 4, in_force, Town of Northfield)",15,0,0,0,0,0.6829,10,26.99
 25013,MA,Hampden,closed,47.14,97.7,7,14,record,0.75,53.85,53.85,0.0,0,0.0,"sabin:S26R-6266 (moratorium, severity 4, in_force, Town of Blandford)",11,0,0,0,0,0.7576,10,26.99
-25015,MA,Hampshire,closed,48.58,98.3,4,14,record,1.0,48.58,43.58,0.0,5,0.0,"sabin:REC-0188 (ban, severity 4, in_force, Town of Pelham)",12,1,1,0,0,0.817,10,26.99
+25015,MA,Hampshire,closed,48.57,98.3,4,14,record,1.0,48.57,43.57,0.0,5,0.0,"sabin:REC-0188 (ban, severity 4, in_force, Town of Pelham)",12,1,1,0,0,0.817,10,26.99
 25017,MA,Middlesex,closed,47.21,97.8,6,14,record,1.0,47.21,37.21,0.0,10,0.0,"sabin:REC-0185 (ban, severity 4, in_force, City of Waltham)",10,0,1,0,0,0.9177,10,26.99
 25019,MA,Nantucket,open,1.79,4.3,14,14,record,0.75,0.0,0.0,0.0,0,0.0,,0,0,0,0,0,0.1317,5,7.16
 25021,MA,Norfolk,severe,30.89,87.7,11,14,record,0.75,32.19,30.19,0.0,5,3.0,"nrel:wind:2502111315 (height_limit, severity 3, unknown, Canton Town)",10,0,1,0,1,0.9096,10,26.99
@@ -1240,7 +1240,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 26011,MI,Arenac,regulated,7.81,49.8,68,83,build_out,0.6,0.0,0.0,0.0,0,0.0,,0,0,0,0,1,0.462,9,19.52
 26013,MI,Baraga,restrictive,17.27,75.0,45,83,record,0.75,20.0,15.0,0.0,5,0.0,"sabin:S26R-5953 (height_limit, severity 3, in_force, L’Anse Township)",1,0,1,0,0,0.1733,6,9.1
 26015,MI,Barry,severe,27.38,85.5,23,83,record,0.75,30.0,30.0,0.0,0,0.0,"sabin:S26R-5952 (height_limit, severity 3, in_force, Barry County)",1,0,0,0,0,0.4941,9,19.52
-26017,MI,Bay,severe,25.62,83.3,29,83,record,0.75,29.08,27.07,0.0,5,3.0,"sabin:REC-0201 (height_limit, severity 3, in_force, Beaver Township)",7,0,1,0,1,0.319,8,15.23
+26017,MI,Bay,severe,25.62,83.3,29,83,record,0.75,29.08,27.08,0.0,5,3.0,"sabin:REC-0201 (height_limit, severity 3, in_force, Beaver Township)",7,0,1,0,1,0.319,8,15.23
 26019,MI,Benzie,no_record,26.99,84.8,26,83,profile_only,0.0,0.0,0.0,0.0,0,0.0,,0,0,0,0,0,0.5852,10,26.99
 26021,MI,Berrien,closed,46.38,97.6,6,83,record,1.0,46.38,46.38,0.0,0,0.0,"sabin:S26R-5944 (height_limit, severity 3, in_force, Berrien County)",8,1,0,0,0,0.1325,5,7.16
 26023,MI,Branch,restrictive,13.8,69.2,49,83,record,0.75,11.89,23.77,0.0,0,11.89,"sabin:REC-0200 (height_limit, severity 3, in_force, Batavia Township)",4,0,0,0,6,0.4769,9,19.52
@@ -1307,7 +1307,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 26145,MI,Saginaw,restrictive,19.86,78.0,40,83,record,0.75,17.48,20.48,0.0,0,3.0,"nrel:solar:2614544560 (height_limit, severity 2, in_force, Lakefield Township)",12,0,0,0,1,0.6315,10,26.99
 26147,MI,St. Clair,closed,43.98,96.7,9,83,record,0.75,49.65,47.65,0.0,5,3.0,"sabin:S26R-5875 (ban_or_moratorium, severity 4, in_force, St. Clair County)",7,0,1,0,1,0.5742,10,26.99
 26149,MI,St. Joseph,regulated,11.53,63.5,53,83,record,0.75,6.38,6.38,0.0,0,0.0,"nrel:solar:2614927540 (height_limit, severity 2, unknown, Fawn River Township)",2,0,0,0,0,0.6268,10,26.99
-26151,MI,Sanilac,severe,37.93,92.9,11,83,record,0.75,41.58,42.58,0.0,5,6.0,"sabin:S26R-5871 (ban, severity 4, in_force, Sanilac Township)",13,0,1,0,2,0.7512,10,26.99
+26151,MI,Sanilac,severe,37.93,92.9,11,83,record,0.75,41.57,42.57,0.0,5,6.0,"sabin:S26R-5871 (ban, severity 4, in_force, Sanilac Township)",13,0,1,0,2,0.7512,10,26.99
 26153,MI,Schoolcraft,severe,27.74,85.8,22,83,record,0.75,36.38,36.38,0.0,0,0.0,"sabin:S26R-5868 (height_limit, severity 3, in_force, Schoolcraft County)",2,0,0,0,0,0.0516,1,1.8
 26155,MI,Shiawassee,restrictive,17.08,74.8,46,83,record,0.75,16.27,31.27,0.0,0,15.0,"sabin:S26R-5866 (height_limit, severity 3, in_force, Shiawassee County)",2,0,0,0,5,0.5429,9,19.52
 26157,MI,Tuscola,severe,28.01,86.1,19,83,record,0.75,28.35,28.35,0.0,5,5.0,"sabin:S26R-5862 (setback, severity 3, in_force, Novesta Township)",9,0,1,1,0,0.687,10,26.99
@@ -1847,7 +1847,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 36031,NY,Essex,closed,47.59,97.9,17,62,record,0.75,54.46,54.46,0.0,0,0.0,"mn:ny-essex-county-undated (moratorium, severity 4, in_force, Essex County)",5,0,0,0,0,0.6344,10,26.99
 36033,NY,Franklin,restrictive,22.19,80.0,53,62,record,0.75,20.59,23.59,0.0,0,3.0,"nrel:wind:3603305716 (height_limit, severity 3, unknown, Bellmont Town)",5,0,0,0,1,0.7966,10,26.99
 36035,NY,Fulton,closed,51.2,98.8,11,62,record,0.75,59.27,59.27,0.0,0,0.0,"sabin:S26R-5738 (ban, severity 4, in_force, Fulton County)",6,0,0,0,0,0.7244,10,26.99
-36037,NY,Genesee,closed,50.23,98.7,12,62,record,1.0,50.23,56.23,0.0,0,6.0,"mn:ny-elba-undated (moratorium, severity 4, in_force, Elba)",13,1,0,0,2,0.7838,10,26.99
+36037,NY,Genesee,closed,50.22,98.7,12,62,record,1.0,50.22,56.22,0.0,0,6.0,"mn:ny-elba-undated (moratorium, severity 4, in_force, Elba)",13,1,0,0,2,0.7838,10,26.99
 36039,NY,Greene,severe,34.99,90.5,31,62,record,1.0,34.99,34.99,0.0,0,0.0,"mn:ny-athens-2026 (moratorium, severity 4, in_force, Athens)",6,1,0,0,0,0.7858,10,26.99
 36041,NY,Hamilton,severe,28.5,86.4,42,62,record,0.75,31.5,26.5,0.0,5,0.0,"mn:ny-arietta-2026 (moratorium, severity 4, in_force, Arietta)",3,0,1,0,0,0.484,9,19.52
 36043,NY,Herkimer,severe,36.25,91.6,28,62,record,1.0,36.25,31.25,0.0,10,5.0,"mn:ny-german-flatts-2025 (moratorium, severity 4, in_force, German Flatts)",5,1,1,1,0,0.7964,10,26.99
@@ -2245,7 +2245,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 41067,OR,Washington,restrictive,18.05,75.5,6,36,record,0.75,20.0,20.0,0.0,0,0.0,"mn:or-city-of-hillsboro-2026 (moratorium, severity 4, in_force, City of Hillsboro)",1,0,0,0,0,0.2651,7,12.22
 41069,OR,Wheeler,no_record,7.16,46.3,23,36,profile_only,0.0,0.0,0.0,0.0,0,0.0,,0,0,0,0,0,0.1433,5,7.16
 41071,OR,Yamhill,regulated,8.63,51.6,21,36,record,0.75,5.0,0.0,0.0,5,0.0,,0,0,1,0,0,0.4089,9,19.52
-42001,PA,Adams,restrictive,22.32,80.1,31,67,record,0.75,20.77,26.77,0.0,0,6.0,"nrel:wind:4200120792 (height_limit, severity 3, unknown, East Berlin Borough)",12,0,0,0,2,0.5756,10,26.99
+42001,PA,Adams,restrictive,22.33,80.1,31,67,record,0.75,20.78,26.78,0.0,0,6.0,"nrel:wind:4200120792 (height_limit, severity 3, unknown, East Berlin Borough)",12,0,0,0,2,0.5756,10,26.99
 42003,PA,Allegheny,closed,57.0,99.2,6,67,record,0.75,67,70,0,0,3,"sabin:S26R-5589 (ban_or_moratorium, severity 4, in_force, South Fayette)",26,0,0,0,1,0.8463,10,26.99
 42005,PA,Armstrong,restrictive,18.81,75.9,40,67,record,0.75,20.0,20.0,0.0,0,0.0,"sabin:S26R-5586 (ban_or_moratorium, severity 4, in_force, Kiskiminetas Township)",1,0,0,0,0,0.3018,8,15.23
 42007,PA,Beaver,severe,34.61,89.8,17,67,record,0.75,37.15,37.15,0.0,0,0.0,"sabin:S26R-5584 (ban_or_moratorium, severity 4, in_force, Franklin)",10,0,0,0,0,0.6738,10,26.99
@@ -2253,7 +2253,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 42011,PA,Berks,closed,57.0,99.2,6,67,record,0.75,67,70,0,0,3,"sabin:S26R-5576 (ban_or_moratorium, severity 4, in_force, Union)",25,0,0,0,1,0.8066,10,26.99
 42013,PA,Blair,severe,27.66,85.8,22,67,record,0.75,27.88,27.88,0.0,0,0.0,"sabin:S26R-5573 (ban_or_moratorium, severity 4, in_force, Frankstown)",7,0,0,0,0,0.632,10,26.99
 42015,PA,Bradford,restrictive,17.48,75.1,41,67,record,0.75,16.8,16.8,0.0,0,0.0,"nrel:wind:4201503400 (setback, severity 3, unknown, Athens Township)",4,0,0,0,0,0.4809,9,19.52
-42017,PA,Bucks,closed,46.04,97.3,10,67,record,0.75,54.88,54.88,0.0,0,0.0,"mn:pa-bensalem-township-2026 (moratorium, severity 4, in_force, Bensalem Township)",13,0,0,0,0,0.4993,9,19.52
+42017,PA,Bucks,closed,46.03,97.3,10,67,record,0.75,54.87,54.87,0.0,0,0.0,"mn:pa-bensalem-township-2026 (moratorium, severity 4, in_force, Bensalem Township)",13,0,0,0,0,0.4993,9,19.52
 42019,PA,Butler,severe,32.74,88.8,18,67,record,0.75,34.66,34.66,0.0,0,0.0,"mn:pa-adams-township-butler-county-2026 (moratorium, severity 4, in_force, Adams Township (Butler County))",11,0,0,0,0,0.7026,10,26.99
 42021,PA,Cambria,severe,26.47,84.0,26,67,record,0.75,28.79,34.79,0.0,0,6.0,"sabin:S26R-5566 (ban_or_moratorium, severity 4, in_force, Jackson)",8,0,0,0,2,0.4826,9,19.52
 42023,PA,Cameron,no_record,9.1,54.6,58,67,profile_only,0.0,0.0,0.0,0.0,0,0.0,,0,0,0,0,0,0.1822,6,9.1
@@ -2311,7 +2311,7 @@ county_fips,state,county,tier,combined,combined_pct_us,state_rank,state_n,basis,
 42127,PA,Wayne,severe,27.23,85.4,23,67,record,0.75,27.31,22.31,0.0,5,0.0,"nrel:wind:4212757736 (height_limit, severity 3, unknown, Palmyra Township)",7,0,1,0,0,0.5622,10,26.99
 42129,PA,Westmoreland,severe,25.87,83.4,27,67,record,0.75,25.5,25.5,0.0,0,0.0,"nrel:solar:4212972256 (setback, severity 3, unknown, South Huntingdon Township)",8,0,0,0,0,0.6162,10,26.99
 42131,PA,Wyoming,restrictive,22.05,79.8,32,67,record,0.75,20.4,20.4,0.0,0,0.0,"nrel:wind:4213114360 (setback, severity 3, unknown, Clinton Township)",7,0,0,0,0,0.6385,10,26.99
-42133,PA,York,closed,41.73,95.8,12,67,record,1.0,41.73,57.73,0.0,0,16.0,"nrel:wind:4213337488 (ban, severity 4, unknown, Jackson Township)",22,1,0,1,2,0.6842,10,26.99
+42133,PA,York,closed,41.72,95.8,12,67,record,1.0,41.72,57.72,0.0,0,16.0,"nrel:wind:4213337488 (ban, severity 4, unknown, Jackson Township)",22,1,0,1,2,0.6842,10,26.99
 44001,RI,Bristol,regulated,6.75,43.7,5,5,record,0.75,0.0,0.0,0.0,0,0.0,,0,0,0,0,0,0.7596,10,26.99
 44003,RI,Kent,restrictive,21.07,79.1,3,5,record,0.75,19.1,25.1,0.0,0,6.0,"sabin:REC-0390 (moratorium, severity 4, in_force, City of Warwick)",5,0,0,0,2,0.8594,10,26.99
 44005,RI,Newport,restrictive,18.78,75.9,4,5,record,0.75,16.04,21.04,0.0,0,5.0,"nrel:wind:4400536820 (height_limit, severity 3, unknown, Jamestown Town)",6,0,0,1,0,0.8137,10,26.99
