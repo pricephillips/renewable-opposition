@@ -17,7 +17,8 @@ config/county_record_score.json; read it first. In short:
                counts fully, the rest at a quarter, capped.
   zoning       a listed county moving from no zoning to zoning, in a state
                where an unzoned county has no permit over these projects,
-               counts as a county-wide severity 3 instrument.
+               counts as a county-wide severity 3 instrument; one whose
+               second reading confirmed every claim counts as verified.
   projects     blocked projects add points; approved ones take points off,
                at most half the instrument points, and never below a
                severity 4 county-wide instrument in force.
@@ -146,7 +147,8 @@ def zoning_instruments(cfg: dict, as_of: str) -> dict[str, dict]:
                                  "techs": set(c["technologies"]), "severity": z["severity"],
                                  "currency": "in_force", "jurisdiction_type": "County",
                                  "restriction_type": "zoning_transition", "jurisdiction": c["county"],
-                                 "verified": False, "year": _s(c.get("drafting_since"))[:4]}
+                                 "verified": _s((c.get("second_reading") or {}).get("verdict")) == "confirmed",
+                                 "year": _s(c.get("drafting_since"))[:4]}
     return out
 
 
@@ -258,7 +260,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         built = uncontested_builds(built_years.get(f, []), insts, zoning.get(f), advanced)
         rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg)
         verified = sum(1 for i in insts if i["verified"])
-        confirmed = any(o.endswith("_confirmed") for o in contested)
+        confirmed = any(o.endswith("_confirmed") for o in contested) or bool(zoning.get(f, {}).get("verified"))
         has_record = bool(insts) or bool(contested) or f in zoning
         if has_record:
             basis = "record"
