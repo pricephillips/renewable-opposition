@@ -6,30 +6,35 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 1 | 5 |
+| restrictions | 17 | 0 | 0 |
 | contested_projects | 0 | 0 | 0 |
 | cases | 0 | 0 | 0 |
 | state_policies | 0 | 0 | 0 |
 
 ## Tracked field changes
 
-| Entity | Row | Column | Before | After |
-|---|---|---|---|---|
-| restrictions | res_938f4ae45c (Apache County, AZ) | status | unknown | active |
-| restrictions | res_fed735544e (South Lyon City, MI) | status | unknown | active |
-| restrictions | res_d718e836a2 (Pipestone County, MN) | status | unknown | active |
-| restrictions | res_654b788349 (Vermilion Parish, LA) | status | unknown | active |
-| restrictions | res_605ab0f3ef (Salisbury Town, VT) | status | unknown | active |
+No changes to outcome, status, case_status, finality_evidence, severity_score.
 
 ## Detail
 
 ### restrictions
 
-| @@ | id | state | status | jurisdiction | currency | status_as_of | status_checked_on | status_evidence_url |
-|---|---|---|---|---|---|---|---|---|
-| -> | res_938f4ae45c | AZ | unknown->active | Apache County | unknown->in_force | ->2026-10-22 | ->2026-10-22 | ->https://ecs-cluster-bucket-wsos-prod-two.s3.us-west-2.amazonaws.com/uploads/sites/107/Utility-Renewable-Energy-Systems.pdf |
-| --- | res_f73b458b6c | CO | unknown | Pueblo County | unknown |  |  |  |
-| -> | res_fed735544e | MI | unknown->active | South Lyon City | unknown->in_force | ->2026-10-21 | ->2026-10-21 | ->https://cms5.revize.com/revize/southlyon/Zoning%20Ordinance%20FINAL%20with%20hyperlinks.pdf |
-| -> | res_d718e836a2 | MN | unknown->active | Pipestone County | unknown->in_force | ->2026-10-21 | ->2026-10-21 | ->https://img1.wsimg.com/blobby/go/b84d0090-eb02-46e0-8112-ccf3eec10e72/downloads/Pipestone%20County%20Zoning%20Ordinance%201-9-18.pdf?ver=1790704640923 |
-| -> | res_654b788349 | LA | unknown->active | Vermilion Parish | unknown->in_force | ->2026-10-22 | ->2026-10-22 | ->https://api.municode.com/CodesContent?jobId=483949&nodeId=COOR_CH42UT_ARTIISOWIFA&productId=15343 |
-| -> | res_605ab0f3ef | VT | unknown->active | Salisbury Town | unknown->in_force | ->2026-10-21 | ->2026-10-21 | ->https://www.townofsalisbury.org/vertical/sites/%7B59D8C83C-9968-4A65-BB2B-00DE19899066%7D/uploads/Salisbury_App_EEnergy_Plan3_11_20.docx |
+| @@ | id | state | jurisdiction |
+|---|---|---|---|
+| +++ | res_76b880cd56 | AZ | Coconino County |
+| +++ | res_bdf5d76a29 | AZ | Coconino County |
+| +++ | res_78fb708f3a | AZ | Flagstaff |
+| +++ | res_aed42f9a5f | AZ | Flagstaff |
+| +++ | res_83f4d4e84d | OR | Sherman County |
+| +++ | res_d7fb9846ca | CA | Kerman |
+| +++ | res_b79a811f9e | UT | Delta |
+| +++ | res_0c23127518 | NM | Albuquerque |
+| +++ | res_e1e6ee11bb | NM | Albuquerque |
+| +++ | res_41dacebc09 | KS | Bourbon County |
+| +++ | res_fdbf3b9e3d | KS | Bourbon County |
+| +++ | res_ea5a10d01b | KS | Crawford County |
+| +++ | res_bcee17309a | KS | Crawford County |
+| +++ | res_514a7eba39 | KS | Crawford County |
+| +++ | res_17c26da2b6 | CA | San Joaquin County |
+| +++ | res_a4817125bb | CA | San Joaquin County |
+| +++ | res_fee738fbf2 | CA | San Joaquin County |

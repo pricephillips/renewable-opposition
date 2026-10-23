@@ -8,12 +8,12 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 162 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
-| severe | 364 | Severe: rules likely to block most projects |
-| restrictive | 385 | Restrictive: material rules, or blocked projects |
+| closed | 164 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| severe | 363 | Severe: rules likely to block most projects |
+| restrictive | 386 | Restrictive: material rules, or blocked projects |
 | regulated | 621 | Regulated but open: rules in force, projects approved under them |
-| open | 342 | Open: nothing restrictive on record |
-| no_record | 1270 | No record and no negative check: scored on the profile prior alone |
+| open | 384 | Open: nothing restrictive on record |
+| no_record | 1226 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
 
@@ -21,8 +21,8 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---|---|---:|---:|---:|---:|---:|---|---|
 | Nicholas, KY | closed | 57.5 (99.3) | 57.5 | 57.5 | 0.0 | 0 | 0.0 | 0.0483 (1) | queue:q_ef439d5e2f-2 (moratorium, severity 4, in_force, Nicholas County) |
 | Cherokee, KS | closed | 64.5 (99.6) | 64.5 | 55.5 | 9.0 | 0 | 0.0 | 0.1346 (5) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
-| Harris, TX | restrictive | 12.5 (67.3) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
-| Linn, IA | regulated | 7.88 (50.4) | 7.88 | 15.75 | 0.0 | 0 | 7.88 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
+| Harris, TX | restrictive | 12.5 (67.2) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
+| Linn, IA | regulated | 7.88 (50.3) | 7.88 | 15.75 | 0.0 | 0 | 7.88 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
 ## Highest combined scores
 
@@ -45,10 +45,10 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 | Westchester, NY | closed | 63.92 | mn:ny-bedford-2024 (moratorium, severity 4, in_force, Bedford) |
 ## Build-out
 
-768 counties have at least one uncontested plant counted as an approval (1781 plants); for 374 of them it is the only evidence on record.
+768 counties have at least one uncontested plant counted as an approval (1776 plants); for 369 of them it is the only evidence on record.
 
 
 ## Record against resemblance
 
-1395 counties have a record. Of those in the top three resemblance deciles, 155 are open or regulated on their record; of those in the bottom three, 32 are closed or severe. These are the counties where the two scores disagree most.
+1401 counties have a record. Of those in the top three resemblance deciles, 158 are open or regulated on their record; of those in the bottom three, 32 are closed or severe. These are the counties where the two scores disagree most.
 

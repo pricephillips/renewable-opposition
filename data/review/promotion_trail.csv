@@ -96,3 +96,23 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-20,queue.csv,q_97db31510f,restriction,CO,Logan County,promoted,
 2026-10-20,queue.csv,q_ad0ab51312,restriction,CO,Logan County,promoted,
 2026-10-20,queue.csv,q_97d13b5f41,restriction,CO,Logan County,promoted,
+2026-10-23,queue.csv,q_9949fb9746,restriction,AZ,La Paz County,rejected,
+2026-10-23,queue.csv,q_bde8117f63,restriction,AZ,Coconino County,promoted,
+2026-10-23,queue.csv,q_fb6b9c5f5a,restriction,AZ,Flagstaff,promoted,
+2026-10-23,queue.csv,q_a85d51f2f2,restriction,AZ,Page,awaiting_review,awaiting review by someone other than its drafter
+2026-10-23,queue.csv,q_40be5249f3,restriction,OR,Sherman County,promoted,
+2026-10-23,queue.csv,q_95142df882,restriction,CA,Kerman,promoted,
+2026-10-23,queue.csv,q_df60772211,restriction,UT,Delta,promoted,
+2026-10-23,queue.csv,q_afd9500f77,restriction,OR,Deschutes County,rejected,
+2026-10-23,queue.csv,q_7fdaae6f20,restriction,OR,Jefferson County,awaiting_review,awaiting review by someone other than its drafter
+2026-10-23,queue.csv,q_1b9ebfe795,restriction,NM,Albuquerque,promoted,
+2026-10-23,queue.csv,q_30185e1ab5,restriction,NM,Albuquerque,promoted,
+2026-10-23,queue.csv,q_2f599e9ab1,restriction,AR,Mississippi County,held,"status expired: the instrument is no longer in force, so it is not published"
+2026-10-23,queue.csv,q_3e8f1ddbcb,restriction,KS,Bourbon County,held,"status lifted: the instrument is no longer in force, so it is not published"
+2026-10-23,queue.csv,q_3e8f1ddbcb-2,restriction,KS,Bourbon County,awaiting_review,awaiting review by someone other than its drafter
+2026-10-23,queue.csv,q_46b983bd2f,restriction,KS,Bourbon County,held,"status expired: the instrument is no longer in force, so it is not published"
+2026-10-23,queue.csv,q_46b983bd2f-2,restriction,KS,Bourbon County,promoted,
+2026-10-23,queue.csv,q_c0783bb26d,restriction,KS,Crawford County,promoted,
+2026-10-23,queue.csv,q_a7ea2ffcf0,restriction,KS,Crawford County,promoted,
+2026-10-23,queue.csv,q_d5adb86dcc,restriction,CA,San Joaquin County,promoted,
+2026-10-23,queue.csv,q_e573bb8678,restriction,CA,San Joaquin County,promoted,
