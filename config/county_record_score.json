@@ -35,14 +35,15 @@
     "counties": [
       {
         "county_fips": "20021", "state": "KS", "county": "Cherokee",
-        "status": "drafting_first_code", "drafting_since": "2025-10", "adopted_on": "",
+        "status": "drafting_first_code", "drafting_since": "2025-02", "adopted_on": "",
         "technologies": ["solar", "wind", "battery_storage"],
         "summary": "Cherokee County has no zoning. A consultant (Confluence) is drafting its first zoning code for the county planning commission, under a draft comprehensive plan that lists wind farms, solar farms, battery storage and data centers as high-impact uses and records that many residents supported prohibiting them or regulating them strictly.",
         "sources": [
           {"url": "https://engage.thinkconfluence.com/download_file/3051/832", "what": "draft comprehensive plan (Confluence), with the October 2025 workshop results"}
         ],
         "found_in": "deliverables/case_study_templates/renewables_2026-10-16/sources/cherokee_ks.md",
-        "review": "Hand-entered on 2026-10-21 from the October 16 case-study review. Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the October 16 case-study review; the later readings are under second_reading. Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-21 (Claude Code, 2026-10-23)", "agent:blind-reviewer-23 (Claude Code, 2026-10-23)"], "verdict": "confirmed", "corrected": ["drafting_since"], "note": "The county record starts the plan and code work in 2025: the planning commission adopted the request for proposals on 2025-02-05, signed the Confluence contract on 2025-05-07 and held the kick-off on 2025-07-02; October 2025 held only the public workshops. No county zoning before (the May 2026 draft plan; the 2021 Kansas Senate list of unzoned counties). The technologies are the code's planned scope in the draft plan; no code text is published."}
       },
       {
         "county_fips": "20011",
@@ -57,7 +58,8 @@
           {"url": "https://www.bourboncountymonitor.com/bourbon-county-enacts-365-day-development-moratorium-selects-planning-zoning-consulting-firm/", "what": "June 2026 moratorium and consultant selection (read)"},
           {"url": "https://fortscott.biz/news/commission-exceeds-the-revenue-neutral-rate-approves-payment-for-comprehensive-plan-zoning-work", "what": "agreement with Confluence, approved September 14, 2026 and reported September 16 (read)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county; the later readings are under second_reading). Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-21 (Claude Code, 2026-10-23)"], "verdict": "confirmed", "corrected": [], "note": "The 2026-06-15 commission minutes record the 4-0 vote selecting Confluence for the comprehensive plan and zoning code; the 2026-09-14 agreement with Confluence is confirmed from news only (Fort Scott Biz)."}
       },
       {
         "county_fips": "20013",
@@ -65,24 +67,25 @@
         "county": "Brown",
         "status": "adopted_first_code",
         "drafting_since": "",
-        "adopted_on": "2025-02",
+        "adopted_on": "2025-02-18",
         "technologies": ["solar", "wind", "battery_storage"],
-        "summary": "Brown County had no general county zoning. After a January 10, 2025 planning commission hearing, the county commission adopted a limited zoning regulation in February 2025 that prohibits commercial wind projects of 500 kW or more in the unincorporated county outside three city areas; a solar amendment followed in October 2025 and data center and battery storage rules in August 2026.",
+        "summary": "Brown County had no general county zoning. After a January 10, 2025 planning commission hearing, the county commission adopted a limited zoning regulation in February 2025 that prohibits commercial wind projects of 500 kW or more in the unincorporated county outside three city areas; a solar amendment followed in November 2025 and data center and battery storage rules in August 2026.",
         "sources": [
           {"url": "https://brcoks.org/DocumentCenter/View/1887/01102025-Planning-Comm-Public-Hearing", "what": "January 10, 2025 planning commission hearing minutes (read)"},
           {"url": "https://brcoks.org/m/faq?cat=16", "what": "county FAQ: a zoned county whose only restriction applies to commercial wind (read)"},
           {"url": "https://www.mscnews.net/news/?nk=79010", "what": "February 2025 adoption (search snippet only)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county; the later readings are under second_reading). Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-21 (Claude Code, 2026-10-23)", "agent:blind-reviewer-23 (Claude Code, 2026-10-23)", "agent:blind-reviewer-24 (Claude Code, 2026-10-23)"], "verdict": "confirmed", "corrected": ["adopted_on"], "note": "Resolution 2025-08, adopted 2025-02-18, bans commercial wind energy projects of 500 kW or more outside the three-mile areas around Hiawatha, Horton and Sabetha. Resolution 2025-19 (adopted 2025-11-26, not October 2025) bans commercial solar except a conditional use of 12 acres or less at least 15 miles from any other project, and Resolution 2026-21 (adopted 2026-08-31) bans data centers and commercial battery storage of 1 MWh or more. Resolution 2026-10 (2026-03-02) is a separate development moratorium."}
       },
       {
         "county_fips": "20037",
         "state": "KS",
         "county": "Crawford",
         "status": "drafting_first_code",
-        "drafting_since": "",
+        "drafting_since": "2026",
         "adopted_on": "",
-        "technologies": ["solar", "wind", "battery_storage"],
+        "technologies": ["solar", "wind"],
         "summary": "Crawford County zoned only a southeast part of the county from 1967; the rest of its unincorporated land had no zoning. After moratoriums on wind, solar, battery storage and other uses, the commission voted on July 10, 2026 to zone all unincorporated land and to ban future wind projects (Motions 26-319 and 26-320). On September 25, 2026 it sent the regulations back to the Planning and Zoning Board (motion 26-453), and no resolution has adopted them. Counted here as a transition because most of the county is moving from no zoning to zoning.",
         "sources": [
           {"url": "https://crawfordcountykansas.org/about-us1.html", "what": "county page: zoning since 1967 for the southeast only (read)"},
@@ -91,7 +94,8 @@
           {"url": "https://www.crawfordcountykansas.org/uploads/6/2/7/8/62784259/journal_minutes_for_july_10_2026.pdf", "what": "July 10, 2026 journal: Motions 26-319 and 26-320 (read in the 2026-10-22 sweep)"},
           {"url": "https://www.crawfordcountykansas.org/uploads/6/2/7/8/62784259/journal_minutes_for_september_25_2026.pdf", "what": "September 25, 2026 journal: motion 26-453 returns the regulations to the Planning and Zoning Board (read in the 2026-10-22 sweep)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Status corrected on 2026-10-23 from the journals two blind reviewers read in the 2026-10-22 sweep (review packets for queue rows q_a7ea2ffcf0 and q_c0783bb26d). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county; the later readings are under second_reading). Status corrected on 2026-10-23 from the journals two blind reviewers read in the 2026-10-22 sweep (review packets for queue rows q_a7ea2ffcf0 and q_c0783bb26d). Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-21 (Claude Code, 2026-10-23)", "agent:blind-reviewer-23 (Claude Code, 2026-10-23)"], "verdict": "contradicts", "corrected": ["adopted_on", "drafting_since", "status", "technologies"], "note": "Not a county without zoning: the southeast part of the county (about 40 percent) has been zoned since 1967, and the 2021 Kansas Senate list counts Crawford as zoned. On 2026-07-10 the commission approved extending zoning to all unincorporated areas (motion 26-319) and banning future wind projects (motion 26-320), but no adopting resolution appears through October 2026, and on 2026-09-25 the commission sent its recommendations back to the Planning and Zoning Board. The draft covers wind (Article 8) and solar (Article 9). drafting_since is the year only: the rewrite was under way by January 2026, its start month not shown."}
       },
       {
         "county_fips": "20097",
@@ -106,7 +110,8 @@
           {"url": "https://www.kiowacountyks.gov/AgendaCenter/ViewFile/Minutes/_10052026-585", "what": "October 5, 2026 minutes: RFP approved 3-0 (read)"},
           {"url": "https://www.kiowacountyks.gov/AgendaCenter/ViewFile/Minutes/_06302026-569", "what": "June 30, 2026 minutes: zoning or a moratorium discussed (read)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county; the later readings are under second_reading). Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-22 (Claude Code, 2026-10-23)", "agent:blind-reviewer-23 (Claude Code, 2026-10-23)"], "verdict": "contradicts", "corrected": [], "note": "No county zoning before, and an RFP for planning and zoning services approved 2026-10-05 (zoning discussed since 2026-04-06). But no draft exists, and the minutes tie the zoning work to data centers and underground gas storage, not to solar, wind or battery storage: the technologies listed are not supported."}
       },
       {
         "county_fips": "20099",
@@ -114,14 +119,15 @@
         "county": "Labette",
         "status": "adopted_first_code",
         "drafting_since": "",
-        "adopted_on": "2024-07-12",
+        "adopted_on": "2024-07-08",
         "technologies": ["solar", "wind", "battery_storage"],
         "summary": "Labette County zoned only the Great Plains Industrial Park before 2024. On July 8, 2024 the commission voted 2-1 for Resolution 2024-24-L, zoning the unincorporated county outside the Parsons area from July 12, 2024; the commissioners' press release says they chose zoning to regulate industrial wind and solar companies.",
         "sources": [
           {"url": "https://labettecounty.com/documents/260/July_8__2024_minutes.pdf", "what": "July 8, 2024 commission minutes (read)"},
           {"url": "https://labettecounty.com/planning-and-zoning", "what": "county planning and zoning page: effective July 12, 2024 (read)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county; the later readings are under second_reading). Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-22 (Claude Code, 2026-10-23)", "agent:blind-reviewer-23 (Claude Code, 2026-10-23)"], "verdict": "confirmed", "corrected": ["adopted_on"], "note": "The countywide code (Resolution 2024-24-L) was adopted 2024-07-08 and took effect on publication 2024-07-12. It amends a county zoning code that since 2011 (Resolution 2011-42-L) covered only the Great Plains Industrial Park, as the summary says. Solar, wind and battery storage are conditional uses; only wind has written standards."}
       },
       {
         "county_fips": "20131",
@@ -136,7 +142,8 @@
           {"url": "https://mscnews.net/local-news/924107", "what": "July 6, 2026 adoption, 2-1 (read)"},
           {"url": "https://www.nmcoks.us/planning-commission", "what": "planning commission page: Resolution 2020-15, 2023 plan (read)"}
         ],
-        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county, no second reading). Not yet a review row."
+        "review": "Hand-entered on 2026-10-21 from the Kansas zoning pass (one research reading per county; the later readings are under second_reading). Not yet a review row.",
+        "second_reading": {"date": "2026-10-23", "by": ["agent:blind-reviewer-22 (Claude Code, 2026-10-23)"], "verdict": "confirmed", "corrected": [], "note": "The 2026-07-06 commission minutes and the code record Resolution 2026-5 adopted 2-1; wind, solar and battery storage need a conditional use permit. The Seneca and Sabetha extraterritorial areas are excluded."}
       }
     ]
   },

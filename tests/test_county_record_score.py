@@ -95,6 +95,17 @@ def test_a_kansas_county_moving_to_zoning_counts_as_a_severe_instrument():
         _build(summary=_summary("Z"), cfg=cfg)
 
 
+def test_a_zoning_transition_counts_as_verified_only_after_a_confirmed_second_reading():
+    entry = {"county_fips": "Z", "state": "KS", "county": "Zed", "status": "drafting_first_code",
+             "adopted_on": "", "technologies": ["wind"]}
+    def weight(e):
+        cfg = {**CFG, "zoning_transition": {**CFG["zoning_transition"], "counties": [e]}}
+        return _build(summary=_summary("Z"), cfg=cfg)["Z"]["evidence_weight"]
+    assert weight(entry) == CFG["evidence_weight"]["unverified_record"]
+    assert weight({**entry, "second_reading": {"verdict": "contradicts"}}) == CFG["evidence_weight"]["unverified_record"]
+    assert weight({**entry, "second_reading": {"verdict": "confirmed"}}) == CFG["evidence_weight"]["verified_record"]
+
+
 def test_a_county_with_no_record_takes_its_resemblance_decile_prior():
     fips = [f"{i:02d}" for i in range(20)]
     restrictions = [_r("a", "19", 4, "moratorium")]
