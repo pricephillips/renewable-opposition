@@ -1,0 +1,1473 @@
+{
+  "_note": "How county governments may regulate land use in unincorporated areas, state by state, from a survey of each state's law on 2026-10-23 (one research reading per state; a second for any state a rule depends on). docs/county_zoning_authority.md explains the codes and the table. county_zoning_power: general (every county zones), optional (counties may zone but need not), limited (no general power; only named counties or subjects), none, no_county_land_use. zoning_transition marks the states where config/county_record_score.json may list a county moving from no zoning to zoning: counties may stay unzoned, the county is the body that zones unincorporated land, and no county siting permit for wind or solar exists outside zoning.",
+  "as_of": "2026-10-23",
+  "states": {
+    "AK": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "low",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "Alaska Const. art. X, sec. 6",
+          "url": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+          "opened": true
+        },
+        {
+          "cite": "AS 29.35.180(b), as cited in Anchorage Municipal Code Title 21 (annotated draft, 2012)",
+          "url": "https://www.muni.org/Departments/OCPD/Planning/Projects/t21/Documents/Chapter1Annotated11-29-12.pdf",
+          "opened": true
+        },
+        {
+          "cite": "AS 29.40.010 (first and second class boroughs: areawide planning, platting and land use regulation; delegation to cities)",
+          "url": "https://www.akleg.gov/basis/statutes.asp#29.40.010",
+          "opened": false
+        },
+        {
+          "cite": "Kenai Peninsula Borough Planning Department page",
+          "url": "https://www.kpb.us/planning-dept/planning-home",
+          "opened": true
+        }
+      ]
+    },
+    "AL": {
+      "county_zoning_power": "limited",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties have no general zoning power (see no_county_zoning)",
+      "citations": [
+        {
+          "cite": "Ala. Code 11-3A-2(f)",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=11-3A-2",
+          "opened": true
+        },
+        {
+          "cite": "Ala. Code 11-3A-2(d)(1)",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=11-3A-2",
+          "opened": true
+        },
+        {
+          "cite": "Ala. Code 11-19-3",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=11-19-3",
+          "opened": true
+        },
+        {
+          "cite": "Ala. Code 45-2-261.02 (Baldwin County local law)",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=45-2-261.02",
+          "opened": true
+        },
+        {
+          "cite": "Ala. Code 45-2-262(b) (Baldwin County wind facilities)",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=45-2-262",
+          "opened": true
+        },
+        {
+          "cite": "Ala. Code 45-25-260.02(a) (DeKalb County wind permits)",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=45-25-260.02",
+          "opened": true
+        },
+        {
+          "cite": "Ala. Code 11-52-30(a)(2)",
+          "url": "https://alison.legislature.state.al.us/code-of-alabama?section=11-52-30",
+          "opened": true
+        }
+      ]
+    },
+    "AR": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "A.C.A. 14-17-209(a), as quoted in Bolen v. Washington County Zoning Board of Adjustments, 2011 Ark. App. 319",
+          "url": "https://case-law.vlex.com/vid/bolen-v-wash-cnty-893732211",
+          "opened": true
+        },
+        {
+          "cite": "Ark. Const. amend. 55, sec. 1(a) (vLex copy)",
+          "url": "https://us.vlex.com/vid/revision-of-county-government-934495936",
+          "opened": true
+        },
+        {
+          "cite": "NACo Arkansas county profile (secondary)",
+          "url": "https://www.naco.org/sites/default/files/event_attachments/DRAFT_Arkansas_012022.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "AZ": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "A.R.S. 11-802(A)",
+          "url": "https://www.azleg.gov/ars/11/00802.htm",
+          "opened": true
+        },
+        {
+          "cite": "A.R.S. 11-811(A)",
+          "url": "https://www.azleg.gov/ars/11/00811.htm",
+          "opened": true
+        },
+        {
+          "cite": "A.R.S. 11-861(A)",
+          "url": "https://www.azleg.gov/ars/11/00861.htm",
+          "opened": true
+        },
+        {
+          "cite": "A.R.S. 11-812(A)(2)",
+          "url": "https://www.azleg.gov/ars/11/00812.htm",
+          "opened": true
+        }
+      ]
+    },
+    "CA": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "Gov. Code 65300, as stated in the OPR General Plan Guidelines (2017), ch. 1",
+          "url": "https://lci.ca.gov/wp-content/uploads/OPR_C1_final.pdf",
+          "opened": true
+        },
+        {
+          "cite": "OPR General Plan Guidelines (2017), ch. 1 (zoning consistency, Gov. Code 65860)",
+          "url": "https://lci.ca.gov/wp-content/uploads/OPR_C1_final.pdf",
+          "opened": true
+        },
+        {
+          "cite": "Pub. Resources Code 25545.1(b)(1), as described by the California Energy Commission",
+          "url": "https://www.energy.ca.gov/programs-and-topics/topics/power-plants/opt-certification-program",
+          "opened": true
+        },
+        {
+          "cite": "Gov. Code 65850 (county may adopt zoning ordinances)",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65850",
+          "opened": false
+        }
+      ]
+    },
+    "CO": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "a county may require its own permit for power plants under its 1041 powers (C.R.S. 24-65.1-203)",
+      "citations": [
+        {
+          "cite": "C.R.S. 30-28-102",
+          "url": "https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-30.pdf",
+          "opened": true
+        },
+        {
+          "cite": "C.R.S. 30-28-111(1)",
+          "url": "https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-30.pdf",
+          "opened": true
+        },
+        {
+          "cite": "C.R.S. 30-28-103(1)",
+          "url": "https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-30.pdf",
+          "opened": true
+        },
+        {
+          "cite": "C.R.S. 24-65.1-203(1)(f)",
+          "url": "https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf",
+          "opened": true
+        },
+        {
+          "cite": "C.R.S. 29-20-104(1)(g)(I)",
+          "url": "https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-29.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "CT": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "citations": [
+        {
+          "cite": "Connecticut Secretary of the State, State Register and Manual, Section VI: Counties",
+          "url": "https://portal.ct.gov/SOTS/Register-Manual/Section-VI/Counties---Table-of-Contents",
+          "opened": true
+        },
+        {
+          "cite": "Connecticut Siting Council home page (C.G.S. 16-50g et seq.)",
+          "url": "https://portal.ct.gov/csc",
+          "opened": true
+        },
+        {
+          "cite": "C.G.S. 8-2 (municipal zoning commissions)",
+          "url": "https://www.cga.ct.gov/current/pub/chap_124.htm",
+          "opened": false
+        }
+      ]
+    },
+    "DE": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": false,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "9 Del. C. 2601(a) (New Castle County)",
+          "url": "https://delcode.delaware.gov/title9/c026/sc01/index.html",
+          "opened": true
+        },
+        {
+          "cite": "9 Del. C. 4901(a) (Kent County)",
+          "url": "https://delcode.delaware.gov/title9/c049/sc01/index.html",
+          "opened": true
+        },
+        {
+          "cite": "9 Del. C. 6902(a) (Sussex County)",
+          "url": "https://delcode.delaware.gov/title9/c069/sc01/index.html",
+          "opened": true
+        },
+        {
+          "cite": "9 Del. C. 2659(a)",
+          "url": "https://delcode.delaware.gov/title9/c026/sc02/index.html",
+          "opened": true
+        }
+      ]
+    },
+    "FL": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": false,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "Fla. Stat. 125.01(1)(h)",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0125/Sections/0125.01.html",
+          "opened": true
+        },
+        {
+          "cite": "Fla. Stat. 163.3202(1)",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0163/Sections/0163.3202.html",
+          "opened": true
+        },
+        {
+          "cite": "Fla. Stat. 163.3205(3)",
+          "url": "https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0163/Sections/0163.3205.html",
+          "opened": true
+        }
+      ]
+    },
+    "GA": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.georgiaplanning.com/documents/atlas/GOMI_zoning.pdf",
+        "what": "Department of Community Affairs Government Operations and Management Indicators (GOMI) survey map of which local governments report a zoning ordinance",
+        "date": "2018-11 (GOMI map); 2026 (National Zoning Atlas page)",
+        "opened": false
+      },
+      "citations": [
+        {
+          "cite": "Ga. Const. art. IX, sec. II, para. IV, as quoted in Bailey v. McIntosh County, S25A0446 (Ga. Sept. 30, 2025)",
+          "url": "https://statecourtreport.org/sites/default/files/2025-10/supreme_court_of_georgia-opinion.pdf",
+          "opened": true
+        },
+        {
+          "cite": "O.C.G.A. 36-70-5, as quoted in Bailey v. McIntosh County (2025)",
+          "url": "https://statecourtreport.org/sites/default/files/2025-10/supreme_court_of_georgia-opinion.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "HI": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": false,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "HRS 46-4(a)",
+          "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol02_Ch0046-0115/HRS0046/HRS_0046-0004.htm",
+          "opened": true
+        },
+        {
+          "cite": "HRS 205-2(a)",
+          "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0205/HRS_0205-0002.htm",
+          "opened": true
+        },
+        {
+          "cite": "HRS 205-4.5(a)(20)",
+          "url": "https://data.capitol.hawaii.gov/hrscurrent/Vol04_Ch0201-0257/HRS0205/HRS_0205-0004_0005.htm",
+          "opened": true
+        }
+      ]
+    },
+    "IA": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "Iowa Code 335.1",
+          "url": "https://www.legis.iowa.gov/docs/code/335.1.pdf",
+          "opened": true
+        },
+        {
+          "cite": "Iowa Code 335.3(1)",
+          "url": "https://www.legis.iowa.gov/docs/code/335.3.pdf",
+          "opened": true
+        },
+        {
+          "cite": "Iowa Code 335.2(1)",
+          "url": "https://www.legis.iowa.gov/docs/code/335.2.pdf",
+          "opened": true
+        },
+        {
+          "cite": "Iowa Code 331.301(1)",
+          "url": "https://www.legis.iowa.gov/docs/code/331.301.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "ID": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": false,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "Idaho Code 67-6503",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH65/SECT67-6503/",
+          "opened": true
+        },
+        {
+          "cite": "Idaho Code 67-6511(1)",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH65/SECT67-6511/",
+          "opened": true
+        }
+      ]
+    },
+    "IL": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "a county may regulate wind farm siting without county zoning (55 ILCS 5/5-12020)",
+      "citations": [
+        {
+          "cite": "55 ILCS 5/5-12001 (via law.onecle.com, page last modified 2015)",
+          "url": "https://law.onecle.com/illinois/55ilcs5/5-12001.html",
+          "opened": true
+        },
+        {
+          "cite": "60 ILCS 1/110-5(a) (via law.onecle.com)",
+          "url": "https://law.onecle.com/illinois/60ilcs1/110-5.html",
+          "opened": true
+        },
+        {
+          "cite": "60 ILCS 1/110-5(b) (via law.onecle.com)",
+          "url": "https://law.onecle.com/illinois/60ilcs1/110-5.html",
+          "opened": true
+        },
+        {
+          "cite": "55 ILCS 5/5-12020 (pre-2023 version, via law.onecle.com)",
+          "url": "https://law.onecle.com/illinois/55ilcs5/5-12020.html",
+          "opened": true
+        }
+      ]
+    },
+    "IN": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "IC 36-7-4-801(a) (Justia 2025 text, seen only as a firecrawl government-search snippet)",
+          "url": "https://law.justia.com/codes/indiana/title-36/article-7/chapter-4/section-36-7-4-801",
+          "opened": false
+        },
+        {
+          "cite": "IC 36-7-4-601(a) (Justia 2025 text, seen only as a firecrawl government-search snippet)",
+          "url": "https://law.justia.com/codes/indiana/title-36/article-7/chapter-4/section-36-7-4-601",
+          "opened": false
+        }
+      ]
+    },
+    "KS": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.kslegislature.gov/li_2022/b2021_22/committees/ctte_s_utils_1/documents/testimony/20210322_76.pdf",
+        "what": "Senate Utilities Committee testimony, Zoning disposition of Kansas Counties with SPP study projects, listing un-zoned counties",
+        "date": "2021-03-22 (testimony date in file name); KAC testimony 2022-01-27",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "K.S.A. 12-741(a)",
+          "url": "https://www.ksrevisor.org/statutes/chapters/ch12/012_007_0041.html",
+          "opened": true
+        },
+        {
+          "cite": "K.S.A. 12-753(a)",
+          "url": "https://www.ksrevisor.org/statutes/chapters/ch12/012_007_0053.html",
+          "opened": true
+        },
+        {
+          "cite": "K.S.A. 12-741, Attorney General opinion annotation (revisor page)",
+          "url": "https://www.ksrevisor.org/statutes/chapters/ch12/012_007_0041.html",
+          "opened": true
+        },
+        {
+          "cite": "K.S.A. 19-101 (fifth power)",
+          "url": "https://www.ksrevisor.org/statutes/chapters/ch19/019_001_0001.html",
+          "opened": true
+        },
+        {
+          "cite": "K.S.A. 19-101a(a)",
+          "url": "https://www.ksrevisor.org/statutes/chapters/ch19/019_001_0001a.html",
+          "opened": true
+        }
+      ]
+    },
+    "KY": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://transportation.ky.gov/Planning/Documents/Planning%20Units%202010%20ALL%20Lists.pdf",
+        "what": "Kentucky Transportation Cabinet 'Planning Units 2010' list",
+        "date": "2010 (records last updated 3/31/2010, biennial update 2009)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "KRS 100.113",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=26681",
+          "opened": true
+        },
+        {
+          "cite": "KRS 100.117",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=26682",
+          "opened": true
+        },
+        {
+          "cite": "KRS 100.201(2)",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=26717",
+          "opened": true
+        },
+        {
+          "cite": "KRS 100.131",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=26688",
+          "opened": true
+        },
+        {
+          "cite": "KRS 67.083(3)(a) and (k)",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=58142",
+          "opened": true
+        },
+        {
+          "cite": "KRS 278.704(3)",
+          "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=57882",
+          "opened": true
+        }
+      ]
+    },
+    "LA": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "La. Const. art. VI, sec. 17 (quoted in La. Atty. Gen. Op. 25-0151, April 10, 2026)",
+          "url": "https://ag.louisiana.gov/opinion/download/25-0151",
+          "opened": true
+        },
+        {
+          "cite": "La. R.S. 33:4780.40 (quoted in La. Atty. Gen. Op. 25-0151)",
+          "url": "https://ag.louisiana.gov/opinion/download/25-0151",
+          "opened": true
+        },
+        {
+          "cite": "La. Atty. Gen. Op. 25-0151 (on Am. Waste & Pollution Control Co. v. St. Martin Par. Police Jury, 609 So. 2d 201 (La. 1992))",
+          "url": "https://ag.louisiana.gov/opinion/download/25-0151",
+          "opened": true
+        },
+        {
+          "cite": "La. R.S. 33:4721",
+          "url": "https://legis.la.gov/legis/Law.aspx?d=91118",
+          "opened": true
+        }
+      ]
+    },
+    "MA": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "citations": [
+        {
+          "cite": "M.G.L. c. 40A, s. 1A (definition of Zoning)",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section1A",
+          "opened": true
+        },
+        {
+          "cite": "M.G.L. c. 40A, s. 3 (solar protection)",
+          "url": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section3",
+          "opened": true
+        }
+      ]
+    },
+    "MD": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://dnr.maryland.gov/pprp/Documents/GarrettZoningDocs.pdf",
+        "what": "Maryland DNR Power Plant Research Program, one Solar and Wind Zoning summary per county",
+        "date": "2022-03-22 (PDF creation date); county officials consulted 2021",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "Md. Code, Land Use 4-102",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=glu&section=4-102&enactments=false",
+          "opened": true
+        },
+        {
+          "cite": "Md. Code, Land Use 1-401(a)",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=glu&section=1-401&enactments=false",
+          "opened": true
+        },
+        {
+          "cite": "Md. Code, Local Government 10-324(a)(1)",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=glg&section=10-324&enactments=false",
+          "opened": true
+        },
+        {
+          "cite": "Md. Code, Public Utilities 7-207(e)(4)(i)",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gpu&section=7-207&enactments=false",
+          "opened": true
+        },
+        {
+          "cite": "Md. Code, Land Use 4-211(b)",
+          "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=glu&section=4-211&enactments=false",
+          "opened": true
+        },
+        {
+          "cite": "Maryland DNR PPRP, Garrett County Solar and Wind Zoning (agency publication)",
+          "url": "https://dnr.maryland.gov/pprp/Documents/GarrettZoningDocs.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "ME": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "citations": [
+        {
+          "cite": "30-A M.R.S. 4352",
+          "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec4352.html",
+          "opened": true
+        },
+        {
+          "cite": "30-A M.R.S. 4352(5)",
+          "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec4352.html",
+          "opened": true
+        },
+        {
+          "cite": "12 M.R.S. 681",
+          "url": "https://legislature.maine.gov/statutes/12/title12sec681.html",
+          "opened": true
+        }
+      ]
+    },
+    "MI": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "citations": [
+        {
+          "cite": "MCL 125.3201(1)",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-3201",
+          "opened": true
+        },
+        {
+          "cite": "MCL 125.3102(o) and (x)",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-3102",
+          "opened": true
+        },
+        {
+          "cite": "MCL 125.3209",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-3209",
+          "opened": true
+        },
+        {
+          "cite": "MCL 460.1222(1)-(2) (2023 PA 233)",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1222",
+          "opened": true
+        },
+        {
+          "cite": "MCL 460.1223(3)",
+          "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1223",
+          "opened": true
+        }
+      ]
+    },
+    "MN": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "citations": [
+        {
+          "cite": "Minn. Stat. 394.21 subd. 1",
+          "url": "https://www.revisor.mn.gov/statutes/cite/394.21",
+          "opened": true
+        },
+        {
+          "cite": "Minn. Stat. 394.33 subd. 1",
+          "url": "https://www.revisor.mn.gov/statutes/cite/394.33",
+          "opened": true
+        },
+        {
+          "cite": "Minn. Stat. 216I.08 subd. 1-2",
+          "url": "https://www.revisor.mn.gov/statutes/cite/216I.08",
+          "opened": true
+        },
+        {
+          "cite": "Minn. Stat. 216I.18 subd. 1",
+          "url": "https://www.revisor.mn.gov/statutes/cite/216I.18",
+          "opened": true
+        }
+      ]
+    },
+    "MO": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "RSMo 64.090.1 (first class charter counties)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=64.090",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 64.211.1 (first class noncharter counties)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=64.211",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 64.530.1 (second and third class counties)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=64.530",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 64.620.1",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=64.620",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 64.850 (first class noncharter, second, third, fourth class counties)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=64.850",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 65.650 (township zoning)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=65.650",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 192.300.1",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=192.300",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 192.300 annotation (Cedar County Commission v. Parson)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=192.300",
+          "opened": true
+        },
+        {
+          "cite": "RSMo 49.650.4",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=49.650",
+          "opened": true
+        },
+        {
+          "cite": "KY3 news, Cedar County moratorium (not law; context)",
+          "url": "https://www.ky3.com/2026/09/15/cedar-county-pauses-solar-wind-data-center-projects-one-year/",
+          "opened": true
+        }
+      ]
+    },
+    "MS": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "Miss. Code Ann. 17-1-3(1) (text as reproduced in City of Laurel appendix; official Lexis and Justia not reachable)",
+          "url": "https://www.laurelms.com/wp-content/uploads/2023/07/APPENDIX-A-LOCAL-GOVERNMENT-PROVISIONS-TO-COUNTIES-AND-MUNICIPALITIES.pdf",
+          "opened": true
+        },
+        {
+          "cite": "MS Attorney General opinion to M. Moore, May 10, 2023",
+          "url": "https://attorneygenerallynnfitch.com/wp-content/uploads/2023/05/M.Moore-May-10-2023-Municipal-Zoning-and-Odor-Ordinances.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "MT": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "MCA 76-2-201(1)",
+          "url": "https://leg.mt.gov/bills/mca/title_0760/chapter_0020/part_0020/section_0010/0760-0020-0020-0010.html",
+          "opened": true
+        },
+        {
+          "cite": "MCA 76-2-101(1)",
+          "url": "https://leg.mt.gov/bills/mca/title_0760/chapter_0020/part_0010/section_0010/0760-0020-0010-0010.html",
+          "opened": true
+        },
+        {
+          "cite": "MCA 76-2-205(7)",
+          "url": "https://leg.mt.gov/bills/mca/title_0760/chapter_0020/part_0020/section_0050/0760-0020-0020-0050.html",
+          "opened": true
+        }
+      ]
+    },
+    "NC": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.sog.unc.edu/sites/default/files/reports/pzlb20.pdf",
+        "what": "UNC School of Government, Planning and Zoning Law Bulletin No. 20, counts of counties with full, partial or no zoning",
+        "date": "July 2012",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "G.S. 160D-702(a)",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160D/GS_160D-702.html",
+          "opened": true
+        },
+        {
+          "cite": "G.S. 160D-102(22)",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160D/GS_160D-102.html",
+          "opened": true
+        },
+        {
+          "cite": "G.S. 160D-201(b), (c)",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160D/GS_160D-201.html",
+          "opened": true
+        },
+        {
+          "cite": "G.S. 153A-121(a)",
+          "url": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_153A/GS_153A-121.html",
+          "opened": true
+        }
+      ]
+    },
+    "ND": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "statewide_list": {
+        "url": "https://deq.nd.gov/WQ/2_NDPDES_Permits/1_AFO_CAFO/countyzoning/default",
+        "what": "ND Department of Environmental Quality repository of county and township zoning regulations for animal feeding operations",
+        "date": "undated page; files dated through 2026",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "NDCC 11-33-01",
+          "url": "https://ndlegis.gov/cencode/t11c33.pdf",
+          "opened": true
+        },
+        {
+          "cite": "NDCC 11-33-20",
+          "url": "https://ndlegis.gov/cencode/t11c33.pdf",
+          "opened": true
+        },
+        {
+          "cite": "NDCC 58-03-11",
+          "url": "https://ndlegis.gov/cencode/t58c03.pdf",
+          "opened": true
+        },
+        {
+          "cite": "NDCC 49-22-16(2)(a)",
+          "url": "https://ndlegis.gov/cencode/t49c22.pdf",
+          "opened": true
+        },
+        {
+          "cite": "US Census Bureau, 2012 Individual State Descriptions, North Dakota",
+          "url": "https://www2.census.gov/govs/cog/2012isd.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "NE": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "citations": [
+        {
+          "cite": "Neb. Rev. Stat. 23-114(1)",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-114",
+          "opened": true
+        },
+        {
+          "cite": "Neb. Rev. Stat. 23-114(1)(c)",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-114",
+          "opened": true
+        },
+        {
+          "cite": "Neb. Rev. Stat. 23-114.01(1)",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=23-114.01",
+          "opened": true
+        },
+        {
+          "cite": "Unicameral Update, Feb 26 2021, LB424 hearing (context)",
+          "url": "https://update.legislature.ne.gov/?p=29479",
+          "opened": true
+        }
+      ]
+    },
+    "NH": {
+      "county_zoning_power": "limited",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties zone only unincorporated places; towns zone everywhere else",
+      "citations": [
+        {
+          "cite": "RSA 674:16, I",
+          "url": "https://gc.nh.gov/rsa/html/LXIV/674/674-16.htm",
+          "opened": true
+        }
+      ]
+    },
+    "NJ": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "citations": [
+        {
+          "cite": "N.J.S.A. 40:55D-62a (via FindLaw; official site not used)",
+          "url": "https://codes.findlaw.com/nj/title-40-municipalities-and-counties/nj-st-sect-40-55d-62/",
+          "opened": true
+        },
+        {
+          "cite": "N.J.S.A. 40:55D-4 (definition, via FindLaw)",
+          "url": "https://codes.findlaw.com/nj/title-40-municipalities-and-counties/nj-st-sect-40-55d-4/",
+          "opened": true
+        },
+        {
+          "cite": "N.J.S.A. 40:27-6.6 (via FindLaw)",
+          "url": "https://codes.findlaw.com/nj/title-40-municipalities-and-counties/nj-st-sect-40-27-6-6/",
+          "opened": true
+        }
+      ]
+    },
+    "NM": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "NMSA 1978, 3-21-1(A) (current text as reproduced in 2026 HB 138, introduced)",
+          "url": "https://www.nmlegis.gov/Sessions/26%20Regular/bills/house/HB0138.PDF",
+          "opened": true
+        },
+        {
+          "cite": "NMSA 1978, 3-21-2(A) (FindLaw copy; official NMOneSource returned a captcha)",
+          "url": "https://codes.findlaw.com/nm/chapter-3-municipalities/nm-st-sect-3-21-2/",
+          "opened": true
+        },
+        {
+          "cite": "NMSA 1978, 4-37-1 (FindLaw copy)",
+          "url": "https://codes.findlaw.com/nm/chapter-4-counties/nm-st-sect-4-37-1/",
+          "opened": true
+        }
+      ]
+    },
+    "NV": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "NRS 278.020(1)",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-278.html",
+          "opened": true
+        },
+        {
+          "cite": "NRS 278.640",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-278.html",
+          "opened": true
+        },
+        {
+          "cite": "NRS 278.645(2)",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-278.html",
+          "opened": true
+        },
+        {
+          "cite": "NRS 278.0208(1)",
+          "url": "https://www.leg.state.nv.us/NRS/NRS-278.html",
+          "opened": true
+        }
+      ]
+    },
+    "NY": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "citations": [
+        {
+          "cite": "NY Town Law 261",
+          "url": "https://www.nysenate.gov/legislation/laws/TWN/261",
+          "opened": true
+        },
+        {
+          "cite": "NY General Municipal Law 239-m(5)",
+          "url": "https://www.nysenate.gov/legislation/laws/GMU/239-M",
+          "opened": true
+        },
+        {
+          "cite": "US Census Bureau, 2012 Census of Governments, Individual State Descriptions, New York",
+          "url": "https://www2.census.gov/govs/cog/2012isd.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "OH": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "citations": [
+        {
+          "cite": "ORC 303.02",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-303.02",
+          "opened": true
+        },
+        {
+          "cite": "ORC 303.11",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-303.11",
+          "opened": true
+        },
+        {
+          "cite": "ORC 303.22",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-303.22",
+          "opened": true
+        },
+        {
+          "cite": "ORC 519.02",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-519.02",
+          "opened": true
+        },
+        {
+          "cite": "ORC 303.58(A)",
+          "url": "https://codes.ohio.gov/ohio-revised-code/section-303.58",
+          "opened": true
+        }
+      ]
+    },
+    "OK": {
+      "county_zoning_power": "limited",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties have no general zoning power (see no_county_zoning)",
+      "citations": [
+        {
+          "cite": "19 O.S. 863.2",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf",
+          "opened": true
+        },
+        {
+          "cite": "19 O.S. 865.52",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf",
+          "opened": true
+        },
+        {
+          "cite": "19 O.S. 866.1",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf",
+          "opened": true
+        },
+        {
+          "cite": "19 O.S. 868.11",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf",
+          "opened": true
+        },
+        {
+          "cite": "19 O.S. 868.22",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf",
+          "opened": true
+        },
+        {
+          "cite": "19 O.S. 869.6",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os19.rtf",
+          "opened": true
+        },
+        {
+          "cite": "17 O.S. 160.20(A)",
+          "url": "https://www.oklegislature.gov/OK_Statutes/CompleteTitles/os17.rtf",
+          "opened": true
+        }
+      ]
+    },
+    "OR": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": false,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "citations": [
+        {
+          "cite": "ORS 215.050(1)",
+          "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors215.html",
+          "opened": true
+        }
+      ]
+    },
+    "PA": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "citations": [
+        {
+          "cite": "MPC (Act 247 of 1968) 601, 53 P.S. 10601",
+          "url": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1968&ActNum=0247&SessInd=0",
+          "opened": true
+        },
+        {
+          "cite": "MPC 602, 53 P.S. 10602",
+          "url": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1968&ActNum=0247&SessInd=0",
+          "opened": true
+        },
+        {
+          "cite": "US Census Bureau, 2012 Individual State Descriptions, Pennsylvania",
+          "url": "https://www2.census.gov/govs/cog/2012isd.pdf",
+          "opened": true
+        },
+        {
+          "cite": "PA DCED Planning Series #4, Zoning (on MPC 605)",
+          "url": "https://indianlakepa.gov/FILES/REFERENCE/PLANNING/DCED%20Planning%20Series/04%20Zoning.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "RI": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "citations": [
+        {
+          "cite": "R.I. Gen. Laws 45-24-27",
+          "url": "https://webserver.rilegislature.gov/Statutes/TITLE45/45-24/45-24-27.htm",
+          "opened": true
+        },
+        {
+          "cite": "R.I. Gen. Laws 45-24-28(a)",
+          "url": "https://webserver.rilegislature.gov/Statutes/TITLE45/45-24/45-24-28.htm",
+          "opened": true
+        },
+        {
+          "cite": "US Census Bureau, 2012 Individual State Descriptions, Rhode Island",
+          "url": "https://www2.census.gov/govs/cog/2012isd.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "SC": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "citations": [
+        {
+          "cite": "S.C. Code 6-29-720(A)",
+          "url": "https://www.scstatehouse.gov/code/t06c029.php",
+          "opened": true
+        },
+        {
+          "cite": "S.C. Code 6-29-330(A)",
+          "url": "https://www.scstatehouse.gov/code/t06c029.php",
+          "opened": true
+        },
+        {
+          "cite": "S.C. Code 4-9-25",
+          "url": "https://www.scstatehouse.gov/code/t04c009.php",
+          "opened": true
+        }
+      ]
+    },
+    "SD": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/south-dakota",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "SDCL 11-2-13",
+          "url": "https://sdlegislature.gov/api/Statutes/11-2-13.html",
+          "opened": true
+        },
+        {
+          "cite": "SDCL 11-2-37",
+          "url": "https://sdlegislature.gov/api/Statutes/11-2-37.html",
+          "opened": true
+        },
+        {
+          "cite": "SDCL 49-41B-5",
+          "url": "https://sdlegislature.gov/api/Statutes/49-41B-5.html",
+          "opened": true
+        },
+        {
+          "cite": "SDCL 11-2-17.1",
+          "url": "https://sdlegislature.gov/api/Statutes/11-2-17.1.html",
+          "opened": true
+        }
+      ]
+    },
+    "TN": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/tennessee",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "T.C.A. 13-7-101(a)(1) (American Farmland Trust copy, dated 2010; official code site is LexisNexis and Justia returned 403)",
+          "url": "https://farmlandinfo.org/wp-content/uploads/sites/2/2019/09/TN_13-7-101_1.htm",
+          "opened": true
+        },
+        {
+          "cite": "UT County Technical Assistance Service, CTAS-610 Zoning Regulation (citing T.C.A. 13-7-101, 13-7-104)",
+          "url": "https://www.ctas.tennessee.edu/eli/zoning-regulation",
+          "opened": true
+        },
+        {
+          "cite": "UT County Technical Assistance Service, CTAS-615 Municipal Zoning Outside City Limits (citing T.C.A. 13-7-302, 13-7-306)",
+          "url": "https://www.ctas.tennessee.edu/eli/municipal-zoning-outside-city-limits",
+          "opened": true
+        }
+      ]
+    },
+    "TX": {
+      "county_zoning_power": "limited",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties have no general zoning power (see no_county_zoning)",
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/texas",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "Tex. Loc. Gov't Code 211.003(a)",
+          "url": "https://tcss.legis.texas.gov/resources/LG/htm/LG.211.htm",
+          "opened": true
+        },
+        {
+          "cite": "Tex. Loc. Gov't Code 231.013",
+          "url": "https://tcss.legis.texas.gov/resources/LG/htm/LG.231.htm",
+          "opened": true
+        }
+      ]
+    },
+    "UT": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "the survey did not settle whether a Utah county may stay unzoned",
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/utah",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "Utah Code 17-79-505(1)(a) (formerly 17-27a-505)",
+          "url": "https://le.utah.gov/xcode/Title17/Chapter79/C17-79-S505_2025110620251206.html",
+          "opened": true
+        },
+        {
+          "cite": "Utah Code 17-79-401(1) (formerly 17-27a-401)",
+          "url": "https://le.utah.gov/xcode/Title17/Chapter79/C17-79-S401_2025110620251206.html",
+          "opened": true
+        }
+      ]
+    },
+    "VA": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/virginia",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "Va. Code 15.2-2280",
+          "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter22/section15.2-2280/",
+          "opened": true
+        },
+        {
+          "cite": "Va. Code 15.2-2223(A)",
+          "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter22/section15.2-2223/",
+          "opened": true
+        },
+        {
+          "cite": "Va. Code 15.2-2232",
+          "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter22/section15.2-2232/",
+          "opened": true
+        },
+        {
+          "cite": "Va. Code 15.2-2288.8(A)",
+          "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter22/section15.2-2288.8/",
+          "opened": true
+        }
+      ]
+    },
+    "VT": {
+      "county_zoning_power": "no_county_land_use",
+      "may_counties_remain_unzoned": "unknown",
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns, cities or the state zone all land; counties have no land use role",
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/vermont",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "24 V.S.A. 4303(12)",
+          "url": "https://legislature.vermont.gov/statutes/section/24/117/04303",
+          "opened": true
+        },
+        {
+          "cite": "24 V.S.A. 4411(a)",
+          "url": "https://legislature.vermont.gov/statutes/section/24/117/04411",
+          "opened": true
+        },
+        {
+          "cite": "24 V.S.A. 4413(b)",
+          "url": "https://legislature.vermont.gov/statutes/section/24/117/04413",
+          "opened": true
+        },
+        {
+          "cite": "30 V.S.A. 248(b)(1)",
+          "url": "https://legislature.vermont.gov/statutes/section/30/005/00248",
+          "opened": true
+        }
+      ]
+    },
+    "WA": {
+      "county_zoning_power": "general",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "counties must zone, or hold general zoning power with no unzoned counties found",
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/washington",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "Wash. Const. art. XI, sec. 11",
+          "url": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+          "opened": true
+        },
+        {
+          "cite": "RCW 36.70.720",
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70.720",
+          "opened": true
+        },
+        {
+          "cite": "RCW 36.70A.040(3)(d)",
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70A.040",
+          "opened": true
+        },
+        {
+          "cite": "RCW 36.70A.060(2)",
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70A.060",
+          "opened": true
+        },
+        {
+          "cite": "RCW 80.50.110(2)",
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=80.50.110",
+          "opened": true
+        }
+      ]
+    },
+    "WI": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "medium",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "towns or townships zone unincorporated land, alone or alongside the county",
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/wisconsin",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "UW-Madison Division of Extension, 'Types of Zoning' (summarizing Wis. Stat. 59.69, 60.61, 60.62, 59.692)",
+          "url": "https://fyi.extension.wisc.edu/landusetraining/?p=2660",
+          "opened": true
+        },
+        {
+          "cite": "UW-Madison Division of Extension, 'Types of Zoning' (Wis. Stat. 60.61)",
+          "url": "https://fyi.extension.wisc.edu/landusetraining/?p=2660",
+          "opened": true
+        },
+        {
+          "cite": "UW-Madison Division of Extension, 'Types of Zoning' (Wis. Stat. 59.692)",
+          "url": "https://fyi.extension.wisc.edu/landusetraining/?p=2660",
+          "opened": true
+        },
+        {
+          "cite": "Wisconsin Counties Association, 'Act 264 and Town Withdrawal From County Zoning, Part II' (2025-03-26)",
+          "url": "https://www.wicounties.org/wp-content/uploads/2025/03/2025-03-26-ITB-Act-264-Town-Zoning-Part-2.pdf",
+          "opened": true
+        }
+      ]
+    },
+    "WV": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": true,
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/west-virginia",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "W. Va. Code 8A-7-1(a)",
+          "url": "https://code.wvlegislature.gov/8A-7-1/",
+          "opened": true
+        },
+        {
+          "cite": "W. Va. Code 8A-7-1(b)",
+          "url": "https://code.wvlegislature.gov/8A-7-1/",
+          "opened": true
+        },
+        {
+          "cite": "W. Va. Code 8A-7-8a(b)",
+          "url": "https://code.wvlegislature.gov/8A-7-8a/",
+          "opened": true
+        }
+      ]
+    },
+    "WY": {
+      "county_zoning_power": "optional",
+      "may_counties_remain_unzoned": true,
+      "confidence": "high",
+      "zoning_transition": false,
+      "zoning_transition_excluded_because": "every county must permit wind and solar facilities, zoned or not (W.S. 18-5-502)",
+      "statewide_list": {
+        "url": "https://www.zoningatlas.org/wyoming",
+        "what": "National Zoning Atlas (Land Use Atlas, Inc., nonprofit) state atlas",
+        "date": "undated landing page (site copyright 2021-2026; viewed 2026-10-23)",
+        "opened": true
+      },
+      "citations": [
+        {
+          "cite": "W.S. 18-5-201(a)",
+          "url": "https://wyoleg.gov/statutes/compress/title18.pdf",
+          "opened": true
+        },
+        {
+          "cite": "W.S. 18-5-502(a)",
+          "url": "https://wyoleg.gov/statutes/compress/title18.pdf",
+          "opened": true
+        },
+        {
+          "cite": "W.S. 18-5-504(a)(i)",
+          "url": "https://wyoleg.gov/statutes/compress/title18.pdf",
+          "opened": true
+        }
+      ]
+    }
+  }
+}

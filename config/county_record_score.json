@@ -28,8 +28,8 @@
   },
 
   "zoning_transition": {
-    "_note": "In these states a county without zoning has no local permit over a wind or solar project (state_policies.csv: the county is the siting authority, through planning and zoning, and no state body sites these projects). A county that moves from no zoning to zoning while projects are proposed is setting up the means to restrict them, so the move counts as a county-wide instrument at the severity below, in force from the date drafting began until counts_for_years_after_adoption after the code is adopted.",
-    "states": ["KS"],
+    "_note": "In these states counties may stay unzoned, the county is the body that zones unincorporated land, and an unzoned county has no county siting permit for wind or solar outside zoning (config/county_zoning_authority.json, zoning_transition; a state siting body may still review large plants). A county that moves from no zoning to zoning while projects are proposed is setting up the means to restrict them, so the move counts as a county-wide instrument at the severity below, in force from the date drafting began until counts_for_years_after_adoption after the code is adopted. tests/test_county_record_score.py keeps this list equal to the states marked in county_zoning_authority.json.",
+    "states": ["AR", "AZ", "GA", "IA", "IN", "KS", "KY", "LA", "MD", "MO", "MS", "MT", "NC", "NM", "SC", "SD", "TN", "VA", "WV"],
     "severity": 3,
     "counts_for_years_after_adoption": 3,
     "counties": [
