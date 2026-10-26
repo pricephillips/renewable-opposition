@@ -14,7 +14,7 @@ and left out of the published outputs; lower severities are reported only.
 |---|---|---:|
 | PRIMARY_SOURCE_CONTRADICTS | HIGH | 13 |
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
-| END_DATE_PASSED | MEDIUM | 1 |
+| END_DATE_PASSED | MEDIUM | 2 |
 
 ## Quarantined rows
 

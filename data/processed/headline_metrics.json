@@ -29,8 +29,8 @@
           "verified": 106
         },
         "by_currency": {
-          "in_force": 1012,
-          "lapsed_unconfirmed": 1,
+          "in_force": 1011,
+          "lapsed_unconfirmed": 2,
           "pending": 6,
           "unknown": 2325
         },

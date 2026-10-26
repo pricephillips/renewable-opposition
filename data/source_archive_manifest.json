@@ -1,25 +1,25 @@
 {
-  "run_at": "2026-10-19T16:43:00Z",
+  "run_at": "2026-10-26T16:22:04Z",
   "credentials": "anonymous",
-  "cited_urls": 68,
-  "lookups": 30,
-  "saves": 19,
+  "cited_urls": 83,
+  "lookups": 21,
+  "saves": 14,
   "stop_reason": "time_budget",
-  "stop_at_url": "https://www.courtlistener.com/opinion/10631142/grain-belt-express-llc-v-chariton-county-missouri/",
+  "stop_at_url": "https://www.logancountyco.gov/DocumentCenter/View/1045/Resolution-2026-6-Amending-Logan-County-Zoning-Resolution-Adoption-of-Amended-Regulations-for-Issuance-of-Permits-for-Solar-Energy-Facilities",
   "counts_by_status": {
-    "archived": 23,
-    "requested": 0,
-    "not_archived": 34,
+    "archived": 30,
+    "requested": 1,
+    "not_archived": 47,
     "unresolved_redirect": 0,
     "failed": 0
   },
   "errors": {
     "save 520": 1,
-    "save no response": 33
+    "save no response": 46
   },
-  "resolvable": 54,
-  "archived": 22,
-  "coverage": 0.4074,
+  "resolvable": 75,
+  "archived": 29,
+  "coverage": 0.3867,
   "history": [
     {
       "run_at": "2026-09-29T17:00:18Z",
@@ -40,6 +40,13 @@
       "archived": 22,
       "resolvable": 54,
       "coverage": 0.4074,
+      "stop_reason": "time_budget"
+    },
+    {
+      "run_at": "2026-10-26T16:22:04Z",
+      "archived": 29,
+      "resolvable": 75,
+      "coverage": 0.3867,
       "stop_reason": "time_budget"
     }
   ]
