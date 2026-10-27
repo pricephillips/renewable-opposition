@@ -203,7 +203,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 06029,CA,Kern,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,3,0,2,0,1,,8,4,hybrid,yes,915075,112.49
 06031,CA,Kings,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,153298,110.21
 06033,CA,Lake,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,1,0,0,1,,6,2,hybrid,yes,68152,54.3
-06035,CA,Lassen,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,hybrid,yes,30356,6.68
+06035,CA,Lassen,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,0,hybrid,yes,30356,6.68
 06037,CA,Los Angeles,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,1,0,0,1,0,,4,2,hybrid,yes,9808667,2415.78
 06039,CA,Madera,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,hybrid,yes,160940,75.32
 06041,CA,Marin,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,1,0,hybrid,yes,257969,495.96
@@ -218,7 +218,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 06059,CA,Orange,yes,moratorium_in_force,1,1,1,1,0,0,0,battery_storage,2025,0,0,0,0,0,,4,3,hybrid,yes,3165820,3992.88
 06061,CA,Placer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,2,hybrid,yes,419156,297.89
 06063,CA,Plumas,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,hybrid,yes,19423,7.61
-06065,CA,Riverside,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,2,0,2,0,2,,5,4,hybrid,yes,2478600,343.81
+06065,CA,Riverside,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,0,2,0,2,,5,4,hybrid,yes,2478600,343.81
 06067,CA,Sacramento,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,8,4,hybrid,yes,1594006,1651.34
 06069,CA,San Benito,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,5,4,hybrid,yes,67290,48.46
 06071,CA,San Bernardino,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,6,3,0,3,2,,8,4,hybrid,yes,2197104,109.48
@@ -275,7 +275,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 08055,CO,Huerfano,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,solar:yes;wind:yes;battery_storage:no,6972,4.38
 08057,CO,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,4,local_government,solar:yes;wind:yes;battery_storage:no,1372,0.85
 08059,CO,Jefferson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,9,1,local_government,solar:yes;wind:yes;battery_storage:no,579377,757.96
-08061,CO,Kiowa,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,7,1,local_government,solar:yes;wind:yes;battery_storage:no,1376,0.78
+08061,CO,Kiowa,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,7,1,local_government,solar:yes;wind:yes;battery_storage:no,1376,0.78
 08063,CO,Kit Carson,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,7,0,local_government,solar:yes;wind:yes;battery_storage:no,7023,3.25
 08065,CO,Lake,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,local_government,solar:yes;wind:yes;battery_storage:no,7380,19.58
 08067,CO,La Plata,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,5,0,local_government,solar:yes;wind:yes;battery_storage:no,56331,33.34

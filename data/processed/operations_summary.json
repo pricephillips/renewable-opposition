@@ -2,11 +2,11 @@
  "generated": "2026-10-27",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3340,
-  "severe": 1354,
+  "restriction_instruments": 3337,
+  "severe": 1351,
   "verified": 117,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 933,
+  "severe_where_state_limits_local": 930,
   "projects": 579,
   "projects_confirmed": 151,
   "decided": {
@@ -49,7 +49,7 @@
   "county_coverage": {
    "counties": 3144,
    "with_any_record": 1420,
-   "with_restriction": 1269,
+   "with_restriction": 1268,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
@@ -58,12 +58,12 @@
   }
  },
  "quarantine": {
-  "rows": 25,
+  "rows": 28,
   "by_entity": {
-   "restrictions": 25
+   "restrictions": 28
   },
   "by_blocking_code": {
-   "PRIMARY_SOURCE_CONTRADICTS": 17,
+   "PRIMARY_SOURCE_CONTRADICTS": 20,
    "SCOPE_DATA_CENTER_ONLY": 8
   }
  },
@@ -81,20 +81,20 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3298,
+   "rows": 3295,
    "by_tier": {
     "compiled_record": 126,
-    "compiled_flagged": 2363,
+    "compiled_flagged": 2360,
     "report_citation": 809
    },
    "lapsed": 1,
    "by_county_impact": {
-    "none": 2539,
-    "sole_severe": 407,
-    "sole_record": 352
+    "none": 2538,
+    "sole_severe": 404,
+    "sole_record": 353
    },
    "with_located_url": 7,
-   "flagged": 458
+   "flagged": 457
   },
   "negative_checks": {
    "rows": 8,
@@ -207,14 +207,14 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 132,
+  "snapshot_rows": 135,
   "snapshot_files": 5,
   "headline_history_rows": 14,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-10-27",
   "latest": {
-   "restrictions": "3340",
-   "severe_restrictions": "1354",
+   "restrictions": "3337",
+   "severe_restrictions": "1351",
    "verified_restrictions": "117",
    "multi_sector_restrictions": "87",
    "contested_projects": "579",
@@ -242,10 +242,10 @@
     "contradicts": 2
    },
    "NREL": {
-    "access_opened": 59,
-    "checked": 59,
+    "access_opened": 62,
+    "checked": 62,
     "confirmed": 43,
-    "contradicts": 16
+    "contradicts": 19
    },
    "Sabin": {
     "access_opened": 6,

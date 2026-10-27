@@ -10,10 +10,10 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---:|---|
 | closed | 164 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
 | severe | 366 | Severe: rules likely to block most projects |
-| restrictive | 381 | Restrictive: material rules, or blocked projects |
-| regulated | 623 | Regulated but open: rules in force, projects approved under them |
+| restrictive | 379 | Restrictive: material rules, or blocked projects |
+| regulated | 624 | Regulated but open: rules in force, projects approved under them |
 | open | 384 | Open: nothing restrictive on record |
-| no_record | 1226 | No record and no negative check: scored on the profile prior alone |
+| no_record | 1227 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
 
@@ -50,5 +50,5 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 ## Record against resemblance
 
-1400 counties have a record. Of those in the top three resemblance deciles, 159 are open or regulated on their record; of those in the bottom three, 33 are closed or severe. These are the counties where the two scores disagree most.
+1399 counties have a record. Of those in the top three resemblance deciles, 160 are open or regulated on their record; of those in the bottom three, 33 are closed or severe. These are the counties where the two scores disagree most.
 
