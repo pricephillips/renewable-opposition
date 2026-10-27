@@ -1,14 +1,14 @@
 {
   "restrictions": {
-    "rows": 3638,
-    "instruments": 3428,
+    "rows": 3637,
+    "instruments": 3427,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3341,
-        "severe_instruments": 1355,
+        "instruments": 3340,
+        "severe_instruments": 1354,
         "states": 51,
         "by_status": {
-          "active": 954,
+          "active": 953,
           "extended": 57,
           "pending": 6,
           "unknown": 2324
@@ -16,25 +16,25 @@
         "by_technology": {
           "battery_storage": 141,
           "solar": 1665,
-          "wind": 1700
+          "wind": 1699
         },
         "by_evidence_level": {
-          "compiled_flagged": 2357,
-          "compiled_record": 61,
-          "primary_source": 114,
+          "compiled_flagged": 2354,
+          "compiled_record": 60,
+          "primary_source": 117,
           "report_citation": 809
         },
         "by_verification": {
-          "unverified": 3227,
-          "verified": 114
+          "unverified": 3223,
+          "verified": 117
         },
         "by_currency": {
           "in_force": 1009,
-          "lapsed_unconfirmed": 2,
+          "lapsed_unconfirmed": 1,
           "pending": 6,
           "unknown": 2324
         },
-        "severe_where_state_limits_local": 934
+        "severe_where_state_limits_local": 933
       },
       "multi_sector_data_centers": {
         "instruments": 87,
@@ -83,19 +83,19 @@
         }
       },
       "NREL": {
-        "instruments": 2368,
-        "severe_instruments": 647,
+        "instruments": 2367,
+        "severe_instruments": 646,
         "by_verification": {
-          "unverified": 2327,
-          "verified": 41
+          "unverified": 2324,
+          "verified": 43
         }
       },
       "Moratorium Nation": {
         "instruments": 209,
         "severe_instruments": 198,
         "by_verification": {
-          "unverified": 166,
-          "verified": 43
+          "unverified": 165,
+          "verified": 44
         }
       },
       "review queue": {
@@ -108,8 +108,8 @@
       }
     },
     "by_verification": {
-      "unverified": 3302,
-      "verified": 126
+      "unverified": 3298,
+      "verified": 129
     }
   },
   "contested_projects": {
@@ -267,7 +267,7 @@
   "county_coverage": {
     "counties": 3144,
     "with_any_record": 1420,
-    "with_restriction": 1270,
+    "with_restriction": 1269,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
