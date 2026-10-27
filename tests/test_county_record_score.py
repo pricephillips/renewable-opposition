@@ -194,3 +194,26 @@ def test_a_county_that_cannot_zone_is_not_scored_on_its_profile_alone():
                                                   _profile({f: i / 100 for i, f in enumerate(fips)}), cfg,
                                                   "2026-10-21")}
     assert out["18"]["basis"] == "profile_only"
+
+
+def test_deciles_split_counties_evenly_despite_tied_scores():
+    # 40 counties with no record in two resemblance deciles share two combined
+    # scores; the resemblance score breaks the ties, so each decile holds four.
+    fips = [f"{i:02d}" for i in range(40)]
+    restrictions = [_r("a", "39", 4, "moratorium")]
+    out = _build(restrictions, summary=_summary(*fips[:39], coverage="none") + _summary("39"),
+                 profile={f: i / 100 for i, f in enumerate(fips)})
+    assert len({r["combined"] for r in out.values()}) < 5
+    counts = [sum(1 for r in out.values() if r["combined_decile"] == d) for d in range(1, 11)]
+    assert counts == [4] * 10
+    assert out["00"]["combined_decile"] == 1 and out["39"]["combined_decile"] == 10
+    # Within a tie, the higher resemblance score ranks higher.
+    assert out["01"]["combined"] == out["00"]["combined"]
+    assert out["01"]["combined_normal"] > out["00"]["combined_normal"]
+
+
+def test_the_normal_score_is_centred_and_symmetric():
+    fips = [f"{i:02d}" for i in range(21)]
+    out = _build(summary=_summary(*fips, coverage="none"), profile={f: i / 100 for i, f in enumerate(fips)})
+    z = sorted(r["combined_normal"] for r in out.values())
+    assert z[10] == 0 and z[0] == -z[-1] and z[-1] > 1.5

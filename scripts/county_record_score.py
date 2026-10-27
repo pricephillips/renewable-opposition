@@ -33,6 +33,12 @@ config/county_record_score.json; read it first. In short:
                points; the profile points are the mean record points of all
                counties in the same resemblance decile (no record counts as
                zero).
+  deciles      combined_normal is the combined score's rank turned into a
+               standard normal score, and combined_decile its tenth of U.S.
+               counties. Ties are broken by the resemblance score, then by
+               FIPS, so the ten deciles hold the same number of counties
+               even though many counties share a combined score. Points and
+               tiers are unchanged; these two columns only order counties.
 
 Reads   data/processed/restrictions.csv, contested_projects.csv, county_summary.csv
         data/reference/facilities.csv
@@ -52,6 +58,7 @@ from __future__ import annotations
 import json
 import sys
 from collections import defaultdict
+from statistics import NormalDist
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -68,7 +75,8 @@ SCORES_PATH = ROOT / "data" / "model" / "county_record_scores.csv"
 REPORT_PATH = ROOT / "data" / "model" / "county_record_report.md"
 
 FIELDS = [
-    "county_fips", "state", "county", "tier", "combined", "combined_pct_us", "state_rank", "state_n",
+    "county_fips", "state", "county", "tier", "combined", "combined_pct_us", "combined_normal", "combined_decile",
+    "state_rank", "state_n",
     "basis", "evidence_weight", "record_points", "instrument_points", "zoning_points", "blocked_points",
     "approval_credit", "top_instrument", "instruments", "verified_instruments", "projects_blocked",
     "projects_advanced", "plants_built", "profile_score", "profile_decile", "profile_points",
@@ -226,6 +234,26 @@ def deciles(values: dict[str, float]) -> dict[str, int]:
     return {f: min(10, 1 + (10 * i) // n) for i, f in enumerate(order)}
 
 
+def normal_scores(rows: list[dict]) -> None:
+    """Set combined_normal and combined_decile on each row, by rank.
+
+    The combined score is skewed (most counties have no record and take one
+    of a few prior values), so cutting it at its own deciles gives uneven
+    groups. Ranking first, with ties broken by the resemblance score and then
+    FIPS, gives every county its own place; the place becomes a standard
+    normal score (Blom, (rank - 3/8) / (n + 1/4)) and a decile of equal size.
+    """
+    def key(r):
+        p = r.get("profile_score")
+        return (r["combined"], float(p) if p != "" else -1.0, r["county_fips"])
+    order = sorted(rows, key=key)
+    n = len(order)
+    nd = NormalDist()
+    for i, r in enumerate(order):
+        r["combined_normal"] = round(nd.inv_cdf((i + 1 - 0.375) / (n + 0.25)), 3) + 0.0
+        r["combined_decile"] = 1 + (10 * i) // n
+
+
 def pct(values: list[float], v: float) -> float:
     """Mid-rank percentile of v among values."""
     below = sum(1 for x in values if x < v)
@@ -297,6 +325,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         w = r["evidence_weight"]
         r["combined"] = round(w * r["record_points"] + (1 - w) * r["profile_points"], 2)
         r["tier"] = tier(r["combined"], cfg) if r["basis"] != "profile_only" else "no_record"
+    normal_scores(rows)
     combined = [r["combined"] for r in rows]
     by_state: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
@@ -338,6 +367,16 @@ def report(rows: list[dict], cfg: dict) -> str:
         L.append(f"| {r['county']}, {r['state']} | {r['tier']} | {r['combined']} ({r['combined_pct_us']}) "
                  f"| {r['record_points']} | {r['instrument_points']} | {r['zoning_points']} | {r['blocked_points']} "
                  f"| {r['approval_credit']} | {r['profile_score']} ({r['profile_decile']}) | {r['top_instrument']} |")
+    L += ["", "## Combined score by decile", "",
+          "Deciles of U.S. counties ranked by combined score, ties broken by resemblance score. "
+          "`combined_normal` is the same rank as a standard normal score.", "",
+          "| Decile | Counties | Combined score (lowest to highest) | Normal score (lowest to highest) |",
+          "|---:|---:|---|---|"]
+    for d in range(1, 11):
+        ds = [r for r in rows if r["combined_decile"] == d]
+        if ds:
+            L.append(f"| {d} | {len(ds)} | {min(r['combined'] for r in ds)} to {max(r['combined'] for r in ds)} "
+                     f"| {min(r['combined_normal'] for r in ds)} to {max(r['combined_normal'] for r in ds)} |")
     L += ["", "## Highest combined scores", "", "| County | Tier | Combined | Top instrument |", "|---|---|---:|---|"]
     for r in sorted(rows, key=lambda r: (-r["combined"], r["county_fips"]))[:15]:
         L.append(f"| {r['county']}, {r['state']} | {r['tier']} | {r['combined']} | {r['top_instrument']} |")
