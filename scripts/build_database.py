@@ -223,7 +223,7 @@ def _sql(name: str) -> str:
 def _stage_csv(con: duckdb.DuckDBPyConnection, table: str, path: Path) -> None:
     con.execute(
         f"CREATE TEMP TABLE {table} AS SELECT * FROM read_csv(?, header = true, all_varchar = true, "
-        "delim = ',', quote = '\"', escape = '\"', null_padding = true)",
+        "delim = ',', quote = '\"', escape = '\"', null_padding = true, parallel = false)",
         [str(path)],
     )
 
