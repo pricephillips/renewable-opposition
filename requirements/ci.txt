@@ -8,7 +8,7 @@ cloudpickle==3.1.2
     # via joblib
 daff==1.4.2
     # via -r ci.in
-duckdb==1.5.6
+duckdb==2.0.0
     # via -r ci.in
 et-xmlfile==2.0.0
     # via openpyxl
@@ -45,7 +45,7 @@ pyyaml==6.0.3
     # via -r ci.in
 requests==2.34.2
     # via -r ci.in
-ruff==0.17.1
+ruff==0.17.2
     # via -r ci.in
 scikit-learn==1.9.1
     # via -r ci.in
@@ -55,5 +55,5 @@ threadpoolctl==3.7.0
     # via scikit-learn
 urllib3==2.8.0
     # via requests
-vale==3.22.0.0
+vale==3.24.0.0
     # via -r ci.in

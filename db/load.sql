@@ -17,7 +17,7 @@
 --   stg_government (geoid, kind, state_code, county_fips, census_name, funcstat)
 
 CREATE MACRO split_list(s) AS
-    list_filter(list_transform(string_split(coalesce(s, ''), ';'), x -> trim(x)), x -> x <> '');
+    list_filter(list_transform(string_split(coalesce(s, ''), ';'), lambda x: trim(x)), lambda x: x <> '');
 
 CREATE MACRO nullif_blank(s) AS nullif(trim(coalesce(s, '')), '');
 

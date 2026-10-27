@@ -1,26 +1,26 @@
 {
- "generated": "2026-10-23",
+ "generated": "2026-10-27",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3344,
-  "severe": 1358,
-  "verified": 106,
+  "restriction_instruments": 3340,
+  "severe": 1354,
+  "verified": 117,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 937,
+  "severe_where_state_limits_local": 933,
   "projects": 579,
-  "projects_confirmed": 148,
+  "projects_confirmed": 151,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 335,
+    "projects": 338,
     "blocked": 244,
-    "blocked_share": 0.728
+    "blocked_share": 0.722
    },
    "confirmed_only": {
-    "projects": 147,
+    "projects": 150,
     "blocked": 80,
-    "blocked_share": 0.544
+    "blocked_share": 0.533
    },
    "by_technology": {
     "battery_storage": {
@@ -29,9 +29,9 @@
      "blocked_share": 0.636
     },
     "solar": {
-     "projects": 171,
+     "projects": 172,
      "blocked": 139,
-     "blocked_share": 0.813
+     "blocked_share": 0.808
     },
     "transmission": {
      "projects": 8,
@@ -39,9 +39,9 @@
      "blocked_share": 0.375
     },
     "wind": {
-     "projects": 148,
+     "projects": 150,
      "blocked": 95,
-     "blocked_share": 0.642
+     "blocked_share": 0.633
     }
    }
   },
@@ -49,7 +49,7 @@
   "county_coverage": {
    "counties": 3144,
    "with_any_record": 1420,
-   "with_restriction": 1270,
+   "with_restriction": 1269,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
@@ -58,43 +58,43 @@
   }
  },
  "quarantine": {
-  "rows": 21,
+  "rows": 25,
   "by_entity": {
-   "restrictions": 21
+   "restrictions": 25
   },
   "by_blocking_code": {
-   "PRIMARY_SOURCE_CONTRADICTS": 13,
+   "PRIMARY_SOURCE_CONTRADICTS": 17,
    "SCOPE_DATA_CENTER_ONLY": 8
   }
  },
  "worklists": {
   "outcomes": {
-   "rows": 425,
+   "rows": 420,
    "by_tier": {
     "blocked_unverified": 164,
     "needs_review": 28,
-    "pending": 210,
+    "pending": 205,
     "advanced_unverified": 23
    },
-   "overdue": 141,
+   "overdue": 136,
    "with_decision_language": 12,
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3313,
+   "rows": 3298,
    "by_tier": {
-    "compiled_record": 127,
-    "compiled_flagged": 2377,
+    "compiled_record": 126,
+    "compiled_flagged": 2363,
     "report_citation": 809
    },
    "lapsed": 1,
    "by_county_impact": {
-    "none": 2543,
-    "sole_severe": 420,
-    "sole_record": 350
+    "none": 2539,
+    "sole_severe": 407,
+    "sole_record": 352
    },
-   "with_located_url": 5,
-   "flagged": 459
+   "with_located_url": 7,
+   "flagged": 458
   },
   "negative_checks": {
    "rows": 8,
@@ -195,11 +195,11 @@
    "confirmed": 6,
    "pending": 2,
    "awaiting_review": 4,
-   "lead": 70
+   "lead": 83
   },
   "queue_by_entity": {
-   "restriction": 77,
-   "contested_project": 46,
+   "restriction": 78,
+   "contested_project": 58,
    "case": 9
   },
   "case_candidates": 230,
@@ -207,19 +207,19 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 122,
+  "snapshot_rows": 132,
   "snapshot_files": 5,
-  "headline_history_rows": 13,
+  "headline_history_rows": 14,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-23",
+  "headline_last_change": "2026-10-27",
   "latest": {
-   "restrictions": "3344",
-   "severe_restrictions": "1358",
-   "verified_restrictions": "106",
+   "restrictions": "3340",
+   "severe_restrictions": "1354",
+   "verified_restrictions": "117",
    "multi_sector_restrictions": "87",
    "contested_projects": "579",
-   "confirmed_outcomes": "148",
-   "verified_projects": "155",
+   "confirmed_outcomes": "151",
+   "verified_projects": "160",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
@@ -229,23 +229,23 @@
  },
  "source_archive": {
   "sources": 83,
-  "archived": 22,
-  "archived_share": 0.265
+  "archived": 28,
+  "archived_share": 0.337
  },
  "evidence_checks": {
   "restriction_sources": {
    "Moratorium Nation": {
     "access_archived": 5,
-    "access_opened": 40,
-    "checked": 45,
-    "confirmed": 43,
+    "access_opened": 41,
+    "checked": 46,
+    "confirmed": 44,
     "contradicts": 2
    },
    "NREL": {
-    "access_opened": 45,
-    "checked": 45,
-    "confirmed": 33,
-    "contradicts": 12
+    "access_opened": 59,
+    "checked": 59,
+    "confirmed": 43,
+    "contradicts": 16
    },
    "Sabin": {
     "access_opened": 6,
@@ -259,55 +259,55 @@
    }
   },
   "outcome_resolutions": {
-   "rows": 143,
+   "rows": 148,
    "by_outcome": {
     "blocked_confirmed": 76,
-    "advanced_confirmed": 65,
-    "pending": 2
+    "advanced_confirmed": 68,
+    "pending": 4
    },
    "by_access": {
     "archived": 7,
-    "opened": 136
+    "opened": 141
    }
   }
  },
  "intake": {
   "courtlistener_renewables": {
-   "requests": 2,
-   "stored": 2,
+   "requests": 3,
+   "stored": 3,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-10-20",
-   "last_changed": "2026-10-20",
+   "last_fetch": "2026-10-27",
+   "last_changed": "2026-10-27",
    "last_error": null,
-   "files_parsed": 2,
+   "files_parsed": 3,
    "leads_queued": 9,
    "queue_by_status": {
     "lead": 9
    }
   },
   "gdelt_renewable_news": {
-   "requests": 5,
-   "stored": 3,
+   "requests": 10,
+   "stored": 5,
    "unchanged": 0,
-   "failed": 2,
-   "last_fetch": "2026-10-20",
-   "last_changed": "2026-10-20",
-   "last_error": "2026-10-20: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
-   "files_parsed": 3,
-   "leads_queued": 3,
+   "failed": 5,
+   "last_fetch": "2026-10-27",
+   "last_changed": "2026-10-27",
+   "last_error": "2026-10-27: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
+   "files_parsed": 5,
+   "leads_queued": 16,
    "queue_by_status": {
-    "lead": 3
+    "lead": 16
    }
   },
   "legistar_renewable_matters": {
-   "requests": 22,
+   "requests": 33,
    "stored": 11,
-   "unchanged": 11,
-   "failed": 0,
-   "last_fetch": "2026-10-20",
+   "unchanged": 21,
+   "failed": 1,
+   "last_fetch": "2026-10-27",
    "last_changed": "2026-10-13",
-   "last_error": null,
+   "last_error": "2026-10-27: 500 Server Error: Internal Server Error for url: https://webapi.legistar.com/v1/sanbernardino/matters?%24filter=substringof%28%27solar%27%2CMatterTitle%29+or+su",
    "files_parsed": 8,
    "leads_queued": 50,
    "queue_by_status": {
@@ -315,11 +315,11 @@
    }
   },
   "moratorium_nation_upstream": {
-   "requests": 2,
+   "requests": 3,
    "stored": 1,
-   "unchanged": 0,
+   "unchanged": 1,
    "failed": 1,
-   "last_fetch": "2026-10-20",
+   "last_fetch": "2026-10-27",
    "last_changed": "2026-10-20",
    "last_error": "2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1"
   },
@@ -342,14 +342,14 @@
    "last_error": null
   },
   "ny_ores_permit_applications": {
-   "requests": 2,
-   "stored": 2,
+   "requests": 3,
+   "stored": 3,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-10-20",
-   "last_changed": "2026-10-20",
+   "last_fetch": "2026-10-27",
+   "last_changed": "2026-10-27",
    "last_error": null,
-   "files_parsed": 2,
+   "files_parsed": 3,
    "leads_queued": 8,
    "queue_by_status": {
     "lead": 8
@@ -401,20 +401,20 @@
    "last_error": null
   },
   "sabin_web_database_projects": {
-   "requests": 2,
+   "requests": 3,
    "stored": 1,
-   "unchanged": 1,
+   "unchanged": 2,
    "failed": 0,
-   "last_fetch": "2026-10-20",
+   "last_fetch": "2026-10-27",
    "last_changed": "2026-10-13",
    "last_error": null
   },
   "sabin_web_database_restrictions": {
-   "requests": 2,
+   "requests": 3,
    "stored": 1,
-   "unchanged": 1,
+   "unchanged": 2,
    "failed": 0,
-   "last_fetch": "2026-10-20",
+   "last_fetch": "2026-10-27",
    "last_changed": "2026-10-13",
    "last_error": null
   }
