@@ -24,6 +24,23 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 | Harris, TX | restrictive | 12.5 (67.5) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
 | Linn, IA | regulated | 7.88 (50.4) | 7.88 | 15.75 | 0.0 | 0 | 7.88 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
+## Combined score by decile
+
+Deciles of U.S. counties ranked by combined score, ties broken by resemblance score. `combined_normal` is the same rank as a standard normal score.
+
+| Decile | Counties | Combined score (lowest to highest) | Normal score (lowest to highest) |
+|---:|---:|---|---|
+| 1 | 315 | 0.0 to 1.8 | -3.542 to -1.281 |
+| 2 | 314 | 1.8 to 2.64 | -1.279 to -0.842 |
+| 3 | 315 | 2.64 to 4.54 | -0.841 to -0.524 |
+| 4 | 314 | 4.54 to 5.85 | -0.523 to -0.253 |
+| 5 | 314 | 5.85 to 7.77 | -0.253 to 0.0 |
+| 6 | 315 | 7.77 to 10.46 | 0.0 to 0.253 |
+| 7 | 314 | 10.46 to 14.3 | 0.254 to 0.524 |
+| 8 | 315 | 14.36 to 22.05 | 0.525 to 0.842 |
+| 9 | 314 | 22.14 to 34.79 | 0.843 to 1.281 |
+| 10 | 314 | 34.79 to 75.0 | 1.283 to 3.542 |
+
 ## Highest combined scores
 
 | County | Tier | Combined | Top instrument |
