@@ -12,12 +12,13 @@ config/county_record_score.json; read it first. In short:
 
   instruments  each restriction instrument placed in the county: severity
                points (4: 40, 3: 30, 2: 12, 1: 4) x currency (in force 1,
-               status unknown 0.5, pending 0.3) x jurisdiction (county-wide
+               status unknown 0.85, pending 0.3) x jurisdiction (county-wide
                1, a city or township 0.5) x technology breadth. The largest
                counts fully, the rest at a quarter, capped.
   zoning       a listed county moving from no zoning to zoning, in a state
                where an unzoned county has no permit over these projects,
-               counts as a county-wide severity 3 instrument.
+               counts as a county-wide severity 3 instrument; one whose
+               second reading confirmed every claim counts as verified.
   projects     blocked projects add points; approved ones take points off,
                at most half the instrument points, and never below a
                severity 4 county-wide instrument in force.
@@ -26,7 +27,8 @@ config/county_record_score.json; read it first. In short:
                approvals, inside the same limits.
   no zoning    in a state whose counties cannot zone (config no_county_zoning),
                a county with no record has evidence too: its government
-               cannot restrict.
+               cannot restrict. Counties that zone anyway by local act are
+               listed as exceptions.
   combined     evidence weight x record points + (1 - weight) x profile
                points; the profile points are the mean record points of all
                counties in the same resemblance decile (no record counts as
@@ -146,7 +148,8 @@ def zoning_instruments(cfg: dict, as_of: str) -> dict[str, dict]:
                                  "techs": set(c["technologies"]), "severity": z["severity"],
                                  "currency": "in_force", "jurisdiction_type": "County",
                                  "restriction_type": "zoning_transition", "jurisdiction": c["county"],
-                                 "verified": False, "year": _s(c.get("drafting_since"))[:4]}
+                                 "verified": _s((c.get("second_reading") or {}).get("verdict")) == "confirmed",
+                                 "year": _s(c.get("drafting_since"))[:4]}
     return out
 
 
@@ -258,7 +261,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         built = uncontested_builds(built_years.get(f, []), insts, zoning.get(f), advanced)
         rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg)
         verified = sum(1 for i in insts if i["verified"])
-        confirmed = any(o.endswith("_confirmed") for o in contested)
+        confirmed = any(o.endswith("_confirmed") for o in contested) or bool(zoning.get(f, {}).get("verified"))
         has_record = bool(insts) or bool(contested) or f in zoning
         if has_record:
             basis = "record"
@@ -267,7 +270,8 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
             basis, weight = "negative_check", ew["negative_check"]
         elif built:
             basis, weight = "build_out", ew["build_out"]
-        elif _s(s.get("state")) in cfg["no_county_zoning"]["states"]:
+        elif (_s(s.get("state")) in cfg["no_county_zoning"]["states"]
+              and f not in cfg["no_county_zoning"].get("except_counties", {})):
             basis, weight = "no_county_zoning", ew["no_county_zoning"]
         else:
             basis, weight = "profile_only", ew["none"]

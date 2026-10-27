@@ -1,12 +1,12 @@
 {
- "generated": "2026-10-22",
+ "generated": "2026-10-23",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3335,
-  "severe": 1355,
-  "verified": 96,
+  "restriction_instruments": 3344,
+  "severe": 1358,
+  "verified": 106,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 936,
+  "severe_where_state_limits_local": 937,
   "projects": 579,
   "projects_confirmed": 148,
   "decided": {
@@ -48,13 +48,13 @@
   "cases": 39,
   "county_coverage": {
    "counties": 3144,
-   "with_any_record": 1413,
-   "with_restriction": 1263,
+   "with_any_record": 1420,
+   "with_restriction": 1270,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
    "with_negative_check_and_no_record": 1,
-   "with_neither": 1730
+   "with_neither": 1723
   }
  },
  "quarantine": {
@@ -81,27 +81,29 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3314,
+   "rows": 3313,
    "by_tier": {
     "compiled_record": 127,
-    "compiled_flagged": 2378,
+    "compiled_flagged": 2377,
     "report_citation": 809
    },
    "lapsed": 1,
    "by_county_impact": {
-    "none": 2544,
+    "none": 2543,
     "sole_severe": 420,
     "sole_record": 350
    },
-   "with_located_url": 4,
-   "flagged": 458
+   "with_located_url": 5,
+   "flagged": 459
   },
   "negative_checks": {
-   "rows": 0,
-   "by_reason": {}
+   "rows": 8,
+   "by_reason": {
+    "no check on record": 8
+   }
   },
   "adjacency": {
-   "rows": 256
+   "rows": 261
   },
   "fips_misses": {
    "rows": 63,
@@ -113,90 +115,90 @@
   }
  },
  "promotion_trail": {
-  "decisions": 97,
+  "decisions": 117,
   "by_action": {
-   "promoted": 75,
-   "held": 13,
-   "awaiting_review": 6,
-   "rejected": 2,
+   "promoted": 87,
+   "held": 16,
+   "awaiting_review": 9,
+   "rejected": 4,
    "unpublished": 1
   },
   "by_file": {
-   "queue.csv": 49,
+   "queue.csv": 69,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-20",
+  "last": "2026-10-23",
   "recent": [
    {
-    "date": "2026-10-20",
+    "date": "2026-10-23",
     "file": "queue.csv",
     "action": "promoted",
-    "what": "CO Logan County",
+    "what": "CA San Joaquin County",
     "reason": ""
    },
    {
-    "date": "2026-10-20",
+    "date": "2026-10-23",
     "file": "queue.csv",
     "action": "promoted",
-    "what": "CO Logan County",
+    "what": "CA San Joaquin County",
     "reason": ""
    },
    {
-    "date": "2026-10-20",
+    "date": "2026-10-23",
     "file": "queue.csv",
     "action": "promoted",
-    "what": "CO Logan County",
+    "what": "KS Crawford County",
     "reason": ""
    },
    {
-    "date": "2026-10-20",
+    "date": "2026-10-23",
     "file": "queue.csv",
     "action": "promoted",
-    "what": "IA Mitchell County",
+    "what": "KS Crawford County",
     "reason": ""
    },
    {
-    "date": "2026-10-18",
-    "file": "queue.csv",
-    "action": "unpublished",
-    "what": "TX Pasadena",
-    "reason": "status lifted: the instrument is no longer in force"
-   },
-   {
-    "date": "2026-10-17",
+    "date": "2026-10-23",
     "file": "queue.csv",
     "action": "promoted",
-    "what": "TX Pasadena",
+    "what": "KS Bourbon County",
     "reason": ""
    },
    {
-    "date": "2026-10-16",
+    "date": "2026-10-23",
     "file": "queue.csv",
-    "action": "promoted",
-    "what": "TX Baytown",
-    "reason": ""
+    "action": "held",
+    "what": "KS Bourbon County",
+    "reason": "status expired: the instrument is no longer in force, so it is not published"
    },
    {
-    "date": "2026-10-16",
+    "date": "2026-10-23",
     "file": "queue.csv",
-    "action": "promoted",
-    "what": "TX Baytown",
-    "reason": ""
+    "action": "awaiting_review",
+    "what": "KS Bourbon County",
+    "reason": "awaiting review by someone other than its drafter"
+   },
+   {
+    "date": "2026-10-23",
+    "file": "queue.csv",
+    "action": "held",
+    "what": "KS Bourbon County",
+    "reason": "status lifted: the instrument is no longer in force, so it is not published"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 34,
-   "rejected": 2,
-   "confirmed": 3,
+   "promoted": 46,
+   "rejected": 4,
+   "confirmed": 6,
    "pending": 2,
-   "awaiting_review": 1,
+   "awaiting_review": 4,
    "lead": 70
   },
   "queue_by_entity": {
-   "restriction": 57,
+   "restriction": 77,
    "contested_project": 46,
    "case": 9
   },
@@ -205,30 +207,30 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 116,
+  "snapshot_rows": 122,
   "snapshot_files": 5,
-  "headline_history_rows": 12,
+  "headline_history_rows": 13,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-22",
+  "headline_last_change": "2026-10-23",
   "latest": {
-   "restrictions": "3335",
-   "severe_restrictions": "1355",
-   "verified_restrictions": "96",
-   "multi_sector_restrictions": "85",
+   "restrictions": "3344",
+   "severe_restrictions": "1358",
+   "verified_restrictions": "106",
+   "multi_sector_restrictions": "87",
    "contested_projects": "579",
    "confirmed_outcomes": "148",
    "verified_projects": "155",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
-   "counties_with_records": "1413",
-   "counties_not_examined": "1730"
+   "counties_with_records": "1420",
+   "counties_not_examined": "1723"
   }
  },
  "source_archive": {
-  "sources": 72,
+  "sources": 83,
   "archived": 22,
-  "archived_share": 0.306
+  "archived_share": 0.265
  },
  "evidence_checks": {
   "restriction_sources": {

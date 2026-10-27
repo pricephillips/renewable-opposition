@@ -90,9 +90,20 @@ def test_a_kansas_county_moving_to_zoning_counts_as_a_severe_instrument():
     cfg["zoning_transition"]["counties"] = [adopted]
     assert _build(summary=_summary("Z"), cfg=cfg, as_of="2025-03-01")["Z"]["zoning_points"] == 33
     assert _build(summary=_summary("Z"), cfg=cfg, as_of="2025-03-02")["Z"]["basis"] == "profile_only"
-    cfg["zoning_transition"]["counties"] = [{**entry, "state": "IA"}]
+    cfg["zoning_transition"]["counties"] = [{**entry, "state": "IL"}]
     with pytest.raises(ValueError):
         _build(summary=_summary("Z"), cfg=cfg)
+
+
+def test_a_zoning_transition_counts_as_verified_only_after_a_confirmed_second_reading():
+    entry = {"county_fips": "Z", "state": "KS", "county": "Zed", "status": "drafting_first_code",
+             "adopted_on": "", "technologies": ["wind"]}
+    def weight(e):
+        cfg = {**CFG, "zoning_transition": {**CFG["zoning_transition"], "counties": [e]}}
+        return _build(summary=_summary("Z"), cfg=cfg)["Z"]["evidence_weight"]
+    assert weight(entry) == CFG["evidence_weight"]["unverified_record"]
+    assert weight({**entry, "second_reading": {"verdict": "contradicts"}}) == CFG["evidence_weight"]["unverified_record"]
+    assert weight({**entry, "second_reading": {"verdict": "confirmed"}}) == CFG["evidence_weight"]["verified_record"]
 
 
 def test_a_county_with_no_record_takes_its_resemblance_decile_prior():
@@ -119,6 +130,18 @@ def test_the_rubric_is_complete():
     assert [t["min"] for t in CFG["tiers"]] == sorted((t["min"] for t in CFG["tiers"]), reverse=True)
     for c in CFG["zoning_transition"]["counties"]:
         assert c["state"] in CFG["zoning_transition"]["states"] and c["sources"]
+
+
+def test_the_zoning_rules_follow_the_county_zoning_survey():
+    survey = json.loads((ROOT / "config" / "county_zoning_authority.json").read_text(encoding="utf-8"))["states"]
+    assert len(survey) == 50
+    assert set(CFG["zoning_transition"]["states"]) == {s for s, e in survey.items() if e["zoning_transition"]}
+    for s in CFG["zoning_transition"]["states"]:
+        assert survey[s]["may_counties_remain_unzoned"] is True and survey[s]["county_zoning_power"] == "optional"
+    for s in CFG["no_county_zoning"]["states"]:
+        assert survey[s]["county_zoning_power"] in {"limited", "none"}
+    for e in survey.values():
+        assert e["citations"] and (e["zoning_transition"] or e["zoning_transition_excluded_because"])
 
 
 def _plant(fips, year, mw=50, tech="solar", status="operating", source="eia860m"):
@@ -165,3 +188,9 @@ def test_a_county_that_cannot_zone_is_not_scored_on_its_profile_alone():
                                                   "2026-10-21")}
     assert out["18"]["basis"] == "no_county_zoning" and out["18"]["combined"] == 8
     assert out["17"]["basis"] == "profile_only"
+    # A county of such a state that zones by local act is scored as anywhere else.
+    cfg = {**NO_ZONING, "no_county_zoning": {**CFG["no_county_zoning"], "except_counties": {"18": "local act"}}}
+    out = {r["county_fips"]: r for r in rs.build([_r("m", "19", 4, "moratorium")], [], summary,
+                                                  _profile({f: i / 100 for i, f in enumerate(fips)}), cfg,
+                                                  "2026-10-21")}
+    assert out["18"]["basis"] == "profile_only"

@@ -1,66 +1,66 @@
 {
   "restrictions": {
-    "rows": 3625,
-    "instruments": 3420,
+    "rows": 3641,
+    "instruments": 3431,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3335,
-        "severe_instruments": 1355,
+        "instruments": 3344,
+        "severe_instruments": 1358,
         "states": 51,
         "by_status": {
-          "active": 942,
+          "active": 956,
           "extended": 57,
-          "pending": 5,
-          "unknown": 2331
+          "pending": 6,
+          "unknown": 2325
         },
         "by_technology": {
-          "battery_storage": 140,
-          "solar": 1660,
-          "wind": 1697
+          "battery_storage": 141,
+          "solar": 1665,
+          "wind": 1703
         },
         "by_evidence_level": {
-          "compiled_flagged": 2369,
+          "compiled_flagged": 2368,
           "compiled_record": 61,
-          "primary_source": 96,
+          "primary_source": 106,
           "report_citation": 809
         },
         "by_verification": {
-          "unverified": 3239,
-          "verified": 96
+          "unverified": 3238,
+          "verified": 106
         },
         "by_currency": {
-          "in_force": 998,
-          "lapsed_unconfirmed": 1,
-          "pending": 5,
-          "unknown": 2331
+          "in_force": 1011,
+          "lapsed_unconfirmed": 2,
+          "pending": 6,
+          "unknown": 2325
         },
-        "severe_where_state_limits_local": 936
+        "severe_where_state_limits_local": 937
       },
       "multi_sector_data_centers": {
-        "instruments": 85,
-        "severe_instruments": 76,
+        "instruments": 87,
+        "severe_instruments": 78,
         "states": 28,
         "by_status": {
-          "active": 68,
-          "extended": 9,
+          "active": 69,
+          "extended": 10,
           "pending": 8
         },
         "by_technology": {
           "battery_storage": 72,
-          "solar": 37,
-          "wind": 19
+          "solar": 39,
+          "wind": 21
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
           "compiled_record": 66,
-          "primary_source": 10
+          "primary_source": 12
         },
         "by_verification": {
           "unverified": 75,
-          "verified": 10
+          "verified": 12
         },
         "by_currency": {
-          "in_force": 77,
+          "in_force": 79,
           "pending": 8
         },
         "severe_where_state_limits_local": 34
@@ -83,10 +83,10 @@
         }
       },
       "NREL": {
-        "instruments": 2372,
+        "instruments": 2371,
         "severe_instruments": 650,
         "by_verification": {
-          "unverified": 2339,
+          "unverified": 2338,
           "verified": 33
         }
       },
@@ -99,17 +99,17 @@
         }
       },
       "review queue": {
-        "instruments": 28,
-        "severe_instruments": 11,
+        "instruments": 40,
+        "severe_instruments": 16,
         "by_verification": {
           "unverified": 4,
-          "verified": 24
+          "verified": 36
         }
       }
     },
     "by_verification": {
-      "unverified": 3314,
-      "verified": 106
+      "unverified": 3313,
+      "verified": 118
     }
   },
   "contested_projects": {
@@ -266,12 +266,12 @@
   },
   "county_coverage": {
     "counties": 3144,
-    "with_any_record": 1413,
-    "with_restriction": 1263,
+    "with_any_record": 1420,
+    "with_restriction": 1270,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
     "with_negative_check_and_no_record": 1,
-    "with_neither": 1730
+    "with_neither": 1723
   }
 }

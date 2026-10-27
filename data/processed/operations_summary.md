@@ -1,10 +1,10 @@
 # Operations summary
 
-Generated 2026-10-22 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-23 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
-3335 renewables-only restriction instruments (1355 severe, 96 verified, 1 past their end date with no confirmed extension, 936 severe ones in states whose siting law limits local reach); 579 contested projects (148 confirmed); 39 cases.
+3344 renewables-only restriction instruments (1358 severe, 106 verified, 1 past their end date with no confirmed extension, 937 severe ones in states whose siting law limits local reach); 579 contested projects (148 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 335, of which 244 blocked; confirmed outcomes only: 147, 80 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -17,27 +17,27 @@ Decided projects (events older than 90 days): 335, of which 244 blocked; confirm
 | Worklist | Rows | Notes |
 |---|---:|---|
 | outcome_worklist.csv | 425 | 141 overdue, 12 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3314 | 1 lapsed, 420 sole severe in a county, 4 with a located source |
-| negative_check_worklist.csv | 0 |  |
-| adjacency_worklist.csv | 256 | neighbours of blocked projects not yet examined |
+| restriction_worklist.csv | 3313 | 1 lapsed, 420 sole severe in a county, 5 with a located source |
+| negative_check_worklist.csv | 8 | 8 no check on record |
+| adjacency_worklist.csv | 261 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
 
 ## Review and promotion
 
-Queue: 34 promoted, 2 rejected, 3 confirmed, 2 pending, 1 awaiting_review, 70 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 46 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 70 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 97 decisions from 2026-10-13 to 2026-10-20 (new or changed decisions only): 75 promoted, 13 held, 6 awaiting_review, 2 rejected, 1 unpublished.
+Promotion trail: 117 decisions from 2026-10-13 to 2026-10-23 (new or changed decisions only): 87 promoted, 16 held, 9 awaiting_review, 4 rejected, 1 unpublished.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
-| 2026-10-20 | queue.csv | promoted | CO Logan County |  |
-| 2026-10-20 | queue.csv | promoted | CO Logan County |  |
-| 2026-10-20 | queue.csv | promoted | CO Logan County |  |
-| 2026-10-20 | queue.csv | promoted | IA Mitchell County |  |
-| 2026-10-18 | queue.csv | unpublished | TX Pasadena | status lifted: the instrument is no longer in force |
-| 2026-10-17 | queue.csv | promoted | TX Pasadena |  |
-| 2026-10-16 | queue.csv | promoted | TX Baytown |  |
-| 2026-10-16 | queue.csv | promoted | TX Baytown |  |
+| 2026-10-23 | queue.csv | promoted | CA San Joaquin County |  |
+| 2026-10-23 | queue.csv | promoted | CA San Joaquin County |  |
+| 2026-10-23 | queue.csv | promoted | KS Crawford County |  |
+| 2026-10-23 | queue.csv | promoted | KS Crawford County |  |
+| 2026-10-23 | queue.csv | promoted | KS Bourbon County |  |
+| 2026-10-23 | queue.csv | held | KS Bourbon County | status expired: the instrument is no longer in force, so it is not published |
+| 2026-10-23 | queue.csv | awaiting_review | KS Bourbon County | awaiting review by someone other than its drafter |
+| 2026-10-23 | queue.csv | held | KS Bourbon County | status lifted: the instrument is no longer in force, so it is not published |
 
 ## What checking found
 
@@ -77,4 +77,4 @@ Last error by source: gdelt_renewable_news (2026-10-20: 429 Client Error: Too Ma
 
 ## History and archive
 
-116 snapshot rows over 5 published files; 12 headline changes recorded (2026-09-29 to 2026-10-22). Sources: 72, of which 22 have an Internet Archive snapshot.
+122 snapshot rows over 5 published files; 13 headline changes recorded (2026-09-29 to 2026-10-23). Sources: 83, of which 22 have an Internet Archive snapshot.
