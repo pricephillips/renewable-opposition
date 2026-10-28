@@ -1,0 +1,2002 @@
+{
+ "query": "cat:(Local Laws) AND subject1:(solar OR photovoltaic OR wind OR windmill OR windmills OR battery OR batteries OR \"energy storage\" OR BESS OR renewable) AND -(countyMunicipalType:County)",
+ "sort": "-dateFiled",
+ "query_explained": "Category: Local Laws Subject: solar or photovoltaic or wind or windmill or windmills or battery or batteries or \"energy storage\" or BESS or renewable County Municipal Type: -County",
+ "sort_explained": "Metadata: dateFiled (descending)",
+ "scroll_id": null,
+ "scroll_timeout": null,
+ "query_syntax_ok": true,
+ "include_archived": false,
+ "include_deleted": false,
+ "facets": null,
+ "item_type": "asset",
+ "total_count": 3551,
+ "offset": 0,
+ "limit": 100,
+ "items": [
+  {
+   "id": "d0366f68-acbb-4010-9625-9b1c096e44e7",
+   "version_id": "fa90ab4a-eeed-4609-a588-d4aebbd5e546",
+   "current_version": true,
+   "external_id": "ylqgkzihth",
+   "filename": "09021343803feb16.pdf",
+   "created_date": "2026-10-28T02:30:56Z",
+   "last_update_date": "2026-10-28T02:30:56Z",
+   "file_upload_date": "2026-10-28T02:30:56Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-21T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "2"
+     ],
+     "municipalityName": [
+      "HOPE"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "HOPE20262"
+     ],
+     "subject1": [
+      "BATTERY ENERGY STORAGE SYSTEMS MORATORIUM 2026 FOR THE TOWN OF HOPE, HAMILTON COUNTY, NY"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "c3ec9f9e-5cf4-4f2f-8b18-10056f103baf",
+   "version_id": "843ad6ba-e044-4e9b-a72b-68469b524d17",
+   "current_version": true,
+   "external_id": "27rylyqvh5",
+   "filename": "09021343803feb1b.pdf",
+   "created_date": "2026-10-28T02:30:54Z",
+   "last_update_date": "2026-10-28T02:30:54Z",
+   "file_upload_date": "2026-10-28T02:30:54Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-21T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "CONQUEST"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "CONQUEST20261"
+     ],
+     "subject1": [
+      "MORATORIUM ON APPLICATIONS APPROVALS AND ACTIONS ON SITE  PLANS SPECIAL USE PERMITS AND VARIANCE USE FOR NEW OR REVISED OR LAND USE APPLICATIONS FOR BATTERY ENERGY STORAGE UNITY IN THE TOWN OF CONQUEST, NEW YORK"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "bdd36ded-c2fe-420f-b433-caeea865a734",
+   "version_id": "462fdfe0-faa4-4e11-beeb-e0399dd88f53",
+   "current_version": true,
+   "external_id": "hqsvymkhnb",
+   "filename": "09021343803fea7f.pdf",
+   "created_date": "2026-10-28T02:31:05Z",
+   "last_update_date": "2026-10-28T02:31:05Z",
+   "file_upload_date": "2026-10-28T02:31:05Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-19T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "ROYALTON"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "ROYALTON20265"
+     ],
+     "subject1": [
+      "ESTABLISHING A MORATORIUM ON ALL UTILITY SCALE ELECTRICAL ENERGY STORAGE DEVICE SYSTEMS AND EXENDING THE MORATORIUM ON SOLAR ENERGY STORAGE DEVICE INSTALLATIONS WITHIN THE TOWN FOR A PERIOD OF NINE MONTHS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "9870437e-b92f-4938-bf21-816be4948b19",
+   "version_id": "664698ef-e562-479d-accd-d3ffdab58df0",
+   "current_version": true,
+   "external_id": "2hjbctmaub",
+   "filename": "09021343803fda58.pdf",
+   "created_date": "2026-10-24T02:30:50Z",
+   "last_update_date": "2026-10-24T02:30:50Z",
+   "file_upload_date": "2026-10-24T02:30:50Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-16T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "PLEASANT VALLEY"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "PLEASANT VALLEY20265"
+     ],
+     "subject1": [
+      "AMENDING CHAPTER 86 (TAXTION) OF THE TOWN CODE WITH REGARD TO THE REQUIREMENT OF A PILOT PROGRAM FOR COMMERCIAL SOLAR INSTALLATIONS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "fa16835e-4cc6-4181-b473-37acf197a3bd",
+   "version_id": "94ec004a-f001-41d5-b1ff-54fd0102ab45",
+   "current_version": true,
+   "external_id": "kvxss7gydw",
+   "filename": "09021343803fdd40.pdf",
+   "created_date": "2026-10-24T02:30:44Z",
+   "last_update_date": "2026-10-24T02:30:44Z",
+   "file_upload_date": "2026-10-24T02:30:44Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-13T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "FLORIDA"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "FLORIDA20261"
+     ],
+     "subject1": [
+      "ESTABLISHING A TEMPORARY LAND USE MORATORIUM LARGE SACELE BATTERY ENERGY STORAGE SYSTEM INSTALLATIONS WITHIN THE VILLAGE OF FLORIDA"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "68598672-af9a-4187-ac33-2c364d8b9705",
+   "version_id": "90de4b50-3354-427a-8e57-5b22ce120d7d",
+   "current_version": true,
+   "external_id": "vdqhql7kf1",
+   "filename": "09021343803fe70a.pdf",
+   "created_date": "2026-10-27T02:30:50Z",
+   "last_update_date": "2026-10-27T02:30:50Z",
+   "file_upload_date": "2026-10-27T02:30:50Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-13T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "FLORIDA"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "FLORIDA20261"
+     ],
+     "subject1": [
+      "ESTABLISHING A TEMPORARY LAND USE MORATORIUM PROHIBITING LARGE-SCALE BATTERY ENERGY STORAGE SYSTEM INSTALLATIONS WITHIN THE VILLAGE OF FLORIDA"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "3a925767-a5fa-4e7e-a0b8-063aa95252aa",
+   "version_id": "e5453910-2847-40f8-a51b-905a09b652a6",
+   "current_version": true,
+   "external_id": "esu2eyiuc2",
+   "filename": "09021343803fa58d.pdf",
+   "created_date": "2026-10-09T02:31:03Z",
+   "last_update_date": "2026-10-09T02:31:03Z",
+   "file_upload_date": "2026-10-09T02:31:03Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-10-02T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "4"
+     ],
+     "municipalityName": [
+      "TURIN"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "TURIN20264"
+     ],
+     "subject1": [
+      "ZONING TEXT AMENDMENTS TO THE TOWN OF TURIN RURAL DEVELOPMENT LAW REGARDING MANUFACTURD HOMES, DATA CENTERS, AND WIND TOWERS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "991de6e5-01c9-4428-93d1-7bf7cf8f43cf",
+   "version_id": "b2d888ad-7831-4a98-9d30-20e94bc565bb",
+   "current_version": true,
+   "external_id": "hhbgbgwmcz",
+   "filename": "09021343803f9bac.pdf",
+   "created_date": "2026-10-06T02:30:52Z",
+   "last_update_date": "2026-10-06T02:30:52Z",
+   "file_upload_date": "2026-10-06T02:30:52Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-09-30T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "MONTICELLO"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "MONTICELLO20261"
+     ],
+     "subject1": [
+      "ADDING CHAPTER 124, SECTIONS 1-9 ENTITLED, \"WINDOWS GUARDS AND FALL PROTECTION\" TO THE VILLAGE CODE"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "3dca2862-c417-47ff-9931-6ae9ba98b598",
+   "version_id": "5d67c7b9-0630-4654-982b-5530f0327328",
+   "current_version": true,
+   "external_id": "d6rsafuujk",
+   "filename": "09021343803f8937.pdf",
+   "created_date": "2026-10-01T02:30:43Z",
+   "last_update_date": "2026-10-01T02:30:44Z",
+   "file_upload_date": "2026-10-01T02:30:43Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-09-28T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "2"
+     ],
+     "municipalityName": [
+      "FRANKFORT"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "FRANKFORT20262"
+     ],
+     "subject1": [
+      "REPEALING AND REPLACING LOCAL LAW #4 OF 2025 AND ESTABLISHING A NEW SIX MONTH MORATORIUM ON APPLICATIONS, APPROVAL, AND/OR CONSTRUCTION OR INSTALLATION OF SOLAR ENERGY SYSTEMS, SOLAR FARMS, WIND ENERGY SYSTEMS, WIND MILLS, AND/OR BATTERY ENERGY STORAGE SYSTEMS (BESS)"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "bf559085-5b98-4b5f-ba91-5c7fd2b2f1c3",
+   "version_id": "b36c9631-530c-4e53-a75c-96f8187f834e",
+   "current_version": true,
+   "external_id": "ctpbddbruh",
+   "filename": "09021343803f71a6.pdf",
+   "created_date": "2026-09-25T02:30:46Z",
+   "last_update_date": "2026-09-25T02:30:46Z",
+   "file_upload_date": "2026-09-25T02:30:46Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-09-21T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "SALEM"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "SALEM20263"
+     ],
+     "subject1": [
+      "PROHIBITING COMMERCIAL BATTERY ENERGY STORAGE SYSTEM WITHIN THE TOWN OF SALEM WASHINGTON COUNTY, NEW YORK"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "3bee8fd8-b4f1-4307-9555-7283b3495680",
+   "version_id": "2c55d385-c617-4c8a-9b86-208c420fb7db",
+   "current_version": true,
+   "external_id": "evoqmapg4g",
+   "filename": "09021343803f6ecc.pdf",
+   "created_date": "2026-09-25T02:30:57Z",
+   "last_update_date": "2026-09-25T02:30:57Z",
+   "file_upload_date": "2026-09-25T02:30:57Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-09-21T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "2"
+     ],
+     "municipalityName": [
+      "CLEVELAND"
+     ],
+     "municipalityType": [
+      "City"
+     ],
+     "subject": [
+      "CLEVELAND20262"
+     ],
+     "subject1": [
+      "TEMPORARY MORATORIUM ON MAJOR SOLAR ENRGY SYSEMS AND BATTERY ENERGY STORAGE SYSTEMS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "2dc2407d-3d92-451a-941e-3eabaf8edd78",
+   "version_id": "b971c6e0-8e1e-4af8-8049-84bf788ee3fe",
+   "current_version": true,
+   "external_id": "dl1e2xws0a",
+   "filename": "09021343803f66c2.pdf",
+   "created_date": "2026-09-22T02:30:52Z",
+   "last_update_date": "2026-09-22T02:30:52Z",
+   "file_upload_date": "2026-09-22T02:30:52Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-09-16T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "CLINTON (CLINTON COUNTY)"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "CLINTON (CLINTON COUNTY)20263"
+     ],
+     "subject1": [
+      "BATTERY ENERGY STORAGE SYSTEMS (BESS) LAW"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "f5f88d13-e713-4be9-88af-96db009c8896",
+   "version_id": "9ece8d39-0120-4956-a451-d7625f079473",
+   "current_version": true,
+   "external_id": "da6zxuqdk8",
+   "filename": "09021343803f5018.pdf",
+   "created_date": "2026-09-17T02:30:47Z",
+   "last_update_date": "2026-09-17T02:30:47Z",
+   "file_upload_date": "2026-09-17T02:30:47Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-09-10T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "ORANGETOWN"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "ORANGETOWN20265"
+     ],
+     "subject1": [
+      "LOCAL LAW NO. 5, 2026 AMENDING CHAPTER 43 (ZONING), ARTICLE XX TEMPORARY TOWN-WIDE MORATORIUM - BATERY ENERGY STORAGE SYSTEMS AND DATA STORAGE FACILITIES (DATA CENTERS)"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "63eaad27-8ab9-45e6-9bef-e55d5288f286",
+   "version_id": "829bd6d7-f028-4f46-be25-a067e1ab0693",
+   "current_version": true,
+   "external_id": "mtr3rnj348",
+   "filename": "09021343803f0e33.pdf",
+   "created_date": "2026-08-25T02:31:02Z",
+   "last_update_date": "2026-08-25T02:31:02Z",
+   "file_upload_date": "2026-08-25T02:31:02Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-08-17T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "GRAND ISLAND"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "GRAND ISLAND20263"
+     ],
+     "subject1": [
+      "BATTERY ENERGY STORAGE SYSTEM LAW"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "26d5a6d0-0fea-4372-bb6e-807681180a7a",
+   "version_id": "682a0a20-4003-4ab4-9745-558d223d3665",
+   "current_version": true,
+   "external_id": "s5eo9rtisq",
+   "filename": "09021343803f5d72.pdf",
+   "created_date": "2026-09-19T02:30:48Z",
+   "last_update_date": "2026-09-19T02:30:48Z",
+   "file_upload_date": "2026-09-19T02:30:48Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-08-17T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "GRAND ISLAND"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "GRAND ISLAND20263"
+     ],
+     "subject1": [
+      "CORRECTION:    BATTERY ENERGY STORAGE SYSTEM LAW"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "86dbe71c-3b90-4488-97fc-3c73be83115d",
+   "version_id": "cf8214ae-06fb-4c4c-a784-ecf4a5b9d561",
+   "current_version": true,
+   "external_id": "eko5w2fkua",
+   "filename": "09021343803ef71f.pdf",
+   "created_date": "2026-08-18T02:30:51Z",
+   "last_update_date": "2026-08-18T02:30:51Z",
+   "file_upload_date": "2026-08-18T02:30:51Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-08-10T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "BELFAST"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "BELFAST20265"
+     ],
+     "subject1": [
+      "REPEALING LOCALLAW NO. 3 - 2026 ENTITLED \"BATTERY ENERGY STORAGE SYSTEM LAW OF THE TOWN OF BELFAST\""
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "5c37d5cd-95c2-4773-9b05-0a21afd1f1b7",
+   "version_id": "db1953f7-6980-4eab-9288-07ab52b3dc4f",
+   "current_version": true,
+   "external_id": "sb4fpsiqlw",
+   "filename": "09021343803f5a32.pdf",
+   "created_date": "2026-09-19T02:30:55Z",
+   "last_update_date": "2026-09-19T02:30:55Z",
+   "file_upload_date": "2026-09-19T02:30:55Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-08-05T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "ALBION (ORLEANS COUNTY)"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "ALBION (ORLEANS COUNTY)20263"
+     ],
+     "subject1": [
+      "ESTABLISHING A TEMPORRY MORATORIUM ON BATTERY ENRGY STORAGE SYSTEM (BESS) FACILITIES IN THE VILLAGE OF ALBION"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "fe798b39-5643-4bdd-9660-b46d07e86c08",
+   "version_id": "e327ebdb-0b0a-495b-9b7c-abe495fa2837",
+   "current_version": true,
+   "external_id": "tljzygpmy7",
+   "filename": "09021343803eca02.pdf",
+   "created_date": "2026-08-07T02:30:51Z",
+   "last_update_date": "2026-08-07T02:30:51Z",
+   "file_upload_date": "2026-08-07T02:30:51Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-07-28T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "2"
+     ],
+     "municipalityName": [
+      "JEFFERSON"
+     ],
+     "municipalityType": [
+      "County"
+     ],
+     "subject": [
+      "JEFFERSON20262"
+     ],
+     "subject1": [
+      "REQUIRING PERMITS FOR ALL COMMERCIAL RENEWABLE ENERGY CONVERSION SYSTEMS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "548c20ba-0384-4f86-bdf7-18a53bb7dc98",
+   "version_id": "bee6085a-1757-4d95-ab7c-ab46ceacd036",
+   "current_version": true,
+   "external_id": "vumkocpru6",
+   "filename": "09021343803ec274.pdf",
+   "created_date": "2026-08-05T02:31:32Z",
+   "last_update_date": "2026-08-05T02:31:32Z",
+   "file_upload_date": "2026-08-05T02:31:32Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-07-20T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "AVOCA"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "AVOCA20261"
+     ],
+     "subject1": [
+      "eighteen month moratorium on commercial solar energy systems with the village of avoca"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "2043664a-b1e7-492d-8340-841f3443dbdc",
+   "version_id": "2573b2a7-2872-43e8-b4e4-2042b91c922e",
+   "current_version": true,
+   "external_id": "golpaqny5m",
+   "filename": "09021343803e7323.pdf",
+   "created_date": "2026-07-16T02:30:43Z",
+   "last_update_date": "2026-07-16T02:30:43Z",
+   "file_upload_date": "2026-07-16T02:30:43Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-07-08T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "DEWITT"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "DEWITT20265"
+     ],
+     "subject1": [
+      "AMENDING DEWITT TOWN CODE CHAPTER 192. BEING LOCAL LAW 6-2008 AS HAS PREVIOUSLY AMENDED, TO REPEAL CHAPTER 192, BEING LOCAL LAW 6 -2008, AS HAS PREVIOUSLY AMENDED, TO REPEAL CHAPTER 192, ARTICLE XXIII OF DEWITT TOWN CODE ENTITLED \"MORATORIUM ON BATTERY ENERGY STORAGE SYSTEMS,\" BEING LOCAL LAW 6 -2025 & ALL ITS PROVISIONS & SUB-SECTIONS & ENACT NEW CHAPTER 192, ARTICLE XXIII ENTITLED \"BATTERY ENERGY STORAGE SYSTEMS\""
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "bfb63945-706f-4af8-8b1b-81f0752f43ab",
+   "version_id": "77281b56-89ad-4b33-b667-cee11beea1c4",
+   "current_version": true,
+   "external_id": "tasfuc60xh",
+   "filename": "09021343803e6bbe.pdf",
+   "created_date": "2026-07-14T02:30:49Z",
+   "last_update_date": "2026-07-14T02:30:49Z",
+   "file_upload_date": "2026-07-14T02:30:49Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-07-06T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "103"
+     ],
+     "municipalityName": [
+      "NEW YORK"
+     ],
+     "municipalityType": [
+      "City"
+     ],
+     "subject": [
+      "NEW YORK2026103"
+     ],
+     "subject1": [
+      "IN RELATION TO THE INSTALLATION OF ILLUMINATED AND SOLAR-POWERED TRAFFIC DEVICES AT CROSSWALKS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "6cf8ca03-ccb6-4da6-8aef-f691a5412f18",
+   "version_id": "c5b4ddf0-16fa-4393-8291-d8db173de769",
+   "current_version": true,
+   "external_id": "fxm6ec28vl",
+   "filename": "09021343803e1f95.pdf",
+   "created_date": "2026-06-27T02:31:43Z",
+   "last_update_date": "2026-06-27T02:31:43Z",
+   "file_upload_date": "2026-06-27T02:31:43Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-06-18T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "ELLERY"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "ELLERY20263"
+     ],
+     "subject1": [
+      "ESTABLISHING A MORATORIUM ON THE CONSTRUCTION, INSTALLATION, AND/OR PERMITTING OF WIND FARMS IN THE TOWN OF ELLERY, COUNTY OF CHAUTAUQUA AND STATE OF NEW YORK"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "de4aba36-ceba-4d78-be74-2d38c3d05725",
+   "version_id": "e81ea534-f955-49b5-8154-7e7e89d4a347",
+   "current_version": true,
+   "external_id": "u3k9s8zzzt",
+   "filename": "09021343803e1a9e.pdf",
+   "created_date": "2026-06-25T02:30:51Z",
+   "last_update_date": "2026-06-25T02:30:51Z",
+   "file_upload_date": "2026-06-25T02:30:51Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-06-15T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "WARSAW"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "WARSAW20265"
+     ],
+     "subject1": [
+      "SMALL-SCALE WIND ENERGY CONVERSION SYSTEMS LOCAL LAW OF THE TOWN OF WARSAW"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "ef7f7e02-8004-41a0-aa88-2e81efcf13f1",
+   "version_id": "f2689a52-6d7a-42a6-b479-4a7782bd4e6b",
+   "current_version": true,
+   "external_id": "trzmaer5xk",
+   "filename": "09021343803df432.pdf",
+   "created_date": "2026-06-17T02:30:41Z",
+   "last_update_date": "2026-06-17T02:30:41Z",
+   "file_upload_date": "2026-06-17T02:30:41Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-06-10T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "2"
+     ],
+     "municipalityName": [
+      "LOWVILLE"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "LOWVILLE20262"
+     ],
+     "subject1": [
+      "AMEND THE VILLAGE'S ZONING LAW ADDRESSING SHORT TERM RENTALS AND RENEWABLE ENERGY USES"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "de591e4e-0a12-4441-b272-d44b9ca22f2f",
+   "version_id": "059557bf-8f7d-4a99-9df5-de8ba0367d6f",
+   "current_version": true,
+   "external_id": "ihykht2ntz",
+   "filename": "09021343803dacf2.pdf",
+   "created_date": "2026-05-30T02:30:59Z",
+   "last_update_date": "2026-05-30T02:30:59Z",
+   "file_upload_date": "2026-05-30T02:30:59Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-05-22T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "LA GRANGE"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "LA GRANGE20261"
+     ],
+     "subject1": [
+      "BATTERY ENERGY STORAGE SYSTEMS MORATORIUM"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "f3797194-3b8c-440b-af7f-e97db24dd732",
+   "version_id": "2b461741-187c-4d09-823a-b9d9db8922a0",
+   "current_version": true,
+   "external_id": "dm1y4xpqvr",
+   "filename": "09021343803d6a30.pdf",
+   "created_date": "2026-05-16T02:30:42Z",
+   "last_update_date": "2026-05-16T02:30:42Z",
+   "file_upload_date": "2026-05-16T02:30:42Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-05-13T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "MARCELLUS"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "MARCELLUS20261"
+     ],
+     "subject1": [
+      "IMPOSING A TWELVE (12) MONTH MORATORIUM ON BATTERY ENERGY STORAGE SYSTEMS WITHIN THE TOWN OF MARCELLUS"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "3bf1826f-11dc-4aac-8e02-5b6ca843ddf9",
+   "version_id": "365ffd0d-ced3-48b7-b05d-5505cb9c5661",
+   "current_version": true,
+   "external_id": "dmr2aybzba",
+   "filename": "09021343803d6a31.pdf",
+   "created_date": "2026-05-16T02:30:43Z",
+   "last_update_date": "2026-05-16T02:30:43Z",
+   "file_upload_date": "2026-05-16T02:30:43Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-05-13T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "1"
+     ],
+     "municipalityName": [
+      "MARCELLUS"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "MARCELLUS20261"
+     ],
+     "subject1": [
+      "TO AUTHORIZE THE OPTING IN OF REAL PROPERTY TAX PROPERTY TAX EXEMPTION FOR SOLAR OR WIND ENERGY SYSTEMS OR FARM WASTE ENRGY SYSTEMS PER REAL PROPERTY TAX LAW SECTION 487"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "0ff4c3fd-933a-4fde-8845-68c9c0fba387",
+   "version_id": "cc1e3f3b-0dc2-4c7a-a45b-cc2771be40ab",
+   "current_version": true,
+   "external_id": "dhjspvxpzf",
+   "filename": "09021343803d35f3.pdf",
+   "created_date": "2026-05-02T02:30:44Z",
+   "last_update_date": "2026-05-02T02:30:44Z",
+   "file_upload_date": "2026-05-02T02:30:44Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-04-28T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "2"
+     ],
+     "municipalityName": [
+      "BATAVIA"
+     ],
+     "municipalityType": [
+      "City"
+     ],
+     "subject": [
+      "BATAVIA20262"
+     ],
+     "subject1": [
+      "ESTABLISHING A SIX (6) MONTH MORATORIUM PROHIBITING THE REVIEW AND APPROVAL OF APPLICATIONS AND ISSUANCE OF PERMITS FOR \"BATTERY ENERGY STORAGE SYSTEMS\" IN THE CITY OF BATAVIA"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "18d40b12-81c1-4e67-8cbb-48415bc4fd1d",
+   "version_id": "2a427abe-cdd3-4702-84fe-d2dbb8090671",
+   "current_version": true,
+   "external_id": "bqnhzy8ajf",
+   "filename": "09021343803d2841.pdf",
+   "created_date": "2026-04-28T02:30:52Z",
+   "last_update_date": "2026-04-28T02:30:52Z",
+   "file_upload_date": "2026-04-28T02:30:52Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-04-23T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "MUNSEY PARK"
+     ],
+     "municipalityType": [
+      "Village"
+     ],
+     "subject": [
+      "MUNSEY PARK20263"
+     ],
+     "subject1": [
+      "TO ESTABLISH A TEMPORARY MORATORIUM ON THE FILING OF APPLICATIONS, ACCEPTANCE, APPROVAL AND/OR  ISSUANCE OF PERMITS BY THE VILAGE OF MUNSEY PARK FOR ANY ELECTRIC VEHICLE (CV) CHARGING STATIONS NOT FULLY CONTAINED WITHIN RESIDENTIAL STRUTURE AND BATTERY ENERGY SYSTEMS WITHIN THE VILLAGE"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "1c4c79b8-7b33-4f6a-88d5-ab813a9976f6",
+   "version_id": "08699dc5-7229-49bf-a8af-056b4696db3a",
+   "current_version": true,
+   "external_id": "wetr1ehnok",
+   "filename": "09021343803ccf40.pdf",
+   "created_date": "2026-04-08T02:30:52Z",
+   "last_update_date": "2026-04-08T02:30:52Z",
+   "file_upload_date": "2026-04-08T02:30:52Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-04-03T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "SCHODACK"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "SCHODACK20263"
+     ],
+     "subject1": [
+      "AMENDING THE TOWN OF SCHODACK ZONING CODE AND CREATING A NEW PLANNED DEVELOPMENT DISTRICT PD-2 KNOWN AS GREGORY SOLAR"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "3515a1c7-bf8b-49e1-8fd5-945feb90f54e",
+   "version_id": "ec8b5373-1c61-44de-b078-79ff67f2beac",
+   "current_version": true,
+   "external_id": "yvy9hxsr8c",
+   "filename": "09021343803cc275.pdf",
+   "created_date": "2026-04-04T02:31:25Z",
+   "last_update_date": "2026-04-04T02:31:25Z",
+   "file_upload_date": "2026-04-04T02:31:25Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-03-31T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "5"
+     ],
+     "municipalityName": [
+      "AURORA"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "AURORA20265"
+     ],
+     "subject1": [
+      "SOLAR ENERGY SYSTEMS CODE OF THE TOWN OF AURORA, ERIE COUNTY AND STATE OF NEW YORK"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  },
+  {
+   "id": "9b20b2e1-0f76-4854-8eae-a36c19afdaf4",
+   "version_id": "a86d0721-81d3-4b7a-baa8-f5f919bafbd3",
+   "current_version": true,
+   "external_id": "omo6hub4qy",
+   "filename": "09021343803cbe16.pdf",
+   "created_date": "2026-04-03T02:31:01Z",
+   "last_update_date": "2026-04-03T02:31:01Z",
+   "file_upload_date": "2026-04-03T02:31:01Z",
+   "deleted_date": null,
+   "released_and_not_expired": true,
+   "asset_properties": null,
+   "file_properties": null,
+   "metadata": {
+    "fields": {
+     "countyLawType": [],
+     "countyMuncipalName": [],
+     "countyMunicipalType": [],
+     "dateFiled": [
+      "2026-03-30T05:00:00Z"
+     ],
+     "enactedThrough": [],
+     "lawNumber": [
+      "3"
+     ],
+     "municipalityName": [
+      "LYSANDER"
+     ],
+     "municipalityType": [
+      "Town"
+     ],
+     "subject": [
+      "LYSANDER20263"
+     ],
+     "subject1": [
+      "UNDER ARTICLE XXIX (29) TO RESCIND LOCAL LAW NO. 2 OF 2026 REGARDING THE MORATORIUM ON SOLAR FARMS\" IN THE TOWN OF LYSANDER.  THE TOWN BOARD HEREBY TERMINATES THE MORATORIUM ON SOLAR FARMS EFFETION IMMEDIATELY"
+     ],
+     "year": [
+      "2026"
+     ]
+    }
+   },
+   "metadata_info": null,
+   "security": null,
+   "status": null,
+   "thumbnails": null,
+   "embeds": null,
+   "tags": null,
+   "ai_tags": null,
+   "expanded": {
+    "ai_tags": false,
+    "asset_properties": false,
+    "embeds": false,
+    "file_properties": false,
+    "metadata": true,
+    "metadata_info": false,
+    "metadata_vocabulary": false,
+    "security": false,
+    "tags": false,
+    "thumbnails": false
+   }
+  }
+ ]
+}

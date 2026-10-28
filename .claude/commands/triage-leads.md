@@ -9,7 +9,7 @@ Before changing anything, read `README.md` ("Live intake", "Reviewing candidates
 
 ## What a lead is
 
-`parse.py` queued it from a live source (GDELT news, CourtListener, NY ORES, Legistar) with `review_status` `lead` and `access` `snippet`. A lead changes nothing published: `promote_reviewed.py` never promotes it, and the county reports and the public dashboard count only `pending` rows. Triage is the step that lets it count. Its `reviewer_notes` say how it was found, how it was placed and why, and anything `parse.py` blanked.
+`parse.py` queued it from a live source (GDELT news, CourtListener, NY ORES, Legistar, New York local law filings) with `review_status` `lead` and `access` `snippet`. A lead changes nothing published: `promote_reviewed.py` never promotes it, and the county reports and the public dashboard count only `pending` rows. Triage is the step that lets it count. Its `reviewer_notes` say how it was found, how it was placed and why, and anything `parse.py` blanked.
 
 ## Rules
 
