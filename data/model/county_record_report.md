@@ -8,11 +8,11 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 164 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
-| severe | 366 | Severe: rules likely to block most projects |
-| restrictive | 379 | Restrictive: material rules, or blocked projects |
-| regulated | 624 | Regulated but open: rules in force, projects approved under them |
-| open | 384 | Open: nothing restrictive on record |
+| closed | 163 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| severe | 367 | Severe: rules likely to block most projects |
+| restrictive | 377 | Restrictive: material rules, or blocked projects |
+| regulated | 625 | Regulated but open: rules in force, projects approved under them |
+| open | 385 | Open: nothing restrictive on record |
 | no_record | 1227 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
@@ -21,7 +21,7 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---|---|---:|---:|---:|---:|---:|---|---|
 | Nicholas, KY | closed | 57.5 (99.3) | 57.5 | 57.5 | 0.0 | 0 | 0.0 | 0.0483 (1) | queue:q_ef439d5e2f-2 (moratorium, severity 4, in_force, Nicholas County) |
 | Cherokee, KS | closed | 64.5 (99.6) | 64.5 | 55.5 | 9.0 | 0 | 0.0 | 0.1346 (5) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
-| Harris, TX | restrictive | 12.5 (67.5) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
+| Harris, TX | restrictive | 12.5 (67.8) | 12.5 | 15.0 | 0.0 | 5 | 7.5 | 0.3596 (8) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
 | Linn, IA | regulated | 7.88 (50.4) | 7.88 | 15.75 | 0.0 | 0 | 7.88 | 0.4041 (9) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
 ## Combined score by decile
@@ -33,12 +33,12 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | 1 | 315 | 0.0 to 1.8 | -3.542 to -1.281 |
 | 2 | 314 | 1.8 to 2.64 | -1.279 to -0.842 |
 | 3 | 315 | 2.64 to 4.54 | -0.841 to -0.524 |
-| 4 | 314 | 4.54 to 5.85 | -0.523 to -0.253 |
-| 5 | 314 | 5.85 to 7.77 | -0.253 to 0.0 |
-| 6 | 315 | 7.77 to 10.46 | 0.0 to 0.253 |
-| 7 | 314 | 10.46 to 14.3 | 0.254 to 0.524 |
-| 8 | 315 | 14.36 to 22.05 | 0.525 to 0.842 |
-| 9 | 314 | 22.14 to 34.79 | 0.843 to 1.281 |
+| 4 | 314 | 4.54 to 5.83 | -0.523 to -0.253 |
+| 5 | 314 | 5.83 to 7.75 | -0.253 to 0.0 |
+| 6 | 315 | 7.75 to 10.44 | 0.0 to 0.253 |
+| 7 | 314 | 10.44 to 14.28 | 0.254 to 0.524 |
+| 8 | 315 | 14.3 to 22.0 | 0.525 to 0.842 |
+| 9 | 314 | 22.0 to 34.79 | 0.843 to 1.281 |
 | 10 | 314 | 34.79 to 75.0 | 1.283 to 3.542 |
 
 ## Highest combined scores
@@ -62,10 +62,10 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | Westchester, NY | closed | 63.92 | mn:ny-bedford-2024 (moratorium, severity 4, in_force, Bedford) |
 ## Build-out
 
-766 counties have at least one uncontested plant counted as an approval (1773 plants); for 370 of them it is the only evidence on record.
+763 counties have at least one uncontested plant counted as an approval (1769 plants); for 370 of them it is the only evidence on record.
 
 
 ## Record against resemblance
 
-1399 counties have a record. Of those in the top three resemblance deciles, 160 are open or regulated on their record; of those in the bottom three, 33 are closed or severe. These are the counties where the two scores disagree most.
+1399 counties have a record. Of those in the top three resemblance deciles, 161 are open or regulated on their record; of those in the bottom three, 33 are closed or severe. These are the counties where the two scores disagree most.
 
