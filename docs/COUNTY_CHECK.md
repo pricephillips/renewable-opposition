@@ -36,7 +36,7 @@ local ordinance often appears there.
 |---|---|---|
 | `primary_law` | each covered government's zoning or land-use code (Municode, eCode360, American Legal, General Code, the government's own site), searched for solar, wind, battery or energy storage, and moratorium | the code itself was opened, or an archived copy |
 | `proceeding` | the minutes or agendas of the governing body and the planning commission for the last three years, searched for the same words; the state siting docket where one exists | the minutes, agendas or docket were opened |
-| `secondary` | a web or news search for the county with solar, wind, battery storage, moratorium and ordinance | always secondary, whatever it finds |
+| `secondary` | a web or news search for the county with solar, wind, battery storage, moratorium and ordinance; the trackers that list moratoria by place with a link to each adopting document (Moratorium Nation, https://mjbommar.github.io/moratorium-data-2026/, and Basepoint's moratoria page, https://www.getbasepoint.com/ordinances/moratoria, with its state pages) | always secondary, whatever it finds; a tracker's link is a lead to the instrument, which counts only once it is opened |
 
 A negative check needs both `primary_law` and `proceeding` sources that were
 opened, plus a news search. Search results alone are not enough: a web search

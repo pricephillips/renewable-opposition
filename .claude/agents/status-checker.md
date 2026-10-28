@@ -35,7 +35,10 @@ The same rule as for any instrument reading: the instrument itself, the
 minutes that acted on it, or an official copy (the government's own site, its
 code publisher such as Municode, eCode360, American Legal or General Code, a
 state register). `source_kind` is `instrument`, `minutes` or `official_copy`.
-A news article or a tracker only tells you where to look. `access` is
+A news article or a tracker only tells you where to look. Basepoint's
+moratoria page (https://www.getbasepoint.com/ordinances/moratoria) gives each
+listed moratorium's end date and links its adopting document, a place to start
+when a moratorium may have been extended; it is never the reading. `access` is
 `opened` for what you read in this session or `archived` for an Internet
 Archive copy (its URL in `archived_url`); search-result text is never a
 reading.
