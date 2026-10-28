@@ -6,15 +6,17 @@ name: Fetch model inputs
 #                                       MEDSL presidential returns
 #   scripts/fetch_queued_up.py          LBNL Queued Up interconnection queues
 #   scripts/queue_matches.py            contested projects matched to their
-#                                       requests (rerun every month, so it
-#                                       follows newly promoted projects)
+#                                       requests (a build stage: every data
+#                                       build reruns it, so the committed
+#                                       matches follow the outcomes; here it
+#                                       follows a new Queued Up edition)
 #   scripts/county_labels.py and         the registered county restriction
 #   scripts/county_restriction_model.py  model, refit on the month's data
 #                                       (outputs in data/model/, internal)
 # Both sources change about once a year; each script rewrites nothing when
 # every input file's SHA-256 matches its manifest, so a month with no new
 # release commits nothing. Nothing in the build reads these files, so this
-# job never runs the build.
+# job never runs the build; it runs only the queue_matches build stage.
 #
 # On main the fetched files are committed. On any other branch nothing is
 # pushed: the job fails if the live fetch does not reproduce the files

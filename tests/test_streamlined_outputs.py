@@ -66,6 +66,26 @@ def test_runner_build_stages_match_the_workflow_order():
         assert (run_pipeline.ROOT / cmd[0]).exists(), cmd
 
 
+def test_queue_matches_rerun_in_every_build_after_the_contested_projects():
+    # queue_matches.py reads data/processed/contested_projects.csv, so a build
+    # that changes an outcome rewrites the matches with it.
+    names = [s[0] for s in run_pipeline.BUILD]
+    assert names.index("build_seed_outputs") < names.index("queue_matches")
+    assert "queue_matches" not in [s[0] for s in run_pipeline.REFRESH]
+
+
+def test_runner_runs_a_named_build_stage_alone_only_with_skip_build(monkeypatch):
+    calls = []
+    monkeypatch.setattr(run_pipeline, "run", lambda stage, summary, dry_run: calls.append(stage[0]) or 0)
+    monkeypatch.setattr("sys.argv", ["run_pipeline.py", "refresh", "--only", "queue_matches",
+                                     "--only", "fetch_queued_up", "--skip-build"])
+    assert run_pipeline.main() == 0
+    assert calls == ["fetch_queued_up", "queue_matches"]
+    monkeypatch.setattr("sys.argv", ["run_pipeline.py", "refresh", "--only", "queue_matches"])
+    with pytest.raises(SystemExit):
+        run_pipeline.main()
+
+
 def test_runner_refuses_an_unknown_stage(monkeypatch):
     monkeypatch.setattr("sys.argv", ["run_pipeline.py", "refresh", "--only", "nope"])
     with pytest.raises(SystemExit):
