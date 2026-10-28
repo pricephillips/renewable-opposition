@@ -241,6 +241,10 @@
     "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row and records its decisions (derived)."
   },
   "dynamic": {
+    "scripts/variable_registry.py": {
+      "files": ["config/variables/*.json"],
+      "reason": "--new writes config/variables/<id>.json, a skeleton for an analyst to fill (spec 033 in pricephillips/data-centers). Its selftest writes only to a temp dir."
+    },
     "scripts/promote_reviewed.py": {
       "files": ["data/seed/restrictions_seed.csv", "data/seed/contested_projects_seed.csv", "data/seed/cases_seed.csv"],
       "reason": "Writes the seed named by SEED_FOR for each promoted entity type."

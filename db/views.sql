@@ -239,3 +239,12 @@ SELECT coalesce(enacted_year, ordinance_year, reported_year) AS year,
        count(*) FILTER (WHERE is_severe) AS severe_instruments
 FROM dated
 GROUP BY ALL;
+
+-- Registered variables per county, with the county's name and the variable's
+-- label and unit (spec 033). One row per county and variable with a value.
+CREATE VIEW v_county_variables AS
+SELECT cv.county_fips, c.county_name, v.variable_id, v.label, v.unit, v.basis,
+       cv.value, cv.value_text, v.vintage
+FROM county_variable cv
+JOIN variable v USING (variable_id)
+LEFT JOIN county c USING (county_fips);

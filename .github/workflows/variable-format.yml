@@ -1,0 +1,68 @@
+name: Variable format
+
+# Keeps the shared variable format in step with pricephillips/data-centers
+# (spec 033 there, research R2). scripts/variable_core.py and
+# config/variable_manifest.schema.json are copies of that repository's
+# variable_core.py and configs/variable_manifest.schema.json, pinned by
+# config/variable_format.lock in both. Weekly, and on a change to any of the
+# three, this compares the lock here with the one on data-centers' main and
+# fails when the format version or a hash differs.
+#
+# data-centers is private, so the read needs a token that can see it: the
+# secret VARIABLE_FORMAT_SIBLING_TOKEN (a fine-grained token with Contents:
+# read on that one repository). Without it, or when the read fails, the job
+# prints the warning "sibling not readable" and passes; the lock check of this
+# repository's own files still runs.
+
+on:
+  schedule:
+    - cron: "41 10 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "config/variable_format.lock"
+      - "config/variable_manifest.schema.json"
+      - "scripts/variable_core.py"
+  pull_request:
+    paths:
+      - "config/variable_format.lock"
+      - "config/variable_manifest.schema.json"
+      - "scripts/variable_core.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Fetch the sibling's lock
+        id: sibling
+        env:
+          GH_TOKEN: ${{ secrets.VARIABLE_FORMAT_SIBLING_TOKEN || github.token }}
+        run: |
+          if gh api -H "Accept: application/vnd.github.raw" \
+               "repos/pricephillips/data-centers/contents/configs/variable_format.lock?ref=main" \
+               > "$RUNNER_TEMP/sibling.lock" 2> "$RUNNER_TEMP/sibling.err"; then
+            echo "readable=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::sibling not readable: $(head -c 200 "$RUNNER_TEMP/sibling.err")"
+            echo "readable=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Compare the locks
+        if: steps.sibling.outputs.readable == 'true'
+        run: python scripts/variable_registry.py --compare-lock "$RUNNER_TEMP/sibling.lock"
+      - name: Check this repository's own lock
+        if: steps.sibling.outputs.readable != 'true'
+        # Compared with itself, the lock is checked against the files here only.
+        run: |
+          python scripts/variable_core.py --selftest
+          python scripts/variable_registry.py --compare-lock config/variable_format.lock

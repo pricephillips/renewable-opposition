@@ -120,3 +120,34 @@ def test_exposure_counts_plants_operating_at_the_cut(monkeypatch):
     monkeypatch.setattr(crm, "read_csv", lambda path: plants if path == crm.FACILITIES_PATH else queue)
     assert crm.exposure(2021)["01001"] == {"solar": 10.0, "wind": 3.0, "queue": 120.0}
     assert crm.exposure(None)["01001"] == {"solar": 60.0, "wind": 10.0, "queue": 420.0}
+
+
+# ── The pool and the runs (spec 033 in pricephillips/data-centers, T038) ───
+
+def test_pool_and_runs_are_the_registered_ones():
+    pool = ["log_population", "log_density", "log_income", "pct_bachelors_plus", "margin",
+            "log1p_solar_mw", "log1p_wind_mw", "neighbor_severe_share", "log1p_queue_mw"]
+    assert crm.POOL == pool
+    assert crm.RUNS == {"facilities": [v for v in pool if v != "log1p_queue_mw"], "queue": pool}
+
+
+def test_every_pool_variable_is_computed(monkeypatch):
+    covariates = [{"county_fips": "01001", "population": "1000", "pop_density_sqmi": "10",
+                   "median_hh_income": "50000", "pct_bachelors_plus": "0.2", "margin_dr_2020": "0.1",
+                   "margin_dr_2024": "0.1"}]
+    monkeypatch.setattr(crm, "exposure", lambda as_of: {})
+    monkeypatch.setattr(crm, "severe_by_county", lambda before: set())
+    monkeypatch.setattr(crm.geo, "neighbors", lambda f: [])
+    assert list(crm.variables(covariates, None)["01001"]) == crm.POOL
+
+
+def test_runs_read_the_registration_wording_and_refuse_anything_else():
+    pool = ["a", "b", "c", "d"]
+    reg = {"runs": [{"name": "all", "variables": "every pool variable"},
+                    {"name": "two", "variables": "every pool variable except b, c and d"}]}
+    assert crm.runs_from(reg, pool) == {"all": pool, "two": ["a"]}
+    with pytest.raises(ValueError, match="cannot read"):
+        crm.runs_from({"runs": [{"name": "x", "variables": "most pool variables"}]}, pool)
+    with pytest.raises(ValueError, match="not in the pool"):
+        crm.runs_from({"runs": [{"name": "x", "variables": "every pool variable except e"}]}, pool)
+    assert crm.pool_from({"variables": {"_note": "", "b": {}, "a": {}}}) == ["b", "a"]

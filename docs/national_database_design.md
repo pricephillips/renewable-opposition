@@ -121,11 +121,14 @@ erDiagram
 | `negative_check` | check | 1 | with its `grade`, evidence `classes`, `recheck_by`, `drafted_by`, `governments_checked`, and `held` (drafted, not yet reviewed: counted nowhere) |
 | `county_pending_review` | county | 3 | how many pending review-queue candidates name the county (`site_profile.pending_for`): the count only, never the candidates |
 | `data_center_event` | event | 2,252 | from `data/reference/`, never counted |
+| `variable` | registered variable | 0 | a public manifest in `config/variables/` that passes `scripts/variable_registry.py --check`: label, unit, format, basis (county or state), definition, source, licence, attribution, vintage |
+| `county_variable` | county × variable | 0 | the variable's value as its source gives it (`value`, or `value_text` for a category); a county without one has no row |
 | `build_info` | key/value | | build time, commit, the `headline_metrics.json` it was checked against |
 
 ### Views (`db/views.sql`)
 
 - `v_headline_restrictions`, `v_headline_by_source`, `v_county_coverage_totals`: the headline numbers, recomputed. `build_database.py` compares them with `headline_metrics.json` field by field and stops on any difference.
+- `v_county_variables`: one row per county and registered variable with a value, with the county's name and the variable's label, unit, basis and vintage.
 - `v_county_summary`: one row per county with restriction, project, verification, moratorium and data center counts, and a **`coverage_status`**:
   - `has_records`: at least one published record placed in the county (1,403 now)
   - `checked_none`: a documented negative check and no record (1)

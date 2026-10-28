@@ -130,6 +130,9 @@ jobs:
       - name: Layer audit (declared writers, config/layers.json)
         run: python scripts/layer_audit.py
 
+      - name: Registered variables (config/variables, spec 033)
+        run: python scripts/variable_registry.py --check
+
       - name: Surface audit (who reads each output, config/surfaces.json)
         run: python scripts/surface_audit.py --check
 

@@ -1,0 +1,14 @@
+{
+  "_comment": [
+    "Pins the shared variable format (spec 033, research R2). variable_core.py and",
+    "configs/variable_manifest.schema.json are copied byte for byte into renewable-opposition",
+    "(scripts/variable_core.py, config/variable_manifest.schema.json), whose",
+    "config/variable_format.lock carries the same three values. variable_registry.py --selftest",
+    "fails when a local file's SHA-256 differs from this lock, so a change to the format bumps",
+    "the lock here and there in the same week."
+  ],
+  "format_version": 1,
+  "schema_sha256": "f3e837be679191725f705045e93ad19006be4a3d981be1b5022bd738cfc7674b",
+  "core_sha256": "e5bf9a3a723148036a3f5a9cf25a22f9b242e298051eac6097968a3d2bbad962",
+  "updated": "2026-10-28"
+}

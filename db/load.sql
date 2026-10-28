@@ -15,6 +15,8 @@
 --   stg_worklist_size (worklist, description, rows)
 --   stg_jurisdiction_match (state, jurisdiction_type, jurisdiction, counties, geoid, geoid_kind, method, candidates)
 --   stg_government (geoid, kind, state_code, county_fips, census_name, funcstat)
+--   stg_variable (the variable table's columns, from scripts/variable_registry.py)
+--   stg_county_variable (county_fips, variable_id, value, is_category)
 
 CREATE MACRO split_list(s) AS
     list_filter(list_transform(string_split(coalesce(s, ''), ';'), lambda x: trim(x)), lambda x: x <> '');
@@ -305,6 +307,16 @@ SELECT CAST(date AS DATE), TRY_CAST(restrictions AS INTEGER), TRY_CAST(severe_re
        TRY_CAST(state_policies AS INTEGER), TRY_CAST(counties_with_records AS INTEGER),
        TRY_CAST(counties_not_examined AS INTEGER)
 FROM stg_headline_history;
+
+INSERT INTO variable SELECT * FROM stg_variable;
+
+-- Missing is NULL, never zero.
+INSERT INTO county_variable
+SELECT county_fips, variable_id,
+       CASE WHEN is_category = '1' THEN NULL ELSE TRY_CAST(nullif_blank(value) AS DOUBLE) END,
+       CASE WHEN is_category = '1' THEN nullif_blank(value) END
+FROM stg_county_variable
+WHERE nullif_blank(value) IS NOT NULL;
 
 INSERT INTO data_center_event
 SELECT nullif_blank(county_fips), upper(nullif_blank(state)), nullif_blank(jurisdiction),
