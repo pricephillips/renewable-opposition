@@ -70,6 +70,20 @@ def test_intake_runs_the_intake_stages_and_commits_only_their_files():
     assert not any("upload-artifact" in s.get("uses", "") for s in job["steps"])
 
 
+def test_the_build_commits_the_queue_matches_and_the_monthly_fetch_still_reruns_them():
+    """Every build rewrites the queue matches from the contested projects it
+    just built and commits them, so a merged outcome change never leaves them
+    behind; model-inputs.yml reruns them after a new Queued Up edition."""
+    build = load("build-data.yml")
+    runs = "\n".join(s.get("run", "") for s in build["jobs"]["build-data"]["steps"])
+    for path in ("data/reference/queue_matches.csv", "data/reference/queue_matches_report.md"):
+        assert re.search(rf"git add [^\n]*{re.escape(path)}", runs), path
+    for path in ("scripts/queue_matches.py", "data/reference/queue_projects.csv"):
+        assert path in build["on"]["push"]["paths"], path
+    fetch = next(s["run"] for s in load("model-inputs.yml")["jobs"]["fetch"]["steps"] if s.get("name") == "Fetch")
+    assert "--only fetch_queued_up" in fetch and "--only queue_matches" in fetch and "--skip-build" in fetch
+
+
 def test_the_already_tested_probe_fails_closed():
     """Every GitHub API call in validate.yml's skip probe checks its own exit
     status: gh api prints an error body on stdout and exits 1, and the first

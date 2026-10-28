@@ -6,6 +6,8 @@
                                                   one input, then build
   python scripts/run_pipeline.py refresh --only fetch_facilities --skip-build
                                                   that input alone
+  python scripts/run_pipeline.py refresh --only fetch_queued_up --only queue_matches --skip-build
+                                                  that input and one build stage after it
   python scripts/run_pipeline.py intake           live intake: fetch the sources an extractor reads
                                                   (or that are watched), then parse new raw files
                                                   into review-queue leads; no build
@@ -48,8 +50,6 @@ REFRESH = [
      "ACS, Gazetteer and MEDSL into data/reference/county_covariates.csv", True),
     ("fetch_queued_up", ["scripts/fetch_queued_up.py"],
      "LBNL Queued Up into data/reference/queue_projects.csv", True),
-    ("queue_matches", ["scripts/queue_matches.py"],
-     "contested projects matched to their Queued Up requests", True),
     ("county_labels", ["scripts/county_labels.py"],
      "county restriction model labels into data/model/county_labels.csv", True),
     ("county_restriction_model", ["scripts/county_restriction_model.py"],
@@ -63,6 +63,10 @@ BUILD = [
     ("county_typology", ["scripts/county_typology.py"], "one category per county", False),
     ("county_record_score", ["scripts/county_record_score.py"],
      "the county record score, rescored on each build (internal, data/model/)", False),
+    # Reads the contested projects just built, so the committed matches follow
+    # every outcome a review changes, not only the monthly fetch.
+    ("queue_matches", ["scripts/queue_matches.py"],
+     "contested projects matched to their Queued Up requests", True),
     ("codebook", ["scripts/codebook.py"], "docs/codebook.md from the rules' own constants", False),
     ("verification_worklist", ["scripts/verification_worklist.py"], "rank what to verify next", False),
     ("adjacency_worklist", ["scripts/adjacency_worklist.py"], "neighbor watch", False),
@@ -106,19 +110,22 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("mode", nargs="?", default="build", choices=sorted(STAGES))
     ap.add_argument("--only", action="append", default=[],
-                    help="a refresh stage to run (repeatable); the build stages always run")
-    ap.add_argument("--skip-build", action="store_true", help="run only the --only refresh stages")
+                    help="a refresh stage to run (repeatable); the build stages always run. "
+                         "With --skip-build it may also name a build stage, run after the refresh stages")
+    ap.add_argument("--skip-build", action="store_true", help="run only the --only stages")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--summary", type=Path, help="also append reviewer-facing output to this file")
     args = ap.parse_args()
     stages = STAGES[args.mode]
     if args.only:
-        known = {s[0] for s in REFRESH}
+        pool = REFRESH + BUILD if args.skip_build else REFRESH
+        known = {s[0] for s in pool}
         bad = [o for o in args.only if o not in known]
         if bad:
-            ap.error(f"unknown refresh stage(s) {bad}; choose from {sorted(known)}")
-        stages = [s for s in REFRESH if s[0] in args.only] + ([] if args.skip_build else BUILD)
+            ap.error(f"unknown stage(s) {bad}; choose from {sorted(known)}"
+                     + ("" if args.skip_build else ", or name a build stage with --skip-build"))
+        stages = [s for s in pool if s[0] in args.only] + ([] if args.skip_build else BUILD)
     if args.list:
         for mode, group in (("refresh", REFRESH), ("build", BUILD), ("intake", INTAKE)):
             for name, _, what, _ in group:
