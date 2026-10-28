@@ -39,6 +39,21 @@ FIELDS = [
 COUNTED = FIELDS[4:FIELDS.index("negative_check_on")]
 
 
+def add_variables(rows: list[dict], variables: list[tuple[str, dict]]) -> list[str]:
+    """Appends one column per registered public variable (spec 033,
+    scripts/variable_registry.py) to each county's row, after FIELDS, and
+    returns the column names in order. `variables` is (name, {fips: value})
+    with the value as its source gives it; a county without one is blank.
+    COUNTED is unchanged: a variable describes the county, it counts none of
+    its records."""
+    names = []
+    for name, by in variables:
+        names.append(name)
+        for r in rows:
+            r[name] = by.get(r["county_fips"], "")
+    return names
+
+
 def _fips(row: dict) -> list[str]:
     return [f for f in str(row.get("county_fips_all") or "").split(";") if f]
 

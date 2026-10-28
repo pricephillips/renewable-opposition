@@ -60,6 +60,7 @@ import geoid_match  # noqa: E402
 import group_registry  # noqa: E402
 import negative_checks  # noqa: E402
 import site_profile  # noqa: E402
+import variable_registry  # noqa: E402
 from common import (PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, jurisdiction_key, jurisdiction_kind,  # noqa: E402
                     read_csv, write_csv)
 
@@ -211,9 +212,10 @@ TABLES = ("state", "county", "county_adjacency", "jurisdiction", "government", "
           "contested_project", "legal_case", "case_project", "siting_standard", "state_policy",
           "record_county", "source_document", "evidence_link", "opposition_group", "project_group",
           "negative_check", "county_pending_review", "worklist_size", "data_center_event", "headline_history",
-          "build_info")
+          "variable", "county_variable", "build_info")
 VIEWS = ("v_headline_restrictions", "v_headline_by_source", "v_county_coverage_totals", "v_county_summary",
-         "v_state_summary", "v_restrictions_by_month", "v_geoid_coverage", "v_restrictions_by_year")
+         "v_state_summary", "v_restrictions_by_month", "v_geoid_coverage", "v_restrictions_by_year",
+         "v_county_variables")
 
 
 def _sql(name: str) -> str:
@@ -309,6 +311,22 @@ def _stage_python(con: duckdb.DuckDBPyConnection) -> None:
             if n:
                 pending.append((f, str(n)))
     _stage_rows(con, "stg_county_pending", ["county_fips", "candidates"], pending)
+
+    # Registered variables (spec 033): the public ones that pass
+    # variable_registry.py --check; one left out is named, never fatal.
+    entries, notes = variable_registry.published()
+    for note in notes:
+        print(f"variable {note}", file=sys.stderr)
+    catalog, values = [], []
+    for e in entries:
+        for c in e.columns:
+            catalog.append(tuple(variable_registry.catalog_row(e, c).values()))
+        for name, by in variable_registry.county_values(e).items():
+            cat = "1" if next(c for c in e.columns if c.name == name).unit == "category" else "0"
+            values += [(f, name, v, cat) for f, v in sorted(by.items()) if v]
+    _stage_rows(con, "stg_variable", list(variable_registry.CATALOG_FIELDS), catalog)
+    _stage_rows(con, "stg_county_variable", ["county_fips", "variable_id", "value", "is_category"],
+                values)
 
     sizes = []
     for name, (path, only, description) in WORKLISTS.items():

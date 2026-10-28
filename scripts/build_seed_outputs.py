@@ -71,6 +71,7 @@ import qc_gate  # noqa: E402
 import resolutions  # noqa: E402
 import siting_standards  # noqa: E402
 import state_policies  # noqa: E402
+import variable_registry  # noqa: E402
 from common import (  # noqa: E402
     PROCESSED_DIR, REVIEW_DIR, ROOT, STATE_NAMES, SEED_DIR, normalize_url, read_csv, source_id_for,
     state_code, write_csv,
@@ -471,7 +472,12 @@ def main() -> int:
     by_prefix = {f[:2]: st for f, st in states.items()}
     counties = county_summary.build(datasets, standards, checks, geo.all_counties(), geo.name,
                                     lambda f: states.get(f) or by_prefix.get(f[:2], ""))
-    write_csv(PROCESSED_DIR / "county_summary.csv", counties, county_summary.FIELDS)
+    entries, notes = variable_registry.published()
+    for note in notes:
+        print(f"variable {note}")
+    added = county_summary.add_variables(
+        counties, [kv for e in entries for kv in variable_registry.county_values(e).items()])
+    write_csv(PROCESSED_DIR / "county_summary.csv", counties, county_summary.FIELDS + added)
     write_json(PROCESSED_DIR / "county_summary.json", counties, compact=True)
     print(f"Wrote data/processed/county_summary.csv/.json ({len(counties)} counties, "
           f"{sum(1 for c in counties if c['coverage'] == 'record')} with a record)")

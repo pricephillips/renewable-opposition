@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "variable_manifest.schema.json",
+  "title": "Variable manifest entry, format 1 (spec 033)",
+  "description": "One county or state variable: its data file, how its rows are keyed, who may see it, where it comes from, and per column its label, unit, display format, model transform and quality bounds. Shared byte for byte with renewable-opposition and pinned by variable_format.lock. Field meanings: specs/033-variable-registry/data-model.md.",
+  "type": "object",
+  "required": ["id", "format_version", "file", "key", "grain", "audience", "columns"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,40}$"},
+    "format_version": {"const": 1},
+    "enabled": {"type": "boolean", "default": true},
+    "file": {"type": "string", "minLength": 1, "pattern": "^(?!.*\\.\\.)[^/\\\\][^\\\\]*$"},
+    "key": {"type": "string", "minLength": 1},
+    "grain": {"enum": ["county", "state"]},
+    "audience": {"enum": ["internal", "client", "public"]},
+    "where": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "description": "Keep only rows whose columns equal these values, for files with several rows per key."
+    },
+    "refresh": {"enum": ["monthly", "quarterly", "annual"]},
+    "definition": {"type": "string"},
+    "source": {"$ref": "#/$defs/source"},
+    "columns": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/column"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["type", "title", "url", "vintage"],
+      "properties": {
+        "type": {"enum": ["csv_url", "arcgis", "socrata", "pudl", "custom", "none"]},
+        "title": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "pattern": "^https?://"},
+        "license": {"type": "string"},
+        "attribution": {"type": "string"},
+        "vintage": {"type": "string", "minLength": 1}
+      },
+      "description": "Adapter settings (urls, key_column, where, table and so on) sit beside these fields; contracts/variable_manifest.md lists them per type."
+    },
+    "column": {
+      "type": "object",
+      "required": ["name", "label", "unit", "format"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,60}$"},
+        "label": {"type": "string", "minLength": 1},
+        "unit": {"enum": ["count", "share", "percent", "usd", "mw", "per_sqmi", "index", "category", "none"]},
+        "format": {"enum": ["int", "dec1", "dec2", "pct0", "pct1", "usd0", "text"]},
+        "transform": {"enum": ["identity", "log1p", "log10"], "default": "identity"},
+        "tier": {"type": "integer", "minimum": 1, "maximum": 3, "default": 3},
+        "leakage_class": {"enum": ["none", "neighbor_outcome", "pre_outcome"], "default": "none"},
+        "levels": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true, "minItems": 2},
+        "qc": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {"type": "number"},
+            "max": {"type": "number"},
+            "max_null_share": {"type": "number", "minimum": 0, "maximum": 1},
+            "min_counties": {"type": "integer", "minimum": 0},
+            "min_states": {"type": "integer", "minimum": 0},
+            "integer": {"type": "boolean"}
+          }
+        }
+      }
+    }
+  }
+}

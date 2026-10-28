@@ -20,3 +20,6 @@ pytest-xdist>=3.8
 # The county restriction model (scripts/county_restriction_model.py; plan decision 3, 2026-10-15).
 numpy>=2.2
 scikit-learn>=1.6
+# Checks variable manifests against their schema (scripts/variable_registry.py, spec 033 in
+# pricephillips/data-centers; the same pin data-centers uses).
+jsonschema==4.26.0

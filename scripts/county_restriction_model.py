@@ -44,6 +44,7 @@ from __future__ import annotations
 import json
 import math
 import random
+import re
 import statistics as st
 import sys
 from pathlib import Path
@@ -79,9 +80,35 @@ MIN_VARS = 3
 STABILITY_COST_ALARM = 0.05
 PERMUTATIONS = 999
 CUT_YEAR = 2022
-POOL = ["log_population", "log_density", "log_income", "pct_bachelors_plus", "margin",
-        "log1p_solar_mw", "log1p_wind_mw", "neighbor_severe_share", "log1p_queue_mw"]
-RUNS = {"facilities": [v for v in POOL if v != "log1p_queue_mw"], "queue": POOL}
+# The pool and the runs are the registration's own (config/county_model_registration.json):
+# the pool is its variables in file order, and each run's wording is read as
+# "every pool variable" or "every pool variable except <a>, <b> and <c>".
+RUN_RE = re.compile(r"^every pool variable(?: except (.+))?$")
+
+
+def pool_from(reg: dict) -> list[str]:
+    return [k for k in reg["variables"] if not k.startswith("_")]
+
+
+def runs_from(reg: dict, pool: list[str]) -> dict[str, list[str]]:
+    """Run name -> its variables, from the registration's wording; any other
+    wording, or a name not in the pool, stops the fit rather than guessing."""
+    out = {}
+    for run in reg["runs"]:
+        m = RUN_RE.match(str(run.get("variables", "")).strip())
+        if not m:
+            raise ValueError(f"registration run {run.get('name')!r}: cannot read "
+                             f"{run.get('variables')!r}")
+        drop = [x.strip() for x in re.split(r",| and ", m.group(1) or "") if x.strip()]
+        unknown = [x for x in drop if x not in pool]
+        if unknown:
+            raise ValueError(f"registration run {run.get('name')!r}: {unknown} not in the pool")
+        out[run["name"]] = [v for v in pool if v not in drop]
+    return out
+
+
+POOL = pool_from(REG)
+RUNS = runs_from(REG, POOL)
 PRIMARY = REG["labels"]["primary"]["name"]
 LABELS = {PRIMARY: {"frame": "at_risk_2022", "as_of": 2021},
           "has_severe": {"frame": None, "as_of": None},

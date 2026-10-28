@@ -378,9 +378,31 @@ These files feed the county restriction model and the project universe in `docs/
 - **County covariates.** `scripts/fetch_county_covariates.py` writes `data/reference/county_covariates.csv`, one row per 2024 county in the 50 states and DC (3,144). It holds population, median household income and the share of adults with a bachelor's degree from the Census Bureau's ACS 2020-2024 five-year files, land area and density from the 2024 Gazetteer, and the 2016, 2020 and 2024 presidential results from the MIT Election Data and Science Lab (doi:10.7910/DVN/VOQCHQ, CC0). Alaska and Connecticut report votes by units that are not 2024 counties, so they carry statewide results, marked `geo_basis_<year>` = `state`. `county_covariates_catalog.json` describes every column. The MEDSL file needs a guestbook response before Dataverse serves it, so `data/reference/medsl/` holds the copy that `pricephillips/data-center-map` keeps. Each run checks that copy against the md5 that Dataverse publishes and, after a new MEDSL release, fails with the steps to replace it.
 - **Interconnection queues.** `scripts/fetch_queued_up.py` writes `data/reference/queue_projects.csv`: every request in LBNL's Queued Up (https://emp.lbl.gov/queues; Lawrence Berkeley National Laboratory and GridTracker, CC BY 4.0) with a solar, wind or storage part, whether active, withdrawn, suspended or operational, with its request, agreement, withdrawal and operation dates. Each request sits in the county whose 2024 code Queued Up gives. Otherwise the build's county-name lookup places it, and when neither works the row stays unplaced with the reason in `county_miss`. Queued Up lists only the first county of a request that spans several.
 - **Queue matches.** `scripts/queue_matches.py` matches each contested project to its queue requests by name, under the same rules the plant matcher uses, and writes `data/reference/queue_matches.csv` with the requests' dates. Only about a third of requests carry a project name, so a project with no named request stays unmatched. A match never changes an outcome. A strong match that disagrees with the published outcome is flagged in `conflict` for review, for example a pending project whose every request was withdrawn. `queue_matches_report.md` gives the counts.
-- **County restriction model.** `scripts/county_restriction_model.py` fits the model registered in `config/county_model_registration.json` before any fit, on labels from `scripts/county_labels.py`, and writes `data/model/county_restriction_report.md` with its scores and metrics. It measures how closely a county resembles counties that enacted a severe restriction. It is not a probability that a county will restrict, and nothing on the dashboard reads it.
+- **County restriction model.** `scripts/county_restriction_model.py` fits the model registered in `config/county_model_registration.json` before any fit, on labels from `scripts/county_labels.py`, and writes `data/model/county_restriction_report.md` with its scores and metrics. Its variable pool and its runs are read from that registration. It measures how closely a county resembles counties that enacted a severe restriction. It is not a probability that a county will restrict, and nothing on the dashboard reads it.
 
 Neither source file is committed; each manifest records the file's URL, release and SHA-256. The Fetch model inputs workflow (`model-inputs.yml`) runs all of these on the 6th of each month and commits only what changed.
+
+### Registered variables
+
+A county or state measure from an outside source (a census figure, a state
+law's class) can be added as one manifest file, `config/variables/<id>.json`,
+in the format `pricephillips/data-centers` uses (its spec 033 and
+`docs/adding_a_variable.md`). `scripts/variable_core.py` and
+`config/variable_manifest.schema.json` are byte-for-byte copies of that
+repository's files, and `config/variable_format.lock` pins their hashes in
+both. The weekly Variable format workflow (`variable-format.yml`) compares
+the two locks.
+
+`python scripts/variable_registry.py --check` validates every manifest: the
+schema, unique column names, the data file and its keys, the quality bounds,
+and for a public variable its licence, attribution, definition and an
+outside-source file (`data/reference/county_covariates.csv` or
+`data/reference/variables/`). Nothing here fetches a manifest's source;
+the file comes from a fetcher this repository already runs, so `source.type`
+is `none`. A public variable that passes adds one column to
+`county_summary.csv` and its values to the database's `variable` and
+`county_variable` tables. It never enters the county model: the model's pool
+is its pre-registration, read from `config/county_model_registration.json`.
 
 ### State siting law
 

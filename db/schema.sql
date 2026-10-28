@@ -373,6 +373,34 @@ CREATE TABLE headline_history (
     counties_not_examined INTEGER
 );
 
+-- Registered county and state variables (config/variables/*.json, read by
+-- scripts/variable_registry.py; spec 033 in pricephillips/data-centers):
+-- outside measures of a county, such as census figures, never a count of
+-- this repository's own records. Only public and client entries that pass
+-- variable_registry.py --check are loaded. A state-basis variable gives each
+-- county its state's value.
+CREATE TABLE variable (
+    variable_id     VARCHAR PRIMARY KEY,
+    label           VARCHAR,
+    unit            VARCHAR,               -- count, share, percent, usd, mw, per_sqmi, index, category, none
+    format          VARCHAR,               -- int, dec1, dec2, pct0, pct1, usd0, text
+    basis           VARCHAR,               -- county or state
+    definition      VARCHAR,
+    source_title    VARCHAR,
+    source_url      VARCHAR,
+    license         VARCHAR,
+    attribution     VARCHAR,
+    vintage         VARCHAR
+);
+
+CREATE TABLE county_variable (
+    county_fips     VARCHAR,
+    variable_id     VARCHAR,
+    value           DOUBLE,                -- blank for a category variable and when missing
+    value_text      VARCHAR,               -- a category variable's value; blank otherwise
+    PRIMARY KEY (county_fips, variable_id)
+);
+
 -- What this database was built from.
 CREATE TABLE build_info (
     key             VARCHAR PRIMARY KEY,
