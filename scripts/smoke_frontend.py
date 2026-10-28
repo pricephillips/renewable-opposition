@@ -15,10 +15,10 @@ For each page in PAGES:
 
 Map tiles and web fonts are blocked on purpose: they are decoration, and a
 tile outage is not a page defect. Leaflet itself is required, and so are
-d3-array, d3-geo and topojson-client for the national dashboard. Where the
-CDN is unreachable (sandboxed sessions), pass --leaflet-dir pointing at a
-local node_modules holding those packages (tests/ui/node_modules does) and
-the CDN requests are served from it.
+topojson-client for the national dashboard's maps and Vega, Vega-Lite and
+vega-embed for its charts. Where the CDN is unreachable (sandboxed
+sessions), pass --leaflet-dir pointing at a local node_modules holding those
+packages (tests/ui/node_modules does) and the CDN requests are served from it.
 
 Usage
   python scripts/smoke_frontend.py
@@ -52,7 +52,8 @@ PAGES = {
     "national-dashboard.html#/explore/restrictions": ("#resultCount", "restrictions"),
 }
 BLOCKED = re.compile(r"(tile\.openstreetmap|tiles\.openfreemap|basemaps\.cartocdn|arcgisonline|fontshare|fonts\.g)")
-CDN = re.compile(r"https://unpkg\.com/(leaflet(?:\.markercluster)?|d3-array|d3-geo|topojson-client)@[^/]+/(.*)")
+CDN = re.compile(r"https://(?:unpkg\.com|cdn\.jsdelivr\.net/npm)/"
+                 r"(leaflet(?:\.markercluster)?|d3-array|d3-geo|topojson-client|vega(?:-lite|-embed)?)@[^/]+/(.*)")
 
 
 class _QuietHandler(http.server.SimpleHTTPRequestHandler):
