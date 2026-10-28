@@ -5,6 +5,7 @@
 ["parquet/county.parquet","county","table",3222,17953],
 ["parquet/county_adjacency.parquet","county_adjacency","table",17908,56259],
 ["parquet/county_pending_review.parquet","county_pending_review","table",2,369],
+["parquet/county_variable.parquet","county_variable","table",0,168],
 ["parquet/data_center_event.parquet","data_center_event","table",2252,393605],
 ["parquet/evidence_link.parquet","evidence_link","table",6737,101390],
 ["parquet/government.parquet","government","table",2539,28845],
@@ -24,11 +25,13 @@
 ["parquet/state_policy.parquet","state_policy","table",122,27027],
 ["parquet/v_county_coverage_totals.parquet","v_county_coverage_totals","view",1,1237],
 ["parquet/v_county_summary.parquet","v_county_summary","view",3222,30442],
+["parquet/v_county_variables.parquet","v_county_variables","view",0,260],
 ["parquet/v_geoid_coverage.parquet","v_geoid_coverage","view",13,830],
 ["parquet/v_headline_by_source.parquet","v_headline_by_source","view",8,1543],
 ["parquet/v_headline_restrictions.parquet","v_headline_restrictions","view",2,1267],
 ["parquet/v_restrictions_by_month.parquet","v_restrictions_by_month","view",59,1235],
 ["parquet/v_restrictions_by_year.parquet","v_restrictions_by_year","view",68,1574],
 ["parquet/v_state_summary.parquet","v_state_summary","view",52,4729],
+["parquet/variable.parquet","variable","table",0,305],
 ["parquet/worklist_size.parquet","worklist_size","table",10,1245]
 ]}
