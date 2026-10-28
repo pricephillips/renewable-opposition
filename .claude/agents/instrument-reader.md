@@ -34,7 +34,9 @@ built on a document you did not open is the worst one.
   Legal, General Code), a state register. `source_kind` is `instrument`,
   `minutes` or `official_copy`.
 - A news article, a tracker or a compiled database (Sabin, Moratorium Nation,
-  NREL, Laws in Order) only tells you where to look. Use it to find the
+  NREL, Laws in Order, Basepoint's moratoria and county ordinance pages at
+  https://www.getbasepoint.com/ordinances/moratoria) only tells you where to look. Basepoint links
+  each listed moratorium's adopting document: open that link. Use it to find the
   instrument's number, date and body; never read it as the instrument.
 - `access` is `opened` when you read the document itself in this session, or
   `archived` when you read an Internet Archive copy (its URL in

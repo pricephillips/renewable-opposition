@@ -43,7 +43,8 @@ Follow COUNTY_CHECK.md section 2 for each government: its code (Municode,
 eCode360, American Legal, General Code, its own site), searched for solar,
 wind, battery, energy storage and moratorium; the minutes and agendas of the
 governing body and planning commission for the last three years; the state
-siting docket; a news search. Write each source as
+siting docket; a news search; the moratoria trackers COUNTY_CHECK.md section 2 names
+(kind `tracker`), whose links lead to adopting documents. Write each source as
 `<kind>: <what was searched> (<URL>, <date range>)` with kind `code`,
 `ordinance`, `zoning`, `statute`, `minutes`, `agendas`, `docket`, `hearing`,
 `web search`, `news search` or `tracker`, and say whether it was opened. Read
