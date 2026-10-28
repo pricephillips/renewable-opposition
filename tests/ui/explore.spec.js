@@ -192,6 +192,10 @@ test('the SQL console\'s CDN modules are all pinned by integrity', () => {
     const src = fs.readFileSync(file, 'utf8');
     for (const m of src.matchAll(/(?:from|import)\s*['"](\.[^'"]+)['"]/g)) stack.push(new URL(m[1], u).href);
   }
+  // The page also pins MapLibre, which basemap.js loads with import() for
+  // the maps (basemap.spec.js checks those pins against basemap.js).
+  const { SRI } = require(path.join(ROOT, 'basemap.js'));
+  for (const u of Object.keys(SRI).filter(x => x.endsWith('.mjs'))) want[u] = SRI[u];
   expect(map.integrity).toEqual(want);
 });
 

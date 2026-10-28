@@ -26,6 +26,14 @@
  *
  * Text from the data goes into the page through textContent only.
  *
+ * Tools, the same ones the data center frontend uses (pricephillips/
+ * data-center-map), with this site's own look: maps are Leaflet over
+ * basemap.js (OpenFreeMap vector tiles, raster fallbacks), so a reader can
+ * zoom into New England as easily as Texas; charts are Vega-Lite through
+ * vega-embed, loaded only on the views that chart something and pinned by
+ * sha384 (VEGA below; tests/ui/national.spec.js checks the pins). Every
+ * figure a map or chart shows is also in a table on the same view.
+ *
  * Routes (the hash is the state, so every view can be linked):
  *   #/                      national
  *   #/state/IA              a state
@@ -126,7 +134,6 @@
   var fmt = new Intl.NumberFormat('en-US');
   var cache = {};
   var base = null;       // national data, loaded once
-  var mapGen = 0;        // numbers each map, for its title id
 
   // ── Small helpers ─────────────────────────────────────────────────────────
 
@@ -177,10 +184,112 @@
     });
   }
 
-  function setStatus(text, isError) {
+  function setStatus(text, isError, isLoading) {
     var s = document.getElementById('status');
     s.textContent = text || '';
-    s.className = 'status' + (isError ? ' error' : '');
+    s.className = 'status' + (isError ? ' error' : '') + (isLoading ? ' loading' : '');
+  }
+
+  // ── Theme and libraries ───────────────────────────────────────────────────
+
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function isDark() {
+    var t = document.documentElement.getAttribute('data-theme');
+    return t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  // Vega, Vega-Lite and vega-embed, in load order, each pinned by the sha384
+  // of the copy tests/ui serves (byte for byte the CDN's).
+  var VEGA = [
+    ['https://cdn.jsdelivr.net/npm/vega@6.4.0/build/vega.min.js', 'sha384-VKdcJr3ZaBIJMbVcopTAI/JEuUkSY6qnwVu9iLuw0DnQ9gQ1JjsfZJhXFQAgNi43'],
+    ['https://cdn.jsdelivr.net/npm/vega-lite@6.4.3/build/vega-lite.min.js', 'sha384-9/70gNCfOu6G7xXvkdreMfuqAEsoaGJVXV2BN/JLRXkSmcGvnMqtsRx8HZtUWAvI'],
+    ['https://cdn.jsdelivr.net/npm/vega-embed@7.3.0/build/vega-embed.min.js', 'sha384-Muy1QRxYFeNrA1zShc1KtN4OfipkR/61gt+HWqN57c1Zxu3Oe16TsilsruVVjfKL']
+  ];
+  var vegaReady = null;
+
+  function loadScript(url, sri) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.integrity = sri;
+      s.crossOrigin = 'anonymous';
+      s.src = url;
+      s.onload = function () { resolve(); };
+      s.onerror = function () { reject(new Error('could not load ' + url)); };
+      document.head.appendChild(s);
+    });
+  }
+  function loadVega() {
+    if (window.vegaEmbed) return Promise.resolve(window.vegaEmbed);
+    if (!vegaReady) {
+      vegaReady = VEGA.reduce(function (p, lib) {
+        return p.then(function () { return loadScript(lib[0], lib[1]); });
+      }, Promise.resolve()).then(function () {
+        if (!window.vegaEmbed) throw new Error('vega-embed did not load');
+        return window.vegaEmbed;
+      });
+      // A failed load is tried again on the next chart.
+      vegaReady.catch(function () { vegaReady = null; });
+    }
+    return vegaReady;
+  }
+
+  // Maps and charts on the current view: removed when the view changes,
+  // redrawn when the theme does (map fills follow CSS variables by
+  // themselves; the basemap and the charts' colors do not).
+  // Pruned once a new view is in the page: whatever is no longer in the
+  // document belonged to the old one.
+  var live = { maps: [], charts: [] };
+  function pruneLive() {
+    live.maps = live.maps.filter(function (m) {
+      if (m.getContainer().isConnected) return true;
+      try { m.remove(); } catch (e) { /* already gone */ }
+      return false;
+    });
+    live.charts = live.charts.filter(function (c) {
+      if (c.box.isConnected) return true;
+      if (c.view) c.view.finalize();
+      return false;
+    });
+  }
+  function themeChanged() {
+    live.maps.forEach(function (m) { if (m.roSetBasemap) m.roSetBasemap(); });
+    live.charts.forEach(function (c) { c.draw().catch(function () { /* the table below has the numbers */ }); });
+  }
+
+  // The look every chart shares, read from the page's tokens so a chart
+  // follows the theme.
+  function vegaConfig() {
+    var font = getComputedStyle(document.body).fontFamily;
+    var muted = cssVar('--color-text-muted');
+    return {
+      background: null, font: font, aria: false,
+      view: { stroke: null },
+      axis: { labelColor: muted, labelFont: font, labelFontSize: 12, titleColor: muted, gridColor: cssVar('--grid'),
+              domainColor: cssVar('--color-border'), tickColor: cssVar('--grid') },
+      legend: { disable: true }
+    };
+  }
+
+  // Embeds a Vega-Lite spec in box; spec(cfg) is rebuilt on each theme change.
+  function chart(box, spec) {
+    var entry = { box: box, view: null, draw: null };
+    entry.draw = function () {
+      return loadVega().then(function (embed) {
+        if (!box.isConnected) return;
+        if (entry.view) { entry.view.finalize(); entry.view = null; }
+        // Vega gives the element it draws in a role of its own, so it draws
+        // inside the box and the box keeps its role="img" and label.
+        box.textContent = '';
+        var host = el('div', { 'aria-hidden': 'true' });
+        box.appendChild(host);
+        var s = spec();
+        s.config = vegaConfig();
+        return embed(host, s, { actions: false, renderer: 'svg', tooltip: { theme: isDark() ? 'dark' : 'light' } })
+          .then(function (res) { entry.view = res.view; });
+      });
+    };
+    live.charts.push(entry);
+    return entry.draw();
   }
 
   // ── Routing ───────────────────────────────────────────────────────────────
@@ -238,6 +347,7 @@
         var byState = {};
         states.forEach(function (s) { byState[s.state_code] = s; });
         var features = r[3] ? topojson.feature(r[3], r[3].objects.counties).features : [];
+        features.forEach(unwrapAntimeridian);
         var asOf = r[4].split('\n').slice(1).map(function (l) { return l.split(',')[0]; })
           .filter(function (d) { return /^\d{4}-\d{2}-\d{2}$/.test(d); }).sort().pop() || '';
         base = { metrics: r[0], states: states, byState: byState, counties: counties, byFips: byFips,
@@ -258,6 +368,8 @@
     var v = c[metric] || 0;
     return v ? binFor(v).fill : ZERO_FILL;
   }
+  // 'var(--map-c2)' -> 'c2': the class a legend button picks out.
+  function binKey(fill) { return (/--map-(\w+)/.exec(fill) || [])[1] || ''; }
   function legendItems(metric) {
     var items = [{ fill: NONE_FILL, text: 'Not examined: nothing known either way' }];
     if (metric === 'coverage') {
@@ -282,88 +394,157 @@
     return lines;
   }
 
-  // Draws counties (features) into box. opts.focus: a FIPS to outline;
-  // opts.states: draw state borders. Clicking a county opens its profile.
+  // The Aleutians cross the 180th meridian, so part of Aleutians West
+  // (02016) has positive longitudes; on a Web Mercator map those islands
+  // would land on the far side of the world. Shift them west by 360.
+  function unwrapAntimeridian(f) {
+    if (!f.geometry || f.id.slice(0, 2) !== '02') return;
+    (function walk(c) {
+      if (typeof c[0] === 'number') { if (c[0] > 0) c[0] -= 360; return; }
+      c.forEach(walk);
+    })(f.geometry.coordinates);
+  }
+
+  var LOWER_48 = [[24.3, -125], [49.6, -66.8]];
+  var PRESETS = [
+    { label: 'Lower 48', bounds: LOWER_48 },
+    { label: 'Alaska', bounds: [[51, -180], [71.6, -129]] },
+    { label: 'Hawaii', bounds: [[18.8, -160.4], [22.4, -154.6]] }
+  ];
+  // Where each map was left, so a metric change or a trip back keeps the view.
+  var mapViews = {};
+
+  // Draws counties (features) into box on a Leaflet map over the basemap.
+  // opts.focus: a FIPS to outline; opts.states: draw state borders;
+  // opts.national: start on the lower 48 with Alaska and Hawaii a button
+  // away; opts.fill(fips): the fill for a county instead of the metric's;
+  // opts.key: remembers the view under this name. A county's popup links to
+  // its profile.
   function drawMap(box, features, metric, opts) {
     opts = opts || {};
-    var gen = ++mapGen;
-    var W = 960, H = opts.height || 600;
     var drawable = features.filter(function (f) { return f.id.slice(0, 2) !== '72'; });
     box.textContent = '';
-    if (base.geoError) {
+    if (!box.isConnected) return null;
+    if (base.geoError || !window.L) {
       box.setAttribute('data-painted', '0');
       box.appendChild(el('p', { id: 'mapStatus', class: 'status error',
-        text: 'County boundaries could not be loaded, so no map is drawn. Every figure is in the tables on this page.' }));
-      return;
+        text: base.geoError ? 'County boundaries could not be loaded, so no map is drawn. Every figure is in the tables on this page.'
+          : 'The map library could not be loaded, so no map is drawn. Every figure is in the tables on this page.' }));
+      return null;
     }
     if (!drawable.length) {
       box.appendChild(el('p', { class: 'muted', text: 'No map is drawn for Puerto Rico; its counties are in the table below.' }));
-      return;
+      return null;
     }
-    var projection = d3.geoAlbersUsa().fitSize([W, H], { type: 'FeatureCollection', features: drawable });
-    var path = d3.geoPath(projection);
-    var NS = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-    svg.setAttribute('role', 'img');
-    var titleId = 'map-title-' + gen;
-    svg.setAttribute('aria-labelledby', titleId);
-    var title = document.createElementNS(NS, 'title');
-    title.id = titleId;
-    title.textContent = (opts.label || 'County map') + ': ' + METRICS[metric].label +
-      '. Every value on the map is also in the table below.';
-    svg.appendChild(title);
-    var g = document.createElementNS(NS, 'g');
+    var canvas = el('div', { class: 'map-canvas', role: 'region',
+      'aria-label': (opts.label || 'County map') + (opts.fill ? '' : ', shaded by ' + METRICS[metric].label.toLowerCase()) +
+        '. Every value on the map is also in a table on this page.' });
+    box.appendChild(canvas);
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var map = L.map(canvas, { zoomSnap: 0.25, zoomDelta: 0.5, scrollWheelZoom: false, minZoom: 2, maxZoom: 13,
+                              zoomAnimation: !still, fadeAnimation: !still, renderer: L.svg({ padding: 0.5 }) });
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+    var tiles = null;
+    map.roSetBasemap = function () {
+      if (!window.Basemap) return;
+      if (tiles) map.removeLayer(tiles);
+      tiles = isDark() ? window.Basemap.dark() : window.Basemap.light();
+      if (tiles) tiles.addTo(map);
+    };
+    map.roSetBasemap();
+    live.maps.push(map);
+
+    var focusLayer = null;
+    var layer = L.geoJSON({ type: 'FeatureCollection', features: drawable }, {
+      style: function (f) { return { className: 'county' + (opts.focus === f.id ? ' focus' : ''), weight: 0.5 }; }
+    });
+    // A Leaflet map makes its layers' paths only once it has a view.
+    var saved = opts.key && mapViews[opts.key];
+    if (saved) map.setView(saved.center, saved.zoom, { animate: false });
+    else map.fitBounds(opts.national ? LOWER_48 : layer.getBounds(), { padding: [16, 16], maxZoom: opts.maxZoom || 9, animate: false });
+    if (opts.key) map.on('moveend', function () { mapViews[opts.key] = { center: map.getCenter(), zoom: map.getZoom() }; });
+    layer.addTo(map);
     var painted = 0;
-    drawable.forEach(function (f) {
-      var d = path(f);
-      if (!d) return;
-      var p = document.createElementNS(NS, 'path');
-      p.setAttribute('d', d);
-      p.setAttribute('class', 'county' + (opts.focus === f.id ? ' focus' : ''));
-      p.setAttribute('data-fips', f.id);
-      p.style.fill = fillFor(base.byFips[f.id], metric);
-      g.appendChild(p);
+    layer.eachLayer(function (lyr) {
+      var p = lyr.getElement();
+      if (!p) return;
+      var fips = lyr.feature.id;
+      var fill = opts.fill ? opts.fill(fips) : fillFor(base.byFips[fips], metric);
+      p.setAttribute('data-fips', fips);
+      p.setAttribute('data-bin', binKey(fill));
+      p.style.fill = fill;
+      if (opts.focus === fips) focusLayer = lyr;
       painted++;
     });
-    svg.appendChild(g);
-    if (opts.states) {
+    if (opts.states && base.topo) {
       var ids = {};
       drawable.forEach(function (f) { ids[f.id] = true; });
       var obj = { type: 'GeometryCollection', geometries: base.topo.objects.counties.geometries
         .filter(function (gm) { return ids[gm.id]; }) };
-      var borders = document.createElementNS(NS, 'path');
-      borders.setAttribute('class', 'states');
-      borders.setAttribute('d', path(topojson.mesh(base.topo, obj, function (a, b) {
+      L.geoJSON(topojson.mesh(base.topo, obj, function (a, b) {
         return a !== b && a.id.slice(0, 2) !== b.id.slice(0, 2);
-      })) || '');
-      svg.appendChild(borders);
+      }), { interactive: false, style: { className: 'states', weight: 1, fill: false } }).addTo(map);
     }
-    box.appendChild(svg);
+    if (focusLayer) focusLayer.bringToFront();
     box.setAttribute('data-painted', String(painted));
+
+    if (opts.national) {
+      var Presets = L.Control.extend({
+        options: { position: 'topright' },
+        onAdd: function () {
+          var div = el('div', { class: 'map-presets leaflet-bar', role: 'group', 'aria-label': 'Jump to' },
+            PRESETS.map(function (p) {
+              return el('button', { type: 'button', text: p.label, onclick: function () {
+                if (still) map.fitBounds(p.bounds, { padding: [16, 16], animate: false });
+                else map.flyToBounds(p.bounds, { padding: [16, 16], duration: 0.6 });
+              } });
+            }));
+          L.DomEvent.disableClickPropagation(div);
+          return div;
+        }
+      });
+      new Presets().addTo(map);
+    }
+
+    // The scroll wheel zooms only once the reader has clicked into the map,
+    // so scrolling the page past it never gets caught.
+    canvas.addEventListener('click', function () { map.scrollWheelZoom.enable(); });
+    canvas.addEventListener('mouseleave', function () { map.scrollWheelZoom.disable(); });
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(function () { map.invalidateSize(); });
+      ro.observe(canvas);
+      map.on('unload', function () { ro.disconnect(); });
+    }
 
     var tip = el('div', { class: 'tooltip', hidden: true, 'aria-hidden': 'true' });
     box.appendChild(tip);
-    function show(evt) {
-      var fips = evt.target && evt.target.getAttribute && evt.target.getAttribute('data-fips');
-      if (!fips) { tip.hidden = true; return; }
-      var c = base.byFips[fips];
+    function name(fips) { var c = base.byFips[fips]; return c ? c.county_name + ', ' + c.state_code : fips; }
+    function lines(fips) { return opts.lines ? opts.lines(fips) : tooltipLines(base.byFips[fips], metric); }
+    layer.on('mousemove', function (e) {
+      var fips = e.layer.feature.id;
       tip.textContent = '';
-      tip.appendChild(el('strong', { text: c ? c.county_name + ', ' + c.state_code : fips }));
-      tooltipLines(c, metric).forEach(function (l) { tip.appendChild(el('div', { text: l })); });
-      var r = box.getBoundingClientRect();
-      var x = evt.clientX - r.left + 14, y = evt.clientY - r.top + 14;
+      tip.appendChild(el('strong', { text: name(fips) }));
+      lines(fips).forEach(function (l) { tip.appendChild(el('div', { text: l })); });
       tip.hidden = false;
-      if (x + tip.offsetWidth > r.width) x = Math.max(0, evt.clientX - r.left - tip.offsetWidth - 14);
+      var w = canvas.clientWidth, x = e.containerPoint.x + 14, y = e.containerPoint.y + 14;
+      if (x + tip.offsetWidth > w) x = Math.max(0, e.containerPoint.x - tip.offsetWidth - 14);
+      if (y + tip.offsetHeight > canvas.clientHeight) y = Math.max(0, e.containerPoint.y - tip.offsetHeight - 14);
       tip.style.left = x + 'px';
       tip.style.top = y + 'px';
-    }
-    svg.addEventListener('pointermove', show);
-    svg.addEventListener('pointerleave', function () { tip.hidden = true; });
-    svg.addEventListener('click', function (evt) {
-      var fips = evt.target.getAttribute && evt.target.getAttribute('data-fips');
-      if (fips) location.hash = href('county', fips, metric);
     });
+    layer.on('mouseover', function (e) { e.layer.bringToFront(); if (focusLayer) focusLayer.bringToFront(); });
+    layer.on('mouseout', function () { tip.hidden = true; });
+    // A tap or click opens the county's numbers with a link to its profile,
+    // so a phone reader sees them before leaving the map.
+    layer.on('click', function (e) {
+      var fips = e.layer.feature.id;
+      tip.hidden = true;
+      L.popup({ autoPanPadding: [16, 16], maxWidth: 280 }).setLatLng(e.latlng).setContent(
+        el('div', { class: 'map-pop' }, el('strong', { text: name(fips) }),
+          lines(fips).map(function (l) { return el('div', { text: l }); }),
+          el('a', { class: 'pop-link', href: href('county', fips, metric), text: 'Open the county profile' }))).openOn(map);
+    });
+    return map;
   }
 
   function mapCard(title, features, route, opts) {
@@ -375,27 +556,43 @@
     Object.keys(METRICS).forEach(function (k) {
       select.appendChild(el('option', { value: k, text: METRICS[k].label, selected: k === route.metric }));
     });
-    var legend = el('ul', { class: 'legend', id: 'mapLegend', 'aria-label': 'Map legend' });
+    // The legend doubles as a filter: a class pressed dims every other.
+    var legend = el('ul', { class: 'legend', id: 'mapLegend', 'aria-label': 'Map legend. Select a class to pick out its counties.' });
+    var buttons = [];
     legendItems(route.metric).forEach(function (it) {
       var sw = el('span', { class: 'swatch', 'aria-hidden': 'true' });
       sw.style.background = it.fill;
-      legend.appendChild(el('li', null, sw, it.text));
+      var key = binKey(it.fill);
+      var b = el('button', { type: 'button', 'aria-pressed': 'false', onclick: function () {
+        var on = box.getAttribute('data-hl') !== key;
+        if (on) box.setAttribute('data-hl', key); else box.removeAttribute('data-hl');
+        buttons.forEach(function (x) { x.setAttribute('aria-pressed', String(on && x === b)); });
+      } }, sw, it.text);
+      buttons.push(b);
+      legend.appendChild(el('li', null, b));
     });
+    var sub = route.metric === 'coverage' ? 'Each county by what is known about it.'
+      : 'Each county by its count of ' + METRICS[route.metric].noun + '.';
     var card = el('section', { class: 'card', 'aria-labelledby': 'mapHeading' },
       el('div', { class: 'card-head' },
-        el('h2', { id: 'mapHeading', text: title }),
+        el('div', null, el('h2', { id: 'mapHeading', text: title }), el('p', { class: 'card-sub', text: sub })),
         el('label', { class: 'field', for: 'metric' }, 'Shade counties by', select)),
       box, legend,
-      el('p', { class: 'map-note', text: 'Hover a county for its numbers; click it for its profile. Each county is placed by the records that name it.' }));
+      el('p', { class: 'map-note', text: 'Hover a county for its numbers, or click it for a link to its profile. To zoom with the scroll wheel, click the map first. Each county is placed by the records that name it.' }));
     // Draw after the card is in the document, so the box has a width.
-    setTimeout(function () { drawMap(box, features, route.metric, opts); }, 0);
+    setTimeout(function () {
+      drawMap(box, features, route.metric, Object.assign({ key: route.view + ':' + (route.st || '') }, opts));
+    }, 0);
     return card;
   }
 
   // ── Tables ────────────────────────────────────────────────────────────────
 
-  // cols: [{key, label, num, render(row) -> node|string, sort(row) -> value}]
-  function sortableTable(caption, cols, rows, defaultKey) {
+  // cols: [{key, label, num, render(row) -> node|string, sort(row) -> value,
+  // bar: draw a bar beside the number, scaled to the column's largest}].
+  // opts.scroll: a fixed-height box with the header row held in view.
+  function sortableTable(caption, cols, rows, defaultKey, opts) {
+    opts = opts || {};
     var state = { key: defaultKey, dir: -1 };
     var tbody = el('tbody');
     var heads = cols.map(function (c) {
@@ -407,7 +604,19 @@
       } }));
       return th;
     });
+    var maxes = {};
+    cols.forEach(function (c) {
+      if (c.bar) maxes[c.key] = Math.max.apply(null, rows.map(function (r) { return r[c.key] || 0; }).concat([1]));
+    });
     function value(c, r) { return c.sort ? c.sort(r) : r[c.key]; }
+    function cell(c, r) {
+      if (c.render) return c.render(r);
+      if (!c.num) return r[c.key];
+      if (!c.bar) return n(r[c.key]);
+      var bar = el('span', { class: 'bar', 'aria-hidden': 'true' });
+      bar.style.width = Math.max(r[c.key] ? 2 : 0, Math.round(72 * (r[c.key] || 0) / maxes[c.key])) + 'px';
+      return el('span', { class: 'bar-cell' }, bar, n(r[c.key]));
+    }
     function draw() {
       var col = cols.filter(function (c) { return c.key === state.key; })[0];
       var sorted = rows.slice().sort(function (a, b) {
@@ -421,27 +630,49 @@
       tbody.textContent = '';
       sorted.forEach(function (r) {
         tbody.appendChild(el('tr', null, cols.map(function (c) {
-          return el('td', { class: c.num ? 'num' : null }, c.render ? c.render(r) : (c.num ? n(r[c.key]) : r[c.key]));
+          return el('td', { class: c.num ? 'num' : null }, cell(c, r));
         })));
       });
     }
     draw();
-    return el('div', { class: 'table-wrap' },
+    return el('div', { class: 'table-wrap' + (opts.scroll ? ' scroll' : ''), tabindex: opts.scroll ? '0' : null,
+                       'aria-label': opts.scroll ? caption : null, role: opts.scroll ? 'region' : null },
       el('table', null, el('caption', { text: caption }), el('thead', null, el('tr', null, heads)), tbody));
   }
 
-  // A plain table that shows ROWS_SHOWN rows and a button for the rest.
+  // A table that shows ROWS_SHOWN rows and a button for the rest. A header
+  // with sort(row) can be selected to sort by it (the explorer's columns).
   function longTable(caption, headers, rows, renderRow, emptyText) {
     if (!rows.length) return el('p', { class: 'muted', text: emptyText });
     var tbody = el('tbody');
+    var order = rows;
+    var shown = ROWS_SHOWN;
+    var state = { i: -1, dir: 1 };
+    var heads = headers.map(function (h, i) {
+      var th = el('th', { scope: 'col', class: h.num ? 'num' : null });
+      if (!h.sort) { th.textContent = h.label || h; return th; }
+      th.setAttribute('aria-sort', 'none');
+      th.appendChild(el('button', { type: 'button', text: h.label, onclick: function () {
+        state.dir = state.i === i ? -state.dir : (h.num ? -1 : 1);
+        state.i = i;
+        order = rows.slice().sort(function (a, b) {
+          var x = h.sort(a), y = h.sort(b);
+          if (x === y) return 0;
+          if (x === '' || x === null || x === undefined) return 1;
+          if (y === '' || y === null || y === undefined) return -1;
+          return (x > y ? 1 : -1) * state.dir;
+        });
+        heads.forEach(function (t, j) { if (headers[j].sort) t.setAttribute('aria-sort', j === i ? (state.dir > 0 ? 'ascending' : 'descending') : 'none'); });
+        fill(shown);
+      } }));
+      return th;
+    });
     var wrap = el('div', null, el('div', { class: 'table-wrap' },
-      el('table', null, el('caption', { text: caption }),
-        el('thead', null, el('tr', null, headers.map(function (h) {
-          return el('th', { scope: 'col', class: h.num ? 'num' : null, text: h.label || h });
-        }))), tbody)));
+      el('table', null, el('caption', { text: caption }), el('thead', null, el('tr', null, heads)), tbody)));
     function fill(limit) {
+      shown = limit;
       tbody.textContent = '';
-      rows.slice(0, limit).forEach(function (r) { tbody.appendChild(renderRow(r)); });
+      order.slice(0, limit).forEach(function (r) { tbody.appendChild(renderRow(r)); });
     }
     fill(ROWS_SHOWN);
     if (rows.length > ROWS_SHOWN) {
@@ -460,11 +691,48 @@
 
   // ── Shared pieces ─────────────────────────────────────────────────────────
 
-  function tile(id, label, value, sub) {
+  // A stat tile. value is a string, or [figure, whole] to read "figure of
+  // whole"; share {part, whole} adds a meter (the verified or examined
+  // share, which the sub-line states in words).
+  function tile(id, label, value, sub, share) {
+    var v = Array.isArray(value)
+      ? el('div', { class: 'value', id: id }, value[0], el('span', { class: 'of', text: ' of ' + value[1] }))
+      : el('div', { class: 'value', id: id, text: value });
+    var meter = null;
+    if (share && share.whole) {
+      var fillEl = el('span');
+      fillEl.style.width = Math.min(100, 100 * share.part / share.whole).toFixed(1) + '%';
+      meter = el('div', { class: 'meter', 'aria-hidden': 'true' }, fillEl);
+    }
+    meter = meter || el('div', { class: 'meter-slot', 'aria-hidden': 'true' });
     return el('div', { class: 'tile' },
-      el('div', { class: 'label', text: label }),
-      el('div', { class: 'value', id: id, text: value }),
+      el('div', { class: 'label', text: label }), v, meter,
       sub ? el('div', { class: 'sub', text: sub }) : null);
+  }
+  function pageHead(eyebrow, title, lede, extra) {
+    return el('div', { class: 'hero' },
+      eyebrow ? el('p', { class: 'eyebrow' }, el('span', { class: 'dot', 'aria-hidden': 'true' }), eyebrow) : null,
+      el('h1', { text: title }),
+      lede ? el('p', { class: 'lede', text: lede }) : null,
+      extra || null);
+  }
+  function asOfChip() {
+    return base.asOf ? el('div', { class: 'chips' }, el('span', { class: 'chip' },
+      el('span', { class: 'dot', 'aria-hidden': 'true' }), 'Data as of ' + base.asOf)) : null;
+  }
+  // Severity 1 to 4 as four rising pips beside its words.
+  // The same in a table cell: pips and the number.
+  function sevCell(score) {
+    if (!score) return '';
+    var pips = el('span', { class: 'pips', 'aria-hidden': 'true' });
+    for (var i = 1; i <= 4; i++) pips.appendChild(el('i', { class: i <= score ? 'on' : null }));
+    return el('span', { class: 'sev', title: score + ' of 4: ' + SEVERITY_WORDS[score] }, pips, String(score));
+  }
+  function severity(score) {
+    if (!score) return el('span', { class: 'sev', text: 'severity not scored' });
+    var pips = el('span', { class: 'pips', 'aria-hidden': 'true' });
+    for (var i = 1; i <= 4; i++) pips.appendChild(el('i', { class: i <= score ? 'on' : null }));
+    return el('span', { class: 'sev', title: score + ' of 4: ' + SEVERITY_WORDS[score] }, pips, 'severity ' + score + ' of 4');
   }
   function crumbs(items) {
     return el('nav', { class: 'crumbs', 'aria-label': 'Breadcrumb' },
@@ -491,45 +759,73 @@
     } catch (e) { return u; }
   }
 
+  // One restriction or project as a compact list item: what it is, how
+  // strong the evidence is, a three-line summary, and the full facts and
+  // sources one click away.
   function restrictionRecord(r) {
     var types = (r.restriction_types || []).map(words).join(', ');
     var title = (r.jurisdiction_name || 'Unnamed jurisdiction') + ': ' + types;
-    return el('article', { class: 'record' },
-      el('h3', null, recordLink('restriction', r.instrument_id, title)),
-      el('p', null, verificationPill('restriction', r.verification), ' ',
-        r.scope === 'multi_sector_data_centers' ? el('span', { class: 'pill warn', text: 'also covers data centers' }) : null),
-      r.description ? el('p', { text: r.description }) : null,
-      el('dl', null,
-        el('dt', { text: 'Technologies' }), el('dd', { text: (r.technologies || []).map(words).join(', ') }),
-        el('dt', { text: 'Status' }), el('dd', { text: words(r.status || 'not recorded') }),
-        el('dt', { text: 'Severity' }), el('dd', { text: r.severity_score ? r.severity_score + ' of 4: ' +
-          SEVERITY_WORDS[r.severity_score] + (r.severity_basis ? ' (' + r.severity_basis + ')' : '') : 'not scored' }),
-        el('dt', { text: 'Enacted' }), el('dd', { text: r.date_enacted_iso || r.date_text || 'date not recorded' }),
-        el('dt', { text: 'Evidence' }), el('dd', { text: VERIFICATION_WORDS.restriction[r.verification] ||
-          VERIFICATION_WORDS.restriction.unverified }),
-        el('dt', { text: 'Sources' }), el('dd', null, evidenceList(r.evidence))));
+    return el('li', null, el('article', { class: 'rec' },
+      el('div', { class: 'rec-top' },
+        el('h4', null, recordLink('restriction', r.instrument_id, title)),
+        el('span', { class: 'rec-tags' }, severity(r.severity_score), verificationPill('restriction', r.verification),
+          r.scope === 'multi_sector_data_centers' ? el('span', { class: 'pill warn', text: 'also covers data centers' }) : null)),
+      r.description ? el('p', { class: 'rec-desc', text: r.description }) : null,
+      el('p', { class: 'rec-meta', text: [(r.technologies || []).map(words).join(', '), words(r.status || 'status not recorded'),
+        r.date_enacted_iso || r.date_text ? 'enacted ' + (r.date_enacted_iso || r.date_text) : 'date not recorded'].filter(Boolean).join(' · ') }),
+      el('details', { class: 'rec-more' }, el('summary', { text: 'Facts and sources' }),
+        el('dl', { class: 'facts' },
+          el('dt', { text: 'Technologies' }), el('dd', { text: (r.technologies || []).map(words).join(', ') }),
+          el('dt', { text: 'Status' }), el('dd', { text: words(r.status || 'not recorded') }),
+          el('dt', { text: 'Severity' }), el('dd', { text: r.severity_score ? r.severity_score + ' of 4: ' +
+            SEVERITY_WORDS[r.severity_score] + (r.severity_basis ? ' (' + r.severity_basis + ')' : '') : 'not scored' }),
+          el('dt', { text: 'Enacted' }), el('dd', { text: r.date_enacted_iso || r.date_text || 'date not recorded' }),
+          el('dt', { text: 'Evidence' }), el('dd', { text: VERIFICATION_WORDS.restriction[r.verification] ||
+            VERIFICATION_WORDS.restriction.unverified }),
+          el('dt', { text: 'Sources' }), el('dd', null, evidenceList(r.evidence))))));
   }
 
   function projectRecord(p, casesById) {
     var cases = (p.cases || []).map(function (id) { return casesById[id]; }).filter(Boolean);
-    return el('article', { class: 'record' },
-      el('h3', null, recordLink('project', p.instrument_id, p.project_name || 'Unnamed project')),
-      el('p', null, verificationPill('project', p.verification), ' ',
-        el('span', { class: 'pill', text: OUTCOME_WORDS[p.outcome] || words(p.outcome) })),
-      p.description ? el('p', { text: p.description }) : null,
-      el('dl', null,
-        el('dt', { text: 'Technologies' }), el('dd', { text: (p.technologies || []).map(words).join(', ') }),
-        p.capacity_mw_text ? [el('dt', { text: 'Capacity' }), el('dd', { text: p.capacity_mw_text + (/mw/i.test(p.capacity_mw_text) ? '' : ' MW') })] : null,
-        p.event_date_text ? [el('dt', { text: 'Date' }), el('dd', { text: p.event_date_text })] : null,
-        el('dt', { text: 'Evidence' }), el('dd', { text: VERIFICATION_WORDS.project[p.verification] ||
-          VERIFICATION_WORDS.project.unverified }),
-        (p.groups || []).length ? [el('dt', { text: 'Groups named' }), el('dd', { text: p.groups.join('; ') })] : null,
-        cases.length ? [el('dt', { text: 'Court cases' }), el('dd', null, el('ul', null, cases.map(function (k) {
-          var u = safeUrl(k.case_source_url);
-          return el('li', null, u ? el('a', { href: u, rel: 'noopener', text: k.case_name || 'Case' }) : (k.case_name || 'Case'),
-            ' · ' + (k.court || 'court not recorded') + ' · ' + (CASE_WORDS[k.case_status || ''] || words(k.case_status)));
-        })))] : null,
-        el('dt', { text: 'Sources' }), el('dd', null, evidenceList(p.evidence))));
+    return el('li', null, el('article', { class: 'rec' },
+      el('div', { class: 'rec-top' },
+        el('h4', null, recordLink('project', p.instrument_id, p.project_name || 'Unnamed project')),
+        el('span', { class: 'rec-tags' }, el('span', { class: 'pill plain', text: OUTCOME_WORDS[p.outcome] || words(p.outcome) }),
+          verificationPill('project', p.verification))),
+      p.description ? el('p', { class: 'rec-desc', text: p.description }) : null,
+      el('p', { class: 'rec-meta', text: [(p.technologies || []).map(words).join(', '),
+        p.capacity_mw_text ? p.capacity_mw_text + (/mw/i.test(p.capacity_mw_text) ? '' : ' MW') : '',
+        p.event_date_text || '', cases.length ? plural(cases.length, 'court case') : ''].filter(Boolean).join(' · ') }),
+      el('details', { class: 'rec-more' }, el('summary', { text: 'Facts and sources' }),
+        el('dl', { class: 'facts' },
+          el('dt', { text: 'Technologies' }), el('dd', { text: (p.technologies || []).map(words).join(', ') }),
+          p.capacity_mw_text ? [el('dt', { text: 'Capacity' }), el('dd', { text: p.capacity_mw_text + (/mw/i.test(p.capacity_mw_text) ? '' : ' MW') })] : null,
+          p.event_date_text ? [el('dt', { text: 'Date' }), el('dd', { text: p.event_date_text })] : null,
+          el('dt', { text: 'Evidence' }), el('dd', { text: VERIFICATION_WORDS.project[p.verification] ||
+            VERIFICATION_WORDS.project.unverified }),
+          (p.groups || []).length ? [el('dt', { text: 'Groups named' }), el('dd', { text: p.groups.join('; ') })] : null,
+          cases.length ? [el('dt', { text: 'Court cases' }), el('dd', null, el('ul', null, cases.map(function (k) {
+            var u = safeUrl(k.case_source_url);
+            return el('li', null, u ? el('a', { href: u, rel: 'noopener', text: k.case_name || 'Case' }) : (k.case_name || 'Case'),
+              ' · ' + (k.court || 'court not recorded') + ' · ' + (CASE_WORDS[k.case_status || ''] || words(k.case_status)));
+          })))] : null,
+          el('dt', { text: 'Sources' }), el('dd', null, evidenceList(p.evidence))))));
+  }
+
+  // A list that shows its first `first` items and a button for the rest.
+  function recList(items, first, noun) {
+    var list = el('ul', { class: 'rec-list' });
+    items.slice(0, first).forEach(function (it) { list.appendChild(it); });
+    if (items.length <= first) return list;
+    var btn = el('button', { type: 'button', class: 'more', text: 'Show all ' + n(items.length) + ' ' + noun,
+      onclick: function () { items.slice(first).forEach(function (it) { list.appendChild(it); }); btn.remove(); } });
+    return [list, btn];
+  }
+  // Highest severity first, then verified, then by name.
+  function bySeverity(a, b) {
+    return (b.severity_score || 0) - (a.severity_score || 0) ||
+      (a.verification === 'verified' ? 0 : 1) - (b.verification === 'verified' ? 0 : 1) ||
+      String(a.jurisdiction_name || '').localeCompare(String(b.jurisdiction_name || ''));
   }
 
   // ── National view ─────────────────────────────────────────────────────────
@@ -541,30 +837,35 @@
     var P = M.contested_projects;
     var blocked = (P.by_outcome.blocked_confirmed || 0) + (P.by_outcome.blocked_unverified || 0);
     var cov = M.county_coverage;
+    var examined = cov.with_any_record + cov.with_negative_check_and_no_record;
     var view = el('div', { class: 'stack' });
 
-    view.appendChild(el('div', null,
-      el('h1', { text: 'Opposition to renewable energy, nationwide' }),
-      el('p', { class: 'lede', text: 'Local laws that restrict wind, solar and battery storage, the projects that met organized opposition, and the court cases about them, by state and county. Every figure shows how much of it has been verified.' })));
+    view.appendChild(pageHead('National database', 'Opposition to renewable energy, nationwide',
+      'Local laws that restrict wind, solar and battery storage, the projects that met organized opposition, and the court cases about them, by state and county. Every figure shows how much of it has been verified.',
+      asOfChip()));
 
     view.appendChild(el('div', { class: 'tiles' },
       tile('headlineRestrictions', 'Restrictions on renewables', n(ren.instruments),
-        n((ren.by_verification || {}).verified) + ' verified against the instrument · ' + n(multi.instruments) + ' more also cover data centers'),
+        n((ren.by_verification || {}).verified) + ' verified against the instrument · ' + n(multi.instruments) + ' more also cover data centers',
+        { part: (ren.by_verification || {}).verified || 0, whole: ren.instruments }),
       tile('headlineSevere', 'Severe restrictions', n(ren.severe_instruments),
         'severity 3 or 4: a likely or explicit ban or moratorium, in ' + n(ren.states) + ' states'),
       tile('headlineProjects', 'Contested projects', n(P.projects),
-        n(blocked) + ' blocked (' + n(P.by_outcome.blocked_confirmed) + ' confirmed) · ' + n((P.by_verification || {}).verified) + ' verified'),
+        n(blocked) + ' blocked (' + n(P.by_outcome.blocked_confirmed) + ' confirmed) · ' + n((P.by_verification || {}).verified) + ' verified',
+        { part: (P.by_verification || {}).verified || 0, whole: P.projects }),
       tile('headlineCases', 'Court cases', n(M.cases.cases),
-        n((M.cases.by_verification || {}).verified) + ' with a court record'),
-      tile('headlineCoverage', 'Counties examined', n(cov.with_any_record + cov.with_negative_check_and_no_record) + ' of ' + n(cov.counties),
-        n(cov.with_neither) + ' not examined: nothing known either way')));
+        n((M.cases.by_verification || {}).verified) + ' with a court record',
+        { part: (M.cases.by_verification || {}).verified || 0, whole: M.cases.cases }),
+      tile('headlineCoverage', 'Counties examined', [n(examined), n(cov.counties)],
+        n(cov.with_neither) + ' not examined: nothing known either way',
+        { part: examined, whole: cov.counties })));
 
-    view.appendChild(mapCard('Counties', base.features, route, { states: true, label: 'United States counties', height: 600 }));
+    view.appendChild(mapCard('Counties', base.features, route, { states: true, national: true, label: 'United States counties' }));
 
     var stateRows = base.states.filter(function (s) { return s.state_code !== 'PR' || s.restrictions || s.contested_projects; });
     var cols = [
       { key: 'state_name', label: 'State', render: function (s) { return link(href('state', s.state_code, route.metric), s.state_name); } },
-      { key: 'restrictions', label: 'Restrictions', num: true },
+      { key: 'restrictions', label: 'Restrictions', num: true, bar: true },
       { key: 'severe_restrictions', label: 'Severe', num: true },
       { key: 'verified_restrictions', label: 'Verified', num: true },
       { key: 'multi_sector_restrictions', label: 'Also cover data centers', num: true },
@@ -577,12 +878,11 @@
     ];
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'statesHeading' },
       el('h2', { id: 'statesHeading', text: 'States' }),
-      sortableTable('Restrictions count renewables-only instruments; verified means checked against the instrument or the minutes that adopted it. Select a column heading to sort.',
-        cols, stateRows, 'restrictions')));
+      el('p', { class: 'muted small', text: 'Restrictions count renewables-only instruments; verified means checked against the instrument or the minutes that adopted it. Select a column heading to sort, or a state for its counties.' }),
+      sortableTable('Every state, by its records', cols, stateRows, 'restrictions', { scroll: true })));
 
-    view.appendChild(historyCard());
+    view.appendChild(el('div', { class: 'grid-2' }, historyCard(), sourcesCard(M)));
     view.appendChild(timelineCard());
-    view.appendChild(sourcesCard(M));
     return view;
   }
 
@@ -599,7 +899,7 @@
   ];
 
   function historyCard() {
-    var grid = el('div', { class: 'tiles', id: 'history' });
+    var grid = el('div', { class: 'tiles flat', id: 'history' });
     var change = el('p', { id: 'historyChange', class: 'small' });
     var table = el('div');
     var card = el('section', { class: 'card', 'aria-labelledby': 'historyHeading' },
@@ -607,7 +907,7 @@
       el('p', { class: 'muted small', text: 'The headline figures as each data build published them, on each day they changed. A jump can mean a source was added (NREL\'s ordinance databases arrived on 2026-10-09), not that restrictions were passed that day.' }),
       change, grid, table);
     getJSON(PATHS.history).then(function (t) { drawHistory(grid, change, table, objects(t)); })
-      .catch(function () { grid.appendChild(el('p', { class: 'muted', text: 'The history could not be loaded.' })); });
+      .catch(function () { grid.appendChild(el('p', { class: 'muted', text: 'The history could not be loaded. Reload the page to try again.' })); });
     return card;
   }
 
@@ -623,51 +923,37 @@
       change.textContent = 'Since the build of ' + prev.date + ': ' + (parts.length ? parts.join(', ') : 'none of these changed') +
         ' (as of ' + last.date + ').';
     }
-    var NS = 'http://www.w3.org/2000/svg';
-    var t0 = Date.parse(rows[0].date), t1 = Date.parse(last.date);
     HISTORY_FIGURES.forEach(function (f) {
       var pts = rows.filter(function (r) { return r[f.key] !== null && r[f.key] !== undefined; });
       var cell = el('div', { class: 'tile' }, el('div', { class: 'label', text: f.label }),
         el('div', { class: 'value', text: last[f.key] === null ? 'not recorded' : n(last[f.key]) }));
       if (pts.length) {
-        var W = 240, H = 64, P = 6;
-        var lo = Math.min.apply(null, pts.map(function (r) { return r[f.key]; }));
-        var hi = Math.max.apply(null, pts.map(function (r) { return r[f.key]; }));
-        if (hi === lo) { hi = lo + 1; }
-        var x = function (r) { return P + (W - 2 * P) * (t1 === t0 ? 1 : (Date.parse(r.date) - t0) / (t1 - t0)); };
-        var y = function (v) { return H - P - (H - 2 * P) * (v - lo) / (hi - lo); };
-        var svg = document.createElementNS(NS, 'svg');
-        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-        svg.setAttribute('role', 'img');
-        svg.setAttribute('aria-label', f.label + ': ' + n(pts[0][f.key]) + ' on ' + pts[0].date + ' to ' +
-          n(last[f.key]) + ' on ' + last.date + '. Every value is in the table below.');
-        // Steps, not slopes: a figure holds until the next build changes it.
-        var d = '';
-        pts.forEach(function (r, i) {
-          d += (i ? 'H' + x(r).toFixed(1) + 'V' : 'M' + x(r).toFixed(1) + ',') + y(r[f.key]).toFixed(1);
-        });
-        var line = document.createElementNS(NS, 'path');
-        line.setAttribute('d', d + 'H' + (W - P));
-        line.setAttribute('fill', 'none');
-        line.setAttribute('stroke', 'var(--series-1)');
-        line.setAttribute('stroke-width', '2');
-        svg.appendChild(line);
-        pts.forEach(function (r) {
-          var c = document.createElementNS(NS, 'circle');
-          c.setAttribute('cx', x(r).toFixed(1));
-          c.setAttribute('cy', y(r[f.key]).toFixed(1));
-          c.setAttribute('r', '4');
-          c.setAttribute('fill', 'var(--series-1)');
-          c.setAttribute('stroke', 'var(--color-surface)');
-          c.setAttribute('stroke-width', '2');
-          var tt = document.createElementNS(NS, 'title');
-          tt.textContent = r.date + ': ' + n(r[f.key]);
-          c.appendChild(tt);
-          svg.appendChild(c);
-        });
-        cell.appendChild(el('div', { class: 'chart-box' }, svg));
+        var box = el('div', { class: 'chart-box spark', role: 'img', 'aria-label': f.label + ': ' + n(pts[0][f.key]) + ' on ' +
+          pts[0].date + ' to ' + n(last[f.key]) + ' on ' + last.date + '. Every value is in the table below.' });
+        cell.appendChild(box);
         cell.appendChild(el('div', { class: 'sub', text: (pts[0].date === rows[0].date ? 'since ' : 'recorded since ') +
           pts[0].date + ': ' + n(pts[0][f.key]) }));
+        var values = pts.map(function (r) { return { date: r.date, value: r[f.key], latest: r === pts[pts.length - 1] }; });
+        chart(box, function () {
+          var color = cssVar('--series-1');
+          return {
+            width: 'container', height: 52, padding: { left: 6, right: 8, top: 6, bottom: 6 }, autosize: { type: 'fit-x', contains: 'padding' },
+            data: { values: values },
+            encoding: {
+              x: { field: 'date', type: 'temporal', axis: null },
+              y: { field: 'value', type: 'quantitative', axis: null, scale: { zero: false, nice: false } }
+            },
+            layer: [
+              { mark: { type: 'line', interpolate: 'step-after', color: color, strokeWidth: 2, strokeCap: 'round', strokeJoin: 'round' } },
+              // Every build is a hover target; only the latest wears a dot.
+              { mark: { type: 'point', filled: true, size: 260, opacity: 0, color: color },
+                encoding: { tooltip: [{ field: 'date', type: 'temporal', title: 'Build', format: '%Y-%m-%d' },
+                                      { field: 'value', type: 'quantitative', title: f.label, format: ',' }] } },
+              { transform: [{ filter: 'datum.latest' }],
+                mark: { type: 'point', filled: true, size: 64, color: color, stroke: cssVar('--color-surface'), strokeWidth: 2, opacity: 1 } }
+            ]
+          };
+        }).catch(function () { box.textContent = ''; });
       }
       grid.appendChild(cell);
     });
@@ -688,17 +974,17 @@
   // v_restrictions_by_year: one basis per instrument. Bottom to top in each
   // bar, in the order the build prefers them.
   var BASES = [
-    { key: 'enacted', label: 'Enactment date', color: 'var(--series-1)',
+    { key: 'enacted', label: 'Enactment date', color: '--series-1',
       note: 'the date the instrument was enacted (Moratorium Nation, review queue)' },
-    { key: 'ordinance_year', label: 'NREL ordinance year', color: 'var(--series-3)',
+    { key: 'ordinance_year', label: 'NREL ordinance year', color: '--series-3',
       note: 'the year of the ordinance version NREL read, which can be an amendment' },
-    { key: 'year_reported', label: 'Year the report gives', color: 'var(--series-2)',
+    { key: 'year_reported', label: 'Year the report gives', color: '--series-2',
       note: 'the year in the Sabin report\'s entry' }
   ];
 
   function timelineCard() {
     var box = el('div', { class: 'chart-box', id: 'timeline' });
-    var legend = el('ul', { class: 'legend', id: 'timelineLegend', 'aria-label': 'Timeline legend' });
+    var legend = el('ul', { class: 'legend static', id: 'timelineLegend', 'aria-label': 'Timeline legend' });
     var table = el('div');
     var card = el('section', { class: 'card', 'aria-labelledby': 'timelineHeading' },
       el('h2', { id: 'timelineHeading', text: 'When the restrictions date from' }),
@@ -707,7 +993,7 @@
     getJSON(PATHS.timeline).then(function (t) {
       drawTimeline(box, legend, table, objects(t).filter(function (r) { return r.scope === 'renewables_only'; }));
     }).catch(function () {
-      box.appendChild(el('p', { class: 'muted', text: 'The timeline could not be loaded.' }));
+      box.appendChild(el('p', { class: 'muted', text: 'The timeline could not be loaded. Reload the page to try again.' }));
     });
     return card;
   }
@@ -726,98 +1012,51 @@
     var all = [];
     for (var y = years[0]; y <= years[years.length - 1]; y++) all.push(y);
     var sum = function (y) { var v = byYear[y] || {}; return BASES.reduce(function (t, b) { return t + (v[b.key] || 0); }, 0); };
-    var max = Math.max.apply(null, all.map(sum));
-    var step = Math.pow(10, Math.floor(Math.log10(max)));
-    var top = Math.ceil(max / step) * step;
-    if (top / step < 4) { step = step / 2; top = Math.ceil(max / step) * step; }
 
-    var W = 960, H = 300, L = 44, R = 8, T = 10, B = 28;
-    var NS = 'http://www.w3.org/2000/svg';
-    var svg = document.createElementNS(NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-    svg.setAttribute('role', 'img');
-    svg.setAttribute('aria-label', 'Stacked bars of restrictions by year, ' + all[0] + ' to ' + all[all.length - 1] +
-      '. The numbers are in the table below.');
-    var band = (W - L - R) / all.length;
-    var bw = Math.max(2, band * 0.72);
-    var yScale = function (v) { return T + (H - T - B) * (1 - v / top); };
-    function node(tag, attrs) {
-      var e = document.createElementNS(NS, tag);
-      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
-      return e;
-    }
-    var grid = node('g', { class: 'grid' });
-    var axis = node('g', { class: 'axis' });
-    for (var v = 0; v <= top + 1e-9; v += step) {
-      var yy = yScale(v);
-      if (v > 0) grid.appendChild(node('line', { x1: L, x2: W - R, y1: yy, y2: yy }));
-      var lab = node('text', { x: L - 6, y: yy + 4, 'text-anchor': 'end' });
-      lab.textContent = n(v);
-      axis.appendChild(lab);
-    }
-    all.forEach(function (yr, i) {
-      // The last year is labelled too, unless a five-year label sits too close.
-      if (yr % 5 === 0 || (i === all.length - 1 && yr % 5 > 2)) {
-        var t = node('text', { x: L + band * i + band / 2, y: H - 8, 'text-anchor': 'middle' });
-        t.textContent = String(yr);
-        axis.appendChild(t);
-      }
-    });
-    svg.appendChild(grid);
-    svg.appendChild(axis);
-    var bars = node('g', {});
-    all.forEach(function (yr, i) {
-      var x = L + band * i + (band - bw) / 2;
-      var base = 0;
+    // Stacked here rather than by Vega-Lite, so each segment knows whether it
+    // is a bar's top (rounded data end) or sits on another (2px surface gap).
+    var segs = [];
+    all.forEach(function (yr) {
       var stack = BASES.filter(function (b) { return (byYear[yr] || {})[b.key]; });
+      var base0 = 0;
       stack.forEach(function (b, j) {
         var val = byYear[yr][b.key];
-        var y0 = yScale(base), y1 = yScale(base + val);
-        var h = Math.max(1, y0 - y1 - (j > 0 ? 2 : 0));
-        var yTop = y0 - (j > 0 ? 2 : 0) - h;
-        var seg;
-        if (j === stack.length - 1) {
-          // The bar's data end is rounded; its baseline end stays square.
-          var r = Math.min(4, bw / 2, h);
-          seg = node('path', { d: 'M' + x + ',' + (yTop + h) + 'V' + (yTop + r) + 'Q' + x + ',' + yTop + ' ' + (x + r) + ',' + yTop +
-            'H' + (x + bw - r) + 'Q' + (x + bw) + ',' + yTop + ' ' + (x + bw) + ',' + (yTop + r) + 'V' + (yTop + h) + 'Z' });
-        } else {
-          seg = node('rect', { x: x, y: yTop, width: bw, height: h });
-        }
-        seg.setAttribute('class', 'seg');
-        seg.style.fill = b.color;
-        seg.setAttribute('data-year', yr);
-        seg.setAttribute('data-basis', b.key);
-        bars.appendChild(seg);
-        base += val;
+        segs.push({ year: String(yr), basis: b.label, value: val, y0: base0, y1: base0 + val, all: sum(yr),
+                    top: j === stack.length - 1, bottom: j === 0 });
+        base0 += val;
       });
     });
-    svg.appendChild(bars);
-    svg.appendChild(node('line', { class: 'baseline', x1: L, x2: W - R, y1: yScale(0), y2: yScale(0) }));
-    box.appendChild(svg);
-
-    var tip = el('div', { class: 'tooltip', hidden: true, 'aria-hidden': 'true' });
-    box.appendChild(tip);
-    svg.addEventListener('pointermove', function (evt) {
-      var t = evt.target;
-      var yr = t.getAttribute && t.getAttribute('data-year');
-      if (!yr) { tip.hidden = true; return; }
-      var b = BASES.filter(function (x) { return x.key === t.getAttribute('data-basis'); })[0];
-      tip.textContent = '';
-      tip.appendChild(el('strong', { text: n(byYear[yr][b.key]) + ' dated by ' + b.label.toLowerCase() }));
-      tip.appendChild(el('div', { text: yr + ' · ' + n(sum(yr)) + ' in all that year' }));
-      var rect = box.getBoundingClientRect();
-      var x = evt.clientX - rect.left + 12;
-      tip.hidden = false;
-      if (x + tip.offsetWidth > rect.width) x = Math.max(0, evt.clientX - rect.left - tip.offsetWidth - 12);
-      tip.style.left = x + 'px';
-      tip.style.top = (evt.clientY - rect.top + 12) + 'px';
+    var last = all[all.length - 1];
+    box.setAttribute('role', 'img');
+    box.setAttribute('aria-label', 'Stacked bars of restrictions by year, ' + all[0] + ' to ' + last + '. The numbers are in the table below.');
+    chart(box, function () {
+      return {
+        width: 'container', height: 280, autosize: { type: 'fit-x', contains: 'padding' },
+        data: { values: segs },
+        mark: { type: 'bar', width: { band: 0.72 },
+                cornerRadiusTopLeft: { expr: 'datum.top ? 4 : 0' }, cornerRadiusTopRight: { expr: 'datum.top ? 4 : 0' },
+                y2Offset: { expr: 'datum.bottom ? 0 : -2' } },
+        encoding: {
+          x: { field: 'year', type: 'ordinal', scale: { domain: all.map(String) },
+               axis: { title: null, labelAngle: 0, ticks: false, domain: false, labelPadding: 8,
+                       labelExpr: 'datum.value % 5 === 0 || (datum.value === \'' + last + '\' && datum.value % 5 > 2) ? datum.label : \'\'' } },
+          y: { field: 'y1', type: 'quantitative', axis: { title: null, format: ',d', tickCount: 5, domain: false, ticks: false, labelPadding: 6 } },
+          y2: { field: 'y0' },
+          color: { field: 'basis', type: 'nominal', scale: { domain: BASES.map(function (b) { return b.label; }),
+                   range: BASES.map(function (b) { return cssVar(b.color); }) } },
+          tooltip: [{ field: 'basis', title: 'Dated by' }, { field: 'year', title: 'Year' },
+                    { field: 'value', type: 'quantitative', title: 'Restrictions', format: ',' },
+                    { field: 'all', type: 'quantitative', title: 'All that year', format: ',' }]
+        }
+      };
+    }).catch(function () {
+      box.textContent = '';
+      box.appendChild(el('p', { class: 'muted', text: 'The chart library could not be loaded. The numbers are in the table below.' }));
     });
-    svg.addEventListener('pointerleave', function () { tip.hidden = true; });
 
     BASES.forEach(function (b) {
       var key = el('span', { class: 'line-key', 'aria-hidden': 'true' });
-      key.style.background = b.color;
+      key.style.background = 'var(' + b.color + ')';
       legend.appendChild(el('li', { title: b.note }, key, b.label + ': ' + n(totals[b.key] || 0)));
     });
     legend.appendChild(el('li', { id: 'timelineUndated' }, 'Undated: ' + n(undated) + ' (no year in any source)'));
@@ -852,15 +1091,23 @@
       el('div', { class: 'table-wrap' }, el('table', { id: 'sourcesTable' },
         el('caption', { text: 'Records by source, and how many of them are verified' }),
         el('thead', null, el('tr', null,
-          el('th', { scope: 'col', text: 'Records' }), el('th', { scope: 'col', text: 'Source' }),
+          el('th', { scope: 'col', text: 'Source' }),
           el('th', { scope: 'col', class: 'num', text: 'Count' }), el('th', { scope: 'col', class: 'num', text: 'Verified' }))),
-        el('tbody', null, rows.map(function (r) {
-          var bar = el('span', { class: 'bar', 'aria-hidden': 'true' });
-          bar.style.width = Math.max(2, Math.round(120 * r.count / max)) + 'px';
-          return el('tr', null, el('td', { text: r.entity }), el('td', { text: r.src }),
-            el('td', { class: 'num' }, bar, n(r.count)),
-            el('td', { class: 'num', text: n(r.verified) + ' (' + (r.count ? Math.round(100 * r.verified / r.count) : 0) + '%)' }));
-        })))));
+        ['Restrictions', 'Contested projects'].map(function (entity) {
+          return el('tbody', null,
+            el('tr', null, el('th', { scope: 'rowgroup', colspan: '3', text: entity })),
+            rows.filter(function (r) { return r.entity === entity; }).map(function (r) {
+              var bar = el('span', { class: 'bar', 'aria-hidden': 'true' });
+              bar.style.width = Math.max(2, Math.round(72 * r.count / max)) + 'px';
+              var pct = r.count ? Math.round(100 * r.verified / r.count) : 0;
+              var fillEl = el('span');
+              fillEl.style.width = (r.count ? 100 * r.verified / r.count : 0).toFixed(1) + '%';
+              return el('tr', null, el('td', { text: r.src }),
+                el('td', { class: 'num nowrap' }, el('span', { class: 'bar-cell' }, bar, n(r.count))),
+                el('td', { class: 'num nowrap' }, el('span', { class: 'share' },
+                  el('span', { class: 'meter', 'aria-hidden': 'true' }, fillEl), n(r.verified) + ' (' + pct + '%)')));
+            }));
+        }))));
   }
 
   // ── State view ────────────────────────────────────────────────────────────
@@ -870,25 +1117,26 @@
     var s = base.byState[st];
     if (!s) throw new Error('No state ' + st + ' in the national database');
     var view = el('div', { class: 'stack' });
-    view.appendChild(el('div', null,
+    view.appendChild(el('div', { class: 'hero' },
       crumbs([['National', href('national', null, route.metric)], [s.state_name]]),
       el('h1', { text: s.state_name }),
       el('p', { class: 'lede', text: 'Restrictions, contested projects and cases recorded in ' + s.state_name + ', and which of its counties have been examined.' })));
 
     view.appendChild(el('div', { class: 'tiles' },
       tile('stateRestrictions', 'Restrictions on renewables', n(s.restrictions),
-        n(s.verified_restrictions) + ' verified · ' + n(s.multi_sector_restrictions) + ' more also cover data centers'),
+        n(s.verified_restrictions) + ' verified · ' + n(s.multi_sector_restrictions) + ' more also cover data centers',
+        { part: s.verified_restrictions, whole: s.restrictions }),
       tile('stateSevere', 'Severe restrictions', n(s.severe_restrictions), 'severity 3 or 4'),
       tile('stateProjects', 'Contested projects', n(s.contested_projects),
         n(s.blocked_projects) + ' blocked · ' + n(s.confirmed_outcomes) + ' outcomes confirmed'),
       tile('stateCases', 'Court cases', n(s.cases)),
-      tile('stateCoverage', 'Counties examined', n(s.counties - s.counties_not_examined) + ' of ' + n(s.counties),
-        n(s.counties_not_examined) + ' not examined')));
-
-    view.appendChild(frameworkCard(detail, s.state_name));
+      tile('stateCoverage', 'Counties examined', [n(s.counties - s.counties_not_examined), n(s.counties)],
+        n(s.counties_not_examined) + ' not examined', { part: s.counties - s.counties_not_examined, whole: s.counties })));
 
     var feats = base.features.filter(function (f) { return f.id.slice(0, 2) === stateFips(st); });
-    view.appendChild(mapCard('Counties of ' + s.state_name, feats, route, { label: s.state_name + ' counties', height: 560 }));
+    view.appendChild(mapCard('Counties of ' + s.state_name, feats, route, { label: s.state_name + ' counties' }));
+
+    view.appendChild(frameworkCard(detail, s.state_name));
 
     var counties = base.counties.filter(function (c) { return c.state_code === st; });
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'countiesHeading' },
@@ -896,14 +1144,14 @@
       sortableTable('Every county in ' + s.state_name + '. Select a column heading to sort.', [
         { key: 'county_name', label: 'County', render: function (c) { return link(href('county', c.county_fips, route.metric), c.county_name); } },
         { key: 'coverage_status', label: 'Coverage', render: function (c) { return COVERAGE_WORDS[c.coverage_status]; } },
-        { key: 'restrictions', label: 'Restrictions', num: true },
+        { key: 'restrictions', label: 'Restrictions', num: true, bar: true },
         { key: 'severe_restrictions', label: 'Severe', num: true },
         { key: 'verified_restrictions', label: 'Verified', num: true },
         { key: 'contested_projects', label: 'Projects', num: true },
         { key: 'blocked_projects', label: 'Blocked', num: true },
         { key: 'siting_standard_rows', label: 'NREL standards', num: true },
         { key: 'data_center_events', label: 'Data center events', num: true }
-      ], counties, 'restrictions')));
+      ], counties, 'restrictions', { scroll: true })));
 
     var ren = detail.restrictions.filter(function (r) { return r.scope === 'renewables_only' && r.state_code === st; });
     var multi = detail.restrictions.filter(function (r) { return r.scope !== 'renewables_only' && r.state_code === st; });
@@ -916,7 +1164,7 @@
         el('td', { text: (r.restriction_types || []).map(words).join(', ') }),
         el('td', { text: (r.technologies || []).map(words).join(', ') }),
         el('td', { text: words(r.status || '') }),
-        el('td', { class: 'num', text: r.severity_score || '' }),
+        el('td', { class: 'num' }, sevCell(r.severity_score)),
         el('td', null, verificationPill('restriction', r.verification)),
         el('td', { text: r.source_family }));
     }
@@ -957,14 +1205,16 @@
     var policies = detail.policies || [];
     return el('section', { class: 'card', 'aria-labelledby': 'frameworkHeading' },
       el('h2', { id: 'frameworkHeading', text: 'State siting law' }),
-      policies.length ? el('div', { class: 'records' }, policies.map(function (p) {
+      policies.length ? el('ul', { class: 'rec-list' }, policies.map(function (p) {
         var u = safeUrl(p.statute_url);
-        return el('article', { class: 'record' },
-          el('h3', { text: words(p.policy_type) + (p.technology ? ' (' + words(p.technology) + ')' : '') }),
-          p.summary ? el('p', { text: p.summary }) : null,
-          el('p', { class: 'small muted' }, p.who_decides ? 'Who decides: ' + p.who_decides + '. ' : '',
-            u ? el('a', { href: u, rel: 'noopener', text: p.statute_citation || 'statute' }) : (p.statute_citation || ''),
-            ' · ' + (p.verification === 'verified' ? 'verified against the statute' : 'not verified')));
+        return el('li', null, el('article', { class: 'rec' },
+          el('div', { class: 'rec-top' },
+            el('h3', { text: words(p.policy_type) + (p.technology ? ' (' + words(p.technology).replace(/;/g, ', ') + ')' : '') }),
+            el('span', { class: 'rec-tags' }, el('span', { class: p.verification === 'verified' ? 'pill ok' : 'pill',
+              text: p.verification === 'verified' ? 'verified against the statute' : 'not verified' }))),
+          p.summary ? el('p', { class: 'rec-text', text: p.summary }) : null,
+          el('p', { class: 'rec-meta' }, p.who_decides ? 'Who decides: ' + words(p.who_decides) + '. ' : '',
+            u ? el('a', { href: u, rel: 'noopener', text: p.statute_citation || 'statute' }) : (p.statute_citation || ''))));
       })) : el('p', { class: 'muted', text: 'Not yet researched: no state siting law for ' + name + ' has been verified against the statute.' }));
   }
 
@@ -993,7 +1243,7 @@
     var county = (detail.counties || []).filter(function (x) { return x.county_fips === c.county_fips; })[0] || {};
 
     var view = el('div', { class: 'stack' });
-    view.appendChild(el('div', null,
+    view.appendChild(el('div', { class: 'hero' },
       crumbs([['National', href('national', null, route.metric)], [sname, href('state', c.state_code, route.metric)], [c.county_name]]),
       el('h1', { text: c.county_name + ', ' + sname }),
       el('p', { class: 'lede', text: 'Everything the national database records about this county. Descriptive only: no scores and no predictions.' })));
@@ -1011,33 +1261,35 @@
     } else {
       bannerText = 'Published records are placed in this county.' + (checks.length ? ' Last negative check: ' + checks[checks.length - 1].checked_on + '.' : '');
     }
-    view.appendChild(el('div', { id: 'coverageBanner', class: 'status banner' + (c.coverage_status === 'has_records' ? '' : ' none'), text: bannerText }));
+    view.appendChild(el('p', { id: 'coverageBanner', class: 'callout' + (c.coverage_status === 'has_records' ? '' : ' none'), text: bannerText }));
 
     view.appendChild(el('div', { class: 'tiles' },
       tile('countyRestrictions', 'Restrictions on renewables', n(c.restrictions),
-        n(c.verified_restrictions) + ' verified · ' + n(c.multi_sector_restrictions) + ' more also cover data centers'),
+        n(c.verified_restrictions) + ' verified · ' + n(c.multi_sector_restrictions) + ' more also cover data centers',
+        c.restrictions ? { part: c.verified_restrictions, whole: c.restrictions } : null),
       tile('countySevere', 'Severe restrictions', n(c.severe_restrictions), n(c.active_moratoria) + ' active moratoria'),
       tile('countyProjects', 'Contested projects', n(c.contested_projects),
-        n(c.blocked_projects) + ' blocked · ' + n(c.verified_projects) + ' verified'),
+        n(c.blocked_projects) + ' blocked · ' + n(c.verified_projects) + ' verified',
+        c.contested_projects ? { part: c.verified_projects, whole: c.contested_projects } : null),
       tile('countyStandards', 'NREL siting standards', n(c.siting_standard_rows), 'ordinance features, NREL\'s reading')));
-
-    view.appendChild(frameworkCard(detail, sname));
 
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'inCountyHeading' },
       el('h2', { id: 'inCountyHeading', text: 'In the county' }),
+      el('p', { class: 'muted small', text: 'Listed by severity, highest first, then verified before not verified.' }),
       el('h3', { text: 'Restrictions (' + n(ren.length) + ')' }),
-      ren.length ? el('div', { class: 'records' }, ren.map(restrictionRecord))
+      ren.length ? recList(ren.slice().sort(bySeverity).map(restrictionRecord), 8, 'restrictions')
         : el('p', { class: 'muted', text: c.coverage_status === 'not_examined' ? 'Nothing published; the county has not been examined.' : 'No restriction on renewables is published for this county.' }),
-      multi.length ? [el('h3', { style: 'margin-top:1.25rem', text: 'Also covering data centers (' + n(multi.length) + ', counted separately)' }),
-        el('div', { class: 'records' }, multi.map(restrictionRecord))] : null,
-      el('h3', { style: 'margin-top:1.25rem', text: 'Contested projects (' + n(projects.length) + ')' }),
-      projects.length ? el('div', { class: 'records' }, projects.map(function (p) { return projectRecord(p, casesById); }))
+      multi.length ? [el('h3', { style: 'margin-top:1.5rem', text: 'Also covering data centers (' + n(multi.length) + ', counted separately)' }),
+        recList(multi.slice().sort(bySeverity).map(restrictionRecord), 8, 'restrictions')] : null,
+      el('h3', { style: 'margin-top:1.5rem', text: 'Contested projects (' + n(projects.length) + ')' }),
+      projects.length ? recList(projects.map(function (p) { return projectRecord(p, casesById); }), 8, 'projects')
         : el('p', { class: 'muted', text: 'No contested project is published for this county.' }),
       c.pending_review ? el('p', { id: 'pendingNote', class: 'small muted', text: plural(c.pending_review, 'candidate') +
         ' awaiting review ' + (c.pending_review === 1 ? 'names' : 'name') + ' this county. Candidates are not published until a reviewer has read their source.' }) : null));
 
-    view.appendChild(standardsCard(standards));
     view.appendChild(neighborsCard(c, county.neighbors || [], route));
+    view.appendChild(frameworkCard(detail, sname));
+    view.appendChild(standardsCard(standards));
     view.appendChild(dcCard(dc));
     return view;
   }
@@ -1046,29 +1298,35 @@
     return el('section', { class: 'card', 'aria-labelledby': 'standardsHeading' },
       el('h2', { id: 'standardsHeading', text: 'Local siting standards (NREL)' }),
       el('p', { class: 'muted small', text: 'NREL compiled these ordinance features with language models. A feature not checked against the ordinance is NREL\'s reading, not a verified fact.' }),
-      standards.length ? el('div', { class: 'records' }, standards.map(function (s) {
+      standards.length ? recList(standards.map(function (s) {
         var u = safeUrl(s.ordinance_url);
-        return el('article', { class: 'record' },
-          el('h3', { text: s.jurisdiction + ': ' + words(s.technology) }),
-          s.geoid ? el('p', { class: 'small muted', text: 'Census: ' + (s.census_name || '') + ' (GEOID ' + s.geoid + ')' }) : null,
-          el('p', { class: 'small' }, plural(s.features, 'feature') + ', ' + n(s.restricting_features) + ' restricting · ' +
-            (s.verified_features ? n(s.verified_features) + ' verified against the ordinance' : 'not verified') +
-            (s.ordinance_year ? ' · ordinance year ' + s.ordinance_year : '') + ' · ',
+        return el('li', null, el('article', { class: 'rec' },
+          el('div', { class: 'rec-top' },
+            el('h3', { text: s.jurisdiction + ': ' + words(s.technology) }),
+            el('span', { class: 'rec-tags' }, el('span', { class: s.verified_features ? 'pill ok' : 'pill',
+              text: s.verified_features ? n(s.verified_features) + ' verified against the ordinance' : 'not verified' }))),
+          el('p', { class: 'rec-meta' }, plural(s.features, 'feature') + ', ' + n(s.restricting_features) + ' restricting' +
+            (s.ordinance_year ? ' · ordinance year ' + s.ordinance_year : '') +
+            (s.geoid ? ' · Census: ' + (s.census_name || '') + ' (GEOID ' + s.geoid + ')' : '') + ' · ',
             u ? el('a', { href: u, rel: 'noopener', text: 'ordinance' }) : 'no ordinance link'),
-          (s.restricting || []).length ? el('ul', { class: 'small' }, s.restricting.map(function (f) {
+          (s.restricting || []).length ? el('ul', { class: 'small rec-text' }, s.restricting.map(function (f) {
             return el('li', { text: f.feature + (f.value ? ': ' + f.value + (f.units ? ' ' + f.units : '') : '') });
-          })) : null);
-      })) : el('p', { class: 'muted', text: 'NREL\'s 2025 databases list no ordinance for this county.' }));
+          })) : null));
+      }), 6, 'jurisdictions') : el('p', { class: 'muted', text: 'NREL\'s 2025 databases list no ordinance for this county.' }));
   }
 
   function neighborsCard(c, neighbors, route) {
     var rows = neighbors.map(function (f) { return base.byFips[f]; }).filter(Boolean);
     var feats = base.features.filter(function (f) { return f.id === c.county_fips || neighbors.indexOf(f.id) >= 0; });
     var box = el('div', { class: 'map-box', id: 'neighborMap' });
-    setTimeout(function () { drawMap(box, feats, route.metric, { focus: c.county_fips, label: 'This county and its neighbors', height: 420 }); }, 0);
+    setTimeout(function () {
+      drawMap(box, feats, route.metric, { focus: c.county_fips, label: 'This county and its neighbors', key: 'county:' + c.county_fips });
+    }, 0);
     return el('section', { class: 'card', 'aria-labelledby': 'neighborsHeading' },
       el('h2', { id: 'neighborsHeading', text: 'Adjacent counties' }),
-      rows.length ? el('div', { class: 'grid-2' },
+      el('p', { class: 'muted small', text: 'This county, outlined, and the counties that share its border, shaded by ' +
+        METRICS[route.metric].label.toLowerCase() + ' as on the national map.' }),
+      rows.length ? el('div', { class: 'stack' },
         box,
         sortableTable('Counties that share a border, across state lines', [
           { key: 'county_name', label: 'County', render: function (x) { return link(href('county', x.county_fips, route.metric), x.county_name + ', ' + x.state_code); } },
@@ -1084,11 +1342,11 @@
     return el('section', { class: 'card', 'aria-labelledby': 'dcHeading' },
       el('h2', { id: 'dcHeading', text: 'Data center activity' }),
       el('p', { class: 'muted small', text: 'Context only, from pricephillips/data-center-map (Data Center Tracker, CC BY 4.0). Never part of the renewable counts.' }),
-      events.length ? el('ul', null, events.map(function (e) {
+      events.length ? el('ul', { class: 'rec-list' }, events.map(function (e) {
         var u = safeUrl(e.source_url);
-        return el('li', null, (e.event_date || 'undated') + ' · ' + words(e.event_type || 'event') +
-          (e.status ? ' (' + words(e.status) + ')' : '') + ': ' + (e.summary || ''), ' ',
-          u ? el('a', { href: u, rel: 'noopener', text: 'source' }) : null);
+        return el('li', null, el('p', { class: 'rec-meta', text: (e.event_date || 'undated') + ' · ' + words(e.event_type || 'event') +
+          (e.status ? ' (' + words(e.status) + ')' : '') }),
+          el('p', { class: 'rec-text' }, (e.summary || ''), ' ', u ? el('a', { href: u, rel: 'noopener', text: 'source' }) : null));
       })) : el('p', { class: 'muted', text: 'No data center event is recorded for this county.' }));
   }
 
@@ -1150,7 +1408,8 @@
         { label: 'Type', value: function (r) { return (r.restriction_types || []).map(words).join('; '); } },
         { label: 'Technologies', value: function (r) { return (r.technologies || []).map(words).join('; '); } },
         { label: 'Status', value: function (r) { return words(r.status || ''); } },
-        { label: 'Severity', num: true, value: function (r) { return r.severity_score || ''; } },
+        { label: 'Severity', num: true, value: function (r) { return r.severity_score || ''; },
+          cell: function (r) { return sevCell(r.severity_score); } },
         { label: 'Evidence', value: function (r) { return r.verification; },
           cell: function (r) { return verificationPill('restriction', r.verification); } },
         { label: 'Source', value: function (r) { return r.source_family; } },
@@ -1240,9 +1499,10 @@
     }
 
     var view = el('div', { class: 'stack' });
-    view.appendChild(el('div', null,
+    view.appendChild(el('div', { class: 'hero' },
+      el('p', { class: 'eyebrow' }, el('span', { class: 'dot', 'aria-hidden': 'true' }), 'Records explorer'),
       el('h1', { text: 'Explore the records' }),
-      el('p', { class: 'lede', text: 'Every published restriction, contested project and court case, one row per instrument. Filter, follow a row to its record, or download what you see as CSV.' }),
+      el('p', { class: 'lede', text: 'Every published restriction, contested project and court case, one row per instrument. Filter, sort by any column, follow a row to its record, or download what you see as CSV.' }),
       el('div', { class: 'tabs', role: 'navigation', 'aria-label': 'Record type' },
         Object.keys(EXPLORE).map(function (k) {
           return el('a', { href: '#/explore/' + k, 'aria-current': k === route.entity ? 'page' : null,
@@ -1252,7 +1512,7 @@
     var filters = el('form', { class: 'filters', role: 'search', 'aria-label': 'Filter ' + spec.title.toLowerCase(),
       onsubmit: function (e) { e.preventDefault(); } });
     var search = el('input', { type: 'search', id: 'exploreSearch', value: state.q, placeholder: 'Words in the name or description' });
-    filters.appendChild(el('label', { class: 'field', for: 'exploreSearch' }, 'Search', search));
+    filters.appendChild(el('label', { class: 'field search', for: 'exploreSearch' }, 'Search', search));
     spec.filters.forEach(function (f) {
       var values = {};
       records.forEach(function (r) { asList(f.value(r)).forEach(function (v) { if (v !== '' && v !== null && v !== undefined) values[v] = true; }); });
@@ -1281,8 +1541,8 @@
       line.textContent = n(filtered.length) + ' ' + (filtered.length === 1 ? spec.noun[0] : spec.noun[1]) +
         (route.entity === 'cases' ? '' : ' · ' + n(verified) + ' verified');
       results.textContent = '';
-      results.appendChild(longTable(spec.title + ' matching the filters', spec.columns.map(function (c) {
-        return { label: c.label, num: c.num };
+      results.appendChild(longTable(spec.title + ' matching the filters. Select a column heading to sort.', spec.columns.map(function (c) {
+        return { label: c.label, num: c.num, sort: c.sort || c.value };
       }), filtered, function (r) {
         return el('tr', null, spec.columns.map(function (c) {
           return el('td', { class: c.num ? 'num' : null }, c.cell ? c.cell(r) : c.value(r));
@@ -1368,9 +1628,9 @@
 
     if (route.entity === 'restriction') {
       trail.push([r.jurisdiction_name || 'Restriction']);
-      view.appendChild(el('div', null, crumbs(trail),
+      view.appendChild(el('div', { class: 'hero' }, crumbs(trail),
         el('h1', { text: (r.jurisdiction_name || 'Unnamed jurisdiction') + ': ' + (r.restriction_types || []).map(words).join(', ') }),
-        el('p', null, verificationPill('restriction', r.verification), ' ',
+        el('p', { class: 'chips' }, severity(r.severity_score), verificationPill('restriction', r.verification),
           r.scope === 'multi_sector_data_centers' ? el('span', { class: 'pill warn', text: 'also covers data centers' }) : null)));
       view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'recHeading' },
         el('h2', { id: 'recHeading', text: 'The instrument' }),
@@ -1405,10 +1665,10 @@
     } else if (route.entity === 'project') {
       trail.push([r.project_name || 'Project']);
       var cases = (r.cases || []).map(function (id) { return rec.casesById[id]; }).filter(Boolean);
-      view.appendChild(el('div', null, crumbs(trail),
+      view.appendChild(el('div', { class: 'hero' }, crumbs(trail),
         el('h1', { text: r.project_name || 'Unnamed project' }),
-        el('p', null, verificationPill('project', r.verification), ' ',
-          el('span', { class: 'pill', text: OUTCOME_WORDS[r.outcome] || words(r.outcome) }))));
+        el('p', { class: 'chips' }, el('span', { class: 'pill plain', text: OUTCOME_WORDS[r.outcome] || words(r.outcome) }),
+          verificationPill('project', r.verification))));
       view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'recHeading' },
         el('h2', { id: 'recHeading', text: 'The project' }),
         r.description ? el('p', { text: r.description }) : null,
@@ -1436,9 +1696,9 @@
       }
     } else {
       trail.push([r.case_name || 'Case']);
-      view.appendChild(el('div', null, crumbs(trail),
+      view.appendChild(el('div', { class: 'hero' }, crumbs(trail),
         el('h1', { text: r.case_name || 'Court case' }),
-        el('p', null, el('span', { class: 'pill ok', text: 'court record' }))));
+        el('p', { class: 'chips' }, el('span', { class: 'pill ok', text: 'court record' }))));
       view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'recHeading' },
         el('h2', { id: 'recHeading', text: 'The case' }),
         el('div', { class: 'record' }, el('dl', null,
@@ -1455,12 +1715,28 @@
     }
 
     if (r.placements) {
+      var placed = {};
+      r.placements.forEach(function (pl) { placed[pl.county_fips] = pl; });
+      var placeBox = r.placements.length ? el('div', { class: 'map-box', id: 'placeMap' }) : null;
       view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'placeHeading' },
         el('h2', { id: 'placeHeading', text: 'Where it is placed' }),
         r.placements.length ? el('ul', null, r.placements.map(function (pl) {
           return el('li', null, link(href('county', pl.county_fips), countyLabel(pl.county_fips)),
             ': ' + (METHOD_WORDS[pl.method] || words(pl.method || 'method not recorded')) + (pl.is_primary ? ' (the county the map paints)' : ''));
-        })) : el('p', { class: 'muted', text: 'Not placed in any county: nothing in the record settles which county it is in.' })));
+        })) : el('p', { class: 'muted', text: 'Not placed in any county: nothing in the record settles which county it is in.' }),
+        placeBox));
+      if (placeBox) {
+        var primary = (r.placements.filter(function (pl) { return pl.is_primary; })[0] || {}).county_fips;
+        setTimeout(function () {
+          drawMap(placeBox, base.features.filter(function (f) { return placed[f.id]; }), DEFAULT_METRIC, {
+            label: 'The counties this record is placed in', focus: primary, maxZoom: 8,
+            fill: function () { return 'var(--map-c3)'; },
+            lines: function (fips) {
+              var pl = placed[fips];
+              return [(METHOD_WORDS[pl.method] || words(pl.method || 'method not recorded')) + (pl.is_primary ? ' (the county the map paints)' : '')];
+            } });
+        }, 0);
+      }
     }
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'srcHeading' },
       el('h2', { id: 'srcHeading', text: 'Sources' }),
@@ -1507,14 +1783,18 @@
     var inScope = base.states.filter(function (s) { return s.counties && s.state_code !== 'PR'; });
     var done = inScope.filter(function (s) { return !s.counties_not_examined; });
     var view = el('div', { class: 'stack' });
-    view.appendChild(el('div', null,
+    view.appendChild(el('div', { class: 'hero' },
+      el('p', { class: 'eyebrow' }, el('span', { class: 'dot', 'aria-hidden': 'true' }), 'Coverage'),
       el('h1', { text: 'Coverage and evidence' }),
       el('p', { class: 'lede', text: 'Where the records are thin, and how much of what is published has been checked against its source. A county nobody has examined is a gap in the research, not evidence that nothing happened.' })));
     view.appendChild(el('div', { class: 'tiles' },
-      tile('covRecords', 'Counties with published records', n(cov.with_any_record), 'of ' + n(cov.counties)),
-      tile('covChecked', 'Checked, none found', n(cov.with_negative_check_and_no_record), 'a documented search found nothing'),
+      tile('covRecords', 'Counties with published records', n(cov.with_any_record), 'of ' + n(cov.counties),
+        { part: cov.with_any_record, whole: cov.counties }),
+      tile('covChecked', 'Checked, none found', n(cov.with_negative_check_and_no_record), 'a documented search found nothing',
+        { part: cov.with_negative_check_and_no_record, whole: cov.counties }),
       tile('covNone', 'Not examined', n(cov.with_neither), 'nothing known either way'),
-      tile('covStatesDone', 'States with every county examined', n(done.length), 'of ' + n(inScope.length) + ' (the states and DC)')));
+      tile('covStatesDone', 'States with every county examined', n(done.length), 'of ' + n(inScope.length) + ' (the states and DC)',
+        { part: done.length, whole: inScope.length })));
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'covStatesHeading' },
       el('h2', { id: 'covStatesHeading', text: 'Examination progress by state' }),
       el('p', { class: 'muted small' }, 'A county is examined once it has a published record or a reviewed search that found nothing. How a county is checked: ',
@@ -1526,12 +1806,18 @@
         { key: 'counties_checked_none', label: 'Checked, none', num: true },
         { key: 'counties_not_examined', label: 'Not examined', num: true },
         { key: 'examined', label: 'Share examined', num: true,
-          render: function (s) { return s.counties ? Math.round(100 * (s.counties - s.counties_not_examined) / s.counties) + '%' : ''; },
+          render: function (s) {
+            if (!s.counties) return '';
+            var share = (s.counties - s.counties_not_examined) / s.counties;
+            var fillEl = el('span');
+            fillEl.style.width = (100 * share).toFixed(1) + '%';
+            return el('span', { class: 'share' }, el('span', { class: 'meter', 'aria-hidden': 'true' }, fillEl), Math.round(100 * share) + '%');
+          },
           sort: function (s) { return s.counties ? (s.counties - s.counties_not_examined) / s.counties : 0; } },
         { key: 'share', label: 'Share not examined', num: true,
           render: function (s) { return s.counties ? Math.round(100 * s.counties_not_examined / s.counties) + '%' : ''; },
           sort: function (s) { return s.counties ? s.counties_not_examined / s.counties : 0; } }
-      ], inScope, 'share')));
+      ], inScope, 'share', { scroll: true })));
     view.appendChild(checksCard());
     view.appendChild(sourcesCard(base.metrics));
     var rows = objects(worklists);
@@ -1557,7 +1843,7 @@
       el('h2', { id: 'checksHeading', text: 'Searches that found nothing' }),
       el('p', { class: 'muted small', text: 'A negative check says only that the sources it names held nothing on the day it ran. It is graded by how many independent kinds of source it covered (the codes, the minutes or dockets, the news), and it is due to be run again a year later. ' +
         'Counties with one: ' + n(rows.length) + '; due to be run again: ' + n(due.length) + '.' }),
-      el('div', { class: 'table-wrap' }, el('table', { id: 'checksTable' },
+      el('div', { class: 'table-wrap scroll', tabindex: '0', role: 'region', 'aria-label': 'Negative checks, by county' }, el('table', { id: 'checksTable' },
         el('caption', { text: 'Negative checks, by county' }),
         el('thead', null, el('tr', null, ['County', 'Checked on', 'Grade', 'Check again by', 'Status'].map(function (h, i) {
           return el('th', { scope: 'col', text: h });
@@ -1608,7 +1894,8 @@
     var files = objects(manifest);
     var tables = parseSchema(schemaSql || '');
     var view = el('div', { class: 'stack' });
-    view.appendChild(el('div', null,
+    view.appendChild(el('div', { class: 'hero' },
+      el('p', { class: 'eyebrow' }, el('span', { class: 'dot', 'aria-hidden': 'true' }), 'Open data'),
       el('h1', { text: 'Data and downloads' }),
       el('p', { class: 'lede', text: 'The national database as files you can download, what each table holds, and queries to start from. Everything is rebuilt from the published CSVs on every data build and checked against the headline numbers before it is published.' })));
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'dlHeading' },
@@ -1628,8 +1915,8 @@
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'exHeading' },
       el('h2', { id: 'exHeading', text: 'Example queries' }),
       EXAMPLES.map(function (x) {
-        return el('div', null, el('h3', { text: x.title }), el('pre', { class: 'code', text: x.sql }),
-          el('p', { class: 'small' }, link('#/sql?q=' + encodeURIComponent(x.sql), 'Run it in the SQL console')));
+        return el('div', { class: 'example' }, el('h3', { text: x.title }), el('pre', { class: 'code', text: x.sql }),
+          el('a', { class: 'btn secondary', href: '#/sql?q=' + encodeURIComponent(x.sql), text: 'Open it in the SQL console' }));
       })));
     view.appendChild(el('section', { class: 'card', 'aria-labelledby': 'dictHeading' },
       el('h2', { id: 'dictHeading', text: 'Data dictionary' }),
@@ -1709,7 +1996,8 @@
   function renderSql(route) {
     var initial = route.params.get('q') || EXAMPLES[0].sql;
     var view = el('div', { class: 'stack' });
-    view.appendChild(el('div', null,
+    view.appendChild(el('div', { class: 'hero' },
+      el('p', { class: 'eyebrow' }, el('span', { class: 'dot', 'aria-hidden': 'true' }), 'Open data'),
       el('h1', { text: 'SQL console' }),
       el('p', { class: 'lede', text: 'Query the whole national database in your browser. Every table and view on the data page is here by its name. Nothing you run leaves your browser or changes the published data.' })));
     var box = el('textarea', { class: 'sql', id: 'sqlInput', spellcheck: 'false', 'aria-describedby': 'sqlHelp' });
@@ -1773,7 +2061,13 @@
 
   // ── Router ────────────────────────────────────────────────────────────────
 
-  function render() {
+  var renderGen = 0;     // only the newest render may write the page
+
+  // opts.keepPlace: the same view with another map metric, so the reader's
+  // scroll position and focus on the metric menu stay where they were.
+  function render(opts) {
+    opts = opts || {};
+    var gen = ++renderGen;
     var route = parseRoute();
     var root = document.getElementById('view');
     document.body.removeAttribute('data-ready');
@@ -1799,13 +2093,25 @@
         return route.view === 'state' ? renderState(route, detail) : renderCounty(route, detail);
       });
     }).then(function (node) {
+      if (gen !== renderGen) return;
+      var y = window.scrollY;
+      // A metric change redraws the same view: no fade, which would flash it.
+      root.classList.toggle('still', !!opts.keepPlace);
       root.textContent = '';
       root.appendChild(node);
+      pruneLive();
       setStatus('');
       var h1 = root.querySelector('h1');
       document.title = (h1 ? h1.textContent + ' · ' : '') + 'Renewable Opposition';
       document.body.setAttribute('data-ready', route.view);
+      if (opts.keepPlace) {
+        window.scrollTo(0, y);
+        var metric = document.getElementById('metric');
+        if (metric) metric.focus({ preventScroll: true });
+      }
     }).catch(function (err) {
+      if (gen !== renderGen) return;
+      if (root.querySelector('.skel')) root.textContent = '';
       setStatus('Could not load the national database: ' + err.message + '. Reload the page to try again.', true);
       document.body.setAttribute('data-ready', 'error');
     });
@@ -1816,20 +2122,39 @@
     var saved = null;
     try { saved = localStorage.getItem('ro-theme'); } catch (e) { /* storage blocked */ }
     if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+    function label() {
+      btn.setAttribute('aria-label', isDark() ? 'Switch to the light theme' : 'Switch to the dark theme');
+    }
+    label();
     btn.addEventListener('click', function () {
-      var cur = document.documentElement.getAttribute('data-theme') ||
-        (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      var next = cur === 'dark' ? 'light' : 'dark';
+      var next = isDark() ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('ro-theme', next); } catch (e) { /* storage blocked */ }
+      label();
+      themeChanged();
     });
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var follow = function () {
+      if (document.documentElement.getAttribute('data-theme')) return;
+      label();
+      themeChanged();
+    };
+    if (mq.addEventListener) mq.addEventListener('change', follow); else if (mq.addListener) mq.addListener(follow);
   }
+
+  // The view a hash names, without the map metric.
+  function place(hash) { return hash.replace(/\?m=[^&]*$/, '').replace(/^#\/?$/, '#/'); }
+  var lastHash = location.hash || '#/';
 
   initTheme();
   window.addEventListener('hashchange', function () {
+    var now = location.hash || '#/';
+    var sameView = place(now) === place(lastHash) && now !== lastHash;
+    lastHash = now;
+    if (sameView) { render({ keepPlace: true }); return; }
     render();
     var main = document.getElementById('main');
-    if (main) main.focus({ preventScroll: false });
+    if (main) main.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   });
   render();

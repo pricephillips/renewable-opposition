@@ -115,7 +115,8 @@ test('pending review shows as a count, never as candidates', async ({ page }) =>
 test('phone width: no horizontal page scroll', async ({ page }) => {
   test.setTimeout(120000);
   await page.setViewportSize({ width: 375, height: 800 });
-  for (const [hash, view] of [['#/', 'national'], ['#/state/NY', 'state']]) {
+  for (const [hash, view] of [['#/', 'national'], ['#/state/NY', 'state'], ['#/county/36003', 'county'],
+                              ['#/explore/restrictions', 'explore'], ['#/coverage', 'coverage']]) {
     await open(page, hash, view);
     const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(over, `${hash} overflows by ${over}px`).toBeLessThanOrEqual(0);
@@ -160,9 +161,11 @@ test('timeline: the dated bars and the undated count add up to the headline figu
   const all = await page.locator('#timelineTable tbody tr td:last-child').allTextContents();
   const dated = all.reduce((a, t) => a + Number(t.replace(/,/g, '')), 0);
   expect(dated + undated).toBe(ren.instruments);
-  // One rect or path per year and basis that has instruments.
+  // One Vega-Lite bar segment per year and basis that has instruments.
   const segs = rowsOf(db('timeline.json')).filter(r => r.scope === 'renewables_only' && r.basis !== 'undated');
-  await expect(page.locator('#timeline .seg')).toHaveCount(segs.length);
+  await expect(page.locator('#timeline .mark-rect path')).toHaveCount(segs.length, { timeout: 30000 });
+  // Each headline figure's history draws its own small chart.
+  await expect(page.locator('#history svg')).toHaveCount(4);
   expect(page.consoleErrors, 'console errors').toEqual([]);
 });
 
@@ -186,4 +189,66 @@ test('a record names its Census government and GEOID', async ({ page }) => {
   const r = ny.restrictions.find(x => x.state_code === 'NY' && x.geoid && x.census_name);
   await open(page, '#/restriction/' + encodeURIComponent(r.instrument_id), 'record');
   await expect(page.locator('dt:text-is("Census government") + dd')).toHaveText(`${r.census_name} · GEOID ${r.geoid}`);
+});
+
+test('a county on the map opens its numbers with a link to its profile', async ({ page }) => {
+  test.setTimeout(120000);
+  const c = COUNTIES.filter(x => x.in_coverage_universe)
+    .sort((a, b) => b.restrictions - a.restrictions || a.county_fips.localeCompare(b.county_fips))[0];
+  await open(page, `#/state/${c.state_code}?m=restrictions`, 'state');
+  await expect(page.locator('#map')).toHaveAttribute('data-painted', /^[1-9]/, { timeout: 30000 });
+  await page.locator(`#map path.county[data-fips="${c.county_fips}"]`).click({ force: true });
+  const pop = page.locator('.leaflet-popup .map-pop');
+  await expect(pop).toContainText(`${c.county_name}, ${c.state_code}`);
+  await expect(pop).toContainText(`${fmt(c.restrictions)} restrictions (renewables only)`);
+  await pop.locator('a.pop-link').click();
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'county', { timeout: 60000 });
+  await expect(page.locator('#countyRestrictions')).toHaveText(fmt(c.restrictions));
+});
+
+test('the legend picks out one class of counties', async ({ page }) => {
+  test.setTimeout(120000);
+  await open(page, '#/', 'national');
+  await expect(page.locator('#map')).toHaveAttribute('data-painted', /^[1-9]/, { timeout: 30000 });
+  const btn = page.locator('#mapLegend button', { hasText: 'Not examined' });
+  await btn.click();
+  await expect(btn).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#map')).toHaveAttribute('data-hl', 'none');
+  await btn.click();
+  await expect(btn).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('#map')).not.toHaveAttribute('data-hl', /./);
+});
+
+test('a metric change keeps the map where the reader left it', async ({ page }) => {
+  test.setTimeout(120000);
+  await open(page, '#/', 'national');
+  await expect(page.locator('#map')).toHaveAttribute('data-painted', /^[1-9]/, { timeout: 30000 });
+  await page.locator('#map .map-presets button', { hasText: 'Alaska' }).click();
+  await page.waitForTimeout(1200);
+  const before = await page.locator('#map path.county[data-fips="02020"]').boundingBox();
+  await page.selectOption('#metric', 'contested_projects');
+  await expect(page).toHaveURL(/#\/\?m=contested_projects$/);
+  await expect(page.locator('body')).toHaveAttribute('data-ready', 'national', { timeout: 60000 });
+  await expect(page.locator('#metric')).toBeFocused();
+  await expect(page.locator('#map')).toHaveAttribute('data-painted', /^[1-9]/, { timeout: 30000 });
+  const after = await page.locator('#map path.county[data-fips="02020"]').boundingBox();
+  expect(Math.abs(after.x - before.x)).toBeLessThan(2);
+  expect(Math.abs(after.width - before.width)).toBeLessThan(2);
+});
+
+// The charts' libraries load on demand from the CDN; each carries the sha384
+// of the copy the tests serve, so a changed file fails to load.
+test('Vega, Vega-Lite and vega-embed are pinned by integrity', () => {
+  const crypto = require('crypto');
+  const { cdnToLocal } = require('./fixtures');
+  const js = fs.readFileSync(path.join(ROOT, 'national-dashboard.js'), 'utf8');
+  const block = /var VEGA = \[([\s\S]*?)\n  \];/.exec(js)[1];
+  const pins = [...block.matchAll(/\['(https:[^']+)', '(sha384-[^']+)'\]/g)].map(m => [m[1], m[2]]);
+  expect(pins.map(p => p[0].split('/npm/')[1].split('@')[0])).toEqual(['vega', 'vega-lite', 'vega-embed']);
+  const lock = JSON.parse(fs.readFileSync(path.join(__dirname, 'package-lock.json'), 'utf8')).packages;
+  for (const [u, sri] of pins) {
+    const name = u.split('/npm/')[1].split('@')[0];
+    expect(u, 'version matches tests/ui/package-lock.json').toContain(`${name}@${lock['node_modules/' + name].version}/`);
+    expect(sri, u).toBe('sha384-' + crypto.createHash('sha384').update(fs.readFileSync(cdnToLocal(u))).digest('base64'));
+  }
 });
