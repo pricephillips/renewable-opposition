@@ -318,7 +318,10 @@ sources:
       and parse.py's dedupe drops the overlap. On 2026-10-28 the query matched
       3,551 filings in all; of the newest 300 (back to 2026-03-23), the
       extractor kept 282 and dropped 18, and the 282 became 278 leads (four
-      laws filed twice, a corrected copy beside the first).
+      laws filed twice, a corrected copy beside the first). The newest 100
+      alone gave 93 leads. parse.dedupe found none of the 278 already held and
+      noted 32 as possible duplicates (the same government and technology as a
+      held record or another lead).
 
   # Change detection only (watch: true): nothing parses these. A stored copy
   # means the upstream changed, and the intake summary says what to run.
