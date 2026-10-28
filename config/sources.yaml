@@ -275,6 +275,51 @@ sources:
       On 2026-10-13 this filter returned 258 matters across the 11 clients
       (the earlier phrase list: 194), and 50 leads (44).
 
+  - source_id: ny_dos_local_laws
+    # The search behind https://dos.ny.gov/local-laws (its script,
+    # locallaws.static-assets.ny.gov/local-laws.js, builds these parameters).
+    url: https://locallaws.static-assets.ny.gov/api/search
+    publisher: New York Department of State (local laws filed under Municipal Home Rule Law section 27)
+    document_type: ordinance
+    jurisdiction_type: municipality
+    state: NY
+    fetch_method: api
+    schedule: weekly
+    expect: json
+    expect_contains: '"query_syntax_ok"'
+    compress: true
+    params:
+      query: 'cat:(Local Laws) AND subject1:(solar OR photovoltaic OR wind OR windmill OR windmills OR battery OR batteries OR "energy storage" OR BESS OR renewable) AND -(countyMunicipalType:County)'
+      sort: -dateFiled
+      limit: 100
+      offset: 0
+      expand: metadata
+      search_document_text: "false"
+    parser_hint: >
+      JSON: total_count and items, each with metadata.fields (municipalityType,
+      municipalityName, lawNumber, year, dateFiled, subject1: the law's title
+      as filed), external_id and filename. The filed copy of the law (the
+      filing form and the law's text) is the PDF at
+      https://itswebny.widen.net/content/{external_id}/pdf/{filename}. The
+      search stems its terms (renewal, windows), so the extractor reads the
+      subject again and keeps local laws on siting solar, wind or storage:
+      moratoria, prohibitions, siting and zoning laws; tax, PILOT and RPTL 487
+      laws, repeals that adopt nothing new, small-scale systems and single-site
+      rezonings are dropped (scripts/extractors/ny_dos_local_laws.py).
+    active: true
+    notes: >
+      Every local law a New York county, city, town or village adopts is filed
+      with the Department of State, so the filed copy is the instrument itself
+      (source_kind official_copy): a lead whose PDF a reviewer opens is
+      verified against its primary source. -(countyMunicipalType:County) leaves
+      out the county code compilations, as the site's own search does; county
+      local laws stay in. The newest 100 filings covered 2026-08-14 to
+      2026-10-21 on 2026-10-28, ten weeks, so a weekly run overlaps the last
+      and parse.py's dedupe drops the overlap. On 2026-10-28 the query matched
+      3,551 filings in all; of the newest 300 (back to 2026-03-23), the
+      extractor kept 282 and dropped 18, and the 282 became 278 leads (four
+      laws filed twice, a corrected copy beside the first).
+
   # Change detection only (watch: true): nothing parses these. A stored copy
   # means the upstream changed, and the intake summary says what to run.
   - source_id: moratorium_nation_upstream

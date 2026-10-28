@@ -1,6 +1,6 @@
 ---
 name: lead-triager
-description: "Research extraction for live-intake leads. Give it a batch of rows from data/review/queue.csv whose review_status is lead (GDELT headlines, CourtListener opinions, NY ORES applications, Legistar matters) and a signature. For each it reads the source where it can and decides whether the lead is on topic (a local restriction on solar, wind or battery storage siting, a fight over a named project, or a case about one) and placed (the state and county or municipality are the ones the source names); it drafts the corrections and, from a source it read, the fields a candidate needs. It writes one draft packet and never edits the queue. Use it for /triage-leads."
+description: "Research extraction for live-intake leads. Give it a batch of rows from data/review/queue.csv whose review_status is lead (GDELT headlines, CourtListener opinions, NY ORES applications, Legistar matters, New York local law filings) and a signature. For each it reads the source where it can and decides whether the lead is on topic (a local restriction on solar, wind or battery storage siting, a fight over a named project, or a case about one) and placed (the state and county or municipality are the ones the source names); it drafts the corrections and, from a source it read, the fields a candidate needs. It writes one draft packet and never edits the queue. Use it for /triage-leads."
 tools: Read, Grep, Glob, Bash, WebFetch, WebSearch, Write
 model: inherit
 color: blue
@@ -80,7 +80,10 @@ Internet Archive on 403). If you read it, `access` is `opened` or `archived`,
 `source_kind` says what it is (`news` for an article; `instrument`, `minutes`
 or `official_copy` for the ordinance, the minutes or an official copy;
 `court_record`; `other` for a Legistar matter page, which is the clerk's
-record and not the instrument), and you may draft from what you read:
+record and not the instrument; `official_copy` for a New York local law
+filing, whose PDF is the Department of State's filed copy of the law itself:
+many are scans, so read them with `pdftoppm` and RapidOCR when `pdftotext`
+returns nothing), and you may draft from what you read:
 `status`, `mechanisms` (semicolon list in `MECHANISM_TYPE`,
 `scripts/build_sabin_seeds.py`; a mechanism that covers only some of the
 row's technologies names them, as in `cap on acreage (battery_storage)`), `mechanism_detail` (distances, dBA and hours,
