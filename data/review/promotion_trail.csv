@@ -116,3 +116,5 @@ decided_on,file,key,entity_type,state,place,action,reason
 2026-10-23,queue.csv,q_a7ea2ffcf0,restriction,KS,Crawford County,promoted,
 2026-10-23,queue.csv,q_d5adb86dcc,restriction,CA,San Joaquin County,promoted,
 2026-10-23,queue.csv,q_e573bb8678,restriction,CA,San Joaquin County,promoted,
+2026-10-29,queue.csv,q_93d5a7953c,restriction,IL,Shelby County,promoted,
+2026-10-29,queue.csv,q_961a84dda5,restriction,IL,Shelby County,promoted,

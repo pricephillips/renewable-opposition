@@ -606,22 +606,22 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17015,IL,Carroll,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,local_government,yes,15576,34.97
 17017,IL,Cass,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,local_government,yes,12784,34.02
 17019,IL,Champaign,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,3,local_government,yes,208741,209.56
-17021,IL,Christian,yes,rules_in_force,2,1,0,0,0,1,0,wind,,1,0,0,1,1,,4,1,local_government,yes,33538,47.27
+17021,IL,Christian,yes,rules_in_force,2,1,0,0,0,1,0,wind,,1,0,0,1,1,,4,2,local_government,yes,33538,47.27
 17023,IL,Clark,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,7,1,local_government,yes,15266,30.45
 17025,IL,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,13052,27.87
 17027,IL,Clinton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,36954,77.97
-17029,IL,Coles,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,1,local_government,yes,46777,92.03
+17029,IL,Coles,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,local_government,yes,46777,92.03
 17031,IL,Cook,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,0,0,0,0,0,,6,2,local_government,yes,5182090,5484.13
 17033,IL,Crawford,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,,0,0,0,0,1,,6,0,local_government,yes,18511,41.72
-17035,IL,Cumberland,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,5,1,local_government,yes,10334,29.87
+17035,IL,Cumberland,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,5,2,local_government,yes,10334,29.87
 17037,IL,DeKalb,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,7,4,local_government,yes,100703,159.51
 17039,IL,De Witt,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,4,1,local_government,yes,15373,38.67
 17041,IL,Douglas,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,5,2,local_government,yes,19751,47.4
 17043,IL,DuPage,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,local_government,yes,930024,2836.76
 17045,IL,Edgar,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,local_government,yes,16535,26.53
 17047,IL,Edwards,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,yes,6075,27.32
-17049,IL,Effingham,yes,severe_rules_in_force,3,2,2,0,0,1,0,wind,,0,0,0,0,1,,5,0,local_government,yes,34522,72.11
-17051,IL,Fayette,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,2,local_government,yes,21315,29.75
+17049,IL,Effingham,yes,severe_rules_in_force,3,2,2,0,0,1,0,wind,,0,0,0,0,1,,5,1,local_government,yes,34522,72.11
+17051,IL,Fayette,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,3,local_government,yes,21315,29.75
 17053,IL,Ford,yes,rules_in_force,3,1,0,0,0,2,0,wind,,1,0,0,1,2,,6,3,local_government,yes,13406,27.61
 17055,IL,Franklin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,yes,37323,91.27
 17057,IL,Fulton,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,local_government,yes,33020,38.14
@@ -653,7 +653,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17109,IL,McDonough,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,26920,45.68
 17111,IL,McHenry,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,7,2,local_government,yes,312591,518.05
 17113,IL,McLean,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,8,4,local_government,yes,171556,144.99
-17115,IL,Macon,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,7,4,local_government,yes,101849,175.44
+17115,IL,Macon,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,7,5,local_government,yes,101849,175.44
 17117,IL,Macoupin,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,6,1,local_government,yes,44350,51.39
 17119,IL,Madison,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,9,1,local_government,yes,264238,369.3
 17121,IL,Marion,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,yes,37000,64.62
@@ -663,9 +663,9 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17129,IL,Menard,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,4,1,local_government,yes,12095,38.47
 17131,IL,Mercer,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,7,1,local_government,yes,15495,27.61
 17133,IL,Monroe,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,5,1,local_government,yes,35036,90.93
-17135,IL,Montgomery,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,7,3,local_government,yes,27942,39.7
+17135,IL,Montgomery,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,7,4,local_government,yes,27942,39.7
 17137,IL,Morgan,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,local_government,yes,33021,58.04
-17139,IL,Moultrie,yes,severe_rules_in_force,4,2,2,0,0,2,0,solar;wind,,0,0,0,0,2,,5,1,local_government,yes,14424,42.93
+17139,IL,Moultrie,yes,severe_rules_in_force,4,2,2,0,0,2,0,solar;wind,,0,0,0,0,2,,5,2,local_government,yes,14424,42.93
 17141,IL,Ogle,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,local_government,yes,51495,67.88
 17143,IL,Peoria,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,local_government,yes,179645,290.36
 17145,IL,Perry,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,1,local_government,yes,20639,46.7
@@ -682,7 +682,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17167,IL,Sangamon,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,8,1,local_government,yes,194947,224.53
 17169,IL,Schuyler,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,0,local_government,yes,6787,15.52
 17171,IL,Scott,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,3,0,local_government,yes,4937,19.69
-17173,IL,Shelby,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,8,3,local_government,yes,20720,27.32
+17173,IL,Shelby,yes,severe_rules_in_force,2,1,1,0,1,2,2,solar;wind;battery_storage,2026,1,0,0,1,2,,8,3,local_government,yes,20720,27.32
 17175,IL,Stark,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,5308,18.42
 17177,IL,Stephenson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,local_government,yes,43768,77.57
 17179,IL,Tazewell,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,1,1,0,0,2,,6,1,local_government,yes,130290,201.54

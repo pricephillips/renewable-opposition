@@ -1120,8 +1120,8 @@ priority,tier,instrument_id,state,jurisdiction,jurisdiction_type,scope,county_im
 1119,compiled_flagged,nrel:wind:17169,IL,Schuyler County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Schuyler County"" Illinois wind setback",
 1120,compiled_flagged,nrel:solar:17171,IL,Scott County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Scott County"" Illinois solar height_limit",
 1121,compiled_flagged,nrel:wind:17171,IL,Scott County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Scott County"" Illinois wind setback",
-1122,compiled_flagged,nrel:solar:17173,IL,Shelby County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Shelby County"" Illinois solar setback",
-1123,compiled_flagged,nrel:wind:17173,IL,Shelby County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Shelby County"" Illinois wind setback",
+1122,compiled_flagged,nrel:solar:17173,IL,Shelby County,County,renewables_only,,solar,unknown,unknown,,2,,,,https://www.shelbycounty-il.gov/documents/Zoning/Ordinance/Zoning%20Ordinance%20For%20Shelby%20County.pdf,"""Shelby County"" Illinois solar setback",primary source held by queue:q_93d5a7953c (same jurisdiction and technology)
+1123,compiled_flagged,nrel:wind:17173,IL,Shelby County,County,renewables_only,,wind,unknown,unknown,,2,,,,https://www.shelbycounty-il.gov/documents/Zoning/Ordinance/Zoning%20Ordinance%20For%20Shelby%20County.pdf,"""Shelby County"" Illinois wind setback",primary source held by queue:q_93d5a7953c (same jurisdiction and technology)
 1124,compiled_flagged,nrel:wind:17163,IL,St. Clair County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""St. Clair County"" Illinois wind siting_standard",
 1125,compiled_flagged,nrel:solar:17179,IL,Tazewell County,County,renewables_only,,solar,unknown,unknown,,2,,,,,"""Tazewell County"" Illinois solar height_limit",
 1126,compiled_flagged,nrel:wind:17179,IL,Tazewell County,County,renewables_only,,wind,unknown,unknown,,2,,,,,"""Tazewell County"" Illinois wind setback",values conflict with sabin:REC-0082

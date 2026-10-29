@@ -8,9 +8,9 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 163 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| closed | 164 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
 | severe | 367 | Severe: rules likely to block most projects |
-| restrictive | 377 | Restrictive: material rules, or blocked projects |
+| restrictive | 376 | Restrictive: material rules, or blocked projects |
 | regulated | 625 | Regulated but open: rules in force, projects approved under them |
 | open | 385 | Open: nothing restrictive on record |
 | no_record | 1227 | No record and no negative check: scored on the profile prior alone |
@@ -36,9 +36,9 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | 4 | 314 | 4.54 to 5.83 | -0.523 to -0.253 |
 | 5 | 314 | 5.83 to 7.75 | -0.253 to 0.0 |
 | 6 | 315 | 7.75 to 10.44 | 0.0 to 0.253 |
-| 7 | 314 | 10.44 to 14.28 | 0.254 to 0.524 |
+| 7 | 314 | 10.44 to 14.3 | 0.254 to 0.524 |
 | 8 | 315 | 14.3 to 22.0 | 0.525 to 0.842 |
-| 9 | 314 | 22.0 to 34.79 | 0.843 to 1.281 |
+| 9 | 314 | 22.04 to 34.79 | 0.843 to 1.281 |
 | 10 | 314 | 34.79 to 75.0 | 1.283 to 3.542 |
 
 ## Highest combined scores

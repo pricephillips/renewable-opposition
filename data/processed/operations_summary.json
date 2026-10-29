@@ -93,8 +93,8 @@
     "sole_severe": 397,
     "sole_record": 356
    },
-   "with_located_url": 5,
-   "flagged": 453
+   "with_located_url": 7,
+   "flagged": 455
   },
   "negative_checks": {
    "rows": 8,
@@ -115,21 +115,35 @@
   }
  },
  "promotion_trail": {
-  "decisions": 117,
+  "decisions": 119,
   "by_action": {
-   "promoted": 87,
+   "promoted": 89,
    "held": 16,
    "awaiting_review": 9,
    "rejected": 4,
    "unpublished": 1
   },
   "by_file": {
-   "queue.csv": 69,
+   "queue.csv": 71,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-23",
+  "last": "2026-10-29",
   "recent": [
+   {
+    "date": "2026-10-29",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Shelby County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-29",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Shelby County",
+    "reason": ""
+   },
    {
     "date": "2026-10-23",
     "file": "queue.csv",
@@ -171,26 +185,12 @@
     "action": "held",
     "what": "KS Bourbon County",
     "reason": "status expired: the instrument is no longer in force, so it is not published"
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "awaiting_review",
-    "what": "KS Bourbon County",
-    "reason": "awaiting review by someone other than its drafter"
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "held",
-    "what": "KS Bourbon County",
-    "reason": "status lifted: the instrument is no longer in force, so it is not published"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 46,
+   "promoted": 48,
    "rejected": 4,
    "confirmed": 6,
    "pending": 2,
@@ -198,7 +198,7 @@
    "lead": 83
   },
   "queue_by_entity": {
-   "restriction": 78,
+   "restriction": 80,
    "contested_project": 58,
    "case": 9
   },
@@ -207,16 +207,16 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 139,
+  "snapshot_rows": 142,
   "snapshot_files": 5,
-  "headline_history_rows": 15,
+  "headline_history_rows": 16,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-28",
+  "headline_last_change": "2026-10-29",
   "latest": {
    "restrictions": "3334",
    "severe_restrictions": "1348",
    "verified_restrictions": "124",
-   "multi_sector_restrictions": "87",
+   "multi_sector_restrictions": "89",
    "contested_projects": "579",
    "confirmed_outcomes": "155",
    "verified_projects": "164",
@@ -228,9 +228,9 @@
   }
  },
  "source_archive": {
-  "sources": 83,
+  "sources": 84,
   "archived": 28,
-  "archived_share": 0.337
+  "archived_share": 0.333
  },
  "evidence_checks": {
   "restriction_sources": {
