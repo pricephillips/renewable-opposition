@@ -4,23 +4,23 @@ Descriptive only: what the published and held-back data record. Generated 2026-1
 
 | Site | County | Restriction instruments | Severe | Contested projects | Adjacent records | Held back | Flags | Siting standards | State law rows |
 |---|---|---|---|---|---|---|---|---|---|
-| Shelby County IL | Shelby, IL (17173) | 2 | 0 | 1 | 19 | 2 | 2 | 17 | 6 |
-| Christian County IL | Christian, IL (17021) | 2 | 1 | 1 | 10 | 2 | 3 | 7 | 6 |
+| Shelby County IL | Shelby, IL (17173) | 4 | 0 | 1 | 19 | 2 | 3 | 17 | 6 |
+| Christian County IL | Christian, IL (17021) | 2 | 1 | 1 | 15 | 2 | 3 | 7 | 6 |
 
 ## Shelby County IL: county report
 
-Shelby, Illinois (FIPS 17173). Data as of 2026-10-28. Commit 3d7fccc0f7e2. Generated 2026-10-29 by scripts/site_profile.py.
+Shelby, Illinois (FIPS 17173). Data as of 2026-10-29. Commit 9416375f08b6. Generated 2026-10-29 by scripts/site_profile.py.
 
 ### Summary
 
-Shelby, Illinois has 2 restriction instruments (a local or state law that materially constrains wind, solar or battery storage: a moratorium, a ban, a setback, a height, noise or size limit, or a district where the use is prohibited; one instrument may cover several technologies and is counted once) on record: 0 verified against the instrument, 0 located but not yet read, 2 not verified. Instruments scoring 3 or 4 on the severity (a score from one to four: one for procedural friction, two for a material burden, three for a likely de facto ban, four for an explicit moratorium or ban; the rule that set each score is printed beside it) scale: 0.
+Shelby, Illinois has 4 restriction instruments (a local or state law that materially constrains wind, solar or battery storage: a moratorium, a ban, a setback, a height, noise or size limit, or a district where the use is prohibited; one instrument may cover several technologies and is counted once) on record: 2 verified against the instrument, 0 located but not yet read, 2 not verified. Instruments scoring 3 or 4 on the severity (a score from one to four: one for procedural friction, two for a material burden, three for a likely de facto ban, four for an explicit moratorium or ban; the rule that set each score is printed beside it) scale: 0.
 1 contested project (a project-level opposition event, such as a hearing, a permit denial, a campaign or a cancellation, with an outcome on the shared ladder of blocked, restricted, advanced or pending; an outcome is confirmed only by independent evidence and is otherwise shown as unverified) on record, 0 backed by a news article or court record that was read. Cases linked to the records shown: 0.
 Adjacent counties: 8. With a restriction instrument on record: 8. With a contested project on record: 1. With a negative check and nothing on record: 0.
 Who decides siting in the state: local government for solar, wind, battery_storage.
-This county has a restriction instrument on record, as do 72 of 102 counties in IL and 1268 of 3222 nationally (counties, not rates).
+This county has a severe restriction instrument on record, as do 31 of 102 counties in IL and 688 of 3222 nationally (counties, not rates).
 Adjacent counties with an instrument on record: 8, of which 3 enacted within the last 18 months. Diffusion reading: tier 1, a neighbor enacted within the window and this county already carries an unresolved record (a pending candidate, or an instrument located or not verified), so one primary source resolves it.
 Comparable decided projects within 100 miles or in IL: 13 (the nearest 12 shown).
-Within 25 miles, records dated in the last 24 months: 0 restriction instrument(s) and 0 contested project(s), out of 6 records within that radius and 29 within 50 miles.
+Within 25 miles, records dated in the last 24 months: 2 restriction instrument(s) and 0 contested project(s), out of 8 records within that radius and 31 within 50 miles.
 Rows held back from publication that name the county: 2, of which 0 are pending candidates (a row in the review queue that no reviewer has decided on; it is shown for context and is never published) (see Held back from publication).
 
 ### State siting law
@@ -47,6 +47,8 @@ Each restriction instrument the published data places in Shelby, Illinois, with 
 |---|---|---|---|---|---|---|---|---|
 | date n/a | Shelby County (County) | setback; scope renewables_only; state limits local rules: yes | solar | 2 (restricting mechanism (default)) | unknown | not verified: no instrument or minutes read, only a news article or compiled tracker; evidence compiled_flagged | Shelby County solar siting ordinance, as compiled by NREL: prohibited use districts; setback from property line (non-participating) 50 feet; setback from structures (non-participating) 150 feet | https://doi.org/10.25984/3363739 |
 | date n/a | Shelby County (County) | setback; scope renewables_only; state limits local rules: yes | wind | 2 (restricting mechanism (default)) | unknown | not verified: no instrument or minutes read, only a news article or compiled tracker; evidence compiled_flagged | Shelby County wind siting ordinance, as compiled by NREL: shadow flicker limit 30 hours per year; setback from structures (non-participating) 2.1 times tip height | https://doi.org/10.25984/3363758 |
+| 2026-05-14 | Shelby County (County) | setback; scope renewables_only; state limits local rules: yes | battery_storage, solar, wind | 2 (restricting mechanism (default)) | active | verified against the instrument or the minutes that adopted it; evidence primary_source | Shelby County Zoning Ordinance, Article II, Section 16 (Solar and Wind Energy Conversion System Standards), as amended by Resolution 2026-15 (adopted 2026-05-14, 13 ayes, 3 nays) to comply with P.A. 104-0458. The County Board approved amendments to the ordinance's solar and wind | https://www.shelbycounty-il.gov/documents/Zoning/Ordinance/Zoning%20Ordinance%20For%20Shelby%20County.pdf (opened) |
+| 2025-04-10 | Shelby County (County) | moratorium; scope renewables_only; state limits local rules: yes | solar, wind | 2 (restricting mechanism (default)) | pending | verified against the instrument or the minutes that adopted it; evidence primary_source | Self-executing moratorium added to the Shelby County Zoning Ordinance by Resolution 2025-19, adopted 2025-04-10 by voice vote (21 yes, 0 no) after the board tabled it on 2025-02-13; carried into Section 16 J of the text amended in 2026. The zoning administrator told the board it | https://www.shelbycounty-il.gov/documents/Zoning/Ordinance/Zoning%20Ordinance%20For%20Shelby%20County.pdf (opened) |
 
 ### Contested projects on record
 
@@ -66,11 +68,11 @@ A county's figures are not interpretable on their own. Each reference group (a s
 
 | Group | Counties | With any instrument | With a severe instrument | With a verified instrument | With a contested project | Examined (record or check) |
 |---|---|---|---|---|---|---|
-| All counties | 3222 | 1268 | 687 | 98 | 458 | 1421 |
-| IL counties | 102 | 72 | 30 | 5 | 25 | 78 |
-| This county | 1 | yes | no | no | yes | yes |
+| All counties | 3222 | 1268 | 688 | 100 | 458 | 1421 |
+| IL counties | 102 | 72 | 31 | 6 | 25 | 78 |
+| This county | 1 | yes | yes | yes | yes | yes |
 
-This county has a restriction instrument on record, as do 72 of 102 counties in IL and 1268 of 3222 nationally (counties, not rates).
+This county has a severe restriction instrument on record, as do 31 of 102 counties in IL and 688 of 3222 nationally (counties, not rates).
 Siting, zoning and preemption are set at the state level, so the state row is usually the fair comparison. Examined means a published record or a reviewed negative check; the rest of the frame has not been looked at.
 
 ### Adjacent counties
@@ -163,15 +165,17 @@ Records within 25 miles of the site by the age of their date, with the count wit
 
 | Window | Restriction instruments | Contested projects |
 |---|---|---|
-| the last 12 months | 0 | 0 |
-| 12 to 24 months ago | 0 | 0 |
+| the last 12 months | 1 | 0 |
+| 12 to 24 months ago | 1 | 0 |
 | older | 4 | 0 |
 | undated | 2 | 0 |
-| Total within 25 miles | 6 | 0 |
+| Total within 25 miles | 8 | 0 |
 
-Records within 50 miles, any date: 29.
+Records within 50 miles, any date: 31.
 
 Newest dated records within the radius:
+- 2026-05-14: Shelby County (restriction, solar, setback; 0.0 mi; verified)
+- 2025-04-10: Shelby County (restriction, solar, moratorium; 0.0 mi; verified)
 - 2023-12-31: Moultrie County (restriction, solar, ban_or_moratorium; 20.0 mi; unverified)
 - 2023-12-31: Moultrie County (restriction, wind, ban_or_moratorium; 20.0 mi; unverified)
 - 2023-12-31: Moultrie County (restriction, solar, height_limit; 20.0 mi; unverified)
@@ -221,6 +225,7 @@ Rows the build set aside that name the county. A pending candidate is listed her
 
 ### Flags
 
+- Shelby County moratorium: pending, not yet in force
 - Grain Belt Express: evidence is a report citation only; no primary source attached
 - Same county name has records in IA, IN, OH, TN; do not mix them up
 
@@ -230,37 +235,37 @@ This report describes what the records hold. It does not say what caused any dec
 
 Every record line names its source and how it was seen. A news article or a compiled tracker locates an instrument but does not verify it; only the instrument or the minutes that adopted it do. Verification labels follow the evidence standard in README.md (Counting and verification).
 
-Every figure in this report was read from the files below at commit 3d7fccc0f7e2, with data as of 2026-10-28. Reports from local contacts are read from a file outside the repository and are not listed.
+Every figure in this report was read from the files below at commit 9416375f08b6, with data as of 2026-10-29. Reports from local contacts are read from a file outside the repository and are not listed.
 
 | File | Hash (first twelve characters) |
 |---|---|
 | data/processed/state_policies.csv | 6fbe4504b297 |
 | data/processed/state_policies_held.csv | 62cb8052adde |
 | data/processed/siting_standards.csv | c98988be8d93 |
-| data/processed/restrictions.csv | 5d70eab6adf6 |
+| data/processed/restrictions.csv | 4244dc5d5965 |
 | data/processed/contested_projects.csv | 7eed1dea180c |
 | data/processed/cases.csv | dad71d716303 |
 | data/processed/quarantine.json | deb12a332446 |
 | data/review/sabin_restrictions_review.csv | 92cd0c1bb71c |
 | data/review/coverage_gaps.csv | 9c6e57028599 |
 | data/review/cases_candidates.csv | ac572805a8b2 |
-| data/review/queue.csv | 1f0027e27c13 |
+| data/review/queue.csv | 2957bf3001bc |
 | data/reference/data_center_events.csv | ed8eb65208d6 |
-| data/processed/county_summary.csv | b83763eb6d4f |
+| data/processed/county_summary.csv | b3aaeda60f3b |
 | data/review/adjacency_worklist.csv | 310a6b188a91 |
 | data/review/negative_checks.csv | 76a622a59151 |
 | data/county_fips_lookup.json | ad83e1c634e9 |
 | data/place_county_index.json | ca905ca673fb |
 | data/geo/counties_2024.topojson | f453ddc2e4be |
-| data/snapshots/manifest.csv | 8952dcfa2360 |
+| data/snapshots/manifest.csv | a881bdd1ce87 |
 
 Standing limits. The records exist because an ordinance, a fight or a lawsuit was visible enough to be compiled; projects that proceeded without a recorded fight and quiet counties are absent by construction, so every count is a floor and no figure here is a rate of opposition. Severity is a rule applied to the instrument's own terms, not a graded intensity. NREL's siting standards were compiled with language models and are unverified until a reviewer reads the ordinance. A record without coordinates is placed at its county's centroid. Cases are only those linked to the records shown. Nothing here is scored, weighted or modelled.
 
-State context (IL): 136 restriction instruments (38 severe), 20 contested projects, 1 cases. 0 IL row(s) are unplaced (no county, town or coordinates the build could match) and 0 are ambiguous (a town name shared by several counties, left unplaced rather than guessed).
+State context (IL): 138 restriction instruments (39 severe), 20 contested projects, 1 cases. 0 IL row(s) are unplaced (no county, town or coordinates the build could match) and 0 are ambiguous (a town name shared by several counties, left unplaced rather than guessed).
 
 ## Christian County IL: county report
 
-Christian, Illinois (FIPS 17021). Data as of 2026-10-28. Commit 3d7fccc0f7e2. Generated 2026-10-29 by scripts/site_profile.py.
+Christian, Illinois (FIPS 17021). Data as of 2026-10-29. Commit 9416375f08b6. Generated 2026-10-29 by scripts/site_profile.py.
 
 ### Summary
 
@@ -268,10 +273,10 @@ Christian, Illinois has 2 restriction instruments (a local or state law that mat
 1 contested project (a project-level opposition event, such as a hearing, a permit denial, a campaign or a cancellation, with an outcome on the shared ladder of blocked, restricted, advanced or pending; an outcome is confirmed only by independent evidence and is otherwise shown as unverified) on record, 0 backed by a news article or court record that was read. Cases linked to the records shown: 0.
 Adjacent counties: 4. With a restriction instrument on record: 4. With a contested project on record: 1. With a negative check and nothing on record: 0.
 Who decides siting in the state: local government for solar, wind, battery_storage.
-This county has a severe restriction instrument on record, as do 30 of 102 counties in IL and 687 of 3222 nationally (counties, not rates).
-Adjacent counties with an instrument on record: 4, of which 0 enacted within the last 18 months. Diffusion reading: tier 2, three or more adjacent counties have an instrument on record: a cluster.
+This county has a severe restriction instrument on record, as do 31 of 102 counties in IL and 688 of 3222 nationally (counties, not rates).
+Adjacent counties with an instrument on record: 4, of which 1 enacted within the last 18 months. Diffusion reading: tier 1, a neighbor enacted within the window and this county already carries an unresolved record (a pending candidate, or an instrument located or not verified), so one primary source resolves it.
 Comparable decided projects within 100 miles or in IL: 13 (the nearest 12 shown).
-Within 25 miles, records dated in the last 24 months: 1 restriction instrument(s) and 1 contested project(s), out of 5 records within that radius and 40 within 50 miles.
+Within 25 miles, records dated in the last 24 months: 1 restriction instrument(s) and 1 contested project(s), out of 5 records within that radius and 42 within 50 miles.
 Rows held back from publication that name the county: 2, of which 0 are pending candidates (a row in the review queue that no reviewer has decided on; it is shown for context and is never published) (see Held back from publication).
 
 ### State siting law
@@ -317,11 +322,11 @@ A county's figures are not interpretable on their own. Each reference group (a s
 
 | Group | Counties | With any instrument | With a severe instrument | With a verified instrument | With a contested project | Examined (record or check) |
 |---|---|---|---|---|---|---|
-| All counties | 3222 | 1268 | 687 | 98 | 458 | 1421 |
-| IL counties | 102 | 72 | 30 | 5 | 25 | 78 |
+| All counties | 3222 | 1268 | 688 | 100 | 458 | 1421 |
+| IL counties | 102 | 72 | 31 | 6 | 25 | 78 |
 | This county | 1 | yes | yes | no | yes | yes |
 
-This county has a severe restriction instrument on record, as do 30 of 102 counties in IL and 687 of 3222 nationally (counties, not rates).
+This county has a severe restriction instrument on record, as do 31 of 102 counties in IL and 688 of 3222 nationally (counties, not rates).
 Siting, zoning and preemption are set at the state level, so the state row is usually the fair comparison. Examined means a published record or a reviewed negative check; the rest of the frame has not been looked at.
 
 ### Adjacent counties
@@ -333,7 +338,7 @@ Counties that share a boundary with Christian, across state lines:
 | Macon | IL | 17115 | 2 | 1 | 0 |  |
 | Montgomery | IL | 17135 | 2 | 0 | 0 |  |
 | Sangamon | IL | 17167 | 3 | 0 | 0 |  |
-| Shelby | IL | 17173 | 2 | 0 | 0 |  |
+| Shelby | IL | 17173 | 4 | 0 | 0 |  |
 
 Restriction instruments in adjacent counties:
 
@@ -348,6 +353,8 @@ Restriction instruments in adjacent counties:
 | Sangamon, IL (17167) | date n/a | Sangamon County (County) | setback; scope renewables_only; state limits local rules: yes | wind | 2 (restricting mechanism (default)) | unknown | not verified: no instrument or minutes read, only a news article or compiled tracker; evidence compiled_flagged | Sangamon County wind siting ordinance, as compiled by NREL: setback from property line (non-participating) 3 rotor diameters; shadow flicker limit 1 hours per year; setback from structures (non-participating) 3 rotor diameters, at least 1000 feet | https://doi.org/10.25984/3363758 |
 | Shelby, IL (17173) | date n/a | Shelby County (County) | setback; scope renewables_only; state limits local rules: yes | solar | 2 (restricting mechanism (default)) | unknown | not verified: no instrument or minutes read, only a news article or compiled tracker; evidence compiled_flagged | Shelby County solar siting ordinance, as compiled by NREL: prohibited use districts; setback from property line (non-participating) 50 feet; setback from structures (non-participating) 150 feet | https://doi.org/10.25984/3363739 |
 | Shelby, IL (17173) | date n/a | Shelby County (County) | setback; scope renewables_only; state limits local rules: yes | wind | 2 (restricting mechanism (default)) | unknown | not verified: no instrument or minutes read, only a news article or compiled tracker; evidence compiled_flagged | Shelby County wind siting ordinance, as compiled by NREL: shadow flicker limit 30 hours per year; setback from structures (non-participating) 2.1 times tip height | https://doi.org/10.25984/3363758 |
+| Shelby, IL (17173) | 2026-05-14 | Shelby County (County) | setback; scope renewables_only; state limits local rules: yes | battery_storage, solar, wind | 2 (restricting mechanism (default)) | active | verified against the instrument or the minutes that adopted it; evidence primary_source | Shelby County Zoning Ordinance, Article II, Section 16 (Solar and Wind Energy Conversion System Standards), as amended by Resolution 2026-15 (adopted 2026-05-14, 13 ayes, 3 nays) to comply with P.A. 104-0458. The County Board approved amendments to the ordinance's solar and wind | https://www.shelbycounty-il.gov/documents/Zoning/Ordinance/Zoning%20Ordinance%20For%20Shelby%20County.pdf (opened) |
+| Shelby, IL (17173) | 2025-04-10 | Shelby County (County) | moratorium; scope renewables_only; state limits local rules: yes | solar, wind | 2 (restricting mechanism (default)) | pending | verified against the instrument or the minutes that adopted it; evidence primary_source | Self-executing moratorium added to the Shelby County Zoning Ordinance by Resolution 2025-19, adopted 2025-04-10 by voice vote (21 yes, 0 no) after the board tabled it on 2025-02-13; carried into Section 16 J of the text amended in 2026. The zoning administrator told the board it | https://www.shelbycounty-il.gov/documents/Zoning/Ordinance/Zoning%20Ordinance%20For%20Shelby%20County.pdf (opened) |
 
 Contested projects in adjacent counties:
 
@@ -363,10 +370,11 @@ A restriction next door is a reason to look, not a forecast. The diffusion readi
 |---|---|---|---|---|
 | Montgomery, IL (17135) | 2 | 2024-12-31 | no | 24.0 |
 | Sangamon, IL (17167) | 3 | 2024-12-31 | no | 25.1 |
-| Shelby, IL (17173) | 2 | undated | no | 27.2 |
+| Shelby, IL (17173) | 4 | 2026-05-14 | yes | 27.2 |
 | Macon, IL (17115) | 2 | undated | no | 27.5 |
 
-Tier 2: three or more adjacent counties have an instrument on record: a cluster. The nearest is Montgomery, IL, 24.0 miles between centroids.
+Tier 1: a neighbor enacted within the window and this county already carries an unresolved record (a pending candidate, or an instrument located or not verified), so one primary source resolves it. The nearest is Montgomery, IL, 24.0 miles between centroids.
+Enacted within the window: Shelby County setback 2026-05-14.
 The ladder concentrates attention where a cheap confirmation exists. It does not say that a county outside it is clear, and it is not a prediction that this county will act.
 
 ### Comparable decided projects
@@ -402,7 +410,7 @@ Records within 25 miles of the site by the age of their date, with the count wit
 | undated | 2 | 0 |
 | Total within 25 miles | 4 | 1 |
 
-Records within 50 miles, any date: 40.
+Records within 50 miles, any date: 42.
 
 Newest dated records within the radius:
 - 2024-12-31: Montgomery County (restriction, solar, height_limit; 24.0 mi; unverified)
@@ -461,30 +469,30 @@ This report describes what the records hold. It does not say what caused any dec
 
 Every record line names its source and how it was seen. A news article or a compiled tracker locates an instrument but does not verify it; only the instrument or the minutes that adopted it do. Verification labels follow the evidence standard in README.md (Counting and verification).
 
-Every figure in this report was read from the files below at commit 3d7fccc0f7e2, with data as of 2026-10-28. Reports from local contacts are read from a file outside the repository and are not listed.
+Every figure in this report was read from the files below at commit 9416375f08b6, with data as of 2026-10-29. Reports from local contacts are read from a file outside the repository and are not listed.
 
 | File | Hash (first twelve characters) |
 |---|---|
 | data/processed/state_policies.csv | 6fbe4504b297 |
 | data/processed/state_policies_held.csv | 62cb8052adde |
 | data/processed/siting_standards.csv | c98988be8d93 |
-| data/processed/restrictions.csv | 5d70eab6adf6 |
+| data/processed/restrictions.csv | 4244dc5d5965 |
 | data/processed/contested_projects.csv | 7eed1dea180c |
 | data/processed/cases.csv | dad71d716303 |
 | data/processed/quarantine.json | deb12a332446 |
 | data/review/sabin_restrictions_review.csv | 92cd0c1bb71c |
 | data/review/coverage_gaps.csv | 9c6e57028599 |
 | data/review/cases_candidates.csv | ac572805a8b2 |
-| data/review/queue.csv | 1f0027e27c13 |
+| data/review/queue.csv | 2957bf3001bc |
 | data/reference/data_center_events.csv | ed8eb65208d6 |
-| data/processed/county_summary.csv | b83763eb6d4f |
+| data/processed/county_summary.csv | b3aaeda60f3b |
 | data/review/adjacency_worklist.csv | 310a6b188a91 |
 | data/review/negative_checks.csv | 76a622a59151 |
 | data/county_fips_lookup.json | ad83e1c634e9 |
 | data/place_county_index.json | ca905ca673fb |
 | data/geo/counties_2024.topojson | f453ddc2e4be |
-| data/snapshots/manifest.csv | 8952dcfa2360 |
+| data/snapshots/manifest.csv | a881bdd1ce87 |
 
 Standing limits. The records exist because an ordinance, a fight or a lawsuit was visible enough to be compiled; projects that proceeded without a recorded fight and quiet counties are absent by construction, so every count is a floor and no figure here is a rate of opposition. Severity is a rule applied to the instrument's own terms, not a graded intensity. NREL's siting standards were compiled with language models and are unverified until a reviewer reads the ordinance. A record without coordinates is placed at its county's centroid. Cases are only those linked to the records shown. Nothing here is scored, weighted or modelled.
 
-State context (IL): 136 restriction instruments (38 severe), 20 contested projects, 1 cases. 0 IL row(s) are unplaced (no county, town or coordinates the build could match) and 0 are ambiguous (a town name shared by several counties, left unplaced rather than guessed).
+State context (IL): 138 restriction instruments (39 severe), 20 contested projects, 1 cases. 0 IL row(s) are unplaced (no county, town or coordinates the build could match) and 0 are ambiguous (a town name shared by several counties, left unplaced rather than guessed).
