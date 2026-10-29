@@ -1,9 +1,8 @@
 {"columns":["year","basis","scope","instruments","severe_instruments"],"rows":[
-[2017,"enacted","multi_sector_data_centers",1,0],
 [2023,"enacted","multi_sector_data_centers",1,1],
 [2024,"enacted","multi_sector_data_centers",1,1],
-[2025,"enacted","multi_sector_data_centers",9,8],
-[2026,"enacted","multi_sector_data_centers",69,69],
+[2025,"enacted","multi_sector_data_centers",8,8],
+[2026,"enacted","multi_sector_data_centers",67,67],
 [null,"undated","multi_sector_data_centers",8,0],
 [1987,"year_reported","renewables_only",1,1],
 [1999,"year_reported","renewables_only",1,1],
@@ -39,7 +38,7 @@
 [2015,"year_reported","renewables_only",27,16],
 [2016,"ordinance_year","renewables_only",37,8],
 [2016,"year_reported","renewables_only",29,19],
-[2017,"enacted","renewables_only",1,1],
+[2017,"enacted","renewables_only",2,1],
 [2017,"ordinance_year","renewables_only",44,12],
 [2017,"year_reported","renewables_only",32,22],
 [2018,"enacted","renewables_only",2,1],
@@ -62,9 +61,9 @@
 [2024,"enacted","renewables_only",32,30],
 [2024,"ordinance_year","renewables_only",230,62],
 [2024,"year_reported","renewables_only",102,63],
-[2025,"enacted","renewables_only",38,38],
+[2025,"enacted","renewables_only",39,38],
 [2025,"ordinance_year","renewables_only",185,46],
 [2025,"year_reported","renewables_only",62,45],
-[2026,"enacted","renewables_only",53,45],
+[2026,"enacted","renewables_only",55,47],
 [null,"undated","renewables_only",1075,301]
 ]}

@@ -2,11 +2,11 @@
  "generated": "2026-10-29",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3334,
-  "severe": 1348,
-  "verified": 124,
+  "restriction_instruments": 3338,
+  "severe": 1350,
+  "verified": 128,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 927,
+  "severe_where_state_limits_local": 929,
   "projects": 579,
   "projects_confirmed": 155,
   "decided": {
@@ -207,16 +207,16 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 142,
+  "snapshot_rows": 144,
   "snapshot_files": 5,
   "headline_history_rows": 16,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-10-29",
   "latest": {
-   "restrictions": "3334",
-   "severe_restrictions": "1348",
-   "verified_restrictions": "124",
-   "multi_sector_restrictions": "89",
+   "restrictions": "3338",
+   "severe_restrictions": "1350",
+   "verified_restrictions": "128",
+   "multi_sector_restrictions": "85",
    "contested_projects": "579",
    "confirmed_outcomes": "155",
    "verified_projects": "164",

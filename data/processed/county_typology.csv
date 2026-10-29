@@ -318,7 +318,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 09180,CT,Southeastern Connecticut,yes,severe_rules_in_force,6,5,5,0,0,1,0,solar;wind,,0,0,0,0,5,,4,2,state_board,yes,279971,468.07
 09190,CT,Western Connecticut,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,2025,0,0,0,0,2,,6,5,state_board,yes,627071,1178.42
 10001,DE,Kent,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,1,0,1,0,0,,5,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,187604,320.11
-10003,DE,New Castle,yes,rules_in_force,0,1,0,0,0,0,1,solar,2017,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,577961,1355.64
+10003,DE,New Castle,yes,rules_in_force,1,1,0,0,0,0,0,solar,2017,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,577961,1355.64
 10005,DE,Sussex,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,4,2,1,1,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,255626,273.06
 11001,DC,District of Columbia,yes,rules_in_force,1,1,0,0,0,0,0,solar,2019,0,0,0,0,0,,4,1,,unknown,681294,11145.73
 12001,FL,Alachua,yes,contested_projects_only,0,0,0,0,0,0,0,,,2,2,0,0,0,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,285492,326.04
@@ -682,7 +682,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17167,IL,Sangamon,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,8,1,local_government,yes,194947,224.53
 17169,IL,Schuyler,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,0,local_government,yes,6787,15.52
 17171,IL,Scott,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,3,0,local_government,yes,4937,19.69
-17173,IL,Shelby,yes,severe_rules_in_force,2,1,1,0,1,2,2,solar;wind;battery_storage,2026,1,0,0,1,2,,8,3,local_government,yes,20720,27.32
+17173,IL,Shelby,yes,severe_rules_in_force,4,1,1,0,1,2,0,solar;wind;battery_storage,2026,1,0,0,1,2,,8,3,local_government,yes,20720,27.32
 17175,IL,Stark,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,5308,18.42
 17177,IL,Stephenson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,local_government,yes,43768,77.57
 17179,IL,Tazewell,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,1,1,0,0,2,,6,1,local_government,yes,130290,201.54
@@ -1084,7 +1084,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 21175,KY,Morgan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,14053,36.87
 21177,KY,Muhlenberg,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,30591,65.47
 21179,KY,Nelson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,47606,113.7
-21181,KY,Nicholas,yes,moratorium_in_force,2,3,3,2,0,0,1,solar;wind,2026,1,0,0,1,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,7708,39.47
+21181,KY,Nicholas,yes,moratorium_in_force,3,3,3,2,0,0,0,solar;wind,2026,1,0,0,1,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,7708,39.47
 21183,KY,Ohio,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,23735,40.43
 21185,KY,Oldham,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,69257,369.78
 21187,KY,Owen,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,11330,32.33

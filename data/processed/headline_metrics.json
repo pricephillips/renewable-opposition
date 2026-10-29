@@ -4,66 +4,66 @@
     "instruments": 3423,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3334,
-        "severe_instruments": 1348,
+        "instruments": 3338,
+        "severe_instruments": 1350,
         "states": 51,
         "by_status": {
-          "active": 953,
+          "active": 956,
           "extended": 57,
-          "pending": 6,
+          "pending": 7,
           "unknown": 2318
         },
         "by_technology": {
-          "battery_storage": 141,
-          "solar": 1664,
-          "wind": 1694
+          "battery_storage": 142,
+          "solar": 1667,
+          "wind": 1697
         },
         "by_evidence_level": {
           "compiled_flagged": 2344,
           "compiled_record": 60,
-          "primary_source": 124,
+          "primary_source": 128,
           "report_citation": 806
         },
         "by_verification": {
           "unverified": 3210,
-          "verified": 124
+          "verified": 128
         },
         "by_currency": {
-          "in_force": 1009,
+          "in_force": 1012,
           "lapsed_unconfirmed": 1,
-          "pending": 6,
+          "pending": 7,
           "unknown": 2318
         },
-        "severe_where_state_limits_local": 927
+        "severe_where_state_limits_local": 929
       },
       "multi_sector_data_centers": {
-        "instruments": 89,
-        "severe_instruments": 79,
-        "states": 28,
+        "instruments": 85,
+        "severe_instruments": 77,
+        "states": 26,
         "by_status": {
-          "active": 70,
+          "active": 67,
           "extended": 10,
-          "pending": 9
+          "pending": 8
         },
         "by_technology": {
-          "battery_storage": 73,
-          "solar": 41,
-          "wind": 23
+          "battery_storage": 72,
+          "solar": 38,
+          "wind": 20
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
           "compiled_record": 66,
-          "primary_source": 14
+          "primary_source": 10
         },
         "by_verification": {
           "unverified": 75,
-          "verified": 14
+          "verified": 10
         },
         "by_currency": {
-          "in_force": 80,
-          "pending": 9
+          "in_force": 77,
+          "pending": 8
         },
-        "severe_where_state_limits_local": 35
+        "severe_where_state_limits_local": 33
       }
     },
     "by_source": {

@@ -4,7 +4,7 @@ Generated 2026-10-29 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3334 renewables-only restriction instruments (1348 severe, 124 verified, 1 past their end date with no confirmed extension, 927 severe ones in states whose siting law limits local reach); 579 contested projects (155 confirmed); 39 cases.
+3338 renewables-only restriction instruments (1350 severe, 128 verified, 1 past their end date with no confirmed extension, 929 severe ones in states whose siting law limits local reach); 579 contested projects (155 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 342, of which 244 blocked; confirmed outcomes only: 154, 80 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -77,4 +77,4 @@ Last error by source: gdelt_renewable_news (2026-10-27: 429 Client Error: Too Ma
 
 ## History and archive
 
-142 snapshot rows over 5 published files; 16 headline changes recorded (2026-09-29 to 2026-10-29). Sources: 84, of which 28 have an Internet Archive snapshot.
+144 snapshot rows over 5 published files; 16 headline changes recorded (2026-09-29 to 2026-10-29). Sources: 84, of which 28 have an Internet Archive snapshot.
