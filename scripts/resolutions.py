@@ -81,6 +81,7 @@ RESTRICTION_PATH = REVIEW_DIR / "restriction_sources.csv"
 PLACE_OVERRIDE_PATH = REVIEW_DIR / "place_overrides.csv"
 QUEUE_PATH = REVIEW_DIR / "queue.csv"
 STATUS_PATH = REVIEW_DIR / "status_resolutions.csv"
+NREL_CONFLICTS_PATH = REVIEW_DIR / "nrel_restriction_conflicts.csv"
 
 OUTCOME_FIELDS = ["source_record_id", "project_name", "outcome", "evidence_url",
                   "evidence_date", "evidence_note", "reviewer", "access", "archived_url"]
@@ -195,6 +196,18 @@ def retired_instruments(path: Path | None = None) -> set[str]:
             and _s(r.get("status")) in NOT_IN_FORCE and _s(r.get("queue_id"))}
 
 
+def duplicate_nrel_instruments(path: Path | None = None) -> set[str]:
+    """Instrument ids of NREL rows nrel_ordinances.py left out as duplicates of
+    a Sabin, Moratorium Nation or promoted queue row. A reviewer verdict or
+    status reading taken on the NREL row before it was deduplicated stays in
+    its review file and is checked, but has no row to lay on."""
+    path = path or NREL_CONFLICTS_PATH
+    if not path.exists():
+        return set()
+    return {f"nrel:{_s(r.get('nrel_id'))}" for r in read_csv(path)
+            if _s(r.get("decision")).startswith("duplicate") and _s(r.get("nrel_id"))}
+
+
 def apply_restriction_sources(rows: list[dict], path: Path | None = None,
                               retired: set[str] | None = None) -> list[str]:
     """Lay reviewer verdicts over the restrictions. A verdict on an instrument
@@ -236,14 +249,17 @@ def apply_restriction_sources(rows: list[dict], path: Path | None = None,
     return errors
 
 
-def apply_status_resolutions(rows: list[dict], path: Path | None = None) -> list[str]:
+def apply_status_resolutions(rows: list[dict], path: Path | None = None,
+                             retired: set[str] | None = None) -> list[str]:
     """Lay agreed status readings (data/review/status_resolutions.csv) over the
     published status: two readers of the instrument, its code or the minutes
     that acted on it agree what the instrument's status is today. Sets
     `status`, `status_checked_on` and `status_evidence_url` on every row of the
     instrument, and `current_end_date_iso` when the reading gives a full end
-    date. Only a read source (opened or archived) settles a status."""
+    date. Only a read source (opened or archived) settles a status. A reading
+    on an instrument in ``retired`` is checked but has no row to lay on."""
     path = path or STATUS_PATH
+    retired = retired or set()
     errors: list[str] = []
     by_iid: dict[str, list[dict]] = {}
     for r in rows:
@@ -257,7 +273,7 @@ def apply_status_resolutions(rows: list[dict], path: Path | None = None) -> list
             errors.append(f"{where}: {iid} is listed twice")
             continue
         seen.add(iid)
-        if iid not in by_iid or not iid:
+        if (iid not in by_iid and iid not in retired) or not iid:
             errors.append(f"{where}: no restriction has instrument_id {iid!r}")
             continue
         if status not in RESOLVED_STATUSES:
@@ -288,7 +304,7 @@ def apply_status_resolutions(rows: list[dict], path: Path | None = None) -> list
         if not is_read(res.get("access")):
             errors.append(f"{where}: access snippet never settles a status; read the source")
             continue
-        for row in by_iid[iid]:
+        for row in by_iid.get(iid, []):
             row["status"] = status
             row["status_checked_on"] = _s(res.get("checked_on"))
             row["status_evidence_url"] = url

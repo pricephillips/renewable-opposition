@@ -265,8 +265,9 @@ def build_entity(entity: str, filename: str,
     if entity == "contested_projects":
         errors += resolutions.apply_outcomes(rows, qc_gate.VOCAB[entity]["outcome"])
     elif entity == "restrictions":
-        errors += resolutions.apply_restriction_sources(rows, retired=resolutions.retired_instruments())
-        errors += resolutions.apply_status_resolutions(rows)
+        retired = resolutions.retired_instruments() | resolutions.duplicate_nrel_instruments()
+        errors += resolutions.apply_restriction_sources(rows, retired=retired)
+        errors += resolutions.apply_status_resolutions(rows, retired=retired)
     for row in rows:
         classify.stamp(entity, row)
     if entity == "restrictions":
