@@ -163,6 +163,18 @@ def test_a_verdict_on_a_lifted_queue_instrument_stays_without_a_row(tmp_path):
     assert "access" in resolutions.apply_restriction_sources([], bad, retired={"queue:q_1"})[0]
 
 
+def test_a_reading_on_a_deduplicated_nrel_row_stays_without_a_row(tmp_path):
+    """nrel_ordinances.py leaves out an NREL row that duplicates a promoted queue
+    row; the verdict and status reading taken on it are still checked."""
+    c = _write(tmp_path / "c.csv", "nrel_id,decision\n"
+               "solar:08075,duplicate: not published again\nwind:08075,\"conflict: both kept, review\"\n")
+    assert resolutions.duplicate_nrel_instruments(c) == {"nrel:solar:08075"}
+    s = _write(tmp_path / "s.csv", "instrument_id,status,evidence_url,checked_on,access\n"
+               "nrel:solar:08075,active,https://county.gov/r.pdf,2026-10-19,opened\n")
+    assert resolutions.apply_status_resolutions([], s, retired={"nrel:solar:08075"}) == []
+    assert "no restriction has instrument_id" in resolutions.apply_status_resolutions([], s)[0]
+
+
 def test_a_snippet_primary_source_is_attached_but_upgrades_nothing(tmp_path):
     rows = [classify.stamp("restrictions", mn(t, "solar;wind")) for t in ("solar", "wind")]
     f = _write(tmp_path / "s.csv", "instrument_id,primary_source_url,verdict,access\n"
