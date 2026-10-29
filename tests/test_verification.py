@@ -92,6 +92,7 @@ def test_profiles_print_verification_and_verified_only_counts_what_it_left_out()
 
 
 def test_the_sibling_repository_name_is_not_a_data_center_mention():
-    row = res(notes="Lead from data-center-map master_opposition.csv row 70.")
+    row = res(description="Wind rules. Lead from data-center-map master_opposition.csv row 70.")
     assert row["scope"] == "renewables_only"
-    assert res(notes="Also pauses data centers.")["scope"] == "multi_sector_data_centers"
+    assert res(description="Wind rules. Also pauses data centers.")["scope"] == "multi_sector_data_centers"
+    assert res(notes="Reviewer: also pauses data centers.")["scope"] == "renewables_only"

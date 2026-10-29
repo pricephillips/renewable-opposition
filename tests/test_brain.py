@@ -28,6 +28,9 @@ def test_scope_uses_sectors_and_catches_data_center_only_text():
     assert classify.scope(mn("wind", "data_center;wind", desc="Data center window of review.")) == "data_center_only"
     # A Sabin row with no sectors column is renewables-only unless its text says otherwise
     assert classify.scope({"description": "Setbacks for wind turbines."}) == "renewables_only"
+    reviewed = {"description": "Setbacks for wind turbines.",
+                "notes": "Reviewer: the board also adopted a separate data center moratorium."}
+    assert classify.scope(reviewed) == "renewables_only"
 
 
 def test_multi_sector_is_reported_beside_the_headline_not_in_it():
