@@ -30,6 +30,9 @@ scope           restrictions only. Whether the instrument is aimed at
                                              record, so qc_gate holds it for review
                 Moratorium Nation's `sectors` is authoritative when present; the
                 text test is the fallback (Sabin rows) and the contradiction check.
+                The text test reads the record's own text, not `notes`: a
+                promoted queue row carries its reviewer notes there, and a
+                reviewer's aside about another instrument is not the scope.
 
 evidence_level  How far the record is from a primary source, best first:
                   primary_source     a reviewer confirmed the record against a
@@ -201,6 +204,7 @@ RENEWABLE_TEXT = re.compile(
 DATA_CENTER_TEXT = re.compile(
     r"data[ -]?cent(?:er|re)s?|data processing facilit|crypto|bitcoin|hyperscale", re.I)
 TEXT_FIELDS = ("description", "long_description", "notes", "legal_basis")
+SCOPE_TEXT_FIELDS = tuple(f for f in TEXT_FIELDS if f != "notes")
 
 EVIDENCE_ORDER = ("primary_source", "confirmed", "court_record", "compiled_record",
                   "compiled_flagged", "report_citation")
@@ -294,7 +298,7 @@ SOURCE_NAMES = re.compile(r"data-center-map", re.I)
 
 
 def scope(row: dict) -> str:
-    text = SOURCE_NAMES.sub(" ", _text(row))
+    text = SOURCE_NAMES.sub(" ", " ".join(_s(row.get(f)) for f in SCOPE_TEXT_FIELDS))
     names_renewable = bool(RENEWABLE_TEXT.search(text))
     names_data_center = bool(DATA_CENTER_TEXT.search(text))
     if names_data_center and not names_renewable:
