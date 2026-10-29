@@ -1,38 +1,38 @@
 {
   "restrictions": {
-    "rows": 3636,
-    "instruments": 3423,
+    "rows": 3635,
+    "instruments": 3422,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3338,
+        "instruments": 3337,
         "severe_instruments": 1350,
         "states": 51,
         "by_status": {
           "active": 956,
           "extended": 57,
           "pending": 7,
-          "unknown": 2318
+          "unknown": 2317
         },
         "by_technology": {
           "battery_storage": 142,
-          "solar": 1667,
+          "solar": 1666,
           "wind": 1697
         },
         "by_evidence_level": {
-          "compiled_flagged": 2344,
+          "compiled_flagged": 2343,
           "compiled_record": 60,
           "primary_source": 128,
           "report_citation": 806
         },
         "by_verification": {
-          "unverified": 3210,
+          "unverified": 3209,
           "verified": 128
         },
         "by_currency": {
           "in_force": 1012,
           "lapsed_unconfirmed": 1,
           "pending": 7,
-          "unknown": 2318
+          "unknown": 2317
         },
         "severe_where_state_limits_local": 929
       },
@@ -83,10 +83,10 @@
         }
       },
       "NREL": {
-        "instruments": 2361,
+        "instruments": 2360,
         "severe_instruments": 640,
         "by_verification": {
-          "unverified": 2314,
+          "unverified": 2313,
           "verified": 47
         }
       },
@@ -108,7 +108,7 @@
       }
     },
     "by_verification": {
-      "unverified": 3285,
+      "unverified": 3284,
       "verified": 138
     }
   },

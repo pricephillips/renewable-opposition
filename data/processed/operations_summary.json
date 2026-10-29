@@ -2,7 +2,7 @@
  "generated": "2026-10-29",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3338,
+  "restriction_instruments": 3337,
   "severe": 1350,
   "verified": 128,
   "lapsed_unconfirmed": 1,
@@ -58,12 +58,12 @@
   }
  },
  "quarantine": {
-  "rows": 31,
+  "rows": 30,
   "by_entity": {
-   "restrictions": 31
+   "restrictions": 30
   },
   "by_blocking_code": {
-   "PRIMARY_SOURCE_CONTRADICTS": 23,
+   "PRIMARY_SOURCE_CONTRADICTS": 22,
    "SCOPE_DATA_CENTER_ONLY": 8
   }
  },
@@ -81,20 +81,20 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3285,
+   "rows": 3284,
    "by_tier": {
     "compiled_record": 126,
-    "compiled_flagged": 2353,
+    "compiled_flagged": 2352,
     "report_citation": 806
    },
    "lapsed": 1,
    "by_county_impact": {
-    "none": 2532,
+    "none": 2531,
     "sole_severe": 397,
     "sole_record": 356
    },
-   "with_located_url": 7,
-   "flagged": 455
+   "with_located_url": 6,
+   "flagged": 454
   },
   "negative_checks": {
    "rows": 8,
@@ -207,13 +207,13 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 144,
+  "snapshot_rows": 147,
   "snapshot_files": 5,
   "headline_history_rows": 16,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-10-29",
   "latest": {
-   "restrictions": "3338",
+   "restrictions": "3337",
    "severe_restrictions": "1350",
    "verified_restrictions": "128",
    "multi_sector_restrictions": "85",

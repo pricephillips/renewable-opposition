@@ -8,20 +8,20 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3338 | 85 |
+| Instruments | 3337 | 85 |
 | Severe (severity 3 or 4) | 1350 | 77 |
 | States | 51 | 26 |
-| Evidence: compiled_flagged | 2344 | 9 |
+| Evidence: compiled_flagged | 2343 | 9 |
 | Evidence: compiled_record | 60 | 66 |
 | Evidence: primary_source | 128 | 10 |
 | Evidence: report_citation | 806 | 0 |
 | Verification: verified | 128 | 10 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 3210 | 75 |
+| Verification: unverified | 3209 | 75 |
 | Currency: in_force | 1012 | 77 |
 | Currency: lapsed_unconfirmed | 1 | 0 |
 | Currency: pending | 7 | 8 |
-| Currency: unknown | 2318 | 0 |
+| Currency: unknown | 2317 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
@@ -29,7 +29,7 @@ Of the severe instruments, 929 (renewables only) and 33 (also covering data cent
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3636 published rows describe 3423 instruments.
+3635 published rows describe 3422 instruments.
 
 ## Contested projects
 
@@ -116,7 +116,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 |---|---|---:|---:|---:|---:|---:|
 | Restrictions | Sabin 2026 | 756 | 531 | 9 | 0 | 747 |
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 0 | 0 | 55 |
-| Restrictions | NREL | 2361 | 640 | 47 | 0 | 2314 |
+| Restrictions | NREL | 2360 | 640 | 47 | 0 | 2313 |
 | Restrictions | Moratorium Nation | 209 | 198 | 44 | 0 | 165 |
 | Restrictions | review queue | 42 | 17 | 38 | 0 | 4 |
 | Contested projects | Sabin 2026 | 568 |  | 156 | 0 | 412 |

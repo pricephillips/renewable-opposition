@@ -6,13 +6,13 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 3667 | 31 |
+| restrictions | 3665 | 30 |
 | contested_projects | 579 | 0 |
 | cases | 40 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|
-| PRIMARY_SOURCE_CONTRADICTS | HIGH | 23 |
+| PRIMARY_SOURCE_CONTRADICTS | HIGH | 22 |
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
 | END_DATE_PASSED | MEDIUM | 1 |
 
@@ -27,7 +27,6 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_54f2333d31 | CA | Sonoma County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_9a4e49ae33 | CO | Kiowa County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_4124ff9c37 | CO | Logan County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
-| restrictions | res_f6a41d8f1c | CO | Logan County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_a481e40503 | CO | Washington County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_abc7331c92 | IA | Dickinson County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_2b245a9f03 | IA | Franklin County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |

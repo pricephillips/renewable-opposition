@@ -8,8 +8,8 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 164 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
-| severe | 367 | Severe: rules likely to block most projects |
+| closed | 163 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| severe | 368 | Severe: rules likely to block most projects |
 | restrictive | 376 | Restrictive: material rules, or blocked projects |
 | regulated | 625 | Regulated but open: rules in force, projects approved under them |
 | open | 385 | Open: nothing restrictive on record |

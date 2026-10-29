@@ -6,7 +6,7 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 0 | 7 |
+| restrictions | 0 | 1 | 3 |
 | contested_projects | 0 | 0 | 0 |
 | cases | 0 | 0 | 0 |
 | state_policies | 0 | 0 | 0 |
@@ -19,12 +19,9 @@ No changes to outcome, status, case_status, finality_evidence, severity_score.
 
 ### restrictions
 
-| @@ | id | state | jurisdiction | scope |
+| @@ | id | state | jurisdiction | conflicts_with |
 |---|---|---|---|---|
-| -> | res_9487cf1b76 | DE | New Castle County | multi_sector_data_centers->renewables_only |
-| -> | res_6c30dff453 | KY | Nicholas County | multi_sector_data_centers->renewables_only |
-| -> | res_ea95bd0d5a | IL | Shelby County | multi_sector_data_centers->renewables_only |
-| -> | res_d66ae705ae | IL | Shelby County | multi_sector_data_centers->renewables_only |
-| -> | res_ffef79cf15 | IL | Shelby County | multi_sector_data_centers->renewables_only |
-| -> | res_c30c5a7b7d | IL | Shelby County | multi_sector_data_centers->renewables_only |
-| -> | res_e8848a908a | IL | Shelby County | multi_sector_data_centers->renewables_only |
+| --- | res_0d2da401d5 | IL | Shelby County |  |
+| -> | res_75c15f830a | OH | Huron County | ->queue:q_3897eb252a |
+| -> | res_f642439160 | IL | Shelby County | ->queue:q_93d5a7953c; queue:q_961a84dda5 |
+| -> | res_bf988a9d27 | KS | Crawford County | ->queue:q_a7ea2ffcf0; queue:q_c0783bb26d |

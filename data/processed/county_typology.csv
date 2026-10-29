@@ -682,7 +682,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17167,IL,Sangamon,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,8,1,local_government,yes,194947,224.53
 17169,IL,Schuyler,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,0,local_government,yes,6787,15.52
 17171,IL,Scott,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,3,0,local_government,yes,4937,19.69
-17173,IL,Shelby,yes,severe_rules_in_force,4,1,1,0,1,2,0,solar;wind;battery_storage,2026,1,0,0,1,2,,8,3,local_government,yes,20720,27.32
+17173,IL,Shelby,yes,severe_rules_in_force,3,1,1,0,1,1,0,solar;wind;battery_storage,2026,1,0,0,1,2,,8,3,local_government,yes,20720,27.32
 17175,IL,Stark,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,5308,18.42
 17177,IL,Stephenson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,local_government,yes,43768,77.57
 17179,IL,Tazewell,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,1,1,0,0,2,,6,1,local_government,yes,130290,201.54

@@ -4,20 +4,20 @@ Generated 2026-10-29 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3338 renewables-only restriction instruments (1350 severe, 128 verified, 1 past their end date with no confirmed extension, 929 severe ones in states whose siting law limits local reach); 579 contested projects (155 confirmed); 39 cases.
+3337 renewables-only restriction instruments (1350 severe, 128 verified, 1 past their end date with no confirmed extension, 929 severe ones in states whose siting law limits local reach); 579 contested projects (155 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 342, of which 244 blocked; confirmed outcomes only: 154, 80 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
-31 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 23 PRIMARY_SOURCE_CONTRADICTS, 8 SCOPE_DATA_CENTER_ONLY.
+30 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 22 PRIMARY_SOURCE_CONTRADICTS, 8 SCOPE_DATA_CENTER_ONLY.
 
 ## Worklists
 
 | Worklist | Rows | Notes |
 |---|---:|---|
 | outcome_worklist.csv | 416 | 133 overdue, 12 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3285 | 1 lapsed, 397 sole severe in a county, 7 with a located source |
+| restriction_worklist.csv | 3284 | 1 lapsed, 397 sole severe in a county, 6 with a located source |
 | negative_check_worklist.csv | 8 | 8 no check on record |
 | adjacency_worklist.csv | 261 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
@@ -77,4 +77,4 @@ Last error by source: gdelt_renewable_news (2026-10-27: 429 Client Error: Too Ma
 
 ## History and archive
 
-144 snapshot rows over 5 published files; 16 headline changes recorded (2026-09-29 to 2026-10-29). Sources: 84, of which 28 have an Internet Archive snapshot.
+147 snapshot rows over 5 published files; 16 headline changes recorded (2026-09-29 to 2026-10-29). Sources: 84, of which 28 have an Internet Archive snapshot.
