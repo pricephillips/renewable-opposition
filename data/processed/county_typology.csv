@@ -606,7 +606,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17015,IL,Carroll,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,local_government,yes,15576,34.97
 17017,IL,Cass,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,local_government,yes,12784,34.02
 17019,IL,Champaign,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,3,local_government,yes,208741,209.56
-17021,IL,Christian,yes,rules_in_force,2,1,0,0,0,1,0,wind,,1,0,0,1,1,,4,2,local_government,yes,33538,47.27
+17021,IL,Christian,yes,severe_rules_in_force,7,6,3,0,0,1,0,solar;wind;battery_storage,2024,1,0,0,1,1,,4,2,local_government,yes,33538,47.27
 17023,IL,Clark,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,7,1,local_government,yes,15266,30.45
 17025,IL,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,13052,27.87
 17027,IL,Clinton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,36954,77.97

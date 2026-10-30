@@ -1,10 +1,10 @@
 # Operations summary
 
-Generated 2026-10-29 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-10-30 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
-3337 renewables-only restriction instruments (1350 severe, 128 verified, 1 past their end date with no confirmed extension, 929 severe ones in states whose siting law limits local reach); 579 contested projects (155 confirmed); 39 cases.
+3342 renewables-only restriction instruments (1353 severe, 133 verified, 1 past their end date with no confirmed extension, 932 severe ones in states whose siting law limits local reach); 579 contested projects (155 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 342, of which 244 blocked; confirmed outcomes only: 154, 80 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -17,27 +17,27 @@ Decided projects (events older than 90 days): 342, of which 244 blocked; confirm
 | Worklist | Rows | Notes |
 |---|---:|---|
 | outcome_worklist.csv | 416 | 133 overdue, 12 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3284 | 1 lapsed, 397 sole severe in a county, 6 with a located source |
+| restriction_worklist.csv | 3284 | 1 lapsed, 396 sole severe in a county, 8 with a located source |
 | negative_check_worklist.csv | 8 | 8 no check on record |
 | adjacency_worklist.csv | 261 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
 
 ## Review and promotion
 
-Queue: 48 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 83 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 53 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 83 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 119 decisions from 2026-10-13 to 2026-10-29 (new or changed decisions only): 89 promoted, 16 held, 9 awaiting_review, 4 rejected, 1 unpublished.
+Promotion trail: 124 decisions from 2026-10-13 to 2026-10-30 (new or changed decisions only): 94 promoted, 16 held, 9 awaiting_review, 4 rejected, 1 unpublished.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
+| 2026-10-30 | queue.csv | promoted | IL Assumption |  |
+| 2026-10-30 | queue.csv | promoted | IL Assumption |  |
+| 2026-10-30 | queue.csv | promoted | IL Christian County |  |
+| 2026-10-30 | queue.csv | promoted | IL Christian County |  |
+| 2026-10-30 | queue.csv | promoted | IL Christian County |  |
 | 2026-10-29 | queue.csv | promoted | IL Shelby County |  |
 | 2026-10-29 | queue.csv | promoted | IL Shelby County |  |
 | 2026-10-23 | queue.csv | promoted | CA San Joaquin County |  |
-| 2026-10-23 | queue.csv | promoted | CA San Joaquin County |  |
-| 2026-10-23 | queue.csv | promoted | KS Crawford County |  |
-| 2026-10-23 | queue.csv | promoted | KS Crawford County |  |
-| 2026-10-23 | queue.csv | promoted | KS Bourbon County |  |
-| 2026-10-23 | queue.csv | held | KS Bourbon County | status expired: the instrument is no longer in force, so it is not published |
 
 ## What checking found
 
@@ -77,4 +77,4 @@ Last error by source: gdelt_renewable_news (2026-10-27: 429 Client Error: Too Ma
 
 ## History and archive
 
-147 snapshot rows over 5 published files; 16 headline changes recorded (2026-09-29 to 2026-10-29). Sources: 84, of which 28 have an Internet Archive snapshot.
+150 snapshot rows over 5 published files; 17 headline changes recorded (2026-09-29 to 2026-10-30). Sources: 86, of which 28 have an Internet Archive snapshot.

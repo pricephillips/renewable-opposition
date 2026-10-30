@@ -43,7 +43,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
-      "rows": 3635,
+      "rows": 3640,
       "schema": {
         "fields": [
           {
@@ -237,6 +237,11 @@
             "description": "Another source's instrument for the same jurisdiction and technology whose values disagree."
           },
           {
+            "name": "primary_source_archived_url",
+            "type": "string",
+            "description": "The Internet Archive copy the reviewer read, when access is archived."
+          },
+          {
             "name": "source_id",
             "type": "string",
             "description": "Hash of the normalized source URL; joins sources.csv."
@@ -310,11 +315,6 @@
             "name": "primary_source_checked_on",
             "type": "string",
             "description": "The date the reviewer checked the primary source."
-          },
-          {
-            "name": "primary_source_archived_url",
-            "type": "string",
-            "description": "The Internet Archive copy the reviewer read, when access is archived."
           },
           {
             "name": "placement_url",
@@ -1264,7 +1264,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "One row per cited source document, with its Internet Archive snapshot.",
-      "rows": 84,
+      "rows": 86,
       "schema": {
         "fields": [
           {

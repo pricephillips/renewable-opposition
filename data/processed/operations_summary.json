@@ -1,12 +1,12 @@
 {
- "generated": "2026-10-29",
+ "generated": "2026-10-30",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3337,
-  "severe": 1350,
-  "verified": 128,
+  "restriction_instruments": 3342,
+  "severe": 1353,
+  "verified": 133,
   "lapsed_unconfirmed": 1,
-  "severe_where_state_limits_local": 929,
+  "severe_where_state_limits_local": 932,
   "projects": 579,
   "projects_confirmed": 155,
   "decided": {
@@ -89,12 +89,12 @@
    },
    "lapsed": 1,
    "by_county_impact": {
-    "none": 2531,
-    "sole_severe": 397,
+    "none": 2532,
+    "sole_severe": 396,
     "sole_record": 356
    },
-   "with_located_url": 6,
-   "flagged": 454
+   "with_located_url": 8,
+   "flagged": 455
   },
   "negative_checks": {
    "rows": 8,
@@ -115,22 +115,57 @@
   }
  },
  "promotion_trail": {
-  "decisions": 119,
+  "decisions": 124,
   "by_action": {
-   "promoted": 89,
+   "promoted": 94,
    "held": 16,
    "awaiting_review": 9,
    "rejected": 4,
    "unpublished": 1
   },
   "by_file": {
-   "queue.csv": 71,
+   "queue.csv": 76,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-29",
+  "last": "2026-10-30",
   "recent": [
    {
+    "date": "2026-10-30",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Assumption",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-30",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Assumption",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-30",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Christian County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-30",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Christian County",
+    "reason": ""
+   },
+   {
+    "date": "2026-10-30",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "IL Christian County",
+    "reason": ""
+   },
+   {
     "date": "2026-10-29",
     "file": "queue.csv",
     "action": "promoted",
@@ -150,47 +185,12 @@
     "action": "promoted",
     "what": "CA San Joaquin County",
     "reason": ""
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "CA San Joaquin County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "KS Crawford County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "KS Crawford County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "KS Bourbon County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "held",
-    "what": "KS Bourbon County",
-    "reason": "status expired: the instrument is no longer in force, so it is not published"
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 48,
+   "promoted": 53,
    "rejected": 4,
    "confirmed": 6,
    "pending": 2,
@@ -198,7 +198,7 @@
    "lead": 83
   },
   "queue_by_entity": {
-   "restriction": 80,
+   "restriction": 85,
    "contested_project": 58,
    "case": 9
   },
@@ -207,15 +207,15 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 147,
+  "snapshot_rows": 150,
   "snapshot_files": 5,
-  "headline_history_rows": 16,
+  "headline_history_rows": 17,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-10-29",
+  "headline_last_change": "2026-10-30",
   "latest": {
-   "restrictions": "3337",
-   "severe_restrictions": "1350",
-   "verified_restrictions": "128",
+   "restrictions": "3342",
+   "severe_restrictions": "1353",
+   "verified_restrictions": "133",
    "multi_sector_restrictions": "85",
    "contested_projects": "579",
    "confirmed_outcomes": "155",
@@ -228,9 +228,9 @@
   }
  },
  "source_archive": {
-  "sources": 84,
+  "sources": 86,
   "archived": 28,
-  "archived_share": 0.333
+  "archived_share": 0.326
  },
  "evidence_checks": {
   "restriction_sources": {

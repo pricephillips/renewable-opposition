@@ -606,7 +606,7 @@ county_fips,state,county,coverage,restrictions_renewables,restrictions_renewable
 17015,IL,Carroll,record,2,0,0,0,0,0,0,0,0,0,2,,
 17017,IL,Cass,record,1,0,0,0,0,0,0,0,0,0,1,,
 17019,IL,Champaign,record,1,0,0,0,0,0,0,0,0,0,2,,
-17021,IL,Christian,record,2,1,0,0,1,0,0,1,0,0,1,,
+17021,IL,Christian,record,7,4,5,0,1,0,0,1,0,0,1,,
 17023,IL,Clark,record,0,0,0,0,1,0,0,1,0,0,0,,
 17025,IL,Clay,none,0,0,0,0,0,0,0,0,0,0,0,,
 17027,IL,Clinton,none,0,0,0,0,0,0,0,0,0,0,0,,

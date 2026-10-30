@@ -606,7 +606,7 @@
 ["17015","IL","Carroll",true,2,0,0,0,0,2,0,0,0,0,18,0,0,null,null,null,"has_records"],
 ["17017","IL","Cass",true,1,0,0,0,0,2,0,0,0,0,12,0,0,null,null,null,"has_records"],
 ["17019","IL","Champaign",true,1,0,0,0,0,2,0,0,0,0,20,5,0,null,null,null,"has_records"],
-["17021","IL","Christian",true,2,1,0,0,0,3,1,0,0,0,7,0,0,null,null,null,"has_records"],
+["17021","IL","Christian",true,7,4,5,0,0,4,1,0,0,0,7,0,0,null,null,null,"has_records"],
 ["17023","IL","Clark",true,0,0,0,0,0,null,1,0,0,0,0,0,0,null,null,null,"has_records"],
 ["17025","IL","Clay",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
 ["17027","IL","Clinton",true,0,0,0,0,0,null,0,0,0,0,0,0,0,null,null,null,"not_examined"],
