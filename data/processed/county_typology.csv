@@ -222,7 +222,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 06067,CA,Sacramento,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,8,4,hybrid,yes,1594006,1651.34
 06069,CA,San Benito,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,5,4,hybrid,yes,67290,48.46
 06071,CA,San Bernardino,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,6,3,0,3,2,,8,4,hybrid,yes,2197104,109.48
-06073,CA,San Diego,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,,4,2,0,2,1,,3,2,hybrid,yes,3288774,781.1
+06073,CA,San Diego,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,,4,2,1,1,1,,3,2,hybrid,yes,3288774,781.1
 06075,CA,San Francisco,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,1,0,hybrid,yes,830235,17783.76
 06077,CA,San Joaquin,yes,rules_in_force,2,2,0,0,0,0,0,solar;wind,2023,0,0,0,0,0,,6,1,hybrid,yes,797334,572.7
 06079,CA,San Luis Obispo,yes,moratorium_in_force,1,1,1,1,0,0,0,battery_storage,2025,1,0,0,1,0,,4,1,hybrid,yes,281555,85.3
@@ -622,7 +622,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17047,IL,Edwards,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,yes,6075,27.32
 17049,IL,Effingham,yes,severe_rules_in_force,3,2,2,0,0,1,0,wind,,0,0,0,0,1,,5,1,local_government,yes,34522,72.11
 17051,IL,Fayette,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,3,local_government,yes,21315,29.75
-17053,IL,Ford,yes,rules_in_force,3,1,0,0,0,2,0,wind,,1,0,0,1,2,,6,3,local_government,yes,13406,27.61
+17053,IL,Ford,yes,rules_in_force,3,1,0,0,0,2,0,wind,,1,0,1,0,2,,6,3,local_government,yes,13406,27.61
 17055,IL,Franklin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,yes,37323,91.27
 17057,IL,Fulton,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,local_government,yes,33020,38.14
 17059,IL,Gallatin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,4819,14.92
@@ -689,7 +689,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17181,IL,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,yes,16997,41.11
 17183,IL,Vermilion,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,7,3,local_government,yes,72386,80.58
 17185,IL,Wabash,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,yes,11119,49.79
-17187,IL,Warren,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,local_government,yes,16447,30.33
+17187,IL,Warren,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,0,local_government,yes,16447,30.33
 17189,IL,Washington,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,1,local_government,yes,13627,24.22
 17191,IL,Wayne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,yes,15973,22.38
 17193,IL,White,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,local_government,yes,13619,27.51
@@ -720,10 +720,10 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 18039,IN,Elkhart,yes,moratorium_in_force,1,1,1,1,0,1,1,battery_storage,2026,1,0,1,0,1,,7,5,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,207132,447.22
 18041,IN,Fayette,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,1,0,0,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,23334,108.52
 18043,IN,Floyd,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,80918,544.95
-18045,IN,Fountain,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,16617,42.0
+18045,IN,Fountain,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,16617,42.0
 18047,IN,Franklin,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,23020,59.88
 18049,IN,Fulton,yes,severe_rules_in_force,2,2,1,0,0,0,0,solar;wind,,0,0,0,0,0,,6,6,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,20312,55.14
-18051,IN,Gibson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,7,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,33000,67.71
+18051,IN,Gibson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,2,,7,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,33000,67.71
 18053,IN,Grant,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,9,9,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,66295,160.1
 18055,IN,Greene,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,31021,57.19
 18057,IN,Hamilton,yes,severe_rules_in_force,2,2,2,0,0,0,0,solar;wind,,1,1,0,0,1,,6,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,365056,925.63
@@ -735,7 +735,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 18069,IN,Huntington,yes,moratorium_in_force,2,2,1,1,0,1,1,solar;battery_storage,2026,0,0,0,0,2,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,36798,96.17
 18071,IN,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,46660,91.49
 18073,IN,Jasper,yes,rules_in_force,3,1,0,0,0,2,0,wind,,0,0,0,0,2,,7,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,33234,59.38
-18075,IN,Jay,yes,rules_in_force,5,3,0,0,0,2,0,solar;wind;battery_storage,2026,0,0,0,0,2,,7,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,20229,52.69
+18075,IN,Jay,yes,rules_in_force,4,3,0,0,0,1,0,solar;wind;battery_storage,2026,0,0,0,0,2,,7,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,20229,52.69
 18077,IN,Jefferson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,1,0,1,1,,7,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,32998,91.48
 18079,IN,Jennings,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,27562,73.19
 18081,IN,Johnson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,166315,519.06
