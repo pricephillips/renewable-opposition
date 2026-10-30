@@ -29,6 +29,16 @@ config/county_record_score.json; read it first. In short:
                a county with no record has evidence too: its government
                cannot restrict. Counties that zone anyway by local act are
                listed as exceptions.
+  preemption   a state law that overrides local rules (config
+               state_preemption, one rule per verified state_policies row)
+               caps the severity a local instrument counts at, technology by
+               technology: 1 where a state permit replaces local approval, 2
+               where statute caps local rules or a state body may set them
+               aside. Each rule names the governments it binds and the
+               project size it reaches (read for reference_project_mw). The
+               same cap bounds the prior of a county with no record.
+               combined_local and tier_local are the score as if every local
+               instrument bound.
   combined     evidence weight x record points + (1 - weight) x profile
                points; the profile points are the mean record points of all
                counties in the same resemblance decile (no record counts as
@@ -77,9 +87,11 @@ REPORT_PATH = ROOT / "data" / "model" / "county_record_report.md"
 FIELDS = [
     "county_fips", "state", "county", "tier", "combined", "combined_pct_us", "combined_normal", "combined_decile",
     "state_rank", "state_n",
-    "basis", "evidence_weight", "record_points", "instrument_points", "zoning_points", "blocked_points",
+    "tier_local", "combined_local",
+    "basis", "evidence_weight", "record_points", "local_points", "preemption_points", "preemption_rules",
+    "instrument_points", "zoning_points", "blocked_points",
     "approval_credit", "top_instrument", "instruments", "verified_instruments", "projects_blocked",
-    "projects_advanced", "plants_built", "profile_score", "profile_decile", "profile_points",
+    "projects_advanced", "plants_built", "profile_score", "profile_decile", "profile_points", "profile_cap",
 ]
 
 
@@ -109,11 +121,13 @@ def instruments(rows: list[dict]) -> dict[str, dict]:
         iid = _s(r.get("instrument_id")) or _s(r.get("id"))
         cur = out.setdefault(iid, {"id": iid, "fips": set(), "techs": set(), "severity": 0, "currency": "",
                                     "jurisdiction_type": "", "restriction_type": "", "jurisdiction": "",
-                                    "verified": False, "year": ""})
+                                    "verified": False, "year": "", "tech_severity": {}})
         cur["fips"].update(_fips(r))
         if _s(r.get("technology")):
             cur["techs"].add(_s(r["technology"]))
         sev = _int(r.get("severity_score"))
+        tech = _s(r.get("technology"))
+        cur["tech_severity"][tech] = max(sev, cur["tech_severity"].get(tech, 0))
         if sev > cur["severity"]:
             cur["severity"], cur["restriction_type"] = sev, _s(r.get("restriction_type"))
         for field in ("currency", "jurisdiction_type", "jurisdiction"):
@@ -157,8 +171,72 @@ def zoning_instruments(cfg: dict, as_of: str) -> dict[str, dict]:
                                  "currency": "in_force", "jurisdiction_type": "County",
                                  "restriction_type": "zoning_transition", "jurisdiction": c["county"],
                                  "verified": _s((c.get("second_reading") or {}).get("verdict")) == "confirmed",
-                                 "year": _s(c.get("drafting_since"))[:4]}
+                                 "year": _s(c.get("drafting_since"))[:4],
+                                 "tech_severity": {t: z["severity"] for t in c["technologies"]}}
     return out
+
+
+# ── State preemption ────────────────────────────────────────────────────────
+
+def preemption_rules(cfg: dict, state: str, as_of: str) -> list[dict]:
+    """The state_preemption rules of a state in effect on as_of (YYYY-MM-DD)."""
+    return [r for r in (cfg.get("state_preemption") or {}).get("rules", [])
+            if r["policy_id"].split("-")[0] == state and (not r["effective"] or r["effective"] <= as_of)
+            and (not r["expires"] or as_of <= r["expires"])]
+
+
+def reaches(rule: dict, tech: str, county_wide: bool, cfg: dict) -> bool:
+    """Whether a rule reaches a local instrument on tech: the rule covers the
+    technology, binds this kind of government, and applies to a project of
+    the reference size."""
+    sp = cfg["state_preemption"]
+    if tech not in rule["technologies"]:
+        return False
+    if rule["binds"] == "county" and not county_wide or rule["binds"] == "non_county" and county_wide:
+        return False
+    least = rule["technologies"][tech]
+    if isinstance(least, dict):
+        return sp["reference_project_mw"] * sp["reference_storage_hours"] >= least["mwh"]
+    return least is None or sp["reference_project_mw"] >= least
+
+
+def ceiling(tech: str, county_wide: bool, rules: list[dict], cfg: dict) -> tuple[int | None, list[str]]:
+    """The lowest ceiling the rules put on a local instrument on tech, and the
+    rules that set it; (None, []) when no rule reaches it."""
+    caps = [(cfg["state_preemption"]["ceilings"][r["mechanism"]], r["policy_id"])
+            for r in rules if reaches(r, tech, county_wide, cfg)]
+    if not caps:
+        return None, []
+    low = min(c for c, _ in caps)
+    return low, sorted({p for c, p in caps if c == low})
+
+
+def preempted(inst: dict, rules: list[dict], cfg: dict) -> dict:
+    """The instrument with its severity capped technology by technology, or
+    the instrument itself when no rule lowers it."""
+    county_wide = is_county_wide(inst, cfg)
+    severity, by = 0, set()
+    for tech, sev in (inst.get("tech_severity") or {"": inst["severity"]}).items():
+        cap, ids = ceiling(tech, county_wide, rules, cfg)
+        if cap is not None and cap < sev:
+            by.update(ids)
+            sev = cap
+        severity = max(severity, sev)
+    if severity >= inst["severity"]:
+        return inst
+    return {**inst, "severity": severity, "local_severity": inst["severity"], "preempted_by": sorted(by)}
+
+
+def prior_cap(rules: list[dict], cfg: dict) -> float | None:
+    """The points of one county-wide instrument in force on solar, wind and
+    battery storage at the highest county ceiling the rules set on them, when
+    a rule reaches every one of the three; None otherwise."""
+    techs = cfg["instruments"]["breadth_technologies"]
+    caps = [ceiling(t, True, rules, cfg)[0] for t in techs]
+    if None in caps or not cfg["state_preemption"].get("cap_prior"):
+        return None
+    return instrument_points({"severity": max(caps), "currency": "in_force", "jurisdiction_type": "County",
+                              "techs": set(techs)}, cfg)
 
 
 def plants(facility_rows: list[dict], cfg: dict) -> dict[str, list[int]]:
@@ -197,14 +275,26 @@ def stack(points: list[float], cfg: dict) -> float:
     return min(ci["cap"], pts[0] + ci["others_weight"] * sum(pts[1:])) if pts else 0.0
 
 
-def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dict) -> dict:
+def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dict, rules: list[dict] = ()) -> dict:
     """The record points of one county from its instruments, its zoning
-    transition (or None) and its contested projects' outcomes."""
+    transition (or None) and its contested projects' outcomes, with each
+    instrument capped by the state preemption rules in effect there.
+    local_points is the same score with no cap."""
+    capped = [preempted(i, list(rules), cfg) for i in insts]
+    capped_zoning = preempted(zoning, list(rules), cfg) if zoning else None
+    out = _record(capped, capped_zoning, outcomes, cfg)
+    local = _record(insts, zoning, outcomes, cfg)["record_points"] if rules else out["record_points"]
+    by = sorted({p for i in capped + [capped_zoning] if i for p in i.get("preempted_by", [])})
+    return {**out, "local_points": local, "preemption_points": round(local - out["record_points"], 2),
+            "preemption_rules": ";".join(by)}
+
+
+def _record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dict) -> dict:
     cp = cfg["projects"]
     scored = sorted(((instrument_points(i, cfg), i) for i in insts + ([zoning] if zoning else [])),
                     key=lambda t: (-t[0], t[1]["id"]))
     base = stack([p for p, _ in scored], cfg)
-    inst_pts = stack([p for p, i in scored if i is not zoning], cfg)
+    inst_pts = stack([p for p, i in scored if i["restriction_type"] != "zoning_transition"], cfg)
     blocked = min(cp["blocked_cap"], sum(max(0, cp["points"].get(o, 0)) for o in outcomes))
     credit = min(cp["approval_cap"], -sum(min(0, cp["points"].get(o, 0)) for o in outcomes),
                  cp["approval_max_share_of_instruments"] * base)
@@ -213,10 +303,12 @@ def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dic
                  and is_county_wide(i, cfg)], default=0.0)
     total = max(floor, base + blocked - credit)
     top = scored[0][1] if scored else None
+    cap = (f" capped from {top['local_severity']} by {';'.join(top['preempted_by'])}"
+           if top and "local_severity" in top else "")
     return {"record_points": round(total, 2), "instrument_points": round(inst_pts, 2),
             "zoning_points": round(base - inst_pts, 2), "blocked_points": round(blocked, 2),
             "approval_credit": round(base + blocked - total, 2) if credit else 0.0,
-            "top_instrument": (f"{top['id']} ({top['restriction_type']}, severity {top['severity']}, "
+            "top_instrument": (f"{top['id']} ({top['restriction_type']}, severity {top['severity']}{cap}, "
                                f"{top['currency']}, {top['jurisdiction']})") if top else ""}
 
 
@@ -277,17 +369,20 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
                if _s(r.get(PROFILE_COLUMN))}
     pdec = deciles(profile)
     ew = cfg["evidence_weight"]
+    rules_by_state: dict[str, list[dict]] = {}
 
     rows = []
     for s in summary_rows:
         f = _s(s["county_fips"])
         if f.startswith("72"):
             continue
+        st = _s(s.get("state"))
+        rules = rules_by_state.setdefault(st, preemption_rules(cfg, st, as_of))
         insts = by_county.get(f, [])
         contested = outcomes.get(f, [])
         advanced = sum(1 for o in contested if o.startswith("advanced"))
         built = uncontested_builds(built_years.get(f, []), insts, zoning.get(f), advanced)
-        rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg)
+        rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg, rules)
         verified = sum(1 for i in insts if i["verified"])
         confirmed = any(o.endswith("_confirmed") for o in contested) or bool(zoning.get(f, {}).get("verified"))
         has_record = bool(insts) or bool(contested) or f in zoning
@@ -314,14 +409,20 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
     # resemblance decile, a county with no record counting as zero. Most
     # counties have never been examined, so this is a floor, as every count
     # here is; averaging only counties with a record would put every
-    # unexamined county above one that approved its projects.
+    # unexamined county above one that approved its projects. The mean is of
+    # points with no state preemption cap (local_points), so a cap in one
+    # state never moves another state's prior; profile_cap applies the
+    # county's own state's cap afterwards.
     by_dec: dict[int, list[float]] = defaultdict(list)
     for r in rows:
         if r["profile_decile"] != "":
-            by_dec[r["profile_decile"]].append(r["record_points"])
+            by_dec[r["profile_decile"]].append(r["local_points"])
     dec_mean = {d: sum(v) / len(v) for d, v in by_dec.items()}
+    caps = {st: prior_cap(rules, cfg) for st, rules in rules_by_state.items()} if rules_by_state else {}
     for r in rows:
-        r["profile_points"] = round(dec_mean.get(r["profile_decile"], 0.0), 2)
+        cap = caps.get(r["state"])
+        r["profile_cap"] = "" if cap is None else round(cap, 2)
+        r["profile_points"] = round(min(dec_mean.get(r["profile_decile"], 0.0), cap if cap is not None else 1e9), 2)
         w = r["evidence_weight"]
         r["combined"] = round(w * r["record_points"] + (1 - w) * r["profile_points"], 2)
         r["tier"] = tier(r["combined"], cfg) if r["basis"] != "profile_only" else "no_record"
@@ -335,6 +436,16 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         for r in st_rows:
             r["state_rank"] = 1 + sum(1 for x in st_rows if x["combined"] > r["combined"])
             r["state_n"] = len(st_rows)
+    # The same rubric with no state preemption: what each county would score
+    # if every local instrument bound.
+    if (cfg.get("state_preemption") or {}).get("rules"):
+        local_cfg = {**cfg, "state_preemption": {**cfg["state_preemption"], "rules": [], "cap_prior": False}}
+        local = {r["county_fips"]: r for r in build(restriction_rows, project_rows, summary_rows, profile_rows,
+                                                    local_cfg, as_of, facility_rows)}
+    else:
+        local = {r["county_fips"]: r for r in rows}
+    for r in rows:
+        r["combined_local"], r["tier_local"] = local[r["county_fips"]]["combined"], local[r["county_fips"]]["tier"]
     return rows
 
 
@@ -367,6 +478,7 @@ def report(rows: list[dict], cfg: dict) -> str:
         L.append(f"| {r['county']}, {r['state']} | {r['tier']} | {r['combined']} ({r['combined_pct_us']}) "
                  f"| {r['record_points']} | {r['instrument_points']} | {r['zoning_points']} | {r['blocked_points']} "
                  f"| {r['approval_credit']} | {r['profile_score']} ({r['profile_decile']}) | {r['top_instrument']} |")
+    L += preemption_report(rows, cfg)
     L += ["", "## Combined score by decile", "",
           "Deciles of U.S. counties ranked by combined score, ties broken by resemblance score. "
           "`combined_normal` is the same rank as a standard normal score.", "",
@@ -392,6 +504,52 @@ def report(rows: list[dict], cfg: dict) -> str:
           f"{sum(1 for r in rec if r['profile_decile'] != '' and r['profile_decile'] <= 3 and r['tier'] in ('closed', 'severe'))} "
           "are closed or severe. These are the counties where the two scores disagree most.", ""]
     return "\n".join(L) + "\n"
+
+
+def preemption_report(rows: list[dict], cfg: dict) -> list[str]:
+    sp = cfg.get("state_preemption") or {}
+    if not sp.get("rules"):
+        return []
+    tiers = [t["name"] for t in cfg["tiers"]] + ["no_record"]
+    L = ["", "## State preemption", "",
+         "Each rule in `state_preemption` caps the severity a local instrument counts at (1 where a state permit "
+         "replaces local approval, 2 where statute caps local rules or a state body may set them aside), for the "
+         f"governments it binds and a project of {sp['reference_project_mw']} MW. `tier_local` and "
+         "`combined_local` are the score with no cap.", "",
+         "| Rule | Mechanism | Ceiling | Binds | Technologies (smallest project reached) | Counties capped | "
+         "Points removed |", "|---|---|---:|---|---|---:|---:|"]
+    for rule in sp["rules"]:
+        hit = [r for r in rows if rule["policy_id"] in r["preemption_rules"].split(";")]
+        techs = ", ".join(f"{t} ({'any' if v is None else str(v['mwh']) + ' MWh' if isinstance(v, dict) else str(v) + ' MW'})"
+                          for t, v in rule["technologies"].items())
+        L.append(f"| {rule['policy_id']} | {rule['mechanism']} | {sp['ceilings'][rule['mechanism']]} | {rule['binds']} "
+                 f"| {techs} | {len(hit)} | {round(sum(r['preemption_points'] for r in hit), 2)} |")
+    moved = [r for r in rows if r["tier"] != r["tier_local"]]
+    L += ["", f"{sum(1 for r in rows if r['preemption_points'])} counties have record points removed and "
+          f"{sum(1 for r in rows if r['profile_cap'] != '' and r['basis'] != 'record')} without a record have their "
+          f"prior capped; {len(moved)} change tier.", "",
+          "| Tier with no cap | " + " | ".join(tiers) + " |", "|---|" + "---:|" * len(tiers)]
+    for a in tiers:
+        L.append(f"| {a} | " + " | ".join(str(sum(1 for r in rows if r["tier_local"] == a and r["tier"] == b))
+                                          for b in tiers) + " |")
+    L += ["", "Rows are the tier with no cap, columns the tier scored.", "",
+          "### Largest reductions", "",
+          "| County | Tier (no cap to scored) | Combined (no cap to scored) | Record points removed | Rules |",
+          "|---|---|---|---:|---|"]
+    for r in sorted(rows, key=lambda r: (r["combined"] - r["combined_local"], r["county_fips"]))[:20]:
+        if r["combined_local"] == r["combined"]:
+            break
+        L.append(f"| {r['county']}, {r['state']} | {r['tier_local']} to {r['tier']} | {r['combined_local']} to "
+                 f"{r['combined']} | {r['preemption_points']} | {r['preemption_rules'] or 'prior cap'} |")
+    ex = {k: v for k, v in sp.get("partial_exemptions", {}).items() if not k.startswith("_")}
+    if ex:
+        L += ["", "### Partial exemptions", "",
+              "The cap still applies in these counties; a site inside the exempt area is not covered by it.", ""]
+        L += [f"- {v}" for v in ex.values()]
+    na = {k: v for k, v in sp.get("not_applied", {}).items() if not k.startswith("_")}
+    if na:
+        L += ["", "### Read and not applied", ""] + [f"- {k}: {v}" for k, v in na.items()]
+    return L
 
 
 def main() -> int:
