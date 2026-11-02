@@ -44,14 +44,14 @@ Each rule in `state_preemption` caps the severity a local instrument counts at (
 | FL-local_preemption-2 | statutory_ceiling | 2 | county | solar (any) | 0 | 0 |
 | MN-local_preemption-1 | replaces_local | 1 | all_local | solar (50 MW), wind (5 MW), battery_storage (10 MW) | 61 | 1446.9 |
 | IA-local_preemption-1 | discretionary_override | 2 | all_local | solar (25 MW), battery_storage (25 MWh) | 25 | 543.42 |
-| MI-local_preemption-1 | replaces_local | 1 | all_local | solar (50 MW), wind (100 MW), battery_storage (50 MW) | 68 | 1375.97 |
+| MI-local_preemption-1 | replaces_local | 1 | all_local | solar (50 MW), wind (100 MW), battery_storage (50 MW) | 68 | 1375.98 |
 | OH-local_preemption-1 | replaces_local | 1 | non_county | solar (50 MW), wind (5 MW) | 2 | 37.8 |
 | RI-local_preemption-1 | replaces_local | 1 | all_local | solar (40 MW), wind (40 MW) | 4 | 79.2 |
-| CT-local_preemption-1 | replaces_local | 1 | all_local | solar (1 MW), wind (1 MW), battery_storage (any) | 7 | 126.24 |
-| VT-local_preemption-1 | replaces_local | 1 | all_local | solar (any), wind (any), battery_storage (any) | 13 | 313.96 |
+| CT-local_preemption-1 | replaces_local | 1 | all_local | solar (1 MW), wind (1 MW), battery_storage (any) | 7 | 126.25 |
+| VT-local_preemption-1 | replaces_local | 1 | all_local | solar (any), wind (any), battery_storage (any) | 13 | 313.95 |
 | CA-local_preemption-1 | replaces_local | 1 | all_local | solar (50 MW), wind (50 MW), battery_storage (200 MWh) | 32 | 624.52 |
 | WA-local_preemption-1 | discretionary_override | 2 | all_local | solar (any), wind (any), battery_storage (any) | 10 | 244.25 |
-| NY-local_preemption-1 | discretionary_override | 2 | all_local | solar (25 MW), wind (25 MW) | 50 | 524.11 |
+| NY-local_preemption-1 | discretionary_override | 2 | all_local | solar (25 MW), wind (25 MW) | 50 | 524.06 |
 | NM-local_preemption-1 | discretionary_override | 2 | all_local | solar (300 MW), wind (300 MW) | 0 | 0 |
 | SC-local_preemption-1 | discretionary_override | 2 | all_local | solar (75 MW), wind (75 MW) | 4 | 77.05 |
 | OR-local_preemption-1 | replaces_local | 1 | all_local | wind (300 MW) | 0 | 0 |
@@ -85,12 +85,12 @@ Rows are the tier with no cap, columns the tier scored.
 | Marathon, WI | closed to regulated | 50.87 to 9.43 | 55.25 | WI-local_preemption-1 |
 | Allegan, MI | closed to regulated | 48.39 to 7.01 | 47.85 | MI-local_preemption-1 |
 | Essex, MA | closed to regulated | 49.22 to 8.19 | 47.39 | MA-local_preemption-2 |
-| Hampden, MA | closed to regulated | 47.08 to 6.32 | 47.02 | MA-local_preemption-2 |
+| Hampden, MA | closed to regulated | 47.08 to 6.32 | 47.03 | MA-local_preemption-2 |
 | Freeborn, MN | closed to regulated | 46.06 to 5.59 | 50.53 | MN-local_preemption-1 |
 | Franklin, MA | closed to regulated | 46.94 to 7.31 | 45.52 | MA-local_preemption-2 |
 | Berrien, MI | closed to regulated | 46.38 to 7.12 | 39.26 | MI-local_preemption-1 |
+| Genesee, MI | closed to regulated | 44.42 to 5.37 | 39.05 | MI-local_preemption-1 |
 | Mower, MN | closed to regulated | 42.22 to 3.17 | 44.76 | MN-local_preemption-1 |
-| Genesee, MI | closed to regulated | 44.42 to 5.38 | 39.04 | MI-local_preemption-1 |
 | Chisago, MN | closed to regulated | 42.28 to 3.53 | 46.82 | MN-local_preemption-1 |
 | Pope, MN | closed to regulated | 42.77 to 5.89 | 47.8 | MN-local_preemption-1 |
 
@@ -137,7 +137,7 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | Lackawanna, PA | closed | 72.29 | nrel:wind:4206971872 (ban, severity 4, unknown, South Abington Township) |
 | Chester, PA | closed | 70.0 | sabin:S26R-5557 (ban_or_moratorium, severity 4, in_force, East Pikeland) |
 | Washington, PA | closed | 70.0 | sabin:S26R-5535 (ban_or_moratorium, severity 4, in_force, Washington County) |
-| Erie, NY | closed | 69.78 | mn:ny-aurora-erie-county-2025 (moratorium, severity 4, in_force, Aurora (Erie County)) |
+| Erie, NY | closed | 69.77 | mn:ny-aurora-erie-county-2025 (moratorium, severity 4, in_force, Aurora (Erie County)) |
 | Chautauqua, NY | closed | 65.0 | mn:ny-ellery-2026 (moratorium, severity 4, in_force, Ellery) |
 | Cherokee, KS | closed | 64.5 | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
 | Onondaga, NY | closed | 61.35 | mn:ny-camillus-2026 (moratorium, severity 4, in_force, Camillus) |
