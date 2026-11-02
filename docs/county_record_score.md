@@ -42,19 +42,19 @@ Cherokee's moratorium runs through March 31, 2027. Without it, the rubric gives 
 
 ## State preemption
 
-Added October 30, 2026, at Jared Dubnow's request, and revised November 2, 2026, after a second review: where state law overrides local rules, as Illinois law does, a county with restrictive rules should not score as if those rules decide every project.
+Added October 30, 2026, at Jared Dubnow's request, and revised November 2, 2026: where state law overrides local rules, as Illinois law does, a county with restrictive rules should not score as if those rules decide every project.
 
 **The rules.** The 25 rules in `config/county_record_score.json` cover 18 states, and each cites its `state_policies` row:
 
 | Mechanism | Ceiling | Where it reaches the state's typical project |
 |---|---:|---|
 | `replaces_local`: a state permit stands in for local approval | 1 | Minnesota, Michigan, Wisconsin solar and wind, Massachusetts (from March 1, 2026), Connecticut, Vermont, Rhode Island, California (if the developer opts in, until June 30, 2030), Ohio townships and cities |
-| `statutory_ceiling`: statute caps local rules or bars local bans | 2 | Illinois counties, Maryland, Wisconsin, Massachusetts |
+| `statutory_ceiling`: statute caps local rules or bars local bans | 2 | Illinois counties, Maryland, Wisconsin, Massachusetts, Florida agricultural districts |
 | `discretionary_override`: a state body may set a local rule aside | 2 | New York wind, Washington, South Carolina wind, New Mexico wind, Iowa solar and storage, Illinois counties (the Commerce Commission certificate) |
 
 **Reading thresholds against the state's own plants.** A rule with a size threshold reaches a technology when the state's reference project of that technology meets the threshold. The reference project is the median size of the state's recent plants of that technology (EIA-860M, operating or under construction, 20 MW or more, since 2020), or 100 MW where the state has fewer than five such plants. In Florida, 151 of the 175 such solar plants are from 72.8 MW to just under the 75 MW siting threshold, so the siting board does not reach the typical Florida solar project. Neither does South Carolina's 75 MW rule for solar, nor New York's 25 MW rule for solar (median plant 20 MW).
 
-**One government's rules count once.** Under `replaces_local` and `statutory_ceiling`, the law limits everything a government may impose: the most an Illinois county may require is the statute's own standards. So a government's instruments that such a rule reaches on every technology count together as one instrument at the ceiling, not one on top of another. Under `discretionary_override` each local rule binds unless the state body sets it aside, so the rules still add up there. An instrument that a rule reaches on some technologies but not others is capped only on those it reaches: a New York moratorium on solar, wind and storage keeps severity 4 on stand-alone storage, which ORES does not site.
+**One government's rules count once.** Under `replaces_local` and `statutory_ceiling`, the law limits everything a government may impose: the most an Illinois county may require is the statute's own standards. So a government's instruments that such a rule reaches on every technology count together as one instrument at the ceiling, not one on top of another. Under `discretionary_override` each local rule binds unless the state body sets it aside, so the rules still add up there. An instrument that a rule reaches on some technologies but not others is capped only on those it reaches: a New York moratorium on solar, wind and storage keeps severity 4 on solar (the state's median solar plant, 20 MW, is under the 25 MW threshold) and on stand-alone storage, which ORES does not site.
 
 Three states' rules depend on a close reading of their laws:
 

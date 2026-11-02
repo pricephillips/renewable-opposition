@@ -270,8 +270,9 @@ def preempted(inst: dict, rules: list[dict], cfg: dict) -> dict:
     instrument counts its highest severity on every technology it covers
     (instrument_points); here each technology a rule reaches counts at no
     more than the rule's ceiling and the others keep that severity, so a New
-    York moratorium on solar, wind and storage is capped on what ORES sites
-    and not on stand-alone storage, which it does not. capped_severity holds
+    York moratorium on solar, wind and storage is capped on wind, which ORES
+    sites at the state's typical size, and not on solar (median plant 20 MW,
+    under the 25 MW threshold) or stand-alone storage. capped_severity holds
     the result; bounded is set when a bounding rule reaches every
     technology."""
     county_wide = is_county_wide(inst, cfg)
