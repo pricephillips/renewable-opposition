@@ -256,13 +256,45 @@ def test_ohio_counties_keep_their_sb52_veto():
     assert out["B"]["record_points"] == 4 * 0.5 and out["B"]["preemption_rules"] == "OH-local_preemption-1"
 
 
-def test_a_size_threshold_is_read_for_the_reference_project():
-    """New Mexico's override reaches plants of 300 MW or more; the score is
-    read for a 100 MW project unless the config says otherwise."""
+def test_a_size_threshold_is_read_against_the_states_own_plants():
+    """Florida's siting board reaches solar of 75 MW or more. With no plant
+    data the score falls back to a 100 MW project and the board caps a county
+    moratorium at 1; with Florida's plants, sized just under 75 MW, the board
+    does not reach the typical project, and only the agricultural-district
+    statute, which applies at any size, caps it at 2."""
     restrictions = [_r("m", "A", 4, "moratorium")]
-    assert _build(restrictions, summary=_in("NM", "A"), as_of="2026-10-30")["A"]["record_points"] == 40
-    cfg = {**NO_ZONING, "state_preemption": {**CFG["state_preemption"], "reference_project_mw": 300}}
-    assert _build(restrictions, summary=_in("NM", "A"), cfg=cfg, as_of="2026-10-30")["A"]["record_points"] == 12
+    summary = [{"county_fips": "A", "state": "FL", "county": "CA", "coverage": "record"}]
+    fallback = rs.build(restrictions, [], summary, _profile({"A": 0.2}), NO_ZONING, "2026-10-30")[0]
+    assert fallback["record_points"] == 4 and "FL-local_preemption-1" in fallback["preemption_rules"]
+    plants = [{**_plant("B", 2023, mw=74.9), "state": "FL"} for _ in range(6)]
+    assert rs.reference_sizes(plants, CFG) == {("FL", "solar"): 74.9}
+    sized = rs.build(restrictions, [], summary, _profile({"A": 0.2}), NO_ZONING, "2026-10-30", plants)[0]
+    assert sized["record_points"] == 12 and sized["preemption_rules"] == "FL-local_preemption-2"
+
+
+def test_too_few_plants_fall_back_to_the_reference_size():
+    plants = [{**_plant("B", 2023, mw=74.9), "state": "FL"} for _ in range(4)]
+    assert rs.reference_sizes(plants, CFG) == {}
+
+
+def test_an_instrument_a_rule_reaches_in_part_is_capped_only_there():
+    """ORES caps a New York moratorium on solar and wind but does not site
+    stand-alone storage: storage counts in full at severity 4, and solar and
+    wind add their breadth at the capped severity 2 (12 points each)."""
+    out = _build([_r("m", "A", 4, "moratorium", tech=t) for t in ("solar", "wind", "battery_storage")],
+                 summary=_in("NY", "A"), as_of="2026-10-30")["A"]
+    assert out["local_points"] == 48
+    assert out["record_points"] == 40 + 0.1 * (12 + 12)
+
+
+def test_a_capped_instrument_never_outscores_itself_uncapped():
+    """A city moratorium below the county's top instrument: capping part of
+    it must not add points (an earlier split of instruments did)."""
+    out = _build([_r("c", "A", 4, "moratorium"),
+                  *[_r("p", "A", 4, "moratorium", tech=t, jtype="Town") for t in ("solar", "wind",
+                                                                                  "battery_storage")]],
+                 summary=_in("NY", "A"), as_of="2026-10-30")["A"]
+    assert out["record_points"] <= out["local_points"]
 
 
 def test_iowa_wind_is_left_to_the_county():
@@ -315,6 +347,13 @@ def test_every_verified_preemption_row_is_ruled_on():
     for pid, p in policies.items():
         if p["policy_type"] in ("local_preemption", "local_opt_out"):
             assert pid in ruled | skipped, f"{pid} is neither a rule nor read and not applied"
+    ruled_states = {r["policy_id"].split("-")[0] for r in sp["rules"]}
+    siting = {k for k in sp["siting_without_preemption"] if not k.startswith("_")}
+    for pid, p in policies.items():
+        if p["policy_type"] == "siting_authority" and p["who_decides"] in ("state_board", "hybrid") \
+                and p["state"] not in ruled_states:
+            assert pid in siting, f"{pid}: a state siting row with no rule and no reason"
+    assert siting <= set(policies)
     for rule in sp["rules"]:
         p = policies[rule["policy_id"]]
         assert rule["mechanism"] in sp["ceilings"] and 1 <= sp["ceilings"][rule["mechanism"]] <= 4
@@ -324,3 +363,39 @@ def test_every_verified_preemption_row_is_ruled_on():
             stated = classify.threshold_for(p["threshold_mw"], tech)
             if isinstance(least, (int, float)) and stated:
                 assert float(stated) == least, (rule["policy_id"], tech)
+
+
+def test_a_bounded_governments_rules_count_as_one():
+    """The most an Illinois county may impose is the statute's own standards,
+    so its rules count together as one instrument at the ceiling; a city's
+    rules are another government's and stay apart."""
+    out = _build([_r("m", "A", 4, "moratorium"), _r("s", "A", 3, tech="wind"),
+                  _r("b", "A", 2, tech="battery_storage"), _r("c", "A", 4, "ban", tech="wind", jtype="City")],
+                 summary=_in("IL", "A"), as_of="2026-10-30")["A"]
+    # One county instrument at severity 2 on three technologies (14.4) under
+    # the city ban (20): 20 + 0.25 x 14.4.
+    assert out["record_points"] == 23.6
+    assert out["local_points"] == 40 + 0.25 * (30 + 20 + 12)
+
+
+def test_a_discretionary_override_does_not_merge_rules():
+    """Under New York's override each local rule binds unless ORES sets it
+    aside, so two capped rules still add up."""
+    out = _build([_r("a", "A", 4, "moratorium"), _r("b", "A", 4, "ban", tech="wind")],
+                 summary=_in("NY", "A"), as_of="2026-10-30")["A"]
+    assert out["record_points"] == 12 + 0.25 * 12
+
+
+def test_a_rule_with_an_unbounded_technology_stays_apart():
+    """Maryland bounds solar and storage but not wind: the solar and storage
+    rules merge, the wind moratorium counts in full beside them."""
+    out = _build([_r("s", "A", 4, "moratorium"), _r("t", "A", 3, tech="battery_storage"),
+                  _r("w", "A", 4, "moratorium", tech="wind")], summary=_in("MD", "A"), as_of="2026-10-30")["A"]
+    assert out["record_points"] == 40 + 0.25 * 13.2
+
+
+def test_the_prior_is_capped_only_where_the_rulebook_is_bounded():
+    """Washington's override is discretionary, so its prior is not capped."""
+    rules = rs.preemption_rules(CFG, "WA", "2026-10-30")
+    assert rules and rs.prior_cap(rules, CFG) is None
+    assert rs.prior_cap(rs.preemption_rules(CFG, "MN", "2026-10-30"), CFG) == 4 * 1.2
