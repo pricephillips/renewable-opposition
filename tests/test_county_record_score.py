@@ -217,3 +217,110 @@ def test_the_normal_score_is_centred_and_symmetric():
     out = _build(summary=_summary(*fips, coverage="none"), profile={f: i / 100 for i, f in enumerate(fips)})
     z = sorted(r["combined_normal"] for r in out.values())
     assert z[10] == 0 and z[0] == -z[-1] and z[-1] > 1.5
+
+
+# ── State preemption ────────────────────────────────────────────────────────
+
+def _in(state, *fips, coverage="record"):
+    return [{"county_fips": f, "state": state, "county": f"C{f}", "coverage": coverage} for f in fips]
+
+
+def test_illinois_caps_county_rules_but_not_city_rules():
+    """55 ILCS 5/5-12020 binds counties only: a county moratorium counts at
+    severity 2, a city ban keeps its own severity."""
+    out = _build([_r("m", "A", 4, "moratorium"), _r("m", "A", 4, "moratorium", tech="wind"),
+                  _r("b", "B", 4, "ban", jtype="City")], summary=_in("IL", "A", "B"), as_of="2026-10-30")
+    a, b = out["A"], out["B"]
+    assert a["record_points"] == 13.2 and a["local_points"] == 44 and a["preemption_points"] == 30.8
+    assert a["preemption_rules"] == "IL-local_preemption-1;IL-local_preemption-3"
+    assert "severity 2 capped from 4" in a["top_instrument"]
+    assert a["tier"] == "restrictive" and a["tier_local"] == "closed"
+    assert b["record_points"] == b["local_points"] == 20 and b["preemption_rules"] == ""
+
+
+def test_a_rule_counts_only_from_its_effective_date():
+    """Illinois' storage limits took effect 2026-06-01."""
+    before = _build([_r("s", "A", 4, "moratorium", tech="battery_storage")], summary=_in("IL", "A"),
+                    as_of="2026-05-31")["A"]
+    after = _build([_r("s", "A", 4, "moratorium", tech="battery_storage")], summary=_in("IL", "A"),
+                   as_of="2026-06-01")["A"]
+    assert before["record_points"] == 40 and after["record_points"] == 12
+
+
+def test_ohio_counties_keep_their_sb52_veto():
+    """The Power Siting Board preempts township and city rules, but county
+    commissioners may bar projects under SB 52."""
+    out = _build([_r("c", "A", 4, "ban"), _r("t", "B", 4, "moratorium", tech="wind", jtype="Township")],
+                 summary=_in("OH", "A", "B"), as_of="2026-10-30")
+    assert out["A"]["record_points"] == 40 and out["A"]["preemption_points"] == 0
+    assert out["B"]["record_points"] == 4 * 0.5 and out["B"]["preemption_rules"] == "OH-local_preemption-1"
+
+
+def test_a_size_threshold_is_read_for_the_reference_project():
+    """New Mexico's override reaches plants of 300 MW or more; the score is
+    read for a 100 MW project unless the config says otherwise."""
+    restrictions = [_r("m", "A", 4, "moratorium")]
+    assert _build(restrictions, summary=_in("NM", "A"), as_of="2026-10-30")["A"]["record_points"] == 40
+    cfg = {**NO_ZONING, "state_preemption": {**CFG["state_preemption"], "reference_project_mw": 300}}
+    assert _build(restrictions, summary=_in("NM", "A"), cfg=cfg, as_of="2026-10-30")["A"]["record_points"] == 12
+
+
+def test_iowa_wind_is_left_to_the_county():
+    out = _build([_r("w", "A", 4, "moratorium", tech="wind"), _r("s", "B", 4, "moratorium")],
+                 summary=_in("IA", "A", "B"), as_of="2026-10-30")
+    assert out["A"]["record_points"] == 40 and out["B"]["record_points"] == 12
+
+
+def test_a_preempted_moratorium_no_longer_outweighs_approvals():
+    """Approvals never undercut a county-wide moratorium in force, but once
+    state law caps it the ordinary half-the-points limit applies."""
+    out = _build([_r("m", "A", 4, "moratorium")], [_p("A", "advanced_confirmed")] * 3,
+                 summary=_in("MN", "A"), as_of="2026-10-30")
+    assert out["A"]["local_points"] == 40 and out["A"]["record_points"] == 2
+
+
+def test_preemption_only_lowers_scores_and_only_where_a_rule_applies():
+    restrictions = [_r("a", "A", 4, "moratorium"), _r("b", "B", 4, "moratorium"), _r("c", "C", 3)]
+    summary = _in("IL", "A") + _in("KS", "B") + _in("MN", "C")
+    out = _build(restrictions, summary=summary, as_of="2026-10-30")
+    assert out["B"]["combined"] == out["B"]["combined_local"] and out["B"]["profile_cap"] == ""
+    for r in out.values():
+        assert r["combined"] <= r["combined_local"] and r["record_points"] <= r["local_points"]
+
+
+def test_the_prior_is_capped_where_county_rules_are_capped_on_every_technology():
+    """An Illinois county with no record cannot be expected to restrict more
+    than one county-wide severity 2 instrument on all three technologies; a
+    Kansas county takes the full prior."""
+    fips = [f"{i:02d}" for i in range(20)]
+    summary = _in("KS", *fips[:18], coverage="none") + _in("IL", "18", coverage="none") + _in("KS", "19")
+    out = _build([_r("m", "19", 4, "moratorium")], summary=summary,
+                 profile={f: i / 100 for i, f in enumerate(fips)}, as_of="2026-10-30")
+    # 18 and 19 share the top decile, with a mean of 20 points.
+    assert out["18"]["profile_cap"] == 14.4 and out["18"]["profile_points"] == 14.4
+    assert out["19"]["profile_cap"] == "" and out["19"]["profile_points"] == 20
+
+
+def test_every_verified_preemption_row_is_ruled_on():
+    """Each local_preemption and local_opt_out row in state_policies.csv is a
+    rule or is listed as read and not applied, and every rule matches its
+    row's technologies and MW thresholds."""
+    import classify
+    from common import read_csv
+    sp = CFG["state_preemption"]
+    policies = {r["id"]: r for r in read_csv(ROOT / "data" / "processed" / "state_policies.csv")}
+    ruled = {r["policy_id"] for r in sp["rules"]}
+    skipped = {k for k in sp["not_applied"] if not k.startswith("_")}
+    assert not ruled & skipped
+    for pid, p in policies.items():
+        if p["policy_type"] in ("local_preemption", "local_opt_out"):
+            assert pid in ruled | skipped, f"{pid} is neither a rule nor read and not applied"
+    for rule in sp["rules"]:
+        p = policies[rule["policy_id"]]
+        assert rule["mechanism"] in sp["ceilings"] and 1 <= sp["ceilings"][rule["mechanism"]] <= 4
+        assert rule["binds"] in ("county", "non_county", "all_local") and rule["note"]
+        for tech, least in rule["technologies"].items():
+            assert tech in p["technology"].split(";"), (rule["policy_id"], tech)
+            stated = classify.threshold_for(p["threshold_mw"], tech)
+            if isinstance(least, (int, float)) and stated:
+                assert float(stated) == least, (rule["policy_id"], tech)

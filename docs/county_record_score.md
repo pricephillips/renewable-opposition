@@ -1,6 +1,6 @@
 # County record score
 
-**Status:** October 21, 2026. Internal, like the county restriction model: no page, county report or headline figure reads it until Price decides otherwise. Built by `scripts/county_record_score.py` from the rubric in `config/county_record_score.json`; results in `data/model/county_record_scores.csv` and `data/model/county_record_report.md`, refreshed each month with the model (`model-inputs.yml`) or on demand.
+**Status:** October 21, 2026; state preemption (rubric item 7) added October 30, 2026. Internal, like the county restriction model: no page, county report or headline figure reads it until Price decides otherwise. Built by `scripts/county_record_score.py` from the rubric in `config/county_record_score.json`; results in `data/model/county_record_scores.csv` and `data/model/county_record_report.md`, refreshed each month with the model (`model-inputs.yml`) or on demand.
 
 ## Why a second score
 
@@ -25,6 +25,7 @@ Every weight is in `config/county_record_score.json`.
 4. **Evidence and the prior.** Combined score = weight x record points + (1 - weight) x profile points. The weight is 1 for a county with a verified instrument or a confirmed outcome, 0.75 for an unverified record, 0.9 for a negative check (a reviewed record that someone searched the county's codes, minutes and news for a restriction and found none), 0.6 for a county whose only evidence is build-out, 0.6 for a county with no record in a state whose counties have no general zoning power (Texas, Tex. Loc. Gov't Code § 211.003, and Alabama, Ala. Code § 11-3A-2(f): the county government cannot restrict, though its cities can; the 17 Alabama counties with a local act on zoning, planning or wind permits, listed in `no_county_zoning.except_counties`, are scored as in any other state), and 0 for a county with no record. Profile points are the mean record points of all counties in the same decile of the resemblance score (a county with no record counts as zero), so a county not yet examined (examined: it has a published record or a reviewed negative check) takes what the record shows for counties in its decile. Because most counties have never been examined, that is a floor.
 5. **Tiers.** Closed (40 or more): a moratorium or ban in force county-wide, or rules that act as one. Severe (25 to 40). Restrictive (12 to 25). Regulated but open (3 to 12). Open (under 3). A county with no record and no negative check is listed as `no_record`.
 6. **Normal score and deciles.** The combined score is skewed: most counties have no record and take one of ten prior values, so cutting it at its own deciles gives groups of very different sizes (on the data of October 27, 2026, from 175 to 394 counties). Two columns order the counties instead. `combined_decile` ranks every U.S. county by combined score, breaks ties by resemblance score and then by FIPS code, and splits the ranking into ten groups of equal size (314 or 315 counties). `combined_normal` turns the same rank into a standard normal score (mean 0, standard deviation 1; Blom's formula, rank minus 3/8 over the number of counties plus 1/4), so a histogram of it is a bell curve. Both only order counties: the points and the tiers in item 5 are unchanged, and a county's decile says where it ranks, not how much its score differs from the next decile's.
+7. **State preemption.** Some state laws limit how far a local rule can stop a project. Each such law in `data/processed/state_policies.csv` (every row verified against the statute) is either a rule in `state_preemption` or listed, with its reason, in `not_applied`. Each rule caps the severity a local instrument counts at (the rule's ceiling), technology by technology, before the instrument's points are computed. The ceiling follows the legal mechanism: severity 1 where a state permit replaces local approval, and severity 2 where statute caps local rules at the state's own standards or a state body may set a local rule aside on a finding. Each rule also names the governments it binds and the smallest project it reaches; the score is read for a 100 MW project (`reference_project_mw`). When a rule reaches county rules on solar, wind and battery storage alike, the prior of a county with no record is capped at the points of one county-wide instrument in force at that ceiling. The instruments keep their own severity in the record; only the score reads the cap. `combined_local` and `tier_local` give each county's combined score and tier with no cap.
 
 ## The four case-study counties
 
@@ -38,6 +39,35 @@ From `data/model/county_record_report.md`, on the data of October 22, 2026. The 
 | Linn, IA | regulated | 7.88 (50.4) | instrument points of 15.75 (the severity 2 ordinance, 13.2, and a quarter of an NREL-compiled wind ordinance of unknown status, 2.55), halved by two confirmed approvals |
 
 Cherokee's moratorium runs through March 31, 2027. Without it, the rubric gives Cherokee 43.5 from the zoning transition and the wind setback, in the closed tier; without the zoning transition as well, it gives 30, in the severe tier.
+
+## State preemption
+
+Added October 30, 2026, at Jared Dubnow's request: where state law overrides local rules, as Illinois law does, a county with restrictive rules should not score as if those rules decide every project.
+
+**The rules.** The 25 rules in `config/county_record_score.json` cover 18 states, and each cites its `state_policies` row. The New Mexico and Oregon rules reach only projects of 300 MW or more, above the 100 MW reference project, so the table below leaves them out:
+
+| Mechanism | Ceiling | Where (for a 100 MW project) |
+|---|---:|---|
+| `replaces_local`: a state permit stands in for local approval | 1 | Minnesota, Michigan, Wisconsin (100 MW and up), Massachusetts (from March 1, 2026), Connecticut, Vermont, Rhode Island, Florida solar (75 MW and up), California (if the developer opts in, until June 30, 2030), Ohio townships and cities |
+| `statutory_ceiling`: statute caps local rules or bars local bans | 2 | Illinois counties, Maryland, Wisconsin, Massachusetts, Florida agricultural districts |
+| `discretionary_override`: a state body may set a local rule aside | 2 | New York, Washington, South Carolina, Iowa solar and storage, Illinois counties (the Commerce Commission certificate) |
+
+Three states' rules turn on a close reading of their laws:
+
+- **Illinois.** 55 ILCS 5/5-12020 binds counties ("A county may not..."): no county rule stricter than the statute, no ban "permanently or temporarily" in agricultural or industrial districts (subsection (h)), and a compliant application "shall be approved" (subsection (g)). It does not bind cities, so a city ban keeps its own severity.
+- **Ohio.** The Power Siting Board's certificate preempts township and city rules, but under SB 52 county commissioners may bar large wind and solar from all or part of the county, so county instruments are not capped.
+- **Iowa.** The statute lets a state certificate override city or county zoning. The Iowa Utilities Commission counts a wind facility by the turbines on one gathering line, a practice upheld in *Mathis v. Iowa Utilities Board* (Iowa 2019), so most wind farms fall below the 25 MW threshold and stay under county oversight; wind is left out. Solar and storage take the discretionary ceiling, not the replacement one: the commission has given county ordinances little weight, but Cerro Gordo County is suing over an approval it says set aside its zoning, so the override is in dispute. The rule rests on what was found about practice on October 30, 2026, not on a full reading.
+
+Six rows were read and left out, each with its reason in `not_applied`: Colorado (public utility projects only), Indiana (limits a moratorium's length, not its reach while in force), Mississippi (decommissioning terms only), New Jersey (reaches industrial and commercial districts, not agricultural land), Nevada (protects only an owner's own system) and Ohio's SB 52 (the reverse of preemption). A test fails if a `local_preemption` or `local_opt_out` row in `state_policies.csv` is in neither list.
+
+**The effect.** On the data of October 30, 2026, 354 counties have record points removed and 108 counties with no record have their prior capped; 303 counties change tier. Counties in the 32 states and the District of Columbia with no rule are unchanged, and no county scores higher. Of the 8 Illinois counties in the closed tier with no cap, 7 are restrictive with it and Christian is severe.
+
+| County | Tier and combined score with no cap | With the cap | What remains |
+|---|---|---|---|
+| Christian, IL | closed, 55.38 | severe, 39.55 | the City of Assumption's solar and wind bans, at city weight (20 each), are not preempted; the five county instruments count at severity 2 |
+| Shelby, IL | severe, 39.54 | restrictive, 17.94 | the 2026 county ordinance (severity 3, capped at 2) and the pending moratorium |
+
+**Decisions for Price.** Two choices are open: the 100 MW reference project, and whether the cap should also reach blocked projects (it does not now; a blocked project on record still adds points).
 
 ## Limits
 
