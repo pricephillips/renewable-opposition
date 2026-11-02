@@ -211,28 +211,74 @@ def ceiling(tech: str, county_wide: bool, rules: list[dict], cfg: dict) -> tuple
     return low, sorted({p for c, p in caps if c == low})
 
 
+def bounding(rules: list[dict], cfg: dict) -> list[dict]:
+    """The rules whose mechanism bounds a government's rules as a whole
+    (state_preemption bounds_rulebook), not one rule at a time."""
+    return [r for r in rules if r["mechanism"] in cfg["state_preemption"]["bounds_rulebook"]]
+
+
 def preempted(inst: dict, rules: list[dict], cfg: dict) -> dict:
     """The instrument with its severity capped technology by technology, or
-    the instrument itself when no rule lowers it."""
+    the instrument itself when no rule lowers it. bounded is set when a
+    bounding rule reaches every one of its technologies."""
     county_wide = is_county_wide(inst, cfg)
     severity, by = 0, set()
-    for tech, sev in (inst.get("tech_severity") or {"": inst["severity"]}).items():
+    techs = inst.get("tech_severity") or {"": inst["severity"]}
+    for tech, sev in techs.items():
         cap, ids = ceiling(tech, county_wide, rules, cfg)
         if cap is not None and cap < sev:
             by.update(ids)
             sev = cap
         severity = max(severity, sev)
+    bound = bounding(rules, cfg)
+    bounded = all(ceiling(t, county_wide, bound, cfg)[0] is not None for t in techs)
     if severity >= inst["severity"]:
-        return inst
-    return {**inst, "severity": severity, "local_severity": inst["severity"], "preempted_by": sorted(by)}
+        return {**inst, "bounded": True} if bounded else inst
+    return {**inst, "severity": severity, "local_severity": inst["severity"], "preempted_by": sorted(by),
+            "bounded": bounded}
+
+
+def merged(insts: list[dict], cfg: dict) -> list[dict]:
+    """Bounded instruments of one government counted as one: the state law
+    limits that government's rules taken together (the most an Illinois
+    county may impose is the statute's own standards), so five capped rules
+    count no more than one. The one instrument takes the highest capped
+    severity, every technology and the strongest currency of the group."""
+    groups: dict[str, list[dict]] = defaultdict(list)
+    rest = []
+    for i in insts:
+        if i.get("bounded"):
+            groups["county" if is_county_wide(i, cfg) else i["jurisdiction"].lower()].append(i)
+        else:
+            rest.append(i)
+    weight = cfg["instruments"]["currency"]
+    for group in groups.values():
+        if len(group) == 1:
+            rest.append(group[0])
+            continue
+        top = max(group, key=lambda i: (i["severity"], weight.get(i["currency"] or "unknown", 0), i["id"]))
+        tech_severity: dict[str, int] = {}
+        for i in group:
+            for t, s in i.get("tech_severity", {}).items():
+                tech_severity[t] = max(s, tech_severity.get(t, 0))
+        rest.append({**top, "fips": set().union(*(i["fips"] for i in group)),
+                     "techs": set().union(*(i["techs"] for i in group)), "tech_severity": tech_severity,
+                     "currency": max((i["currency"] or "unknown" for i in group), key=lambda c: weight.get(c, 0)),
+                     "verified": any(i["verified"] for i in group),
+                     "year": max(i["year"] for i in group),
+                     "local_severity": max(i.get("local_severity", i["severity"]) for i in group),
+                     "preempted_by": sorted({p for i in group for p in i.get("preempted_by", [])}),
+                     "merged": len(group)})
+    return rest
 
 
 def prior_cap(rules: list[dict], cfg: dict) -> float | None:
     """The points of one county-wide instrument in force on solar, wind and
-    battery storage at the highest county ceiling the rules set on them, when
-    a rule reaches every one of the three; None otherwise."""
+    battery storage at the highest county ceiling the bounding rules set on
+    them, when one reaches every one of the three; None otherwise. The same
+    bound merged() puts on an examined county."""
     techs = cfg["instruments"]["breadth_technologies"]
-    caps = [ceiling(t, True, rules, cfg)[0] for t in techs]
+    caps = [ceiling(t, True, bounding(rules, cfg), cfg)[0] for t in techs]
     if None in caps or not cfg["state_preemption"].get("cap_prior"):
         return None
     return instrument_points({"severity": max(caps), "currency": "in_force", "jurisdiction_type": "County",
@@ -280,7 +326,7 @@ def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dic
     transition (or None) and its contested projects' outcomes, with each
     instrument capped by the state preemption rules in effect there.
     local_points is the same score with no cap."""
-    capped = [preempted(i, list(rules), cfg) for i in insts]
+    capped = merged([preempted(i, list(rules), cfg) for i in insts], cfg)
     capped_zoning = preempted(zoning, list(rules), cfg) if zoning else None
     out = _record(capped, capped_zoning, outcomes, cfg)
     local = _record(insts, zoning, outcomes, cfg)["record_points"] if rules else out["record_points"]
@@ -304,7 +350,8 @@ def _record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: di
     total = max(floor, base + blocked - credit)
     top = scored[0][1] if scored else None
     cap = (f" capped from {top['local_severity']} by {';'.join(top['preempted_by'])}"
-           if top and "local_severity" in top else "")
+           if top and top.get("local_severity", 0) > top["severity"] else "")
+    cap += f", {top['merged']} instruments counted as one" if top and top.get("merged") else ""
     return {"record_points": round(total, 2), "instrument_points": round(inst_pts, 2),
             "zoning_points": round(base - inst_pts, 2), "blocked_points": round(blocked, 2),
             "approval_credit": round(base + blocked - total, 2) if credit else 0.0,

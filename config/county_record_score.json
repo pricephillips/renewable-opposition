@@ -195,6 +195,8 @@
       "discretionary_override": 2,
       "_discretionary_override_note": "A state body may set aside a local rule on a finding (unreasonably restrictive, burdensome, or adopted in violation of the state siting law). The rule binds unless the developer wins that finding: a material burden, not a ban."
     },
+    "bounds_rulebook": ["replaces_local", "statutory_ceiling"],
+    "_bounds_rulebook_note": "Added 2026-11-02. Under these mechanisms the law bounds everything a government may impose: a state permit replaces its approval, or statute caps its rules at the state's own standards (IL-local_preemption-1: no county standards more restrictive than the statute). So a government's instruments that such a rule reaches on every technology count together as one instrument at the ceiling (the highest capped severity, every technology, the strongest currency), and the prior cap uses the same bound. Without this, five capped Illinois county rules stacked to more than the statute allows (Christian 23.55 against 14.4 for one instrument at the state's standards). discretionary_override is left out: each local rule there still binds unless the state body sets it aside, so several rules can add up.",
     "reference_project_mw": 100,
     "_reference_project_mw_note": "Many rules apply only to projects at or above a size threshold; the score is read for a project of this size. 100 MW is close to the median capacity of contested solar projects in the record (103 MW; wind 180, battery storage 282.5) on 2026-10-30. A decision for Price: a smaller reference project leaves more county rules in force in states with a size threshold (Wisconsin's 100 MW, South Carolina's 75, Florida's 75).",
     "reference_storage_hours": 4,

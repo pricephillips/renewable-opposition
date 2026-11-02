@@ -324,3 +324,39 @@ def test_every_verified_preemption_row_is_ruled_on():
             stated = classify.threshold_for(p["threshold_mw"], tech)
             if isinstance(least, (int, float)) and stated:
                 assert float(stated) == least, (rule["policy_id"], tech)
+
+
+def test_a_bounded_governments_rules_count_as_one():
+    """The most an Illinois county may impose is the statute's own standards,
+    so its rules count together as one instrument at the ceiling; a city's
+    rules are another government's and stay apart."""
+    out = _build([_r("m", "A", 4, "moratorium"), _r("s", "A", 3, tech="wind"),
+                  _r("b", "A", 2, tech="battery_storage"), _r("c", "A", 4, "ban", tech="wind", jtype="City")],
+                 summary=_in("IL", "A"), as_of="2026-10-30")["A"]
+    # One county instrument at severity 2 on three technologies (14.4) under
+    # the city ban (20): 20 + 0.25 x 14.4.
+    assert out["record_points"] == 23.6
+    assert out["local_points"] == 40 + 0.25 * (30 + 20 + 12)
+
+
+def test_a_discretionary_override_does_not_merge_rules():
+    """Under New York's override each local rule binds unless ORES sets it
+    aside, so two capped rules still add up."""
+    out = _build([_r("a", "A", 4, "moratorium"), _r("b", "A", 4, "ban", tech="wind")],
+                 summary=_in("NY", "A"), as_of="2026-10-30")["A"]
+    assert out["record_points"] == 12 + 0.25 * 12
+
+
+def test_a_rule_with_an_unbounded_technology_stays_apart():
+    """Maryland bounds solar and storage but not wind: the solar and storage
+    rules merge, the wind moratorium counts in full beside them."""
+    out = _build([_r("s", "A", 4, "moratorium"), _r("t", "A", 3, tech="battery_storage"),
+                  _r("w", "A", 4, "moratorium", tech="wind")], summary=_in("MD", "A"), as_of="2026-10-30")["A"]
+    assert out["record_points"] == 40 + 0.25 * 13.2
+
+
+def test_the_prior_is_capped_only_where_the_rulebook_is_bounded():
+    """Washington's override is discretionary, so its prior is not capped."""
+    rules = rs.preemption_rules(CFG, "WA", "2026-10-30")
+    assert rules and rs.prior_cap(rules, CFG) is None
+    assert rs.prior_cap(rs.preemption_rules(CFG, "MN", "2026-10-30"), CFG) == 4 * 1.2
