@@ -7,10 +7,10 @@
 # (validate run 36598026927 on main, b78e0ca).
 requests==2.34.2
 PyYAML==6.0.3
-pytest==9.1.1
-ruff>=0.17.2
+pytest==9.2.0
+ruff>=0.17.3
 daff>=1.4
-vale>=3.24.0.0
+vale>=3.25.1.0
 # Reads NREL's siting ordinance spreadsheets (scripts/nrel_ordinances.py).
 openpyxl==3.1.5
 # Builds the national database (scripts/build_database.py).
