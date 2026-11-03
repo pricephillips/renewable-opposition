@@ -18,8 +18,8 @@
   },
   "restrictions.csv": {
     "county_fips": {
-      "min_filled": 1747,
-      "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 1,747 of 1,754 such rows on 2026-10-09, up from 313 of 317: the Sabin September 2026 edition and NREL's county ordinances (2,393 NREL restrictions) added county-level instruments."
+      "min_filled": 1742,
+      "reason": "Derived by classify.county_fips for County, Parish and Borough jurisdictions. 1,747 of 1,754 such rows on 2026-10-09, up from 313 of 317: the Sabin September 2026 edition and NREL's county ordinances (2,393 NREL restrictions) added county-level instruments. Lowered to 1,742 on 2026-11-03: the verification rounds of 2026-10-29 to 2026-11-03 found NREL restrictions whose values the county documents do not support, and those rows leave the published file; no value was lost."
     },
     "county_fips_all": {
       "min_filled": 3620,
