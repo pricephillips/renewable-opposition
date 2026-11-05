@@ -2,11 +2,11 @@
  "generated": "2026-11-05",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3318,
-  "severe": 1329,
-  "verified": 154,
+  "restriction_instruments": 3319,
+  "severe": 1330,
+  "verified": 155,
   "lapsed_unconfirmed": 0,
-  "severe_where_state_limits_local": 914,
+  "severe_where_state_limits_local": 915,
   "projects": 579,
   "projects_confirmed": 167,
   "decided": {
@@ -115,22 +115,29 @@
   }
  },
  "promotion_trail": {
-  "decisions": 124,
+  "decisions": 125,
   "by_action": {
-   "promoted": 94,
+   "promoted": 95,
    "held": 16,
    "awaiting_review": 9,
    "rejected": 4,
    "unpublished": 1
   },
   "by_file": {
-   "queue.csv": 76,
+   "queue.csv": 77,
    "cases_candidates.csv": 48
   },
   "first": "2026-10-13",
-  "last": "2026-10-30",
+  "last": "2026-11-05",
   "recent": [
    {
+    "date": "2026-11-05",
+    "file": "queue.csv",
+    "action": "promoted",
+    "what": "MN Wilkin County",
+    "reason": ""
+   },
+   {
     "date": "2026-10-30",
     "file": "queue.csv",
     "action": "promoted",
@@ -177,20 +184,13 @@
     "file": "queue.csv",
     "action": "promoted",
     "what": "IL Shelby County",
-    "reason": ""
-   },
-   {
-    "date": "2026-10-23",
-    "file": "queue.csv",
-    "action": "promoted",
-    "what": "CA San Joaquin County",
     "reason": ""
    }
   ]
  },
  "review": {
   "queue_by_status": {
-   "promoted": 53,
+   "promoted": 54,
    "rejected": 4,
    "confirmed": 6,
    "pending": 2,
@@ -198,7 +198,7 @@
    "lead": 181
   },
   "queue_by_entity": {
-   "restriction": 183,
+   "restriction": 184,
    "contested_project": 58,
    "case": 9
   },
@@ -207,15 +207,15 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 162,
+  "snapshot_rows": 165,
   "snapshot_files": 5,
   "headline_history_rows": 18,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-11-05",
   "latest": {
-   "restrictions": "3318",
-   "severe_restrictions": "1329",
-   "verified_restrictions": "154",
+   "restrictions": "3319",
+   "severe_restrictions": "1330",
+   "verified_restrictions": "155",
    "multi_sector_restrictions": "85",
    "contested_projects": "579",
    "confirmed_outcomes": "167",
@@ -228,9 +228,9 @@
   }
  },
  "source_archive": {
-  "sources": 86,
+  "sources": 87,
   "archived": 28,
-  "archived_share": 0.326
+  "archived_share": 0.322
  },
  "evidence_checks": {
   "restriction_sources": {

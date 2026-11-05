@@ -1328,7 +1328,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27021,MN,Cass,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,6,hybrid,yes,30992,15.33
 27023,MN,Chippewa,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,0,0,0,0,0,,5,1,hybrid,yes,12377,21.29
 27025,MN,Chisago,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,6,4,hybrid,yes,57991,139.77
-27027,MN,Clay,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,1,hybrid,yes,66059,63.2
+27027,MN,Clay,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,hybrid,yes,66059,63.2
 27029,MN,Clearwater,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,hybrid,yes,8616,8.62
 27031,MN,Cook,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,1,0,hybrid,yes,5635,3.88
 27033,MN,Cottonwood,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,hybrid,yes,11458,17.9
@@ -1340,7 +1340,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27045,MN,Fillmore,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,hybrid,yes,21414,24.86
 27047,MN,Freeborn,yes,moratorium_in_force,2,2,2,1,0,1,1,wind;battery_storage,2025,0,0,0,0,1,,6,3,hybrid,yes,30623,43.3
 27049,MN,Goodhue,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,1,0,0,2,,7,2,hybrid,yes,47943,63.36
-27051,MN,Grant,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,2,hybrid,yes,6127,11.18
+27051,MN,Grant,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,3,hybrid,yes,6127,11.18
 27053,MN,Hennepin,yes,rules_in_force,1,1,0,0,0,0,0,solar,,1,1,0,0,0,,7,5,hybrid,yes,1269496,2291.43
 27055,MN,Houston,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,hybrid,yes,18653,33.78
 27057,MN,Hubbard,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,hybrid,yes,21831,23.58
@@ -1370,7 +1370,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27105,MN,Nobles,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,0,hybrid,yes,22041,30.82
 27107,MN,Norman,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,hybrid,yes,6367,7.3
 27109,MN,Olmsted,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,1,0,0,1,1,,6,2,hybrid,yes,164498,251.71
-27111,MN,Otter Tail,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,2,hybrid,yes,60475,30.67
+27111,MN,Otter Tail,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,3,hybrid,yes,60475,30.67
 27113,MN,Pennington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,hybrid,yes,13791,22.37
 27115,MN,Pine,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,6,3,hybrid,yes,29640,21.0
 27117,MN,Pipestone,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,5,0,hybrid,yes,9284,19.96
@@ -1392,13 +1392,13 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27149,MN,Stevens,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,5,2,hybrid,yes,9739,17.28
 27151,MN,Swift,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,3,hybrid,yes,9748,13.14
 27153,MN,Todd,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,6,2,hybrid,yes,25575,27.06
-27155,MN,Traverse,yes,moratorium_in_force,3,1,1,1,0,2,0,solar;battery_storage,,0,0,0,0,2,,6,3,hybrid,yes,3243,5.65
+27155,MN,Traverse,yes,moratorium_in_force,3,1,1,1,0,2,0,solar;battery_storage,,0,0,0,0,2,,6,4,hybrid,yes,3243,5.65
 27157,MN,Wabasha,yes,severe_rules_in_force,4,2,1,0,0,2,0,solar;wind,,0,0,0,0,2,,5,1,hybrid,yes,21565,41.24
 27159,MN,Wadena,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,1,,5,1,hybrid,yes,14256,26.58
 27161,MN,Waseca,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,6,3,hybrid,yes,18885,44.61
 27163,MN,Washington,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,7,3,hybrid,yes,276238,717.96
 27165,MN,Watonwan,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,11205,25.76
-27167,MN,Wilkin,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,hybrid,yes,6371,8.48
+27167,MN,Wilkin,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,5,2,hybrid,yes,6371,8.48
 27169,MN,Winona,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,3,hybrid,yes,49779,79.49
 27171,MN,Wright,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,6,2,hybrid,yes,148269,224.26
 27173,MN,Yellow Medicine,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,7,2,hybrid,yes,9451,12.45
@@ -2029,7 +2029,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 38071,ND,Ramsey,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,hybrid,yes,11556,9.75
 38073,ND,Ransom,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,hybrid,yes,5643,6.54
 38075,ND,Renville,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,hybrid,yes,2304,2.63
-38077,ND,Richland,yes,rules_in_force,3,1,0,0,0,2,0,wind,,0,0,0,0,2,,7,2,hybrid,yes,16584,11.55
+38077,ND,Richland,yes,rules_in_force,3,1,0,0,0,2,0,wind,,0,0,0,0,2,,7,3,hybrid,yes,16584,11.55
 38079,ND,Rolette,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,1,hybrid,yes,11924,13.2
 38081,ND,Sargent,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,3804,4.43
 38083,ND,Sheridan,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,hybrid,yes,1303,1.34

@@ -42,7 +42,7 @@ Each rule in `state_preemption` caps the severity a local instrument counts at (
 | MA-local_preemption-2:small | statutory_ceiling | 2 | all_local | solar: any size, 100 (fallback) MW; wind: any size, 100 (fallback) MW; battery_storage: any size, 100 (fallback) MW | 0 | 0 |
 | FL-local_preemption-1 | replaces_local | 1 | all_local | solar: 75 MW, 74.5 MW | 0 | 0 |
 | FL-local_preemption-2 | statutory_ceiling | 2 | county | solar: any size, 74.5 MW | 0 | 0 |
-| MN-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 50.0 MW; wind: 5 MW, 155.0 MW; battery_storage: 10 MW, 100 (fallback) MW | 59 | 1362.48 |
+| MN-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 50.0 MW; wind: 5 MW, 155.0 MW; battery_storage: 10 MW, 100 (fallback) MW | 59 | 1372.76 |
 | IA-local_preemption-1 | discretionary_override | 2 | all_local | solar: 25 MW, 100.0 MW; battery_storage: 25 MWh, 100 (fallback) MW | 27 | 551.82 |
 | MI-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 100.0 MW; wind: 100 MW, 159.3 MW; battery_storage: 50 MW, 100 (fallback) MW | 65 | 1302.98 |
 | OH-local_preemption-1 | replaces_local | 1 | non_county | solar: 50 MW, 120.0 MW; wind: 5 MW, 100 (fallback) MW | 3 | 39.6 |
@@ -77,7 +77,7 @@ Rows are the tier with no cap, columns the tier scored.
 | Clinton, MI | closed to regulated | 53.02 to 3.25 | 49.77 | MI-local_preemption-1 |
 | Huron, MI | closed to restrictive | 62.8 to 14.81 | 56.7 | MI-local_preemption-1 |
 | Monroe, MI | closed to regulated | 51.75 to 5.13 | 58.76 | MI-local_preemption-1 |
-| Kalamazoo, MI | closed to regulated | 48.85 to 4.22 | 54.74 | MI-local_preemption-1 |
+| Kalamazoo, MI | closed to regulated | 48.86 to 4.22 | 54.74 | MI-local_preemption-1 |
 | Pine, MN | closed to regulated | 48.92 to 4.4 | 44.52 | MN-local_preemption-1 |
 | Yolo, CA | closed to regulated | 47.94 to 4.5 | 54.52 | CA-local_preemption-1 |
 | Aitkin, MN | closed to regulated | 47.94 to 4.5 | 54.52 | MN-local_preemption-1 |
@@ -90,7 +90,7 @@ Rows are the tier with no cap, columns the tier scored.
 | Berrien, MI | closed to regulated | 46.38 to 6.7 | 39.68 | MI-local_preemption-1 |
 | Franklin, MA | closed to regulated | 46.91 to 7.31 | 45.52 | MA-local_preemption-2:large |
 | Genesee, MI | closed to regulated | 44.42 to 4.92 | 39.5 | MI-local_preemption-1 |
-| Chisago, MN | closed to open | 42.21 to 2.85 | 47.72 | MN-local_preemption-1 |
+| Chisago, MN | closed to open | 42.22 to 2.85 | 47.72 | MN-local_preemption-1 |
 | Mower, MN | closed to open | 42.2 to 2.85 | 45.18 | MN-local_preemption-1 |
 | Pope, MN | closed to regulated | 42.68 to 4.5 | 49.65 | MN-local_preemption-1 |
 
@@ -143,7 +143,7 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | Chautauqua, NY | closed | 65.0 | mn:ny-ellery-2026 (moratorium, severity 4, in_force, Ellery) |
 | Cherokee, KS | closed | 64.5 | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
 | Westchester, NY | closed | 63.92 | mn:ny-bedford-2024 (moratorium, severity 4, in_force, Bedford) |
-| Luzerne, PA | closed | 61.02 | nrel:solar:4207906672 (setback, severity 3, unknown, Black Creek Township) |
+| Luzerne, PA | closed | 61.03 | nrel:solar:4207906672 (setback, severity 3, unknown, Black Creek Township) |
 | Apache, AZ | closed | 59.55 | sabin:S26R-6258 (ban_or_moratorium, severity 4, in_force, Apache County) |
 | Brown, KS | closed | 59.38 | mn:ks-brown-county-2026 (moratorium, severity 4, in_force, Brown County) |
 | Mecklenburg, VA | closed | 58.55 | sabin:S26R-5447 (ban, severity 4, in_force, Mecklenburg County) |

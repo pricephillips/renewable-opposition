@@ -4,7 +4,7 @@ Generated 2026-11-05 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3318 renewables-only restriction instruments (1329 severe, 154 verified, 0 past their end date with no confirmed extension, 914 severe ones in states whose siting law limits local reach); 579 contested projects (167 confirmed); 39 cases.
+3319 renewables-only restriction instruments (1330 severe, 155 verified, 0 past their end date with no confirmed extension, 915 severe ones in states whose siting law limits local reach); 579 contested projects (167 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 355, of which 244 blocked; confirmed outcomes only: 166, 80 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -24,12 +24,13 @@ Decided projects (events older than 90 days): 355, of which 244 blocked; confirm
 
 ## Review and promotion
 
-Queue: 53 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 181 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 54 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 181 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
-Promotion trail: 124 decisions from 2026-10-13 to 2026-10-30 (new or changed decisions only): 94 promoted, 16 held, 9 awaiting_review, 4 rejected, 1 unpublished.
+Promotion trail: 125 decisions from 2026-10-13 to 2026-11-05 (new or changed decisions only): 95 promoted, 16 held, 9 awaiting_review, 4 rejected, 1 unpublished.
 
 | Date | File | Action | What | Reason |
 |---|---|---|---|---|
+| 2026-11-05 | queue.csv | promoted | MN Wilkin County |  |
 | 2026-10-30 | queue.csv | promoted | IL Assumption |  |
 | 2026-10-30 | queue.csv | promoted | IL Assumption |  |
 | 2026-10-30 | queue.csv | promoted | IL Christian County |  |
@@ -37,7 +38,6 @@ Promotion trail: 124 decisions from 2026-10-13 to 2026-10-30 (new or changed dec
 | 2026-10-30 | queue.csv | promoted | IL Christian County |  |
 | 2026-10-29 | queue.csv | promoted | IL Shelby County |  |
 | 2026-10-29 | queue.csv | promoted | IL Shelby County |  |
-| 2026-10-23 | queue.csv | promoted | CA San Joaquin County |  |
 
 ## What checking found
 
@@ -78,4 +78,4 @@ Last error by source: gdelt_renewable_news (2026-10-27: 429 Client Error: Too Ma
 
 ## History and archive
 
-162 snapshot rows over 5 published files; 18 headline changes recorded (2026-09-29 to 2026-11-05). Sources: 86, of which 28 have an Internet Archive snapshot.
+165 snapshot rows over 5 published files; 18 headline changes recorded (2026-09-29 to 2026-11-05). Sources: 87, of which 28 have an Internet Archive snapshot.

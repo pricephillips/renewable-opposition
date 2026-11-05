@@ -8,28 +8,28 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3318 | 85 |
-| Severe (severity 3 or 4) | 1329 | 77 |
+| Instruments | 3319 | 85 |
+| Severe (severity 3 or 4) | 1330 | 77 |
 | States | 51 | 26 |
 | Evidence: compiled_flagged | 2303 | 9 |
 | Evidence: compiled_record | 59 | 65 |
-| Evidence: primary_source | 154 | 11 |
+| Evidence: primary_source | 155 | 11 |
 | Evidence: report_citation | 802 | 0 |
-| Verification: verified | 154 | 11 |
+| Verification: verified | 155 | 11 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 3164 | 74 |
-| Currency: in_force | 1016 | 77 |
+| Currency: in_force | 1017 | 77 |
 | Currency: lapsed_unconfirmed | 0 | 0 |
 | Currency: pending | 7 | 8 |
 | Currency: unknown | 2295 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-Of the severe instruments, 914 (renewables only) and 33 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
+Of the severe instruments, 915 (renewables only) and 33 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3615 published rows describe 3403 instruments.
+3616 published rows describe 3404 instruments.
 
 ## Contested projects
 
@@ -119,7 +119,7 @@ Instruments (restrictions) and projects by the source they came from, with their
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 1 | 0 | 54 |
 | Restrictions | NREL | 2338 | 618 | 64 | 0 | 2274 |
 | Restrictions | Moratorium Nation | 207 | 196 | 45 | 0 | 162 |
-| Restrictions | review queue | 47 | 20 | 43 | 0 | 4 |
+| Restrictions | review queue | 48 | 21 | 44 | 0 | 4 |
 | Contested projects | Sabin 2026 | 568 |  | 170 | 0 | 398 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 3 | 0 | 3 |
 | Contested projects | review queue | 5 |  | 5 | 0 | 0 |
