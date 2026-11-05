@@ -1,0 +1,74 @@
+name: Field gaps
+
+# Weekly check for gaps in the published data (scripts/field_gaps.py): a
+# column a reader relies on that is empty on more rows than its ceiling in
+# config/field_gaps.json allows, a column that vanished, or a file that went
+# missing or shrank below its floor. On any gap it opens one issue labelled
+# field-gaps with the report (or updates the open one), which notifies the
+# repo owner by email. When a later run finds none, it closes that issue.
+# The run stays green either way; the issue is the alert.
+#
+# Reads the checkout, writes only the issue.
+
+on:
+  schedule:
+    - cron: "41 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: field-gaps
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Selftest
+        run: python scripts/field_gaps.py --selftest
+      - name: Check the published data for gaps
+        id: check
+        run: |
+          python scripts/field_gaps.py --report "$RUNNER_TEMP/field_gaps.md" --github-output "$GITHUB_OUTPUT"
+          cat "$RUNNER_TEMP/field_gaps.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Open or update the issue
+        if: steps.check.outputs.status == 'gaps'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TITLE: ${{ steps.check.outputs.title }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          body="$RUNNER_TEMP/field_gaps.md"
+          printf '\nRun: %s\n\nThis issue closes itself once a run finds no gaps.\n' "$RUN_URL" >> "$body"
+          gh label create field-gaps --color D93F0B \
+            --description "A published data column is emptier than its ceiling allows" 2>/dev/null || true
+          num=$(gh issue list --label field-gaps --state open --json number --jq '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue edit "$num" --title "$TITLE" --body-file "$body"
+            echo "Updated issue #$num"
+          else
+            gh issue create --title "$TITLE" --body-file "$body" \
+              --label field-gaps --assignee "$OWNER"
+          fi
+      - name: Close the issue once no gaps remain
+        if: steps.check.outputs.status == 'ok'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          for num in $(gh issue list --label field-gaps --state open --json number --jq '.[].number'); do
+            gh issue close "$num" --comment "No field gaps remain. Run: $RUN_URL"
+          done

@@ -1,0 +1,137 @@
+{
+  "_comment": [
+    "Which columns of the published data scripts/field_gaps.py checks for gaps, and how empty each may be.",
+    "A ceiling is the largest share of rows (0 to 1) that may be empty: blank, or one of blank_values. It was set from the data on the day the column was added, plus 0.02, so it flags a column getting worse. A column that was never empty has a ceiling of 0.",
+    "min_rows is a floor on the row count (95% of the count that day), so a truncated file is a gap too.",
+    "List only columns a reader relies on. A column that is sparse by design (moratorium_id, opposition_groups) does not belong here.",
+    "When the data improves, tighten: python scripts/field_gaps.py --suggest prints this file with every ceiling recomputed. When a rise is expected, raise the ceiling and say why in the pull request."
+  ],
+  "blank_values": [
+    "",
+    "nan",
+    "none",
+    "null",
+    "n/a",
+    "na"
+  ],
+  "files": [
+    {
+      "path": "data/processed/restrictions.csv",
+      "min_rows": 3434,
+      "columns": {
+        "id": 0.0,
+        "state": 0.0,
+        "technology": 0.0,
+        "restriction_type": 0.0,
+        "status": 0.0,
+        "jurisdiction": 0.0,
+        "jurisdiction_type": 0.0,
+        "date_text": 0.41,
+        "mechanisms": 0.1,
+        "source": 0.0,
+        "source_url": 0.0,
+        "instrument_id": 0.0,
+        "county_fips_all": 0.03,
+        "evidence_level": 0.0,
+        "verification": 0.0
+      }
+    },
+    {
+      "path": "data/processed/contested_projects.csv",
+      "min_rows": 550,
+      "columns": {
+        "id": 0.0,
+        "state": 0.0,
+        "project_name": 0.0,
+        "technology": 0.0,
+        "outcome": 0.0,
+        "status": 0.0,
+        "county": 0.0,
+        "event_date_text": 0.0,
+        "source": 0.0,
+        "source_url": 0.0,
+        "instrument_id": 0.0,
+        "county_fips": 0.12,
+        "evidence_level": 0.0,
+        "verification": 0.0
+      }
+    },
+    {
+      "path": "data/processed/cases.csv",
+      "min_rows": 38,
+      "columns": {
+        "id": 0.0,
+        "state": 0.0,
+        "project_name": 0.0,
+        "case_name": 0.0,
+        "court": 0.0,
+        "court_level": 0.0,
+        "docket_number": 0.0,
+        "case_status": 0.05,
+        "source_url": 0.0,
+        "case_source_url": 0.0
+      }
+    },
+    {
+      "path": "data/processed/sources.csv",
+      "min_rows": 81,
+      "columns": {
+        "source_id": 0.0,
+        "url": 0.0,
+        "title": 0.0
+      }
+    },
+    {
+      "path": "data/processed/county_summary.csv",
+      "min_rows": 3060,
+      "columns": {
+        "county_fips": 0.0,
+        "state": 0.05,
+        "county": 0.0
+      }
+    },
+    {
+      "path": "data/processed/state_policies.csv",
+      "min_rows": 115,
+      "columns": {
+        "id": 0.0,
+        "state": 0.0,
+        "technology": 0.0,
+        "policy_type": 0.0,
+        "summary": 0.0,
+        "statute_citation": 0.0,
+        "statute_url": 0.0,
+        "source_url": 0.0
+      }
+    },
+    {
+      "path": "data/processed/siting_standards.csv",
+      "min_rows": 22589,
+      "columns": {
+        "id": 0.0,
+        "state": 0.0,
+        "jurisdiction": 0.0,
+        "technology": 0.0,
+        "feature": 0.0,
+        "county_fips_all": 0.03,
+        "ordinance_url": 0.0,
+        "source_url": 0.0
+      }
+    },
+    {
+      "path": "data/renewable_opposition_records.csv",
+      "min_rows": 476,
+      "columns": {
+        "record_id": 0.0,
+        "state": 0.0,
+        "county": 0.13,
+        "record_type": 0.0,
+        "status": 0.03,
+        "technology": 0.06,
+        "adopted_or_event_date_text": 0.09,
+        "short_description": 0.03
+      }
+    }
+  ]
+}
+

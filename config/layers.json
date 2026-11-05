@@ -261,6 +261,10 @@
       "files": [],
       "reason": "--github-output appends the verdict to $GITHUB_OUTPUT in Actions, a file outside the repository; it owns no data and only reads data/review/verification_log.csv."
     },
+    "scripts/field_gaps.py": {
+      "files": [],
+      "reason": "--report writes the markdown report and --github-output appends the verdict, both to files outside the repository ($RUNNER_TEMP and $GITHUB_OUTPUT in field-gaps.yml); it owns no data and only reads the files config/field_gaps.json lists. Its selftest writes only to a temp dir."
+    },
     "scripts/run_pipeline.py": {
       "files": [],
       "reason": "--summary appends stage output to a file outside the repository ($GITHUB_STEP_SUMMARY in Actions); it owns no data. Every data file is written by the stage scripts it runs."
