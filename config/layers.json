@@ -69,6 +69,19 @@
       "reason": "Internal county record score under config/county_record_score.json (docs/county_record_score.md), read from the published record with the model's score as its prior; no page, report or headline figure reads it."
     },
     "data/model/county_record_report.md": {"layer": "derived", "writers": ["scripts/county_record_score.py"]},
+    "data/cost/cost_ledger.csv": {
+      "layer": "derived", "writers": ["scripts/cost_ledger.py"],
+      "reason": "Internal cost ledger (ported from data-center-map spec 025): each contested project's observed span priced at the published rates in config/cost_anchors.json, or the reason it is withheld. No page, report or headline figure reads it."
+    },
+    "data/cost/cost_anchors.csv": {"layer": "derived", "writers": ["scripts/cost_ledger.py"]},
+    "data/cost/cost_methodology.md": {"layer": "derived", "writers": ["scripts/cost_ledger.py"]},
+    "data/cost/cost_rate_card.csv": {
+      "layer": "derived", "writers": ["scripts/cost_cfo.py"],
+      "reason": "Internal CFO view of the cost layer: unit costs of a slip per MW by technology, from config/cost_anchors.json. No page, report or headline figure reads it."
+    },
+    "data/cost/cost_scenarios.csv": {"layer": "derived", "writers": ["scripts/cost_cfo.py"]},
+    "data/cost/cost_sensitivity.csv": {"layer": "derived", "writers": ["scripts/cost_cfo.py"]},
+    "data/cost/cost_brief.md": {"layer": "derived", "writers": ["scripts/cost_cfo.py"]},
     "data/model/county_labels.csv": {
       "layer": "derived", "writers": ["scripts/county_labels.py"],
       "reason": "Labels for the county restriction model, as config/county_model_registration.json defines them, from data/processed/restrictions.csv."
