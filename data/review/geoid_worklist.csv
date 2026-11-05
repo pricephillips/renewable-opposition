@@ -17,7 +17,6 @@ NE,Municipality,Savanah Township,31023,no_match,0,,1
 NY,Municipality,Bath,36101,ambiguous,2,"Bath town (3610104770, county 36101); Bath village (3604759, county 36101)",1
 NY,Municipality,Camden,36065,ambiguous,2,"Camden town (3606511858, county 36065); Camden village (3611847, county 36065)",1
 NY,Municipality,Corning,36101,ambiguous,2,"Corning city (3618256, county 36101); Corning town (3610118267, county 36101)",1
-NY,Town,Glenville,09190,county_differs,1,"Glenville town (3609329366, county 36093)",1
 NY,Municipality,Kingston,36111,ambiguous,2,"Kingston city (3639727, county 36111); Kingston town (3611139738, county 36111)",1
 NY,Municipality,Nichols,36107,ambiguous,2,"Nichols town (3610751121, county 36107); Nichols village (3651110, county 36107)",1
 NY,Municipality,Skaneateles,36067,ambiguous,2,"Skaneateles town (3606767521, county 36067); Skaneateles village (3667510, county 36067)",1

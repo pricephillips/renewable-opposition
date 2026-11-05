@@ -1,40 +1,39 @@
 {
   "restrictions": {
-    "rows": 3636,
-    "instruments": 3423,
+    "rows": 3626,
+    "instruments": 3414,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3338,
-        "severe_instruments": 1349,
+        "instruments": 3329,
+        "severe_instruments": 1340,
         "states": 51,
         "by_status": {
           "active": 961,
-          "extended": 57,
+          "extended": 55,
           "pending": 7,
-          "unknown": 2313
+          "unknown": 2306
         },
         "by_technology": {
-          "battery_storage": 143,
-          "solar": 1668,
-          "wind": 1695
+          "battery_storage": 142,
+          "solar": 1666,
+          "wind": 1688
         },
         "by_evidence_level": {
-          "compiled_flagged": 2332,
-          "compiled_record": 60,
-          "primary_source": 140,
-          "report_citation": 806
+          "compiled_flagged": 2318,
+          "compiled_record": 59,
+          "primary_source": 150,
+          "report_citation": 802
         },
         "by_verification": {
-          "unverified": 3198,
-          "verified": 140
+          "unverified": 3179,
+          "verified": 150
         },
         "by_currency": {
-          "in_force": 1017,
-          "lapsed_unconfirmed": 1,
+          "in_force": 1016,
           "pending": 7,
-          "unknown": 2313
+          "unknown": 2306
         },
-        "severe_where_state_limits_local": 928
+        "severe_where_state_limits_local": 921
       },
       "multi_sector_data_centers": {
         "instruments": 85,
@@ -52,12 +51,12 @@
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
-          "compiled_record": 66,
-          "primary_source": 10
+          "compiled_record": 65,
+          "primary_source": 11
         },
         "by_verification": {
-          "unverified": 75,
-          "verified": 10
+          "unverified": 74,
+          "verified": 11
         },
         "by_currency": {
           "in_force": 77,
@@ -71,31 +70,32 @@
         "instruments": 756,
         "severe_instruments": 531,
         "by_verification": {
-          "unverified": 747,
-          "verified": 9
+          "unverified": 744,
+          "verified": 12
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
         "instruments": 55,
         "severe_instruments": 41,
         "by_verification": {
-          "unverified": 55
+          "unverified": 54,
+          "verified": 1
         }
       },
       "NREL": {
-        "instruments": 2356,
-        "severe_instruments": 636,
+        "instruments": 2349,
+        "severe_instruments": 629,
         "by_verification": {
-          "unverified": 2302,
-          "verified": 54
+          "unverified": 2289,
+          "verified": 60
         }
       },
       "Moratorium Nation": {
-        "instruments": 209,
-        "severe_instruments": 198,
+        "instruments": 207,
+        "severe_instruments": 196,
         "by_verification": {
-          "unverified": 165,
-          "verified": 44
+          "unverified": 162,
+          "verified": 45
         }
       },
       "review queue": {
@@ -108,37 +108,37 @@
       }
     },
     "by_verification": {
-      "unverified": 3273,
-      "verified": 150
+      "unverified": 3253,
+      "verified": 161
     }
   },
   "contested_projects": {
     "rows": 579,
     "projects": 579,
-    "confirmed_outcomes": 158,
+    "confirmed_outcomes": 164,
     "by_outcome": {
-      "advanced_confirmed": 78,
+      "advanced_confirmed": 84,
       "advanced_unverified": 25,
       "blocked_confirmed": 80,
       "blocked_unverified": 165,
       "needs_review": 28,
-      "pending": 203
+      "pending": 197
     },
     "by_evidence_level": {
-      "confirmed": 158,
-      "report_citation": 421
+      "confirmed": 164,
+      "report_citation": 415
     },
     "by_verification": {
-      "unverified": 412,
-      "verified": 167
+      "unverified": 406,
+      "verified": 173
     },
     "by_source": {
       "Sabin 2026": {
         "instruments": 568,
         "severe_instruments": 402,
         "by_verification": {
-          "unverified": 409,
-          "verified": 159
+          "unverified": 403,
+          "verified": 165
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
@@ -163,19 +163,19 @@
       "planned": 29,
       "under_construction": 13
     },
-    "facility_conflicts": 24,
+    "facility_conflicts": 18,
     "decided": {
       "guard_days": 90,
       "young_excluded": 3,
       "all": {
-        "projects": 345,
+        "projects": 351,
         "blocked": 244,
-        "blocked_share": 0.707
+        "blocked_share": 0.695
       },
       "confirmed_only": {
-        "projects": 157,
+        "projects": 163,
         "blocked": 80,
-        "blocked_share": 0.51
+        "blocked_share": 0.491
       },
       "by_technology": {
         "battery_storage": {
@@ -184,9 +184,9 @@
           "blocked_share": 0.636
         },
         "solar": {
-          "projects": 175,
+          "projects": 180,
           "blocked": 139,
-          "blocked_share": 0.794
+          "blocked_share": 0.772
         },
         "transmission": {
           "projects": 8,
@@ -194,9 +194,9 @@
           "blocked_share": 0.375
         },
         "wind": {
-          "projects": 154,
+          "projects": 155,
           "blocked": 95,
-          "blocked_share": 0.617
+          "blocked_share": 0.613
         }
       }
     },
@@ -219,7 +219,7 @@
       "grid_cost": 1
     },
     "with_no_concern_named": 232,
-    "in_county_with_severe_restriction": 223
+    "in_county_with_severe_restriction": 222
   },
   "cases": {
     "rows": 40,
@@ -266,12 +266,12 @@
   },
   "county_coverage": {
     "counties": 3144,
-    "with_any_record": 1420,
-    "with_restriction": 1267,
+    "with_any_record": 1419,
+    "with_restriction": 1263,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
     "with_negative_check_and_no_record": 1,
-    "with_neither": 1723
+    "with_neither": 1724
   }
 }
