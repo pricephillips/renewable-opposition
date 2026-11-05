@@ -242,3 +242,22 @@ def test_brief_has_no_banned_wording_and_states_it_is_internal(tmp_path):
     path.write_text(json.dumps({"anchors": [], "credit_deadlines": bad}))
     with pytest.raises(cl.AnchorError, match="missing source_url"):
         cfo.load_deadlines(path)
+
+
+def test_stale_items_report_and_github_output(tmp_path):
+    anchors = fixture_anchors(capex_per_mw_solar={"reverify_by": "2026-01-01"})
+    deadlines = [{"deadline_id": "d1", "kind": "termination", "technologies": ["solar"], "rule": "r",
+                  "date": "2027-12-31", "source": "s", "source_url": "https://example.org/d",
+                  "reverify_by": "2026-06-30"}]
+    items = cfo.stale_items(anchors, deadlines, AS_OF)
+    assert items == [("capex_per_mw_solar", "2026-01-01"), ("d1", "2026-06-30")]
+    report = cfo.stale_report(items, AS_OF)
+    assert "`capex_per_mw_solar` | 2026-01-01" in report and "reverify_by" in report
+    assert "No cost anchor" in cfo.stale_report([], AS_OF)
+    out = tmp_path / "out"
+    cfo.write_github_output(out, items)
+    assert out.read_text() == "stale=true\nstale_count=2\n"
+    out2 = tmp_path / "out2"
+    cfo.write_github_output(out2, [])
+    assert out2.read_text() == "stale=false\nstale_count=0\n"
+    assert not cl.banned_hits({"report": report})

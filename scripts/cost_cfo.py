@@ -28,7 +28,12 @@ Writes (internal: no page, report or headline figure reads them)
   data/cost/cost_brief.md       the brief built from all of the above
 
 Usage
-  python scripts/cost_cfo.py [--as-of YYYY-MM-DD]
+  python scripts/cost_cfo.py [--as-of YYYY-MM-DD] [--report PATH] [--github-output PATH]
+
+--report writes the list of anchors and credit deadlines past their
+re-verify-by date, and --github-output appends stale=true|false for the
+weekly workflow (.github/workflows/cost-layer.yml), which keeps one issue
+labelled cost-anchors open while anything is stale.
 """
 from __future__ import annotations
 
@@ -369,15 +374,50 @@ def generated_text(rate, scen, sens, text) -> dict[str, str]:
             **{f"rate {r['technology']}": " ".join(map(str, r.values())) for r in rate}}
 
 
-def run(as_of: date) -> int:
+def stale_items(anchors: dict, deadlines: list[dict], as_of: date) -> list[tuple[str, str]]:
+    """(id, reverify_by) for every anchor and credit deadline past its
+    re-verify-by date on `as_of`, by id."""
+    items = [(aid, a["reverify_by"]) for aid, a in anchors.items()
+             if as_of > date.fromisoformat(a["reverify_by"])]
+    items += [(d["deadline_id"], d["reverify_by"]) for d in deadlines
+              if as_of > date.fromisoformat(d["reverify_by"])]
+    return sorted(items)
+
+
+def stale_report(items: list[tuple[str, str]], as_of: date) -> str:
+    """The issue body the weekly workflow (.github/workflows/cost-layer.yml)
+    posts while anything is stale."""
+    if not items:
+        return f"No cost anchor or credit deadline was past its re-verify date on {long_date(as_of)}.\n"
+    lines = [f"{len(items)} cost anchors or credit deadlines were past their re-verify date on "
+             f"{long_date(as_of)}. Figures that rest on them are flagged stale in "
+             "`data/cost/cost_brief.md` and the ledger's `stale_anchors` column.", "",
+             "| Id | Re-verify by |", "|---|---|"]
+    lines += [f"| `{i}` | {d} |" for i, d in items]
+    lines += ["", "To clear one: re-check its source against the publisher's current edition, update the value "
+              "if it changed, and move `reverify_by` forward in `config/cost_anchors.json`."]
+    return "\n".join(lines) + "\n"
+
+
+def write_github_output(path: Path, items: list[tuple[str, str]]) -> None:
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(f"stale={'true' if items else 'false'}\n")
+        fh.write(f"stale_count={len(items)}\n")
+
+
+def run(as_of: date, report: Path | None = None, github_output: Path | None = None) -> int:
     try:
         anchors = cl.load_anchors()
         deadlines = load_deadlines()
     except cl.AnchorError as e:
         print(f"cost_cfo: {e}", file=sys.stderr)
         return 1
-    stale = cl.stale_ids(anchors, as_of) | {d["deadline_id"] for d in deadlines
-                                            if as_of > date.fromisoformat(d["reverify_by"])}
+    items = stale_items(anchors, deadlines, as_of)
+    stale = {i for i, _ in items}
+    if report:
+        report.write_text(stale_report(items, as_of), encoding="utf-8")
+    if github_output:
+        write_github_output(github_output, items)
     rate = rate_card(anchors, stale, credit_techs(deadlines))
     scen, sens = scenarios(anchors), sensitivity(anchors)
     text = brief(anchors, rate, scen, sens, deadlines, observed_spans(), stale, as_of)
@@ -400,7 +440,10 @@ def run(as_of: date) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--as-of", type=date.fromisoformat, default=date.today())
-    return run(ap.parse_args().as_of)
+    ap.add_argument("--report", type=Path, help="write the stale-anchor report (markdown) here")
+    ap.add_argument("--github-output", type=Path, help="append stale=true|false and stale_count=N here")
+    args = ap.parse_args()
+    return run(args.as_of, args.report, args.github_output)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,152 @@
+name: Cost layer
+
+# Weekly run of the internal cost layer (README.md, "Cost layer (internal)"):
+#   scripts/cost_ledger.py  data/cost/cost_ledger.csv, cost_anchors.csv and
+#                           cost_methodology.md: each contested project's
+#                           observed span priced at the anchors in
+#                           config/cost_anchors.json, or why it is withheld
+#   scripts/cost_cfo.py     data/cost/cost_rate_card.csv, cost_scenarios.csv,
+#                           cost_sensitivity.csv and cost_brief.md
+# A pending project's span runs to the run date, so the ledger changes every
+# week even when no input does; that is why this runs weekly rather than in
+# every build. Nothing the build, a page or a headline figure reads comes from
+# data/cost/.
+#
+# On main the outputs are committed. On any other branch nothing is pushed:
+# a green run there is the proof that the modules run in Actions, and the job
+# summary shows what main would commit. A push to a branch that changes the
+# cost layer starts that proof by itself.
+#
+# Anchors and credit deadlines past their re-verify-by date: on main the job
+# keeps one issue labelled cost-anchors open, listing them, and closes it once
+# a run finds none. The run stays green either way; the issue is the alert.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Wednesdays, 11:53 UTC.
+    - cron: '53 11 * * 3'
+  push:
+    branches-ignore: [main]
+    paths:
+      - 'scripts/cost_ledger.py'
+      - 'scripts/cost_cfo.py'
+      - 'config/cost_anchors.json'
+      - 'tests/test_cost_ledger.py'
+      - '.github/workflows/cost-layer.yml'
+
+permissions:
+  contents: write
+  issues: write
+
+# Shares build-data.yml's group: both commit to the branch they run on.
+concurrency:
+  group: build-data-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  cost-layer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        # Credentials are kept (zizmor: artipacked) because a later step
+        # pushes on main.
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.11'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+
+      - name: Install dependencies
+        run: uv pip install --system -c requirements/ci.txt -r requirements.txt
+
+      - name: Tests (fixtures; no network)
+        run: python -m pytest -q tests/test_cost_ledger.py
+
+      - name: Run the cost layer
+        id: run
+        run: |
+          set -o pipefail
+          python scripts/cost_ledger.py | tee -a "$GITHUB_STEP_SUMMARY"
+          python scripts/cost_cfo.py --report "$RUNNER_TEMP/cost_anchors_stale.md" --github-output "$GITHUB_OUTPUT" | tee -a "$GITHUB_STEP_SUMMARY"
+          cat "$RUNNER_TEMP/cost_anchors_stale.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: What main would commit (branch runs)
+        if: github.ref != 'refs/heads/main'
+        run: |
+          {
+            echo '```'
+            git diff --stat -- data/cost/
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit the outputs (main only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/cost/
+          git diff --cached --quiet && exit 0
+          git commit -m "Run the cost layer"
+          # Another workflow may have moved the branch since checkout. Rebase
+          # and retry; never force-push.
+          for i in 1 2 3; do
+            git push origin HEAD:"$GITHUB_REF_NAME" && exit 0
+            echo "Push rejected (attempt $i); rebasing on the latest branch"
+            git fetch --no-tags origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME" || { git rebase --abort; echo "::error::rebase conflict"; exit 1; }
+            sleep $((i * 5))
+          done
+          echo "::error::push failed after 3 attempts"; exit 1
+
+      - name: Open or update the stale-anchor issue (main only)
+        if: github.ref == 'refs/heads/main' && steps.run.outputs.stale == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          COUNT: ${{ steps.run.outputs.stale_count }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          body="$RUNNER_TEMP/cost_anchors_stale.md"
+          printf '\nRun: %s\n\nThis issue closes itself once a run finds nothing stale.\n' "$RUN_URL" >> "$body"
+          title="Cost anchors past their re-verify date: $COUNT"
+          gh label create cost-anchors --color FBCA04 \
+            --description "A cost layer anchor or credit deadline is past its re-verify date" 2>/dev/null || true
+          num=$(gh issue list --label cost-anchors --state open --json number --jq '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue edit "$num" --title "$title" --body-file "$body"
+            echo "Updated issue #$num"
+          else
+            gh issue create --title "$title" --body-file "$body" \
+              --label cost-anchors --assignee "$OWNER"
+          fi
+
+      - name: Close the stale-anchor issue once nothing is stale (main only)
+        if: github.ref == 'refs/heads/main' && steps.run.outputs.stale == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          for num in $(gh issue list --label cost-anchors --state open --json number --jq '.[].number'); do
+            gh issue close "$num" --comment "No cost anchor is past its re-verify date. Run: $RUN_URL"
+          done
+
+      - name: Open an issue on failure (main only)
+        # A job that hits timeout-minutes ends cancelled, not failed.
+        if: (failure() || cancelled()) && github.ref == 'refs/heads/main'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Cost layer run failed (${context.sha.slice(0, 7)})`,
+              body: `The weekly cost layer run failed. Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\nThe files in data/cost/ were not updated. A failed anchor check names the anchor in config/cost_anchors.json.`,
+            });

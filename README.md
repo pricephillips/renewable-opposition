@@ -794,7 +794,9 @@ python scripts/cost_cfo.py
 
 `scripts/cost_cfo.py` turns the same anchors into unit costs that can be applied to any site: `data/cost/cost_rate_card.csv` (per technology and per MW: the cost of one month of slip, meaning a delay to the schedule; capital at risk if the project is blocked; and the federal tax credit at stake at its placed-in-service deadline), `data/cost/cost_scenarios.csv` (a 100 MW project slipping 3 to 24 months), `data/cost/cost_sensitivity.csv` (which anchor moves the delay cost most) and `data/cost/cost_brief.md`. The module multiplies no probability into any figure.
 
-Before any figure leaves the company, re-verify every anchor against the publisher's current edition, and get Price's decision on quoting, as Price made one for the `pricephillips/data-center-map` rate card on 2026-10-27. Neither module runs in the build yet; run both by hand after an anchor or outcome changes.
+Before any figure leaves the company, re-verify every anchor against the publisher's current edition, and get Price's decision on quoting, as Price made one for the `pricephillips/data-center-map` rate card on 2026-10-27.
+
+`.github/workflows/cost-layer.yml` runs both modules every Wednesday and commits `data/cost/` on main. A pending project's span runs to the run date, so the ledger changes each week even when no input does. While any anchor or credit deadline is past its re-verify-by date, the workflow keeps one issue labelled `cost-anchors` open that lists them, and closes it once none is stale. To see a changed anchor or outcome sooner, run both modules by hand or start the workflow from Actions.
 
 ## Relation to pricephillips/data-center-map
 
