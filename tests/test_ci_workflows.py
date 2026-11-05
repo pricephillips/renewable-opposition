@@ -33,7 +33,7 @@ def test_superseded_pull_request_runs_are_cancelled_and_main_runs_never_are():
 
 
 def test_workflows_that_commit_share_one_group_and_never_cancel():
-    for name in ("build-data.yml", "source-archive.yml", "intake.yml", "model-inputs.yml"):
+    for name in ("build-data.yml", "source-archive.yml", "intake.yml", "model-inputs.yml", "cost-layer.yml"):
         c = load(name)["concurrency"]
         assert c == {"group": "build-data-${{ github.ref }}", "cancel-in-progress": False}, name
 
@@ -100,3 +100,21 @@ def test_the_already_tested_probe_fails_closed():
     for job_name in ("validate", "ui"):
         cond = load("validate.yml")["jobs"][job_name]["if"]
         assert "needs.covered.outputs.covered != 'true'" in cond and "!cancelled()" in cond
+
+
+def test_the_cost_layer_runs_weekly_and_commits_only_its_outputs_on_main():
+    """The cost layer (scripts/cost_ledger.py, scripts/cost_cfo.py) runs on a
+    weekly schedule, commits only data/cost/ and only on main, and keeps the
+    stale-anchor issue on main only."""
+    wf = load("cost-layer.yml")
+    assert [c["cron"].split()[2:] for c in wf["on"]["schedule"]] == [["*", "*", "3"]]
+    assert wf["on"]["push"]["branches-ignore"] == ["main"]
+    steps = wf["jobs"]["cost-layer"]["steps"]
+    runs = "\n".join(s.get("run", "") for s in steps)
+    assert "python scripts/cost_ledger.py" in runs and "python scripts/cost_cfo.py" in runs
+    assert "set -o pipefail" in runs
+    adds = re.findall(r"git add ([^\n]+)", runs)
+    assert adds == ["data/cost/"]
+    for s in steps:
+        if "git push" in s.get("run", "") or "gh issue" in s.get("run", ""):
+            assert "github.ref == 'refs/heads/main'" in s.get("if", ""), s.get("name")
