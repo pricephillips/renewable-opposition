@@ -466,12 +466,14 @@ renewable-opposition/
 ├── README.md
 ├── requirements.txt
 ├── config/
+│   ├── cost_anchors.json                   ← cost layer anchors with sources and re-verify dates
 │   ├── sources.yaml                        ← crawler source registry (fetch.py; the live intake sources)
 │   ├── legistar_clients.json               ← Legistar clients live intake reads, each with its county
 │   └── source_registry.csv                 ← dataset/tracker registry
 ├── data/
 │   ├── renewable_opposition_records.csv    ← Sabin June 2025 extraction (read through the edition crosswalk)
 │   ├── renewable_opposition_records_2026-09.csv ← Sabin September 2026 extraction (input to build_sabin_seeds.py)
+│   ├── cost/                               ← internal cost layer outputs (cost_ledger.py, cost_cfo.py)
 │   ├── reference/
 │   │   ├── data_center_events.csv          ← local data center events from data-center-map (sync_data_center_map.py)
 │   │   └── facilities.csv                  ← EIA-860M, USWTDB and USPVDB plants (fetch_facilities.py), with facilities_manifest.csv
@@ -773,6 +775,26 @@ Three watched upstreams (`moratorium_nation_upstream` and the Sabin web database
 **The rules every extractor keeps.** It writes nothing (`tests/test_news_intake.py` checks every module in `scripts/extractors/` and `parse.py` with the layer audit's AST walk, and that no seed lists either as a writer); it sets `access` to `snippet`; it fills `status`, `mechanisms` and `severity_score` only with exact vocabulary the source states outright, or leaves them blank; and every candidate then goes through the same gates as a hand-entered row: triage, `access` (a snippet never promotes), a required status, `source_kind` (a news URL locates an instrument but never verifies it), and the QC gate. Each extractor is tested offline on trimmed real responses in `tests/fixtures/intake/`, and the intake workflow runs those tests before it fetches anything.
 
 ---
+
+## Cost layer (internal)
+
+The cost layer prices the schedule of a solar, wind or battery storage project at published rates. It is ported from the cost ledger in `pricephillips/data-center-map` (spec 025) and follows its rules: every figure is a low-high range, every rate comes from `config/cost_anchors.json` with its source URL and a date by which it must be re-verified, and no figure is described as the effect of opposition. This data cannot identify how much of a delay is the effect of opposition, so the layer prices a project's observed span, whatever its reason, and makes no comparison with any other project. Every output is internal: no page, report or headline figure reads `data/cost/`.
+
+```bash
+python scripts/cost_ledger.py
+python scripts/cost_cfo.py
+```
+
+`scripts/cost_ledger.py` writes `data/cost/cost_ledger.csv`, one row per contested project. A row either prices the project's observed span or gives the reason it is withheld (`withheld_reason`); `data/cost/cost_methodology.md` gives every formula and the ledger's counts.
+
+- The span starts at the project's first interconnection request when its Queued Up match is `strong` (`data/reference/queue_matches.csv`), else at a day- or month-precision date in `event_date_text`. It ends at `resolution_date` for a project with a confirmed outcome (`request_to_decision`), or at the run date for a pending one (`accrued_to_date`, so the full span is at least that long). A month-precision date widens the range; a row with a year-only date is withheld.
+- The capital basis is the technology's per-MW anchor times a stated MW: the record's `capacity_mw`, else the strongly matched federal plant inventory entry's, else the strongly matched queue request's. MW is never imputed.
+- Components: for a project that is built, construction-cost escalation over the span and the economic cost of deferral (the present value given up when the project's net revenue, after fixed operation and maintenance costs, starts later); a `blocked_confirmed` project, which is never built and never earns, carries development capital at risk only. Gross revenue deferred is reported as exposure and never added to a total.
+- Offshore wind, transmission, geothermal and hydro are withheld as `technology_not_priced`. A record that lists more than one technology is priced on the first and flagged `hybrid_priced_on_primary`. A strong queue match that conflicts with the published outcome is withheld as `queue_match_conflict`.
+
+`scripts/cost_cfo.py` turns the same anchors into unit costs that can be applied to any site: `data/cost/cost_rate_card.csv` (per technology and per MW: the cost of one month of slip, meaning a delay to the schedule; capital at risk if the project is blocked; and the federal tax credit at stake at its placed-in-service deadline), `data/cost/cost_scenarios.csv` (a 100 MW project slipping 3 to 24 months), `data/cost/cost_sensitivity.csv` (which anchor moves the delay cost most) and `data/cost/cost_brief.md`. The module multiplies no probability into any figure.
+
+Before any figure leaves the company, re-verify every anchor against the publisher's current edition, and get Price's decision on quoting, as Price made one for the `pricephillips/data-center-map` rate card on 2026-10-27. Neither module runs in the build yet; run both by hand after an anchor or outcome changes.
 
 ## Relation to pricephillips/data-center-map
 

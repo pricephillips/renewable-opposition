@@ -1,0 +1,4 @@
+technology,capex_per_mw_low,capex_per_mw_high,escalation_per_mw_month_low,escalation_per_mw_month_high,deferral_cost_per_mw_month_low,deferral_cost_per_mw_month_high,delay_cost_per_mw_month_low,delay_cost_per_mw_month_high,gross_revenue_deferred_per_mw_month_low,gross_revenue_deferred_per_mw_month_high,capital_at_risk_per_mw_low,capital_at_risk_per_mw_high,credit_at_deadline_per_mw_low,credit_at_deadline_per_mw_high,stale_anchors
+solar,1690000,1770000,2394,2950,2855,9804,5249,12754,5709,11722,43940,120360,507000,531000,
+wind,1700000,1920000,0,3200,1977,13715,1977,16915,6114,19038,44200,130560,510000,576000,
+battery_storage,1080000,1460000,0,4867,10525,23320,10525,28186,22000,31000,28080,99280,,,
