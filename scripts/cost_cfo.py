@@ -220,29 +220,46 @@ def rng(row: dict, name: str) -> str:
     return f"{m(lo)} to {m(hi)}" if lo != "" and hi != "" else "not priced"
 
 
+def long_date(d) -> str:
+    """A date for running text, e.g. October 27, 2026; tables keep ISO dates."""
+    d = date.fromisoformat(d) if isinstance(d, str) else d
+    return f"{d:%B} {d.day}, {d.year}"
+
+
+def pct(x: float) -> str:
+    return f"{x * 100:.1f}%".replace(".0%", "%")
+
+
 def years(days: float) -> str:
     return f"{days / 365.25:.1f} years"
 
 
 def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
           deadlines: list[dict], spans: list[dict], stale: set[str], as_of: date) -> str:
+    sh = anchors["predevelopment_share"]
     L = [
         "# Cost of a siting slip: solar, wind and storage",
         "",
-        f"Generated {as_of.isoformat()} by `scripts/cost_cfo.py`. **Internal, not for client delivery.** No",
-        "decision has been made about quoting these figures outside the company (for the data center rate",
-        "card, Price made that decision on 2026-10-27); until one is, every section stays internal.",
+        f"Generated {long_date(as_of)} by `scripts/cost_cfo.py`. **Internal, not for client delivery.** No",
+        "decision has been made about quoting these figures outside the company. (Price decided on",
+        "October 27, 2026 how the data center rate card may be quoted.) Until Price decides for this brief,",
+        "every section stays internal.",
         "",
-        "These are unit costs at published rates for a project whose schedule slips, whatever the reason.",
-        "They do not measure what opposition does to a project, and no probability of a slip or a block is",
-        "multiplied into them. Every figure is a low-high range. Apply your own slip scenario to your own",
-        "site.",
+        "These are unit costs from published figures and Hawthorn's stated assumptions, for a project whose",
+        "schedule slips, whatever the reason; a slip is a delay to the schedule, measured in months. Each input is an",
+        "anchor (a low-high value in `config/cost_anchors.json`). The figures do not measure what opposition",
+        "does to a project, and no probability of a slip or a block is multiplied into them. Every cost",
+        "figure is a low-high range, except in the sensitivity tables, which hold the other anchors at their",
+        "midpoints. Apply your own slip scenario to your own site.",
         "",
         "## One month of slip, per MW (national rates)",
         "",
-        "Delay cost is construction escalation plus the economic cost of deferring the project's net",
-        "revenue. Capital at risk is the development spending a blocked site leaves behind before",
-        "construction starts.",
+        "National rates means every anchor is a national figure; none is regional yet. Delay cost is construction",
+        "escalation plus the economic cost of deferring the project's net revenue (gross revenue less fixed",
+        "operation and maintenance (O&M) cost), discounted at the cost of capital (the annual rate used to",
+        "discount future revenue). Capital at risk (development spending before construction, estimated as",
+        f"an assumed {pct(sh['value_low'])} to {pct(sh['value_high'])} of installed cost) is what a blocked "
+        "project would not recover.",
         "",
         "| Technology | Delay cost per MW per month | of which escalation | of which deferral | "
         "Capital at risk per MW if blocked |",
@@ -268,10 +285,8 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
 
     if deadlines:
         L += ["## Federal tax credit deadlines", "",
-              "The clean electricity credits change at a date rather than by the month: a project that",
-              "misses a deadline loses the credit. The rate card's",
-              "credit column is the per-MW capital cost times the credit rate, the credit at stake at the",
-              "deadline for a project that would otherwise qualify. Whether a given project qualifies is a",
+              "The clean electricity credits change at a date rather than by the month. Each deadline",
+              "changes what a project can claim: see the Rule column. Whether a given project qualifies is a",
               "tax question for the project's own counsel.", "",
               "| Applies to | Rule | Date | Source |", "|---|---|---|---|"]
         for d in deadlines:
@@ -281,11 +296,18 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
         L += [""]
         priced = [r for r in rate if r.get("credit_at_deadline_per_mw_low")]
         if priced:
+            cr = anchors.get("credit_rate", {})
+            term = [d for d in deadlines if d["kind"] == "termination"]
+            when = long_date(term[0]["date"]) if term else "the placed-in-service"
+            L += [f"The table below (also in `data/cost/cost_rate_card.csv`) is the 48E credit at "
+                  f"{pct(cr.get('value_high', 0))} (prevailing wage and apprenticeship requirements met) times "
+                  f"the full per-MW capital cost: an upper bound on the credit at stake at the {when} "
+                  "placed-in-service date.", ""]
             L += ["| Technology | Credit at stake per MW |", "|---|---|"]
             L += [f"| {TECH_LABEL[r['technology']]} | {rng(r, 'credit_at_deadline_per_mw')} |" for r in priced]
             L.append("")
 
-    L += ["## Which assumption moves the delay cost most", "",
+    L += ["## Which anchor moves the delay cost most", "",
           f"A 100 MW project slipping {REFERENCE_MONTHS} months, national rates, every anchor at its midpoint "
           "except the one moved from its low to its high value. Largest swing first.", ""]
     for tech in cl.TECHNOLOGIES:
@@ -297,8 +319,9 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
         L.append("")
 
     L += ["## How long these spans have run (observed, descriptive)", "",
-          "From `data/cost/cost_ledger.csv`: the recorded span from a contested project's first",
-          "interconnection request to its decision, for the priced rows with a confirmed outcome. These",
+          "From `data/cost/cost_ledger.csv`: the recorded span from a contested project's start date (its",
+          "first interconnection request, or a dated event in the record) to its decision, for the priced",
+          "rows with a confirmed outcome. These",
           "are the tracked sample's own histories, not a forecast and not an effect of opposition; most",
           "contested projects have no dated first request and are not in it.", ""]
     if spans:
@@ -326,8 +349,8 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
               + ". Re-verify each one before using any figure that rests on it.", ""]
     else:
         nxt = min(anchors.values(), key=lambda a: a["reverify_by"])
-        L += [f"No anchor was past its re-verify date on {as_of.isoformat()}. The next one due is "
-              f"`{nxt['anchor_id']}`, on {nxt['reverify_by']}.", ""]
+        L += [f"No anchor was past its re-verify date on {long_date(as_of)}. The next one due is "
+              f"`{nxt['anchor_id']}`, on {long_date(nxt['reverify_by'])}.", ""]
 
     L += ["## Applying these to a site", "",
           "1. Pick the technology and the site's MW. Multiply the per-MW figures by the MW.",

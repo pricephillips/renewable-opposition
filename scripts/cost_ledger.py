@@ -36,8 +36,8 @@ Rules
     stated MW: the record's own capacity_mw, else the matched federal plant
     inventory entry's, else the strongly matched queue request's. MW is never
     imputed, and never derived from acres or dollars.
-  - Destroyed value (construction escalation, development capital at risk on
-    a block) stays apart from deferred revenue exposure (gross revenue that
+  - Costs (construction escalation, development capital at risk on
+    a block) stay apart from deferred revenue exposure (gross revenue that
     arrives later: an upper bound, never a cost and never in a total).
   - A blocked project is never built and never earns, so it carries capital
     at risk only.
@@ -455,8 +455,8 @@ def ledger_row(r: dict, qm: dict | None, anchors: dict, stale: set[str], as_of: 
         notes.append(f"priced as {tech.replace('_', ' ')} on the stated MW; "
                      "the other listed technologies are not priced")
     row["note"] = " ".join(
-        [f"Prices the observed span from {start_text} to {end_text} at published rates "
-         f"for {tech.replace('_', ' ')}, on {mw_text}."] + [n[0].upper() + n[1:] + "." for n in notes])
+        [f"Prices the observed span from {start_text} to {end_text} for {tech.replace('_', ' ')}, "
+         f"on {mw_text}, from published figures and stated assumptions."] + [n[0].upper() + n[1:] + "." for n in notes])
     return row
 
 
@@ -501,7 +501,8 @@ def methodology(anchors: dict, ledger: list[dict], stale: set[str], as_of: date)
         "# Cost ledger: methodology",
         "",
         f"Generated {as_of.isoformat()} by `scripts/cost_ledger.py`. **Internal, not client-facing.**",
-        "The ledger prices the observed span of each contested project at published rates. It does not",
+        "The ledger prices the observed span of each contested project from published figures and",
+        "Hawthorn's stated assumptions (the anchors in `config/cost_anchors.json`). It does not",
         "estimate what opposition did to any project and makes no comparison with a project that saw",
         "none: it is case-level observed-cost accounting, ported from the data-center-map cost ledger",
         "(spec 025). Re-verify every anchor before any external use; the registry records when each one",
@@ -535,7 +536,8 @@ def methodology(anchors: dict, ledger: list[dict], stale: set[str], as_of: date)
         "- `accrued_to_date`: a pending project, from the start date to the run date. The project is",
         "  still open, so its full span is at least this long; the row prices only the part observed so",
         "  far.",
-        "- Start date: the first interconnection request of the project's Queued Up match",
+        "- Start date: the first interconnection request of the project's Queued Up match (LBNL's",
+        "  interconnection queue dataset)",
         "  (`data/reference/queue_matches.csv` `first_request_date`) when the match is `strong`, else a",
         "  day- or month-precision date in the record's `event_date_text`. A start from a `possible`",
         "  queue match, a year-only start and a missing start are withheld, and so is a strong match",
@@ -562,21 +564,23 @@ def methodology(anchors: dict, ledger: list[dict], stale: set[str], as_of: date)
         "",
         "## Components",
         "",
-        "Low ends use every anchor's low value (the high value of fixed O&M, which lowers net revenue)",
+        "Low ends use every anchor's low value (the high value of fixed operation and maintenance (O&M)",
+        "cost, which lowers net revenue)",
         "and the shortest span; high ends use the opposite. Components 1 to 3 rise with span and with",
-        "each anchor, so those bounds are exact; component 4 is not monotone in the cost of capital, so",
+        "each anchor, so those bounds are exact; component 4 is not monotone in the cost of capital (the",
+        "annual rate used to discount future revenue, `carrying_rate`), so",
         "each of its bounds takes the extreme over both ends of that range.",
         "",
         "A `blocked_confirmed` project is never built and never earns, so it carries capital at risk",
         "only (component 2). Every other priced row carries components 1, 3 and 4.",
         "",
-        "**1. Construction-cost escalation (destroyed value).**",
+        "**1. Construction-cost escalation (a cost).**",
         "`capital_basis x construction_escalation x (span_months / 12)`.",
         "",
-        "**2. Development capital at risk on a block (destroyed value, assumption-based).**",
+        "**2. Development capital at risk on a block (a cost estimate, assumption-based).**",
         "`capital_basis x predevelopment_share`, on `blocked_confirmed` rows only.",
         "",
-        "**3. Deferred revenue exposure (upper bound, not destroyed value).**",
+        "**3. Deferred revenue exposure (upper bound, not a cost).**",
         "Solar and wind: `MW x capacity_factor x 8760 h x ppa_price_mwh x (span_months / 12)`. Storage:",
         "`MW x 1000 kW x capacity_price_kw_month x span_months`. This is gross revenue that arrives later.",
         "The economic cost is the time value of the deferral (component 4), not this face amount, and the",

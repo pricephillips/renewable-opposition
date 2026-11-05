@@ -1,19 +1,24 @@
 # Cost of a siting slip: solar, wind and storage
 
-Generated 2026-11-05 by `scripts/cost_cfo.py`. **Internal, not for client delivery.** No
-decision has been made about quoting these figures outside the company (for the data center rate
-card, Price made that decision on 2026-10-27); until one is, every section stays internal.
+Generated November 5, 2026 by `scripts/cost_cfo.py`. **Internal, not for client delivery.** No
+decision has been made about quoting these figures outside the company. (Price decided on
+October 27, 2026 how the data center rate card may be quoted.) Until Price decides for this brief,
+every section stays internal.
 
-These are unit costs at published rates for a project whose schedule slips, whatever the reason.
-They do not measure what opposition does to a project, and no probability of a slip or a block is
-multiplied into them. Every figure is a low-high range. Apply your own slip scenario to your own
-site.
+These are unit costs from published figures and Hawthorn's stated assumptions, for a project whose
+schedule slips, whatever the reason; a slip is a delay to the schedule, measured in months. Each input is an
+anchor (a low-high value in `config/cost_anchors.json`). The figures do not measure what opposition
+does to a project, and no probability of a slip or a block is multiplied into them. Every cost
+figure is a low-high range, except in the sensitivity tables, which hold the other anchors at their
+midpoints. Apply your own slip scenario to your own site.
 
 ## One month of slip, per MW (national rates)
 
-Delay cost is construction escalation plus the economic cost of deferring the project's net
-revenue. Capital at risk is the development spending a blocked site leaves behind before
-construction starts.
+National rates means every anchor is a national figure; none is regional yet. Delay cost is construction
+escalation plus the economic cost of deferring the project's net revenue (gross revenue less fixed
+operation and maintenance (O&M) cost), discounted at the cost of capital (the annual rate used to
+discount future revenue). Capital at risk (development spending before construction, estimated as
+an assumed 2.6% to 6.8% of installed cost) is what a blocked project would not recover.
 
 | Technology | Delay cost per MW per month | of which escalation | of which deferral | Capital at risk per MW if blocked |
 |---|---|---|---|---|
@@ -59,10 +64,8 @@ Every component scales with MW; `data/cost/cost_scenarios.csv` has each technolo
 
 ## Federal tax credit deadlines
 
-The clean electricity credits change at a date rather than by the month: a project that
-misses a deadline loses the credit. The rate card's
-credit column is the per-MW capital cost times the credit rate, the credit at stake at the
-deadline for a project that would otherwise qualify. Whether a given project qualifies is a
+The clean electricity credits change at a date rather than by the month. Each deadline
+changes what a project can claim: see the Rule column. Whether a given project qualifies is a
 tax question for the project's own counsel.
 
 | Applies to | Rule | Date | Source |
@@ -72,12 +75,14 @@ tax question for the project's own counsel.
 | solar PV, land-based wind | A facility whose construction began by 2026-07-04 keeps the continuity safe harbor if placed in service no more than four calendar years after the year construction began (end of 2030 for construction begun in 2026) | 2030-12-31 | https://www.irs.gov/pub/irs-drop/n-25-42.pdf |
 | battery storage | Energy storage is exempt from the 2027 cutoff; its credit is the full credit for construction beginning by the end of 2033, 75% in 2034, 50% in 2035 and none after (applicable year 2032) | 2034-01-01 | https://www.govinfo.gov/content/pkg/PLAW-119publ21/pdf/PLAW-119publ21.pdf |
 
+The table below (also in `data/cost/cost_rate_card.csv`) is the 48E credit at 30% (prevailing wage and apprenticeship requirements met) times the full per-MW capital cost: an upper bound on the credit at stake at the December 31, 2027 placed-in-service date.
+
 | Technology | Credit at stake per MW |
 |---|---|
 | Solar PV | $507K to $531K |
 | Land-based wind | $510K to $576K |
 
-## Which assumption moves the delay cost most
+## Which anchor moves the delay cost most
 
 A 100 MW project slipping 12 months, national rates, every anchor at its midpoint except the one moved from its low to its high value. Largest swing first.
 
@@ -118,8 +123,9 @@ A 100 MW project slipping 12 months, national rates, every anchor at its midpoin
 
 ## How long these spans have run (observed, descriptive)
 
-From `data/cost/cost_ledger.csv`: the recorded span from a contested project's first
-interconnection request to its decision, for the priced rows with a confirmed outcome. These
+From `data/cost/cost_ledger.csv`: the recorded span from a contested project's start date (its
+first interconnection request, or a dated event in the record) to its decision, for the priced
+rows with a confirmed outcome. These
 are the tracked sample's own histories, not a forecast and not an effect of opposition; most
 contested projects have no dated first request and are not in it.
 
@@ -156,7 +162,7 @@ contested projects have no dated first request and are not in it.
 
 Hawthorn's assumptions, not published figures, each with its basis in the methodology: `capacity_price_kw_month_battery_storage`, `carrying_rate`, `construction_escalation_battery_storage`, `construction_escalation_wind`, `predevelopment_share`. Sources and what each figure includes: `data/cost/cost_methodology.md`.
 
-No anchor was past its re-verify date on 2026-11-05. The next one due is `capex_per_mw_wind`, on 2026-12-31.
+No anchor was past its re-verify date on November 5, 2026. The next one due is `capex_per_mw_wind`, on December 31, 2026.
 
 ## Applying these to a site
 
