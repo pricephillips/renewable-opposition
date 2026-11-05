@@ -92,7 +92,7 @@ DECIDED = {"blocked_confirmed": "blocked", "advanced_confirmed": "advanced",
 UNVERIFIED = ("blocked_unverified", "advanced_unverified")
 WITHHELD_REASONS = ("technology_not_priced", "outcome_needs_review", "outcome_unverified",
                     "no_start_date", "start_year_precision", "start_from_possible_queue_match",
-                    "no_end_date", "nonpositive_span", "no_capacity_mw")
+                    "queue_match_conflict", "no_end_date", "nonpositive_span", "no_capacity_mw")
 
 LEDGER_COLS = [
     "project_id", "project_name", "state", "county", "county_fips", "technology",
@@ -391,6 +391,11 @@ def ledger_row(r: dict, qm: dict | None, anchors: dict, stale: set[str], as_of: 
     start, s_prec, s_src, reason = _start(r, qm)
     if reason:
         return withhold(reason)
+    # queue_matches.py flags a strong match whose requests contradict the
+    # published outcome (a pending project whose every request was
+    # withdrawn); the span is not priced until a reviewer settles it.
+    if s_src == "queue_request" and (qm.get("conflict") or "").strip():
+        return withhold("queue_match_conflict")
     row["start_date"], row["start_precision"], row["start_source"] = start.isoformat(), s_prec, s_src
     if decided:
         end, e_prec = parse_partial(r.get("resolution_date", ""))
@@ -527,7 +532,9 @@ def methodology(anchors: dict, ledger: list[dict], stale: set[str], as_of: date)
         "- Start date: the first interconnection request of the project's Queued Up match",
         "  (`data/reference/queue_matches.csv` `first_request_date`) when the match is `strong`, else a",
         "  day- or month-precision date in the record's `event_date_text`. A start from a `possible`",
-        "  queue match, a year-only start and a missing start are withheld.",
+        "  queue match, a year-only start and a missing start are withheld, and so is a strong match",
+        "  that `queue_matches.py` flags as conflicting with the published outcome",
+        "  (`queue_match_conflict`, for example a pending project whose every request was withdrawn).",
         "- Unverified outcomes (`blocked_unverified`, `advanced_unverified`) and `needs_review` rows are",
         "  withheld: the span's end is not settled.",
         "- Precision. A month-precision date is stored as the first of its month, so the true date falls",

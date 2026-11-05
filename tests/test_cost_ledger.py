@@ -109,6 +109,8 @@ def test_start_falls_back_to_a_dated_event_and_withholds_a_year():
     assert row(project(event_date_text="2022"), q=None)["withheld_reason"] == "start_year_precision"
     assert row(project(event_date_text=""), q=None)["withheld_reason"] == "no_start_date"
     assert row(q=qmatch(match="possible"))["withheld_reason"] == "start_from_possible_queue_match"
+    conflict = "outcome pending, but every matched queue request was withdrawn"
+    assert row(project(outcome="pending"), q=qmatch(conflict=conflict))["withheld_reason"] == "queue_match_conflict"
 
 
 @pytest.mark.parametrize("kw,reason", [
