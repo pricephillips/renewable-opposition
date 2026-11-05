@@ -472,6 +472,12 @@ def build_ledger(projects: list[dict], queue: dict[str, dict], anchors: dict,
 # Outputs
 # ---------------------------------------------------------------------------
 
+def fmt_value(v: float) -> str:
+    """An anchor value for a table: thousands separators for large values,
+    never scientific notation."""
+    return f"{v:,.0f}" if abs(v) >= 1000 else f"{v:g}"
+
+
 def fmt_usd(x: float) -> str:
     if abs(x) >= 1e9:
         return f"${x / 1e9:,.2f}B"
@@ -572,15 +578,15 @@ def methodology(anchors: dict, ledger: list[dict], stale: set[str], as_of: date)
         "",
         "**3. Deferred revenue exposure (upper bound, not destroyed value).**",
         "Solar and wind: `MW x capacity_factor x 8760 h x ppa_price_mwh x (span_months / 12)`. Storage:",
-        "`MW x 1000 kW x capacity_price_kw_month x span_months`. Gross revenue that arrives later. The",
-        "economic cost is the time value of the deferral (component 4), not this face amount. Never",
-        "added to the total.",
+        "`MW x 1000 kW x capacity_price_kw_month x span_months`. This is gross revenue that arrives later.",
+        "The economic cost is the time value of the deferral (component 4), not this face amount, and the",
+        "exposure is never added to the total.",
         "",
         "**4. Economic cost of deferral.**",
         "`net = annual gross revenue - MW x 1000 kW x fixed_om_kw_year` (floored at 0);",
         "`value = net x (1 - (1 + r)^-L) / r`; `cost = value x (1 - (1 + r)^-(span_months / 12))`, with",
-        "`L` the project life (`project_life_years`) and `r` the cost of capital (`carrying_rate`). The",
-        "present value given up when the project's net revenue stream starts later.",
+        "`L` the project life (`project_life_years`) and `r` the cost of capital (`carrying_rate`). It is",
+        "the present value given up when the project's net revenue stream starts later.",
         "",
         "**Total economic cost.** Components 1 and 4, or component 2 for a block; low ends added to low",
         "ends and high ends to high ends. Gross deferred revenue is never in it. For a pending row it is",
@@ -598,7 +604,7 @@ def methodology(anchors: dict, ledger: list[dict], stale: set[str], as_of: date)
     for aid in sorted(anchors):
         a = anchors[aid]
         mark = " (stale)" if aid in stale else ""
-        L.append(f"| `{aid}`{mark} | {a['value_low']:g} | {a['value_high']:g} | {a['unit']} | "
+        L.append(f"| `{aid}`{mark} | {fmt_value(a['value_low'])} | {fmt_value(a['value_high'])} | {a['unit']} | "
                  f"{a['confidence']} | {a['source_date']} | {a['reverify_by']} |")
     L += ["", "Sources:", ""]
     for aid in sorted(anchors):

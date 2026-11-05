@@ -198,6 +198,14 @@ def test_banned_wording_is_caught():
     assert not cl.banned_hits({"x": "deferred revenue exposure, an upper bound"})
 
 
+def test_committed_registry_validates_and_generated_text_is_clean():
+    anchors = cl.load_anchors()
+    cfo.load_deadlines()
+    ledger = [row(), row(project(outcome="blocked_confirmed")), row(project(technology="transmission"))]
+    method = cl.methodology(anchors, ledger, set(), AS_OF)
+    assert not cl.banned_hits(cl.generated_text(ledger, method))
+
+
 def test_rate_card_and_scenarios_scale_with_mw(tmp_path):
     anchors = fixture_anchors()
     one = cfo.slip_costs(anchors, "solar", 1, 6)
@@ -215,7 +223,7 @@ def test_rate_card_and_scenarios_scale_with_mw(tmp_path):
 
 def test_brief_has_no_banned_wording_and_states_it_is_internal(tmp_path):
     anchors = fixture_anchors()
-    deadlines = [{"deadline_id": "d1", "technologies": ["solar", "wind"], "rule": "placed in service by",
+    deadlines = [{"deadline_id": "d1", "kind": "termination", "technologies": ["solar", "wind"], "rule": "placed in service by",
                   "date": "2027-12-31", "source": "fixture", "source_url": "https://example.org/d1",
                   "reverify_by": "2027-06-30"}]
     path = tmp_path / "anchors.json"
@@ -228,6 +236,8 @@ def test_brief_has_no_banned_wording_and_states_it_is_internal(tmp_path):
                      cfo.sensitivity(anchors), deadlines, [], set(), AS_OF)
     assert "Internal, not for client delivery" in text
     assert not cl.banned_hits({"brief": text})
+    assert cfo.credit_techs(deadlines + [{**deadlines[0], "kind": "phase_down",
+                                          "technologies": ["battery_storage"]}]) == {"solar", "wind"}
     bad = [{**deadlines[0], "source_url": ""}]
     path.write_text(json.dumps({"anchors": [], "credit_deadlines": bad}))
     with pytest.raises(cl.AnchorError, match="missing source_url"):

@@ -55,7 +55,9 @@ SCENARIO_MW = 100
 SCENARIO_MONTHS = (3, 6, 12, 18, 24)
 REFERENCE_MONTHS = 12
 FEW = 10   # fewer observed spans than this: the quartiles are marked as resting on few projects
+DEADLINE_KINDS = ("begin_construction", "termination", "continuity", "phase_down")
 TECH_LABEL = {"solar": "Solar PV", "wind": "Land-based wind", "battery_storage": "Battery storage"}
+TECH_TEXT = {"solar": "solar PV", "wind": "land-based wind", "battery_storage": "battery storage"}
 
 RATE_COLS = ["technology", "capex_per_mw_low", "capex_per_mw_high",
              "escalation_per_mw_month_low", "escalation_per_mw_month_high",
@@ -158,9 +160,11 @@ def load_deadlines(path: Path = cl.ANCHORS_JSON) -> list[dict]:
     with open(path, encoding="utf-8") as fh:
         rows = json.load(fh).get("credit_deadlines") or []
     for d in rows:
-        for f in ("deadline_id", "technologies", "rule", "date", "source", "source_url", "reverify_by"):
+        for f in ("deadline_id", "kind", "technologies", "rule", "date", "source", "source_url", "reverify_by"):
             if not d.get(f):
                 raise cl.AnchorError(f"credit deadline {d.get('deadline_id', '?')}: missing {f}")
+        if d["kind"] not in DEADLINE_KINDS:
+            raise cl.AnchorError(f"credit deadline {d['deadline_id']}: kind must be one of {', '.join(DEADLINE_KINDS)}")
         if not str(d["source_url"]).startswith("http"):
             raise cl.AnchorError(f"credit deadline {d['deadline_id']}: source_url must be a URL")
         date.fromisoformat(d["date"])
@@ -169,7 +173,9 @@ def load_deadlines(path: Path = cl.ANCHORS_JSON) -> list[dict]:
 
 
 def credit_techs(deadlines: list[dict]) -> frozenset:
-    return frozenset(t for d in deadlines for t in d["technologies"])
+    """Technologies with a termination date: the credit is at stake at that
+    date. A phase-down or a construction-start date is listed, not priced."""
+    return frozenset(t for d in deadlines if d.get("kind") == "termination" for t in d["technologies"])
 
 
 # ---------------------------------------------------------------------------
@@ -248,7 +254,7 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
                  f"{rng(r, 'capital_at_risk_per_mw')} |")
     L += ["", "Gross revenue deferred, for comparison only (revenue that arrives later, not a cost, and never "
           "added to the delay cost): "
-          + "; ".join(f"{TECH_LABEL[r['technology']].lower()} {rng(r, 'gross_revenue_deferred_per_mw_month')}"
+          + "; ".join(f"{TECH_TEXT[r['technology']]} {rng(r, 'gross_revenue_deferred_per_mw_month')}"
                       " per MW per month" for r in rate) + ".", ""]
 
     L += ["## A 100 MW project, national rates", ""]
@@ -262,15 +268,16 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
 
     if deadlines:
         L += ["## Federal tax credit deadlines", "",
-              "The clean electricity credits are a step at a date, not a rate: a project that misses a",
-              "deadline does not lose a little more for each month, it loses the credit. The rate card's",
+              "The clean electricity credits change at a date rather than by the month: a project that",
+              "misses a deadline loses the credit. The rate card's",
               "credit column is the per-MW capital cost times the credit rate, the credit at stake at the",
               "deadline for a project that would otherwise qualify. Whether a given project qualifies is a",
               "tax question for the project's own counsel.", "",
               "| Applies to | Rule | Date | Source |", "|---|---|---|---|"]
         for d in deadlines:
-            techs = ", ".join(TECH_LABEL[t].lower() for t in d["technologies"])
-            L.append(f"| {techs} | {d['rule']} | {d['date']} | {d['source_url']} |")
+            techs = ", ".join(TECH_TEXT[t] for t in d["technologies"])
+            passed = " (passed)" if date.fromisoformat(d["date"]) < as_of else ""
+            L.append(f"| {techs} | {d['rule']} | {d['date']}{passed} | {d['source_url']} |")
         L += [""]
         priced = [r for r in rate if r.get("credit_at_deadline_per_mw_low")]
         if priced:
@@ -309,11 +316,11 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
     for aid in sorted(anchors):
         a = anchors[aid]
         mark = " (stale)" if aid in stale else ""
-        L.append(f"| `{aid}`{mark} | {a['value_low']:g} | {a['value_high']:g} | {a['unit']} | "
+        L.append(f"| `{aid}`{mark} | {cl.fmt_value(a['value_low'])} | {cl.fmt_value(a['value_high'])} | {a['unit']} | "
                  f"{a['confidence']} | {a['source_date']} | {a['reverify_by']} |")
-    L += ["", "The cost of capital (`carrying_rate`) and the development share (`predevelopment_share`) are "
-          "Hawthorn's assumptions, not published figures. Sources and what each figure includes: "
-          "`data/cost/cost_methodology.md`.", ""]
+    assumed = [f"`{aid}`" for aid in sorted(anchors) if anchors[aid]["confidence"] == "assumption"]
+    L += ["", "Hawthorn's assumptions, not published figures, each with its basis in the methodology: "
+          + ", ".join(assumed) + ". Sources and what each figure includes: `data/cost/cost_methodology.md`.", ""]
     if stale:
         L += ["**Stale anchors** on the run date: " + ", ".join(f"`{s}`" for s in sorted(stale))
               + ". Re-verify each one before using any figure that rests on it.", ""]
@@ -325,7 +332,8 @@ def brief(anchors: dict, rate: list[dict], scen: list[dict], sens: list[dict],
     L += ["## Applying these to a site", "",
           "1. Pick the technology and the site's MW. Multiply the per-MW figures by the MW.",
           "2. Choose the slip you want to price (months) and multiply the per-month delay cost by it; for a",
-          "   long slip, read `data/cost/cost_scenarios.csv` instead, since the deferral cost compounds.",
+          "   long slip, read `data/cost/cost_scenarios.csv` instead: the deferral cost grows a little less",
+          "   than in proportion to the slip, so months times the monthly figure overstates it.",
           "3. If the site could be blocked, the development capital at risk is the per-MW figure times the MW.",
           "4. For solar and wind, check the slip against the tax credit deadlines above: a slip that crosses",
           "   one puts the credit at stake, whatever its length.",
