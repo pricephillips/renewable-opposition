@@ -73,6 +73,7 @@ on:
       - 'data/geo/counties_2024.topojson'
       - 'scripts/geo.py'
       - 'config/coverage_expectations.json'
+      - 'config/coverage_exceptions.json'
       - 'requirements/ci.txt'
       - '.github/workflows/build-data.yml'
 
