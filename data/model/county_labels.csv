@@ -98,7 +98,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 02290,AK,Yukon-Koyukuk,0,0,,0,1,0,0,1,0,0,0,0,
 04001,AZ,Apache,1,1,2021,0,0,0,0,1,0,0,2,2,Sabin Center
 04003,AZ,Cochise,0,0,,0,1,0,0,1,0,0,0,0,
-04005,AZ,Coconino,0,0,,0,1,0,0,1,0,0,0,0,
+04005,AZ,Coconino,1,0,2022,0,1,1,0,1,0,0,1,0,review queue: county_check_2026-10-22
 04007,AZ,Gila,0,0,,0,1,0,0,1,0,0,0,0,
 04009,AZ,Graham,0,0,,0,1,0,0,1,0,0,0,0,
 04011,AZ,Greenlee,0,0,,0,1,0,0,1,0,0,0,0,
@@ -200,10 +200,10 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 06023,CA,Humboldt,0,0,,0,1,0,0,1,0,0,0,0,
 06025,CA,Imperial,1,1,2026,0,1,0,1,1,0,0,1,1,Moratorium Nation
 06027,CA,Inyo,0,0,,0,1,0,0,1,0,0,0,0,
-06029,CA,Kern,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+06029,CA,Kern,0,0,,0,1,0,0,1,0,0,0,0,
 06031,CA,Kings,0,0,,0,1,0,0,1,0,0,0,0,
 06033,CA,Lake,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
-06035,CA,Lassen,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+06035,CA,Lassen,0,0,,0,1,0,0,1,0,0,0,0,
 06037,CA,Los Angeles,1,1,2019,0,0,0,0,1,0,0,1,1,Sabin Center
 06039,CA,Madera,0,0,,0,1,0,0,1,0,0,0,0,
 06041,CA,Marin,0,0,,0,1,0,0,1,0,0,0,0,
@@ -218,7 +218,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 06059,CA,Orange,1,1,2025,0,1,1,0,1,0,0,1,1,Moratorium Nation
 06061,CA,Placer,0,0,,0,1,0,0,1,0,0,0,0,
 06063,CA,Plumas,0,0,,0,1,0,0,1,0,0,0,0,
-06065,CA,Riverside,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+06065,CA,Riverside,0,0,,0,1,0,0,1,0,0,0,0,
 06067,CA,Sacramento,0,0,,0,1,0,0,1,0,0,0,0,
 06069,CA,San Benito,0,0,,0,1,0,0,1,0,0,0,0,
 06071,CA,San Bernardino,1,1,2019,1,0,0,0,0,0,0,3,2,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
@@ -234,7 +234,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 06091,CA,Sierra,0,0,,0,1,0,0,1,0,0,0,0,
 06093,CA,Siskiyou,0,0,,0,1,0,0,1,0,0,0,0,
 06095,CA,Solano,0,0,,0,1,0,0,1,0,0,0,0,
-06097,CA,Sonoma,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+06097,CA,Sonoma,0,0,,0,1,0,0,1,0,0,0,0,
 06099,CA,Stanislaus,0,0,,0,1,0,0,1,0,0,0,0,
 06101,CA,Sutter,0,0,,0,1,0,0,1,0,0,0,0,
 06103,CA,Tehama,1,1,2015,0,0,0,0,1,0,0,1,1,Sabin Center
@@ -275,14 +275,14 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 08055,CO,Huerfano,0,0,,0,1,0,0,1,0,0,0,0,
 08057,CO,Jackson,0,0,,0,1,0,0,1,0,0,0,0,
 08059,CO,Jefferson,0,0,,0,1,0,0,1,0,0,0,0,
-08061,CO,Kiowa,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
+08061,CO,Kiowa,0,0,,0,1,0,0,1,0,0,0,0,
 08063,CO,Kit Carson,0,0,,0,1,0,0,1,0,0,0,0,
 08065,CO,Lake,0,0,,0,1,0,0,1,0,0,0,0,
 08067,CO,La Plata,0,0,,0,1,0,0,1,0,0,0,0,
 08069,CO,Larimer,0,0,,0,1,0,0,1,0,0,0,0,
 08071,CO,Las Animas,0,0,,0,1,0,0,1,0,0,0,0,
 08073,CO,Lincoln,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
-08075,CO,Logan,0,0,,0,1,0,0,1,0,0,0,0,
+08075,CO,Logan,1,0,2026,0,1,0,1,1,0,0,1,0,review queue: logan_status_review_2026-10-19
 08077,CO,Mesa,1,1,2024,0,1,1,0,1,0,0,1,1,Sabin Center
 08079,CO,Mineral,0,0,,0,1,0,0,1,0,0,0,0,
 08081,CO,Moffat,0,0,,0,1,0,0,1,0,0,0,0,
@@ -305,7 +305,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 08115,CO,Sedgwick,0,0,,0,1,0,0,1,0,0,0,0,
 08117,CO,Summit,0,0,,0,1,0,0,1,0,0,0,0,
 08119,CO,Teller,0,0,,0,1,0,0,1,0,0,0,0,
-08121,CO,Washington,1,0,2021,0,0,0,0,0,0,0,2,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances
+08121,CO,Washington,1,0,2021,0,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 08123,CO,Weld,1,0,2023,0,1,1,0,1,0,0,1,0,Sabin Center
 08125,CO,Yuma,0,0,,0,1,0,0,1,0,0,0,0,
 09110,CT,Capitol,0,0,,0,1,0,0,1,0,0,0,0,
@@ -316,7 +316,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 09160,CT,Northwest Hills,1,1,2009,1,0,0,0,0,0,0,7,3,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 09170,CT,South Central Connecticut,1,0,2016,0,0,0,0,1,0,0,1,0,Sabin Center
 09180,CT,Southeastern Connecticut,1,1,2015,0,0,0,0,1,0,0,5,1,Sabin Center
-09190,CT,Western Connecticut,1,1,2024,0,1,1,0,1,0,0,2,1,Moratorium Nation; Sabin Center
+09190,CT,Western Connecticut,1,0,2024,0,1,1,0,1,0,0,1,0,Sabin Center
 10001,DE,Kent,1,1,2022,0,1,1,0,1,0,0,1,1,Sabin Center
 10003,DE,New Castle,0,0,,0,1,0,0,1,0,0,0,0,
 10005,DE,Sussex,1,1,2010,0,0,0,0,1,0,0,1,1,Sabin Center
@@ -557,7 +557,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 16005,ID,Bannock,1,1,2024,0,1,1,0,1,0,0,1,1,Sabin Center
 16007,ID,Bear Lake,0,0,,0,1,0,0,1,0,0,0,0,
 16009,ID,Benewah,0,0,,0,1,0,0,1,0,0,0,0,
-16011,ID,Bingham,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+16011,ID,Bingham,0,0,,0,1,0,0,1,0,0,0,0,
 16013,ID,Blaine,0,0,,0,1,0,0,1,0,0,0,0,
 16015,ID,Boise,0,0,,0,1,0,0,1,0,0,0,0,
 16017,ID,Bonner,0,0,,0,1,0,0,1,0,0,0,0,
@@ -605,8 +605,8 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 17013,IL,Calhoun,0,0,,0,1,0,0,1,0,0,0,0,
 17015,IL,Carroll,0,0,,0,1,0,0,1,0,0,0,0,
 17017,IL,Cass,0,0,,0,1,0,0,1,0,0,0,0,
-17019,IL,Champaign,1,0,2022,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
-17021,IL,Christian,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+17019,IL,Champaign,0,0,,0,1,0,0,1,0,0,0,0,
+17021,IL,Christian,1,1,2008,1,0,0,0,0,0,0,4,2,NREL U.S. Wind Siting Regulation and Zoning Ordinances; review queue: county_check_2026-10-29
 17023,IL,Clark,0,0,,0,1,0,0,1,0,0,0,0,
 17025,IL,Clay,0,0,,0,1,0,0,1,0,0,0,0,
 17027,IL,Clinton,0,0,,0,1,0,0,1,0,0,0,0,
@@ -682,14 +682,14 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 17167,IL,Sangamon,1,1,2012,0,0,0,0,1,0,0,1,1,Sabin Center
 17169,IL,Schuyler,0,0,,0,1,0,0,1,0,0,0,0,
 17171,IL,Scott,0,0,,0,1,0,0,1,0,0,0,0,
-17173,IL,Shelby,0,0,,0,1,0,0,1,0,0,0,0,
+17173,IL,Shelby,1,0,2026,0,1,0,1,1,0,0,1,0,review queue: county_check_2026-10-29
 17175,IL,Stark,0,0,,0,1,0,0,1,0,0,0,0,
 17177,IL,Stephenson,0,0,,0,1,0,0,1,0,0,0,0,
 17179,IL,Tazewell,1,1,2022,0,1,1,0,1,0,0,1,1,Sabin Center
 17181,IL,Union,0,0,,0,1,0,0,1,0,0,0,0,
 17183,IL,Vermilion,1,1,2023,0,1,1,0,1,0,0,1,1,Sabin Center
 17185,IL,Wabash,0,0,,0,1,0,0,1,0,0,0,0,
-17187,IL,Warren,1,0,2022,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+17187,IL,Warren,0,0,,0,1,0,0,1,0,0,0,0,
 17189,IL,Washington,0,0,,0,1,0,0,1,0,0,0,0,
 17191,IL,Wayne,0,0,,0,1,0,0,1,0,0,0,0,
 17193,IL,White,0,0,,0,1,0,0,1,0,0,0,0,
@@ -720,10 +720,10 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 18039,IN,Elkhart,1,1,2026,0,1,0,1,1,0,0,1,1,Moratorium Nation
 18041,IN,Fayette,1,0,2024,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
 18043,IN,Floyd,0,0,,0,1,0,0,1,0,0,0,0,
-18045,IN,Fountain,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+18045,IN,Fountain,0,0,,0,1,0,0,1,0,0,0,0,
 18047,IN,Franklin,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 18049,IN,Fulton,1,1,2018,0,0,0,0,1,0,0,1,1,Sabin Center
-18051,IN,Gibson,1,0,2024,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+18051,IN,Gibson,0,0,,0,1,0,0,1,0,0,0,0,
 18053,IN,Grant,0,0,,0,1,0,0,1,0,0,0,0,
 18055,IN,Greene,0,0,,0,1,0,0,1,0,0,0,0,
 18057,IN,Hamilton,1,1,2022,0,1,1,0,1,0,0,2,1,Sabin Center
@@ -735,7 +735,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 18069,IN,Huntington,1,1,2026,1,0,0,0,0,0,0,2,1,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances
 18071,IN,Jackson,0,0,,0,1,0,0,1,0,0,0,0,
 18073,IN,Jasper,1,0,,1,0,0,0,0,0,0,2,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances
-18075,IN,Jay,1,0,2020,0,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+18075,IN,Jay,0,0,,0,1,0,0,1,0,0,0,0,
 18077,IN,Jefferson,0,0,,0,1,0,0,1,0,0,0,0,
 18079,IN,Jennings,0,0,,0,1,0,0,1,0,0,0,0,
 18081,IN,Johnson,0,0,,0,1,0,0,1,0,0,0,0,
@@ -819,14 +819,14 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 19053,IA,Decatur,1,1,2025,0,1,1,0,1,0,0,2,2,Sabin Center
 19055,IA,Delaware,0,0,,0,1,0,0,1,0,0,0,0,
 19057,IA,Des Moines,0,0,,0,1,0,0,1,0,0,0,0,
-19059,IA,Dickinson,1,1,2023,0,1,1,0,1,1,1,3,2,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances
+19059,IA,Dickinson,1,1,2026,0,1,0,1,1,0,0,2,2,Moratorium Nation
 19061,IA,Dubuque,1,0,2024,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
 19063,IA,Emmet,1,1,2025,0,1,1,0,1,1,0,3,2,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances
 19065,IA,Fayette,0,0,,0,1,0,0,1,0,0,0,0,
 19067,IA,Floyd,1,1,2023,1,0,0,0,0,0,0,3,3,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
-19069,IA,Franklin,1,1,2024,0,1,1,0,1,1,1,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+19069,IA,Franklin,0,0,,0,1,0,0,1,0,0,0,0,
 19071,IA,Fremont,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
-19073,IA,Greene,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+19073,IA,Greene,0,0,,0,1,0,0,1,0,0,0,0,
 19075,IA,Grundy,1,0,2023,0,1,1,0,1,0,0,1,0,Sabin Center
 19077,IA,Guthrie,0,0,,0,1,0,0,1,0,0,0,0,
 19079,IA,Hamilton,0,0,,0,1,0,0,1,0,0,0,0,
@@ -854,9 +854,9 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 19123,IA,Mahaska,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 19125,IA,Marion,0,0,,0,1,0,0,1,0,0,0,0,
 19127,IA,Marshall,0,0,,0,1,0,0,1,0,0,0,0,
-19129,IA,Mills,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
-19131,IA,Mitchell,1,0,2025,0,1,1,0,1,0,0,1,0,Sabin Center
-19133,IA,Monona,1,0,2025,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+19129,IA,Mills,0,0,,0,1,0,0,1,0,0,0,0,
+19131,IA,Mitchell,1,1,2025,0,1,1,0,1,0,0,2,1,Sabin Center; review queue: end_date_review_2026-10-19
+19133,IA,Monona,0,0,,0,1,0,0,1,0,0,0,0,
 19135,IA,Monroe,0,0,,0,1,0,0,1,0,0,0,0,
 19137,IA,Montgomery,1,1,2023,1,0,0,0,0,0,0,2,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 19139,IA,Muscatine,0,0,,0,1,0,0,1,0,0,0,0,
@@ -894,7 +894,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 20005,KS,Atchison,0,0,,0,1,0,0,1,0,0,0,0,
 20007,KS,Barber,0,0,,0,1,0,0,1,0,0,0,0,
 20009,KS,Barton,1,1,2023,0,1,1,0,1,0,0,1,1,Sabin Center
-20011,KS,Bourbon,0,0,,0,1,0,0,1,0,0,0,0,
+20011,KS,Bourbon,1,1,2026,0,1,0,1,1,0,0,2,2,review queue: county_check_2026-10-22
 20013,KS,Brown,1,1,2025,0,1,1,0,1,1,1,3,2,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances
 20015,KS,Butler,1,1,2023,0,1,1,0,1,1,1,2,1,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances
 20017,KS,Chase,0,0,,0,1,0,0,1,0,0,0,0,
@@ -907,17 +907,17 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 20031,KS,Coffey,0,0,,0,1,0,0,1,0,0,0,0,
 20033,KS,Comanche,0,0,,0,1,0,0,1,0,0,0,0,
 20035,KS,Cowley,0,0,,0,1,0,0,1,0,0,0,0,
-20037,KS,Crawford,0,0,,0,1,0,0,1,0,0,0,0,
+20037,KS,Crawford,1,1,2025,0,1,1,0,1,0,0,2,2,review queue: county_check_2026-10-22
 20039,KS,Decatur,0,0,,0,1,0,0,1,0,0,0,0,
 20041,KS,Dickinson,1,1,2026,0,1,0,1,1,0,0,3,3,Moratorium Nation
 20043,KS,Doniphan,0,0,,0,1,0,0,1,0,0,0,0,
 20045,KS,Douglas,0,0,,0,1,0,0,1,0,0,0,0,
 20047,KS,Edwards,0,0,,0,1,0,0,1,0,0,0,0,
 20049,KS,Elk,0,0,,0,1,0,0,1,0,0,0,0,
-20051,KS,Ellis,1,0,2020,0,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+20051,KS,Ellis,0,0,,0,1,0,0,1,0,0,0,0,
 20053,KS,Ellsworth,0,0,,0,1,0,0,1,0,0,0,0,
 20055,KS,Finney,0,0,,0,1,0,0,1,0,0,0,0,
-20057,KS,Ford,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+20057,KS,Ford,0,0,,0,1,0,0,1,0,0,0,0,
 20059,KS,Franklin,1,1,2023,0,1,1,0,1,0,0,1,1,Sabin Center
 20061,KS,Geary,0,0,,0,1,0,0,1,0,0,0,0,
 20063,KS,Gove,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1077,14 +1077,14 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 21161,KY,Mason,1,0,2020,0,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 21163,KY,Meade,0,0,,0,1,0,0,1,0,0,0,0,
 21165,KY,Menifee,0,0,,0,1,0,0,1,0,0,0,0,
-21167,KY,Mercer,1,0,2024,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
+21167,KY,Mercer,0,0,,0,1,0,0,1,0,0,0,0,
 21169,KY,Metcalfe,0,0,,0,1,0,0,1,0,0,0,0,
 21171,KY,Monroe,0,0,,0,1,0,0,1,0,0,0,0,
 21173,KY,Montgomery,0,0,,0,1,0,0,1,0,0,0,0,
 21175,KY,Morgan,0,0,,0,1,0,0,1,0,0,0,0,
 21177,KY,Muhlenberg,0,0,,0,1,0,0,1,0,0,0,0,
 21179,KY,Nelson,0,0,,0,1,0,0,1,0,0,0,0,
-21181,KY,Nicholas,0,0,,0,1,0,0,1,0,0,0,0,
+21181,KY,Nicholas,1,1,2024,0,1,1,0,1,0,0,3,2,review queue: case_study_review_2026-10-16
 21183,KY,Ohio,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
 21185,KY,Oldham,0,0,,0,1,0,0,1,0,0,0,0,
 21187,KY,Owen,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1251,7 +1251,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 26033,MI,Chippewa,0,0,,0,1,0,0,1,0,0,0,0,
 26035,MI,Clare,0,0,,0,1,0,0,1,0,0,0,0,
 26037,MI,Clinton,1,1,2023,1,0,0,0,0,0,0,3,2,NREL U.S. Solar Siting Regulation and Zoning Ordinances; Sabin Center
-26039,MI,Crawford,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+26039,MI,Crawford,0,0,,0,1,0,0,1,0,0,0,0,
 26041,MI,Delta,0,0,,0,1,0,0,1,0,0,0,0,
 26043,MI,Dickinson,0,0,,0,1,0,0,1,0,0,0,0,
 26045,MI,Eaton,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1271,7 +1271,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 26073,MI,Isabella,0,0,,0,1,0,0,1,0,0,0,0,
 26075,MI,Jackson,0,0,,0,1,0,0,1,0,0,0,0,
 26077,MI,Kalamazoo,1,1,2020,0,0,0,0,1,0,0,8,7,Moratorium Nation; Sabin Center
-26079,MI,Kalkaska,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+26079,MI,Kalkaska,0,0,,0,1,0,0,1,0,0,0,0,
 26081,MI,Kent,0,0,,0,1,0,0,1,0,0,0,0,
 26083,MI,Keweenaw,0,0,,0,1,0,0,1,0,0,0,0,
 26085,MI,Lake,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1295,7 +1295,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 26121,MI,Muskegon,1,1,2023,0,1,1,0,1,0,0,2,2,Sabin Center
 26123,MI,Newaygo,0,0,,0,1,0,0,1,0,0,0,0,
 26125,MI,Oakland,1,1,2021,1,0,0,0,0,0,0,3,2,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
-26127,MI,Oceana,1,1,2019,0,0,0,0,1,1,0,3,2,NREL U.S. Solar Siting Regulation and Zoning Ordinances; Sabin Center
+26127,MI,Oceana,1,1,2019,0,0,0,0,1,0,0,2,1,Sabin Center
 26129,MI,Ogemaw,0,0,,0,1,0,0,1,0,0,0,0,
 26131,MI,Ontonagon,0,0,,0,1,0,0,1,0,0,0,0,
 26133,MI,Osceola,1,1,2022,0,1,1,0,1,0,0,1,1,Sabin Center
@@ -1314,27 +1314,27 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 26159,MI,Van Buren,0,0,,0,1,0,0,1,0,0,0,0,
 26161,MI,Washtenaw,1,1,2022,1,0,0,0,0,0,0,3,2,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 26163,MI,Wayne,0,0,,0,1,0,0,1,0,0,0,0,
-26165,MI,Wexford,1,1,2012,0,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+26165,MI,Wexford,0,0,,0,1,0,0,1,0,0,0,0,
 27001,MN,Aitkin,1,1,2002,1,0,0,0,0,0,0,3,2,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 27003,MN,Anoka,1,1,2025,1,0,0,0,0,0,0,2,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 27005,MN,Becker,0,0,,0,1,0,0,1,0,0,0,0,
 27007,MN,Beltrami,1,1,2003,1,0,0,0,0,0,0,2,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
-27009,MN,Benton,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27009,MN,Benton,0,0,,0,1,0,0,1,0,0,0,0,
 27011,MN,Big Stone,0,0,,0,1,0,0,1,0,0,0,0,
 27013,MN,Blue Earth,0,0,,0,1,0,0,1,0,0,0,0,
-27015,MN,Brown,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27015,MN,Brown,0,0,,0,1,0,0,1,0,0,0,0,
 27017,MN,Carlton,1,1,2017,1,0,0,0,0,0,0,2,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 27019,MN,Carver,0,0,,0,1,0,0,1,0,0,0,0,
 27021,MN,Cass,0,0,,0,1,0,0,1,0,0,0,0,
 27023,MN,Chippewa,1,1,2024,0,1,1,0,1,0,0,1,1,Sabin Center
 27025,MN,Chisago,1,1,2024,0,1,1,0,1,1,0,3,2,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
-27027,MN,Clay,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27027,MN,Clay,0,0,,0,1,0,0,1,0,0,0,0,
 27029,MN,Clearwater,0,0,,0,1,0,0,1,0,0,0,0,
 27031,MN,Cook,1,1,2025,0,1,1,0,1,1,0,2,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 27033,MN,Cottonwood,0,0,,0,1,0,0,1,0,0,0,0,
 27035,MN,Crow Wing,1,1,2025,0,1,1,0,1,0,0,2,2,Sabin Center
 27037,MN,Dakota,0,0,,0,1,0,0,1,0,0,0,0,
-27039,MN,Dodge,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27039,MN,Dodge,0,0,,0,1,0,0,1,0,0,0,0,
 27041,MN,Douglas,0,0,,0,1,0,0,1,0,0,0,0,
 27043,MN,Faribault,0,0,,0,1,0,0,1,0,0,0,0,
 27045,MN,Fillmore,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1355,13 +1355,13 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 27075,MN,Lake,0,0,,0,1,0,0,1,0,0,0,0,
 27077,MN,Lake of the Woods,0,0,,0,1,0,0,1,0,0,0,0,
 27079,MN,Le Sueur,1,1,2023,0,1,1,0,1,0,0,2,2,Sabin Center
-27081,MN,Lincoln,1,0,2025,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
+27081,MN,Lincoln,0,0,,0,1,0,0,1,0,0,0,0,
 27083,MN,Lyon,0,0,,0,1,0,0,1,0,0,0,0,
 27085,MN,McLeod,0,0,,0,1,0,0,1,0,0,0,0,
 27087,MN,Mahnomen,0,0,,0,1,0,0,1,0,0,0,0,
 27089,MN,Marshall,0,0,,0,1,0,0,1,0,0,0,0,
 27091,MN,Martin,0,0,,0,1,0,0,1,0,0,0,0,
-27093,MN,Meeker,1,1,2024,0,1,1,0,1,1,1,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27093,MN,Meeker,0,0,,0,1,0,0,1,0,0,0,0,
 27095,MN,Mille Lacs,0,0,,0,1,0,0,1,0,0,0,0,
 27097,MN,Morrison,1,1,2017,0,0,0,0,1,0,0,2,2,Sabin Center
 27099,MN,Mower,1,1,2005,0,0,0,0,1,1,0,3,2,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
@@ -1386,7 +1386,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 27137,MN,St. Louis,1,1,2025,0,1,1,0,1,0,0,2,2,Sabin Center
 27139,MN,Scott,1,0,2007,0,0,0,0,1,0,0,1,0,Sabin Center
 27141,MN,Sherburne,0,0,,0,1,0,0,1,0,0,0,0,
-27143,MN,Sibley,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27143,MN,Sibley,0,0,,0,1,0,0,1,0,0,0,0,
 27145,MN,Stearns,0,0,,0,1,0,0,1,0,0,0,0,
 27147,MN,Steele,0,0,,0,1,0,0,1,0,0,0,0,
 27149,MN,Stevens,1,1,2024,0,1,1,0,1,0,0,2,2,Sabin Center
@@ -1398,7 +1398,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 27161,MN,Waseca,0,0,,0,1,0,0,1,0,0,0,0,
 27163,MN,Washington,0,0,,0,1,0,0,1,0,0,0,0,
 27165,MN,Watonwan,0,0,,0,1,0,0,1,0,0,0,0,
-27167,MN,Wilkin,1,0,2025,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+27167,MN,Wilkin,1,0,2025,1,0,0,0,1,1,0,2,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances; review queue: wilkin_correction_2026-11-05
 27169,MN,Winona,0,0,,0,1,0,0,1,0,0,0,0,
 27171,MN,Wright,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 27173,MN,Yellow Medicine,1,1,2010,1,0,0,0,0,0,0,2,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
@@ -1502,7 +1502,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 29031,MO,Cape Girardeau,0,0,,0,1,0,0,1,0,0,0,0,
 29033,MO,Carroll,0,0,,0,1,0,0,1,0,0,0,0,
 29035,MO,Carter,0,0,,0,1,0,0,1,0,0,0,0,
-29037,MO,Cass,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
+29037,MO,Cass,0,0,,0,1,0,0,1,0,0,0,0,
 29039,MO,Cedar,1,1,2026,0,1,0,1,1,0,0,3,3,Moratorium Nation
 29041,MO,Chariton,0,0,,0,1,0,0,1,0,0,0,0,
 29043,MO,Christian,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1603,7 +1603,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 30003,MT,Big Horn,0,0,,0,1,0,0,1,0,0,0,0,
 30005,MT,Blaine,0,0,,0,1,0,0,1,0,0,0,0,
 30007,MT,Broadwater,0,0,,0,1,0,0,1,0,0,0,0,
-30009,MT,Carbon,1,0,2021,0,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+30009,MT,Carbon,0,0,,0,1,0,0,1,0,0,0,0,
 30011,MT,Carter,0,0,,0,1,0,0,1,0,0,0,0,
 30013,MT,Cascade,0,0,,0,1,0,0,1,0,0,0,0,
 30015,MT,Chouteau,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1669,7 +1669,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 31023,NE,Butler,1,1,2026,0,1,0,1,1,0,0,3,3,Moratorium Nation
 31025,NE,Cass,0,0,,0,1,0,0,1,0,0,0,0,
 31027,NE,Cedar,1,0,2022,0,1,1,0,1,0,0,1,0,Sabin Center
-31029,NE,Chase,1,1,2024,0,1,1,0,1,1,1,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+31029,NE,Chase,0,0,,0,1,0,0,1,0,0,0,0,
 31031,NE,Cherry,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
 31033,NE,Cheyenne,0,0,,0,1,0,0,1,0,0,0,0,
 31035,NE,Clay,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1698,7 +1698,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 31081,NE,Hamilton,1,0,2019,0,0,0,0,1,0,0,1,0,Sabin Center
 31083,NE,Harlan,0,0,,0,1,0,0,1,0,0,0,0,
 31085,NE,Hayes,0,0,,0,1,0,0,1,0,0,0,0,
-31087,NE,Hitchcock,1,1,2025,0,1,1,0,1,1,1,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+31087,NE,Hitchcock,0,0,,0,1,0,0,1,0,0,0,0,
 31089,NE,Holt,1,0,2022,0,1,1,0,1,0,0,1,0,Sabin Center
 31091,NE,Hooker,0,0,,0,1,0,0,1,0,0,0,0,
 31093,NE,Howard,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
@@ -1722,7 +1722,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 31129,NE,Nuckolls,0,0,,0,1,0,0,1,0,0,0,0,
 31131,NE,Otoe,1,1,2022,0,1,1,0,1,0,0,1,1,Sabin Center
 31133,NE,Pawnee,0,0,,0,1,0,0,1,0,0,0,0,
-31135,NE,Perkins,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Solar Siting Regulation and Zoning Ordinances
+31135,NE,Perkins,0,0,,0,1,0,0,1,0,0,0,0,
 31137,NE,Phelps,1,1,2022,0,1,1,0,1,0,0,2,2,Sabin Center
 31139,NE,Pierce,1,0,2022,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 31141,NE,Platte,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1796,7 +1796,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 34037,NJ,Sussex,0,0,,0,1,0,0,1,0,0,0,0,
 34039,NJ,Union,0,0,,0,1,0,0,1,0,0,0,0,
 34041,NJ,Warren,0,0,,0,1,0,0,1,0,0,0,0,
-35001,NM,Bernalillo,0,0,,0,1,0,0,1,0,0,0,0,
+35001,NM,Bernalillo,1,0,2017,0,0,0,0,1,0,0,1,0,review queue: county_check_2026-10-22
 35003,NM,Catron,0,0,,0,1,0,0,1,0,0,0,0,
 35005,NM,Chaves,0,0,,0,1,0,0,1,0,0,0,0,
 35006,NM,Cibola,0,0,,0,1,0,0,1,0,0,0,0,
@@ -1850,7 +1850,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 36037,NY,Genesee,1,1,2015,1,0,0,0,0,0,0,10,4,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances
 36039,NY,Greene,1,1,2017,0,0,0,0,0,0,0,4,3,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 36041,NY,Hamilton,1,1,2026,0,1,0,1,1,0,0,2,2,Moratorium Nation
-36043,NY,Herkimer,1,1,2008,1,0,0,0,0,0,0,5,3,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances
+36043,NY,Herkimer,1,1,2008,0,0,0,0,0,0,0,4,3,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances
 36045,NY,Jefferson,1,1,2016,1,0,0,0,0,0,0,8,3,NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 36047,NY,Kings,0,0,,0,1,0,0,1,0,0,0,0,
 36049,NY,Lewis,1,1,2009,0,0,0,0,1,1,0,16,14,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
@@ -1863,7 +1863,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 36063,NY,Niagara,1,1,2018,1,0,0,0,0,0,0,6,4,NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 36065,NY,Oneida,1,0,,1,0,0,0,0,0,0,2,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 36067,NY,Onondaga,1,1,2011,1,0,0,0,0,0,0,12,11,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
-36069,NY,Ontario,1,1,2018,1,0,0,0,0,0,0,7,4,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances
+36069,NY,Ontario,1,1,2018,1,0,0,0,0,0,0,6,3,Moratorium Nation; NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances
 36071,NY,Orange,1,1,2025,1,0,0,0,0,0,0,2,2,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances
 36073,NY,Orleans,1,1,2015,1,0,0,0,0,0,0,6,1,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
 36075,NY,Oswego,1,1,2018,0,0,0,0,0,0,0,6,4,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances; Sabin Center
@@ -1989,7 +1989,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 37191,NC,Wayne,0,0,,0,1,0,0,1,0,0,0,0,
 37193,NC,Wilkes,0,0,,0,1,0,0,1,0,0,0,0,
 37195,NC,Wilson,1,1,2026,0,1,0,1,1,0,0,1,1,Moratorium Nation
-37197,NC,Yadkin,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+37197,NC,Yadkin,0,0,,0,1,0,0,1,0,0,0,0,
 37199,NC,Yancey,0,0,,0,1,0,0,1,0,0,0,0,
 38001,ND,Adams,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 38003,ND,Barnes,1,0,2025,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
@@ -2016,7 +2016,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 38045,ND,LaMoure,0,0,,0,1,0,0,1,0,0,0,0,
 38047,ND,Logan,0,0,,0,1,0,0,1,0,0,0,0,
 38049,ND,McHenry,0,0,,0,1,0,0,1,0,0,0,0,
-38051,ND,McIntosh,1,1,2025,0,1,1,0,1,0,0,2,2,Moratorium Nation
+38051,ND,McIntosh,0,0,,0,1,0,0,1,0,0,0,0,
 38053,ND,McKenzie,1,0,2025,0,1,1,0,1,1,1,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
 38055,ND,McLean,1,1,2020,0,0,0,0,1,0,0,2,2,Sabin Center
 38057,ND,Mercer,1,0,,1,0,0,0,0,0,0,1,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances
@@ -2068,7 +2068,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 39043,OH,Erie,1,1,2023,0,1,1,0,1,0,0,2,2,Sabin Center
 39045,OH,Fairfield,1,1,2024,0,1,1,0,1,0,0,1,1,Sabin Center
 39047,OH,Fayette,1,1,2023,0,1,1,0,1,0,0,2,2,Sabin Center
-39049,OH,Franklin,1,0,2023,0,1,1,0,1,1,1,1,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+39049,OH,Franklin,0,0,,0,1,0,0,1,0,0,0,0,
 39051,OH,Fulton,1,1,2026,0,1,0,1,1,0,0,1,1,Moratorium Nation
 39053,OH,Gallia,0,0,,0,1,0,0,1,0,0,0,0,
 39055,OH,Geauga,0,0,,0,1,0,0,1,0,0,0,0,
@@ -2232,7 +2232,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 41041,OR,Lincoln,0,0,,0,1,0,0,1,0,0,0,0,
 41043,OR,Linn,0,0,,0,1,0,0,1,0,0,0,0,
 41045,OR,Malheur,0,0,,0,1,0,0,1,0,0,0,0,
-41047,OR,Marion,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+41047,OR,Marion,0,0,,0,1,0,0,1,0,0,0,0,
 41049,OR,Morrow,0,0,,0,1,0,0,1,0,0,0,0,
 41051,OR,Multnomah,0,0,,0,1,0,0,1,0,0,0,0,
 41053,OR,Polk,0,0,,0,1,0,0,1,0,0,0,0,
@@ -2287,7 +2287,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 42079,PA,Luzerne,1,0,2018,1,0,0,0,0,0,0,18,0,NREL U.S. Solar Siting Regulation and Zoning Ordinances; NREL U.S. Wind Siting Regulation and Zoning Ordinances
 42081,PA,Lycoming,1,1,2020,1,0,0,0,0,0,0,6,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
 42083,PA,McKean,0,0,,0,1,0,0,1,0,0,0,0,
-42085,PA,Mercer,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+42085,PA,Mercer,0,0,,0,1,0,0,1,0,0,0,0,
 42087,PA,Mifflin,0,0,,0,1,0,0,1,0,0,0,0,
 42089,PA,Monroe,0,0,,0,1,0,0,1,0,0,0,0,
 42091,PA,Montgomery,1,0,,1,0,0,0,0,0,0,2,0,NREL U.S. Wind Siting Regulation and Zoning Ordinances
@@ -2414,7 +2414,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 46099,SD,Minnehaha,0,0,,0,1,0,0,1,0,0,0,0,
 46101,SD,Moody,0,0,,0,1,0,0,1,0,0,0,0,
 46102,SD,Oglala Lakota,0,0,,0,1,0,0,1,0,0,0,0,
-46103,SD,Pennington,1,1,2021,0,0,0,0,0,0,0,3,2,Moratorium Nation; NREL U.S. Wind Siting Regulation and Zoning Ordinances
+46103,SD,Pennington,1,1,2024,0,1,1,0,1,0,0,2,2,Moratorium Nation
 46105,SD,Perkins,0,0,,0,1,0,0,1,0,0,0,0,
 46107,SD,Potter,0,0,,0,1,0,0,1,0,0,0,0,
 46109,SD,Roberts,0,0,,0,1,0,0,1,0,0,0,0,
@@ -2624,7 +2624,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 48195,TX,Hansford,0,0,,0,1,0,0,1,0,0,0,0,
 48197,TX,Hardeman,0,0,,0,1,0,0,1,0,0,0,0,
 48199,TX,Hardin,0,0,,0,1,0,0,1,0,0,0,0,
-48201,TX,Harris,1,1,2024,0,1,1,0,1,0,0,1,1,Moratorium Nation
+48201,TX,Harris,1,0,2025,0,1,1,0,1,0,0,1,0,review queue: case_study_review_2026-10-16
 48203,TX,Harrison,1,1,2016,0,0,0,0,1,0,0,1,1,Sabin Center
 48205,TX,Hartley,0,0,,0,1,0,0,1,0,0,0,0,
 48207,TX,Haskell,0,0,,0,1,0,0,1,0,0,0,0,
@@ -2791,7 +2791,7 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 49021,UT,Iron,1,1,2026,0,1,0,1,1,0,0,1,1,Moratorium Nation
 49023,UT,Juab,0,0,,0,1,0,0,1,0,0,0,0,
 49025,UT,Kane,1,0,2013,0,0,0,0,1,0,0,1,0,Sabin Center
-49027,UT,Millard,0,0,,0,1,0,0,1,0,0,0,0,
+49027,UT,Millard,1,1,2020,0,0,0,0,1,0,0,1,1,review queue: county_check_2026-10-22
 49029,UT,Morgan,0,0,,0,1,0,0,1,0,0,0,0,
 49031,UT,Piute,0,0,,0,1,0,0,1,0,0,0,0,
 49033,UT,Rich,0,0,,0,1,0,0,1,0,0,0,0,
@@ -3116,8 +3116,8 @@ county_fips,state,county,has_severe,has_severity_4,first_severe_year,has_undated
 55129,WI,Washburn,0,0,,0,1,0,0,1,0,0,0,0,
 55131,WI,Washington,0,0,,0,1,0,0,1,0,0,0,0,
 55133,WI,Waukesha,0,0,,0,1,0,0,1,0,0,0,0,
-55135,WI,Waupaca,1,1,2015,0,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
-55137,WI,Waushara,1,1,,1,0,0,0,0,0,0,1,1,NREL U.S. Wind Siting Regulation and Zoning Ordinances
+55135,WI,Waupaca,0,0,,0,1,0,0,1,0,0,0,0,
+55137,WI,Waushara,0,0,,0,1,0,0,1,0,0,0,0,
 55139,WI,Winnebago,0,0,,0,1,0,0,1,0,0,0,0,
 55141,WI,Wood,0,0,,0,1,0,0,1,0,0,0,0,
 56001,WY,Albany,0,0,,0,1,0,0,1,0,0,0,0,
