@@ -21,7 +21,6 @@ NY,Municipality,Kingston,36111,ambiguous,2,"Kingston city (3639727, county 36111
 NY,Municipality,Nichols,36107,ambiguous,2,"Nichols town (3610751121, county 36107); Nichols village (3651110, county 36107)",1
 NY,Municipality,Skaneateles,36067,ambiguous,2,"Skaneateles town (3606767521, county 36067); Skaneateles village (3667510, county 36067)",1
 NY,Town,Victory,36091,county_differs,1,"Victory town (3601177420, county 36011); Victory village (3677431, county 36091)",1
-OH,Township,Swancreek Township (Fulton County),39051,no_match,0,,1
 OK,Municipality,Ponca,40071,no_match,0,,1
 PA,Municipality,Athens,42015,ambiguous,2,"Athens borough (4203392, county 42015); Athens township (4201503400, county 42015); Athens township (4203903408, county 42039)",1
 VT,County,Caledonia County; Essex County; Orleans County,50005;50009;50019,no_match,0,,1

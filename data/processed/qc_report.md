@@ -6,15 +6,15 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 3671 | 55 |
+| restrictions | 3671 | 65 |
 | contested_projects | 579 | 0 |
 | cases | 40 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|
-| PRIMARY_SOURCE_CONTRADICTS | HIGH | 47 |
+| PRIMARY_SOURCE_CONTRADICTS | HIGH | 57 |
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
-| END_DATE_PASSED | MEDIUM | 1 |
+| END_DATE_PASSED | MEDIUM | 2 |
 
 ## Quarantined rows
 
@@ -61,18 +61,28 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_8d84f9f57a | MO | Cass County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_3ba3ae554a | MT | Carbon County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_4592fd6efe | NC | Yadkin County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_6fc65e4800 | ND | Barnes County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_4d25c10f97 | ND | Bowman County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_b72bf56143 | ND | McIntosh County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_f3749e9168 | ND | McIntosh County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_f72bdf3c62 | ND | Pierce County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_f06d2a3f94 | NE | Chase County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_11f814a51d | NE | Cherry County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_9e87f9edb3 | NE | Frontier County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_7624c83c5e | NE | Furnas County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_b2ee3a0b5b | NE | Hitchcock County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_7a380d2200 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_ec310da5f0 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_f3189af0c4 | NE | Logan County | SCOPE_DATA_CENTER_ONLY | if the instrument does cover a renewable technology, say so in the record's text or sectors; if not, it belongs to data-center-map and stays out |
 | restrictions | res_3bae9ed0d4 | NE | Perkins County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_464012316a | NE | Pierce County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_13b2a49828 | NE | Saunders County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_f94af94e1b | NE | Stanton County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_f36d2dbc33 | NE | Thayer County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_12732a2c15 | NY | Frankfort Town | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_9067dae7ce | NY | Glenville | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_5cee8f39bd | OH | Franklin County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_53a1ec0208 | OH | Swancreek Township (Fulton County) | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_3351d69028 | OR | Marion County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_8a382258de | PA | Hermitage City | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_29055c3d7f | WI | Waupaca County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |

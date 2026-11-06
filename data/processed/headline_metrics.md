@@ -8,41 +8,41 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3319 | 85 |
-| Severe (severity 3 or 4) | 1330 | 77 |
+| Instruments | 3310 | 84 |
+| Severe (severity 3 or 4) | 1321 | 76 |
 | States | 51 | 26 |
-| Evidence: compiled_flagged | 2303 | 9 |
+| Evidence: compiled_flagged | 2290 | 9 |
 | Evidence: compiled_record | 59 | 65 |
-| Evidence: primary_source | 155 | 11 |
-| Evidence: report_citation | 802 | 0 |
-| Verification: verified | 155 | 11 |
+| Evidence: primary_source | 160 | 10 |
+| Evidence: report_citation | 801 | 0 |
+| Verification: verified | 160 | 10 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 3164 | 74 |
-| Currency: in_force | 1017 | 77 |
+| Verification: unverified | 3150 | 74 |
+| Currency: in_force | 1017 | 76 |
 | Currency: lapsed_unconfirmed | 0 | 0 |
 | Currency: pending | 7 | 8 |
-| Currency: unknown | 2295 | 0 |
+| Currency: unknown | 2286 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-Of the severe instruments, 915 (renewables only) and 33 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
+Of the severe instruments, 912 (renewables only) and 32 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3616 published rows describe 3404 instruments.
+3606 published rows describe 3394 instruments.
 
 ## Contested projects
 
-579 projects; 167 with a confirmed outcome; 178 verified (backed by a news article or court record that was read), 401 resting on a compiled report only.
+579 projects; 170 with a confirmed outcome; 181 verified (backed by a news article or court record that was read), 398 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
-| advanced_confirmed | 87 |
+| advanced_confirmed | 88 |
 | advanced_unverified | 25 |
-| blocked_confirmed | 80 |
-| blocked_unverified | 165 |
+| blocked_confirmed | 82 |
+| blocked_unverified | 163 |
 | needs_review | 26 |
-| pending | 195 |
+| pending | 194 |
 | restricted_conditional | 1 |
 
 132 projects match a plant in the federal inventories (EIA-860M, USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:
@@ -62,9 +62,9 @@ This dataset holds projects because they drew opposition, so every rate below is
 
 | | Decided projects | Blocked | Blocked share |
 |---|---:|---:|---:|
-| All decided | 355 | 244 | 69% |
-| Confirmed outcomes only | 166 | 80 | 48% |
-| battery_storage | 24 | 14 | 58% |
+| All decided | 356 | 244 | 68% |
+| Confirmed outcomes only | 169 | 82 | 48% |
+| battery_storage | 25 | 14 | 56% |
 | solar | 183 | 139 | 76% |
 | transmission | 8 | 3 | 38% |
 | wind | 156 | 95 | 61% |
@@ -115,12 +115,12 @@ Instruments (restrictions) and projects by the source they came from, with their
 
 | Entity | Source | Count | Severe | Verified | Located | Unverified |
 |---|---|---:|---:|---:|---:|---:|
-| Restrictions | Sabin 2026 | 756 | 531 | 12 | 0 | 744 |
+| Restrictions | Sabin 2026 | 756 | 531 | 13 | 0 | 743 |
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 1 | 0 | 54 |
-| Restrictions | NREL | 2338 | 618 | 64 | 0 | 2274 |
-| Restrictions | Moratorium Nation | 207 | 196 | 45 | 0 | 162 |
+| Restrictions | NREL | 2329 | 609 | 68 | 0 | 2261 |
+| Restrictions | Moratorium Nation | 206 | 195 | 44 | 0 | 162 |
 | Restrictions | review queue | 48 | 21 | 44 | 0 | 4 |
-| Contested projects | Sabin 2026 | 568 |  | 170 | 0 | 398 |
+| Contested projects | Sabin 2026 | 568 |  | 173 | 0 | 395 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 3 | 0 | 3 |
 | Contested projects | review queue | 5 |  | 5 | 0 | 0 |
 
@@ -139,7 +139,7 @@ Of 3144 counties and county equivalents (50 states and DC):
 | | Counties |
 |---|---:|
 | Any published record | 1419 |
-| A restriction | 1257 |
+| A restriction | 1255 |
 | A contested project | 458 |
 | An NREL siting standard | 1158 |
 | A documented negative check | 1 |

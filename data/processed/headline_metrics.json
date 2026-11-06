@@ -1,68 +1,68 @@
 {
   "restrictions": {
-    "rows": 3616,
-    "instruments": 3404,
+    "rows": 3606,
+    "instruments": 3394,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3319,
-        "severe_instruments": 1330,
+        "instruments": 3310,
+        "severe_instruments": 1321,
         "states": 51,
         "by_status": {
           "active": 962,
           "extended": 55,
           "pending": 7,
-          "unknown": 2295
+          "unknown": 2286
         },
         "by_technology": {
           "battery_storage": 142,
-          "solar": 1664,
-          "wind": 1680
+          "solar": 1663,
+          "wind": 1672
         },
         "by_evidence_level": {
-          "compiled_flagged": 2303,
+          "compiled_flagged": 2290,
           "compiled_record": 59,
-          "primary_source": 155,
-          "report_citation": 802
+          "primary_source": 160,
+          "report_citation": 801
         },
         "by_verification": {
-          "unverified": 3164,
-          "verified": 155
+          "unverified": 3150,
+          "verified": 160
         },
         "by_currency": {
           "in_force": 1017,
           "pending": 7,
-          "unknown": 2295
+          "unknown": 2286
         },
-        "severe_where_state_limits_local": 915
+        "severe_where_state_limits_local": 912
       },
       "multi_sector_data_centers": {
-        "instruments": 85,
-        "severe_instruments": 77,
+        "instruments": 84,
+        "severe_instruments": 76,
         "states": 26,
         "by_status": {
-          "active": 67,
+          "active": 66,
           "extended": 10,
           "pending": 8
         },
         "by_technology": {
           "battery_storage": 72,
-          "solar": 38,
+          "solar": 37,
           "wind": 20
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
           "compiled_record": 65,
-          "primary_source": 11
+          "primary_source": 10
         },
         "by_verification": {
           "unverified": 74,
-          "verified": 11
+          "verified": 10
         },
         "by_currency": {
-          "in_force": 77,
+          "in_force": 76,
           "pending": 8
         },
-        "severe_where_state_limits_local": 33
+        "severe_where_state_limits_local": 32
       }
     },
     "by_source": {
@@ -70,8 +70,8 @@
         "instruments": 756,
         "severe_instruments": 531,
         "by_verification": {
-          "unverified": 744,
-          "verified": 12
+          "unverified": 743,
+          "verified": 13
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
@@ -83,19 +83,19 @@
         }
       },
       "NREL": {
-        "instruments": 2338,
-        "severe_instruments": 618,
+        "instruments": 2329,
+        "severe_instruments": 609,
         "by_verification": {
-          "unverified": 2274,
-          "verified": 64
+          "unverified": 2261,
+          "verified": 68
         }
       },
       "Moratorium Nation": {
-        "instruments": 207,
-        "severe_instruments": 196,
+        "instruments": 206,
+        "severe_instruments": 195,
         "by_verification": {
           "unverified": 162,
-          "verified": 45
+          "verified": 44
         }
       },
       "review queue": {
@@ -108,38 +108,38 @@
       }
     },
     "by_verification": {
-      "unverified": 3238,
-      "verified": 166
+      "unverified": 3224,
+      "verified": 170
     }
   },
   "contested_projects": {
     "rows": 579,
     "projects": 579,
-    "confirmed_outcomes": 167,
+    "confirmed_outcomes": 170,
     "by_outcome": {
-      "advanced_confirmed": 87,
+      "advanced_confirmed": 88,
       "advanced_unverified": 25,
-      "blocked_confirmed": 80,
-      "blocked_unverified": 165,
+      "blocked_confirmed": 82,
+      "blocked_unverified": 163,
       "needs_review": 26,
-      "pending": 195,
+      "pending": 194,
       "restricted_conditional": 1
     },
     "by_evidence_level": {
-      "confirmed": 167,
-      "report_citation": 412
+      "confirmed": 170,
+      "report_citation": 409
     },
     "by_verification": {
-      "unverified": 401,
-      "verified": 178
+      "unverified": 398,
+      "verified": 181
     },
     "by_source": {
       "Sabin 2026": {
         "instruments": 568,
         "severe_instruments": 402,
         "by_verification": {
-          "unverified": 398,
-          "verified": 170
+          "unverified": 395,
+          "verified": 173
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
@@ -169,20 +169,20 @@
       "guard_days": 90,
       "young_excluded": 3,
       "all": {
-        "projects": 355,
+        "projects": 356,
         "blocked": 244,
-        "blocked_share": 0.687
+        "blocked_share": 0.685
       },
       "confirmed_only": {
-        "projects": 166,
-        "blocked": 80,
-        "blocked_share": 0.482
+        "projects": 169,
+        "blocked": 82,
+        "blocked_share": 0.485
       },
       "by_technology": {
         "battery_storage": {
-          "projects": 24,
+          "projects": 25,
           "blocked": 14,
-          "blocked_share": 0.583
+          "blocked_share": 0.56
         },
         "solar": {
           "projects": 183,
@@ -268,7 +268,7 @@
   "county_coverage": {
     "counties": 3144,
     "with_any_record": 1419,
-    "with_restriction": 1257,
+    "with_restriction": 1255,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
