@@ -1,25 +1,26 @@
 {
-  "run_at": "2026-10-26T16:22:04Z",
+  "run_at": "2026-11-09T20:02:54Z",
   "credentials": "anonymous",
-  "cited_urls": 83,
-  "lookups": 21,
-  "saves": 14,
+  "cited_urls": 87,
+  "lookups": 29,
+  "saves": 20,
   "stop_reason": "time_budget",
-  "stop_at_url": "https://www.logancountyco.gov/DocumentCenter/View/1045/Resolution-2026-6-Amending-Logan-County-Zoning-Resolution-Adoption-of-Amended-Regulations-for-Issuance-of-Permits-for-Solar-Energy-Facilities",
+  "stop_at_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
   "counts_by_status": {
-    "archived": 30,
-    "requested": 1,
+    "archived": 39,
+    "requested": 4,
     "not_archived": 47,
     "unresolved_redirect": 0,
     "failed": 0
   },
   "errors": {
-    "save 520": 1,
-    "save no response": 46
+    "save 520": 2,
+    "save 523": 1,
+    "save no response": 44
   },
-  "resolvable": 75,
-  "archived": 29,
-  "coverage": 0.3867,
+  "resolvable": 87,
+  "archived": 38,
+  "coverage": 0.4368,
   "history": [
     {
       "run_at": "2026-09-29T17:00:18Z",
@@ -47,6 +48,13 @@
       "archived": 29,
       "resolvable": 75,
       "coverage": 0.3867,
+      "stop_reason": "time_budget"
+    },
+    {
+      "run_at": "2026-11-09T20:02:54Z",
+      "archived": 38,
+      "resolvable": 87,
+      "coverage": 0.4368,
       "stop_reason": "time_budget"
     }
   ]
