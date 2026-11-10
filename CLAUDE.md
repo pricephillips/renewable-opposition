@@ -1,5 +1,18 @@
 # renewable-opposition: session rules
 
+## Communicating clearly
+
+Write every message for an intelligent reader who has little context. The same rule is in every Hawthorn Intelligence repository. It covers all text a session writes for a person to read: chat replies, status lines and questions, end-of-pass reports, pull request bodies, commit messages, comments on issues and pull requests, routine reports, and the reports helper agents hand back.
+
+- The reader has not seen the tool calls, the reasoning or the files the session opened, and may be switching in from other work. Make each message self-contained: the reader should understand it without looking for other context.
+- Put the key points in the first few sentences. Order the sentences so that each one makes sense from what came before it (progressive disclosure). Do not use a reference or an idea in line 1 that will not make sense until line 12.
+- Use plain words and clear, full sentences. Do not use a term or abbreviation made up during the work; say what the thing is in words any reader would understand.
+- Write mostly in the style of ASD-STE100 Simplified Technical English: short sentences, one idea per sentence, active voice, and the same word for the same thing every time.
+- Use a paragraph of flowing prose where ideas connect. Keep bullets for lists of separate items.
+- Be concise. Leave out details the reader does not need unless they ask, but keep the key context.
+
+The other writing rules still apply to the text they cover, and they win where they differ: the humanizer pass (below), the house style in `.claude/agents/copy-editor.md` and the review rules in `docs/AGENT_REVIEW.md`. Client-facing and public copy keeps its own rules, which already ask for plain language.
+
 ## Written text: the humanizer pass
 
 Every piece of prose a session writes that a client, Price or the public could read gets a humanizer pass before it is sent, committed or published: invoke the `humanizer` skill (`/humanizer`) on it. The same rule is in every Hawthorn Intelligence repository. It covers:
@@ -27,4 +40,4 @@ By kind:
 - Page copy, templates and data text: run the pass on the changed strings before the commit, then the repository's usual checks. If a test asserts the old wording, update the test in the same change.
 - Client reports: then run the wording checks on the humanized text (Vale and the em-dash pre-commit hook), and build any Word or PDF file from it.
 
-Not covered: text a script writes at run time (humanize the template it is filled from instead), helper agent reports, other chat replies (answers, status lines, questions), code itself (identifiers, developer comments), and data values that are not prose. If the skill is not available in the session, tell Price in one line; never skip it silently.
+Not covered: text a script writes at run time (humanize the template it is filled from instead), helper agent reports, other chat replies (answers, status lines, questions; Communicating clearly, above, still covers both), code itself (identifiers, developer comments), and data values that are not prose. If the skill is not available in the session, tell Price in one line; never skip it silently.
