@@ -1,39 +1,39 @@
 {
   "restrictions": {
-    "rows": 3600,
-    "instruments": 3388,
+    "rows": 3598,
+    "instruments": 3386,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3304,
-        "severe_instruments": 1315,
+        "instruments": 3302,
+        "severe_instruments": 1313,
         "states": 51,
         "by_status": {
           "active": 962,
           "extended": 55,
           "pending": 7,
-          "unknown": 2280
+          "unknown": 2278
         },
         "by_technology": {
           "battery_storage": 142,
           "solar": 1662,
-          "wind": 1667
+          "wind": 1665
         },
         "by_evidence_level": {
-          "compiled_flagged": 2279,
+          "compiled_flagged": 2276,
           "compiled_record": 59,
-          "primary_source": 165,
+          "primary_source": 166,
           "report_citation": 801
         },
         "by_verification": {
-          "unverified": 3139,
-          "verified": 165
+          "unverified": 3136,
+          "verified": 166
         },
         "by_currency": {
           "in_force": 1017,
           "pending": 7,
-          "unknown": 2280
+          "unknown": 2278
         },
-        "severe_where_state_limits_local": 909
+        "severe_where_state_limits_local": 908
       },
       "multi_sector_data_centers": {
         "instruments": 84,
@@ -83,11 +83,11 @@
         }
       },
       "NREL": {
-        "instruments": 2323,
-        "severe_instruments": 603,
+        "instruments": 2321,
+        "severe_instruments": 601,
         "by_verification": {
-          "unverified": 2250,
-          "verified": 73
+          "unverified": 2247,
+          "verified": 74
         }
       },
       "Moratorium Nation": {
@@ -108,8 +108,8 @@
       }
     },
     "by_verification": {
-      "unverified": 3213,
-      "verified": 175
+      "unverified": 3210,
+      "verified": 176
     }
   },
   "contested_projects": {
@@ -220,7 +220,7 @@
       "grid_cost": 1
     },
     "with_no_concern_named": 232,
-    "in_county_with_severe_restriction": 217
+    "in_county_with_severe_restriction": 218
   },
   "cases": {
     "rows": 40,
@@ -268,7 +268,7 @@
   "county_coverage": {
     "counties": 3144,
     "with_any_record": 1419,
-    "with_restriction": 1253,
+    "with_restriction": 1252,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,

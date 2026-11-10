@@ -10,10 +10,10 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 |---|---:|---|
 | closed | 108 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
 | severe | 277 | Severe: rules likely to block most projects |
-| restrictive | 314 | Restrictive: material rules, or blocked projects |
-| regulated | 753 | Regulated but open: rules in force, projects approved under them |
-| open | 458 | Open: nothing restrictive on record |
-| no_record | 1234 | No record and no negative check: scored on the profile prior alone |
+| restrictive | 312 | Restrictive: material rules, or blocked projects |
+| regulated | 754 | Regulated but open: rules in force, projects approved under them |
+| open | 457 | Open: nothing restrictive on record |
+| no_record | 1236 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
 
@@ -61,11 +61,11 @@ Each rule in `state_preemption` caps the severity a local instrument counts at (
 | Tier with no cap | closed | severe | restrictive | regulated | open | no_record |
 |---|---:|---:|---:|---:|---:|---:|
 | closed | 108 | 17 | 15 | 27 | 2 | 0 |
-| severe | 0 | 260 | 33 | 59 | 4 | 0 |
-| restrictive | 0 | 0 | 266 | 70 | 15 | 0 |
-| regulated | 0 | 0 | 0 | 597 | 40 | 0 |
-| open | 0 | 0 | 0 | 0 | 397 | 0 |
-| no_record | 0 | 0 | 0 | 0 | 0 | 1234 |
+| severe | 0 | 260 | 34 | 59 | 4 | 0 |
+| restrictive | 0 | 0 | 263 | 69 | 15 | 0 |
+| regulated | 0 | 0 | 0 | 599 | 40 | 0 |
+| open | 0 | 0 | 0 | 0 | 396 | 0 |
+| no_record | 0 | 0 | 0 | 0 | 0 | 1236 |
 
 Rows are the tier with no cap, columns the tier scored.
 
@@ -75,24 +75,24 @@ Rows are the tier with no cap, columns the tier scored.
 |---|---|---|---:|---|
 | Worcester, MA | closed to regulated | 67.0 to 10.92 | 56.08 | MA-local_preemption-2:large |
 | Clinton, MI | closed to regulated | 53.02 to 3.25 | 49.77 | MI-local_preemption-1 |
-| Huron, MI | closed to restrictive | 63.04 to 14.81 | 56.7 | MI-local_preemption-1 |
-| Monroe, MI | closed to regulated | 51.54 to 5.13 | 58.76 | MI-local_preemption-1 |
-| Kalamazoo, MI | closed to regulated | 48.8 to 4.22 | 54.74 | MI-local_preemption-1 |
+| Huron, MI | closed to restrictive | 63.05 to 14.81 | 56.7 | MI-local_preemption-1 |
+| Monroe, MI | closed to regulated | 51.52 to 5.13 | 58.76 | MI-local_preemption-1 |
+| Kalamazoo, MI | closed to regulated | 48.78 to 4.22 | 54.74 | MI-local_preemption-1 |
 | Pine, MN | closed to regulated | 48.92 to 4.4 | 44.52 | MN-local_preemption-1 |
-| Yolo, CA | closed to regulated | 47.73 to 4.5 | 54.52 | CA-local_preemption-1 |
-| Aitkin, MN | closed to regulated | 47.73 to 4.5 | 54.52 | MN-local_preemption-1 |
-| Traverse, MN | closed to regulated | 46.93 to 4.8 | 54.08 | MN-local_preemption-1 |
-| Hampden, MA | closed to regulated | 47.29 to 5.69 | 47.86 | MA-local_preemption-2:large |
+| Yolo, CA | closed to regulated | 47.71 to 4.5 | 54.52 | CA-local_preemption-1 |
+| Aitkin, MN | closed to regulated | 47.71 to 4.5 | 54.52 | MN-local_preemption-1 |
+| Traverse, MN | closed to regulated | 46.92 to 4.8 | 54.08 | MN-local_preemption-1 |
+| Hampden, MA | closed to regulated | 47.3 to 5.69 | 47.86 | MA-local_preemption-2:large |
 | Allegan, MI | closed to regulated | 48.61 to 7.01 | 47.85 | MI-local_preemption-1 |
 | Marathon, WI | closed to regulated | 50.58 to 9.14 | 55.25 | WI-local_preemption-1 |
-| Freeborn, MN | closed to regulated | 45.83 to 4.5 | 51.98 | MN-local_preemption-1 |
+| Freeborn, MN | closed to regulated | 45.81 to 4.5 | 51.98 | MN-local_preemption-1 |
 | Essex, MA | closed to regulated | 49.44 to 8.19 | 47.39 | MA-local_preemption-2:large |
 | Franklin, MA | closed to regulated | 47.16 to 7.31 | 45.52 | MA-local_preemption-2:large |
 | Berrien, MI | closed to regulated | 46.38 to 6.7 | 39.68 | MI-local_preemption-1 |
 | Genesee, MI | closed to regulated | 44.42 to 4.92 | 39.5 | MI-local_preemption-1 |
 | Pope, MN | closed to regulated | 42.86 to 4.5 | 49.65 | MN-local_preemption-1 |
-| Chisago, MN | closed to open | 40.98 to 2.85 | 47.72 | MN-local_preemption-1 |
-| Mower, MN | closed to open | 40.26 to 2.85 | 45.18 | MN-local_preemption-1 |
+| Chisago, MN | closed to open | 40.96 to 2.85 | 47.72 | MN-local_preemption-1 |
+| Mower, MN | closed to open | 40.24 to 2.85 | 45.18 | MN-local_preemption-1 |
 
 ### Partial exemptions
 
@@ -121,11 +121,11 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | 2 | 314 | 1.98 to 2.28 | -1.279 to -0.842 |
 | 3 | 315 | 2.28 to 3.72 | -0.841 to -0.524 |
 | 4 | 314 | 3.72 to 4.58 | -0.523 to -0.253 |
-| 5 | 314 | 4.58 to 5.82 | -0.253 to 0.0 |
-| 6 | 315 | 5.83 to 8.94 | 0.0 to 0.253 |
-| 7 | 314 | 8.94 to 11.07 | 0.254 to 0.524 |
-| 8 | 315 | 11.07 to 14.28 | 0.525 to 0.842 |
-| 9 | 314 | 14.4 to 27.82 | 0.843 to 1.281 |
+| 5 | 314 | 4.58 to 5.83 | -0.253 to 0.0 |
+| 6 | 315 | 5.9 to 8.92 | 0.0 to 0.253 |
+| 7 | 314 | 8.92 to 11.05 | 0.254 to 0.524 |
+| 8 | 315 | 11.05 to 14.26 | 0.525 to 0.842 |
+| 9 | 314 | 14.26 to 27.82 | 0.843 to 1.281 |
 | 10 | 314 | 27.83 to 75.0 | 1.283 to 3.542 |
 
 ## Highest combined scores
@@ -154,5 +154,5 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 
 ## Record against resemblance
 
-1389 counties have a record. Of those in the top three resemblance deciles, 281 are open or regulated on their record; of those in the bottom three, 31 are closed or severe. These are the counties where the two scores disagree most.
+1387 counties have a record. Of those in the top three resemblance deciles, 281 are open or regulated on their record; of those in the bottom three, 31 are closed or severe. These are the counties where the two scores disagree most.
 
