@@ -15,6 +15,8 @@ data/raw/** -text
 #
 # Not listed on purpose: seeds, review files and data/snapshots/manifest.csv
 # are sources of record or append-only, where a normal merge is correct.
+# Two branches that append to the same review file still conflict by line
+# position; scripts/review_merge.py merges those files by key.
 data/processed/** -merge
 # The national database export (scripts/build_database.py --publish), the same
 # rule: resolve by rerunning it. Parquet is binary.
