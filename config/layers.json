@@ -254,6 +254,10 @@
     "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row and records its decisions (derived)."
   },
   "dynamic": {
+    "scripts/review_merge.py": {
+      "files": ["data/review/verification_log.csv", "data/review/examination_log.csv", "data/review/restriction_sources.csv", "data/review/outcome_resolutions.csv", "data/review/status_resolutions.csv", "data/review/place_overrides.csv", "data/review/negative_checks.csv"],
+      "reason": "Merges two branches' versions of the hand-kept review files by key during a git merge (docs/VERIFICATION_ROUTINE.md, 'When batches wait unmerged'). It copies rows a reviewer wrote byte for byte; the one line it writes itself is a disputed line in verification_log.csv when two branches' rows for one item disagree."
+    },
     "scripts/variable_registry.py": {
       "files": ["config/variables/*.json"],
       "reason": "--new writes config/variables/<id>.json, a skeleton for an analyst to fill (spec 033 in pricephillips/data-centers). Its selftest writes only to a temp dir."

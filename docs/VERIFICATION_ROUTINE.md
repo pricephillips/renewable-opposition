@@ -21,10 +21,22 @@ Start from `main` of `pricephillips/renewable-opposition` on a new branch
 named `claude/verify-<date>`:
 
 ```
-git fetch origin main && git checkout -B claude/verify-<date> origin/main
+git fetch origin && git checkout -B claude/verify-<date> origin/main
 pip install -q -c requirements/ci.txt -r requirements.txt
+python scripts/review_merge.py origin/claude/verify-<earlier date> ...
 python scripts/build_seed_outputs.py && python scripts/verification_worklist.py
 ```
+
+The third line stacks this run on the earlier ones. List the open pull
+requests titled `Verification: <date>` and name their branches, oldest first;
+when none is open, skip the line. The new branch then holds the earlier
+batches, so step 1 skips the items they already read, and the new pull request
+merges whether or not the earlier ones are merged first. When the pull request
+list cannot be read, `python scripts/review_merge.py --pending --list` names
+the verification branches whose log lines are not on `main`; leave out any
+whose pull request was closed without merging. If the script stops on a
+conflict, do not edit a row to get past it: start from `main` alone and put
+the conflict at the top of the pull request description.
 
 ## 1. Take the batch
 
@@ -114,12 +126,39 @@ PASS or PASS WITH WARNINGS.
 
 No em dashes, LF line endings. Push the branch and open a pull request to
 `main` titled `Verification: <date>`. Its description lists, at the top,
-any source that contradicts the published record, then each row written
+any source that contradicts the published record, then the earlier open
+batches the branch carries (section 0), then each row written
 (place, verdict or outcome, source URL), then the items not read with the
 reason. If nothing was written, commit the log alone, so tomorrow's run
 skips what failed today, and say so in the description.
 
 Stop after the batch. Do not edit code, workflows or any other file.
+
+## When batches wait unmerged
+
+Every run appends to the end of the same three files, and git merges text by
+line position, so two batches that were both cut from `main` conflict with
+each other even when no row overlaps. From 2026-11-08 to 2026-11-10 three
+batches waited this way. Each also re-read the items of the one before,
+because its log was not on `main` yet. Section 0 now prevents both: each run
+starts from `main` plus the open batches.
+
+- Merging the newest `Verification: <date>` pull request merges every batch
+  it carries, and GitHub marks the earlier pull requests merged. Merging them
+  oldest first also works. Use a merge commit, not a squash, so the earlier
+  branches stay ancestors of `main`.
+- When `main` has moved under an open research branch and GitHub reports a
+  conflict in a review file, run `python scripts/review_merge.py origin/main`
+  on the branch and push. The next morning's run does the same for the open
+  verification batches by stacking on them.
+- `scripts/review_merge.py` merges the review files by key, not by line. A
+  log keeps every line either side added. A keyed file keeps one row per key.
+  When two batches each wrote a row for the same item and the rows reach the
+  same verdict or outcome, the earlier row is kept and the later reading stays
+  in the log. When they disagree, neither row is kept and a `disputed` line
+  naming both readings goes into the log, as section 3 has it for two readings
+  that disagree. Both sides changing the same existing row differently is a
+  real conflict: the script stops and lists the rows.
 
 ## When the routine stops
 
