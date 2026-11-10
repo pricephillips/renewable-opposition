@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-06",
+ "generated": "2026-11-10",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
   "restriction_instruments": 3310,
@@ -195,19 +195,19 @@
    "confirmed": 6,
    "pending": 2,
    "awaiting_review": 4,
-   "lead": 181
+   "lead": 194
   },
   "queue_by_entity": {
-   "restriction": 184,
+   "restriction": 196,
    "contested_project": 58,
-   "case": 9
+   "case": 10
   },
   "case_candidates": 230,
   "case_candidates_started": 8,
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 169,
+  "snapshot_rows": 170,
   "snapshot_files": 5,
   "headline_history_rows": 19,
   "headline_first_change": "2026-09-29",
@@ -229,8 +229,8 @@
  },
  "source_archive": {
   "sources": 87,
-  "archived": 28,
-  "archived_share": 0.322
+  "archived": 37,
+  "archived_share": 0.425
  },
  "evidence_checks": {
   "restriction_sources": {
@@ -274,39 +274,39 @@
  },
  "intake": {
   "courtlistener_renewables": {
-   "requests": 4,
-   "stored": 4,
+   "requests": 5,
+   "stored": 5,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-11-03",
-   "last_changed": "2026-11-03",
+   "last_fetch": "2026-11-10",
+   "last_changed": "2026-11-10",
    "last_error": null,
-   "files_parsed": 4,
-   "leads_queued": 9,
+   "files_parsed": 5,
+   "leads_queued": 10,
    "queue_by_status": {
-    "lead": 9
+    "lead": 10
    }
   },
   "gdelt_renewable_news": {
-   "requests": 15,
-   "stored": 10,
+   "requests": 20,
+   "stored": 12,
    "unchanged": 0,
-   "failed": 5,
-   "last_fetch": "2026-11-03",
-   "last_changed": "2026-11-03",
-   "last_error": "2026-10-27: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
-   "files_parsed": 10,
-   "leads_queued": 20,
+   "failed": 8,
+   "last_fetch": "2026-11-10",
+   "last_changed": "2026-11-10",
+   "last_error": "2026-11-10: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
+   "files_parsed": 12,
+   "leads_queued": 21,
    "queue_by_status": {
-    "lead": 20
+    "lead": 21
    }
   },
   "legistar_renewable_matters": {
-   "requests": 44,
+   "requests": 55,
    "stored": 11,
-   "unchanged": 32,
+   "unchanged": 43,
    "failed": 1,
-   "last_fetch": "2026-11-03",
+   "last_fetch": "2026-11-10",
    "last_changed": "2026-10-13",
    "last_error": "2026-10-27: 500 Server Error: Internal Server Error for url: https://webapi.legistar.com/v1/sanbernardino/matters?%24filter=substringof%28%27solar%27%2CMatterTitle%29+or+su",
    "files_parsed": 8,
@@ -316,12 +316,12 @@
    }
   },
   "moratorium_nation_upstream": {
-   "requests": 4,
-   "stored": 1,
+   "requests": 5,
+   "stored": 2,
    "unchanged": 2,
    "failed": 1,
-   "last_fetch": "2026-11-03",
-   "last_changed": "2026-10-20",
+   "last_fetch": "2026-11-10",
+   "last_changed": "2026-11-10",
    "last_error": "2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1"
   },
   "nrel_solar_ordinances_2025": {
@@ -343,25 +343,25 @@
    "last_error": null
   },
   "ny_dos_local_laws": {
-   "requests": 1,
-   "stored": 1,
+   "requests": 2,
+   "stored": 2,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-11-03",
-   "last_changed": "2026-11-03",
+   "last_fetch": "2026-11-10",
+   "last_changed": "2026-11-10",
    "last_error": null,
-   "files_parsed": 1,
-   "leads_queued": 94,
+   "files_parsed": 2,
+   "leads_queued": 105,
    "queue_by_status": {
-    "lead": 94
+    "lead": 105
    }
   },
   "ny_ores_permit_applications": {
-   "requests": 4,
+   "requests": 5,
    "stored": 4,
-   "unchanged": 0,
+   "unchanged": 1,
    "failed": 0,
-   "last_fetch": "2026-11-03",
+   "last_fetch": "2026-11-10",
    "last_changed": "2026-11-03",
    "last_error": null,
    "files_parsed": 4,
@@ -416,20 +416,20 @@
    "last_error": null
   },
   "sabin_web_database_projects": {
-   "requests": 4,
+   "requests": 5,
    "stored": 1,
-   "unchanged": 3,
+   "unchanged": 4,
    "failed": 0,
-   "last_fetch": "2026-11-03",
+   "last_fetch": "2026-11-10",
    "last_changed": "2026-10-13",
    "last_error": null
   },
   "sabin_web_database_restrictions": {
-   "requests": 4,
+   "requests": 5,
    "stored": 2,
-   "unchanged": 2,
+   "unchanged": 3,
    "failed": 0,
-   "last_fetch": "2026-11-03",
+   "last_fetch": "2026-11-10",
    "last_changed": "2026-11-03",
    "last_error": null
   }
