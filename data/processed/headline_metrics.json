@@ -1,39 +1,39 @@
 {
   "restrictions": {
-    "rows": 3606,
-    "instruments": 3394,
+    "rows": 3600,
+    "instruments": 3388,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3310,
-        "severe_instruments": 1321,
+        "instruments": 3304,
+        "severe_instruments": 1315,
         "states": 51,
         "by_status": {
           "active": 962,
           "extended": 55,
           "pending": 7,
-          "unknown": 2286
+          "unknown": 2280
         },
         "by_technology": {
           "battery_storage": 142,
-          "solar": 1663,
-          "wind": 1672
+          "solar": 1662,
+          "wind": 1667
         },
         "by_evidence_level": {
-          "compiled_flagged": 2290,
+          "compiled_flagged": 2279,
           "compiled_record": 59,
-          "primary_source": 160,
+          "primary_source": 165,
           "report_citation": 801
         },
         "by_verification": {
-          "unverified": 3150,
-          "verified": 160
+          "unverified": 3139,
+          "verified": 165
         },
         "by_currency": {
           "in_force": 1017,
           "pending": 7,
-          "unknown": 2286
+          "unknown": 2280
         },
-        "severe_where_state_limits_local": 912
+        "severe_where_state_limits_local": 909
       },
       "multi_sector_data_centers": {
         "instruments": 84,
@@ -83,11 +83,11 @@
         }
       },
       "NREL": {
-        "instruments": 2329,
-        "severe_instruments": 609,
+        "instruments": 2323,
+        "severe_instruments": 603,
         "by_verification": {
-          "unverified": 2261,
-          "verified": 68
+          "unverified": 2250,
+          "verified": 73
         }
       },
       "Moratorium Nation": {
@@ -108,38 +108,38 @@
       }
     },
     "by_verification": {
-      "unverified": 3224,
-      "verified": 170
+      "unverified": 3213,
+      "verified": 175
     }
   },
   "contested_projects": {
     "rows": 579,
     "projects": 579,
-    "confirmed_outcomes": 170,
+    "confirmed_outcomes": 174,
     "by_outcome": {
-      "advanced_confirmed": 88,
+      "advanced_confirmed": 89,
       "advanced_unverified": 25,
-      "blocked_confirmed": 82,
-      "blocked_unverified": 163,
+      "blocked_confirmed": 85,
+      "blocked_unverified": 159,
       "needs_review": 26,
       "pending": 194,
       "restricted_conditional": 1
     },
     "by_evidence_level": {
-      "confirmed": 170,
-      "report_citation": 409
+      "confirmed": 174,
+      "report_citation": 405
     },
     "by_verification": {
-      "unverified": 398,
-      "verified": 181
+      "unverified": 394,
+      "verified": 185
     },
     "by_source": {
       "Sabin 2026": {
         "instruments": 568,
         "severe_instruments": 402,
         "by_verification": {
-          "unverified": 395,
-          "verified": 173
+          "unverified": 391,
+          "verified": 177
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
@@ -170,13 +170,13 @@
       "young_excluded": 3,
       "all": {
         "projects": 356,
-        "blocked": 244,
-        "blocked_share": 0.685
+        "blocked": 243,
+        "blocked_share": 0.683
       },
       "confirmed_only": {
-        "projects": 169,
-        "blocked": 82,
-        "blocked_share": 0.485
+        "projects": 173,
+        "blocked": 85,
+        "blocked_share": 0.491
       },
       "by_technology": {
         "battery_storage": {
@@ -196,8 +196,8 @@
         },
         "wind": {
           "projects": 156,
-          "blocked": 95,
-          "blocked_share": 0.609
+          "blocked": 94,
+          "blocked_share": 0.603
         }
       }
     },
@@ -220,7 +220,7 @@
       "grid_cost": 1
     },
     "with_no_concern_named": 232,
-    "in_county_with_severe_restriction": 220
+    "in_county_with_severe_restriction": 217
   },
   "cases": {
     "rows": 40,
@@ -268,7 +268,7 @@
   "county_coverage": {
     "counties": 3144,
     "with_any_record": 1419,
-    "with_restriction": 1255,
+    "with_restriction": 1253,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
