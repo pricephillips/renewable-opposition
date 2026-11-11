@@ -1,6 +1,6 @@
 # Cost ledger: methodology
 
-Generated 2026-11-05 by `scripts/cost_ledger.py`. **Internal, not client-facing.**
+Generated 2026-11-11 by `scripts/cost_ledger.py`. **Internal, not client-facing.**
 The ledger prices the observed span of each contested project from published figures and
 Hawthorn's stated assumptions (the anchors in `config/cost_anchors.json`). It does not
 estimate what opposition did to any project and makes no comparison with a project that saw
@@ -39,10 +39,10 @@ is due.
 |---|---|
 | `technology_not_priced` | 46 |
 | `outcome_needs_review` | 25 |
-| `outcome_unverified` | 182 |
+| `outcome_unverified` | 176 |
 | `no_start_date` | 2 |
-| `start_year_precision` | 233 |
-| `start_from_possible_queue_match` | 13 |
+| `start_year_precision` | 237 |
+| `start_from_possible_queue_match` | 15 |
 | `queue_match_conflict` | 6 |
 | `no_end_date` | 2 |
 | `nonpositive_span` | 1 |
@@ -173,4 +173,4 @@ Sources:
 - `project_life_years_solar`: NLR 2025 ATB, financial cases and methods: cost recovery period '30 years for all technologies' (low). LBNL Utility-Scale Solar 2026 Edition, slide 45: 'Project design life increases from 21.5 years in 2007 to 35 years in 2021 and thereafter' (high). https://eta-publications.lbl.gov/sites/default/files/2026-10/utility_scale_solar_2026_edition_slides.pdf
 - `project_life_years_wind`: NLR 2025 ATB, land-based wind and financial cases and methods: technical life and cost recovery period of 30 years. https://atb.nlr.gov/electricity/2025/financial_cases_&_methods
 
-No anchor was past its re-verify-by date on 2026-11-05.
+No anchor was past its re-verify-by date on 2026-11-11.
