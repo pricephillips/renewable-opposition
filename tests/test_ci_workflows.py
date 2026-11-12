@@ -118,3 +118,20 @@ def test_the_cost_layer_runs_weekly_and_commits_only_its_outputs_on_main():
     for s in steps:
         if "git push" in s.get("run", "") or "gh issue" in s.get("run", ""):
             assert "github.ref == 'refs/heads/main'" in s.get("if", ""), s.get("name")
+
+
+def test_build_failure_issues_are_reused_and_closed_on_success():
+    """A failed build on main opens one issue and comments on it after that;
+    the next successful build on main closes it. Before this, nine failure
+    issues from 23 October to 3 November stayed open after the build
+    recovered."""
+    steps = {s.get("name"): s for s in load("build-data.yml")["jobs"]["build-data"]["steps"]}
+    opener = steps["Open an issue on failure (main only)"]
+    closer = steps["Close failure issues once the build succeeds (main only)"]
+    assert "github.ref == 'refs/heads/main'" in opener["if"] and "failure()" in opener["if"]
+    assert "github.ref == 'refs/heads/main'" in closer["if"] and closer["if"].startswith("success()")
+    title = "Build dashboard data failed"
+    assert title in opener["with"]["script"] and "createComment" in opener["with"]["script"]
+    assert title in closer["with"]["script"] and "state: 'closed'" in closer["with"]["script"]
+    names = list(steps)
+    assert names.index(closer["name"]) > names.index("Commit processed data")
