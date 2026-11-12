@@ -98,6 +98,7 @@ county_fips,state,county,trigger_instrument_id,trigger_jurisdiction,trigger_stat
 13055,GA,Chattooga,mn:al-fort-payne-2026,Fort Payne,AL,moratorium,active,2026-06-16,battery_storage,"""Chattooga County"" Georgia moratorium OR ordinance solar OR wind OR ""battery storage"""
 01095,AL,Marshall,mn:al-fort-payne-2026,Fort Payne,AL,moratorium,active,2026-06-16,battery_storage,"""Marshall County"" Alabama moratorium OR ordinance solar OR wind OR ""battery storage"""
 01071,AL,Jackson,mn:al-fort-payne-2026,Fort Payne,AL,moratorium,active,2026-06-16,battery_storage,"""Jackson County"" Alabama moratorium OR ordinance solar OR wind OR ""battery storage"""
+47173,TN,Union,mn:tn-anderson-county-2026,Anderson County,TN,moratorium,active,2026-06-15,battery_storage,"""Union County"" Tennessee moratorium OR ordinance solar OR wind OR ""battery storage"""
 47155,TN,Sevier,mn:tn-cocke-county-2026,Cocke County,TN,moratorium,active,2026-06-15,battery_storage,"""Sevier County"" Tennessee moratorium OR ordinance solar OR wind OR ""battery storage"""
 47151,TN,Scott,mn:tn-anderson-county-2026,Anderson County,TN,moratorium,active,2026-06-15,battery_storage,"""Scott County"" Tennessee moratorium OR ordinance solar OR wind OR ""battery storage"""
 47129,TN,Morgan,mn:tn-anderson-county-2026,Anderson County,TN,moratorium,active,2026-06-15,battery_storage,"""Morgan County"" Tennessee moratorium OR ordinance solar OR wind OR ""battery storage"""

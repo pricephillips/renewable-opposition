@@ -13,8 +13,8 @@ Written by `scripts/queue_matches.py`. Do not edit by hand.
 |---|---:|---:|---:|---:|
 | advanced_confirmed | 32 | 32 | 4 | 12 |
 | advanced_unverified | 8 | 8 | 2 | 3 |
-| blocked_confirmed | 12 | 12 | 8 | 0 |
-| blocked_unverified | 30 | 30 | 17 | 0 |
+| blocked_confirmed | 13 | 13 | 9 | 0 |
+| blocked_unverified | 29 | 29 | 16 | 0 |
 | needs_review | 1 | 1 | 1 | 0 |
 | pending | 35 | 35 | 4 | 1 |
 
