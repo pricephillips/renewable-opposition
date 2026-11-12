@@ -13,6 +13,16 @@ Write every message for an intelligent reader who has little context. The same r
 
 The other writing rules still apply to the text they cover, and they win where they differ: the humanizer pass (below), the house style in `.claude/agents/copy-editor.md` and the review rules in `docs/AGENT_REVIEW.md`. Client-facing and public copy keeps its own rules, which already ask for plain language.
 
+## Modularity and replicability
+
+Design every change to keep two properties of the platform, without being asked. The same rule is in every Hawthorn Intelligence repository. Price asked for it on 2026-11-12. The staff admin page's "Modularity and replicability" tab (hawthorn-portal `web/public/js/admin.js`, `drawDesign`) describes both properties and lists the kinds of part.
+
+- Modularity: one part is added or changed without editing the others. Before writing code, name the kind of part the change adds (an intake source: its entry in `config/sources.yaml` and its extractor in `scripts/extractors/`; a county or state variable: one manifest; a data layer: its entry in `config/layers.json`; a pipeline script with its test under `tests/`) and add it the way the existing ones of that kind were added.
+- Keep each shared rule in one place, and import it from there: the shared helpers in `scripts/common.py`, the variable format in `scripts/variable_core.py`, the basemap in `basemap.js`, and the outcome ladder shared with data-centers. Never copy a module from another repository: share a format and pin it, as `config/variable_format.lock` pins `scripts/variable_core.py` with data-centers. The cost model (`scripts/cost_ledger.py`, ported from the data center cost ledger) is the one copy made before this rule; the tab lists it as a gap.
+- Replicability: the work can be made again for another state, county or technology without new code, and the same inputs give the same output. Keep places and technologies in configuration, never in code paths, name no client, and stamp each output with what made it.
+- When a change cannot follow its kind's path, say why in one sentence in the pull request body.
+- When a change adds a new kind of part or a building block a client could use, the tab needs a row: open a hawthorn-portal pull request that edits `DESIGN_PARTS`, `DESIGN_BLOCKS` or `DESIGN_EXAMPLES` in `web/public/js/admin.js`, or, when the session cannot reach hawthorn-portal, say in this pull request's body which row the tab needs. One more instance of a kind already listed (one more source, one more variable) needs no row.
+
 ## Written text: the humanizer pass
 
 Every piece of prose a session writes that a client, Price or the public could read gets a humanizer pass before it is sent, committed or published: invoke the `humanizer` skill (`/humanizer`) on it. The same rule is in every Hawthorn Intelligence repository. It covers:
