@@ -204,9 +204,20 @@ jobs:
         # CI only. Claude sessions have Chromium at /opt/pw-browsers and must
         # never run this; they set SMOKE_CHROMIUM instead.
         # Usually about 20 s; data-center-map saw a 413 s install succeed
-        # and a 20-minute hang.
-        timeout-minutes: 8
-        run: npx playwright install --with-deps chromium
+        # and a 20-minute hang. On 2026-11-11 the runner could not resolve the
+        # Ubuntu package mirrors, so each attempt gets 5 minutes and the step
+        # tries up to 3 times, 30 s apart.
+        timeout-minutes: 17
+        run: |
+          for attempt in 1 2 3; do
+            if timeout 300 npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            echo "::warning::Chromium install attempt $attempt failed"
+            [ "$attempt" -lt 3 ] && sleep 30
+          done
+          echo "::error::Chromium install failed after 3 attempts"
+          exit 1
 
       - name: Load every page and fail on page errors (scripts/smoke_frontend.py)
         # Python Playwright pinned to tests/ui's @playwright/test version, so
