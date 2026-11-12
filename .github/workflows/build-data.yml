@@ -172,13 +172,45 @@ jobs:
 
       - name: Open an issue on failure (main only)
         # A job that hits timeout-minutes ends cancelled, not failed.
+        # One open issue at a time: a later failure adds a comment to it.
         if: (failure() || cancelled()) && github.ref == 'refs/heads/main'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const open = (await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
+            })).filter(i => !i.pull_request && i.title.startsWith('Build dashboard data failed'));
+            if (open.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: open[0].number,
+                body: `The data build failed again on main (${context.sha.slice(0, 7)}). Run: ${run}`,
+              });
+              return;
+            }
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Build dashboard data failed (${context.sha.slice(0, 7)})`,
-              body: `The data build failed on main. Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\nThe published data in data/processed/ was not updated.`,
+              body: `The data build failed on main. Run: ${run}\n\nThe published data in data/processed/ was not updated. This issue closes by itself when a build on main succeeds.`,
             });
+
+      - name: Close failure issues once the build succeeds (main only)
+        if: success() && github.ref == 'refs/heads/main'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const open = (await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
+            })).filter(i => !i.pull_request && i.title.startsWith('Build dashboard data failed'));
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            for (const i of open) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: i.number,
+                body: `The data build succeeded on main (${context.sha.slice(0, 7)}), so this failure is over. Run: ${run}`,
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: i.number,
+                state: 'closed', state_reason: 'completed',
+              });
+            }
