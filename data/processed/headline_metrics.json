@@ -59,7 +59,8 @@
           "verified": 10
         },
         "by_currency": {
-          "in_force": 76,
+          "in_force": 75,
+          "lapsed_unconfirmed": 1,
           "pending": 8
         },
         "severe_where_state_limits_local": 32

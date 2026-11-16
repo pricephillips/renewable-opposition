@@ -1,26 +1,26 @@
 {
-  "run_at": "2026-11-09T20:02:54Z",
+  "run_at": "2026-11-16T19:50:26Z",
   "credentials": "anonymous",
   "cited_urls": 87,
-  "lookups": 29,
+  "lookups": 28,
   "saves": 20,
   "stop_reason": "time_budget",
-  "stop_at_url": "https://law.justia.com/cases/delaware/superior-court/2024/n23c-03-196-vlm.html",
+  "stop_at_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/",
   "counts_by_status": {
-    "archived": 39,
+    "archived": 47,
     "requested": 4,
-    "not_archived": 47,
+    "not_archived": 39,
     "unresolved_redirect": 0,
     "failed": 0
   },
   "errors": {
-    "save 520": 2,
-    "save 523": 1,
-    "save no response": 44
+    "save 520": 3,
+    "save 523": 2,
+    "save no response": 35
   },
   "resolvable": 87,
-  "archived": 38,
-  "coverage": 0.4368,
+  "archived": 46,
+  "coverage": 0.5287,
   "history": [
     {
       "run_at": "2026-09-29T17:00:18Z",
@@ -55,6 +55,13 @@
       "archived": 38,
       "resolvable": 87,
       "coverage": 0.4368,
+      "stop_reason": "time_budget"
+    },
+    {
+      "run_at": "2026-11-16T19:50:26Z",
+      "archived": 46,
+      "resolvable": 87,
+      "coverage": 0.5287,
       "stop_reason": "time_budget"
     }
   ]
