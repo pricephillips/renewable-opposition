@@ -11,11 +11,10 @@ Written by `scripts/queue_matches.py`. Do not edit by hand.
 
 | Outcome | Strong matches | With a request date | With a withdrawal date | With an operation date |
 |---|---:|---:|---:|---:|
-| advanced_confirmed | 32 | 32 | 4 | 12 |
+| advanced_confirmed | 33 | 33 | 5 | 12 |
 | advanced_unverified | 8 | 8 | 2 | 3 |
-| blocked_confirmed | 13 | 13 | 9 | 0 |
-| blocked_unverified | 29 | 29 | 16 | 0 |
-| needs_review | 1 | 1 | 1 | 0 |
+| blocked_confirmed | 14 | 14 | 10 | 0 |
+| blocked_unverified | 28 | 28 | 15 | 0 |
 | pending | 35 | 35 | 4 | 1 |
 
 A match never changes an outcome; a conflict is a prompt to review the project, not a correction.

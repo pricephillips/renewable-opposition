@@ -8,41 +8,41 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3287 | 84 |
-| Severe (severity 3 or 4) | 1298 | 76 |
+| Instruments | 3285 | 83 |
+| Severe (severity 3 or 4) | 1297 | 75 |
 | States | 51 | 26 |
-| Evidence: compiled_flagged | 2253 | 9 |
-| Evidence: compiled_record | 59 | 65 |
-| Evidence: primary_source | 175 | 10 |
-| Evidence: report_citation | 800 | 0 |
-| Verification: verified | 175 | 10 |
+| Evidence: compiled_flagged | 2248 | 9 |
+| Evidence: compiled_record | 59 | 64 |
+| Evidence: primary_source | 179 | 10 |
+| Evidence: report_citation | 799 | 0 |
+| Verification: verified | 179 | 10 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 3112 | 74 |
-| Currency: in_force | 1017 | 75 |
-| Currency: lapsed_unconfirmed | 0 | 1 |
+| Verification: unverified | 3106 | 73 |
+| Currency: in_force | 1016 | 75 |
+| Currency: lapsed_unconfirmed | 0 | 0 |
 | Currency: pending | 7 | 8 |
-| Currency: unknown | 2263 | 0 |
+| Currency: unknown | 2262 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
-Of the severe instruments, 897 (renewables only) and 32 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
+Of the severe instruments, 896 (renewables only) and 32 (also covering data centers) sit in a state whose verified siting law limits how far a local instrument reaches for that technology (a size threshold above which a state body decides, or a preemption rule; `state_limits_local` on the row). The count is a context, not a subtraction: the law's effect on a given instrument is for a reader to judge.
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3583 published rows describe 3371 instruments.
+3579 published rows describe 3368 instruments.
 
 ## Contested projects
 
-579 projects; 179 with a confirmed outcome; 190 verified (backed by a news article or court record that was read), 389 resting on a compiled report only.
+579 projects; 183 with a confirmed outcome; 194 verified (backed by a news article or court record that was read), 385 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
-| advanced_confirmed | 90 |
+| advanced_confirmed | 93 |
 | advanced_unverified | 25 |
-| blocked_confirmed | 89 |
-| blocked_unverified | 155 |
-| needs_review | 26 |
-| pending | 193 |
+| blocked_confirmed | 90 |
+| blocked_unverified | 153 |
+| needs_review | 25 |
+| pending | 192 |
 | restricted_conditional | 1 |
 
 132 projects match a plant in the federal inventories (EIA-860M, USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:
@@ -54,7 +54,7 @@ Currency: in_force means the status is active or extended and no end date has pa
 | planned | 29 |
 | under_construction | 13 |
 
-13 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
+11 of them carry an outcome the plant's status contradicts (see `data/review/facility_matches.csv`). A plant's status says what became of it, not whether opposition had anything to do with it; no outcome is changed by a match.
 
 ### Decided projects
 
@@ -62,12 +62,12 @@ This dataset holds projects because they drew opposition, so every rate below is
 
 | | Decided projects | Blocked | Blocked share |
 |---|---:|---:|---:|
-| All decided | 357 | 243 | 68% |
-| Confirmed outcomes only | 178 | 89 | 50% |
+| All decided | 359 | 242 | 67% |
+| Confirmed outcomes only | 182 | 90 | 50% |
 | battery_storage | 25 | 14 | 56% |
-| solar | 184 | 139 | 76% |
+| solar | 185 | 139 | 75% |
 | transmission | 8 | 3 | 38% |
-| wind | 156 | 94 | 60% |
+| wind | 157 | 93 | 59% |
 
 Quote the confirmed-only figure when the claim is about what happened; the all-decided figure rests partly on the source's label alone.
 
@@ -115,12 +115,12 @@ Instruments (restrictions) and projects by the source they came from, with their
 
 | Entity | Source | Count | Severe | Verified | Located | Unverified |
 |---|---|---:|---:|---:|---:|---:|
-| Restrictions | Sabin 2026 | 756 | 531 | 14 | 0 | 742 |
+| Restrictions | Sabin 2026 | 755 | 531 | 14 | 0 | 741 |
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 1 | 0 | 54 |
-| Restrictions | NREL | 2306 | 586 | 82 | 0 | 2224 |
-| Restrictions | Moratorium Nation | 206 | 195 | 44 | 0 | 162 |
+| Restrictions | NREL | 2305 | 585 | 86 | 0 | 2219 |
+| Restrictions | Moratorium Nation | 205 | 194 | 44 | 0 | 161 |
 | Restrictions | review queue | 48 | 21 | 44 | 0 | 4 |
-| Contested projects | Sabin 2026 | 568 |  | 182 | 0 | 386 |
+| Contested projects | Sabin 2026 | 568 |  | 186 | 0 | 382 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 3 | 0 | 3 |
 | Contested projects | review queue | 5 |  | 5 | 0 | 0 |
 
@@ -138,12 +138,12 @@ Of 3144 counties and county equivalents (50 states and DC):
 
 | | Counties |
 |---|---:|
-| Any published record | 1419 |
-| A restriction | 1245 |
+| Any published record | 1418 |
+| A restriction | 1243 |
 | A contested project | 458 |
 | An NREL siting standard | 1158 |
 | A documented negative check | 1 |
 | A negative check and no record | 1 |
-| Neither a record nor a check | 1724 |
+| Neither a record nor a check | 1725 |
 
 A county with neither has not been looked at; it is not evidence that nothing happened.

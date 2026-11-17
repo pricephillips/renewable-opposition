@@ -1,66 +1,65 @@
 {
   "restrictions": {
-    "rows": 3583,
-    "instruments": 3371,
+    "rows": 3579,
+    "instruments": 3368,
     "by_scope": {
       "renewables_only": {
-        "instruments": 3287,
-        "severe_instruments": 1298,
+        "instruments": 3285,
+        "severe_instruments": 1297,
         "states": 51,
         "by_status": {
-          "active": 962,
+          "active": 961,
           "extended": 55,
           "pending": 7,
-          "unknown": 2263
+          "unknown": 2262
         },
         "by_technology": {
           "battery_storage": 142,
           "solar": 1661,
-          "wind": 1651
+          "wind": 1649
         },
         "by_evidence_level": {
-          "compiled_flagged": 2253,
+          "compiled_flagged": 2248,
           "compiled_record": 59,
-          "primary_source": 175,
-          "report_citation": 800
+          "primary_source": 179,
+          "report_citation": 799
         },
         "by_verification": {
-          "unverified": 3112,
-          "verified": 175
+          "unverified": 3106,
+          "verified": 179
         },
         "by_currency": {
-          "in_force": 1017,
+          "in_force": 1016,
           "pending": 7,
-          "unknown": 2263
+          "unknown": 2262
         },
-        "severe_where_state_limits_local": 897
+        "severe_where_state_limits_local": 896
       },
       "multi_sector_data_centers": {
-        "instruments": 84,
-        "severe_instruments": 76,
+        "instruments": 83,
+        "severe_instruments": 75,
         "states": 26,
         "by_status": {
           "active": 66,
-          "extended": 10,
+          "extended": 9,
           "pending": 8
         },
         "by_technology": {
-          "battery_storage": 72,
-          "solar": 37,
+          "battery_storage": 71,
+          "solar": 36,
           "wind": 20
         },
         "by_evidence_level": {
           "compiled_flagged": 9,
-          "compiled_record": 65,
+          "compiled_record": 64,
           "primary_source": 10
         },
         "by_verification": {
-          "unverified": 74,
+          "unverified": 73,
           "verified": 10
         },
         "by_currency": {
           "in_force": 75,
-          "lapsed_unconfirmed": 1,
           "pending": 8
         },
         "severe_where_state_limits_local": 32
@@ -68,10 +67,10 @@
     },
     "by_source": {
       "Sabin 2026": {
-        "instruments": 756,
+        "instruments": 755,
         "severe_instruments": 531,
         "by_verification": {
-          "unverified": 742,
+          "unverified": 741,
           "verified": 14
         }
       },
@@ -84,18 +83,18 @@
         }
       },
       "NREL": {
-        "instruments": 2306,
-        "severe_instruments": 586,
+        "instruments": 2305,
+        "severe_instruments": 585,
         "by_verification": {
-          "unverified": 2224,
-          "verified": 82
+          "unverified": 2219,
+          "verified": 86
         }
       },
       "Moratorium Nation": {
-        "instruments": 206,
-        "severe_instruments": 195,
+        "instruments": 205,
+        "severe_instruments": 194,
         "by_verification": {
-          "unverified": 162,
+          "unverified": 161,
           "verified": 44
         }
       },
@@ -109,38 +108,38 @@
       }
     },
     "by_verification": {
-      "unverified": 3186,
-      "verified": 185
+      "unverified": 3179,
+      "verified": 189
     }
   },
   "contested_projects": {
     "rows": 579,
     "projects": 579,
-    "confirmed_outcomes": 179,
+    "confirmed_outcomes": 183,
     "by_outcome": {
-      "advanced_confirmed": 90,
+      "advanced_confirmed": 93,
       "advanced_unverified": 25,
-      "blocked_confirmed": 89,
-      "blocked_unverified": 155,
-      "needs_review": 26,
-      "pending": 193,
+      "blocked_confirmed": 90,
+      "blocked_unverified": 153,
+      "needs_review": 25,
+      "pending": 192,
       "restricted_conditional": 1
     },
     "by_evidence_level": {
-      "confirmed": 179,
-      "report_citation": 400
+      "confirmed": 183,
+      "report_citation": 396
     },
     "by_verification": {
-      "unverified": 389,
-      "verified": 190
+      "unverified": 385,
+      "verified": 194
     },
     "by_source": {
       "Sabin 2026": {
         "instruments": 568,
         "severe_instruments": 402,
         "by_verification": {
-          "unverified": 386,
-          "verified": 182
+          "unverified": 382,
+          "verified": 186
         }
       },
       "Sabin 2025 (not in 2026 edition)": {
@@ -165,19 +164,19 @@
       "planned": 29,
       "under_construction": 13
     },
-    "facility_conflicts": 13,
+    "facility_conflicts": 11,
     "decided": {
       "guard_days": 90,
       "young_excluded": 3,
       "all": {
-        "projects": 357,
-        "blocked": 243,
-        "blocked_share": 0.681
+        "projects": 359,
+        "blocked": 242,
+        "blocked_share": 0.674
       },
       "confirmed_only": {
-        "projects": 178,
-        "blocked": 89,
-        "blocked_share": 0.5
+        "projects": 182,
+        "blocked": 90,
+        "blocked_share": 0.495
       },
       "by_technology": {
         "battery_storage": {
@@ -186,9 +185,9 @@
           "blocked_share": 0.56
         },
         "solar": {
-          "projects": 184,
+          "projects": 185,
           "blocked": 139,
-          "blocked_share": 0.755
+          "blocked_share": 0.751
         },
         "transmission": {
           "projects": 8,
@@ -196,9 +195,9 @@
           "blocked_share": 0.375
         },
         "wind": {
-          "projects": 156,
-          "blocked": 94,
-          "blocked_share": 0.603
+          "projects": 157,
+          "blocked": 93,
+          "blocked_share": 0.592
         }
       }
     },
@@ -268,12 +267,12 @@
   },
   "county_coverage": {
     "counties": 3144,
-    "with_any_record": 1419,
-    "with_restriction": 1245,
+    "with_any_record": 1418,
+    "with_restriction": 1243,
     "with_contested_project": 458,
     "with_siting_standard": 1158,
     "with_negative_check": 1,
     "with_negative_check_and_no_record": 1,
-    "with_neither": 1724
+    "with_neither": 1725
   }
 }
