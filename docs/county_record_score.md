@@ -1,6 +1,6 @@
 # County record score
 
-**Status:** October 21, 2026; state preemption (rubric item 7) added October 30, 2026, and revised November 2, 2026. Internal, like the county restriction model: no page, county report or headline figure reads it until Price decides otherwise. Built by `scripts/county_record_score.py` from the rubric in `config/county_record_score.json`; results in `data/model/county_record_scores.csv` and `data/model/county_record_report.md`, refreshed each month with the model (`model-inputs.yml`) or on demand.
+**Status:** October 21, 2026; state preemption (rubric item 7) added October 30, 2026, and revised November 2, 2026. Internal: no public page, county report or headline figure reads it. On November 17, 2026, Price decided that the staff-only renewables pilot in the client portal shows it, with a weighting panel; data-centers' client builder reads it from the commit it pins. Built by `scripts/county_record_score.py` from the rubric in `config/county_record_score.json`; results in `data/model/county_record_scores.csv` and `data/model/county_record_report.md`, and every weight, one row each, in `data/model/county_record_weights.csv`. All three are refreshed on each data build and each month with the model (`model-inputs.yml`).
 
 ## Why a second score
 

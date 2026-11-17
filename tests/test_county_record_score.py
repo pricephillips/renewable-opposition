@@ -399,3 +399,25 @@ def test_the_prior_is_capped_only_where_the_rulebook_is_bounded():
     rules = rs.preemption_rules(CFG, "WA", "2026-10-30")
     assert rules and rs.prior_cap(rules, CFG) is None
     assert rs.prior_cap(rs.preemption_rules(CFG, "MN", "2026-10-30"), CFG) == 4 * 1.2
+
+
+def test_the_weights_table_reads_every_weight_from_the_config():
+    cfg = json.loads(rs.CONFIG_PATH.read_text(encoding="utf-8"))
+    rows = rs.weights(cfg)
+    got = {(r["part"], r["factor"]): r["weight"] for r in rows}
+    assert got[("Restriction instruments", "Severity 4 (explicit moratorium or ban)")] == cfg["instruments"]["severity_points"]["4"]
+    assert got[("Restriction instruments", "Each instrument after the largest")] == cfg["instruments"]["others_weight"]
+    assert got[("Contested projects and plants", "Outcome: approved, confirmed")] == cfg["projects"]["points"]["advanced_confirmed"]
+    assert got[("Tiers", "Closed")] == 40
+    assert len(got) == len(rows) and all(r["meaning"] for r in rows)
+    outcomes = [k for k in cfg["projects"]["points"]]
+    assert all(rs.OUTCOME_WORDS.get(k) for k in outcomes), "every outcome needs words in OUTCOME_WORDS"
+
+
+def test_the_committed_weights_table_matches_the_config():
+    cfg = json.loads(rs.CONFIG_PATH.read_text(encoding="utf-8"))
+    from common import read_csv
+    committed = read_csv(rs.WEIGHTS_PATH)
+    assert [(r["part"], r["factor"], r["weight"]) for r in committed] == \
+        [(r["part"], r["factor"], str(r["weight"])) for r in rs.weights(cfg)], \
+        "run python scripts/county_record_score.py and commit data/model/county_record_weights.csv"
