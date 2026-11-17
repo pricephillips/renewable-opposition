@@ -66,9 +66,10 @@
     "data/model/county_restriction_report.md": {"layer": "derived", "writers": ["scripts/county_restriction_model.py"]},
     "data/model/county_record_scores.csv": {
       "layer": "derived", "writers": ["scripts/county_record_score.py"],
-      "reason": "Internal county record score under config/county_record_score.json (docs/county_record_score.md), read from the published record with the model's score as its prior; no page, report or headline figure reads it."
+      "reason": "Internal county record score under config/county_record_score.json (docs/county_record_score.md), read from the published record with the model's score as its prior; no public page, report or headline figure reads it. The staff-only renewables pilot in the client portal reads it through data-centers' builder (Price, 2026-11-17)."
     },
     "data/model/county_record_report.md": {"layer": "derived", "writers": ["scripts/county_record_score.py"]},
+    "data/model/county_record_weights.csv": {"layer": "derived", "writers": ["scripts/county_record_score.py"]},
     "data/cost/cost_ledger.csv": {
       "layer": "derived", "writers": ["scripts/cost_ledger.py"],
       "reason": "Internal cost ledger (ported from data-center-map spec 025): each contested project's observed span priced at the published rates in config/cost_anchors.json, or the reason it is withheld. No page, report or headline figure reads it."

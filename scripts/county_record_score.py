@@ -59,9 +59,12 @@ Reads   data/processed/restrictions.csv, contested_projects.csv, county_summary.
         config/county_record_score.json
 Writes  data/model/county_record_scores.csv   one row per county
         data/model/county_record_report.md    the rubric's results
+        data/model/county_record_weights.csv  the rubric's weights, one row each
 
-Internal, like the rest of data/model/: no page, county report or headline
-figure reads these until Price decides otherwise.
+Internal, like the rest of data/model/: no public page, county report or
+headline figure reads these. The scores and weights reach the staff-only
+renewables pilot in the client portal (Price, 2026-11-17), through
+data-centers' builder at the commit it pins.
 
 Usage
   python scripts/county_record_score.py
@@ -86,6 +89,8 @@ PROFILE_PATH = ROOT / "data" / "model" / "county_restriction_scores.csv"
 PROFILE_COLUMN = "has_severe__queue"
 SCORES_PATH = ROOT / "data" / "model" / "county_record_scores.csv"
 REPORT_PATH = ROOT / "data" / "model" / "county_record_report.md"
+WEIGHTS_PATH = ROOT / "data" / "model" / "county_record_weights.csv"
+WEIGHT_FIELDS = ["part", "factor", "weight", "unit", "meaning", "weights_as_of"]
 
 FIELDS = [
     "county_fips", "state", "county", "tier", "combined", "combined_pct_us", "combined_normal", "combined_decile",
@@ -661,6 +666,85 @@ def preemption_report(rows: list[dict], cfg: dict, sizes: dict) -> list[str]:
     return L
 
 
+SEVERITY_WORDS = {"4": "explicit moratorium or ban", "3": "likely de facto ban", "2": "material burden",
+                  "1": "procedural friction"}
+CURRENCY_WORDS = {"in_force": "in force", "unknown": "not yet settled", "pending": "pending",
+                  "lapsed_unconfirmed": "lapsed, not yet confirmed"}
+OUTCOME_WORDS = {"blocked_confirmed": "blocked, confirmed", "blocked_unverified": "blocked, unconfirmed",
+                 "restricted_conditional": "approved with restrictive conditions, confirmed",
+                 "restricted_unverified": "approved with restrictive conditions, unconfirmed",
+                 "advanced_confirmed": "approved, confirmed", "advanced_unverified": "approved, unconfirmed",
+                 "pending": "pending", "needs_review": "outcome not yet reviewed",
+                 "built": "plant built with no recorded fight"}
+EVIDENCE_WORDS = {"verified_record": "a verified instrument or a confirmed outcome",
+                  "unverified_record": "a record not yet verified",
+                  "negative_check": "a reviewed search that found no restriction",
+                  "build_out": "only plants built", "no_county_zoning": "no record, in a state where counties cannot zone",
+                  "none": "no record"}
+MECHANISM_WORDS = {"replaces_local": "a state permit stands in for local approval",
+                   "statutory_ceiling": "statute caps local rules or bars local bans",
+                   "discretionary_override": "a state body may set a local rule aside"}
+
+
+def weights(cfg: dict) -> list[dict]:
+    """Every weight the score uses, one row each, read from the config so the
+    table never drifts from the rubric. For readers who approve the weights
+    without reading the JSON."""
+    out: list[dict] = []
+
+    def add(part: str, factor: str, weight, meaning: str, unit: str = "points") -> None:
+        out.append({"part": part, "factor": factor, "weight": weight, "unit": unit, "meaning": meaning,
+                    "weights_as_of": cfg["version"]})
+
+    ins = cfg["instruments"]
+    part = "Restriction instruments"
+    for sev, pts in sorted(ins["severity_points"].items(), reverse=True):
+        add(part, f"Severity {sev} ({SEVERITY_WORDS.get(sev, sev)})", pts,
+            "Points for one instrument at this severity, before the multipliers below.")
+    for k, v in ins["currency"].items():
+        add(part, f"Status: {CURRENCY_WORDS.get(k, k)}", v, "Multiplier on the instrument's points.", "share")
+    add(part, "Reach: county-wide", ins["jurisdiction"]["county"], "Multiplier for a county or parish instrument.", "share")
+    add(part, "Reach: a city, town, township or village", ins["jurisdiction"]["other"],
+        "Multiplier for an instrument that governs part of the county.", "share")
+    add(part, "Breadth: each technology beyond the first", ins["breadth_per_extra_technology"],
+        "Added to a multiplier of 1 for each of solar, wind and storage the instrument also covers.", "share")
+    add(part, "Each instrument after the largest", ins["others_weight"],
+        "Share of its points that counts; the largest instrument counts in full.", "share")
+    add(part, "Most instrument points", ins["cap"], "Cap on the sum.")
+    zt = cfg["zoning_transition"]
+    add("Zoning transitions", "Severity counted", zt["severity"],
+        f"A county moving from no zoning to zoning while projects are proposed counts as a county-wide instrument "
+        f"at this severity, in {len(zt['states'])} states.", "severity")
+    add("Zoning transitions", "Years counted after adoption", zt["counts_for_years_after_adoption"],
+        "It counts from when drafting began until this many years after the code is adopted.", "years")
+    pr = cfg["projects"]
+    part = "Contested projects and plants"
+    for k, v in pr["points"].items():
+        add(part, f"Outcome: {OUTCOME_WORDS.get(k, k)}", v, "Points per project; a negative number lowers the score.")
+    add(part, "Most points from blocked projects", pr["blocked_cap"], "Cap on the sum.")
+    add(part, "Most points taken off by approvals", pr["approval_cap"], "Cap on the sum.")
+    add(part, "Approvals: most of the instrument points taken off", pr["approval_max_share_of_instruments"],
+        "Share; approvals never take the score below one county-wide moratorium in force.", "share")
+    bo = cfg["build_out"]
+    add(part, "Plants counted: smallest size in MW", bo["min_mw"],
+        "Solar, wind or storage plants from EIA-860M, operating or under construction.", "MW")
+    add(part, "Plants counted: earliest year online", bo["since_year"],
+        "And no earlier than the county's latest instrument in force.", "year")
+    ceil = cfg["state_preemption"]["ceilings"]
+    for k, v in ceil.items():
+        if not k.startswith("_"):
+            add("State preemption", f"Ceiling where {MECHANISM_WORDS.get(k, k)}", v,
+                "Highest severity a local instrument the state law reaches can count at.", "severity")
+    ew = cfg["evidence_weight"]
+    for k, v in ew.items():
+        if not k.startswith("_"):
+            add("Evidence weight", f"County with {EVIDENCE_WORDS.get(k, k)}", v,
+                "Share of the score taken from the county's own record; the rest comes from counties like it.", "share")
+    for t in cfg["tiers"]:
+        add("Tiers", t["label"].split(":")[0], t["min"], "Lowest combined score in the tier.")
+    return out
+
+
 def main() -> int:
     import datetime as dt
     cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
@@ -668,6 +752,7 @@ def main() -> int:
                  read_csv(PROFILE_PATH), cfg, dt.date.today().isoformat(), read_csv(FACILITIES_PATH))
     write_csv(SCORES_PATH, rows, FIELDS)
     REPORT_PATH.write_text(report(rows, cfg, reference_sizes(read_csv(FACILITIES_PATH), cfg)), encoding="utf-8")
+    write_csv(WEIGHTS_PATH, weights(cfg), WEIGHT_FIELDS)
     counts = {t: sum(1 for r in rows if r["tier"] == t) for t in [x["name"] for x in cfg["tiers"]] + ["no_record"]}
     print(f"Wrote {SCORES_PATH.relative_to(ROOT)} ({len(rows)} counties; "
           + ", ".join(f"{t} {n}" for t, n in counts.items()) + f") and {REPORT_PATH.relative_to(ROOT)}")
