@@ -6,8 +6,8 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 4 | 4 |
-| contested_projects | 0 | 0 | 4 |
+| restrictions | 0 | 8 | 5 |
+| contested_projects | 0 | 0 | 6 |
 | cases | 0 | 0 | 0 |
 | state_policies | 0 | 0 | 0 |
 
@@ -15,16 +15,16 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Row | Column | Before | After |
 |---|---|---|---|---|
-| contested_projects | con_8c2479c496 (Monmouth Solar, ME) | outcome | pending | advanced_confirmed |
-| contested_projects | con_8c2479c496 (Monmouth Solar, ME) | finality_evidence | none | resolution: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx |
-| contested_projects | con_8c2479c496 (Monmouth Solar, ME) | severity_score | 2 | 1 |
-| contested_projects | con_9e151f926a (Orangeville Wind Farm, NY) | outcome | needs_review | advanced_confirmed |
-| contested_projects | con_9e151f926a (Orangeville Wind Farm, NY) | finality_evidence | none | resolution: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx |
-| contested_projects | con_434f582056 (Icebreaker Wind Project, OH) | outcome | blocked_unverified | advanced_confirmed |
-| contested_projects | con_434f582056 (Icebreaker Wind Project, OH) | finality_evidence | outcome_label_only | resolution: https://www.canarymedia.com/articles/offshore-wind/firstenergy-bribery-lawsuit-icebreaker-lake-erie |
-| contested_projects | con_434f582056 (Icebreaker Wind Project, OH) | severity_score | 4 | 3 |
-| contested_projects | con_ef4c554165 (Republic Wind Farm, OH) | outcome | blocked_unverified | blocked_confirmed |
-| contested_projects | con_ef4c554165 (Republic Wind Farm, OH) | finality_evidence | outcome_label_only | resolution: https://www.farmanddairy.com/news/ohio-power-siting-board-denies-rehearing-for-republic-wind/708236.html |
+| contested_projects | con_6cd4fea06c (Carina Solar, IN) | outcome | blocked_unverified | blocked_confirmed |
+| contested_projects | con_6cd4fea06c (Carina Solar, IN) | finality_evidence | outcome_label_only | resolution: https://www.columbus.in.gov/planning/wp-content/uploads/sites/9/2024/03/County-Carina-Findings-1.pdf |
+| contested_projects | con_1f641ee426 (Fox Islands Wind, ME) | outcome | needs_review | advanced_confirmed |
+| contested_projects | con_1f641ee426 (Fox Islands Wind, ME) | finality_evidence | none | resolution: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx |
+| contested_projects | con_f84197e7e8 (Mars Hill Wind, ME) | outcome | blocked_unverified | advanced_confirmed |
+| contested_projects | con_f84197e7e8 (Mars Hill Wind, ME) | finality_evidence | outcome_label_only | resolution: https://www.nhpr.org/2022-09-21/15-years-ago-a-small-aroostook-town-went-first-on-wind-power-and-hit-turbulence-along-the-way |
+| contested_projects | con_f84197e7e8 (Mars Hill Wind, ME) | severity_score | 4 | 1 |
+| contested_projects | con_0680cece0f (Pegasus Wind, MI) | outcome | blocked_unverified | restricted_conditional |
+| contested_projects | con_0680cece0f (Pegasus Wind, MI) | finality_evidence | outcome_label_only | resolution: https://www.courts.michigan.gov/siteassets/case-documents/uploads/opinions/final/sct/164261_63_01.pdf |
+| contested_projects | con_0680cece0f (Pegasus Wind, MI) | severity_score | 4 | 3 |
 
 ## Detail
 
@@ -32,20 +32,27 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | @@ | id | state | jurisdiction | primary_source_verdict | primary_source_access | primary_source_url | status_as_of | evidence_level | verification | primary_source_checked_on |
 |---|---|---|---|---|---|---|---|---|---|---|
-| --- | res_2fcfbab247 | GA | Carroll County |  |  |  | 2026-09-23 | compiled_record | unverified |  |
-| --- | res_c74e8da3c9 | GA | Carroll County |  |  |  | 2026-09-23 | compiled_record | unverified |  |
-| --- | res_d7bd0ac80c | SD | Sully County |  |  |  |  | report_citation | unverified |  |
-| -> | res_9b4785696e | IN | Carroll County | ->confirmed | ->opened | ->https://www.in.gov/dA/c96936182f/ORDINANCE-2024-11.pdf?language_id=1 | ->2026-11-16 | compiled_flagged->primary_source | unverified->verified | ->2026-11-16 |
-| -> | res_500e1fb0ec | IN | Spencer County | ->confirmed | ->opened | ->https://www.in.gov/dA/6fb2542150/2023-16-Ordinance-Solar-Energy.pdf?language_id=1 | ->2026-11-16 | compiled_flagged->primary_source | unverified->verified | ->2026-11-16 |
-| -> | res_0b45c74dc9 | KY | Todd County | ->confirmed | ->opened | ->https://eec.ky.gov/Energy/Documents/Todd%20County%20Solar%20Ordinance.pdf | ->2026-11-16 | compiled_flagged->primary_source | unverified->verified | ->2026-11-16 |
-| --- | res_81fba8020a | IN | Franklin County |  |  |  |  | compiled_flagged | unverified |  |
-| -> | res_a4704ca0bf | WA | Kittitas County | ->confirmed | ->opened | ->https://ecode360.com/45418564 | ->2026-11-16 | compiled_flagged->primary_source | unverified->verified | ->2026-11-16 |
+| --- | res_d3cb1a7ae7 | IN | Spencer County |  |  |  |  | report_citation | unverified |  |
+| -> | res_0bc40dab32 | KY | Calloway County | ->confirmed | ->opened | ->https://callowaycountyky.gov/wp-content/uploads/2024/04/24-0417-A.pdf | ->2026-11-17 | report_citation->primary_source | unverified->verified | ->2026-11-17 |
+| -> | res_ed8c0ae08d | KY | Todd County | ->confirmed | ->opened | ->https://eec.ky.gov/Energy/Documents/Todd%20County%20Solar%20Ordinance.pdf | ->2026-11-17 | report_citation->primary_source | unverified->verified | ->2026-11-17 |
+| --- | res_27015b2964 | NY | Schroeppel Town |  |  |  |  | compiled_flagged | unverified |  |
+| --- | res_75c15f830a | OH | Huron County |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_f7d31163a7 | CA | Shasta County | ->confirmed | ->opened | ->https://efiling.energy.ca.gov/GetDocument.aspx?tn=253290-1&DocumentContentId=88506 | ->2026-11-17 | compiled_flagged->primary_source | unverified->verified | ->2026-11-17 |
+| --- | res_ab13b3ead4 | GA | Monroe County |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_9d4174b2f9 | MI | Otsego County | ->confirmed | ->opened | ->https://www.otsegocountymi.gov/DocumentCenter/View/2917/Otsego-County-Zoning-Ordinance---Amended-August-12-2025 | ->2026-11-17 | compiled_flagged->primary_source | unverified->verified | ->2026-11-17 |
+| --- | res_4160976e9e | PA | Windsor Borough |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_ce01cc829d | WV | Greenbrier County | ->confirmed | ->opened | ->https://www.greenbrierwv.gov/document_center_uploads/qa_greenbrier-county-zoning-ordinance-effective-10-13-2026.pdf | ->2026-11-17 | compiled_flagged->primary_source | unverified->verified | ->2026-11-17 |
+| --- | res_5c66b2b5c0 | WI | Pierce County |  |  |  |  | compiled_flagged | unverified |  |
+| --- | res_01c122dacc | WI | Sauk County |  |  |  |  | compiled_flagged | unverified |  |
+| --- | res_5e7ce243dc | WY | Converse County |  |  |  |  | compiled_flagged | unverified |  |
 
 ### contested_projects
 
-| @@ | id | state | project_name | severity_score | outcome | finality_evidence | evidence_level | verification | resolution_url | resolution_access | resolution_date | facility_conflict |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| -> | con_8c2479c496 | ME | Monmouth Solar | 2->1 | pending->advanced_confirmed | none->resolution: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx | report_citation->confirmed | unverified->verified | ->https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx | ->opened | ->2022-03 | outcome pending, but the plant is operating-> |
-| -> | con_9e151f926a | NY | Orangeville Wind Farm | 3 | needs_review->advanced_confirmed | none->resolution: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx | report_citation->confirmed | unverified->verified | ->https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx | ->opened | ->2013-11 | outcome needs_review, but the plant is operating-> |
-| -> | con_434f582056 | OH | Icebreaker Wind Project | 4->3 | blocked_unverified->advanced_confirmed | outcome_label_only->resolution: https://www.canarymedia.com/articles/offshore-wind/firstenergy-bribery-lawsuit-icebreaker-lake-erie | report_citation->confirmed | unverified->verified | ->https://www.canarymedia.com/articles/offshore-wind/firstenergy-bribery-lawsuit-icebreaker-lake-erie | ->opened | ->2022 |  |
-| -> | con_ef4c554165 | OH | Republic Wind Farm | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://www.farmanddairy.com/news/ohio-power-siting-board-denies-rehearing-for-republic-wind/708236.html | report_citation->confirmed | unverified->verified | ->https://www.farmanddairy.com/news/ohio-power-siting-board-denies-rehearing-for-republic-wind/708236.html | ->opened | ->2022-03-17 |  |
+| @@ | id | state | project_name | severity_score | outcome | finality_evidence | evidence_level | verification | county_severe_restriction_ids | resolution_url | resolution_access | resolution_date | facility_conflict |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| -> | con_6cd4fea06c | IN | Carina Solar | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://www.columbus.in.gov/planning/wp-content/uploads/sites/9/2024/03/County-Carina-Findings-1.pdf | report_citation->confirmed | unverified->verified |  | ->https://www.columbus.in.gov/planning/wp-content/uploads/sites/9/2024/03/County-Carina-Findings-1.pdf | ->opened | ->2024-02-26 |  |
+| -> | con_1f641ee426 | ME | Fox Islands Wind | 3 | needs_review->advanced_confirmed | none->resolution: https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx | report_citation->confirmed | unverified->verified | nrel:wind:2301315780;nrel:wind:2301333840;nrel:wind:2301363660;nrel:wind:2301376365;nrel:wind:2301378115;nrel:wind:2301379130;nrel:wind:2301380425 | ->https://www.eia.gov/electricity/data/eia860m/xls/september_generator2026.xlsx | ->opened | ->2009-11 | outcome needs_review, but the plant is operating-> |
+| -> | con_f84197e7e8 | ME | Mars Hill Wind | 4->1 | blocked_unverified->advanced_confirmed | outcome_label_only->resolution: https://www.nhpr.org/2022-09-21/15-years-ago-a-small-aroostook-town-went-first-on-wind-power-and-hit-turbulence-along-the-way | report_citation->confirmed | unverified->verified | nrel:wind:2300301710;nrel:wind:2300360825;sabin:S26R-6017 | ->https://www.nhpr.org/2022-09-21/15-years-ago-a-small-aroostook-town-went-first-on-wind-power-and-hit-turbulence-along-the-way | ->opened | ->2007 | outcome blocked_unverified, but the plant is operating-> |
+| -> | con_0680cece0f | MI | Pegasus Wind | 4->3 | blocked_unverified->restricted_conditional | outcome_label_only->resolution: https://www.courts.michigan.gov/siteassets/case-documents/uploads/opinions/final/sct/164261_63_01.pdf | report_citation | unverified->verified | sabin:S26R-5862;sabin:S26R-5865 | ->https://www.courts.michigan.gov/siteassets/case-documents/uploads/opinions/final/sct/164261_63_01.pdf | ->opened | ->2024-04-09 | outcome blocked_unverified, but the plant is operating-> |
+| -> | con_16950d2943 | WY | Pioneer Wind Parks I and II | 3 | advanced_confirmed | resolution: https://www.eia.gov/electricity/data/eia860m/ | confirmed | verified | nrel:wind:56009-> | https://www.eia.gov/electricity/data/eia860m/ | opened | 2016-10 |  |
+| -> | con_bff147d3f9 | WY | Pronghorn Wind and Solar | 3 | pending | none | report_citation | unverified | nrel:wind:56009-> |  |  |  |  |

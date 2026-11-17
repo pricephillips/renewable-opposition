@@ -4,27 +4,27 @@ Generated 2026-11-17 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3285 renewables-only restriction instruments (1297 severe, 179 verified, 0 past their end date with no confirmed extension, 896 severe ones in states whose siting law limits local reach); 579 contested projects (183 confirmed); 39 cases.
+3277 renewables-only restriction instruments (1293 severe, 184 verified, 0 past their end date with no confirmed extension, 894 severe ones in states whose siting law limits local reach); 579 contested projects (186 confirmed); 39 cases.
 
-Decided projects (events older than 90 days): 359, of which 242 blocked; confirmed outcomes only: 182, 90 blocked. Conditional on opposition being tracked; see headline_metrics.md.
+Decided projects (events older than 90 days): 360, of which 240 blocked; confirmed outcomes only: 185, 91 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
-92 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 84 PRIMARY_SOURCE_CONTRADICTS, 8 SCOPE_DATA_CENTER_ONLY.
+100 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 92 PRIMARY_SOURCE_CONTRADICTS, 8 SCOPE_DATA_CENTER_ONLY.
 
 ## Worklists
 
 | Worklist | Rows | Notes |
 |---|---:|---|
-| outcome_worklist.csv | 386 | 123 overdue, 10 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3179 | 0 lapsed, 303 sole severe in a county, 12 with a located source |
+| outcome_worklist.csv | 382 | 123 overdue, 10 with decision language in their text, 0 with a located source |
+| restriction_worklist.csv | 3166 | 0 lapsed, 296 sole severe in a county, 6 with a located source |
 | negative_check_worklist.csv | 8 | 8 no check on record |
 | adjacency_worklist.csv | 252 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
 
 ## Review and promotion
 
-Queue: 54 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 194 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
+Queue: 54 promoted, 4 rejected, 6 confirmed, 2 pending, 4 awaiting_review, 199 lead. Case candidates: 230 (40 promoted, 8 started by a reviewer).
 
 Promotion trail: 125 decisions from 2026-10-13 to 2026-11-05 (new or changed decisions only): 95 promoted, 16 held, 9 awaiting_review, 4 rejected, 1 unpublished.
 
@@ -46,11 +46,11 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 | Source family | Instruments checked | Confirmed | Contradicted | Opened | Archived | Snippet |
 |---|---:|---:|---:|---:|---:|---:|
 | Moratorium Nation | 50 | 44 | 6 | 45 | 5 | 0 |
-| NREL | 163 | 86 | 77 | 161 | 2 | 0 |
-| Sabin | 16 | 15 | 1 | 16 | 0 | 0 |
+| NREL | 173 | 89 | 84 | 171 | 2 | 0 |
+| Sabin | 19 | 17 | 2 | 19 | 0 | 0 |
 | review queue | 1 | 0 | 1 | 1 | 0 | 0 |
 
-Outcome resolutions: 182 (90 advanced_confirmed, 86 blocked_confirmed, 5 pending, 1 restricted_conditional; by access 7 archived, 175 opened).
+Outcome resolutions: 186 (92 advanced_confirmed, 87 blocked_confirmed, 5 pending, 2 restricted_conditional; by access 7 archived, 179 opened).
 
 ## Live intake and fetched sources
 
@@ -58,24 +58,24 @@ Per source in `data/raw/manifest.csv`: requests made, new content stored, unchan
 
 | Source | Requests | Stored | Unchanged | Failed | Last fetch | Last changed | Leads queued | Queue now |
 |---|---:|---:|---:|---:|---|---|---:|---|
-| courtlistener_renewables | 5 | 5 | 0 | 0 | 2026-11-10 | 2026-11-10 | 10 | 10 lead |
-| gdelt_renewable_news | 20 | 12 | 0 | 8 | 2026-11-10 | 2026-11-10 | 21 | 21 lead |
-| legistar_renewable_matters | 55 | 11 | 43 | 1 | 2026-11-10 | 2026-10-13 | 50 | 50 lead |
-| moratorium_nation_upstream | 5 | 2 | 2 | 1 | 2026-11-10 | 2026-11-10 |  |  |
+| courtlistener_renewables | 6 | 6 | 0 | 0 | 2026-11-17 | 2026-11-17 | 11 | 11 lead |
+| gdelt_renewable_news | 25 | 12 | 0 | 13 | 2026-11-17 | 2026-11-10 | 21 | 21 lead |
+| legistar_renewable_matters | 66 | 12 | 52 | 2 | 2026-11-17 | 2026-11-17 | 50 | 50 lead |
+| moratorium_nation_upstream | 6 | 3 | 2 | 1 | 2026-11-17 | 2026-11-17 |  |  |
 | nrel_solar_ordinances_2025 | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | nrel_wind_ordinances_2025 | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
-| ny_dos_local_laws | 2 | 2 | 0 | 0 | 2026-11-10 | 2026-11-10 | 105 | 105 lead |
-| ny_ores_permit_applications | 5 | 4 | 1 | 0 | 2026-11-10 | 2026-11-03 | 8 | 8 lead |
+| ny_dos_local_laws | 3 | 3 | 0 | 0 | 2026-11-17 | 2026-11-17 | 109 | 109 lead |
+| ny_ores_permit_applications | 6 | 5 | 1 | 0 | 2026-11-17 | 2026-11-17 | 8 | 8 lead |
 | sabin_2026_09_landing_html | 1 | 1 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_projects_csv | 2 | 1 | 1 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_report_html | 2 | 2 | 0 | 0 | 2026-10-09 | 2026-10-09 |  |  |
 | sabin_2026_09_report_pdf | 2 | 0 | 0 | 2 | 2026-10-09 |  |  |  |
 | sabin_2026_09_restrictions_csv | 2 | 1 | 1 | 0 | 2026-10-09 | 2026-10-09 |  |  |
-| sabin_web_database_projects | 5 | 1 | 4 | 0 | 2026-11-10 | 2026-10-13 |  |  |
-| sabin_web_database_restrictions | 5 | 2 | 3 | 0 | 2026-11-10 | 2026-11-03 |  |  |
+| sabin_web_database_projects | 6 | 1 | 5 | 0 | 2026-11-17 | 2026-10-13 |  |  |
+| sabin_web_database_restrictions | 6 | 2 | 4 | 0 | 2026-11-17 | 2026-11-03 |  |  |
 
-Last error by source: gdelt_renewable_news (2026-11-10: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+); legistar_renewable_matters (2026-10-27: 500 Server Error: Internal Server Error for url: https://webapi.legistar.com/v1/sanbernardino/matters?%24filter=substringof%28%27solar%27%2CMatterTitle%29+or+su); moratorium_nation_upstream (2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1); sabin_2026_09_report_pdf (2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change).
+Last error by source: gdelt_renewable_news (2026-11-17: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+); legistar_renewable_matters (2026-11-17: 500 Server Error: Internal Server Error for url: https://webapi.legistar.com/v1/sanbernardino/matters?%24filter=substringof%28%27solar%27%2CMatterTitle%29+or+su); moratorium_nation_upstream (2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1); sabin_2026_09_report_pdf (2026-10-09: 403 Client Error: Forbidden for url: https://scholarship.law.columbia.edu/cgi/viewcontent.cgi?article=1281&context=sabin_climate_change).
 
 ## History and archive
 
-192 snapshot rows over 5 published files; 23 headline changes recorded (2026-09-29 to 2026-11-17). Sources: 87, of which 44 have an Internet Archive snapshot.
+196 snapshot rows over 5 published files; 23 headline changes recorded (2026-09-29 to 2026-11-17). Sources: 87, of which 44 have an Internet Archive snapshot.

@@ -2,25 +2,25 @@
  "generated": "2026-11-17",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3285,
-  "severe": 1297,
-  "verified": 179,
+  "restriction_instruments": 3277,
+  "severe": 1293,
+  "verified": 184,
   "lapsed_unconfirmed": 0,
-  "severe_where_state_limits_local": 896,
+  "severe_where_state_limits_local": 894,
   "projects": 579,
-  "projects_confirmed": 183,
+  "projects_confirmed": 186,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 359,
-    "blocked": 242,
-    "blocked_share": 0.674
+    "projects": 360,
+    "blocked": 240,
+    "blocked_share": 0.667
    },
    "confirmed_only": {
-    "projects": 182,
-    "blocked": 90,
-    "blocked_share": 0.495
+    "projects": 185,
+    "blocked": 91,
+    "blocked_share": 0.492
    },
    "by_technology": {
     "battery_storage": {
@@ -39,9 +39,9 @@
      "blocked_share": 0.375
     },
     "wind": {
-     "projects": 157,
-     "blocked": 93,
-     "blocked_share": 0.592
+     "projects": 158,
+     "blocked": 91,
+     "blocked_share": 0.576
     }
    }
   },
@@ -49,7 +49,7 @@
   "county_coverage": {
    "counties": 3144,
    "with_any_record": 1418,
-   "with_restriction": 1243,
+   "with_restriction": 1242,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
@@ -58,22 +58,22 @@
   }
  },
  "quarantine": {
-  "rows": 92,
+  "rows": 100,
   "by_entity": {
-   "restrictions": 92
+   "restrictions": 100
   },
   "by_blocking_code": {
-   "PRIMARY_SOURCE_CONTRADICTS": 84,
+   "PRIMARY_SOURCE_CONTRADICTS": 92,
    "SCOPE_DATA_CENTER_ONLY": 8
   }
  },
  "worklists": {
   "outcomes": {
-   "rows": 386,
+   "rows": 382,
    "by_tier": {
-    "blocked_unverified": 152,
-    "needs_review": 25,
+    "blocked_unverified": 149,
     "advanced_unverified": 23,
+    "needs_review": 24,
     "pending": 186
    },
    "overdue": 123,
@@ -81,20 +81,20 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3179,
+   "rows": 3166,
    "by_tier": {
-    "compiled_flagged": 2257,
+    "compiled_flagged": 2247,
     "compiled_record": 123,
-    "report_citation": 799
+    "report_citation": 796
    },
    "lapsed": 0,
    "by_county_impact": {
-    "sole_severe": 303,
-    "sole_record": 377,
-    "none": 2499
+    "sole_severe": 296,
+    "sole_record": 380,
+    "none": 2490
    },
-   "with_located_url": 12,
-   "flagged": 432
+   "with_located_url": 6,
+   "flagged": 426
   },
   "negative_checks": {
    "rows": 8,
@@ -195,31 +195,31 @@
    "confirmed": 6,
    "pending": 2,
    "awaiting_review": 4,
-   "lead": 194
+   "lead": 199
   },
   "queue_by_entity": {
-   "restriction": 196,
+   "restriction": 200,
    "contested_project": 58,
-   "case": 10
+   "case": 11
   },
   "case_candidates": 230,
   "case_candidates_started": 8,
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 192,
+  "snapshot_rows": 196,
   "snapshot_files": 5,
   "headline_history_rows": 23,
   "headline_first_change": "2026-09-29",
   "headline_last_change": "2026-11-17",
   "latest": {
-   "restrictions": "3285",
-   "severe_restrictions": "1297",
-   "verified_restrictions": "179",
+   "restrictions": "3277",
+   "severe_restrictions": "1293",
+   "verified_restrictions": "184",
    "multi_sector_restrictions": "83",
    "contested_projects": "579",
-   "confirmed_outcomes": "183",
-   "verified_projects": "194",
+   "confirmed_outcomes": "186",
+   "verified_projects": "198",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
@@ -243,16 +243,16 @@
    },
    "NREL": {
     "access_archived": 2,
-    "access_opened": 161,
-    "checked": 163,
-    "confirmed": 86,
-    "contradicts": 77
+    "access_opened": 171,
+    "checked": 173,
+    "confirmed": 89,
+    "contradicts": 84
    },
    "Sabin": {
-    "access_opened": 16,
-    "checked": 16,
-    "confirmed": 15,
-    "contradicts": 1
+    "access_opened": 19,
+    "checked": 19,
+    "confirmed": 17,
+    "contradicts": 2
    },
    "review queue": {
     "access_opened": 1,
@@ -261,42 +261,42 @@
    }
   },
   "outcome_resolutions": {
-   "rows": 182,
+   "rows": 186,
    "by_outcome": {
-    "advanced_confirmed": 90,
-    "blocked_confirmed": 86,
+    "advanced_confirmed": 92,
+    "blocked_confirmed": 87,
     "pending": 5,
-    "restricted_conditional": 1
+    "restricted_conditional": 2
    },
    "by_access": {
     "archived": 7,
-    "opened": 175
+    "opened": 179
    }
   }
  },
  "intake": {
   "courtlistener_renewables": {
-   "requests": 5,
-   "stored": 5,
+   "requests": 6,
+   "stored": 6,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-11-10",
-   "last_changed": "2026-11-10",
+   "last_fetch": "2026-11-17",
+   "last_changed": "2026-11-17",
    "last_error": null,
-   "files_parsed": 5,
-   "leads_queued": 10,
+   "files_parsed": 6,
+   "leads_queued": 11,
    "queue_by_status": {
-    "lead": 10
+    "lead": 11
    }
   },
   "gdelt_renewable_news": {
-   "requests": 20,
+   "requests": 25,
    "stored": 12,
    "unchanged": 0,
-   "failed": 8,
-   "last_fetch": "2026-11-10",
+   "failed": 13,
+   "last_fetch": "2026-11-17",
    "last_changed": "2026-11-10",
-   "last_error": "2026-11-10: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
+   "last_error": "2026-11-17: 429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%28%22solar+farm%22+OR+%22solar+project%22+OR+%22wind+farm%22+OR+",
    "files_parsed": 12,
    "leads_queued": 21,
    "queue_by_status": {
@@ -304,26 +304,26 @@
    }
   },
   "legistar_renewable_matters": {
-   "requests": 55,
-   "stored": 11,
-   "unchanged": 43,
-   "failed": 1,
-   "last_fetch": "2026-11-10",
-   "last_changed": "2026-10-13",
-   "last_error": "2026-10-27: 500 Server Error: Internal Server Error for url: https://webapi.legistar.com/v1/sanbernardino/matters?%24filter=substringof%28%27solar%27%2CMatterTitle%29+or+su",
-   "files_parsed": 8,
+   "requests": 66,
+   "stored": 12,
+   "unchanged": 52,
+   "failed": 2,
+   "last_fetch": "2026-11-17",
+   "last_changed": "2026-11-17",
+   "last_error": "2026-11-17: 500 Server Error: Internal Server Error for url: https://webapi.legistar.com/v1/sanbernardino/matters?%24filter=substringof%28%27solar%27%2CMatterTitle%29+or+su",
+   "files_parsed": 9,
    "leads_queued": 50,
    "queue_by_status": {
     "lead": 50
    }
   },
   "moratorium_nation_upstream": {
-   "requests": 5,
-   "stored": 2,
+   "requests": 6,
+   "stored": 3,
    "unchanged": 2,
    "failed": 1,
-   "last_fetch": "2026-11-10",
-   "last_changed": "2026-11-10",
+   "last_fetch": "2026-11-17",
+   "last_changed": "2026-11-17",
    "last_error": "2026-10-13: 403 Client Error: Forbidden for url: https://api.github.com/repos/mjbommar/moratorium-data-2026/commits?path=data/moratorium_inventory.csv&per_page=1"
   },
   "nrel_solar_ordinances_2025": {
@@ -345,28 +345,28 @@
    "last_error": null
   },
   "ny_dos_local_laws": {
-   "requests": 2,
-   "stored": 2,
+   "requests": 3,
+   "stored": 3,
    "unchanged": 0,
    "failed": 0,
-   "last_fetch": "2026-11-10",
-   "last_changed": "2026-11-10",
+   "last_fetch": "2026-11-17",
+   "last_changed": "2026-11-17",
    "last_error": null,
-   "files_parsed": 2,
-   "leads_queued": 105,
+   "files_parsed": 3,
+   "leads_queued": 109,
    "queue_by_status": {
-    "lead": 105
+    "lead": 109
    }
   },
   "ny_ores_permit_applications": {
-   "requests": 5,
-   "stored": 4,
+   "requests": 6,
+   "stored": 5,
    "unchanged": 1,
    "failed": 0,
-   "last_fetch": "2026-11-10",
-   "last_changed": "2026-11-03",
+   "last_fetch": "2026-11-17",
+   "last_changed": "2026-11-17",
    "last_error": null,
-   "files_parsed": 4,
+   "files_parsed": 5,
    "leads_queued": 8,
    "queue_by_status": {
     "lead": 8
@@ -418,20 +418,20 @@
    "last_error": null
   },
   "sabin_web_database_projects": {
-   "requests": 5,
+   "requests": 6,
    "stored": 1,
-   "unchanged": 4,
+   "unchanged": 5,
    "failed": 0,
-   "last_fetch": "2026-11-10",
+   "last_fetch": "2026-11-17",
    "last_changed": "2026-10-13",
    "last_error": null
   },
   "sabin_web_database_restrictions": {
-   "requests": 5,
+   "requests": 6,
    "stored": 2,
-   "unchanged": 3,
+   "unchanged": 4,
    "failed": 0,
-   "last_fetch": "2026-11-10",
+   "last_fetch": "2026-11-17",
    "last_changed": "2026-11-03",
    "last_error": null
   }

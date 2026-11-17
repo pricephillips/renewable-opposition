@@ -49,7 +49,7 @@
 [2019,"ordinance_year","renewables_only",61,16],
 [2019,"year_reported","renewables_only",50,36],
 [2020,"enacted","renewables_only",1,1],
-[2020,"ordinance_year","renewables_only",85,26],
+[2020,"ordinance_year","renewables_only",84,25],
 [2020,"year_reported","renewables_only",42,26],
 [2021,"ordinance_year","renewables_only",121,39],
 [2021,"year_reported","renewables_only",65,42],
@@ -58,13 +58,13 @@
 [2022,"year_reported","renewables_only",111,81],
 [2023,"enacted","renewables_only",9,5],
 [2023,"ordinance_year","renewables_only",208,25],
-[2023,"year_reported","renewables_only",141,107],
+[2023,"year_reported","renewables_only",140,107],
 [2024,"enacted","renewables_only",33,31],
-[2024,"ordinance_year","renewables_only",223,55],
+[2024,"ordinance_year","renewables_only",222,54],
 [2024,"year_reported","renewables_only",102,63],
 [2025,"enacted","renewables_only",37,36],
-[2025,"ordinance_year","renewables_only",179,40],
+[2025,"ordinance_year","renewables_only",178,39],
 [2025,"year_reported","renewables_only",62,45],
 [2026,"enacted","renewables_only",55,47],
-[null,"undated","renewables_only",1055,282]
+[null,"undated","renewables_only",1051,281]
 ]}
