@@ -238,6 +238,7 @@ county_fips,state,county,trigger_instrument_id,trigger_jurisdiction,trigger_stat
 20039,KS,Decatur,mn:ne-furnas-county-2025,Furnas County,NE,moratorium,active,2025-08-26,solar;wind,"""Decatur County"" Kansas moratorium OR ordinance solar OR wind OR ""battery storage"""
 19189,IA,Winnebago,mn:mn-freeborn-county-2025,Freeborn County,MN,moratorium,extended,2025-08-19,battery_storage,"""Winnebago County"" Iowa moratorium OR ordinance solar OR wind OR ""battery storage"""
 19077,IA,Guthrie,mn:ia-audubon-county-2025,Audubon County,IA,moratorium,extended,2025-08-12,battery_storage,"""Guthrie County"" Iowa moratorium OR ordinance solar OR wind OR ""battery storage"""
+19027,IA,Carroll,mn:ia-audubon-county-2025,Audubon County,IA,moratorium,extended,2025-08-12,battery_storage,"""Carroll County"" Iowa moratorium OR ordinance solar OR wind OR ""battery storage"""
 08117,CO,Summit,mn:co-grand-county-2025,Grand County,CO,moratorium,active,2025-06-24,battery_storage;solar;wind,"""Summit County"" Colorado moratorium OR ordinance solar OR wind OR ""battery storage"""
 08057,CO,Jackson,mn:co-grand-county-2025,Grand County,CO,moratorium,active,2025-06-24,battery_storage;solar;wind,"""Jackson County"" Colorado moratorium OR ordinance solar OR wind OR ""battery storage"""
 08047,CO,Gilpin,mn:co-grand-county-2025,Grand County,CO,moratorium,active,2025-06-24,battery_storage;solar;wind,"""Gilpin County"" Colorado moratorium OR ordinance solar OR wind OR ""battery storage"""

@@ -1,37 +1,37 @@
 {
- "generated": "2026-11-17",
+ "generated": "2026-11-18",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3277,
-  "severe": 1293,
-  "verified": 184,
+  "restriction_instruments": 3271,
+  "severe": 1291,
+  "verified": 194,
   "lapsed_unconfirmed": 0,
   "severe_where_state_limits_local": 894,
   "projects": 579,
-  "projects_confirmed": 186,
+  "projects_confirmed": 188,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 360,
-    "blocked": 240,
-    "blocked_share": 0.667
+    "projects": 358,
+    "blocked": 238,
+    "blocked_share": 0.665
    },
    "confirmed_only": {
-    "projects": 185,
-    "blocked": 91,
-    "blocked_share": 0.492
+    "projects": 187,
+    "blocked": 93,
+    "blocked_share": 0.497
    },
    "by_technology": {
     "battery_storage": {
-     "projects": 25,
-     "blocked": 14,
-     "blocked_share": 0.56
+     "projects": 24,
+     "blocked": 13,
+     "blocked_share": 0.542
     },
     "solar": {
-     "projects": 185,
-     "blocked": 139,
-     "blocked_share": 0.751
+     "projects": 184,
+     "blocked": 138,
+     "blocked_share": 0.75
     },
     "transmission": {
      "projects": 8,
@@ -39,9 +39,9 @@
      "blocked_share": 0.375
     },
     "wind": {
-     "projects": 158,
-     "blocked": 91,
-     "blocked_share": 0.576
+     "projects": 157,
+     "blocked": 90,
+     "blocked_share": 0.573
     }
    }
   },
@@ -49,7 +49,7 @@
   "county_coverage": {
    "counties": 3144,
    "with_any_record": 1418,
-   "with_restriction": 1242,
+   "with_restriction": 1238,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
@@ -58,20 +58,20 @@
   }
  },
  "quarantine": {
-  "rows": 100,
+  "rows": 106,
   "by_entity": {
-   "restrictions": 100
+   "restrictions": 106
   },
   "by_blocking_code": {
-   "PRIMARY_SOURCE_CONTRADICTS": 92,
+   "PRIMARY_SOURCE_CONTRADICTS": 98,
    "SCOPE_DATA_CENTER_ONLY": 8
   }
  },
  "worklists": {
   "outcomes": {
-   "rows": 382,
+   "rows": 378,
    "by_tier": {
-    "blocked_unverified": 149,
+    "blocked_unverified": 145,
     "advanced_unverified": 23,
     "needs_review": 24,
     "pending": 186
@@ -81,20 +81,20 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3166,
+   "rows": 3150,
    "by_tier": {
-    "compiled_flagged": 2247,
+    "compiled_flagged": 2231,
     "compiled_record": 123,
     "report_citation": 796
    },
    "lapsed": 0,
    "by_county_impact": {
-    "sole_severe": 296,
-    "sole_record": 380,
-    "none": 2490
+    "sole_severe": 294,
+    "sole_record": 367,
+    "none": 2489
    },
    "with_located_url": 6,
-   "flagged": 426
+   "flagged": 423
   },
   "negative_checks": {
    "rows": 8,
@@ -103,7 +103,7 @@
    }
   },
   "adjacency": {
-   "rows": 252
+   "rows": 253
   },
   "fips_misses": {
    "rows": 63,
@@ -207,19 +207,19 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 196,
+  "snapshot_rows": 200,
   "snapshot_files": 5,
-  "headline_history_rows": 23,
+  "headline_history_rows": 24,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-11-17",
+  "headline_last_change": "2026-11-18",
   "latest": {
-   "restrictions": "3277",
-   "severe_restrictions": "1293",
-   "verified_restrictions": "184",
+   "restrictions": "3271",
+   "severe_restrictions": "1291",
+   "verified_restrictions": "194",
    "multi_sector_restrictions": "83",
    "contested_projects": "579",
-   "confirmed_outcomes": "186",
-   "verified_projects": "198",
+   "confirmed_outcomes": "188",
+   "verified_projects": "202",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "122",
@@ -243,10 +243,10 @@
    },
    "NREL": {
     "access_archived": 2,
-    "access_opened": 171,
-    "checked": 173,
-    "confirmed": 89,
-    "contradicts": 84
+    "access_opened": 187,
+    "checked": 189,
+    "confirmed": 99,
+    "contradicts": 90
    },
    "Sabin": {
     "access_opened": 19,
@@ -261,16 +261,16 @@
    }
   },
   "outcome_resolutions": {
-   "rows": 186,
+   "rows": 190,
    "by_outcome": {
     "advanced_confirmed": 92,
-    "blocked_confirmed": 87,
-    "pending": 5,
+    "blocked_confirmed": 89,
+    "pending": 7,
     "restricted_conditional": 2
    },
    "by_access": {
     "archived": 7,
-    "opened": 179
+    "opened": 183
    }
   }
  },

@@ -6,13 +6,13 @@ and left out of the published outputs; lower severities are reported only.
 
 | Entity | Records | Quarantined |
 |---|---:|---:|
-| restrictions | 3671 | 100 |
+| restrictions | 3671 | 106 |
 | contested_projects | 579 | 0 |
 | cases | 40 | 0 |
 
 | Code | Severity | Issues |
 |---|---|---:|
-| PRIMARY_SOURCE_CONTRADICTS | HIGH | 92 |
+| PRIMARY_SOURCE_CONTRADICTS | HIGH | 98 |
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
 | END_DATE_PASSED | MEDIUM | 4 |
 
@@ -25,6 +25,7 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_b43dac3031 | CA | Kern County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_e20406bec0 | CA | Lassen County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_df9cb13272 | CA | Riverside County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_daae090b3a | CA | Santa Barbara County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_54f2333d31 | CA | Sonoma County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_9a4e49ae33 | CO | Kiowa County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_4124ff9c37 | CO | Logan County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
@@ -32,6 +33,7 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_2fcfbab247 | GA | Carroll County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_c74e8da3c9 | GA | Carroll County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_ab13b3ead4 | GA | Monroe County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_5eea1e347b | IA | Carroll County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_abc7331c92 | IA | Dickinson County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_2b245a9f03 | IA | Franklin County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_46a336b437 | IA | Greene County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
@@ -68,9 +70,11 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_bf75974b05 | MN | Dodge County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_a7557c8b03 | MN | Lincoln County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_df5712750b | MN | Meeker County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_d718e836a2 | MN | Pipestone County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_36f4387467 | MN | Sibley County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_8d84f9f57a | MO | Cass County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_3ba3ae554a | MT | Carbon County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_e9a182e229 | NC | Vance County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_4592fd6efe | NC | Yadkin County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_6fc65e4800 | ND | Barnes County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_4d25c10f97 | ND | Bowman County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
@@ -122,3 +126,5 @@ Held out of the published data until the release action is done. The action come
 | restrictions | res_29055c3d7f | WI | Waupaca County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_226a2e8b73 | WI | Waushara County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
 | restrictions | res_5e7ce243dc | WY | Converse County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_96de5a5c59 | WY | Fremont County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |
+| restrictions | res_6856647a80 | WY | Uinta County | PRIMARY_SOURCE_CONTRADICTS | correct the record to what the primary source says (a queue row, or a note to the upstream source), then set the restriction_sources.csv verdict to confirmed |

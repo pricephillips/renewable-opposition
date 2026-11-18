@@ -8,20 +8,20 @@ however many technologies it covers. Quote these, not row counts.
 
 | | Renewables only | Also covers data centers |
 |---|---:|---:|
-| Instruments | 3277 | 83 |
-| Severe (severity 3 or 4) | 1293 | 75 |
+| Instruments | 3271 | 83 |
+| Severe (severity 3 or 4) | 1291 | 75 |
 | States | 51 | 26 |
-| Evidence: compiled_flagged | 2238 | 9 |
+| Evidence: compiled_flagged | 2222 | 9 |
 | Evidence: compiled_record | 59 | 64 |
-| Evidence: primary_source | 184 | 10 |
+| Evidence: primary_source | 194 | 10 |
 | Evidence: report_citation | 796 | 0 |
-| Verification: verified | 184 | 10 |
+| Verification: verified | 194 | 10 |
 | Verification: located | 0 | 0 |
-| Verification: unverified | 3093 | 73 |
-| Currency: in_force | 1015 | 75 |
+| Verification: unverified | 3077 | 73 |
+| Currency: in_force | 1012 | 75 |
 | Currency: lapsed_unconfirmed | 0 | 0 |
 | Currency: pending | 7 | 8 |
-| Currency: unknown | 2255 | 0 |
+| Currency: unknown | 2252 | 0 |
 
 Verified: checked against the instrument itself or the minutes that adopted it, opened or read in an archived copy. Located: that document is found but not yet read. Unverified: a news article or a compiled tracker locates the instrument but does not verify it.
 
@@ -29,20 +29,20 @@ Of the severe instruments, 894 (renewables only) and 32 (also covering data cent
 
 Currency: in_force means the status is active or extended and no end date has passed. lapsed_unconfirmed means the instrument's own end date is before the build date and no reviewer has confirmed an extension; it keeps its source status and severity, so subtract it before quoting what is in force today. unknown is a row with no status (NREL ordinance features).
 
-3571 published rows describe 3360 instruments.
+3565 published rows describe 3354 instruments.
 
 ## Contested projects
 
-579 projects; 186 with a confirmed outcome; 198 verified (backed by a news article or court record that was read), 381 resting on a compiled report only.
+579 projects; 188 with a confirmed outcome; 202 verified (backed by a news article or court record that was read), 377 resting on a compiled report only.
 
 | Outcome | Projects |
 |---|---:|
 | advanced_confirmed | 95 |
 | advanced_unverified | 25 |
-| blocked_confirmed | 91 |
-| blocked_unverified | 150 |
+| blocked_confirmed | 93 |
+| blocked_unverified | 146 |
 | needs_review | 24 |
-| pending | 192 |
+| pending | 194 |
 | restricted_conditional | 2 |
 
 132 projects match a plant in the federal inventories (EIA-860M, USWTDB, USPVDB) by name, county and size. What the inventories record for that plant:
@@ -62,12 +62,12 @@ This dataset holds projects because they drew opposition, so every rate below is
 
 | | Decided projects | Blocked | Blocked share |
 |---|---:|---:|---:|
-| All decided | 360 | 240 | 67% |
-| Confirmed outcomes only | 185 | 91 | 49% |
-| battery_storage | 25 | 14 | 56% |
-| solar | 185 | 139 | 75% |
+| All decided | 358 | 238 | 66% |
+| Confirmed outcomes only | 187 | 93 | 50% |
+| battery_storage | 24 | 13 | 54% |
+| solar | 184 | 138 | 75% |
 | transmission | 8 | 3 | 38% |
-| wind | 158 | 91 | 58% |
+| wind | 157 | 90 | 57% |
 
 Quote the confirmed-only figure when the claim is about what happened; the all-decided figure rests partly on the source's label alone.
 
@@ -117,10 +117,10 @@ Instruments (restrictions) and projects by the source they came from, with their
 |---|---|---:|---:|---:|---:|---:|
 | Restrictions | Sabin 2026 | 754 | 531 | 16 | 0 | 738 |
 | Restrictions | Sabin 2025 (not in 2026 edition) | 55 | 41 | 1 | 0 | 54 |
-| Restrictions | NREL | 2298 | 581 | 89 | 0 | 2209 |
+| Restrictions | NREL | 2292 | 579 | 99 | 0 | 2193 |
 | Restrictions | Moratorium Nation | 205 | 194 | 44 | 0 | 161 |
 | Restrictions | review queue | 48 | 21 | 44 | 0 | 4 |
-| Contested projects | Sabin 2026 | 568 |  | 190 | 0 | 378 |
+| Contested projects | Sabin 2026 | 568 |  | 194 | 0 | 374 |
 | Contested projects | Sabin 2025 (not in 2026 edition) | 6 |  | 3 | 0 | 3 |
 | Contested projects | review queue | 5 |  | 5 | 0 | 0 |
 
@@ -139,7 +139,7 @@ Of 3144 counties and county equivalents (50 states and DC):
 | | Counties |
 |---|---:|
 | Any published record | 1418 |
-| A restriction | 1242 |
+| A restriction | 1238 |
 | A contested project | 458 |
 | An NREL siting standard | 1158 |
 | A documented negative check | 1 |
