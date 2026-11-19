@@ -4,7 +4,8 @@
     "staff-only renewables pilot (2026-11-17 and 2026-11-19). The client-view-reviewer agent reads every profile",
     "against them each day (docs/VERIFICATION_ROUTINE.md, section 5), and scripts/client_view_audit.py checks the",
     "ones it can mechanically. Add a question here when a reader asks one the list does not cover; keep each one",
-    "generic (no client, no county) and say which check, if any, answers it."
+    "generic (no client, no county) and say which check, if any, answers it.",
+    "Questions after 'record_behind_points' come from a staff audit of the pilot across many counties on 2026-11-19."
   ],
   "version": "2026-11-19",
   "questions": [
@@ -23,6 +24,36 @@
     {"id": "resemblance_label", "ask": "What does the small model figure (the resemblance score) mean, and could a reader mistake it for the record score?", "check": ""},
     {"id": "weights_visible", "ask": "Can a reader see the weights behind the score, with the date they were set?", "check": ""},
     {"id": "hand_or_learned", "ask": "Are the weights set by hand or learned from outcomes, and what would it take to learn them?", "check": ""},
-    {"id": "unverified_label", "ask": "Is every unverified or not-yet-checked rule labeled as such?", "check": "UNVERIFIED_IN_HEADLINE"}
+    {"id": "unverified_label", "ask": "Is every unverified or not-yet-checked rule labeled as such?", "check": "UNVERIFIED_IN_HEADLINE"},
+    {"id": "record_behind_points", "ask": "For every point in the record score, can the reader open the record behind it (each contested project, organizing action and restriction that adds points)?", "check": ""},
+    {"id": "hidden_source_drives_headline", "ask": "Does the headline say a moratorium is in force when every in-force restriction behind it comes from a source the reader cannot see?", "check": ""},
+    {"id": "hidden_source_moves_score", "ask": "Does a source family the reader cannot see still move the score or the tier?", "check": ""},
+    {"id": "fixed_term_still_counted", "ask": "Is a fixed-term moratorium whose own text says it ended (a stated term from its start, or an extension's end month) still counted as in force? Is a row the source dropped from its latest edition still counted?", "check": "PAST_END_DATE"},
+    {"id": "town_rule_reads_county", "ask": "Does the county read as restricted only because of one town, city or township rule, and does the page say so?", "check": ""},
+    {"id": "town_rules_stack", "ask": "Do many small town or township rules of unknown status add up to outrank a county-wide moratorium in force?", "check": ""},
+    {"id": "other_use_moratorium", "ask": "Is a moratorium on another use (data centers) that mentions battery storage being shown as a renewables moratorium?", "check": "HEADLINE_RECORD_MISMATCH"},
+    {"id": "town_act_labelled_county", "ask": "Is an instrument labelled as the county's actually a town's or township's act?", "check": ""},
+    {"id": "right_place", "ask": "Is the place right: the right county and state, a county that exists, and a project with a county at all?", "check": ""},
+    {"id": "counted_once", "ask": "Is the same instrument counted more than once (repeated rows, or two sources describing one law), and when two sources disagree, which one does the page show and which one does the score use?", "check": ""},
+    {"id": "multi_county_project", "ask": "Does a project that spans several counties, or sits on federal land, count in full in every county?", "check": ""},
+    {"id": "ban_really_ban", "ask": "Is a rule labelled a ban really a ban on siting, or something narrower (a buffer from one kind of facility, an acreage cap)?", "check": "BAN_OR_PAUSE_UNCLEAR"},
+    {"id": "height_limit_severity", "ask": "Is a wind height limit read as a likely de facto ban even when the limit allows a modern turbine or covers only one zone?", "check": ""},
+    {"id": "opened_and_matched", "ask": "Was the ordinance itself opened, and did it match the record field by field?", "check": "UNVERIFIED_IN_HEADLINE"},
+    {"id": "unexamined_outranks_examined", "ask": "Why does a county nobody has examined outrank one that was examined, and why can one confirmed approval drop a county to zero?", "check": ""},
+    {"id": "percentile_with_ties", "ask": "What does 'higher than X% of counties' mean when many counties share the same score?", "check": ""},
+    {"id": "denominator", "ask": "Which units are counted as counties in the national total (planning regions, census areas, independent cities)?", "check": ""},
+    {"id": "tier_meaning", "ask": "What does each tier mean, and why is a county in the closed tier when projects were approved or built there? Why is a county with no rules on record called regulated?", "check": ""},
+    {"id": "weights_approved", "ask": "Are all the weights approved, or does a weight still marked pending move counties' tiers?", "check": ""},
+    {"id": "which_score_first", "ask": "Which score should the reader lead with, and what does 'counties like it' mean in the resemblance score?", "check": ""},
+    {"id": "as_of_when", "ask": "As of when is the score: which data, which run and which date? Does it change with the run date alone?", "check": ""},
+    {"id": "weights_add_up", "ask": "Do the weighting figures add up to 100, and if they are multipliers, does the page say so next to a panel whose percents do add to 100?", "check": ""},
+    {"id": "link_opens_ordinance", "ask": "Does the source link open the ordinance or minutes, or only a dataset or inventory page? Does it still work?", "check": ""},
+    {"id": "when_last_true", "ask": "When was 'active' last checked, and by whom? Is a status from years ago shown as current?", "check": ""},
+    {"id": "zero_is_zero", "ask": "Does a county with nothing on record mean nothing was found after a search, or that nobody has searched?", "check": ""},
+    {"id": "project_status_agrees", "ask": "Do a project's status and its outcome agree (a pending or cancelled project marked advanced, a blocked project that is operating)?", "check": ""},
+    {"id": "case_dates", "ask": "When was a court case filed and decided, and is the case linked to the project?", "check": ""},
+    {"id": "group_is_renewables", "ask": "Is a named opposition group about this renewables project, or about another use such as data centers?", "check": ""},
+    {"id": "state_override_on_row", "ask": "Can state law override this local rule, and does the row say so?", "check": "STATE_RULES_NOT_SHOWN"},
+    {"id": "low_confidence_flag", "ask": "Is a low-confidence row flagged as such, and is any internal wording (reviewer notes, research budget) kept out of the text the reader sees?", "check": ""}
   ]
 }
