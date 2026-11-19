@@ -6,8 +6,8 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 6 | 10 |
-| contested_projects | 0 | 0 | 4 |
+| restrictions | 0 | 9 | 5 |
+| contested_projects | 0 | 0 | 3 |
 | cases | 0 | 0 | 0 |
 | state_policies | 0 | 0 | 0 |
 
@@ -15,16 +15,14 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Row | Column | Before | After |
 |---|---|---|---|---|
-| contested_projects | con_b5e0b42044 (Atlantic Shores South Project, NJ) | outcome | blocked_unverified | pending |
-| contested_projects | con_b5e0b42044 (Atlantic Shores South Project, NJ) | finality_evidence | outcome_label_only | resolution: https://storage.courtlistener.com/pdf/2026/08/10/save_long_beach_island_inc._v._u.s._department_of_commerce.pdf |
-| contested_projects | con_b5e0b42044 (Atlantic Shores South Project, NJ) | severity_score | 4 | 3 |
-| contested_projects | con_c09d76bb9a (Esmeralda Seven Solar Project, NV) | outcome | blocked_unverified | pending |
-| contested_projects | con_c09d76bb9a (Esmeralda Seven Solar Project, NV) | finality_evidence | outcome_label_only | resolution: https://www.esgdive.com/news/department-interior-cancels-review-nevada-solar-project-trump/802838/ |
-| contested_projects | con_c09d76bb9a (Esmeralda Seven Solar Project, NV) | severity_score | 4 | 3 |
-| contested_projects | con_2c16b74f26 (Birch Solar Project, OH) | outcome | blocked_unverified | blocked_confirmed |
-| contested_projects | con_2c16b74f26 (Birch Solar Project, OH) | finality_evidence | outcome_label_only | resolution: https://dailystandard.com/archive/2025-01-16/stories/51587/developers-pull-plug-on-auglaize-solar-farm |
-| contested_projects | con_5b86fd1934 (Grange Solar Grazing Center, OH) | outcome | blocked_unverified | blocked_confirmed |
-| contested_projects | con_5b86fd1934 (Grange Solar Grazing Center, OH) | finality_evidence | outcome_label_only | resolution: https://content.govdelivery.com/accounts/OHPUC/bulletins/3e1afee |
+| contested_projects | con_e3e2d67d23 (Tessera's Saguache County Solar Thermal Project, CO) | outcome | blocked_unverified | blocked_confirmed |
+| contested_projects | con_e3e2d67d23 (Tessera's Saguache County Solar Thermal Project, CO) | finality_evidence | outcome_label_only | resolution: https://cleanenergyauthority.com/solar-energy-news/tessera-pulls-plug-on-huge-colorado-solar-plant-071911 |
+| contested_projects | con_e7f07ecd73 (Ridgeline Wind Energy Project, ID) | outcome | blocked_unverified | pending |
+| contested_projects | con_e7f07ecd73 (Ridgeline Wind Energy Project, ID) | finality_evidence | outcome_label_only | resolution: https://www.wind-watch.org/news-unarchived/WWnews_2010_08.html |
+| contested_projects | con_e7f07ecd73 (Ridgeline Wind Energy Project, ID) | severity_score | 4 | 2 |
+| contested_projects | con_bcdb34a15a (Valley County Wind Project, MT) | outcome | blocked_unverified | pending |
+| contested_projects | con_bcdb34a15a (Valley County Wind Project, MT) | finality_evidence | outcome_label_only | resolution: https://www.spokesman.com/stories/2007/sep/25/montana-wind-farm-revived-but-smaller/ |
+| contested_projects | con_bcdb34a15a (Valley County Wind Project, MT) | severity_score | 4 | 2 |
 
 ## Detail
 
@@ -32,28 +30,25 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | @@ | id | state | jurisdiction | primary_source_verdict | primary_source_access | primary_source_url | status_as_of | evidence_level | verification | primary_source_checked_on |
 |---|---|---|---|---|---|---|---|---|---|---|
-| -> | res_a1f40540fe | CA | Calaveras County | ->confirmed | ->opened | ->https://planning.calaverasgov.us/Portals/Planning/Documents/Zoning%20Code%20Updates/Zoning%20Code%20Update%202023/Calaveras%20County%20Zoning%20Code_Adopted%20071624.pdf%20Accessible.pdf | ->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| -> | res_8676c8b697 | CA | Napa County | ->confirmed | ->opened | ->https://services.napacounty.gov/AgendaNet/DownloadDocument.aspx?type=BOS&doctype=ATTACHMENT&id=52802 | ->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| -> | res_2e666758b3 | CA | Riverside County | ->confirmed | ->opened | ->https://planning.rctlma.org/sites/g/files/aldnop416/files/2023-06/Ord348-04-28-2023-FINAL.pdf | ->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| -> | res_19b1f15f9c | CA | Sonoma County | ->confirmed | ->opened | ->https://sonomacounty.gov/Main%20County%20Site/General/Sonoma/Sample%20Dept/Department%20Information/_Ordinances/allowed_uses_requirement-exhibitC_ordinance_6046.pdf | ->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| -> | res_780006415f | FL | Union County | ->confirmed | ->opened | ->https://ncfrpc.org/MapsAndPlans/Counties/Union/LDR_Union_20_Canary.pdf | 2026-10-21->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| --- | res_d718e836a2 | MN | Pipestone County |  |  |  | 2026-10-21 | compiled_flagged | unverified |  |
-| -> | res_3cf98c2cd3 | NC | Columbus County | ->confirmed | ->opened | ->https://columbusco.org/sites/default/files/uploads/planning/land-use-regulation-ordinance.pdf | 2026-10-21->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| --- | res_e9a182e229 | NC | Vance County |  |  |  | 2026-10-21 | compiled_flagged | unverified |  |
-| -> | res_242aabc924 | CA | Colusa County | ->confirmed | ->opened | ->https://sitesreservoirproject.riptideweb.com/references/REF21/_Ch14_LandUse/Colusa%20County_2014_Zoning%20Code.pdf | ->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| --- | res_daae090b3a | CA | Santa Barbara County |  |  |  |  | compiled_flagged | unverified |  |
-| -> | res_289f54b740 | IA | Black Hawk County | ->confirmed | ->opened | ->https://www.codepublishing.com/IA/BlackHawkCounty/html/BlackHawkCounty18/BlackHawkCounty1870.html | 2026-10-21->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| --- | res_5eea1e347b | IA | Carroll County |  |  |  | 2026-10-21 | compiled_flagged | unverified |  |
-| -> | res_76fa4908b4 | NM | Santa Fe County | ->confirmed | ->opened | ->https://www.santafecountynm.gov/media/files/Ordinance2016-9-p0001-p0769.pdf | 2026-10-21->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| -> | res_e34b4662ac | ND | Stutsman County | ->confirmed | ->opened | ->https://www.stutsmancounty.gov/files/zoning-ordinance.pdf | 2026-10-21->2026-11-18 | compiled_flagged->primary_source | unverified->verified | ->2026-11-18 |
-| --- | res_96de5a5c59 | WY | Fremont County |  |  |  |  | compiled_flagged | unverified |  |
-| --- | res_6856647a80 | WY | Uinta County |  |  |  |  | compiled_flagged | unverified |  |
+| --- | res_967c550313 | GA | Putnam County | confirmed | opened | https://www.putnamcountyga.us/DocumentCenter/View/1226/2026-08-07-Resolution-for-Moratorium-on-Data-Centers-BESS-Solar-Farms-signed | 2026-10-08 | primary_source | verified | 2026-10-08 |
+| --- | res_bdac0a4558 | GA | Putnam County | confirmed | opened | https://www.putnamcountyga.us/DocumentCenter/View/1226/2026-08-07-Resolution-for-Moratorium-on-Data-Centers-BESS-Solar-Farms-signed | 2026-10-08 | primary_source | verified | 2026-10-08 |
+| --- | res_4abf3784d0 | CO | Eagle County |  |  |  |  | compiled_flagged | unverified |  |
+| --- | res_45f0b6126f | CO | Lake County |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_2d5fbdcdbd | CO | Routt County | ->confirmed | ->opened | ->https://www.co.routt.co.us/DocumentCenter/View/16306/Routt-County-UDC | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
+| --- | res_b2b97230f8 | FL | Calhoun County |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_db38a5e13c | FL | Dixie County | ->confirmed | ->opened | ->https://ncfrpc.org/MapsAndPlans/Counties/Dixie/LDR_DIXIE_21_Tan.pdf | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
+| -> | res_ba9f379959 | FL | Hardee County | ->confirmed | ->opened | ->https://hardeecountyfl.gov/uploads/2024/07/unified-land-development-code.pdf | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
+| --- | res_bf9e1e1dac | VA | Patrick County |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_dfadb0d510 | CO | Cheyenne County | ->confirmed | ->opened | ->https://www.co.cheyenne.co.us/assets/pdfs/zoning_1041_adopted_regs_2019.pdf | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
+| --- | res_cb4c4171d7 | CO | Montezuma County |  |  |  |  | compiled_flagged | unverified |  |
+| --- | res_fcc5a077c7 | CT | East Haddam Town |  |  |  |  | compiled_flagged | unverified |  |
+| -> | res_5952df1b7c | FL | Bay County | ->confirmed | ->opened | ->https://www.baycountyfl.gov/DocumentCenter/View/627/Chapter-35-Land-Development-Regulations | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
+| --- | res_9b15e6fc6b | MN | Wright County |  |  |  |  | compiled_flagged | unverified |  |
 
 ### contested_projects
 
 | @@ | id | state | project_name | severity_score | outcome | finality_evidence | evidence_level | verification | resolution_url | resolution_access | resolution_date |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| -> | con_b5e0b42044 | NJ | Atlantic Shores South Project | 4->3 | blocked_unverified->pending | outcome_label_only->resolution: https://storage.courtlistener.com/pdf/2026/08/10/save_long_beach_island_inc._v._u.s._department_of_commerce.pdf | report_citation | unverified->verified | ->https://storage.courtlistener.com/pdf/2026/08/10/save_long_beach_island_inc._v._u.s._department_of_commerce.pdf | ->opened | ->2026-08-10 |
-| -> | con_c09d76bb9a | NV | Esmeralda Seven Solar Project | 4->3 | blocked_unverified->pending | outcome_label_only->resolution: https://www.esgdive.com/news/department-interior-cancels-review-nevada-solar-project-trump/802838/ | report_citation | unverified->verified | ->https://www.esgdive.com/news/department-interior-cancels-review-nevada-solar-project-trump/802838/ | ->opened | ->2025-10-14 |
-| -> | con_2c16b74f26 | OH | Birch Solar Project | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://dailystandard.com/archive/2025-01-16/stories/51587/developers-pull-plug-on-auglaize-solar-farm | report_citation->confirmed | unverified->verified | ->https://dailystandard.com/archive/2025-01-16/stories/51587/developers-pull-plug-on-auglaize-solar-farm | ->opened | ->2025-01 |
-| -> | con_5b86fd1934 | OH | Grange Solar Grazing Center | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://content.govdelivery.com/accounts/OHPUC/bulletins/3e1afee | report_citation->confirmed | unverified->verified | ->https://content.govdelivery.com/accounts/OHPUC/bulletins/3e1afee | ->opened | ->2025-05-22 |
+| -> | con_e3e2d67d23 | CO | Tessera's Saguache County Solar Thermal Project | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://cleanenergyauthority.com/solar-energy-news/tessera-pulls-plug-on-huge-colorado-solar-plant-071911 | report_citation->confirmed | unverified->verified | ->https://cleanenergyauthority.com/solar-energy-news/tessera-pulls-plug-on-huge-colorado-solar-plant-071911 | ->opened | ->2011-07 |
+| -> | con_e7f07ecd73 | ID | Ridgeline Wind Energy Project | 4->2 | blocked_unverified->pending | outcome_label_only->resolution: https://www.wind-watch.org/news-unarchived/WWnews_2010_08.html | report_citation | unverified->verified | ->https://www.wind-watch.org/news-unarchived/WWnews_2010_08.html | ->opened | ->2010-08 |
+| -> | con_bcdb34a15a | MT | Valley County Wind Project | 4->2 | blocked_unverified->pending | outcome_label_only->resolution: https://www.spokesman.com/stories/2007/sep/25/montana-wind-farm-revived-but-smaller/ | report_citation | unverified->verified | ->https://www.spokesman.com/stories/2007/sep/25/montana-wind-farm-revived-but-smaller/ | ->opened | ->2007-09-24 |
