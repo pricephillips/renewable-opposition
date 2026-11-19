@@ -65,7 +65,8 @@ def test_intake_runs_the_intake_stages_and_commits_only_their_files():
     job = load("intake.yml")["jobs"]["intake"]
     runs = "\n".join(s.get("run", "") for s in job["steps"])
     assert "python scripts/run_pipeline.py intake" in runs
-    assert "git add data/raw/ data/review/queue.csv\n" in runs
+    assert ("git add data/raw/ data/review/queue.csv data/review/state_bill_leads.csv "
+            "data/reference/legiscan_sessions.csv\n") in runs
     assert "run_pipeline.py build" not in runs and "build_database" not in runs
     assert not any("upload-artifact" in s.get("uses", "") for s in job["steps"])
 

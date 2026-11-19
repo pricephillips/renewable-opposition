@@ -81,6 +81,10 @@ INTAKE = [
     ("fetch_intake", ["scripts/fetch.py", "--intake", "--budget-s", "600"],
      "live sources an extractor reads, and watched upstreams, into data/raw/", True),
     ("parse", ["scripts/parse.py"], "new raw files into review-queue leads (review_status lead)", True),
+    # Last, so a LegiScan outage never costs the other sources their run. It
+    # exits 0 without LEGISCAN_API_KEY.
+    ("fetch_legiscan", ["scripts/fetch_legiscan.py"],
+     "state solar, wind and storage siting bills into data/review/state_bill_leads.csv", True),
 ]
 STAGES = {"build": BUILD, "refresh": REFRESH + BUILD, "intake": INTAKE}
 

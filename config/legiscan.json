@@ -1,0 +1,20 @@
+{
+  "_about": "Settings for scripts/fetch_legiscan.py, the weekly LegiScan state bill feed. A bill is kept when its title, description or LegiScan subjects contain at least one technology term and at least one siting term. Terms match at the start of a word, case-insensitive, so 'moratori' matches moratorium and moratoria. Change the terms here, never in the script.",
+  "api_url": "https://api.legiscan.com/",
+  "states": "ALL",
+  "include_federal": false,
+  "current_sessions_only": true,
+  "max_bill_lookups_per_run": 150,
+  "technology_terms": {
+    "solar": ["solar", "photovoltaic"],
+    "wind": ["wind energy", "wind turbine", "wind farm", "wind facility", "wind facilities", "wind power", "wind project", "wind generat", "offshore wind", "onshore wind"],
+    "battery_storage": ["battery storage", "battery energy storage", "energy storage"],
+    "unspecified": ["renewable energy facilit", "renewable energy project", "renewable energy generat", "clean energy facilit", "utility-scale", "utility scale"]
+  },
+  "siting_terms": [
+    "siting", "site", "setback", "moratori", "preempt", "zoning", "zone", "local control",
+    "local government", "local approval", "county", "counties", "municipal", "township", "ordinance",
+    "land use", "decommission", "certificate of", "agricultural land", "farmland", "prime farmland",
+    "public utility commission", "siting board", "siting council", "permitting"
+  ]
+}

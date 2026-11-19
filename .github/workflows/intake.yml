@@ -14,11 +14,18 @@ name: Live intake
 # picks it up.
 #
 # Optional secret: COURTLISTENER_API_TOKEN (anonymous CourtListener use is
-# capped per IP). The GitHub token is passed so the Moratorium Nation watch is
+# capped per IP). Secret LEGISCAN_API_KEY turns on the state bill feed
+# (scripts/fetch_legiscan.py, last stage): one query in a quiet week, and its
+# leads go to data/review/state_bill_leads.csv, never to a published table. The GitHub token is passed so the Moratorium Nation watch is
 # not rate limited.
 
 on:
   workflow_dispatch:
+    inputs:
+      legiscan_states:
+        description: "Test only the LegiScan feed for these states (e.g. VT,NH); nothing is committed"
+        required: false
+        default: ""
   schedule:
     # Tuesdays 07:23 UTC: clear of source-archive (Mon 09:17), build-data
     # (the 3rd, 06:17) and data-center-map's harvest (06:00 to 09:15).
@@ -61,11 +68,26 @@ jobs:
       - name: Offline check of the intake code (fixtures, no network)
         run: python -m pytest -q -p no:cacheprovider tests/test_news_intake.py tests/test_intake_*.py
 
+      # A narrow live test of the LegiScan feed alone: a few states, five
+      # bill lookups, nothing committed.
+      - name: Test the LegiScan feed only
+        if: inputs.legiscan_states
+        env:
+          LEGISCAN_API_KEY: ${{ secrets.LEGISCAN_API_KEY }}
+          STATES: ${{ inputs.legiscan_states }}
+        run: |
+          set -o pipefail
+          test -n "$LEGISCAN_API_KEY" || { echo "::error::LEGISCAN_API_KEY is not set"; exit 1; }
+          python scripts/fetch_legiscan.py --states "$STATES" --max-bills 5 | tee -a "$GITHUB_STEP_SUMMARY"
+          head -5 data/review/state_bill_leads.csv | cut -c1-300
+
       - name: Fetch and parse the live sources
         id: intake
+        if: "!inputs.legiscan_states"
         env:
           COURTLISTENER_API_TOKEN: ${{ secrets.COURTLISTENER_API_TOKEN }}
           GH_API_TOKEN: ${{ github.token }}
+          LEGISCAN_API_KEY: ${{ secrets.LEGISCAN_API_KEY }}
         run: python scripts/run_pipeline.py intake --summary "$GITHUB_STEP_SUMMARY"
 
       # GitHub does not start validate.yml for this job's own push, so the
@@ -79,13 +101,13 @@ jobs:
       # Commits what the run wrote even when a source or an extractor failed,
       # never a queue that failed the check.
       - name: Commit raw copies and leads
-        if: always() && steps.check.outcome == 'success'
+        if: always() && steps.check.outcome == 'success' && !inputs.legiscan_states
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw/ data/review/queue.csv
+          git add data/raw/ data/review/queue.csv data/review/state_bill_leads.csv data/reference/legiscan_sessions.csv
           git diff --cached --quiet && exit 0
-          git commit -m "Live intake: raw copies and review-queue leads"
+          git commit -m "Live intake: raw copies, review-queue leads and state bill leads"
           # Another workflow may have moved the branch since checkout. Rebase
           # and retry; never force-push.
           for i in 1 2 3; do
