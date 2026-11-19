@@ -22,6 +22,11 @@ CREATE MACRO split_list(s) AS
     list_filter(list_transform(string_split(coalesce(s, ''), ';'), lambda x: trim(x)), lambda x: x <> '');
 
 CREATE MACRO nullif_blank(s) AS nullif(trim(coalesce(s, '')), '');
+-- Record text a reader sees, without Moratorium Nation's reviewer notes
+-- ("[VERIFY instrument number not confirmed at confidence 0.6 ...]"). The flag
+-- itself stays in needs_verification; the client builder in data-centers
+-- removes the same notes (RENEWABLES_NOTE_RE).
+CREATE MACRO reader_text(s) AS nullif_blank(regexp_replace(s, '\s*\[VERIFY\b[^\]]*\]', '', 'g'));
 
 -- Aggregates over an instrument's rows use min(), never any_value(): the rows
 -- agree on these fields today, and min() keeps the database (and its
@@ -127,7 +132,7 @@ GROUP BY r.instrument_id;
 INSERT INTO restriction
 SELECT id, instrument_id, technology, restriction_type,
        TRY_CAST(severity_score AS INTEGER), nullif_blank(severity_basis), nullif_blank(mechanisms),
-       nullif_blank(description), nullif_blank(long_description), nullif_blank(legal_basis),
+       reader_text(description), reader_text(long_description), nullif_blank(legal_basis),
        nullif_blank(sectors), TRY_CAST(latitude AS DOUBLE), TRY_CAST(longitude AS DOUBLE),
        nullif_blank(nrel_id), nullif_blank(ordinance_url), nullif_blank(conflicts_with),
        nullif_blank(needs_verification), source, nullif_blank(source_url), nullif_blank(source_id),
