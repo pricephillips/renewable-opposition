@@ -207,7 +207,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 204,
+  "snapshot_rows": 205,
   "snapshot_files": 5,
   "headline_history_rows": 25,
   "headline_first_change": "2026-09-29",
@@ -222,7 +222,7 @@
    "verified_projects": "205",
    "cases": "39",
    "siting_standard_rows": "23778",
-   "state_policies": "122",
+   "state_policies": "123",
    "counties_with_records": "1417",
    "counties_not_examined": "1726"
   }

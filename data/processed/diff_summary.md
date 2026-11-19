@@ -6,49 +6,63 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 9 | 5 |
-| contested_projects | 0 | 0 | 3 |
+| restrictions | 0 | 0 | 39 |
+| contested_projects | 0 | 0 | 0 |
 | cases | 0 | 0 | 0 |
-| state_policies | 0 | 0 | 0 |
+| state_policies | 1 | 0 | 0 |
 
 ## Tracked field changes
 
-| Entity | Row | Column | Before | After |
-|---|---|---|---|---|
-| contested_projects | con_e3e2d67d23 (Tessera's Saguache County Solar Thermal Project, CO) | outcome | blocked_unverified | blocked_confirmed |
-| contested_projects | con_e3e2d67d23 (Tessera's Saguache County Solar Thermal Project, CO) | finality_evidence | outcome_label_only | resolution: https://cleanenergyauthority.com/solar-energy-news/tessera-pulls-plug-on-huge-colorado-solar-plant-071911 |
-| contested_projects | con_e7f07ecd73 (Ridgeline Wind Energy Project, ID) | outcome | blocked_unverified | pending |
-| contested_projects | con_e7f07ecd73 (Ridgeline Wind Energy Project, ID) | finality_evidence | outcome_label_only | resolution: https://www.wind-watch.org/news-unarchived/WWnews_2010_08.html |
-| contested_projects | con_e7f07ecd73 (Ridgeline Wind Energy Project, ID) | severity_score | 4 | 2 |
-| contested_projects | con_bcdb34a15a (Valley County Wind Project, MT) | outcome | blocked_unverified | pending |
-| contested_projects | con_bcdb34a15a (Valley County Wind Project, MT) | finality_evidence | outcome_label_only | resolution: https://www.spokesman.com/stories/2007/sep/25/montana-wind-farm-revived-but-smaller/ |
-| contested_projects | con_bcdb34a15a (Valley County Wind Project, MT) | severity_score | 4 | 2 |
+No changes to outcome, status, case_status, finality_evidence, severity_score.
 
 ## Detail
 
 ### restrictions
 
-| @@ | id | state | jurisdiction | primary_source_verdict | primary_source_access | primary_source_url | status_as_of | evidence_level | verification | primary_source_checked_on |
-|---|---|---|---|---|---|---|---|---|---|---|
-| --- | res_967c550313 | GA | Putnam County | confirmed | opened | https://www.putnamcountyga.us/DocumentCenter/View/1226/2026-08-07-Resolution-for-Moratorium-on-Data-Centers-BESS-Solar-Farms-signed | 2026-10-08 | primary_source | verified | 2026-10-08 |
-| --- | res_bdac0a4558 | GA | Putnam County | confirmed | opened | https://www.putnamcountyga.us/DocumentCenter/View/1226/2026-08-07-Resolution-for-Moratorium-on-Data-Centers-BESS-Solar-Farms-signed | 2026-10-08 | primary_source | verified | 2026-10-08 |
-| --- | res_4abf3784d0 | CO | Eagle County |  |  |  |  | compiled_flagged | unverified |  |
-| --- | res_45f0b6126f | CO | Lake County |  |  |  |  | compiled_flagged | unverified |  |
-| -> | res_2d5fbdcdbd | CO | Routt County | ->confirmed | ->opened | ->https://www.co.routt.co.us/DocumentCenter/View/16306/Routt-County-UDC | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
-| --- | res_b2b97230f8 | FL | Calhoun County |  |  |  |  | compiled_flagged | unverified |  |
-| -> | res_db38a5e13c | FL | Dixie County | ->confirmed | ->opened | ->https://ncfrpc.org/MapsAndPlans/Counties/Dixie/LDR_DIXIE_21_Tan.pdf | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
-| -> | res_ba9f379959 | FL | Hardee County | ->confirmed | ->opened | ->https://hardeecountyfl.gov/uploads/2024/07/unified-land-development-code.pdf | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
-| --- | res_bf9e1e1dac | VA | Patrick County |  |  |  |  | compiled_flagged | unverified |  |
-| -> | res_dfadb0d510 | CO | Cheyenne County | ->confirmed | ->opened | ->https://www.co.cheyenne.co.us/assets/pdfs/zoning_1041_adopted_regs_2019.pdf | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
-| --- | res_cb4c4171d7 | CO | Montezuma County |  |  |  |  | compiled_flagged | unverified |  |
-| --- | res_fcc5a077c7 | CT | East Haddam Town |  |  |  |  | compiled_flagged | unverified |  |
-| -> | res_5952df1b7c | FL | Bay County | ->confirmed | ->opened | ->https://www.baycountyfl.gov/DocumentCenter/View/627/Chapter-35-Land-Development-Regulations | ->2026-11-19 | compiled_flagged->primary_source | unverified->verified | ->2026-11-19 |
-| --- | res_9b15e6fc6b | MN | Wright County |  |  |  |  | compiled_flagged | unverified |  |
+| @@ | id | state | jurisdiction | state_preemption_ids |
+|---|---|---|---|---|
+| -> | res_357bbf6c40 | KY | Henderson County | ->KY-local_preemption-1 |
+| -> | res_2f30d590f5 | KY | Breckinridge County | ->KY-local_preemption-1 |
+| -> | res_7d3d4b6533 | KY | Boyle County | ->KY-local_preemption-1 |
+| -> | res_42e2698168 | KY | Breckinridge County | ->KY-local_preemption-1 |
+| -> | res_0bc40dab32 | KY | Calloway County | ->KY-local_preemption-1 |
+| -> | res_0aba117b7c | KY | City of Hopkinsville | ->KY-local_preemption-1 |
+| -> | res_2feef6acf0 | KY | City of Villa Hills | ->KY-local_preemption-1 |
+| -> | res_a22302647b | KY | Lyon County | ->KY-local_preemption-1 |
+| -> | res_3e4c10caf8 | KY | Mason County | ->KY-local_preemption-1 |
+| -> | res_98648f17ab | KY | McCracken County | ->KY-local_preemption-1 |
+| -> | res_5749c432f0 | KY | Meade County | ->KY-local_preemption-1 |
+| -> | res_ad72a12ba7 | KY | Ohio County | ->KY-local_preemption-1 |
+| -> | res_ed8c0ae08d | KY | Todd County | ->KY-local_preemption-1 |
+| -> | res_30547fe7f1 | KY | Trigg County | ->KY-local_preemption-1 |
+| -> | res_96ea8a1174 | KY | Nicholas County | ->KY-local_preemption-1 |
+| -> | res_0ed993f262 | KY | Nicholas County | ->KY-local_preemption-1 |
+| -> | res_6c30dff453 | KY | Nicholas County | ->KY-local_preemption-1 |
+| -> | res_9de846e1c5 | KY | Ballard County | ->KY-local_preemption-1 |
+| -> | res_9387bd0fc7 | KY | Boone County | ->KY-local_preemption-1 |
+| -> | res_6a461f06bf | KY | Boyle County | ->KY-local_preemption-1 |
+| -> | res_8ca919ee1c | KY | Calloway County | ->KY-local_preemption-1 |
+| -> | res_918826ee23 | KY | Clark County | ->KY-local_preemption-1 |
+| -> | res_f54250d401 | KY | Garrard County | ->KY-local_preemption-1 |
+| -> | res_0afe8028e3 | KY | Harrison County | ->KY-local_preemption-1 |
+| -> | res_58f2def63f | KY | Henderson County | ->KY-local_preemption-1 |
+| -> | res_40186b65b8 | KY | Jessamine County | ->KY-local_preemption-1 |
+| -> | res_3ab414f2b1 | KY | McCracken County | ->KY-local_preemption-1 |
+| -> | res_69d44d725f | KY | McLean County | ->KY-local_preemption-1 |
+| -> | res_c6d3ac1893 | KY | Mason County | ->KY-local_preemption-1 |
+| -> | res_d89f9934c1 | KY | Meade County | ->KY-local_preemption-1 |
+| -> | res_70b923d02b | KY | Ohio County | ->KY-local_preemption-1 |
+| -> | res_421117121c | KY | Scott County | ->KY-local_preemption-1 |
+| -> | res_bd75becea1 | KY | Simpson County | ->KY-local_preemption-1 |
+| -> | res_4b9d4d1068 | KY | Spencer County | ->KY-local_preemption-1 |
+| -> | res_0b45c74dc9 | KY | Todd County | ->KY-local_preemption-1 |
+| -> | res_89b6f8514f | KY | Trigg County | ->KY-local_preemption-1 |
+| -> | res_a1fa7eaf37 | KY | Boyle County | ->KY-local_preemption-1 |
+| -> | res_23b0d613f8 | KY | Mason County | ->KY-local_preemption-1 |
+| -> | res_b083ec791b | KY | Warren County | ->KY-local_preemption-1 |
 
-### contested_projects
+### state_policies
 
-| @@ | id | state | project_name | severity_score | outcome | finality_evidence | evidence_level | verification | resolution_url | resolution_access | resolution_date |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| -> | con_e3e2d67d23 | CO | Tessera's Saguache County Solar Thermal Project | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://cleanenergyauthority.com/solar-energy-news/tessera-pulls-plug-on-huge-colorado-solar-plant-071911 | report_citation->confirmed | unverified->verified | ->https://cleanenergyauthority.com/solar-energy-news/tessera-pulls-plug-on-huge-colorado-solar-plant-071911 | ->opened | ->2011-07 |
-| -> | con_e7f07ecd73 | ID | Ridgeline Wind Energy Project | 4->2 | blocked_unverified->pending | outcome_label_only->resolution: https://www.wind-watch.org/news-unarchived/WWnews_2010_08.html | report_citation | unverified->verified | ->https://www.wind-watch.org/news-unarchived/WWnews_2010_08.html | ->opened | ->2010-08 |
-| -> | con_bcdb34a15a | MT | Valley County Wind Project | 4->2 | blocked_unverified->pending | outcome_label_only->resolution: https://www.spokesman.com/stories/2007/sep/25/montana-wind-farm-revived-but-smaller/ | report_citation | unverified->verified | ->https://www.spokesman.com/stories/2007/sep/25/montana-wind-farm-revived-but-smaller/ | ->opened | ->2007-09-24 |
+| @@ | id | state |
+|---|---|---|
+| +++ | KY-local_preemption-1 | KY |

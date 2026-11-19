@@ -1576,7 +1576,7 @@
     "county_fips_method": "name",
     "state_siting_authority": "hybrid",
     "state_threshold_mw": "10",
-    "state_preemption_ids": "",
+    "state_preemption_ids": "KY-local_preemption-1",
     "state_limits_local": "yes",
     "qc_issues": [
       {

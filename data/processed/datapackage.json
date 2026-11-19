@@ -962,7 +962,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "State siting law, verified against the statute.",
-      "rows": 122,
+      "rows": 123,
       "schema": {
         "fields": [
           {

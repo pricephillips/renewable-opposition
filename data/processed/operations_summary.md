@@ -78,4 +78,4 @@ Last error by source: gdelt_renewable_news (2026-11-17: 429 Client Error: Too Ma
 
 ## History and archive
 
-204 snapshot rows over 5 published files; 25 headline changes recorded (2026-09-29 to 2026-11-19). Sources: 87, of which 44 have an Internet Archive snapshot.
+205 snapshot rows over 5 published files; 25 headline changes recorded (2026-09-29 to 2026-11-19). Sources: 87, of which 44 have an Internet Archive snapshot.

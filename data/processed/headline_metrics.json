@@ -251,18 +251,18 @@
     "restricting_rows": 7317
   },
   "state_policies": {
-    "rows": 122,
+    "rows": 123,
     "states": 51,
     "by_policy_type": {
       "local_opt_out": 1,
-      "local_preemption": 29,
+      "local_preemption": 30,
       "other": 16,
       "siting_authority": 49,
       "state_moratorium": 3,
       "state_setback_standard": 24
     },
     "by_verification": {
-      "verified": 122
+      "verified": 123
     }
   },
   "county_coverage": {
