@@ -62,6 +62,7 @@ agent on two days is still one reviewer.
 | What | Drafted in | Reviewed in |
 |---|---|---|
 | State siting law (`state_policies`) | `data/review/state_policies_candidates.csv` (`drafted_by`) | the same row: `reviewer`, `reviewed_on`, `review_access`, `review_archived_url`, `review_verdict`, `review_note` |
+| State bill leads (LegiScan) | `data/review/state_bill_leads.csv` (`review_note` names the drafter; `/review-state-bills`) | the same row: `reviewer`, `reviewed_on`, `review_status`; an enacted bill also gets a `state_policies_candidates.csv` row, reviewed there |
 | NREL accuracy sample | `data/review/nrel_sample.csv` (drawn by `scripts/nrel_sample.py`, seed recorded) | `data/review/nrel_sample_review.csv`, one row per sampled feature; a sampled restriction whose features all pass gets a `restriction_sources.csv` row (`verdict` confirmed) and becomes `verified` |
 | Restriction instruments | `data/review/restriction_worklist.csv` | `data/review/restriction_sources.csv` |
 | Review-queue candidates | `data/review/queue.csv` (`reviewer_notes` names the drafter) | `review_status` `confirmed`, with the reviewer named in `reviewer_notes` |

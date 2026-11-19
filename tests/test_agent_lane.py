@@ -241,7 +241,7 @@ def test_blind_reviewer_writes_its_review_packet_never_a_draft():
 def test_editor_writes_the_hand_kept_review_files_only():
     for path in ("restriction_sources.csv", "outcome_resolutions.csv", "queue.csv", "negative_checks.csv",
                  "verification_log.csv", "place_overrides.csv", "state_policies_candidates.csv",
-                 "cases_candidates.csv", "group_candidates.csv"):
+                 "cases_candidates.csv", "group_candidates.csv", "state_bill_leads.csv"):
         assert ok(tool("editor", "Edit", file_path=f"{R}/data/review/{path}")), path
     for path in ("data/review/restriction_worklist.csv", "data/review/fips_misses.csv",
                  "data/processed/restrictions.csv", "data/seed/restrictions_seed.csv", "scripts/qc_gate.py",
