@@ -97,6 +97,7 @@ REVIEWER_COLUMN_FILES = {
     "data/review/sabin_edition_crosswalk.csv",
     "data/review/restriction_sources.csv",
     "data/review/outcome_resolutions.csv",
+    "data/review/state_bill_leads.csv",
 }
 PROSE_PREFIXES = ("docs/", "deliverables/")
 PROSE_FILES = {"README.md"}

@@ -101,6 +101,7 @@ FILES = {
     "data/review/queue.csv": (("queue_id",), ()),
     "data/review/negative_checks.csv": (("county_fips", "scope", "checked_on"), ()),
     "data/review/state_policies_candidates.csv": (("policy_id",), ()),
+    "data/review/state_bill_leads.csv": (("bill_id",), ()),
     "data/review/group_candidates.csv": (("source_record_id", "group_name"), ()),
     "data/review/organizing_actions.csv": (("source_record_id", "action", "source_url"), ()),
     "data/review/cases_candidates.csv": (("source_record_id", "case_name", "docket_number"), ()),

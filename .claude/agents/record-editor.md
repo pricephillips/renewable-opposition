@@ -20,6 +20,7 @@ The hand-kept review files under `data/review/`: `restriction_sources.csv`,
 `examination_log.csv`, `queue.csv`,
 `cases_candidates.csv`, `negative_checks.csv`, `place_overrides.csv`,
 `group_candidates.csv`, `state_policies_candidates.csv`,
+`state_bill_leads.csv` (its review columns only),
 `nrel_sample_review.csv`, and packets under `.packets/`. Never a worklist,
 `data/processed/`, a seed, code, config or docs (the lane hook refuses them).
 Never stage, commit or push: the session that started you does.
