@@ -119,6 +119,7 @@ DESCRIPTIONS = {
     "primary_source_access": "How the primary source was seen: opened, archived or snippet.",
     "primary_source_checked_on": "The date the reviewer checked the primary source.",
     "status_checked_on": "The date two reviewers settled the instrument's status from its code, the instrument or the minutes that acted on it (data/review/status_resolutions.csv); blank when no status reading has been made.",
+    "status_note": "The agreed status reading's note: what the code or minutes say about the instrument today.",
     "status_evidence_url": "The document the status reading rests on; blank when no status reading has been made.",
     "primary_source_archived_url": "The Internet Archive copy the reviewer read, when access is archived.",
     "queue_id": "The review-queue row a promoted record came from.",
@@ -128,6 +129,18 @@ DESCRIPTIONS = {
     "ordinance_url": "The ordinance text NREL links to.",
     "nrel_jurisdiction_type": "NREL's own jurisdiction type for the ordinance.",
     "conflicts_with": "Another source's instrument for the same jurisdiction and technology whose values disagree.",
+    "term": "Moratoria and bans only: temporary (a pause), permanent (a ban that describes no pause) or unclear "
+            "(the source does not say which), read from the record (scripts/moratorium_terms.py).",
+    "ends_on": "Temporary instruments: the date the pause runs to, from current_end_date_iso or the record's text.",
+    "ends_on_basis": "Where ends_on comes from: record (current_end_date_iso), text (parsed from the record) or "
+                     "term (a stated term, such as a one-year moratorium, counted from the enactment date).",
+    "extensions": "Temporary instruments: how many extensions the record describes (distinct dates on which one "
+                  "was made, at least 1 when the status is extended). A floor, not a full history.",
+    "last_extended_on": "The latest date on which the record says the instrument was extended or renewed.",
+    "months_in_force": "Months from the enactment date to the build date, or to ends_on when that has passed.",
+    "drafting": "Temporary instruments: active when the record says the government is drafting or studying the "
+                "rules the pause waits for, adopted when it says they were adopted.",
+    "drafting_note": "The sentence of the record that the drafting value rests on.",
     "status_as_of": "The latest date the status is known to have held: an 'as of' date in the text, the "
                     "enactment date or a reviewer's check.",
     "placement_url": "The document a reviewer's place override rests on (data/review/place_overrides.csv).",

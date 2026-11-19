@@ -63,12 +63,16 @@ BUILD = [
     ("county_typology", ["scripts/county_typology.py"], "one category per county", False),
     ("county_record_score", ["scripts/county_record_score.py"],
      "the county record score, rescored on each build (internal, data/model/)", False),
+    ("record_score_fit", ["scripts/record_score_fit.py"],
+     "what the decided projects say about the record score's moratorium weights (internal)", True),
     # Reads the contested projects just built, so the committed matches follow
     # every outcome a review changes, not only the monthly fetch.
     ("queue_matches", ["scripts/queue_matches.py"],
      "contested projects matched to their Queued Up requests", True),
     ("codebook", ["scripts/codebook.py"], "docs/codebook.md from the rules' own constants", False),
     ("verification_worklist", ["scripts/verification_worklist.py"], "rank what to verify next", False),
+    ("client_view_audit", ["scripts/client_view_audit.py"],
+     "questions a client reader would ask of each county profile", True),
     ("adjacency_worklist", ["scripts/adjacency_worklist.py"], "neighbor watch", False),
     ("coverage_delta", ["scripts/coverage_delta.py"], "column coverage gate", False),
     ("snapshot_manifest", ["scripts/snapshot_manifest.py"], "dated, hashed record of each output", False),

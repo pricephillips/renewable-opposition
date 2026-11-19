@@ -140,7 +140,8 @@ def instruments(rows: list[dict]) -> dict[str, dict]:
         iid = _s(r.get("instrument_id")) or _s(r.get("id"))
         cur = out.setdefault(iid, {"id": iid, "fips": set(), "techs": set(), "severity": 0, "currency": "",
                                     "jurisdiction_type": "", "restriction_type": "", "jurisdiction": "",
-                                    "verified": False, "year": "", "tech_severity": {}})
+                                    "verified": False, "year": "", "tech_severity": {},
+                                    "term": "", "extensions": 0, "months_in_force": 0.0, "drafting": ""})
         cur["fips"].update(_fips(r))
         if _s(r.get("technology")):
             cur["techs"].add(_s(r["technology"]))
@@ -155,6 +156,19 @@ def instruments(rows: list[dict]) -> dict[str, dict]:
         year = _s(r.get("date_enacted_iso"))[:4]
         if year.isdigit():
             cur["year"] = max(cur["year"], year)
+        # Moratorium terms (scripts/moratorium_terms.py): a pause anywhere in
+        # the instrument's rows is a pause unless a row reads as a ban.
+        t = _s(r.get("term"))
+        if t == "permanent" or (t == "temporary" and cur["term"] != "permanent") or (t and not cur["term"]):
+            cur["term"] = t
+        cur["extensions"] = max(cur["extensions"], _int(r.get("extensions")))
+        try:
+            cur["months_in_force"] = max(cur["months_in_force"], float(_s(r.get("months_in_force")) or 0))
+        except ValueError:
+            pass
+        d = _s(r.get("drafting"))
+        if d == "adopted" or (d == "active" and cur["drafting"] != "adopted"):
+            cur["drafting"] = d
     return out
 
 
@@ -162,7 +176,31 @@ def is_county_wide(inst: dict, cfg: dict) -> bool:
     return inst["jurisdiction_type"] in cfg["instruments"]["jurisdiction"]["county_types"]
 
 
+def term_factor(inst: dict, cfg: dict) -> float:
+    """How much of a severe pause's points count, from its terms (Hawthorn's
+    renewables pilot review, 2026-11-19): a moratorium is not a ban. A
+    temporary instrument starts at `base` and gains `per_extension` for each
+    extension on record and `per_year_in_force` for each year it has run, up
+    to `max`; one whose government is drafting the rules it waits for counts
+    at `drafting_active` of that. A ban, or an instrument the record does not
+    show to be temporary, counts in full. Never above 1, so the terms only
+    lower a score, and only on evidence in the record."""
+    t = cfg["instruments"].get("term")
+    if not t or inst.get("term") != "temporary" or inst.get("severity", 0) < t["from_severity"]:
+        return 1.0
+    f = t["base"] + t["per_extension"] * inst.get("extensions", 0) \
+        + t["per_year_in_force"] * inst.get("months_in_force", 0.0) / 12
+    f = min(t["max"], f)
+    if inst.get("drafting") == "active":
+        f *= t["drafting_active"]
+    return round(min(1.0, f), 4)
+
+
 def instrument_points(inst: dict, cfg: dict) -> float:
+    return _instrument_points(inst, cfg) * term_factor(inst, cfg)
+
+
+def _instrument_points(inst: dict, cfg: dict) -> float:
     c = cfg["instruments"]
     base = c["severity_points"].get(str(inst["severity"]), 0)
     currency = c["currency"].get(inst["currency"] or "unknown", 0.0)
@@ -791,6 +829,17 @@ def weights(cfg: dict) -> list[dict]:
     add(part, "Each instrument after the largest", ins["others_weight"],
         "Share of its points that counts; the largest instrument counts in full.", "share")
     add(part, "Most instrument points", ins["cap"], "Cap on the sum.")
+    tm = ins.get("term")
+    if tm:
+        part = "Moratorium terms"
+        add(part, "A new moratorium (temporary pause)", tm["base"],
+            f"Share of a severity {tm['from_severity']} or 4 pause's points that counts when it has just begun "
+            "and was never extended. A ban counts in full.", "share")
+        add(part, "Each extension on record", tm["per_extension"], "Added to that share.", "share")
+        add(part, "Each year in force", tm["per_year_in_force"], "Added to that share.", "share")
+        add(part, "Most of a pause's points", tm["max"], "Cap on that share.", "share")
+        add(part, "Rules being drafted", tm["drafting_active"],
+            "Multiplier when the record says the government is drafting the rules the pause waits for.", "share")
     zt = cfg["zoning_transition"]
     add("Zoning transitions", "Severity counted", zt["severity"],
         f"A county moving from no zoning to zoning while projects are proposed counts as a county-wide instrument "

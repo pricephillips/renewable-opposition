@@ -70,6 +70,11 @@
     },
     "data/model/county_record_report.md": {"layer": "derived", "writers": ["scripts/county_record_score.py"]},
     "data/model/county_record_weights.csv": {"layer": "derived", "writers": ["scripts/county_record_score.py"]},
+    "data/model/record_score_fit.json": {
+      "layer": "derived", "writers": ["scripts/record_score_fit.py"],
+      "reason": "Internal check of whether the county record score's weights can be learned from decided projects (docs/county_record_score.md). Nothing reads it to set a weight; it reports the fit, its cross-validated AUC against the hand-set rubric, and what the record lacks."
+    },
+    "data/model/record_score_fit.md": {"layer": "derived", "writers": ["scripts/record_score_fit.py"]},
     "data/cost/cost_ledger.csv": {
       "layer": "derived", "writers": ["scripts/cost_ledger.py"],
       "reason": "Internal cost ledger (ported from data-center-map spec 025): each contested project's observed span priced at the published rates in config/cost_anchors.json, or the reason it is withheld. No page, report or headline figure reads it."
@@ -190,6 +195,10 @@
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "A reviewing agent's verdict on each sampled NREL feature against the ordinance (docs/AGENT_REVIEW.md). Read by nrel_sample.py and siting_standards.py."
     },
+    "data/review/client_view_log.csv": {
+      "layer": "review", "writers": [], "hand_edited": true,
+      "reason": "One line per county the client-view review read (docs/VERIFICATION_ROUTINE.md, section 6), appended by the record-editor. scripts/client_view_audit.py --pick reads it to skip counties read in the last 30 days; nothing builds or publishes it."
+    },
     "data/review/examination_log.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "One line per county a sweep examined (/sweep-counties), appended by the record-editor. scripts/examination_batch.py reads it to skip counties attempted in the last 60 days; nothing builds or publishes it."
@@ -230,6 +239,7 @@
     "data/review/adjacency_worklist.csv": {"layer": "derived", "writers": ["scripts/adjacency_worklist.py"]},
     "data/review/negative_check_worklist.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
+    "data/review/client_view_findings.csv": {"layer": "derived", "writers": ["scripts/client_view_audit.py"]},
     "data/processed/operations_summary.json": {"layer": "derived", "writers": ["scripts/operations_summary.py"]},
     "data/processed/operations_summary.md": {"layer": "derived", "writers": ["scripts/operations_summary.py"]},
     "data/processed/county_typology.csv": {"layer": "derived", "writers": ["scripts/county_typology.py"]},

@@ -81,10 +81,12 @@ currency        restrictions only. Whether the instrument is known to be in
                                       date has passed
                   lapsed_unconfirmed  status active or extended, but
                                       current_end_date_iso is before today and
-                                      no reviewer confirmed the instrument
-                                      against its primary source, or settled
-                                      its status (status_resolutions.csv), on
-                                      or after that date. A moratorium past its end
+                                      no reviewer settled its status
+                                      (status_resolutions.csv) on or after
+                                      that date. A primary-source reading
+                                      after the end date does not count: it
+                                      confirms the end date, not an
+                                      extension. A moratorium past its end
                                       date is not known to be in force;
                                       nothing confirms an extension either.
                                       Severity and status are left as the
@@ -199,6 +201,8 @@ import calendar
 import re
 from datetime import date
 
+import moratorium_terms
+
 RENEWABLE_TEXT = re.compile(
     r"solar|photovolt|\bpv\b|\bwind(?:s|farms?|mills?|power)?\b|turbine|batter|energy storage|\bbess\b|renewable", re.I)
 DATA_CENTER_TEXT = re.compile(
@@ -208,7 +212,8 @@ SCOPE_TEXT_FIELDS = tuple(f for f in TEXT_FIELDS if f != "notes")
 
 EVIDENCE_ORDER = ("primary_source", "confirmed", "court_record", "compiled_record",
                   "compiled_flagged", "report_citation")
-# Kept in step with resolutions.READ_ACCESS (this module does no I/O and imports nothing).
+# Kept in step with resolutions.READ_ACCESS (this module does no I/O and imports
+# nothing but moratorium_terms, which does no I/O either).
 READ_ACCESS = ("opened", "archived")
 SCOPES = ("renewables_only", "multi_sector_data_centers", "data_center_only")
 VERIFICATION = ("verified", "located", "unverified")
@@ -358,10 +363,11 @@ def currency(row: dict, today: date | None = None) -> str:
     today_s = (today or date.today()).isoformat()
     if end >= today_s[: len(end)]:
         return "in_force"
-    checked = _s(row.get("primary_source_checked_on"))
-    if _s(row.get("primary_source_verdict")) == "confirmed" and _ISO_DATE.fullmatch(checked) \
-            and checked[: len(end)] >= end:
-        return "in_force"
+    # A primary-source reading that agrees with the record confirms the end
+    # date too, so on its own it never keeps a lapsed instrument in force
+    # (2026-11-19: Rockdale County, GA and Covington, WA were read after
+    # their end dates, found no extension, and still read in force). Only a
+    # status reading on or after the end date settles it.
     settled = _s(row.get("status_checked_on"))
     if _ISO_DATE.fullmatch(settled) and settled[: len(end)] >= end:
         return "in_force"
@@ -717,6 +723,7 @@ def stamp(entity: str, row: dict, today: date | None = None) -> dict:
         row["scope"] = scope(row)
         row["currency"] = currency(row, today)
         row["status_as_of"] = status_as_of(row)
+        moratorium_terms.stamp(row, today)
     if entity == "contested_projects":
         row["concerns"] = concerns(row)
     row["evidence_level"] = evidence_level(entity, row)

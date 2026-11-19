@@ -70,6 +70,18 @@ reading.
   minutes around that date and found no extension. `end_date` is the stated
   end date. Name the meetings you searched in `note`.
 
+For a moratorium or ban, also answer the questions a reader of the county's
+profile asks first, in `note`, one plain sentence each, from what you read:
+the date it was first adopted; each extension or renewal (its date and the
+ordinance or resolution number); the date it now runs to; and whether the
+body is drafting, studying or has adopted the rules the pause waits for
+("the planning commission is drafting a wind ordinance", "the county adopted
+its solar ordinance on 2026-08-12"). Say "not stated" for any the documents do
+not answer. Write the dates as YYYY-MM-DD. The build reads this note
+(`scripts/moratorium_terms.py`) to show how long a pause has run, how often it
+was extended and whether rules are being drafted, so quote only what the
+document says.
+
 The `fields` list compares the record with the document as for any
 instrument reading: at least `status`, and the values that show the
 provisions are the same ones (a setback distance, a height or noise limit, an

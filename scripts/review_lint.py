@@ -109,6 +109,7 @@ FILES = {
     "data/review/sabin_state_level_dispositions.csv": (("sabin_record_id",), ()),
     "data/review/verification_log.csv": (("date", "queue", "key", "outcome", "note"), ()),
     "data/review/examination_log.csv": (("date", "county_fips", "run"), ()),
+    "data/review/client_view_log.csv": (("date", "county_fips"), ()),
 }
 ACCESS_REQUIRED = ("data/review/restriction_sources.csv", "data/review/outcome_resolutions.csv",
                    "data/review/place_overrides.csv", "data/review/status_resolutions.csv")
@@ -116,7 +117,9 @@ ACCESS_REQUIRED = ("data/review/restriction_sources.csv", "data/review/outcome_r
 QUEUE_FALLBACK = ("source_id", "entity_type", "state", "county", "municipality", "project_name", "source_url")
 # profile_requests.csv: site_profile.py records each county profiled.
 # coverage_expectations.json: /verify-evidence raises a floor a read source lifts.
-REVIEW_LANE_EXTRA = ("data/review/profile_requests.csv", "config/coverage_expectations.json")
+# reader_questions.json: the client-view review adds a question a reader asked.
+REVIEW_LANE_EXTRA = ("data/review/profile_requests.csv", "config/coverage_expectations.json",
+                     "config/reader_questions.json")
 REVIEW_LANE_PREFIXES = ("docs/county_checks/",)
 GENERATED_PREFIXES = ("data/processed/", "data/db/", "data/snapshots/")
 
