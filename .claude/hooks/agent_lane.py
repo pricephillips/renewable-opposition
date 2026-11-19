@@ -35,6 +35,11 @@ Lanes
            branch; writes only its report under .packets/ or outside the
            repository, and may restore files a check regenerated (git
            restore, git checkout --).
+  build    renewables-integrator. Builds one tool Price approved in his
+           tool picks: writes code, tests, config, requirements and the
+           public pages' script tags (scripts/, tests/, config/,
+           requirements/, styles/, *.html and *.js at the top), never data/,
+           docs/, .github/ or .claude/. Runs any script and test.
 
 Every lane
   - never touches reports from local contacts (local_knowledge*,
@@ -157,7 +162,7 @@ FETCH_METHODS = {"GET", "HEAD"}
 @dataclass(frozen=True)
 class Lane:
     name: str
-    writes: str          # "packets", "review", "prose"
+    writes: str          # "packets", "review", "prose", "code"
     scripts: str         # "look" (LOOK_SCRIPTS), "blind" (BLIND_SCRIPTS) or "any"
     git: str             # "look", "none", "restore"
     blind: bool = False
@@ -169,7 +174,13 @@ LANES = {
     "editor": Lane("editor", writes="review", scripts="look", git="look"),
     "copy": Lane("copy", writes="prose", scripts="look", git="look"),
     "qc": Lane("qc", writes="packets", scripts="any", git="restore"),
+    "build": Lane("build", writes="code", scripts="any", git="look"),
 }
+# What the build lane may write: the parts a tool is built into, by the paths
+# in renewables-integrator.md. Data, docs, workflows and agent rules stay with
+# the pipeline, the copy-editor, and the session.
+CODE_PREFIXES = ("scripts/", "tests/", "config/", "requirements/", "styles/")
+CODE_TOP_SUFFIXES = (".html", ".js")
 
 
 class Refused(Exception):
@@ -272,7 +283,12 @@ def check_write(lane: Lane, path: Path | None, roots: list[Path], what: str) -> 
     if lane.writes == "prose" and rel.endswith(".md") and rel not in _generated_docs() \
             and (rel in PROSE_FILES or rel.startswith(PROSE_PREFIXES)):
         return
+    if lane.writes == "code" and (rel.startswith(CODE_PREFIXES)
+                                  or ("/" not in rel and rel.endswith(CODE_TOP_SUFFIXES))):
+        return
     allowed = {
+        "code": "only code, tests, config, requirements and the public pages' scripts (scripts/, tests/, "
+                f"config/, requirements/, styles/, top-level *.html and *.js) and {PACKETS}/",
         "packets": f"only under {PACKETS}/ or outside the repository",
         "review": f"only the hand-kept review files ({', '.join(sorted(_hand_kept()))}) and {PACKETS}/",
         "prose": "only hand-written markdown (README.md, docs/, deliverables/; not a generated doc) "
