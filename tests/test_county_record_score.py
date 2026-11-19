@@ -453,3 +453,23 @@ def test_a_developers_petition_is_not_organizing():
 def test_the_national_rank_counts_every_county():
     got = _build(restrictions=[_r("a", "1", sev=4), _r("b", "2", sev=2)], summary=_summary("1", "2", "3"))
     assert [got[f]["us_rank"] for f in "123"] == [1, 2, 3] and got["1"]["us_n"] == 3
+
+
+def test_groups_and_petitions_kept_beside_the_records_count_once_read():
+    co = CFG["organizing"]
+    proj = [{**_g("1"), "source_record_id": "S-1"}, {**_g("2", litigation="yes"), "source_record_id": "S-2"},
+            {**_g("3"), "source_record_id": "S-3"}]
+    groups = [{"source_record_id": "S-2", "entity": "contested_project", "group_name": "Save Our Fields",
+               "group_source_url": "https://example.org/g", "access": "opened"},
+              {"source_record_id": "S-3", "entity": "contested_project", "group_name": "Unread Group",
+               "group_source_url": "https://example.org/u", "access": ""}]
+    actions = [{"source_record_id": "S-1", "action": "petition", "source_url": "https://example.org/p",
+                "access": "opened"},
+               {"source_record_id": "S-3", "action": "petition", "source_url": "https://example.org/q",
+                "access": "located"}]
+    got = {r["county_fips"]: r for r in rs.build([], proj, _summary("1", "2", "3"),
+                                                 _profile({"1": 0.2, "2": 0.2, "3": 0.2}), NO_ZONING,
+                                                 "2026-10-21", (), groups, actions)}
+    assert got["1"]["organizing_points"] == co["organized_action_points"], "a read petition counts"
+    assert got["2"]["organizing_points"] == min(co["cap"], co["group_points"] + co["organized_action_points"])
+    assert got["3"]["organizing_points"] == 0, "an unread source does not count"

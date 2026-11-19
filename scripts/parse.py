@@ -104,6 +104,7 @@ CITED_PATHS = [
     (REVIEW_DIR / "outcome_resolutions.csv", "evidence_url"),
     (REVIEW_DIR / "restriction_sources.csv", "primary_source_url"),
     (REVIEW_DIR / "group_candidates.csv", "group_source_url"),
+    (REVIEW_DIR / "organizing_actions.csv", "source_url"),
     (REVIEW_DIR / "place_overrides.csv", "evidence_url"),
     (REVIEW_DIR / "status_resolutions.csv", "evidence_url"),
     (REVIEW_DIR / "cases_candidates.csv", "case_source_url"),

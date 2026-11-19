@@ -102,6 +102,7 @@ FILES = {
     "data/review/negative_checks.csv": (("county_fips", "scope", "checked_on"), ()),
     "data/review/state_policies_candidates.csv": (("policy_id",), ()),
     "data/review/group_candidates.csv": (("source_record_id", "group_name"), ()),
+    "data/review/organizing_actions.csv": (("source_record_id", "action", "source_url"), ()),
     "data/review/cases_candidates.csv": (("source_record_id", "case_name", "docket_number"), ()),
     "data/review/sabin_edition_crosswalk.csv": (("rec_id",), ()),
     "data/review/sabin_state_level_dispositions.csv": (("sabin_record_id",), ()),

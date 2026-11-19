@@ -83,7 +83,7 @@ from statistics import NormalDist, median
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import PROCESSED_DIR, ROOT, read_csv, write_csv  # noqa: E402
+from common import PROCESSED_DIR, REVIEW_DIR, ROOT, read_csv, write_csv  # noqa: E402
 
 CONFIG_PATH = ROOT / "config" / "county_record_score.json"
 RESTRICTIONS_PATH = PROCESSED_DIR / "restrictions.csv"
@@ -91,6 +91,11 @@ PROJECTS_PATH = PROCESSED_DIR / "contested_projects.csv"
 SUMMARY_PATH = PROCESSED_DIR / "county_summary.csv"
 FACILITIES_PATH = ROOT / "data" / "reference" / "facilities.csv"
 PROFILE_PATH = ROOT / "data" / "model" / "county_restriction_scores.csv"
+# Sourced organizing evidence kept beside the project records: groups named
+# by a read source (group_registry.py) and petition or referendum drives.
+GROUP_CANDIDATES_PATH = REVIEW_DIR / "group_candidates.csv"
+ORGANIZING_ACTIONS_PATH = REVIEW_DIR / "organizing_actions.csv"
+READ_ACCESS = ("opened", "archived")
 PROFILE_COLUMN = "has_severe__queue"
 SCORES_PATH = ROOT / "data" / "model" / "county_record_scores.csv"
 REPORT_PATH = ROOT / "data" / "model" / "county_record_report.md"
@@ -379,13 +384,23 @@ def uncontested_builds(years: list[int], insts: list[dict], zoning: dict | None,
 
 # ── Score ───────────────────────────────────────────────────────────────────
 
-def organizing(project_rows: list[dict], cfg: dict) -> dict[str, dict]:
+def _read(r: dict, url_col: str) -> bool:
+    """A review row counts once its source was read: a URL with access
+    opened or archived (the same standard group_registry.py publishes by)."""
+    return _s(r.get(url_col)).startswith("http") and _s(r.get("access")) in READ_ACCESS
+
+
+def organizing(project_rows: list[dict], cfg: dict, group_rows: list[dict] = (),
+               action_rows: list[dict] = ()) -> dict[str, dict]:
     """fips -> {"groups": named opposition groups on record, "action": True
     when the record shows an organized action by opponents}. A group counts
     only with a source in group_sources. An action is a petition or
     referendum drive by opponents that the project's description reports (in
     a sentence that also names opponents or signatures), or a lawsuit on a
-    project a named group opposes."""
+    project a named group opposes. group_rows (group_candidates.csv) add
+    groups, and action_rows (organizing_actions.csv) add petition or
+    referendum drives, to the project their source_record_id names, each only
+    once its source was read."""
     co = cfg.get("organizing") or {}
     def words(key):
         return re.compile(r"\b(" + "|".join(map(re.escape, co[key])) + r")", re.I) if co.get(key) else None
@@ -395,13 +410,23 @@ def organizing(project_rows: list[dict], cfg: dict) -> dict[str, dict]:
         """A petition or referendum in a sentence that also names opponents."""
         return bool(terms) and any(terms.search(x) and (opponents is None or opponents.search(x))
                                    for x in re.split(r"(?<=[.;])\s+", text))
+    extra: dict[str, set] = defaultdict(set)
+    for r in group_rows:
+        if _s(r.get("entity")) in ("", "contested_project") and _read(r, "group_source_url") \
+                and _s(r.get("group_name")):
+            extra[_s(r.get("source_record_id"))].add(_s(r.get("group_name")))
+    drives = {_s(r.get("source_record_id")) for r in action_rows
+              if _s(r.get("action")) in ("petition", "referendum") and _read(r, "source_url")}
     out: dict[str, dict] = {}
     for p in project_rows:
         groups = {g.strip() for g in _s(p.get("opposition_groups")).split(";") if g.strip()} \
             if _s(p.get("group_sources")) else set()
+        sid = _s(p.get("source_record_id"))
+        if sid:
+            groups |= extra.get(sid, set())
         text = _s(p.get("description")) + " " + _s(p.get("long_description"))
         sued = _s(p.get("has_litigation")).lower() in ("true", "1", "yes") or "litigation" in _s(p.get("opposition_type"))
-        action = petitioned(text) or (bool(groups) and sued)
+        action = petitioned(text) or (bool(sid) and sid in drives) or (bool(groups) and sued)
         if not (groups or action):
             continue
         for f in _fips(p):
@@ -509,7 +534,8 @@ def pct(values: list[float], v: float) -> float:
 
 
 def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: list[dict],
-          profile_rows: list[dict], cfg: dict, as_of: str, facility_rows: list[dict] = ()) -> list[dict]:
+          profile_rows: list[dict], cfg: dict, as_of: str, facility_rows: list[dict] = (),
+          group_rows: list[dict] = (), action_rows: list[dict] = ()) -> list[dict]:
     by_county: dict[str, list[dict]] = defaultdict(list)
     for inst in instruments(restriction_rows).values():
         for f in inst["fips"]:
@@ -519,7 +545,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         for f in _fips(p):
             outcomes[f].append(_s(p.get("outcome")))
     zoning = zoning_instruments(cfg, as_of)
-    org = organizing(list(project_rows), cfg)
+    org = organizing(list(project_rows), cfg, list(group_rows), list(action_rows))
     built_years = plants(list(facility_rows), cfg)
     sizes = reference_sizes(list(facility_rows), cfg) if cfg.get("state_preemption") else {}
     profile = {_s(r["county_fips"]): float(r[PROFILE_COLUMN]) for r in profile_rows
@@ -603,7 +629,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
     if (cfg.get("state_preemption") or {}).get("rules"):
         local_cfg = {**cfg, "state_preemption": {**cfg["state_preemption"], "rules": [], "cap_prior": False}}
         local = {r["county_fips"]: r for r in build(restriction_rows, project_rows, summary_rows, profile_rows,
-                                                    local_cfg, as_of, facility_rows)}
+                                                    local_cfg, as_of, facility_rows, group_rows, action_rows)}
     else:
         local = {r["county_fips"]: r for r in rows}
     for r in rows:
@@ -811,7 +837,8 @@ def main() -> int:
     import datetime as dt
     cfg = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     rows = build(read_csv(RESTRICTIONS_PATH), read_csv(PROJECTS_PATH), read_csv(SUMMARY_PATH),
-                 read_csv(PROFILE_PATH), cfg, dt.date.today().isoformat(), read_csv(FACILITIES_PATH))
+                 read_csv(PROFILE_PATH), cfg, dt.date.today().isoformat(), read_csv(FACILITIES_PATH),
+                 read_csv(GROUP_CANDIDATES_PATH), read_csv(ORGANIZING_ACTIONS_PATH))
     write_csv(SCORES_PATH, rows, FIELDS)
     REPORT_PATH.write_text(report(rows, cfg, reference_sizes(read_csv(FACILITIES_PATH), cfg)), encoding="utf-8")
     write_csv(WEIGHTS_PATH, weights(cfg), WEIGHT_FIELDS)
