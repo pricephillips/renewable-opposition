@@ -1,6 +1,6 @@
 {
   "_comment": "The county record score (scripts/county_record_score.py): how restrictive a county is for wind, solar and battery storage, read from its own published record rather than from its resemblance to other counties. Hand-edited; no process writes it. Added 2026-10-21 after the October 16 case studies scored Linn County, IA (two contested solar projects approved, rules in force no stricter than severity 2) above Nicholas County, KY and Cherokee County, KS (each with a moratorium in force). The resemblance score (config/county_model_registration.json) is kept, unchanged, as the profile prior for counties with no record. Like that score, this one is internal: nothing on a page or in a county report reads it without a separate decision by Price.",
-  "version": "2026-10-30",
+  "version": "2026-11-19",
 
   "instruments": {
     "_note": "Points for one restriction instrument (rows sharing an instrument_id are one instrument; its severity is the highest of its rows). Points = severity points x currency x jurisdiction x technology breadth.",
@@ -25,6 +25,16 @@
     "approval_cap": 25,
     "approval_max_share_of_instruments": 0.5,
     "_approval_note": "Approvals can take off at most this share of the county's instrument and zoning points, and never take the score below the points of a severity 4 county-wide instrument in force: a moratorium in force outweighs earlier approvals."
+  },
+
+  "organizing": {
+    "_note": "Opposition organizing, added 2026-11-19 at the request of Hawthorn's sales lead after the November 17 pilot: a named opposition group on record adds points, and a recorded organized action by opponents adds a few more. Read from contested_projects.csv: a group counts when the project row names it in opposition_groups with a source in group_sources; an organized action is a petition or referendum drive by opponents that the row's description or long description reports, or a lawsuit (has_litigation, or litigation in opposition_type) on a project where a named group opposes. Counted once per county, not per project, up to the cap. Weights set by hand, pending Price's approval.",
+    "group_points": 4,
+    "organized_action_points": 3,
+    "cap": 7,
+    "petition_terms": ["petition", "referendum"],
+    "opponent_terms": ["signature", "signed", "residents", "opponent", "opposing", "opposition", "citizens", "neighbors", "change.org", "protest", "against"],
+    "_terms_note": "A petition or referendum counts only in a sentence that also names opponents or signatures (opponent_terms), so a developer's petition to a siting board does not count."
   },
 
   "zoning_transition": {
@@ -280,6 +290,7 @@
     "not_applied": {
       "_note": "Preemption rows read and left out of the score, with the reason. Every local_preemption and local_opt_out row in state_policies.csv must be in rules or here (tests/test_county_record_score.py).",
       "CO-local_preemption-1": "Covers only facilities proposed by a public utility or power authority; independent developers do not get it.",
+      "KY-local_preemption-1": "A Court of Appeals ruling (May 29, 2026), not a statute, and not final while the county's motion for Supreme Court review is pending. It holds that only a county with a planning and zoning commission can adopt rules that take priority over a siting board certificate; it does not address moratoriums. Recorded as context and not applied, so Kentucky county instruments keep their full severity until the ruling is final.",
       "IN-local_preemption-1": "Limits a local moratorium to one year with no renewal; it shortens the instrument, which its currency already records, but does not cap its severity while in force.",
       "MS-local_preemption-1": "Limits only local decommissioning and financial assurance terms.",
       "NJ-local_preemption-1": "Makes these facilities a permitted use only in industrial and commercial districts and on rooftops, landfills, brownfields and similar sites; a rule on agricultural land, where most projects go, is not reached.",

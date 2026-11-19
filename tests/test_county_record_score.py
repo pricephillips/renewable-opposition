@@ -421,3 +421,35 @@ def test_the_committed_weights_table_matches_the_config():
     assert [(r["part"], r["factor"], r["weight"]) for r in committed] == \
         [(r["part"], r["factor"], str(r["weight"])) for r in rs.weights(cfg)], \
         "run python scripts/county_record_score.py and commit data/model/county_record_weights.csv"
+
+
+def _g(fips, groups="", sources="", description="", litigation="no", outcome="pending"):
+    return {"county_fips_all": fips, "outcome": outcome, "opposition_groups": groups, "group_sources": sources,
+            "description": description, "has_litigation": litigation, "opposition_type": ""}
+
+
+def test_opposition_organizing_adds_points_once_per_county_and_capped():
+    co = CFG["organizing"]
+    got = _build(projects=[_g("1", "Save Our Fields", "https://example.org/a"),
+                           _g("2", "Save Our Fields", "https://example.org/a",
+                              "Opponents gathered 400 signatures on a petition against the project."),
+                           _g("2", "Neighbors United", "https://example.org/b", litigation="yes"),
+                           _g("3", description="Residents signed a petition opposing the plant."),
+                           _g("4", "Unsourced Group")],
+                 summary=_summary("1", "2", "3", "4"))
+    assert got["1"]["organizing_points"] == co["group_points"]
+    assert got["2"]["organizing_points"] == min(co["cap"], co["group_points"] + co["organized_action_points"])
+    assert got["2"]["opposition_groups"] == 2 and got["2"]["organized_action"] == 1
+    assert got["3"]["organizing_points"] == co["organized_action_points"]
+    assert got["4"]["organizing_points"] == 0, "a group with no source does not count"
+
+
+def test_a_developers_petition_is_not_organizing():
+    got = _build(projects=[_g("1", description="The siting council denied a petition to build a 4-MW solar facility.")],
+                 summary=_summary("1"))
+    assert got["1"]["organizing_points"] == 0 and got["1"]["organized_action"] == 0
+
+
+def test_the_national_rank_counts_every_county():
+    got = _build(restrictions=[_r("a", "1", sev=4), _r("b", "2", sev=2)], summary=_summary("1", "2", "3"))
+    assert [got[f]["us_rank"] for f in "123"] == [1, 2, 3] and got["1"]["us_n"] == 3

@@ -22,6 +22,10 @@ config/county_record_score.json; read it first. In short:
   projects     blocked projects add points; approved ones take points off,
                at most half the instrument points, and never below a
                severity 4 county-wide instrument in force.
+  organizing   a named opposition group on record in the county adds
+               points, and a recorded petition, referendum drive or a
+               lawsuit on a project a named group opposes adds a few more,
+               once per county and capped (config organizing).
   build-out    utility-scale plants built since 2020 (EIA-860M), after the
                county's latest rule in force, count as uncontested
                approvals, inside the same limits.
@@ -72,6 +76,7 @@ Usage
 from __future__ import annotations
 
 import json
+import re
 import sys
 from collections import defaultdict
 from statistics import NormalDist, median
@@ -94,10 +99,11 @@ WEIGHT_FIELDS = ["part", "factor", "weight", "unit", "meaning", "weights_as_of"]
 
 FIELDS = [
     "county_fips", "state", "county", "tier", "combined", "combined_pct_us", "combined_normal", "combined_decile",
-    "state_rank", "state_n",
+    "state_rank", "state_n", "us_rank", "us_n",
     "tier_local", "combined_local",
     "basis", "evidence_weight", "record_points", "local_points", "preemption_points", "preemption_rules",
-    "instrument_points", "zoning_points", "blocked_points",
+    "instrument_points", "zoning_points", "blocked_points", "organizing_points", "opposition_groups",
+    "organized_action",
     "approval_credit", "top_instrument", "instruments", "verified_instruments", "projects_blocked",
     "projects_advanced", "plants_built", "profile_score", "profile_decile", "profile_points", "profile_cap",
 ]
@@ -373,6 +379,46 @@ def uncontested_builds(years: list[int], insts: list[dict], zoning: dict | None,
 
 # ── Score ───────────────────────────────────────────────────────────────────
 
+def organizing(project_rows: list[dict], cfg: dict) -> dict[str, dict]:
+    """fips -> {"groups": named opposition groups on record, "action": True
+    when the record shows an organized action by opponents}. A group counts
+    only with a source in group_sources. An action is a petition or
+    referendum drive by opponents that the project's description reports (in
+    a sentence that also names opponents or signatures), or a lawsuit on a
+    project a named group opposes."""
+    co = cfg.get("organizing") or {}
+    def words(key):
+        return re.compile(r"\b(" + "|".join(map(re.escape, co[key])) + r")", re.I) if co.get(key) else None
+    terms, opponents = words("petition_terms"), words("opponent_terms")
+
+    def petitioned(text: str) -> bool:
+        """A petition or referendum in a sentence that also names opponents."""
+        return bool(terms) and any(terms.search(x) and (opponents is None or opponents.search(x))
+                                   for x in re.split(r"(?<=[.;])\s+", text))
+    out: dict[str, dict] = {}
+    for p in project_rows:
+        groups = {g.strip() for g in _s(p.get("opposition_groups")).split(";") if g.strip()} \
+            if _s(p.get("group_sources")) else set()
+        text = _s(p.get("description")) + " " + _s(p.get("long_description"))
+        sued = _s(p.get("has_litigation")).lower() in ("true", "1", "yes") or "litigation" in _s(p.get("opposition_type"))
+        action = petitioned(text) or (bool(groups) and sued)
+        if not (groups or action):
+            continue
+        for f in _fips(p):
+            o = out.setdefault(f, {"groups": set(), "action": False})
+            o["groups"] |= groups
+            o["action"] = o["action"] or action
+    return out
+
+
+def organizing_points(org: dict | None, cfg: dict) -> float:
+    co = cfg.get("organizing") or {}
+    if not org or not co:
+        return 0.0
+    pts = (co["group_points"] if org["groups"] else 0) + (co["organized_action_points"] if org["action"] else 0)
+    return float(min(co["cap"], pts))
+
+
 def stack(points: list[float], cfg: dict) -> float:
     """The largest in full, the rest at others_weight, capped."""
     ci = cfg["instruments"]
@@ -380,22 +426,23 @@ def stack(points: list[float], cfg: dict) -> float:
     return min(ci["cap"], pts[0] + ci["others_weight"] * sum(pts[1:])) if pts else 0.0
 
 
-def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dict, rules: list[dict] = ()) -> dict:
+def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dict, rules: list[dict] = (),
+           organized: float = 0.0) -> dict:
     """The record points of one county from its instruments, its zoning
     transition (or None) and its contested projects' outcomes, with each
     instrument capped by the state preemption rules in effect there.
     local_points is the same score with no cap."""
     capped = merged([preempted(i, list(rules), cfg) for i in insts], cfg)
     capped_zoning = [preempted(zoning, list(rules), cfg)] if zoning else []
-    out = _record(capped, capped_zoning, outcomes, cfg)
-    local = _record(insts, [zoning] if zoning else [], outcomes, cfg)["record_points"] if rules \
+    out = _record(capped, capped_zoning, outcomes, cfg, organized)
+    local = _record(insts, [zoning] if zoning else [], outcomes, cfg, organized)["record_points"] if rules \
         else out["record_points"]
     by = sorted({p for i in capped + capped_zoning for p in i.get("preempted_by", [])})
     return {**out, "local_points": local, "preemption_points": round(local - out["record_points"], 2),
             "preemption_rules": ";".join(by)}
 
 
-def _record(insts: list[dict], zoning: list[dict], outcomes: list[str], cfg: dict) -> dict:
+def _record(insts: list[dict], zoning: list[dict], outcomes: list[str], cfg: dict, organized: float = 0.0) -> dict:
     cp = cfg["projects"]
     scored = sorted(((instrument_points(i, cfg), i) for i in insts + zoning),
                     key=lambda t: (-t[0], t[1]["id"]))
@@ -407,14 +454,15 @@ def _record(insts: list[dict], zoning: list[dict], outcomes: list[str], cfg: dic
     # A moratorium or ban in force county-wide outweighs earlier approvals.
     floor = max([p for p, i in scored if i["severity"] == 4 and i["currency"] == "in_force"
                  and is_county_wide(i, cfg)], default=0.0)
-    total = max(floor, base + blocked - credit)
+    total = max(floor, base + blocked + organized - credit)
     top = scored[0][1] if scored else None
     cap = (f" capped from {top['local_severity']} by {';'.join(top['preempted_by'])}"
            if top and top.get("local_severity", 0) > top["severity"] else "")
     cap += f", {top['merged']} instruments counted as one" if top and top.get("merged") else ""
     return {"record_points": round(total, 2), "instrument_points": round(inst_pts, 2),
             "zoning_points": round(base - inst_pts, 2), "blocked_points": round(blocked, 2),
-            "approval_credit": round(base + blocked - total, 2) if credit else 0.0,
+            "organizing_points": round(organized, 2),
+            "approval_credit": round(base + blocked + organized - total, 2) if credit else 0.0,
             "top_instrument": (f"{top['id']} ({top['restriction_type']}, severity {top['severity']}{cap}, "
                                f"{top['currency']}, {top['jurisdiction']})") if top else ""}
 
@@ -471,6 +519,7 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         for f in _fips(p):
             outcomes[f].append(_s(p.get("outcome")))
     zoning = zoning_instruments(cfg, as_of)
+    org = organizing(list(project_rows), cfg)
     built_years = plants(list(facility_rows), cfg)
     sizes = reference_sizes(list(facility_rows), cfg) if cfg.get("state_preemption") else {}
     profile = {_s(r["county_fips"]): float(r[PROFILE_COLUMN]) for r in profile_rows
@@ -490,7 +539,8 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
         contested = outcomes.get(f, [])
         advanced = sum(1 for o in contested if o.startswith("advanced"))
         built = uncontested_builds(built_years.get(f, []), insts, zoning.get(f), advanced)
-        rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg, rules)
+        rec = record(insts, zoning.get(f), contested + ["built"] * built, cfg, rules,
+                     organizing_points(org.get(f), cfg))
         verified = sum(1 for i in insts if i["verified"])
         confirmed = any(o.endswith("_confirmed") for o in contested) or bool(zoning.get(f, {}).get("verified"))
         has_record = bool(insts) or bool(contested) or f in zoning
@@ -511,6 +561,8 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
                      "instruments": len(insts), "verified_instruments": verified,
                      "projects_blocked": sum(1 for o in outcomes.get(f, []) if o.startswith("blocked")),
                      "projects_advanced": advanced, "plants_built": built,
+                     "opposition_groups": len(org.get(f, {}).get("groups", ())),
+                     "organized_action": int(bool(org.get(f, {}).get("action"))),
                      "profile_score": profile.get(f, ""), "profile_decile": pdec.get(f, "")})
 
     # Profile points: the mean record points of every county in the same
@@ -539,6 +591,8 @@ def build(restriction_rows: list[dict], project_rows: list[dict], summary_rows: 
     by_state: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
         r["combined_pct_us"] = pct(combined, r["combined"])
+        r["us_rank"] = 1 + sum(1 for x in combined if x > r["combined"])
+        r["us_n"] = len(combined)
         by_state[r["state"]].append(r)
     for st_rows in by_state.values():
         for r in st_rows:
@@ -740,6 +794,14 @@ def weights(cfg: dict) -> list[dict]:
         if not k.startswith("_"):
             add("Evidence weight", f"County with {EVIDENCE_WORDS.get(k, k)}", v,
                 "Share of the score taken from the county's own record; the rest comes from counties like it.", "share")
+    co = cfg.get("organizing")
+    if co:
+        add("Opposition organizing", "A named opposition group on record", co["group_points"],
+            "Points added once per county when a contested project there names a group opposing it, with a source.")
+        add("Opposition organizing", "An organized action by opponents", co["organized_action_points"],
+            "Points added once per county for a recorded petition or referendum drive, or a lawsuit on a project a "
+            "named group opposes.")
+        add("Opposition organizing", "Most organizing points", co["cap"], "Cap on the sum.")
     for t in cfg["tiers"]:
         add("Tiers", t["label"].split(":")[0], t["min"], "Lowest combined score in the tier.")
     return out
