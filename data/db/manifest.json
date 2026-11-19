@@ -17,7 +17,7 @@
 ["parquet/opposition_group.parquet","opposition_group","table",803,162467],
 ["parquet/project_group.parquet","project_group","table",30,750],
 ["parquet/record_county.parquet","record_county","table",27668,139434],
-["parquet/restriction.parquet","restriction","table",3556,356358],
+["parquet/restriction.parquet","restriction","table",3556,355738],
 ["parquet/restriction_instrument.parquet","restriction_instrument","table",3346,90326],
 ["parquet/siting_standard.parquet","siting_standard","table",23778,571166],
 ["parquet/source_document.parquet","source_document","table",87,14668],
