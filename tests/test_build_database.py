@@ -100,6 +100,15 @@ def test_data_center_events_never_enter_renewable_counts(con):
     assert total == renewables
 
 
+def test_record_text_carries_no_reviewer_notes(con):
+    # Moratorium Nation's "[VERIFY ...]" notes are review state, not record
+    # text; the flag stays in needs_verification.
+    left = con.execute("SELECT count(*) FROM restriction WHERE description LIKE '%[VERIFY%' "
+                       "OR long_description LIKE '%[VERIFY%'").fetchone()[0]
+    flagged = con.execute("SELECT count(*) FROM restriction WHERE needs_verification IS NOT NULL").fetchone()[0]
+    assert left == 0 and flagged > 0
+
+
 def test_every_case_links_to_a_published_project(con):
     assert con.execute("SELECT count(*) FROM case_project WHERE project_id IS NULL").fetchone()[0] == 0
 

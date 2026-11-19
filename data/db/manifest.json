@@ -1,5 +1,5 @@
 {"columns":["file","name","kind","rows","bytes"],"rows":[
-["parquet/build_info.parquet","build_info","table",14,2968],
+["parquet/build_info.parquet","build_info","table",14,2986],
 ["parquet/case_project.parquet","case_project","table",40,1654],
 ["parquet/contested_project.parquet","contested_project","table",579,185889],
 ["parquet/county.parquet","county","table",3222,17953],
@@ -17,7 +17,7 @@
 ["parquet/opposition_group.parquet","opposition_group","table",803,162467],
 ["parquet/project_group.parquet","project_group","table",30,750],
 ["parquet/record_county.parquet","record_county","table",27668,139434],
-["parquet/restriction.parquet","restriction","table",3556,356358],
+["parquet/restriction.parquet","restriction","table",3556,355738],
 ["parquet/restriction_instrument.parquet","restriction_instrument","table",3346,90326],
 ["parquet/siting_standard.parquet","siting_standard","table",23778,571166],
 ["parquet/source_document.parquet","source_document","table",87,14668],
