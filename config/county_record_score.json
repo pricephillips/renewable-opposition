@@ -13,7 +13,16 @@
     "breadth_technologies": ["solar", "wind", "battery_storage"],
     "others_weight": 0.25,
     "_others_note": "A county's instrument points are its largest instrument's points plus others_weight times the sum of the rest, so a second and third instrument add to the score without a long list of minor rules outweighing one moratorium.",
-    "cap": 70
+    "cap": 70,
+    "term": {
+      "_note": "Moratorium terms (Hawthorn's renewables pilot review, 2026-11-19): a moratorium is not a ban. A temporary instrument of this severity or higher counts at base + per_extension x extensions + per_year_in_force x years in force, up to max, times drafting_active when the record says the government is drafting the rules it waits for. Bans, and instruments the record does not show to be temporary, count in full. Fields from scripts/moratorium_terms.py. Set by hand; data/model/record_score_fit.md reports what the confirmed project outcomes say about them.",
+      "from_severity": 3,
+      "base": 0.75,
+      "per_extension": 0.1,
+      "per_year_in_force": 0.1,
+      "max": 1.0,
+      "drafting_active": 0.85
+    }
   },
 
   "projects": {

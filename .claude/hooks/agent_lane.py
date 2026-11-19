@@ -109,7 +109,8 @@ BLIND_SCRIPTS = {"review_packets.py": {"check"}}
 # Scripts allowed only with a flag (all lanes): the flag keeps them from writing
 # or from reading what the lane may not read. site_profile.py still records the
 # county and date in data/review/profile_requests.csv, as every profile does.
-FLAGGED_SCRIPTS = {"site_profile.py": "--no-local", "promote_reviewed.py": "--dry-run"}
+FLAGGED_SCRIPTS = {"site_profile.py": "--no-local", "promote_reviewed.py": "--dry-run",
+                   "client_view_audit.py": "--county"}
 # Scripts whose listed subcommands write nothing (crlf --fix rewrites files).
 SUBCOMMAND_SCRIPTS = {"precommit_gates.py": {"emdash", "private", "nodecheck", "--selftest"}}
 

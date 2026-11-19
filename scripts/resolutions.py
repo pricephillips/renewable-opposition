@@ -308,6 +308,10 @@ def apply_status_resolutions(rows: list[dict], path: Path | None = None,
             row["status"] = status
             row["status_checked_on"] = _s(res.get("checked_on"))
             row["status_evidence_url"] = url
+            # The reading's note (what the minutes or code say: each extension,
+            # rules being drafted) is the newest account of the instrument's
+            # terms; moratorium_terms reads it with the record's own text.
+            row["status_note"] = _s(res.get("note"))
             if end and status not in NOT_IN_FORCE:
                 row["current_end_date_iso"] = end
     return errors

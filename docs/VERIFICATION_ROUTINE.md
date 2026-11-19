@@ -111,7 +111,49 @@ is the instrument id or source record id, and `outcome` is one of:
 - `disputed`: the two readings disagreed; the note gives both.
 - `nothing_found`: no instrument or outcome source could be found at all.
 
-## 5. Validate and open the pull request
+## 5. Client-view review
+
+Sections 1 to 4 read sources one record at a time. This section reads the
+result the way a client does: one county's whole renewables profile, as the
+staff-only renewables pilot in the client portal shows it. It asks the
+questions a skeptical client analyst asked of the pilot in November 2026,
+which are kept in `config/reader_questions.json`. A question that the
+profile leaves open becomes a fix in this run or an issue.
+
+1. Pick the counties:
+
+   ```
+   python scripts/client_view_audit.py --pick 5
+   ```
+
+   It lists the most restrictive counties first (closed and severe tiers, by
+   national rank) and skips any county read in the last 30 days
+   (`data/review/client_view_log.csv`).
+2. Start one `client-view-reviewer` per county, in parallel, with the FIPS
+   code and the signature `agent:client-view-reviewer-N`. Each runs
+   `python scripts/client_view_audit.py --county <fips>`, reads the profile
+   against every question in the bank, and writes one findings packet.
+3. Route each finding by its `route`:
+   - `status` or `restriction`: the record is missing a fact a source can
+     settle (an end date, the number of extensions, whether an ordinance is
+     being drafted, whether the instrument is a ban or a pause). Add the
+     instrument to this run's batch and work it through sections 2 to 4 with
+     a `status` or `restriction` card. Take at most 5 such items a day, so
+     the review never crowds out the main batch.
+   - `issue`: the page or the score is at fault, not the record. Open a
+     GitHub issue labelled `client-view`, or comment on the open one with the
+     same finding code and county. The issue gives the county, the question,
+     what the profile shows and the exact change the reviewer proposed.
+4. The `record-editor` appends one line per county to
+   `data/review/client_view_log.csv`
+   (`date,county_fips,findings,issues,note`): the number of findings, the
+   issue numbers opened or updated, and a short note.
+
+When a client or Price asks a question the bank does not cover, add it to
+`config/reader_questions.json` in the same pull request, worded so it names
+no client and no county, with the check that answers it if one exists.
+
+## 6. Validate and open the pull request
 
 ```
 python scripts/review_lint.py --lane review
@@ -123,9 +165,10 @@ python scripts/layer_audit.py
 ```
 
 Commit only `data/review/restriction_sources.csv`,
-`data/review/outcome_resolutions.csv` and `data/review/verification_log.csv`.
+`data/review/outcome_resolutions.csv`, `data/review/status_resolutions.csv`,
+`data/review/verification_log.csv` and `data/review/client_view_log.csv`.
 Restore every generated file
-(`git checkout -- data/processed data/review/*_worklist.csv data/review/fips_misses.csv`);
+(`git checkout -- data/processed data/review/*_worklist.csv data/review/fips_misses.csv data/review/client_view_findings.csv`);
 the Build dashboard data workflow regenerates them after the merge.
 
 Then start the `qc-auditor` (run `verify-<date>`, lane `review`): it runs

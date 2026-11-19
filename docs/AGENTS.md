@@ -38,6 +38,7 @@ dataset, Price approves it, and the agent builds it (`docs/SCOUT_BUILDS.md`).
 | `lead-triager` | `reader` | extraction | live-intake leads | a draft packet: on topic, placed, and the values a read source states |
 | `state-law-reader` | `reader` | extraction | LegiScan state bill leads | a draft packet: on topic, enacted or not, and for an enacted bill the state siting law row drafted from the statute |
 | `county-examiner` | `reader` | extraction | a county | a draft packet: governments covered, sources searched, restrictions read or a negative check |
+| `client-view-reviewer` | `reader` | quality control | a county FIPS code | a findings packet: each reader question (`config/reader_questions.json`) the county's renewables profile leaves open, with its route (a status or restriction card, or an issue) and the exact fix |
 | `blind-reviewer` | `blind` | quality control | a blind card | a review packet: its own reading, or a verdict on each claimed value |
 | `record-editor` | `editor` | editing | agreed packets and verdicts | rows in the review files, signed, appended to notes |
 | `copy-editor` | `copy` | editing | hand-written markdown | the same, to the house style, every number traced |

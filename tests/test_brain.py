@@ -316,10 +316,13 @@ def test_currency_follows_the_end_date_not_the_status_word():
     assert classify.currency(mn("solar", "solar", current_end_date_iso="2026-10"), T) == "in_force"
 
 
-def test_a_reviewer_who_confirmed_the_instrument_after_its_end_date_keeps_it_in_force():
+def test_a_primary_source_reading_after_the_end_date_does_not_keep_it_in_force():
+    # The reading confirms the record, end date included: it shows the instrument
+    # ran to that date, not that it was extended (Rockdale County, GA, 2026-11-19).
     row = mn("solar", "solar", current_end_date_iso="2026-10-01", primary_source_url="https://x.gov/o.pdf",
              primary_source_verdict="confirmed", primary_source_checked_on="2026-10-05")
-    assert classify.currency(row, T) == "in_force"
+    assert classify.currency(row, T) == "lapsed_unconfirmed"
+    assert classify.currency({**row, "status_checked_on": "2026-10-05"}, T) == "in_force"
     assert classify.currency({**row, "primary_source_checked_on": "2026-09-20"}, T) == "lapsed_unconfirmed"
     assert classify.currency({**row, "primary_source_verdict": "contradicts"}, T) == "lapsed_unconfirmed"
 

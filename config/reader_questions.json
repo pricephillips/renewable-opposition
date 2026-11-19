@@ -1,0 +1,28 @@
+{
+  "_comment": [
+    "The questions a skeptical reader of a county's renewables profile asks, from Hawthorn's internal reviews of the",
+    "staff-only renewables pilot (2026-11-17 and 2026-11-19). The client-view-reviewer agent reads every profile",
+    "against them each day (docs/VERIFICATION_ROUTINE.md, section 5), and scripts/client_view_audit.py checks the",
+    "ones it can mechanically. Add a question here when a reader asks one the list does not cover; keep each one",
+    "generic (no client, no county) and say which check, if any, answers it."
+  ],
+  "version": "2026-11-19",
+  "questions": [
+    {"id": "headline_matches_rows", "ask": "Does the headline match the rules listed below it? A county with a moratorium or ban in force must not read as having no restrictions, and a ban or moratorium on another use (data centers) must not read as one on renewables.", "check": "HEADLINE_RECORD_MISMATCH"},
+    {"id": "how_long", "ask": "How long has the moratorium been in force, and when does it end?", "check": "PAUSE_NO_END_DATE"},
+    {"id": "start_date", "ask": "When was it adopted?", "check": "PAUSE_NO_START_DATE"},
+    {"id": "extended", "ask": "Has it been extended, and how many times?", "check": "PAUSE_EXTENSIONS_UNKNOWN"},
+    {"id": "expired", "ask": "Its end date has passed. Was it extended, replaced by an ordinance, or did it lapse?", "check": "PAST_END_DATE"},
+    {"id": "drafting", "ask": "Is the government drafting the ordinance the pause is waiting for?", "check": "PAUSE_DRAFTING_UNKNOWN"},
+    {"id": "ban_or_pause", "ask": "Is this an outright ban, or a temporary pause? An ordinance that works as a ban weighs more than a true pause.", "check": "BAN_OR_PAUSE_UNCLEAR"},
+    {"id": "score_first", "ask": "Is the record score, the core of the product, the first thing the page shows, with what feeds it below?", "check": ""},
+    {"id": "national_rank", "ask": "Where does the county rank nationally, not only in its state? Is it really among the most restrictive in the country?", "check": "TIER_WITHOUT_INSTRUMENT"},
+    {"id": "opposition", "ask": "Does the score count opposition organizing: a named group, a petition, a referendum drive, a lawsuit?", "check": ""},
+    {"id": "state_rules", "ask": "Do state siting board rules or a state law apply here, and does the page show them next to the local rules?", "check": "STATE_RULES_NOT_SHOWN"},
+    {"id": "court_cases", "ask": "Is a court case pending that could void these local rules (for example, a county without zoning adopting a siting ordinance)?", "check": ""},
+    {"id": "resemblance_label", "ask": "What does the small model figure (the resemblance score) mean, and could a reader mistake it for the record score?", "check": ""},
+    {"id": "weights_visible", "ask": "Can a reader see the weights behind the score, with the date they were set?", "check": ""},
+    {"id": "hand_or_learned", "ask": "Are the weights set by hand or learned from outcomes, and what would it take to learn them?", "check": ""},
+    {"id": "unverified_label", "ask": "Is every unverified or not-yet-checked rule labeled as such?", "check": "UNVERIFIED_IN_HEADLINE"}
+  ]
+}

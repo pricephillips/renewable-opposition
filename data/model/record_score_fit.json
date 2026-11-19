@@ -1,0 +1,94 @@
+{
+  "cases": 156,
+  "county_has_instrument": 95,
+  "instrument_undated": 91,
+  "auc_p10": 0.46,
+  "auc_p50": 0.499,
+  "auc_p90": 0.517,
+  "rubric_auc": 0.501,
+  "features": {
+    "pause_new": {
+      "coef": 0.405,
+      "min": 0.0,
+      "median": 0.405,
+      "max": 0.419,
+      "sign_stable": false,
+      "cases_with": 1,
+      "blocked_share_with": 1.0
+    },
+    "pause_long": {
+      "coef": 0.405,
+      "min": 0.0,
+      "median": 0.408,
+      "max": 0.419,
+      "sign_stable": false,
+      "cases_with": 1,
+      "blocked_share_with": 1.0
+    },
+    "pause_drafting": {
+      "coef": 0.0,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "sign_stable": false,
+      "cases_with": 0,
+      "blocked_share_with": 0.0
+    },
+    "ban": {
+      "coef": 0.0,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0,
+      "sign_stable": false,
+      "cases_with": 0,
+      "blocked_share_with": 0.0
+    },
+    "standards": {
+      "coef": -0.668,
+      "min": -0.676,
+      "median": -0.659,
+      "max": 0.0,
+      "sign_stable": false,
+      "cases_with": 2,
+      "blocked_share_with": 0.0
+    },
+    "organized": {
+      "coef": -0.32,
+      "min": -0.684,
+      "median": -0.253,
+      "max": 0.066,
+      "sign_stable": false,
+      "cases_with": 13,
+      "blocked_share_with": 0.385
+    }
+  },
+  "gate": {
+    "n": 156,
+    "positives": 75,
+    "base_rate": 0.4808,
+    "brier": 0.2494,
+    "brier_baseline": 0.2496,
+    "brier_skill_score": 0.0008,
+    "ece": 0.0159,
+    "reliability": [
+      {
+        "lo": 0.2,
+        "hi": 0.4,
+        "count": 2,
+        "mean_pred": 0.3737,
+        "observed": 1.0
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.6,
+        "count": 154,
+        "mean_pred": 0.482,
+        "observed": 0.474
+      }
+    ],
+    "verdict": "HOLD",
+    "reasons": [
+      "NO_SKILL: Brier skill 0.001 < 0.05"
+    ]
+  }
+}
