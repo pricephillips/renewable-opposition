@@ -162,6 +162,14 @@
         }
       }
     },
+    "data/review/state_bill_leads.csv": {
+      "layer": "review", "writers": ["scripts/fetch_legiscan.py"],
+      "reason": "State bills on solar, wind and storage siting from LegiScan, as leads. fetch_legiscan.py refreshes each bill's LegiScan fields and never touches the review columns (review_status, reviewer, reviewed_on, policy_id, review_note), which reviewers fill. A lead never publishes; only an enacted bill read in the statute changes state_policies_candidates.csv."
+    },
+    "data/reference/legiscan_sessions.csv": {
+      "layer": "raw", "writers": ["scripts/fetch_legiscan.py"],
+      "reason": "The LegiScan session hashes last seen, so the weekly run reads only sessions that changed."
+    },
     "data/review/state_policies_candidates.csv": {
       "layer": "review", "writers": [], "hand_edited": true,
       "reason": "State siting law rows, drafted against the statute and reviewed by someone other than the drafter (docs/AGENT_REVIEW.md). build_seed_outputs.py publishes reviewed rows (scripts/state_policies.py) and holds the rest in data/processed/state_policies_held.csv."
@@ -248,6 +256,7 @@
   },
   "crossings": {
     "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",
+    "scripts/fetch_legiscan.py": "Records the LegiScan session hashes it saw (raw) and lists the bills it kept as leads (review).",
     "scripts/build_sabin_seeds.py": "Rebuilds Sabin seed rows and holds back the rows that need a reviewer.",
     "scripts/extract_sabin_edition.py": "Writes the edition's extraction (seed) and its count reconciliation (derived).",
     "scripts/nrel_ordinances.py": "Writes NREL's restriction rows (seed) and the conflicts they raise with other sources (review).",
