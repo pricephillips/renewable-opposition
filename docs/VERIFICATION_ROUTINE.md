@@ -50,6 +50,15 @@ It skips anything logged in `data/review/verification_log.csv` in the last
 14 days, so a source that could not be read yesterday does not take today's
 slot.
 
+### State bill leads
+
+When `data/review/state_bill_leads.csv` has rows whose `review_status` is
+`lead`, take up to 10 of them, oldest `first_seen` first, and run them
+through `.claude/commands/review-state-bills.md` in the same run: a
+`state-law-reader` drafts, a `blind-reviewer` reads the statute on its own,
+and the `record-editor` writes what both agree on. Their rows go in the same
+pull request. When the file is missing or has no leads, skip this.
+
 ## 2. Read each item (the drafting agent)
 
 For each item, write its card

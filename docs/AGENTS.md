@@ -36,6 +36,7 @@ dataset, Price approves it, and the agent builds it (`docs/SCOUT_BUILDS.md`).
 | `outcome-reader` | `reader` | extraction | an outcome card | a draft packet: the document that states a project's fate, with the outcome it supports |
 | `case-researcher` | `reader` | extraction | a case candidate | a draft packet: the court record's case name, court, level, docket and status |
 | `lead-triager` | `reader` | extraction | live-intake leads | a draft packet: on topic, placed, and the values a read source states |
+| `state-law-reader` | `reader` | extraction | LegiScan state bill leads | a draft packet: on topic, enacted or not, and for an enacted bill the state siting law row drafted from the statute |
 | `county-examiner` | `reader` | extraction | a county | a draft packet: governments covered, sources searched, restrictions read or a negative check |
 | `blind-reviewer` | `blind` | quality control | a blind card | a review packet: its own reading, or a verdict on each claimed value |
 | `record-editor` | `editor` | editing | agreed packets and verdicts | rows in the review files, signed, appended to notes |
