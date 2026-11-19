@@ -846,18 +846,21 @@
 
     view.appendChild(el('div', { class: 'tiles' },
       tile('headlineRestrictions', 'Restrictions on renewables', n(ren.instruments),
-        n((ren.by_verification || {}).verified) + ' verified against the instrument · ' + n(multi.instruments) + ' more also cover data centers',
+        n((ren.by_verification || {}).verified) + ' verified against the instrument · ' +
+        n((ren.by_currency || {}).in_force) + ' known to be in force, ' + n((ren.by_currency || {}).unknown) + ' with no recorded status · ' +
+        n(multi.instruments) + ' more also cover data centers',
         { part: (ren.by_verification || {}).verified || 0, whole: ren.instruments }),
       tile('headlineSevere', 'Severe restrictions', n(ren.severe_instruments),
-        'severity 3 or 4: a likely or explicit ban or moratorium, in ' + n(ren.states) + ' states'),
+        'severity 3 or 4: a ban or moratorium, or a rule rated a likely ban (such as any wind height limit) · ' +
+        n(ren.severe_where_state_limits_local) + ' in states where state law can override local rules'),
       tile('headlineProjects', 'Contested projects', n(P.projects),
         n(blocked) + ' blocked (' + n(P.by_outcome.blocked_confirmed) + ' confirmed) · ' + n((P.by_verification || {}).verified) + ' verified',
         { part: (P.by_verification || {}).verified || 0, whole: P.projects }),
       tile('headlineCases', 'Court cases', n(M.cases.cases),
         n((M.cases.by_verification || {}).verified) + ' with a court record',
         { part: (M.cases.by_verification || {}).verified || 0, whole: M.cases.cases }),
-      tile('headlineCoverage', 'Counties examined', [n(examined), n(cov.counties)],
-        n(cov.with_neither) + ' not examined: nothing known either way',
+      tile('headlineCoverage', 'Counties with a record or a checked search', [n(examined), n(cov.counties)],
+        n(cov.with_neither) + ' with neither: nothing known either way',
         { part: examined, whole: cov.counties })));
 
     view.appendChild(mapCard('Counties', base.features, route, { states: true, national: true, label: 'United States counties' }));
@@ -1250,7 +1253,7 @@
 
     var bannerText;
     if (c.coverage_status === 'not_examined') {
-      bannerText = 'Not examined. Nobody has searched this county\'s records yet, so an empty profile means nothing is known, not that nothing happened.';
+      bannerText = 'Not examined. No record is published for this county and no checked search of its own records is on file, so an empty profile means nothing is known, not that nothing happened.';
     } else if (c.coverage_status === 'checked_none') {
       var k = checks[checks.length - 1];
       bannerText = k ? 'Checked on ' + k.checked_on + ', none found' +
