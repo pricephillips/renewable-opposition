@@ -13,7 +13,7 @@ ROSTER = ROOT / "docs" / "AGENTS.md"
 COMMANDS = ROOT / ".claude" / "commands"
 SETTINGS = ROOT / ".claude" / "settings.json"
 HOOK = 'python3 "$CLAUDE_PROJECT_DIR/.claude/hooks/agent_lane.py"'
-LANES = {"reader", "blind", "editor", "copy", "qc"}
+LANES = {"reader", "blind", "editor", "copy", "qc", "build"}
 WEB = {"WebFetch", "WebSearch"}
 EDIT = {"Edit", "MultiEdit", "NotebookEdit"}
 MATCHED = {"Bash", "Edit", "MultiEdit", "Write", "NotebookEdit", "Read", "Grep", "Glob"}
@@ -25,6 +25,9 @@ ALLOWED = {
     "editor": {"Read", "Grep", "Glob", "Bash", "Edit", "Write"},
     "copy": {"Read", "Grep", "Glob", "Bash", "Edit", "Write"},
     "qc": {"Read", "Grep", "Glob", "Bash", "WebFetch", "Write"},
+    # The builder reads a license page but never searches: Repo Scout found
+    # the tool and Price approved it.
+    "build": {"Read", "Grep", "Glob", "Bash", "Edit", "Write", "WebFetch"},
 }
 
 
@@ -75,7 +78,9 @@ def test_each_agent_is_well_formed_and_in_its_lane(name):
     assert "—" not in text
     # Every agent is told the rules that hold in every lane.
     assert "local" in body and "em dash" in body
-    assert re.search(r"agent:" + re.escape(name) + r"-\d", body) or lane in ("editor", "copy", "qc")
+    assert re.search(r"agent:" + re.escape(name) + r"-\d", body) or lane in ("editor", "copy", "qc", "build")
+    if lane == "build":
+        assert "WebSearch" not in tools, "the builder never searches for new tools"
 
 
 def test_the_auditor_audits_the_branch_on_a_clean_checkout():
@@ -99,7 +104,7 @@ def test_the_roster_documents_every_agent_and_nothing_else():
 def test_commands_and_docs_name_only_agents_that_exist():
     """A command or doc that starts `some-reader` must find it in .claude/agents/."""
     names = set(agents())
-    role = re.compile(r"`([a-z]+(?:-[a-z]+)*-(?:reader|reviewer|editor|researcher|triager|examiner|auditor|analyst|checker))`")
+    role = re.compile(r"`([a-z]+(?:-[a-z]+)*-(?:reader|reviewer|editor|researcher|triager|examiner|auditor|analyst|checker|integrator))`")
     used = set()
     for path in [*COMMANDS.glob("*.md"), ROSTER, ROOT / "docs" / "VERIFICATION_ROUTINE.md", ROOT / "README.md"]:
         for name in role.findall(path.read_text(encoding="utf-8")):

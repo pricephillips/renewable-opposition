@@ -8,7 +8,10 @@ says how the agents in `.claude/agents/` carry them out, and what enforces
 them besides the agents' own instructions.
 
 The work splits four ways, and one agent (`county-analyst`) does analysis
-outside them: it reads only published data and writes pattern briefs.
+outside them: it reads only published data and writes pattern briefs. One
+more agent (`renewables-integrator`) builds tools, not records. The scouts
+shared with the data center platform find an open-source tool or open
+dataset, Price approves it, and the agent builds it (`docs/SCOUT_BUILDS.md`).
 
 - **Research extraction.** A reader finds the document behind one item and
   reports what it says, field by field, in a packet. Readers write nothing in
@@ -39,6 +42,7 @@ outside them: it reads only published data and writes pattern briefs.
 | `copy-editor` | `copy` | editing | hand-written markdown | the same, to the house style, every number traced |
 | `county-analyst` | `copy` | analysis | a scope: states, a region or the nation | a pattern brief under `deliverables/state_briefs/`, every number traced to `data/processed/` |
 | `qc-auditor` | `qc` | quality control | a committed branch | a report: PASS, PASS WITH WARNINGS or FAIL, with every finding |
+| `renewables-integrator` | `build` | building | one tool Price approved in his weekly tool picks, with its registry entry | the tool built by this repository's own path, its row in `config/adopted_tools.json`, and the workflow that proves it live |
 
 `tests/test_agents.py` checks this table against `.claude/agents/`, and each
 agent's tools against its lane.
@@ -66,6 +70,7 @@ and `data/review/` unopposed.
 | `editor` | the repository; no web tools | the hand-kept review files, packets | the same scripts as a reader, `promote_reviewed.py --dry-run`; git to look |
 | `copy` | the repository; no web tools | hand-written markdown (README, docs/, deliverables/); never a generated doc | `precommit_gates.py emdash`, Vale; git to look |
 | `qc` | everything | its report under `.packets/` | any check, on a clean checkout of the committed branch; git to look, and `git restore` for what a check regenerated |
+| `build` | the repository, and a candidate's own license and docs pages (no search) | code, tests, config, requirements and the public pages' script tags; never `data/`, `docs/`, `.github/` or `.claude/` | any script and test; git to look |
 
 In every lane: reports from local contacts (`local_knowledge*`,
 `$RO_LOCAL_KNOWLEDGE`, `~/.renewable-opposition`) are out of reach, and

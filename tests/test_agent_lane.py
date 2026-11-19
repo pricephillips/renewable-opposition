@@ -290,6 +290,23 @@ def test_qc_runs_checks_and_restores_what_they_regenerate():
     assert ok(tool("qc", "Write", file_path=f"{R}/.packets/r1/qc_report.md"))
 
 
+# ── build ────────────────────────────────────────────────────────────────────
+
+def test_build_writes_code_tests_and_config_but_no_data_docs_or_workflows():
+    for path in ("scripts/extractors/new_source.py", "tests/test_new_source.py", "config/sources.yaml",
+                 "config/adopted_tools.json", "requirements/ci.in", "national-dashboard.html",
+                 "national-dashboard.js", "styles/x.css"):
+        assert ok(tool("build", "Edit", file_path=f"{R}/{path}")), path
+    for path in ("data/review/queue.csv", "data/processed/restrictions.csv", "docs/AGENTS.md", "README.md",
+                 ".github/workflows/intake.yml", ".claude/agents/renewables-integrator.md",
+                 ".claude/settings.json"):
+        assert not ok(tool("build", "Write", file_path=f"{R}/{path}")), path
+    assert ok(bash("build", "python3 -m pytest -q tests/test_agents.py"))
+    assert ok(bash("build", "python3 scripts/build_seed_outputs.py"))
+    assert not ok(bash("build", "echo x > data/review/queue.csv"))
+    assert not ok(bash("build", "git commit -am x"))
+
+
 # ── The hook itself ──────────────────────────────────────────────────────────
 
 def test_split_commands():
