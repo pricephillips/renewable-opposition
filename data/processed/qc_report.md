@@ -13,8 +13,8 @@ and left out of the published outputs; lower severities are reported only.
 | Code | Severity | Issues |
 |---|---|---:|
 | PRIMARY_SOURCE_CONTRADICTS | HIGH | 107 |
+| END_DATE_PASSED | MEDIUM | 8 |
 | SCOPE_DATA_CENTER_ONLY | HIGH | 8 |
-| END_DATE_PASSED | MEDIUM | 6 |
 
 ## Quarantined rows
 

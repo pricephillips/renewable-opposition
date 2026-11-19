@@ -5,7 +5,7 @@
   "restriction_instruments": 3264,
   "severe": 1289,
   "verified": 199,
-  "lapsed_unconfirmed": 0,
+  "lapsed_unconfirmed": 1,
   "severe_where_state_limits_local": 892,
   "projects": 579,
   "projects_confirmed": 189,
@@ -81,20 +81,21 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3138,
+   "rows": 3140,
    "by_tier": {
+    "primary_source": 2,
     "compiled_flagged": 2219,
     "compiled_record": 123,
     "report_citation": 796
    },
-   "lapsed": 0,
+   "lapsed": 2,
    "by_county_impact": {
+    "none": 2490,
     "sole_severe": 292,
-    "sole_record": 358,
-    "none": 2488
+    "sole_record": 358
    },
    "with_located_url": 6,
-   "flagged": 423
+   "flagged": 425
   },
   "negative_checks": {
    "rows": 8,
@@ -207,7 +208,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 205,
+  "snapshot_rows": 206,
   "snapshot_files": 5,
   "headline_history_rows": 25,
   "headline_first_change": "2026-09-29",

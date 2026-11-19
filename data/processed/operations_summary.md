@@ -4,7 +4,7 @@ Generated 2026-11-19 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3264 renewables-only restriction instruments (1289 severe, 199 verified, 0 past their end date with no confirmed extension, 892 severe ones in states whose siting law limits local reach); 579 contested projects (189 confirmed); 39 cases.
+3264 renewables-only restriction instruments (1289 severe, 199 verified, 1 past their end date with no confirmed extension, 892 severe ones in states whose siting law limits local reach); 579 contested projects (189 confirmed); 39 cases.
 
 Decided projects (events older than 90 days): 356, of which 236 blocked; confirmed outcomes only: 188, 94 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
@@ -17,7 +17,7 @@ Decided projects (events older than 90 days): 356, of which 236 blocked; confirm
 | Worklist | Rows | Notes |
 |---|---:|---|
 | outcome_worklist.csv | 375 | 123 overdue, 10 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3138 | 0 lapsed, 292 sole severe in a county, 6 with a located source |
+| restriction_worklist.csv | 3140 | 2 lapsed, 292 sole severe in a county, 6 with a located source |
 | negative_check_worklist.csv | 8 | 8 no check on record |
 | adjacency_worklist.csv | 251 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
@@ -78,4 +78,4 @@ Last error by source: gdelt_renewable_news (2026-11-17: 429 Client Error: Too Ma
 
 ## History and archive
 
-205 snapshot rows over 5 published files; 25 headline changes recorded (2026-09-29 to 2026-11-19). Sources: 87, of which 44 have an Internet Archive snapshot.
+206 snapshot rows over 5 published files; 25 headline changes recorded (2026-09-29 to 2026-11-19). Sources: 87, of which 44 have an Internet Archive snapshot.

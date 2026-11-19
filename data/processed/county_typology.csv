@@ -431,7 +431,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13083,GA,Dade,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16165,92.86
 13085,GA,Dawson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,30242,143.44
 13087,GA,Decatur,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,29195,48.88
-13089,GA,DeKalb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,765351,2859.35
+13089,GA,DeKalb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,765351,2859.35
 13091,GA,Dodge,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,19805,39.93
 13093,GA,Dooly,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,10984,27.98
 13095,GA,Dougherty,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,83091,252.83
@@ -454,7 +454,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13129,GA,Gordon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,59100,165.8
 13131,GA,Grady,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26108,57.45
 13133,GA,Greene,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,20109,51.89
-13135,GA,Gwinnett,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,979864,2272.8
+13135,GA,Gwinnett,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,979864,2272.8
 13137,GA,Habersham,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,47793,172.62
 13139,GA,Hall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,212705,541.97
 13141,GA,Hancock,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8650,18.36
@@ -462,7 +462,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13145,GA,Harris,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,36086,77.8
 13147,GA,Hart,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26939,115.91
 13149,GA,Heard,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,11773,39.78
-13151,GA,Henry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,249960,784.29
+13151,GA,Henry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,249960,784.29
 13153,GA,Houston,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,2,0,0,1,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,169649,451.01
 13155,GA,Irwin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9285,26.2
 13157,GA,Jackson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,84757,249.51
@@ -494,7 +494,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13211,GA,Morgan,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,21078,60.67
 13213,GA,Murray,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,40562,117.74
 13215,GA,Muscogee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,203711,940.93
-13217,GA,Newton,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,118152,431.5
+13217,GA,Newton,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,118152,431.5
 13219,GA,Oconee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,43551,236.24
 13221,GA,Oglethorpe,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,15509,35.32
 13223,GA,Paulding,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,178909,572.72
@@ -509,7 +509,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13241,GA,Rabun,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,17312,46.77
 13243,GA,Randolph,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,6196,14.47
 13245,GA,Richmond,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,206069,635.35
-13247,GA,Rockdale,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,95281,733.95
+13247,GA,Rockdale,yes,restrictions_status_unknown,0,0,0,0,0,1,1,,2026,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,95281,733.95
 13249,GA,Schley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4513,27.04
 13251,GA,Screven,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,14130,21.88
 13253,GA,Seminole,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9156,38.54
@@ -534,7 +534,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13291,GA,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26304,81.67
 13293,GA,Upson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,28029,86.65
 13295,GA,Walker,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,68762,154.08
-13297,GA,Walton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,103313,316.12
+13297,GA,Walton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,103313,316.12
 13299,GA,Ware,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,35976,40.01
 13301,GA,Warren,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5170,18.18
 13303,GA,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,19849,29.25
@@ -2970,7 +2970,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 53027,WA,Grays Harbor,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,hybrid,yes,77053,40.52
 53029,WA,Island,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,1,0,hybrid,yes,86836,416.53
 53031,WA,Jefferson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,hybrid,yes,33577,18.62
-53033,WA,King,yes,moratorium_in_force,6,6,6,6,0,0,0,battery_storage,2026,0,0,0,0,0,,4,1,hybrid,yes,2287171,1081.05
+53033,WA,King,yes,moratorium_in_force,6,5,5,5,0,1,0,battery_storage,2026,0,0,0,0,0,,4,1,hybrid,yes,2287171,1081.05
 53035,WA,Kitsap,yes,moratorium_in_force,1,1,1,1,0,0,0,battery_storage,2025,0,0,0,0,0,,2,1,hybrid,yes,277881,703.3
 53037,WA,Kittitas,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,5,3,hybrid,yes,47172,20.53
 53039,WA,Klickitat,yes,rules_in_force,2,1,0,0,0,1,0,solar;wind,,3,1,1,1,2,,8,2,hybrid,yes,23411,12.51

@@ -267,6 +267,46 @@
             "description": "The latest date the status is known to have held: an 'as of' date in the text, the enactment date or a reviewer's check."
           },
           {
+            "name": "term",
+            "type": "string",
+            "description": "Moratoria and bans only: temporary (a pause), permanent (a ban that describes no pause) or unclear (the source does not say which), read from the record (scripts/moratorium_terms.py)."
+          },
+          {
+            "name": "ends_on",
+            "type": "string",
+            "description": "Temporary instruments: the date the pause runs to, from current_end_date_iso or the record's text."
+          },
+          {
+            "name": "ends_on_basis",
+            "type": "string",
+            "description": "Where ends_on comes from: record (current_end_date_iso), text (parsed from the record) or term (a stated term, such as a one-year moratorium, counted from the enactment date)."
+          },
+          {
+            "name": "extensions",
+            "type": "integer",
+            "description": "Temporary instruments: how many extensions the record describes (distinct dates on which one was made, at least 1 when the status is extended). A floor, not a full history."
+          },
+          {
+            "name": "last_extended_on",
+            "type": "string",
+            "description": "The latest date on which the record says the instrument was extended or renewed."
+          },
+          {
+            "name": "months_in_force",
+            "type": "number",
+            "description": "Months from the enactment date to the build date, or to ends_on when that has passed."
+          },
+          {
+            "name": "drafting",
+            "type": "string",
+            "description": "Temporary instruments: active when the record says the government is drafting or studying the rules the pause waits for, adopted when it says they were adopted."
+          },
+          {
+            "name": "drafting_note",
+            "type": "string",
+            "description": "The sentence of the record that the drafting value rests on."
+          },
+          {
             "name": "evidence_level",
             "type": "string",
             "description": "Best evidence behind the row: primary_source, confirmed, court_record, compiled_record, compiled_flagged, report_citation."
@@ -335,6 +375,11 @@
             "name": "status_evidence_url",
             "type": "string",
             "description": "The document the status reading rests on; blank when no status reading has been made."
+          },
+          {
+            "name": "status_note",
+            "type": "string",
+            "description": "The agreed status reading's note: what the code or minutes say about the instrument today."
           }
         ]
       },
