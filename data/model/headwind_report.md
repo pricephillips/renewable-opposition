@@ -50,6 +50,12 @@ Plug-in inputs (config/headwind_inputs.json, every one configured, registered or
 | log of per capita personal income in the county, the year before the request (BEA) | 100% | 0.019 | yes | -0.001 | -0.000 |
 | county population change over the five years before the year preceding the request (BEA) | 100% | -0.045 | no | -0.001 | -0.000 |
 | county house price change over five years, as of the year before the request (FHFA) | 94% | 0.026 | no | -0.001 | 0.003 |
+| county poverty rate, the year before the request (SAIPE) | 100% | 0.012 | no | 0.000 | -0.000 |
+| log of county median household income, the year before the request (SAIPE) | 100% | 0.078 | yes | 0.001 | 0.000 |
+| log of county employment, the year before the request (County Business Patterns) | 100% | -0.034 | yes | -0.002 | -0.001 |
+| share of county establishments in construction, the year before the request (County Business Patterns) | 100% | -0.051 | yes | -0.000 | 0.000 |
+| share of county establishments in utilities, the year before the request (County Business Patterns) | 100% | 0.012 | no | -0.000 | -0.000 |
+| share of county establishments in agriculture support, the year before the request (County Business Patterns) | 100% | 0.086 | yes | 0.001 | 0.001 |
 
 ## Label: withdrawn within three years, requests made 2010 to 2022 in CAISO, ISO-NE, MISO and PJM (added after the first fit)
 
@@ -91,6 +97,12 @@ Plug-in inputs (config/headwind_inputs.json, every one configured, registered or
 | log of per capita personal income in the county, the year before the request (BEA) | 100% | -0.025 | no | -0.001 | -0.001 |
 | county population change over the five years before the year preceding the request (BEA) | 100% | 0.030 | yes | -0.001 | -0.006 |
 | county house price change over five years, as of the year before the request (FHFA) | 98% | 0.009 | no | 0.000 | 0.000 |
+| county poverty rate, the year before the request (SAIPE) | 100% | 0.187 | yes | 0.003 | 0.002 |
+| log of county median household income, the year before the request (SAIPE) | 100% | -0.127 | yes | -0.000 | -0.000 |
+| log of county employment, the year before the request (County Business Patterns) | 100% | 0.023 | no | -0.001 | 0.001 |
+| share of county establishments in construction, the year before the request (County Business Patterns) | 100% | -0.009 | no | -0.000 | -0.000 |
+| share of county establishments in utilities, the year before the request (County Business Patterns) | 100% | 0.031 | yes | 0.000 | -0.000 |
+| share of county establishments in agriculture support, the year before the request (County Business Patterns) | 100% | 0.108 | yes | 0.003 | 0.006 |
 
 ## Limits
 

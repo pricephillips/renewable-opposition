@@ -192,6 +192,66 @@
      "oot_auc": 0.5486389689627136,
      "oot_gain": 0.0029574119243923613,
      "sign_stable": false
+    },
+    {
+     "auc": 0.6565157143132084,
+     "coef_median": 0.012074917142388196,
+     "coverage": 1.0,
+     "gain": 0.0003194826690274821,
+     "input": "in_poverty_pct",
+     "oot_auc": 0.5456269612487485,
+     "oot_gain": -5.4595789572675635e-05,
+     "sign_stable": false
+    },
+    {
+     "auc": 0.6568948594083797,
+     "coef_median": 0.0778103086081012,
+     "coverage": 1.0,
+     "gain": 0.0006986277641987115,
+     "input": "in_median_hh_income_yr",
+     "oot_auc": 0.5458403047956941,
+     "oot_gain": 0.00015874775737290125,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.654437152370138,
+     "coef_median": -0.03411825266969391,
+     "coverage": 0.9998516760605162,
+     "gain": -0.0017590792740429517,
+     "input": "in_employment",
+     "oot_auc": 0.5448962176036984,
+     "oot_gain": -0.0007853394346227782,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.6560788313862853,
+     "coef_median": -0.0511766674053882,
+     "coverage": 0.9998516760605162,
+     "gain": -0.00011740025789563902,
+     "input": "in_construction_est_share",
+     "oot_auc": 0.5458033476458295,
+     "oot_gain": 0.00012179060750827642,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.6557701889540455,
+     "coef_median": 0.011612597236369928,
+     "coverage": 0.9998516760605162,
+     "gain": -0.00042604269013546414,
+     "input": "in_utilities_est_share",
+     "oot_auc": 0.5453237446328139,
+     "oot_gain": -0.0003578124055073628,
+     "sign_stable": false
+    },
+    {
+     "auc": 0.6568586869035299,
+     "coef_median": 0.08556726968187714,
+     "coverage": 0.9998516760605162,
+     "gain": 0.0006624552593489375,
+     "input": "in_ag_support_est_share",
+     "oot_auc": 0.5462644720839129,
+     "oot_gain": 0.0005829150455917143,
+     "sign_stable": true
     }
    ]
   },
@@ -374,6 +434,66 @@
      "oot_auc": 0.5572378350404124,
      "oot_gain": 0.00024135573670103216,
      "sign_stable": false
+    },
+    {
+     "auc": 0.6807309857199313,
+     "coef_median": 0.1869349368871609,
+     "coverage": 1.0,
+     "gain": 0.003184978692044038,
+     "input": "in_poverty_pct",
+     "oot_auc": 0.5591361986457763,
+     "oot_gain": 0.0021397193420650273,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.6772552034942705,
+     "coef_median": -0.12669786626335247,
+     "coverage": 1.0,
+     "gain": -0.00029080353361676803,
+     "input": "in_median_hh_income_yr",
+     "oot_auc": 0.5565295292781915,
+     "oot_gain": -0.0004669500255197745,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.6769916797504993,
+     "coef_median": 0.02316858968185122,
+     "coverage": 1.0,
+     "gain": -0.0005543272773879115,
+     "input": "in_employment",
+     "oot_auc": 0.5575388101669287,
+     "oot_gain": 0.0005423308632174217,
+     "sign_stable": false
+    },
+    {
+     "auc": 0.6775246456684504,
+     "coef_median": -0.009433788852290162,
+     "coverage": 1.0,
+     "gain": -2.1361359436866678e-05,
+     "input": "in_construction_est_share",
+     "oot_auc": 0.5567882911355972,
+     "oot_gain": -0.00020818816811407626,
+     "sign_stable": false
+    },
+    {
+     "auc": 0.6777884584574962,
+     "coef_median": 0.030551808116704243,
+     "coverage": 1.0,
+     "gain": 0.0002424514296089919,
+     "input": "in_utilities_est_share",
+     "oot_auc": 0.5569235654752475,
+     "oot_gain": -7.291382846386085e-05,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.680490670426266,
+     "coef_median": 0.10816486268828085,
+     "coverage": 1.0,
+     "gain": 0.002944663398378733,
+     "input": "in_ag_support_est_share",
+     "oot_auc": 0.5633657489209576,
+     "oot_gain": 0.006369269617246265,
+     "sign_stable": true
     }
    ]
   },
