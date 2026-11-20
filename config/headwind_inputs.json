@@ -6,7 +6,56 @@
     "wanted[]: the inputs the model lacks, in priority order, each with leads (candidate sources found by hand on 2026-11-20, to be screened before use). The shared scouts in pricephillips/data-centers (Gov Data Scout and Repo Scout, renewables lane) read this list and look for a source that fills the first open entry. renewables-integrator plugs a found source in here once Price ticks it.",
     "This repository is public: name no client."
   ],
-  "inputs": [],
+  "inputs": [
+    {
+      "id": "income_pc",
+      "file": "bea_cainc1.csv",
+      "key": "county_fips",
+      "year_column": "year",
+      "value_column": "income_pc",
+      "lag_years": 1,
+      "transform": "log1p",
+      "label": "log of per capita personal income in the county, the year before the request (BEA)",
+      "source_url": "https://apps.bea.gov/regional/zip/CAINC1.zip",
+      "license": "public domain (U.S. Bureau of Economic Analysis); cite BEA, CAINC1",
+      "added": "2026-11-20",
+      "registry_id": "bea-cainc1-county-income",
+      "fetcher": "scripts/fetch_headwind_bea_income.py",
+      "fills": "local_economy"
+    },
+    {
+      "id": "pop_growth_5y",
+      "file": "bea_cainc1.csv",
+      "key": "county_fips",
+      "year_column": "year",
+      "value_column": "pop_growth_5y",
+      "lag_years": 1,
+      "transform": "identity",
+      "label": "county population change over the five years before the year preceding the request (BEA)",
+      "source_url": "https://apps.bea.gov/regional/zip/CAINC1.zip",
+      "license": "public domain (U.S. Bureau of Economic Analysis); cite BEA, CAINC1",
+      "added": "2026-11-20",
+      "registry_id": "bea-cainc1-county-income",
+      "fetcher": "scripts/fetch_headwind_bea_income.py",
+      "fills": "local_economy"
+    },
+    {
+      "id": "hpi_growth_5y",
+      "file": "fhfa_hpi.csv",
+      "key": "county_fips",
+      "year_column": "year",
+      "value_column": "hpi_growth_5y",
+      "lag_years": 1,
+      "transform": "identity",
+      "label": "county house price change over five years, as of the year before the request (FHFA)",
+      "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.csv",
+      "license": "public domain (Federal Housing Finance Agency); cite FHFA, House Price Index",
+      "added": "2026-11-20",
+      "registry_id": "fhfa-hpi-county-annual",
+      "fetcher": "scripts/fetch_headwind_fhfa_hpi.py",
+      "fills": "land_use"
+    }
+  ],
   "wanted": [
     {
       "id": "grid_cost",
@@ -33,6 +82,11 @@
           "name": "USDA NASS Quick Stats, Census of Agriculture county tables",
           "url": "https://quickstats.nass.usda.gov/api",
           "note": "Land in farms, cropland and value of land and buildings per acre by county for 2007, 2012, 2017 and 2022. Free API key; public domain."
+        },
+        {
+          "name": "USDA NASS Quick Stats bulk file (qs.economics)",
+          "url": "https://www.nass.usda.gov/datasets",
+          "note": "The same Census of Agriculture county rows as the API, with no key (about 558 MB compressed). Census of Agriculture results come out about two years after the reference year, so set lag_years to 2."
         }
       ]
     },
@@ -52,6 +106,21 @@
           "name": "Census Bureau Population Estimates Program, county totals",
           "url": "https://www.census.gov/programs-surveys/popest.html",
           "note": "Yearly county population, so change over the prior years. Public domain."
+        },
+        {
+          "name": "Census Small Area Income and Poverty Estimates (SAIPE)",
+          "url": "https://www.census.gov/programs-surveys/saipe.html",
+          "note": "Yearly county median household income and poverty rate from 1989, so income can be read as of the request. Keyless files; public domain. Found 2026-11-20 (second pass)."
+        },
+        {
+          "name": "Census County Business Patterns",
+          "url": "https://www.census.gov/programs-surveys/cbp.html",
+          "note": "Yearly county establishments and employment by industry (farm support, construction, utilities). Keyless files; public domain. Found 2026-11-20 (second pass)."
+        },
+        {
+          "name": "IRS SOI county-to-county migration",
+          "url": "https://www.irs.gov/statistics/soi-tax-stats-migration-data",
+          "note": "Yearly county inflow and outflow of households from 2011. Keyless files; public domain. Found 2026-11-20 (second pass)."
         }
       ]
     },
@@ -71,6 +140,11 @@
           "name": "Laws in Order: An Inventory of State Renewable Energy Siting Policies (RAP and CATF, for DOE, 2024)",
           "url": "https://emp.lbl.gov/publications/laws-order-inventory-state-renewable",
           "note": "Who sites large projects in each state and above what size. PDF profiles, compiled in 2023; effective years must be read from each state's statute (the LegiScan feed helps)."
+        },
+        {
+          "name": "EIA-861 annual electric power industry report",
+          "url": "https://www.eia.gov/electricity/data/eia861/",
+          "note": "Yearly retail electricity price and sales by utility, which sum to the state. Public domain. Found 2026-11-20 (second pass)."
         }
       ]
     },
@@ -90,6 +164,11 @@
           "name": "NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2022 and 2025 editions)",
           "url": "https://data.openei.org/submissions/1932",
           "note": "Comparing editions shows which ordinances appeared between them. Already read for rules; the edition dates are the new part."
+        },
+        {
+          "name": "Census of Governments, individual government counts",
+          "url": "https://www.census.gov/programs-surveys/cog.html",
+          "note": "How many townships and municipalities in each county, 2007 to 2022. Not a rule date, but a count of the bodies that can each adopt a rule. Public domain. Found 2026-11-20 (second pass)."
         }
       ]
     },

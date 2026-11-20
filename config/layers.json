@@ -42,6 +42,8 @@
       "layer": "raw", "writers": ["scripts/fetch_county_covariates.py"],
       "reason": "County covariates for the county restriction model (docs/predictive_foundation_design.md, step 1): ACS 5-year table-based summary files and the 2024 Gazetteer (public domain), and MEDSL presidential returns from the copy below. The Census files are not committed; county_covariates_manifest.csv records each one's URL, release and SHA-256."
     },
+    "data/reference/headwind_inputs/bea_cainc1.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_bea_income.py"], "reason": "Headwind Model plug-in input: county per capita income, population and five-year population change by year, from BEA CAINC1 (public domain)."},
+    "data/reference/headwind_inputs/fhfa_hpi.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_fhfa_hpi.py"], "reason": "Headwind Model plug-in input: county house price index and its five-year change by year, from FHFA (public domain)."},
     "data/reference/county_covariates_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
     "data/reference/county_covariates_catalog.json": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
     "data/reference/medsl/countypres_2000-2024.csv": {
