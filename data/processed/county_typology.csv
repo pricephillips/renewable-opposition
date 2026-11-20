@@ -98,18 +98,18 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 02290,AK,Yukon-Koyukuk,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,9,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5195,0.04
 04001,AZ,Apache,yes,severe_rules_in_force,3,2,1,0,0,1,0,solar;wind,,3,1,0,2,2,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,65341,5.83
 04003,AZ,Cochise,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,2,1,1,0,2,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,125566,20.22
-04005,AZ,Coconino,yes,severe_rules_in_force,2,2,1,0,0,0,0,solar;wind,2022,0,0,0,0,0,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,144508,7.76
+04005,AZ,Coconino,yes,severe_rules_in_force,2,2,1,0,0,0,0,solar;wind,2022,0,0,0,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,144508,7.76
 04007,AZ,Gila,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,53795,11.31
 04009,AZ,Graham,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,39232,8.49
 04011,AZ,Greenlee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9409,5.11
-04012,AZ,La Paz,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16664,3.71
+04012,AZ,La Paz,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16664,3.71
 04013,AZ,Maricopa,yes,rules_in_force,1,1,0,0,0,0,0,battery_storage,2026,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4559748,495.52
-04015,AZ,Mohave,yes,moratorium_in_force,3,1,1,1,0,2,0,solar,,0,0,0,0,2,,8,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,220517,16.54
+04015,AZ,Mohave,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,0,0,0,0,2,,8,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,220517,16.54
 04017,AZ,Navajo,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,1,1,0,0,2,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,108415,10.9
 04019,AZ,Pima,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1060490,115.41
 04021,AZ,Pinal,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,1,1,0,0,0,,4,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,469006,87.39
 04023,AZ,Santa Cruz,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,2,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,48926,39.58
-04025,AZ,Yavapai,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,245480,30.22
+04025,AZ,Yavapai,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,245480,30.22
 04027,AZ,Yuma,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,211741,38.4
 05001,AR,Arkansas,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,,unknown,16515,16.65
 05003,AR,Ashley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,,unknown,18429,19.91
@@ -199,7 +199,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 06021,CA,Glenn,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar,,0,0,0,0,2,,5,2,hybrid,yes,28494,21.69
 06023,CA,Humboldt,yes,contested_projects_only,0,0,0,0,0,0,0,,,2,1,0,1,0,,4,1,hybrid,yes,134541,37.71
 06025,CA,Imperial,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,1,0,0,1,0,,4,1,hybrid,yes,180202,43.16
-06027,CA,Inyo,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,8,3,hybrid,yes,18739,1.84
+06027,CA,Inyo,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,8,2,hybrid,yes,18739,1.84
 06029,CA,Kern,yes,contested_projects_only,0,0,0,0,0,0,0,,,3,0,2,0,1,,8,4,hybrid,yes,915075,112.49
 06031,CA,Kings,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,153298,110.21
 06033,CA,Lake,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,1,0,0,1,,6,2,hybrid,yes,68152,54.3
@@ -221,7 +221,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 06065,CA,Riverside,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,0,2,0,2,,5,4,hybrid,yes,2478600,343.81
 06067,CA,Sacramento,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,8,4,hybrid,yes,1594006,1651.34
 06069,CA,San Benito,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,5,4,hybrid,yes,67290,48.46
-06071,CA,San Bernardino,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,6,3,0,3,2,,8,4,hybrid,yes,2197104,109.48
+06071,CA,San Bernardino,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,6,3,0,3,2,,8,3,hybrid,yes,2197104,109.48
 06073,CA,San Diego,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,,4,2,1,1,1,,3,2,hybrid,yes,3288774,781.1
 06075,CA,San Francisco,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,1,0,hybrid,yes,830235,17783.76
 06077,CA,San Joaquin,yes,rules_in_force,2,2,0,0,0,0,0,solar;wind,2023,0,0,0,0,0,,6,1,hybrid,yes,797334,572.7
@@ -259,18 +259,18 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 08023,CO,Costilla,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,solar:yes;wind:yes;battery_storage:no,3607,2.94
 08025,CO,Crowley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,local_government,solar:yes;wind:yes;battery_storage:no,5647,7.17
 08027,CO,Custer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,solar:yes;wind:yes;battery_storage:no,5247,7.1
-08029,CO,Delta,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,2,local_government,solar:yes;wind:yes;battery_storage:no,31598,27.67
+08029,CO,Delta,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,1,local_government,solar:yes;wind:yes;battery_storage:no,31598,27.67
 08031,CO,Denver,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,3,0,local_government,solar:yes;wind:yes;battery_storage:no,718877,4696.27
-08033,CO,Dolores,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,1,,4,1,local_government,solar:yes;wind:yes;battery_storage:no,2432,2.28
+08033,CO,Dolores,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,1,,4,0,local_government,solar:yes;wind:yes;battery_storage:no,2432,2.28
 08035,CO,Douglas,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,solar:yes;wind:yes;battery_storage:no,377150,448.51
 08037,CO,Eagle,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,1,local_government,solar:yes;wind:yes;battery_storage:no,55135,32.73
 08039,CO,Elbert,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,4,1,local_government,solar:yes;wind:yes;battery_storage:no,27874,15.07
 08041,CO,El Paso,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,6,0,local_government,solar:yes;wind:yes;battery_storage:no,742999,349.41
 08043,CO,Fremont,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,7,1,local_government,solar:yes;wind:yes;battery_storage:no,49634,32.36
-08045,CO,Garfield,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,local_government,solar:yes;wind:yes;battery_storage:no,62479,21.2
+08045,CO,Garfield,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,solar:yes;wind:yes;battery_storage:no,62479,21.2
 08047,CO,Gilpin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,local_government,solar:yes;wind:yes;battery_storage:no,5901,39.33
 08049,CO,Grand,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind;battery_storage,2025,0,0,0,0,0,,8,1,local_government,solar:yes;wind:yes;battery_storage:no,15895,8.61
-08051,CO,Gunnison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,2,local_government,solar:yes;wind:yes;battery_storage:no,17241,5.32
+08051,CO,Gunnison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,1,local_government,solar:yes;wind:yes;battery_storage:no,17241,5.32
 08053,CO,Hinsdale,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,solar:yes;wind:yes;battery_storage:no,1005,0.9
 08055,CO,Huerfano,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,solar:yes;wind:yes;battery_storage:no,6972,4.38
 08057,CO,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,4,local_government,solar:yes;wind:yes;battery_storage:no,1372,0.85
@@ -282,41 +282,41 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 08069,CO,Larimer,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,6,3,local_government,solar:yes;wind:yes;battery_storage:no,367368,141.53
 08071,CO,Las Animas,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,8,0,local_government,solar:yes;wind:yes;battery_storage:no,14413,3.02
 08073,CO,Lincoln,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,9,3,local_government,solar:yes;wind:yes;battery_storage:no,5550,2.15
-08075,CO,Logan,yes,severe_rules_in_force,3,3,1,0,0,0,0,solar;wind;battery_storage,2026,0,0,0,0,2,,8,3,local_government,solar:yes;wind:yes;battery_storage:no,20892,11.36
-08077,CO,Mesa,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,0,0,0,0,0,,6,1,local_government,solar:yes;wind:yes;battery_storage:no,158601,47.65
+08075,CO,Logan,yes,severe_rules_in_force,3,3,1,0,0,0,0,solar;wind;battery_storage,2026,0,0,0,0,2,,8,2,local_government,solar:yes;wind:yes;battery_storage:no,20892,11.36
+08077,CO,Mesa,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,0,,6,1,local_government,solar:yes;wind:yes;battery_storage:no,158601,47.65
 08079,CO,Mineral,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,solar:yes;wind:yes;battery_storage:no,729,0.83
 08081,CO,Moffat,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,local_government,solar:yes;wind:yes;battery_storage:no,13207,2.78
 08083,CO,Montezuma,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,1,,4,1,local_government,solar:yes;wind:yes;battery_storage:no,26412,13.02
-08085,CO,Montrose,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind,,0,0,0,0,0,,6,2,local_government,solar:yes;wind:yes;battery_storage:no,43807,19.55
+08085,CO,Montrose,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind,,0,0,0,0,0,,6,0,local_government,solar:yes;wind:yes;battery_storage:no,43807,19.55
 08087,CO,Morgan,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,4,2,local_government,solar:yes;wind:yes;battery_storage:no,29520,23.05
 08089,CO,Otero,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,solar:yes;wind:yes;battery_storage:no,18321,14.52
-08091,CO,Ouray,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,5087,9.41
+08091,CO,Ouray,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,solar:yes;wind:yes;battery_storage:no,5087,9.41
 08093,CO,Park,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,solar:yes;wind:yes;battery_storage:no,17907,8.16
-08095,CO,Phillips,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;battery_storage,,0,0,0,0,2,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,4496,6.54
-08097,CO,Pitkin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,solar:yes;wind:yes;battery_storage:no,16985,17.5
+08095,CO,Phillips,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,4496,6.54
+08097,CO,Pitkin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,solar:yes;wind:yes;battery_storage:no,16985,17.5
 08099,CO,Prowers,yes,rules_in_force,1,1,0,0,0,0,0,solar;wind,,0,0,0,0,2,,6,1,local_government,solar:yes;wind:yes;battery_storage:no,11910,7.27
 08101,CO,Pueblo,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,2,0,0,2,,8,1,local_government,solar:yes;wind:yes;battery_storage:no,169356,70.96
 08103,CO,Rio Blanco,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,solar:yes;wind:yes;battery_storage:no,6544,2.03
 08105,CO,Rio Grande,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,solar:yes;wind:yes;battery_storage:no,11321,12.41
 08107,CO,Routt,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,2,local_government,solar:yes;wind:yes;battery_storage:no,25084,10.62
 08109,CO,Saguache,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,1,,9,0,local_government,solar:yes;wind:yes;battery_storage:no,6580,2.08
-08111,CO,San Juan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,724,1.87
-08113,CO,San Miguel,yes,moratorium_in_force,3,1,1,1,0,2,0,solar,,1,0,0,0,2,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,7968,6.19
-08115,CO,Sedgwick,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,3,local_government,solar:yes;wind:yes;battery_storage:no,2304,4.2
+08111,CO,San Juan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,solar:yes;wind:yes;battery_storage:no,724,1.87
+08113,CO,San Miguel,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,1,0,0,0,2,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,7968,6.19
+08115,CO,Sedgwick,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,2,local_government,solar:yes;wind:yes;battery_storage:no,2304,4.2
 08117,CO,Summit,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,solar:yes;wind:yes;battery_storage:no,31017,50.99
 08119,CO,Teller,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,local_government,solar:yes;wind:yes;battery_storage:no,24825,44.56
 08121,CO,Washington,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,7,3,local_government,solar:yes;wind:yes;battery_storage:no,4831,1.92
 08123,CO,Weld,yes,severe_rules_in_force,3,2,1,0,0,1,0,solar;wind,,0,0,0,0,2,,8,3,local_government,solar:yes;wind:yes;battery_storage:no,350396,87.93
-08125,CO,Yuma,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,local_government,solar:yes;wind:yes;battery_storage:no,9979,4.22
+08125,CO,Yuma,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,local_government,solar:yes;wind:yes;battery_storage:no,9979,4.22
 09110,CT,Capitol,yes,contested_projects_only,0,0,0,0,0,0,0,,,4,1,1,2,0,,7,6,state_board,yes,977290,951.27
 09120,CT,Greater Bridgeport,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,3,state_board,yes,329259,2348.81
 09130,CT,Lower Connecticut River Valley,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,3,2,state_board,yes,175822,414.56
 09140,CT,Naugatuck Valley,yes,severe_rules_in_force,2,2,2,0,0,0,0,wind,,0,0,0,0,2,,5,3,state_board,yes,454969,1102.2
-09150,CT,Northeastern Connecticut,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,7,6,state_board,yes,96312,173.88
+09150,CT,Northeastern Connecticut,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,7,5,state_board,yes,96312,173.88
 09160,CT,Northwest Hills,yes,moratorium_in_force,7,5,5,1,0,3,1,wind;battery_storage,2026,0,0,0,0,5,,6,4,state_board,yes,113216,143.92
 09170,CT,South Central Connecticut,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,4,1,state_board,yes,570598,1553.7
 09180,CT,Southeastern Connecticut,yes,severe_rules_in_force,6,5,5,0,0,1,0,solar;wind,,0,0,0,0,5,,4,2,state_board,yes,279971,468.07
-09190,CT,Western Connecticut,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,2,,6,5,state_board,yes,627071,1178.42
+09190,CT,Western Connecticut,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,2,,6,4,state_board,yes,627071,1178.42
 10001,DE,Kent,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,1,0,1,0,0,,5,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,187604,320.11
 10003,DE,New Castle,yes,rules_in_force,1,1,0,0,0,0,0,solar,2017,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,577961,1355.64
 10005,DE,Sussex,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,4,2,1,1,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,255626,273.06
@@ -352,11 +352,11 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 12059,FL,Holmes,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,19513,40.75
 12061,FL,Indian River,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,166936,332.18
 12063,FL,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,9,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,48250,52.55
-12065,FL,Jefferson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,15091,25.23
+12065,FL,Jefferson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,15091,25.23
 12067,FL,Lafayette,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,8161,15.02
 12069,FL,Lake,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,412924,433.68
 12071,FL,Lee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,817666,1046.74
-12073,FL,Leon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,297542,445.14
+12073,FL,Leon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,297542,445.14
 12075,FL,Levy,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,45391,40.59
 12077,FL,Liberty,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,7687,9.2
 12079,FL,Madison,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,18089,25.97
@@ -401,7 +401,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13021,GA,Bibb,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,156578,627.86
 13023,GA,Bleckley,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,12430,57.58
 13025,GA,Brantley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,18315,41.32
-13027,GA,Brooks,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16293,33.04
+13027,GA,Brooks,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16293,33.04
 13029,GA,Bryan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,48263,110.3
 13031,GA,Bulloch,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,82683,122.32
 13033,GA,Burke,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,24470,29.59
@@ -416,13 +416,13 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13053,GA,Chattahoochee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8887,35.73
 13055,GA,Chattooga,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,25036,79.9
 13057,GA,Cherokee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,281032,667.61
-13059,GA,Clarke,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,129609,1086.41
+13059,GA,Clarke,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,129609,1086.41
 13061,GA,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2850,14.59
 13063,GA,Clayton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,298924,2109.51
 13065,GA,Clinch,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,6759,8.29
 13067,GA,Cobb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,775208,2282.1
 13069,GA,Coffee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,43347,73.19
-13071,GA,Colquitt,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,46224,84.49
+13071,GA,Colquitt,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,46224,84.49
 13073,GA,Columbia,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,162434,559.74
 13075,GA,Cook,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,17532,76.74
 13077,GA,Coweta,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,152852,346.61
@@ -439,7 +439,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13099,GA,Early,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,10603,20.68
 13101,GA,Echols,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3709,8.82
 13103,GA,Effingham,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,69143,144.4
-13105,GA,Elbert,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,19849,56.53
+13105,GA,Elbert,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,19849,56.53
 13107,GA,Emanuel,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,8,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,23026,33.83
 13109,GA,Evans,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,10757,58.82
 13111,GA,Fannin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,25742,66.5
@@ -452,8 +452,8 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13125,GA,Glascock,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2932,20.4
 13127,GA,Glynn,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,85447,203.63
 13129,GA,Gordon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,59100,165.8
-13131,GA,Grady,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26108,57.45
-13133,GA,Greene,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,20109,51.89
+13131,GA,Grady,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26108,57.45
+13133,GA,Greene,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,20109,51.89
 13135,GA,Gwinnett,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,979864,2272.8
 13137,GA,Habersham,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,47793,172.62
 13139,GA,Hall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,212705,541.97
@@ -484,19 +484,19 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13189,GA,McDuffie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,21718,84.38
 13191,GA,McIntosh,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,11312,26.22
 13193,GA,Macon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,11864,29.61
-13195,GA,Madison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,31528,111.67
+13195,GA,Madison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,31528,111.67
 13197,GA,Marion,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7509,20.53
 13199,GA,Meriwether,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,20929,41.78
 13201,GA,Miller,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5850,20.71
-13205,GA,Mitchell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,21058,41.12
+13205,GA,Mitchell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,21058,41.12
 13207,GA,Monroe,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,29664,74.89
 13209,GA,Montgomery,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8640,35.83
 13211,GA,Morgan,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,21078,60.67
 13213,GA,Murray,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,40562,117.74
 13215,GA,Muscogee,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,203711,940.93
 13217,GA,Newton,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,118152,431.5
-13219,GA,Oconee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,43551,236.24
-13221,GA,Oglethorpe,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,15509,35.32
+13219,GA,Oconee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,43551,236.24
+13221,GA,Oglethorpe,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,15509,35.32
 13223,GA,Paulding,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,178909,572.72
 13225,GA,Peach,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,28560,190.04
 13227,GA,Pickens,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,34951,150.62
@@ -518,12 +518,12 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13259,GA,Stewart,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4869,10.61
 13261,GA,Sumter,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,8,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,29061,60.18
 13263,GA,Talbot,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5742,14.67
-13265,GA,Taliaferro,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1558,8.01
+13265,GA,Taliaferro,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1558,8.01
 13267,GA,Tattnall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,24208,50.35
 13269,GA,Taylor,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7786,20.67
 13271,GA,Telfair,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,11831,27.05
 13273,GA,Terrell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8850,26.36
-13275,GA,Thomas,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,45777,84.05
+13275,GA,Thomas,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,45777,84.05
 13277,GA,Tift,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,41438,158.83
 13279,GA,Toombs,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,27102,74.45
 13281,GA,Towns,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,12913,77.57
@@ -544,7 +544,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 13311,GA,White,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,28810,119.66
 13313,GA,Whitfield,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,103598,356.69
 13315,GA,Wilcox,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8798,23.29
-13317,GA,Wilkes,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9549,20.34
+13317,GA,Wilkes,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9549,20.34
 13319,GA,Wilkinson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8747,19.47
 13321,GA,Worth,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,20451,35.84
 15001,HI,Hawaii,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,0,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,205769,51.08
@@ -603,9 +603,9 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17009,IL,Brown,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,0,local_government,yes,6322,20.68
 17011,IL,Bureau,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,7,3,local_government,yes,32866,37.82
 17013,IL,Calhoun,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,yes,4330,17.06
-17015,IL,Carroll,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,local_government,yes,15576,34.97
+17015,IL,Carroll,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,local_government,yes,15576,34.97
 17017,IL,Cass,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,local_government,yes,12784,34.02
-17019,IL,Champaign,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,3,local_government,yes,208741,209.56
+17019,IL,Champaign,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,2,local_government,yes,208741,209.56
 17021,IL,Christian,yes,severe_rules_in_force,7,6,3,0,0,1,0,solar;wind;battery_storage,2024,1,0,0,1,1,,4,2,local_government,yes,33538,47.27
 17023,IL,Clark,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,7,1,local_government,yes,15266,30.45
 17025,IL,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,13052,27.87
@@ -615,8 +615,8 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17033,IL,Crawford,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,,0,0,0,0,1,,6,0,local_government,yes,18511,41.72
 17035,IL,Cumberland,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,5,2,local_government,yes,10334,29.87
 17037,IL,DeKalb,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,7,4,local_government,yes,100703,159.51
-17039,IL,De Witt,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,4,1,local_government,yes,15373,38.67
-17041,IL,Douglas,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,5,2,local_government,yes,19751,47.4
+17039,IL,De Witt,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,4,0,local_government,yes,15373,38.67
+17041,IL,Douglas,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,5,1,local_government,yes,19751,47.4
 17043,IL,DuPage,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,local_government,yes,930024,2836.76
 17045,IL,Edgar,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,local_government,yes,16535,26.53
 17047,IL,Edwards,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,local_government,yes,6075,27.32
@@ -652,8 +652,8 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17107,IL,Logan,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,3,0,3,0,2,,7,2,local_government,yes,27713,44.84
 17109,IL,McDonough,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,26920,45.68
 17111,IL,McHenry,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,7,2,local_government,yes,312591,518.05
-17113,IL,McLean,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,8,4,local_government,yes,171556,144.99
-17115,IL,Macon,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,2,,7,5,local_government,yes,101849,175.44
+17113,IL,McLean,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,8,3,local_government,yes,171556,144.99
+17115,IL,Macon,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,2,,7,4,local_government,yes,101849,175.44
 17117,IL,Macoupin,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,6,1,local_government,yes,44350,51.39
 17119,IL,Madison,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,9,1,local_government,yes,264238,369.3
 17121,IL,Marion,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,yes,37000,64.62
@@ -665,18 +665,18 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17133,IL,Monroe,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,5,1,local_government,yes,35036,90.93
 17135,IL,Montgomery,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,7,4,local_government,yes,27942,39.7
 17137,IL,Morgan,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,local_government,yes,33021,58.04
-17139,IL,Moultrie,yes,severe_rules_in_force,4,2,2,0,0,2,0,solar;wind,,0,0,0,0,2,,5,2,local_government,yes,14424,42.93
+17139,IL,Moultrie,yes,severe_rules_in_force,4,2,2,0,0,2,0,solar;wind,,0,0,0,0,2,,5,1,local_government,yes,14424,42.93
 17141,IL,Ogle,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,local_government,yes,51495,67.88
 17143,IL,Peoria,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,local_government,yes,179645,290.36
 17145,IL,Perry,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,1,local_government,yes,20639,46.7
-17147,IL,Piatt,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,1,0,1,0,2,,6,1,local_government,yes,16695,38.01
+17147,IL,Piatt,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,1,0,1,0,2,,6,1,local_government,yes,16695,38.01
 17149,IL,Pike,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,9,1,local_government,yes,14469,17.4
 17151,IL,Pope,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,3739,10.14
 17153,IL,Pulaski,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,yes,5015,25.17
 17155,IL,Putnam,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,1,local_government,yes,5601,34.99
 17157,IL,Randolph,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,2,,7,1,local_government,yes,30058,52.24
 17159,IL,Richland,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,1,local_government,yes,15598,43.32
-17161,IL,Rock Island,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,local_government,yes,142757,333.94
+17161,IL,Rock Island,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,local_government,yes,142757,333.94
 17163,IL,St. Clair,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,2,local_government,yes,253694,385.7
 17165,IL,Saline,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,yes,23213,61.09
 17167,IL,Sangamon,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,8,1,local_government,yes,194947,224.53
@@ -693,7 +693,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 17189,IL,Washington,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,1,local_government,yes,13627,24.22
 17191,IL,Wayne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,yes,15973,22.38
 17193,IL,White,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,local_government,yes,13619,27.51
-17195,IL,Whiteside,yes,moratorium_in_force,2,2,1,1,0,1,1,solar;battery_storage,2026,0,0,0,0,1,,7,2,local_government,yes,54947,80.32
+17195,IL,Whiteside,yes,moratorium_in_force,2,2,1,1,0,1,1,solar;battery_storage,2026,0,0,0,0,1,,7,1,local_government,yes,54947,80.32
 17197,IL,Will,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,2,2,0,0,2,,6,4,local_government,yes,701462,839.19
 17199,IL,Williamson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,yes,66876,159.15
 17201,IL,Winnebago,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,5,1,local_government,yes,283292,552.17
@@ -703,7 +703,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 18005,IN,Bartholomew,yes,contested_projects_only,0,0,0,0,0,0,0,,,2,2,0,0,1,,6,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,83536,205.28
 18007,IN,Benton,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,7,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,8735,21.49
 18009,IN,Blackford,yes,severe_rules_in_force,3,2,1,0,0,1,0,solar;wind,,0,0,0,0,2,,4,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,11950,72.39
-18011,IN,Boone,yes,moratorium_in_force,2,2,2,1,0,0,0,solar;wind;battery_storage,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,74718,176.69
+18011,IN,Boone,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,74718,176.69
 18013,IN,Brown,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,15606,50.02
 18015,IN,Carroll,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,20535,55.17
 18017,IN,Cass,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,6,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,37680,91.42
@@ -732,7 +732,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 18063,IN,Hendricks,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,183344,450.59
 18065,IN,Henry,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,2,2,0,0,2,,7,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,48970,124.96
 18067,IN,Howard,yes,rules_in_force,1,1,0,0,0,0,0,wind,,1,0,0,1,2,,6,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,83752,285.77
-18069,IN,Huntington,yes,moratorium_in_force,2,2,1,1,0,1,1,solar;battery_storage,2026,0,0,0,0,2,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,36798,96.17
+18069,IN,Huntington,yes,rules_in_force,2,1,0,0,0,2,1,solar,2026,0,0,0,0,2,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,36798,96.17
 18071,IN,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,46660,91.49
 18073,IN,Jasper,yes,rules_in_force,3,1,0,0,0,2,0,wind,,0,0,0,0,2,,7,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,33234,59.38
 18075,IN,Jay,yes,rules_in_force,4,3,0,0,0,1,0,solar;wind;battery_storage,2026,0,0,0,0,2,,7,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,20229,52.69
@@ -762,7 +762,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 18123,IN,Perry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,19270,50.48
 18125,IN,Pike,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,12154,36.35
 18127,IN,Porter,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,1,0,0,1,,3,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,174818,418.11
-18129,IN,Posey,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,6,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,25116,61.35
+18129,IN,Posey,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,6,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,25116,61.35
 18131,IN,Pulaski,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,2,0,0,1,1,,5,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,12441,28.69
 18133,IN,Putnam,yes,moratorium_in_force,2,1,1,1,0,2,1,solar;wind,2025,1,1,0,0,2,,6,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,37280,77.58
 18135,IN,Randolph,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,24387,53.91
@@ -779,12 +779,12 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 18157,IN,Tippecanoe,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,7,3,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,189071,378.98
 18159,IN,Tipton,yes,rules_in_force,1,1,0,0,0,0,0,wind,,1,1,0,0,0,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,15346,58.9
 18161,IN,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,6985,43.33
-18163,IN,Vanderburgh,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,180117,771.7
+18163,IN,Vanderburgh,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,180117,771.7
 18165,IN,Vermillion,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,2,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,15421,60.03
 18167,IN,Vigo,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,106109,262.89
 18169,IN,Wabash,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,5,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,30844,74.77
 18171,IN,Warren,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,5,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,8464,23.21
-18173,IN,Warrick,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,65261,169.67
+18173,IN,Warrick,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,65261,169.67
 18175,IN,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,28212,54.92
 18177,IN,Wayne,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,66397,165.27
 18179,IN,Wells,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,6,4,solar:local_government;wind:local_government,solar:yes;wind:yes;battery_storage:unknown,28420,77.21
@@ -795,8 +795,8 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 19005,IA,Allamakee,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,1,hybrid,yes,14092,22.05
 19007,IA,Appanoose,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,hybrid,yes,12184,24.5
 19009,IA,Audubon,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,2025,0,0,0,0,1,,4,1,hybrid,yes,5599,12.64
-19011,IA,Benton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,5,hybrid,yes,25724,35.92
-19013,IA,Black Hawk,yes,rules_in_force,1,1,0,0,0,0,0,wind,,1,1,0,0,1,,6,4,hybrid,yes,131049,231.63
+19011,IA,Benton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,4,hybrid,yes,25724,35.92
+19013,IA,Black Hawk,yes,rules_in_force,1,1,0,0,0,0,0,wind,,1,1,0,0,1,,6,3,hybrid,yes,131049,231.63
 19015,IA,Boone,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,5,hybrid,yes,26668,46.75
 19017,IA,Bremer,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,3,hybrid,yes,25204,57.88
 19019,IA,Buchanan,yes,moratorium_in_force,2,1,1,1,0,2,1,battery_storage,2026,0,0,0,0,2,,5,2,hybrid,yes,20694,36.24
@@ -805,44 +805,44 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 19025,IA,Calhoun,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,9803,17.2
 19027,IA,Carroll,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,2,,6,3,hybrid,yes,20594,36.16
 19029,IA,Cass,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,6,hybrid,yes,13096,23.21
-19031,IA,Cedar,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,hybrid,yes,18349,31.67
-19033,IA,Cerro Gordo,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind;battery_storage,,0,0,0,0,1,,5,3,hybrid,yes,42632,75.02
+19031,IA,Cedar,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,hybrid,yes,18349,31.67
+19033,IA,Cerro Gordo,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,42632,75.02
 19035,IA,Cherokee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,11600,20.11
 19037,IA,Chickasaw,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,5,2,hybrid,yes,11807,23.41
-19039,IA,Clarke,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,2024,0,0,0,0,2,,5,3,hybrid,yes,9662,22.41
-19041,IA,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,hybrid,yes,16461,29.02
+19039,IA,Clarke,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,2024,0,0,0,0,2,,5,2,hybrid,yes,9662,22.41
+19041,IA,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,hybrid,yes,16461,29.02
 19043,IA,Clayton,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,hybrid,yes,17013,21.85
-19045,IA,Clinton,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,0,0,0,0,2,,7,3,hybrid,yes,46268,66.58
+19045,IA,Clinton,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,0,0,0,0,2,,7,3,hybrid,yes,46268,66.58
 19047,IA,Crawford,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,4,hybrid,yes,16277,22.79
 19049,IA,Dallas,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,5,3,hybrid,yes,107968,183.55
 19051,IA,Davis,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,hybrid,yes,9157,18.23
-19053,IA,Decatur,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind,,0,0,0,0,2,,5,2,hybrid,yes,7759,14.59
+19053,IA,Decatur,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,2,hybrid,yes,7759,14.59
 19055,IA,Delaware,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,17558,30.39
 19057,IA,Des Moines,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,5,1,hybrid,yes,38487,92.49
-19059,IA,Dickinson,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;battery_storage,2026,1,0,0,1,1,,4,1,hybrid,yes,17990,47.28
+19059,IA,Dickinson,yes,restrictions_status_unknown,0,0,0,0,0,1,1,,2026,1,0,0,1,1,,4,1,hybrid,yes,17990,47.28
 19061,IA,Dubuque,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,6,1,hybrid,yes,99030,162.8
-19063,IA,Emmet,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;battery_storage,2025,1,0,0,1,1,,5,3,hybrid,yes,9262,23.4
+19063,IA,Emmet,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;battery_storage,2025,1,0,0,1,1,,5,2,hybrid,yes,9262,23.4
 19065,IA,Fayette,yes,contested_projects_only,0,0,0,0,0,0,0,,,2,2,0,0,0,,5,3,hybrid,yes,19288,26.39
-19067,IA,Floyd,yes,moratorium_in_force,3,2,2,2,0,1,0,solar;battery_storage,2023,0,0,0,0,2,,4,4,hybrid,yes,15328,30.62
-19069,IA,Franklin,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,4,3,hybrid,yes,9956,17.11
+19067,IA,Floyd,yes,moratorium_in_force,3,1,1,1,0,2,0,battery_storage,2023,0,0,0,0,2,,4,3,hybrid,yes,15328,30.62
+19069,IA,Franklin,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,4,2,hybrid,yes,9956,17.11
 19071,IA,Fremont,yes,rules_in_force,3,1,0,0,0,2,0,wind,,0,0,0,0,2,,5,2,hybrid,yes,6514,12.74
 19073,IA,Greene,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,2,,6,2,hybrid,yes,8688,15.25
-19075,IA,Grundy,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,5,4,hybrid,yes,12384,24.68
+19075,IA,Grundy,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,5,3,hybrid,yes,12384,24.68
 19077,IA,Guthrie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,4,hybrid,yes,10688,18.1
 19079,IA,Hamilton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,14886,25.81
-19081,IA,Hancock,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,hybrid,yes,10671,18.69
+19081,IA,Hancock,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,hybrid,yes,10671,18.69
 19083,IA,Hardin,yes,moratorium_in_force,2,1,1,1,0,1,0,wind,,0,0,0,0,1,,5,2,hybrid,yes,16639,29.23
 19085,IA,Harrison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,4,hybrid,yes,14632,21.0
-19087,IA,Henry,yes,moratorium_in_force,1,2,2,2,0,0,1,solar;battery_storage,2026,0,0,0,0,0,,6,1,hybrid,yes,20004,46.06
+19087,IA,Henry,yes,moratorium_in_force,1,1,1,1,0,1,1,battery_storage,2026,0,0,0,0,0,,6,1,hybrid,yes,20004,46.06
 19089,IA,Howard,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,4,hybrid,yes,9445,19.96
 19091,IA,Humboldt,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,1,0,0,1,,4,2,hybrid,yes,9591,22.08
 19093,IA,Ida,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,4,2,hybrid,yes,6911,16.02
 19095,IA,Iowa,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,5,0,hybrid,yes,16507,28.15
-19097,IA,Jackson,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,2024,0,0,0,0,1,,5,2,hybrid,yes,19390,30.49
+19097,IA,Jackson,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,2024,0,0,0,0,1,,5,1,hybrid,yes,19390,30.49
 19099,IA,Jasper,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,3,hybrid,yes,37954,51.96
 19101,IA,Jefferson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,15705,36.06
 19103,IA,Johnson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,1,0,0,2,,6,2,hybrid,yes,156639,255.53
-19105,IA,Jones,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,4,hybrid,yes,20896,36.3
+19105,IA,Jones,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,3,hybrid,yes,20896,36.3
 19107,IA,Keokuk,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,hybrid,yes,9924,17.13
 19109,IA,Kossuth,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,1,,7,2,hybrid,yes,14516,14.92
 19111,IA,Lee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,hybrid,yes,32893,63.56
@@ -853,50 +853,50 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 19121,IA,Madison,yes,moratorium_in_force,1,2,1,1,0,0,1,wind;battery_storage,2026,1,1,0,0,0,,5,4,hybrid,yes,16926,30.17
 19123,IA,Mahaska,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,1,,6,0,hybrid,yes,22021,38.58
 19125,IA,Marion,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,hybrid,yes,33642,60.67
-19127,IA,Marshall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,4,hybrid,yes,40114,70.07
+19127,IA,Marshall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,40114,70.07
 19129,IA,Mills,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,2,,5,3,hybrid,yes,14568,33.3
-19131,IA,Mitchell,yes,moratorium_in_force,2,2,2,1,0,0,0,solar;wind,2026,0,0,0,0,1,,5,4,hybrid,yes,10575,22.54
+19131,IA,Mitchell,yes,moratorium_in_force,2,2,2,1,0,0,0,solar;wind,2026,0,0,0,0,1,,5,3,hybrid,yes,10575,22.54
 19133,IA,Monona,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,2,,5,2,hybrid,yes,8557,12.33
 19135,IA,Monroe,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,hybrid,yes,7513,17.32
 19137,IA,Montgomery,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,0,0,0,0,2,,5,3,hybrid,yes,10214,24.08
 19139,IA,Muscatine,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,1,hybrid,yes,42559,97.29
 19141,IA,O'Brien,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,4,1,hybrid,yes,14126,24.65
-19143,IA,Osceola,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,6100,15.3
+19143,IA,Osceola,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,hybrid,yes,6100,15.3
 19145,IA,Page,yes,severe_rules_in_force,2,2,1,0,0,0,0,solar;wind,,1,0,1,0,0,,5,3,hybrid,yes,15131,28.29
 19147,IA,Palo Alto,yes,moratorium_in_force,1,2,2,1,0,0,1,wind;battery_storage,2025,0,0,0,0,1,,4,2,hybrid,yes,8863,15.72
 19149,IA,Plymouth,yes,moratorium_in_force,2,1,1,1,0,2,1,battery_storage,2026,0,0,0,0,2,,4,2,hybrid,yes,25747,29.84
 19151,IA,Pocahontas,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,hybrid,yes,7046,12.21
 19153,IA,Polk,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,6,2,hybrid,yes,503175,878.57
 19155,IA,Pottawattamie,yes,severe_rules_in_force,4,3,3,0,0,1,0,solar;wind,,1,0,0,1,2,,8,2,hybrid,yes,93424,98.21
-19157,IA,Poweshiek,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,18545,31.7
-19159,IA,Ringgold,yes,severe_rules_in_force,2,2,2,0,0,0,0,solar;wind,,0,0,0,0,1,,5,3,hybrid,yes,4645,8.67
+19157,IA,Poweshiek,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,hybrid,yes,18545,31.7
+19159,IA,Ringgold,yes,severe_rules_in_force,2,2,2,0,0,0,0,solar;wind,,0,0,0,0,1,,5,2,hybrid,yes,4645,8.67
 19161,IA,Sac,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,2,,5,1,hybrid,yes,9689,16.85
-19163,IA,Scott,yes,severe_rules_in_force,3,2,2,0,0,1,0,solar;wind,,0,0,0,0,2,,4,1,hybrid,yes,174608,381.16
+19163,IA,Scott,yes,severe_rules_in_force,3,2,2,0,0,1,0,solar;wind,,0,0,0,0,2,,4,0,hybrid,yes,174608,381.16
 19165,IA,Shelby,yes,moratorium_in_force,3,3,3,3,0,0,0,solar;wind;battery_storage,2026,0,0,0,0,0,,5,2,hybrid,yes,11778,19.94
 19167,IA,Sioux,yes,moratorium_in_force,2,1,1,1,0,2,1,battery_storage,2026,0,0,0,0,2,,5,2,hybrid,yes,36212,47.16
 19169,IA,Story,yes,moratorium_in_force,3,2,1,1,0,2,1,wind;battery_storage,2025,0,0,0,0,2,,6,2,hybrid,yes,100466,175.47
-19171,IA,Tama,yes,moratorium_in_force,3,1,1,1,0,2,0,battery_storage,2025,1,0,1,0,2,,5,2,hybrid,yes,16868,23.39
+19171,IA,Tama,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,2025,1,0,1,0,2,,5,2,hybrid,yes,16868,23.39
 19173,IA,Taylor,yes,moratorium_in_force,1,1,1,1,0,1,1,solar;battery_storage,2026,0,0,0,0,1,,5,3,hybrid,yes,5868,11.03
 19175,IA,Union,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,5,5,hybrid,yes,11993,28.31
 19177,IA,Van Buren,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,hybrid,yes,7241,14.94
 19179,IA,Wapello,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,35362,81.89
 19181,IA,Warren,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,54409,95.51
 19183,IA,Washington,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,hybrid,yes,22561,39.66
-19185,IA,Wayne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,hybrid,yes,6532,12.43
+19185,IA,Wayne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,hybrid,yes,6532,12.43
 19187,IA,Webster,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,7,1,hybrid,yes,36886,51.54
 19189,IA,Winnebago,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,10583,26.43
 19191,IA,Winneshiek,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,2,,6,2,hybrid,yes,19873,28.81
 19193,IA,Woodbury,yes,severe_rules_in_force,3,2,2,0,0,1,0,solar;wind,,1,0,0,1,2,,7,4,hybrid,yes,106247,121.72
-19195,IA,Worth,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,1,,5,4,hybrid,yes,7350,18.37
+19195,IA,Worth,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,1,,5,3,hybrid,yes,7350,18.37
 19197,IA,Wright,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,12791,22.04
-20001,KS,Allen,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,12483,24.95
-20003,KS,Anderson,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7834,13.52
+20001,KS,Allen,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,12483,24.95
+20003,KS,Anderson,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,4,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7834,13.52
 20005,KS,Atchison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16208,37.59
 20007,KS,Barber,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4069,3.59
 20009,KS,Barton,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,1,1,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,25097,28.03
-20011,KS,Bourbon,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;wind,2026,0,0,0,0,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,14394,22.65
+20011,KS,Bourbon,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;wind,2026,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,14394,22.65
 20013,KS,Brown,yes,moratorium_in_force,1,1,1,1,0,1,1,solar;battery_storage,2026,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9343,16.37
-20015,KS,Butler,yes,moratorium_in_force,1,1,1,1,0,1,1,battery_storage,2026,1,1,0,0,1,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,68287,47.76
+20015,KS,Butler,yes,moratorium_in_force,1,1,1,1,0,1,1,battery_storage,2026,1,1,0,0,1,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,68287,47.76
 20017,KS,Chase,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2561,3.31
 20019,KS,Chautauqua,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3370,5.27
 20021,KS,Cherokee,yes,moratorium_in_force,1,2,2,1,0,0,1,solar;wind;battery_storage,2025,1,0,0,1,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,19151,32.59
@@ -904,14 +904,14 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 20025,KS,Clark,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1974,2.03
 20027,KS,Clay,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8048,12.47
 20029,KS,Cloud,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8898,12.44
-20031,KS,Coffey,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8308,13.25
+20031,KS,Coffey,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8308,13.25
 20033,KS,Comanche,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1729,2.19
 20035,KS,Cowley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,34411,30.57
 20037,KS,Crawford,yes,moratorium_in_force,2,1,1,1,1,1,1,solar;wind,2026,0,0,0,0,1,,7,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,39008,66.14
 20039,KS,Decatur,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2726,3.05
 20041,KS,Dickinson,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;wind;battery_storage,2026,1,0,0,1,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,18445,21.78
 20043,KS,Doniphan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7503,19.07
-20045,KS,Douglas,yes,rules_in_force,3,2,0,0,0,1,0,solar;wind,,1,0,0,1,2,,6,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,120302,263.96
+20045,KS,Douglas,yes,rules_in_force,3,2,0,0,0,1,0,solar;wind,,1,0,0,1,2,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,120302,263.96
 20047,KS,Edwards,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2779,4.47
 20049,KS,Elk,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2453,3.81
 20051,KS,Ellis,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,28920,32.14
@@ -925,14 +925,14 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 20067,KS,Grant,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7229,12.58
 20069,KS,Gray,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5701,6.56
 20071,KS,Greeley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1304,1.68
-20073,KS,Greenwood,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5919,5.18
+20073,KS,Greenwood,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5919,5.18
 20075,KS,Hamilton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2471,2.48
 20077,KS,Harper,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5400,6.74
-20079,KS,Harvey,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;wind,,0,0,0,0,1,,5,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,33756,62.54
+20079,KS,Harvey,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,1,,5,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,33756,62.54
 20081,KS,Haskell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3641,6.3
 20083,KS,Hodgeman,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1652,1.92
-20085,KS,Jackson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,13341,20.33
-20087,KS,Jefferson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,18349,34.45
+20085,KS,Jackson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,13341,20.33
+20087,KS,Jefferson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,18349,34.45
 20089,KS,Jewell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2916,3.2
 20091,KS,Johnson,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,620631,1310.4
 20093,KS,Kearny,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3864,4.44
@@ -942,42 +942,42 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 20101,KS,Lane,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1461,2.04
 20103,KS,Leavenworth,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,83123,179.37
 20105,KS,Lincoln,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2923,4.06
-20107,KS,Linn,yes,moratorium_in_force,1,1,1,1,0,0,0,wind,,0,0,0,0,1,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9767,16.44
+20107,KS,Linn,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9767,16.44
 20109,KS,Logan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2707,2.52
 20111,KS,Lyon,yes,moratorium_in_force,1,1,1,1,0,1,1,solar,2026,0,0,0,0,2,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,32186,37.98
-20113,KS,McPherson,yes,moratorium_in_force,3,2,2,2,0,1,0,solar;wind,,1,1,0,0,1,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,30205,33.63
-20115,KS,Marion,yes,moratorium_in_force,2,1,1,1,0,2,1,battery_storage,2026,0,0,0,0,2,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,11754,12.45
-20117,KS,Marshall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9993,11.1
+20113,KS,McPherson,yes,moratorium_in_force,3,2,2,2,0,1,0,solar;wind,,1,1,0,0,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,30205,33.63
+20115,KS,Marion,yes,moratorium_in_force,2,1,1,1,0,2,1,battery_storage,2026,0,0,0,0,2,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,11754,12.45
+20117,KS,Marshall,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9993,11.1
 20119,KS,Meade,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3903,3.99
-20121,KS,Miami,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,34938,60.67
+20121,KS,Miami,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,34938,60.67
 20123,KS,Mitchell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5779,8.23
 20125,KS,Montgomery,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,30940,48.07
 20127,KS,Morris,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5340,7.68
 20129,KS,Morton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2611,3.58
-20131,KS,Nemaha,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,10160,14.16
+20131,KS,Nemaha,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,10160,14.16
 20133,KS,Neosho,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,1,0,1,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,15656,27.4
 20135,KS,Ness,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2653,2.47
 20137,KS,Norton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5359,6.1
-20139,KS,Osage,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,1,1,0,0,1,,6,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,15744,22.32
+20139,KS,Osage,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,1,1,0,0,1,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,15744,22.32
 20141,KS,Osborne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3452,3.87
 20143,KS,Ottawa,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5819,8.07
 20145,KS,Pawnee,yes,moratorium_in_force,3,1,1,1,0,2,0,solar,,0,0,0,0,2,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,6144,8.15
 20147,KS,Phillips,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4813,5.43
-20149,KS,Pottawatomie,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,,0,0,0,0,1,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26204,31.17
+20149,KS,Pottawatomie,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,26204,31.17
 20151,KS,Pratt,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9127,12.42
 20153,KS,Rawlins,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2516,2.35
-20155,KS,Reno,yes,moratorium_in_force,2,2,2,2,0,1,1,wind;battery_storage,2026,1,0,0,0,1,,7,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,61553,49.03
+20155,KS,Reno,yes,moratorium_in_force,2,1,1,1,0,2,1,battery_storage,2026,1,0,0,0,1,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,61553,49.03
 20157,KS,Republic,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4646,6.48
 20159,KS,Rice,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9350,12.87
-20161,KS,Riley,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,71946,118.01
+20161,KS,Riley,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,71946,118.01
 20163,KS,Rooks,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4813,5.4
 20165,KS,Rush,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2947,4.11
 20167,KS,Russell,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,6679,7.54
 20169,KS,Saline,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,53668,74.51
 20171,KS,Scott,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5027,7.01
-20173,KS,Sedgwick,yes,moratorium_in_force,5,3,3,3,0,2,0,solar;wind;battery_storage,2026,1,0,0,0,2,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,528226,529.81
+20173,KS,Sedgwick,yes,moratorium_in_force,5,2,2,2,0,3,0,solar;battery_storage,2026,1,0,0,0,2,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,528226,529.81
 20175,KS,Seward,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,21486,33.59
-20177,KS,Shawnee,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind,,0,0,0,0,0,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,178025,327.24
+20177,KS,Shawnee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,178025,327.24
 20179,KS,Sheridan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2426,2.71
 20181,KS,Sherman,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5858,5.55
 20183,KS,Smith,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3552,3.97
@@ -987,12 +987,12 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 20191,KS,Sumner,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,22353,18.92
 20193,KS,Thomas,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7885,7.34
 20195,KS,Trego,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2777,3.12
-20197,KS,Wabaunsee,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,,0,0,0,0,2,,7,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7009,8.82
+20197,KS,Wabaunsee,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,,0,0,0,0,2,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,7009,8.82
 20199,KS,Wallace,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1417,1.55
-20201,KS,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5533,6.18
+20201,KS,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5533,6.18
 20203,KS,Wichita,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2091,2.91
-20205,KS,Wilson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8505,14.91
-20207,KS,Woodson,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;wind,,0,0,0,0,2,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3109,6.25
+20205,KS,Wilson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8505,14.91
+20207,KS,Woodson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,4,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,3109,6.25
 20209,KS,Wyandotte,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,167654,1105.62
 21001,KY,Adair,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,19089,47.1
 21003,KY,Allen,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,21293,61.95
@@ -1023,7 +1023,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 21053,KY,Clinton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,9202,46.7
 21055,KY,Crittenden,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8979,24.97
 21057,KY,Cumberland,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,5948,19.49
-21059,KY,Daviess,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,103648,226.11
+21059,KY,Daviess,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,103648,226.11
 21061,KY,Edmonson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,12355,40.8
 21063,KY,Elliott,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,7307,31.18
 21065,KY,Estill,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,14035,55.46
@@ -1044,7 +1044,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 21095,KY,Harlan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,25772,55.32
 21097,KY,Harrison,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,19140,62.46
 21099,KY,Hart,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,19603,47.5
-21101,KY,Henderson,yes,moratorium_in_force,2,1,1,1,0,1,0,wind,2025,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,44280,101.48
+21101,KY,Henderson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,2025,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,44280,101.48
 21103,KY,Henry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,15856,55.39
 21105,KY,Hickman,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4439,18.32
 21107,KY,Hopkins,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,45119,83.22
@@ -1068,7 +1068,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 21143,KY,Lyon,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8900,41.63
 21145,KY,McCracken,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,1,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,67564,271.57
 21147,KY,McCreary,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,16867,39.53
-21149,KY,McLean,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,9114,36.09
+21149,KY,McLean,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,9114,36.09
 21151,KY,Madison,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,95769,218.68
 21153,KY,Magoffin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,11348,36.79
 21155,KY,Marion,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,19749,57.48
@@ -1106,11 +1106,11 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 21219,KY,Todd,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,12469,33.29
 21221,KY,Trigg,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,6,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,14315,32.43
 21223,KY,Trimble,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8550,57.86
-21225,KY,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,13260,38.67
+21225,KY,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,13260,38.67
 21227,KY,Warren,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,140918,260.13
 21229,KY,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,12140,40.84
 21231,KY,Wayne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,19602,42.8
-21233,KY,Webster,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,12842,38.68
+21233,KY,Webster,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,12842,38.68
 21235,KY,Whitley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,36920,84.31
 21237,KY,Wolfe,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,6443,29.0
 21239,KY,Woodford,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,27279,143.9
@@ -1178,21 +1178,21 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 22123,LA,West Carroll,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,hybrid,unknown,9464,26.31
 22125,LA,West Feliciana,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,hybrid,unknown,15327,38.01
 22127,LA,Winn,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,hybrid,unknown,13467,14.18
-23001,ME,Androscoggin,yes,rules_in_force,5,2,0,0,0,3,0,solar,,2,0,0,2,3,,5,3,solar:hybrid;wind:hybrid,unknown,113423,242.38
+23001,ME,Androscoggin,yes,rules_in_force,5,2,0,0,0,3,0,solar,,2,0,0,2,3,,5,2,solar:hybrid;wind:hybrid,unknown,113423,242.38
 23003,ME,Aroostook,yes,severe_rules_in_force,4,1,1,0,0,3,0,wind,,2,0,2,0,3,,4,3,solar:hybrid;wind:hybrid,unknown,67058,10.05
 23005,ME,Cumberland,yes,restrictions_status_unknown,6,0,0,0,0,6,0,,,1,0,0,1,6,,4,2,solar:hybrid;wind:hybrid,unknown,308827,369.32
-23007,ME,Franklin,yes,moratorium_in_force,5,1,1,1,0,4,0,solar,,3,0,2,1,4,,4,4,solar:hybrid;wind:hybrid,unknown,30413,17.92
+23007,ME,Franklin,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,,3,0,2,1,4,,4,4,solar:hybrid;wind:hybrid,unknown,30413,17.92
 23009,ME,Hancock,yes,moratorium_in_force,10,2,1,1,0,8,0,solar,,1,0,1,0,9,,4,4,solar:hybrid;wind:hybrid,unknown,56460,35.57
-23011,ME,Kennebec,yes,moratorium_in_force,11,5,4,3,0,6,0,solar;wind;battery_storage,2024,2,0,1,1,7,,6,4,solar:hybrid;wind:hybrid,unknown,126808,146.18
+23011,ME,Kennebec,yes,moratorium_in_force,11,3,2,1,0,8,0,solar;wind,2024,2,0,1,1,7,,6,3,solar:hybrid;wind:hybrid,unknown,126808,146.18
 23013,ME,Knox,yes,moratorium_in_force,10,1,1,1,0,10,1,battery_storage,2026,2,0,1,0,10,,3,2,solar:hybrid;wind:hybrid,unknown,41003,112.37
 23015,ME,Lincoln,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,4,3,solar:hybrid;wind:hybrid,unknown,36099,79.19
-23017,ME,Oxford,yes,moratorium_in_force,12,4,3,1,0,8,0,solar;wind,,0,0,0,0,9,,6,3,solar:hybrid;wind:hybrid,unknown,59255,28.53
-23019,ME,Penobscot,yes,moratorium_in_force,11,5,3,3,0,6,0,solar;wind,,2,1,1,0,6,,6,5,solar:hybrid;wind:hybrid,unknown,154710,45.54
+23017,ME,Oxford,yes,moratorium_in_force,12,4,3,1,0,8,0,solar;wind,,0,0,0,0,9,,6,2,solar:hybrid;wind:hybrid,unknown,59255,28.53
+23019,ME,Penobscot,yes,moratorium_in_force,11,3,1,1,0,8,0,solar;wind,,2,1,1,0,6,,6,5,solar:hybrid;wind:hybrid,unknown,154710,45.54
 23021,ME,Piscataquis,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,0,2,,3,3,solar:hybrid;wind:hybrid,unknown,17263,4.36
 23023,ME,Sagadahoc,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,0,0,0,0,3,,4,2,solar:hybrid;wind:hybrid,unknown,37285,146.8
-23025,ME,Somerset,yes,severe_rules_in_force,10,6,1,0,0,4,0,solar;wind,,2,0,0,1,6,,6,5,solar:hybrid;wind:hybrid,unknown,50959,12.99
+23025,ME,Somerset,yes,severe_rules_in_force,10,6,1,0,0,4,0,solar;wind,,2,0,0,1,6,,6,4,solar:hybrid;wind:hybrid,unknown,50959,12.99
 23027,ME,Waldo,yes,severe_rules_in_force,9,2,2,0,1,6,0,wind,,1,0,0,1,8,,6,5,solar:hybrid;wind:hybrid,unknown,40192,55.04
-23029,ME,Washington,yes,moratorium_in_force,5,2,1,1,0,3,0,solar,,0,0,0,0,4,,3,3,solar:hybrid;wind:hybrid,unknown,31331,12.23
+23029,ME,Washington,yes,rules_in_force,5,1,0,0,0,4,0,solar,,0,0,0,0,4,,3,3,solar:hybrid;wind:hybrid,unknown,31331,12.23
 23031,ME,York,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,solar:hybrid;wind:hybrid,unknown,216731,218.66
 24001,MD,Allegany,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,1,0,1,0,2,,8,2,hybrid,solar:yes;wind:unknown;battery_storage:yes,67452,159.76
 24003,MD,Anne Arundel,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,1,,5,3,hybrid,solar:yes;wind:unknown;battery_storage:yes,598166,1442.04
@@ -1219,13 +1219,13 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 24047,MD,Worcester,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar;wind,,3,0,1,2,1,,4,3,hybrid,solar:yes;wind:unknown;battery_storage:yes,53700,114.67
 24510,MD,Baltimore,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,2,1,hybrid,solar:yes;wind:unknown;battery_storage:yes,573243,7081.8
 25001,MA,Barnstable,yes,restrictions_status_unknown,12,0,0,0,0,12,0,,,7,2,1,4,13,,1,0,hybrid,yes,231668,587.69
-25003,MA,Berkshire,yes,restrictions_status_unknown,15,0,0,0,0,15,0,,,2,0,0,1,15,,8,7,hybrid,yes,129430,139.64
+25003,MA,Berkshire,yes,restrictions_status_unknown,15,0,0,0,0,15,0,,,2,0,0,1,15,,8,6,hybrid,yes,129430,139.64
 25005,MA,Bristol,yes,severe_rules_in_force,9,4,3,0,0,5,0,solar;wind,,0,0,0,0,8,,5,2,hybrid,yes,582270,1052.71
 25007,MA,Dukes,yes,severe_rules_in_force,6,1,1,0,0,5,0,wind,,0,0,0,0,5,,0,0,hybrid,yes,20933,202.84
 25009,MA,Essex,yes,severe_rules_in_force,17,8,5,0,0,9,0,solar;wind,,0,0,0,0,17,,4,2,hybrid,yes,813054,1650.82
-25011,MA,Franklin,yes,moratorium_in_force,13,4,4,3,1,10,2,solar;wind;battery_storage,2026,2,0,0,2,11,,6,3,hybrid,yes,70944,101.46
-25013,MA,Hampden,yes,moratorium_in_force,11,6,6,2,0,5,0,solar;wind;battery_storage,2026,0,0,0,0,7,,6,4,hybrid,yes,462815,750.1
-25015,MA,Hampshire,yes,moratorium_in_force,12,2,2,1,0,10,0,solar;battery_storage,2026,2,1,0,0,11,,4,3,hybrid,yes,162028,307.32
+25011,MA,Franklin,yes,moratorium_in_force,13,3,3,2,1,11,2,solar;wind;battery_storage,2026,2,0,0,2,11,,6,3,hybrid,yes,70944,101.46
+25013,MA,Hampden,yes,severe_rules_in_force,11,4,4,0,0,7,0,solar;wind,2026,0,0,0,0,7,,6,4,hybrid,yes,462815,750.1
+25015,MA,Hampshire,yes,severe_rules_in_force,12,1,1,0,0,11,0,solar;battery_storage,2026,2,1,0,0,11,,4,3,hybrid,yes,162028,307.32
 25017,MA,Middlesex,yes,severe_rules_in_force,10,1,1,0,0,9,0,solar,,2,1,0,1,12,,5,4,hybrid,yes,1638365,2003.19
 25019,MA,Nantucket,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,0,0,hybrid,yes,14483,313.54
 25021,MA,Norfolk,yes,rules_in_force,10,1,0,0,0,9,0,solar,,1,1,0,0,11,,6,4,hybrid,yes,730082,1843.16
@@ -1234,14 +1234,14 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 25027,MA,Worcester,yes,severe_rules_in_force,35,1,1,0,1,34,1,solar,,1,0,0,1,34,,9,9,hybrid,yes,867788,574.44
 26001,MI,Alcona,yes,rules_in_force,6,1,0,0,0,5,0,solar;wind,,0,0,0,0,5,,3,1,hybrid,yes,10397,15.41
 26003,MI,Alger,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,hybrid,yes,8762,9.58
-26005,MI,Allegan,yes,moratorium_in_force,8,5,5,2,0,4,1,solar;wind;battery_storage,2026,0,0,0,0,5,,5,3,hybrid,yes,121456,147.17
+26005,MI,Allegan,yes,moratorium_in_force,8,4,4,1,0,5,1,solar;wind;battery_storage,2026,0,0,0,0,5,,5,3,hybrid,yes,121456,147.17
 26007,MI,Alpena,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,2,hybrid,yes,28880,50.5
 26009,MI,Antrim,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,4,1,hybrid,yes,24127,50.72
 26011,MI,Arenac,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,4,hybrid,yes,15077,41.51
 26013,MI,Baraga,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,1,1,0,0,0,,3,2,hybrid,yes,8191,9.12
 26015,MI,Barry,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,6,3,hybrid,yes,63409,114.64
 26017,MI,Bay,yes,severe_rules_in_force,7,4,2,0,0,3,0,solar;wind,,1,1,0,0,4,,5,3,hybrid,yes,103008,232.83
-26019,MI,Benzie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,3,hybrid,yes,18310,57.27
+26019,MI,Benzie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,2,hybrid,yes,18310,57.27
 26021,MI,Berrien,yes,severe_rules_in_force,8,3,3,0,0,5,0,solar;wind,,0,0,0,0,6,,4,1,hybrid,yes,153288,269.97
 26023,MI,Branch,yes,severe_rules_in_force,4,3,3,0,0,1,0,wind,,1,0,0,0,1,,5,2,hybrid,yes,45300,89.45
 26025,MI,Calhoun,yes,restrictions_status_unknown,6,0,0,0,0,6,0,,,0,0,0,0,6,,6,4,hybrid,yes,133778,189.42
@@ -1250,7 +1250,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 26031,MI,Cheboygan,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,hybrid,yes,25865,36.16
 26033,MI,Chippewa,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,2,0,hybrid,yes,36295,23.29
 26035,MI,Clare,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,hybrid,yes,31218,55.32
-26037,MI,Clinton,yes,moratorium_in_force,6,4,2,1,0,2,0,solar;wind,,1,0,0,0,4,,5,3,hybrid,yes,79626,140.35
+26037,MI,Clinton,yes,severe_rules_in_force,6,3,1,0,0,3,0,solar;wind,,1,0,0,0,4,,5,3,hybrid,yes,79626,140.35
 26039,MI,Crawford,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,4,0,hybrid,yes,13369,24.03
 26041,MI,Delta,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,4,2,hybrid,yes,36813,31.43
 26043,MI,Dickinson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,hybrid,yes,25954,34.11
@@ -1259,11 +1259,11 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 26049,MI,Genesee,yes,severe_rules_in_force,12,4,2,0,0,8,0,solar;wind,,1,0,0,1,8,,6,6,hybrid,yes,403305,633.19
 26051,MI,Gladwin,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,2,hybrid,yes,25693,51.2
 26053,MI,Gogebic,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,hybrid,yes,14319,12.99
-26055,MI,Grand Traverse,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar,,0,0,0,0,2,,5,1,hybrid,yes,96166,207.1
+26055,MI,Grand Traverse,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar,,0,0,0,0,2,,5,0,hybrid,yes,96166,207.1
 26057,MI,Gratiot,yes,restrictions_status_unknown,4,0,0,0,0,4,0,,,1,0,1,0,4,,6,4,hybrid,yes,41385,72.81
 26059,MI,Hillsdale,yes,moratorium_in_force,0,1,1,1,1,0,2,solar;wind;battery_storage,2026,1,0,1,0,0,,7,2,hybrid,yes,45654,76.33
 26061,MI,Houghton,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,1,,4,1,hybrid,yes,37693,37.35
-26063,MI,Huron,yes,moratorium_in_force,6,3,3,2,0,3,0,solar;wind;battery_storage,2026,3,3,0,0,3,,2,2,hybrid,yes,31113,37.22
+26063,MI,Huron,yes,moratorium_in_force,6,2,2,1,0,4,0,solar;wind;battery_storage,2026,3,3,0,0,3,,2,2,hybrid,yes,31113,37.22
 26065,MI,Ingham,yes,severe_rules_in_force,7,2,2,0,0,5,0,wind,,1,0,0,0,5,,5,3,hybrid,yes,283913,510.56
 26067,MI,Ionia,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar,,0,0,0,0,2,,5,3,hybrid,yes,66574,116.53
 26069,MI,Iosco,yes,severe_rules_in_force,4,1,1,0,0,3,0,solar,,0,0,0,0,3,,3,2,hybrid,yes,25347,46.13
@@ -1276,9 +1276,9 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 26083,MI,Keweenaw,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,1,1,hybrid,yes,2133,3.95
 26085,MI,Lake,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,12563,22.13
 26087,MI,Lapeer,yes,rules_in_force,6,2,0,0,0,4,0,wind,,1,1,0,0,4,,6,5,hybrid,yes,88837,137.31
-26089,MI,Leelanau,yes,moratorium_in_force,2,1,1,1,0,1,0,solar,,0,0,0,0,1,,2,1,hybrid,yes,22734,65.48
+26089,MI,Leelanau,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,1,,2,1,hybrid,yes,22734,65.48
 26091,MI,Lenawee,yes,rules_in_force,6,2,0,0,0,4,0,solar;wind,,1,0,0,1,4,,6,3,hybrid,yes,98415,131.28
-26093,MI,Livingston,yes,moratorium_in_force,7,3,3,2,0,4,0,solar;wind;battery_storage,,1,1,0,0,5,,6,5,hybrid,yes,195833,346.43
+26093,MI,Livingston,yes,severe_rules_in_force,7,1,1,0,0,6,0,solar;wind;battery_storage,,1,1,0,0,5,,6,5,hybrid,yes,195833,346.43
 26095,MI,Luce,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,hybrid,yes,6271,6.97
 26097,MI,Mackinac,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,1,hybrid,yes,10957,10.72
 26099,MI,Macomb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,3,hybrid,yes,879853,1835.51
@@ -1292,7 +1292,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 26115,MI,Monroe,yes,severe_rules_in_force,16,10,9,0,0,6,0,solar;wind;battery_storage,,0,0,0,0,6,,4,2,hybrid,yes,155505,283.06
 26117,MI,Montcalm,yes,severe_rules_in_force,12,7,3,0,0,5,0,solar;wind,,1,0,0,0,5,,6,1,hybrid,yes,67816,96.15
 26119,MI,Montmorency,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,1,hybrid,yes,9516,17.41
-26121,MI,Muskegon,yes,moratorium_in_force,10,2,1,1,0,8,0,solar;wind,,3,2,0,1,8,,4,2,hybrid,yes,175961,349.19
+26121,MI,Muskegon,yes,rules_in_force,10,1,0,0,0,9,0,wind,,3,2,0,1,8,,4,2,hybrid,yes,175961,349.19
 26123,MI,Newaygo,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,3,hybrid,yes,50792,60.55
 26125,MI,Oakland,yes,severe_rules_in_force,7,3,2,0,0,4,0,solar,,0,0,0,0,5,,6,4,hybrid,yes,1279825,1475.47
 26127,MI,Oceana,yes,severe_rules_in_force,7,2,2,0,0,5,0,solar;wind,,1,1,0,0,6,,3,2,hybrid,yes,26915,50.02
@@ -1312,7 +1312,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 26155,MI,Shiawassee,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,5,hybrid,yes,67991,128.05
 26157,MI,Tuscola,yes,severe_rules_in_force,9,5,2,0,0,4,0,wind,,3,0,1,1,4,,6,6,hybrid,yes,52980,65.83
 26159,MI,Van Buren,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,4,3,hybrid,yes,75795,124.71
-26161,MI,Washtenaw,yes,moratorium_in_force,9,2,2,2,0,8,1,solar;battery_storage,2026,2,0,1,1,8,,6,4,hybrid,yes,369822,523.82
+26161,MI,Washtenaw,yes,moratorium_in_force,9,1,1,1,0,9,1,battery_storage,2026,2,0,1,1,8,,6,4,hybrid,yes,369822,523.82
 26163,MI,Wayne,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,0,0,0,0,3,,4,3,hybrid,yes,1772259,2896.61
 26165,MI,Wexford,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,3,hybrid,yes,34077,60.32
 27001,MN,Aitkin,yes,severe_rules_in_force,4,2,2,0,0,2,0,solar;wind,,0,0,0,0,2,,8,5,hybrid,yes,16056,8.82
@@ -1326,7 +1326,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27017,MN,Carlton,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,4,3,hybrid,yes,36518,42.4
 27019,MN,Carver,yes,rules_in_force,3,1,0,0,0,2,0,solar;wind,,0,0,0,0,2,,5,3,hybrid,yes,110041,310.96
 27021,MN,Cass,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,6,hybrid,yes,30992,15.33
-27023,MN,Chippewa,yes,moratorium_in_force,1,1,1,1,0,0,0,solar,,0,0,0,0,0,,5,1,hybrid,yes,12377,21.29
+27023,MN,Chippewa,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,0,,5,1,hybrid,yes,12377,21.29
 27025,MN,Chisago,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,6,4,hybrid,yes,57991,139.77
 27027,MN,Clay,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,hybrid,yes,66059,63.2
 27029,MN,Clearwater,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,hybrid,yes,8616,8.62
@@ -1346,12 +1346,12 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27057,MN,Hubbard,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,hybrid,yes,21831,23.58
 27059,MN,Isanti,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,1,,5,3,hybrid,yes,42596,97.75
 27061,MN,Itasca,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,hybrid,yes,45275,16.97
-27063,MN,Jackson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,2,hybrid,yes,9933,14.13
+27063,MN,Jackson,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,1,hybrid,yes,9933,14.13
 27065,MN,Kanabec,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,4,hybrid,yes,16390,31.42
-27067,MN,Kandiyohi,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,hybrid,yes,44079,55.28
+27067,MN,Kandiyohi,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,hybrid,yes,44079,55.28
 27069,MN,Kittson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,hybrid,yes,4084,3.72
 27071,MN,Koochiching,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,hybrid,yes,11833,3.81
-27073,MN,Lac qui Parle,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,hybrid,yes,6682,8.73
+27073,MN,Lac qui Parle,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,hybrid,yes,6682,8.73
 27075,MN,Lake,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,2,2,hybrid,yes,10879,5.16
 27077,MN,Lake of the Woods,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,1,hybrid,yes,3821,2.94
 27079,MN,Le Sueur,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,1,,6,4,hybrid,yes,29113,64.87
@@ -1379,7 +1379,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27123,MN,Ramsey,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,4,3,hybrid,yes,542945,3565.98
 27125,MN,Red Lake,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,2,0,hybrid,yes,3915,9.05
 27127,MN,Redwood,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,1,hybrid,yes,15350,17.47
-27129,MN,Renville,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,9,3,hybrid,yes,14558,14.81
+27129,MN,Renville,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,0,1,2,,9,2,hybrid,yes,14558,14.81
 27131,MN,Rice,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,7,3,hybrid,yes,67917,136.97
 27133,MN,Rock,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,hybrid,yes,9621,19.94
 27135,MN,Roseau,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,hybrid,yes,15302,9.15
@@ -1390,7 +1390,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27145,MN,Stearns,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,9,4,hybrid,yes,160865,119.79
 27147,MN,Steele,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,hybrid,yes,37439,87.16
 27149,MN,Stevens,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,5,2,hybrid,yes,9739,17.28
-27151,MN,Swift,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,3,hybrid,yes,9748,13.14
+27151,MN,Swift,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,hybrid,yes,9748,13.14
 27153,MN,Todd,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,6,2,hybrid,yes,25575,27.06
 27155,MN,Traverse,yes,moratorium_in_force,3,1,1,1,0,2,0,solar;battery_storage,,0,0,0,0,2,,6,4,hybrid,yes,3243,5.65
 27157,MN,Wabasha,yes,severe_rules_in_force,4,2,1,0,0,2,0,solar;wind,,0,0,0,0,2,,5,1,hybrid,yes,21565,41.24
@@ -1401,7 +1401,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 27167,MN,Wilkin,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,5,2,hybrid,yes,6371,8.48
 27169,MN,Winona,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,3,hybrid,yes,49779,79.49
 27171,MN,Wright,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,2,,6,2,hybrid,yes,148269,224.26
-27173,MN,Yellow Medicine,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,7,2,hybrid,yes,9451,12.45
+27173,MN,Yellow Medicine,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,7,1,hybrid,yes,9451,12.45
 28001,MS,Adams,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,28803,62.3
 28003,MS,Alcorn,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,34289,85.71
 28005,MS,Amite,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:unknown;battery_storage:unknown,12565,17.21
@@ -1490,7 +1490,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 29007,MO,Audrain,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:hybrid;wind:hybrid,unknown,24548,35.46
 29009,MO,Barry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:hybrid;wind:hybrid,unknown,35033,45.02
 29011,MO,Barton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:hybrid;wind:hybrid,unknown,11690,19.75
-29013,MO,Bates,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:hybrid;wind:hybrid,unknown,16186,19.35
+29013,MO,Bates,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,unknown,16186,19.35
 29015,MO,Benton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,unknown,20151,28.62
 29017,MO,Bollinger,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,unknown,10559,17.09
 29019,MO,Boone,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,7,1,solar:hybrid;wind:hybrid,unknown,188043,274.29
@@ -1524,7 +1524,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 29075,MO,Gentry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,unknown,6245,12.71
 29077,MO,Greene,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,unknown,303375,449.23
 29079,MO,Grundy,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,unknown,9787,22.48
-29081,MO,Harrison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:hybrid;wind:hybrid,unknown,8190,11.34
+29081,MO,Harrison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:hybrid;wind:hybrid,unknown,8190,11.34
 29083,MO,Henry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,unknown,22328,32.04
 29085,MO,Hickory,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,unknown,8585,21.53
 29087,MO,Holt,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,unknown,4240,9.16
@@ -1548,7 +1548,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 29123,MO,Madison,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,unknown,12729,25.75
 29125,MO,Maries,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,unknown,8450,16.03
 29127,MO,Marion,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,1,solar:hybrid;wind:hybrid,unknown,28457,65.13
-29129,MO,Mercer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,unknown,3482,7.67
+29129,MO,Mercer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,unknown,3482,7.67
 29131,MO,Miller,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,unknown,25269,42.64
 29133,MO,Mississippi,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,unknown,11902,28.92
 29135,MO,Moniteau,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,unknown,15262,36.77
@@ -1591,7 +1591,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 29211,MO,Sullivan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,unknown,5857,9.04
 29213,MO,Taney,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:hybrid;wind:hybrid,unknown,56529,89.41
 29215,MO,Texas,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:hybrid;wind:hybrid,unknown,25161,21.37
-29217,MO,Vernon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,4,solar:hybrid;wind:hybrid,unknown,19687,23.82
+29217,MO,Vernon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:hybrid;wind:hybrid,unknown,19687,23.82
 29219,MO,Warren,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:hybrid;wind:hybrid,unknown,37177,86.74
 29221,MO,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,unknown,23470,30.89
 29223,MO,Wayne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,unknown,10862,14.31
@@ -1669,16 +1669,16 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31023,NE,Butler,yes,moratorium_in_force,6,7,1,1,0,0,1,solar;wind;battery_storage,2026,0,0,0,0,0,,6,3,local_government,no,8424,14.41
 31025,NE,Cass,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,6,3,local_government,no,27161,48.77
 31027,NE,Cedar,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,6,2,local_government,no,8315,11.23
-31029,NE,Chase,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,2,local_government,no,3671,4.1
+31029,NE,Chase,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,1,local_government,no,3671,4.1
 31031,NE,Cherry,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,2,,9,2,local_government,no,5498,0.92
 31033,NE,Cheyenne,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,local_government,no,9533,7.97
 31035,NE,Clay,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,local_government,no,6095,10.65
 31037,NE,Colfax,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,5,4,local_government,no,10641,25.86
 31039,NE,Cuming,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,6,4,local_government,no,8975,15.73
-31041,NE,Custer,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,9,4,local_government,no,10518,4.08
+31041,NE,Custer,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,9,3,local_government,no,10518,4.08
 31043,NE,Dakota,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,4,1,local_government,no,21354,80.8
 31045,NE,Dawes,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,8140,5.83
-31047,NE,Dawson,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,4,local_government,no,24202,23.87
+31047,NE,Dawson,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,6,3,local_government,no,24202,23.87
 31049,NE,Deuel,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,local_government,no,1847,4.2
 31051,NE,Dixon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,local_government,no,5545,11.66
 31053,NE,Dodge,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,7,4,local_government,no,37351,70.63
@@ -1686,9 +1686,9 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31057,NE,Dundy,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,1736,1.89
 31059,NE,Fillmore,yes,moratorium_in_force,3,1,1,1,0,2,0,solar,2026,0,0,0,0,2,,5,2,local_government,no,5541,9.63
 31061,NE,Franklin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,2846,4.94
-31063,NE,Frontier,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,7,4,local_government,no,2569,2.64
+31063,NE,Frontier,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,7,3,local_government,no,2569,2.64
 31065,NE,Furnas,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;wind,2025,0,0,0,0,1,,7,3,local_government,no,4568,6.35
-31067,NE,Gage,yes,moratorium_in_force,3,1,1,1,0,2,0,solar;wind,,0,0,0,0,2,,7,3,local_government,no,21629,25.4
+31067,NE,Gage,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,0,0,0,0,2,,7,3,local_government,no,21629,25.4
 31069,NE,Garden,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,1761,1.03
 31071,NE,Garfield,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,3,local_government,no,1718,3.02
 31073,NE,Gosper,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,4,local_government,no,2040,4.45
@@ -1697,23 +1697,23 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31079,NE,Hall,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,3,local_government,no,62536,114.42
 31081,NE,Hamilton,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,6,1,local_government,no,9464,17.46
 31083,NE,Harlan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,local_government,no,2847,5.14
-31085,NE,Hayes,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,3,local_government,no,843,1.18
+31085,NE,Hayes,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,local_government,no,843,1.18
 31087,NE,Hitchcock,yes,restriction_pending,0,0,0,0,1,0,1,,,0,0,0,0,1,,5,2,local_government,no,2569,3.62
 31089,NE,Holt,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,7,4,local_government,no,10102,4.19
 31091,NE,Hooker,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,local_government,no,647,0.9
 31093,NE,Howard,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,local_government,no,6534,11.48
-31095,NE,Jefferson,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,4,3,local_government,no,7161,12.56
-31097,NE,Johnson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,2,local_government,no,5261,13.99
+31095,NE,Jefferson,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,2,,4,2,local_government,no,7161,12.56
+31097,NE,Johnson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,1,local_government,no,5261,13.99
 31099,NE,Kearney,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,2,,5,3,local_government,no,6713,13.0
-31101,NE,Keith,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,local_government,no,8219,7.74
+31101,NE,Keith,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,2,local_government,no,8219,7.74
 31103,NE,Keya Paha,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,822,1.06
 31105,NE,Kimball,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,2,local_government,no,3248,3.41
 31107,NE,Knox,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,2,1,0,1,2,,8,4,local_government,no,8363,7.55
-31109,NE,Lancaster,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,2,0,0,2,2,,6,4,local_government,no,326696,390.06
-31111,NE,Lincoln,yes,moratorium_in_force,2,1,1,1,0,1,0,solar;wind,,0,0,0,0,1,,8,4,local_government,no,33802,13.18
-31113,NE,Logan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,local_government,no,773,1.35
+31109,NE,Lancaster,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,2,0,0,2,2,,6,3,local_government,no,326696,390.06
+31111,NE,Lincoln,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,1,,8,4,local_government,no,33802,13.18
+31113,NE,Logan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,local_government,no,773,1.35
 31115,NE,Loup,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,6,2,local_government,no,578,1.03
-31117,NE,McPherson,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;wind;battery_storage,2026,0,0,0,0,0,,6,2,local_government,no,475,0.55
+31117,NE,McPherson,yes,moratorium_in_force,0,1,1,1,0,0,1,solar;wind;battery_storage,2026,0,0,0,0,0,,6,1,local_government,no,475,0.55
 31119,NE,Madison,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,5,3,local_government,no,35532,62.05
 31121,NE,Merrick,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,local_government,no,7724,15.83
 31123,NE,Morrill,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,4534,3.18
@@ -1721,8 +1721,8 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31127,NE,Nemaha,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,7046,17.3
 31129,NE,Nuckolls,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,local_government,no,4087,7.11
 31131,NE,Otoe,yes,severe_rules_in_force,4,2,1,0,0,2,0,solar;wind,,0,0,0,0,2,,6,2,local_government,no,16241,26.38
-31133,NE,Pawnee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,local_government,no,2530,5.87
-31135,NE,Perkins,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,2,,7,2,local_government,no,2821,3.19
+31133,NE,Pawnee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,local_government,no,2530,5.87
+31135,NE,Perkins,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,2,,7,0,local_government,no,2821,3.19
 31137,NE,Phelps,yes,severe_rules_in_force,3,1,1,0,0,2,0,solar;wind,,0,0,0,0,2,,6,4,local_government,no,9009,16.69
 31139,NE,Pierce,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,5,3,local_government,no,7325,12.78
 31141,NE,Platte,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,3,local_government,no,34716,51.42
@@ -1730,7 +1730,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31145,NE,Red Willow,yes,rules_in_force,2,1,0,0,0,1,0,solar,,0,0,0,0,1,,5,2,local_government,no,10557,14.72
 31147,NE,Richardson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,7751,14.05
 31149,NE,Rock,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,3,local_government,no,1319,1.31
-31151,NE,Saline,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,1,0,0,1,0,,5,5,local_government,no,14650,25.52
+31151,NE,Saline,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,1,0,0,1,0,,5,4,local_government,no,14650,25.52
 31153,NE,Sarpy,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,5,1,local_government,no,197389,829.38
 31155,NE,Saunders,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,2,,6,3,local_government,no,23048,30.78
 31157,NE,Scotts Bluff,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,5,1,local_government,no,35843,48.46
@@ -1748,22 +1748,22 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 31181,NE,Webster,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,7,2,local_government,no,3360,5.84
 31183,NE,Wheeler,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,0,,6,3,local_government,no,847,1.47
 31185,NE,York,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,2,,4,3,local_government,no,14286,24.95
-32001,NV,Churchill,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,25805,5.21
-32003,NV,Clark,yes,contested_projects_only,0,0,0,0,0,0,0,,,9,4,1,3,0,,5,4,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2329548,295.19
+32001,NV,Churchill,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,25805,5.21
+32003,NV,Clark,yes,contested_projects_only,0,0,0,0,0,0,0,,,9,4,1,3,0,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2329548,295.19
 32005,NV,Douglas,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,49623,69.84
 32007,NV,Elko,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,9,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,54047,3.15
-32009,NV,Esmeralda,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,0,1,1,1,,4,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1028,0.29
-32011,NV,Eureka,yes,checked_none_found,0,0,0,0,0,0,0,,,0,0,0,0,0,A,4,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1585,0.38
+32009,NV,Esmeralda,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,2,0,1,1,1,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1028,0.29
+32011,NV,Eureka,yes,checked_none_found,0,0,0,0,0,0,0,,,0,0,0,0,0,A,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1585,0.38
 32013,NV,Humboldt,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,17289,1.79
-32015,NV,Lander,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,1,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,5770,1.05
-32017,NV,Lincoln,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,8,5,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4405,0.41
+32015,NV,Lander,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar;wind,,0,0,0,0,1,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,5770,1.05
+32017,NV,Lincoln,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,8,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4405,0.41
 32019,NV,Lyon,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,2,0,1,1,2,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,61680,30.79
-32021,NV,Mineral,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4542,1.21
-32023,NV,Nye,yes,moratorium_in_force,3,1,1,1,0,2,0,solar;wind,,5,1,1,3,2,,9,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,54344,2.99
+32021,NV,Mineral,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4542,1.21
+32023,NV,Nye,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,5,1,1,3,2,,9,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,54344,2.99
 32027,NV,Pershing,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,6487,1.07
 32029,NV,Storey,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,2,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4140,15.69
 32031,NV,Washoe,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,3,1,0,2,1,,13,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,497200,78.72
-32033,NV,White Pine,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,7,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8735,0.98
+32033,NV,White Pine,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8735,0.98
 32510,NV,Carson City,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,58384,403.95
 33001,NH,Belknap,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,4,3,hybrid,yes,64659,160.9
 33003,NH,Carroll,yes,rules_in_force,1,1,0,0,0,0,0,solar,,0,0,0,0,0,,6,4,hybrid,yes,51804,55.59
@@ -1829,67 +1829,67 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 35057,NM,Torrance,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,15490,4.63
 35059,NM,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4013,1.05
 35061,NM,Valencia,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,78458,73.55
-36001,NY,Albany,yes,moratorium_in_force,6,1,1,1,0,5,0,solar;battery_storage,2025,0,0,0,0,6,,5,5,hybrid,yes,317018,606.28
-36003,NY,Allegany,yes,moratorium_in_force,4,1,1,1,0,3,0,battery_storage,,2,0,1,1,3,,6,3,hybrid,yes,47159,45.81
+36001,NY,Albany,yes,moratorium_in_force,6,1,1,1,0,5,0,solar;battery_storage,2025,0,0,0,0,6,,5,4,hybrid,yes,317018,606.28
+36003,NY,Allegany,yes,restrictions_status_unknown,4,0,0,0,0,4,0,,,2,0,1,1,3,,6,2,hybrid,yes,47159,45.81
 36005,NY,Bronx,yes,rules_in_force,1,1,0,0,0,0,0,solar;wind;battery_storage,,0,0,0,0,0,,4,3,hybrid,yes,1404779,33307.54
 36007,NY,Broome,yes,moratorium_in_force,8,3,2,2,0,5,0,solar;wind;battery_storage,,2,0,1,1,6,,6,3,hybrid,yes,197378,279.71
-36009,NY,Cattaraugus,yes,moratorium_in_force,14,3,3,2,0,11,0,solar;wind;battery_storage,,2,1,1,0,12,,6,4,hybrid,yes,76145,58.21
+36009,NY,Cattaraugus,yes,moratorium_in_force,14,2,2,1,0,12,0,wind;battery_storage,,2,1,1,0,12,,6,2,hybrid,yes,76145,58.21
 36011,NY,Cayuga,yes,moratorium_in_force,13,1,1,1,0,12,0,battery_storage,2025,1,0,0,1,13,,6,5,hybrid,yes,75102,108.59
 36013,NY,Chautauqua,yes,moratorium_in_force,34,11,11,9,0,23,0,solar;wind;battery_storage,2026,3,1,1,0,24,,4,2,hybrid,yes,125544,118.39
-36015,NY,Chemung,yes,moratorium_in_force,10,5,5,1,0,5,0,solar;wind;battery_storage,2025,0,0,0,0,7,,6,5,hybrid,yes,82147,201.67
-36017,NY,Chenango,yes,moratorium_in_force,6,1,1,1,0,5,0,battery_storage,2026,0,0,0,0,5,,5,3,hybrid,yes,46321,51.85
+36015,NY,Chemung,yes,severe_rules_in_force,10,4,4,0,0,6,0,wind,2025,0,0,0,0,7,,6,5,hybrid,yes,82147,201.67
+36017,NY,Chenango,yes,moratorium_in_force,6,1,1,1,0,5,0,battery_storage,2026,0,0,0,0,5,,5,2,hybrid,yes,46321,51.85
 36019,NY,Clinton,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,,0,0,0,0,5,,4,2,hybrid,yes,78493,75.64
-36021,NY,Columbia,yes,moratorium_in_force,14,3,3,3,0,11,0,battery_storage,2026,1,0,0,1,12,,5,4,hybrid,yes,61100,96.27
-36023,NY,Cortland,yes,moratorium_in_force,4,2,2,2,0,2,0,wind;battery_storage,,0,0,0,0,3,,7,6,hybrid,yes,46246,92.72
-36025,NY,Delaware,yes,restrictions_status_unknown,6,0,0,0,0,6,0,,,0,0,0,0,6,,8,7,hybrid,yes,44487,30.84
-36027,NY,Dutchess,yes,moratorium_in_force,11,2,1,1,0,9,0,wind;battery_storage,2024,1,0,0,1,10,,7,6,hybrid,yes,298220,374.84
-36029,NY,Erie,yes,moratorium_in_force,28,7,7,6,0,21,0,solar;wind;battery_storage,2025,0,0,0,0,23,,5,5,hybrid,yes,950622,911.64
+36021,NY,Columbia,yes,moratorium_in_force,14,2,2,2,0,12,0,battery_storage,2026,1,0,0,1,12,,5,3,hybrid,yes,61100,96.27
+36023,NY,Cortland,yes,moratorium_in_force,4,1,1,1,0,3,0,wind,,0,0,0,0,3,,7,6,hybrid,yes,46246,92.72
+36025,NY,Delaware,yes,restrictions_status_unknown,6,0,0,0,0,6,0,,,0,0,0,0,6,,8,6,hybrid,yes,44487,30.84
+36027,NY,Dutchess,yes,moratorium_in_force,11,2,1,1,0,9,0,wind;battery_storage,2024,1,0,0,1,10,,7,5,hybrid,yes,298220,374.84
+36029,NY,Erie,yes,moratorium_in_force,28,4,4,3,0,24,0,solar;wind;battery_storage,2025,0,0,0,0,23,,5,4,hybrid,yes,950622,911.64
 36031,NY,Essex,yes,moratorium_in_force,5,3,3,2,0,2,0,wind;battery_storage,2026,0,0,0,0,2,,7,4,hybrid,yes,36973,20.61
 36033,NY,Franklin,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,,0,0,0,0,5,,4,3,hybrid,yes,46696,28.66
-36035,NY,Fulton,yes,moratorium_in_force,5,5,4,3,0,1,1,solar;wind;battery_storage,2026,0,0,0,0,2,,4,4,hybrid,yes,52487,105.94
-36037,NY,Genesee,yes,moratorium_in_force,13,3,3,3,0,10,0,solar;battery_storage,2026,0,0,0,0,10,,6,4,hybrid,yes,57787,117.22
+36035,NY,Fulton,yes,moratorium_in_force,5,5,4,3,0,1,1,solar;wind;battery_storage,2026,0,0,0,0,2,,4,3,hybrid,yes,52487,105.94
+36037,NY,Genesee,yes,moratorium_in_force,13,3,3,3,0,10,0,solar;battery_storage,2026,0,0,0,0,10,,6,3,hybrid,yes,57787,117.22
 36039,NY,Greene,yes,moratorium_in_force,6,2,2,1,0,4,0,solar;battery_storage,2026,2,0,0,2,4,,5,4,hybrid,yes,47409,73.26
-36041,NY,Hamilton,yes,moratorium_in_force,3,3,2,2,0,0,0,wind;battery_storage,2026,1,1,0,0,1,,7,5,hybrid,yes,5089,2.96
-36043,NY,Herkimer,yes,moratorium_in_force,5,1,1,1,1,3,0,solar;wind,2025,2,1,1,0,4,,7,7,hybrid,yes,59757,42.36
-36045,NY,Jefferson,yes,moratorium_in_force,14,2,2,2,0,12,0,solar;wind;battery_storage,,5,3,0,2,13,,3,3,hybrid,yes,115040,90.73
+36041,NY,Hamilton,yes,moratorium_in_force,3,3,2,2,0,0,0,wind;battery_storage,2026,1,1,0,0,1,,7,4,hybrid,yes,5089,2.96
+36043,NY,Herkimer,yes,restriction_pending,5,0,0,0,1,4,0,,2025,2,1,1,0,4,,7,6,hybrid,yes,59757,42.36
+36045,NY,Jefferson,yes,restrictions_status_unknown,14,0,0,0,0,14,0,,,5,3,0,2,13,,3,3,hybrid,yes,115040,90.73
 36047,NY,Kings,yes,rules_in_force,1,1,0,0,0,0,0,solar;wind;battery_storage,,1,0,0,1,0,,2,2,hybrid,yes,2631580,37931.59
-36049,NY,Lewis,yes,moratorium_in_force,21,9,8,3,0,12,0,solar;wind;battery_storage,2026,0,0,0,0,13,,5,5,hybrid,yes,26607,20.85
-36051,NY,Livingston,yes,restrictions_status_unknown,11,0,0,0,0,11,0,,,0,0,0,0,11,,6,5,hybrid,yes,61498,97.36
-36053,NY,Madison,yes,restrictions_status_unknown,7,0,0,0,0,7,0,,,1,0,1,0,7,,6,6,hybrid,yes,67328,102.81
+36049,NY,Lewis,yes,moratorium_in_force,21,9,8,3,0,12,0,solar;wind;battery_storage,2026,0,0,0,0,13,,5,3,hybrid,yes,26607,20.85
+36051,NY,Livingston,yes,restrictions_status_unknown,11,0,0,0,0,11,0,,,0,0,0,0,11,,6,3,hybrid,yes,61498,97.36
+36053,NY,Madison,yes,restrictions_status_unknown,7,0,0,0,0,7,0,,,1,0,1,0,7,,6,5,hybrid,yes,67328,102.81
 36055,NY,Monroe,yes,restrictions_status_unknown,10,0,0,0,0,10,0,,,0,0,0,0,10,,5,4,hybrid,yes,753753,1147.36
-36057,NY,Montgomery,yes,moratorium_in_force,7,4,4,2,0,3,0,solar;wind;battery_storage,2025,2,1,0,1,3,,6,6,hybrid,yes,49528,122.86
-36059,NY,Nassau,yes,moratorium_in_force,5,4,4,4,0,1,0,battery_storage,2025,2,1,0,1,1,,2,2,hybrid,yes,1389591,4883.57
+36057,NY,Montgomery,yes,moratorium_in_force,7,3,3,1,0,4,0,solar;wind;battery_storage,2025,2,1,0,1,3,,6,4,hybrid,yes,49528,122.86
+36059,NY,Nassau,yes,moratorium_in_force,5,3,3,3,0,2,0,battery_storage,2025,2,1,0,1,1,,2,2,hybrid,yes,1389591,4883.57
 36061,NY,New York,yes,rules_in_force,1,1,0,0,0,0,0,solar;wind;battery_storage,,0,0,0,0,0,,5,3,hybrid,yes,1629477,71916.19
 36063,NY,Niagara,yes,severe_rules_in_force,14,2,1,0,0,12,0,solar;wind,,3,1,0,2,13,,3,3,hybrid,yes,210721,403.41
-36065,NY,Oneida,yes,rules_in_force,8,1,0,0,0,7,0,solar,,2,2,0,0,7,,5,4,hybrid,yes,229124,188.98
+36065,NY,Oneida,yes,rules_in_force,8,1,0,0,0,7,0,solar,,2,2,0,0,7,,5,2,hybrid,yes,229124,188.98
 36067,NY,Onondaga,yes,moratorium_in_force,17,9,9,5,0,8,0,solar;wind;battery_storage,2026,1,1,0,0,9,,4,3,hybrid,yes,471129,605.26
-36069,NY,Ontario,yes,moratorium_in_force,11,2,1,1,0,9,0,solar;battery_storage,2024,0,0,0,0,12,,6,3,hybrid,yes,112625,174.86
-36071,NY,Orange,yes,moratorium_in_force,15,1,1,1,0,14,0,battery_storage,2025,0,0,0,0,14,,8,5,hybrid,yes,406616,500.71
-36073,NY,Orleans,yes,moratorium_in_force,10,2,2,1,0,8,0,wind;battery_storage,,1,1,0,0,8,,3,2,hybrid,yes,39608,101.23
-36075,NY,Oswego,yes,moratorium_in_force,6,4,3,2,0,3,1,solar;wind;battery_storage,2026,1,1,0,0,7,,6,5,hybrid,yes,117953,123.95
-36077,NY,Otsego,yes,moratorium_in_force,5,1,1,1,0,4,0,solar,2026,1,0,1,0,4,,7,5,hybrid,yes,60108,60.0
-36079,NY,Putnam,yes,moratorium_in_force,3,1,1,1,0,2,0,battery_storage,2024,1,1,0,0,2,,5,5,hybrid,yes,98107,426.09
+36069,NY,Ontario,yes,rules_in_force,11,1,0,0,0,10,0,solar,2024,0,0,0,0,12,,6,3,hybrid,yes,112625,174.86
+36071,NY,Orange,yes,moratorium_in_force,15,1,1,1,0,14,0,battery_storage,2025,0,0,0,0,14,,8,4,hybrid,yes,406616,500.71
+36073,NY,Orleans,yes,severe_rules_in_force,10,1,1,0,0,9,0,wind,,1,1,0,0,8,,3,2,hybrid,yes,39608,101.23
+36075,NY,Oswego,yes,moratorium_in_force,6,4,3,2,0,3,1,solar;wind;battery_storage,2026,1,1,0,0,7,,6,4,hybrid,yes,117953,123.95
+36077,NY,Otsego,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,2026,1,0,1,0,4,,7,4,hybrid,yes,60108,60.0
+36079,NY,Putnam,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,2024,1,1,0,0,2,,5,5,hybrid,yes,98107,426.09
 36081,NY,Queens,yes,rules_in_force,2,1,0,0,0,1,0,solar;wind;battery_storage,,1,0,0,1,1,,4,4,hybrid,yes,2323052,21366.51
-36083,NY,Rensselaer,yes,moratorium_in_force,9,1,1,1,0,8,0,solar;wind,,1,0,0,1,8,,6,4,hybrid,yes,160332,245.73
+36083,NY,Rensselaer,yes,restrictions_status_unknown,9,0,0,0,0,9,0,,,1,0,0,1,8,,6,4,hybrid,yes,160332,245.73
 36085,NY,Richmond,yes,rules_in_force,1,1,0,0,0,0,0,solar;wind;battery_storage,,3,2,1,0,0,,3,0,hybrid,yes,494956,8604.49
-36087,NY,Rockland,yes,moratorium_in_force,1,1,1,1,0,1,1,battery_storage,2026,0,0,0,0,1,,5,3,hybrid,yes,341883,1968.41
-36089,NY,St. Lawrence,yes,moratorium_in_force,14,6,6,3,0,8,0,wind;battery_storage,2025,4,2,0,2,11,,5,4,hybrid,yes,107226,40.02
-36091,NY,Saratoga,yes,moratorium_in_force,15,8,8,7,0,7,0,solar;battery_storage,2026,0,0,0,0,7,,8,7,hybrid,yes,238284,294.19
-36093,NY,Schenectady,yes,moratorium_in_force,7,4,4,3,0,3,0,solar;battery_storage,,1,0,0,1,3,,4,4,hybrid,yes,160369,783.55
-36095,NY,Schoharie,yes,severe_rules_in_force,7,1,1,0,0,6,0,solar;wind,,1,0,0,1,6,,6,5,hybrid,yes,30049,48.32
+36087,NY,Rockland,yes,moratorium_in_force,1,1,1,1,0,1,1,battery_storage,2026,0,0,0,0,1,,5,2,hybrid,yes,341883,1968.41
+36089,NY,St. Lawrence,yes,moratorium_in_force,14,5,5,2,0,9,0,wind;battery_storage,2025,4,2,0,2,11,,5,2,hybrid,yes,107226,40.02
+36091,NY,Saratoga,yes,moratorium_in_force,15,7,7,6,0,8,0,solar;battery_storage,2026,0,0,0,0,7,,8,6,hybrid,yes,238284,294.19
+36093,NY,Schenectady,yes,moratorium_in_force,7,2,2,1,0,5,0,battery_storage,,1,0,0,1,3,,4,4,hybrid,yes,160369,783.55
+36095,NY,Schoharie,yes,severe_rules_in_force,7,1,1,0,0,6,0,solar;wind,,1,0,0,1,6,,6,4,hybrid,yes,30049,48.32
 36097,NY,Schuyler,yes,severe_rules_in_force,4,2,1,0,0,2,0,wind,,0,0,0,0,3,,5,4,hybrid,yes,17562,53.49
 36099,NY,Seneca,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,1,1,0,0,4,,6,6,hybrid,yes,32920,101.7
-36101,NY,Steuben,yes,moratorium_in_force,19,9,8,5,0,10,0,solar;wind;battery_storage,2024,0,0,0,0,12,,8,5,hybrid,yes,92588,66.59
-36103,NY,Suffolk,yes,moratorium_in_force,12,6,6,6,0,6,0,battery_storage,2026,1,0,1,0,6,,1,1,hybrid,yes,1530146,1679.76
+36101,NY,Steuben,yes,moratorium_in_force,19,7,6,3,0,12,0,solar;wind;battery_storage,2024,0,0,0,0,12,,8,4,hybrid,yes,92588,66.59
+36103,NY,Suffolk,yes,moratorium_in_force,12,5,5,5,0,7,0,battery_storage,2026,1,0,1,0,6,,1,1,hybrid,yes,1530146,1679.76
 36105,NY,Sullivan,yes,severe_rules_in_force,8,4,2,0,0,4,0,solar;wind,,0,0,0,0,5,,5,2,hybrid,yes,79721,82.34
 36107,NY,Tioga,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,6,5,hybrid,yes,47864,92.26
-36109,NY,Tompkins,yes,moratorium_in_force,9,4,2,2,0,5,0,solar;wind,,2,1,0,1,5,,6,5,hybrid,yes,104537,220.24
+36109,NY,Tompkins,yes,rules_in_force,9,2,0,0,0,7,0,solar;wind,,2,1,0,1,5,,6,5,hybrid,yes,104537,220.24
 36111,NY,Ulster,yes,moratorium_in_force,14,6,4,2,0,8,0,solar;wind;battery_storage,2025,0,0,0,0,8,,6,5,hybrid,yes,182601,162.42
 36113,NY,Warren,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,4,4,hybrid,yes,65517,75.55
-36115,NY,Washington,yes,moratorium_in_force,6,1,1,1,0,5,0,battery_storage,2025,0,0,0,0,5,,7,4,hybrid,yes,60522,72.81
+36115,NY,Washington,yes,moratorium_in_force,6,1,1,1,0,5,0,battery_storage,2025,0,0,0,0,5,,7,3,hybrid,yes,60522,72.81
 36117,NY,Wayne,yes,moratorium_in_force,6,1,1,1,0,5,0,solar;battery_storage,2025,0,0,0,0,5,,4,2,hybrid,yes,90929,150.59
-36119,NY,Westchester,yes,moratorium_in_force,14,7,7,5,0,7,0,solar;battery_storage,2025,2,1,0,1,8,,5,4,hybrid,yes,999677,2320.42
-36121,NY,Wyoming,yes,moratorium_in_force,4,1,1,1,0,3,0,battery_storage,,2,0,2,0,3,,5,4,hybrid,yes,39753,67.07
+36119,NY,Westchester,yes,moratorium_in_force,14,4,4,2,0,10,0,solar;battery_storage,2025,2,1,0,1,8,,5,3,hybrid,yes,999677,2320.42
+36121,NY,Wyoming,yes,restrictions_status_unknown,4,0,0,0,0,4,0,,,2,0,2,0,3,,5,3,hybrid,yes,39753,67.07
 36123,NY,Yates,yes,severe_rules_in_force,4,2,2,0,0,2,0,solar;wind,,0,0,0,0,4,,4,3,hybrid,yes,24526,72.53
 37001,NC,Alamance,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,176893,417.73
 37003,NC,Alexander,yes,severe_rules_in_force,2,1,1,0,0,1,0,solar,,0,0,0,0,1,,4,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,36412,140.05
@@ -2018,7 +2018,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 38049,ND,McHenry,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,1,hybrid,yes,5207,2.78
 38051,ND,McIntosh,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,hybrid,yes,2497,2.56
 38053,ND,McKenzie,yes,severe_rules_in_force,2,2,1,0,0,0,0,solar,,0,0,0,0,1,,7,3,hybrid,yes,14321,5.19
-38055,ND,McLean,yes,moratorium_in_force,3,3,2,1,0,0,0,solar;wind,,2,2,0,0,2,,8,1,hybrid,yes,9823,4.65
+38055,ND,McLean,yes,severe_rules_in_force,3,2,1,0,0,1,0,wind,,2,2,0,0,2,,8,1,hybrid,yes,9823,4.65
 38057,ND,Mercer,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,1,0,0,2,,5,2,hybrid,yes,8337,7.99
 38059,ND,Morton,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,1,hybrid,yes,33777,17.54
 38061,ND,Mountrail,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,2,,6,3,hybrid,yes,9507,5.21
@@ -2246,21 +2246,21 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 41069,OR,Wheeler,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1485,0.87
 41071,OR,Yamhill,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,108734,151.88
 42001,PA,Adams,yes,restrictions_status_unknown,11,0,0,0,0,11,0,,,0,0,0,0,12,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,106115,204.63
-42003,PA,Allegheny,yes,severe_rules_in_force,26,8,7,0,0,18,0,solar;wind,,0,0,0,0,25,,4,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1238177,1696.24
-42005,PA,Armstrong,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,64622,98.91
-42007,PA,Beaver,yes,severe_rules_in_force,10,3,2,0,0,7,0,solar;wind,,0,0,0,0,8,,6,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,166324,382.62
+42003,PA,Allegheny,yes,severe_rules_in_force,26,8,7,0,0,18,0,solar;wind,,0,0,0,0,25,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1238177,1696.24
+42005,PA,Armstrong,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,64622,98.91
+42007,PA,Beaver,yes,severe_rules_in_force,10,3,2,0,0,7,0,solar;wind,,0,0,0,0,8,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,166324,382.62
 42009,PA,Bedford,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,47513,46.95
 42011,PA,Berks,yes,severe_rules_in_force,25,7,5,0,0,18,0,solar;wind,,0,0,0,0,20,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,433015,505.62
 42013,PA,Blair,yes,severe_rules_in_force,7,2,1,0,0,5,0,solar;wind,,0,0,0,0,5,,5,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,121277,230.97
 42015,PA,Bradford,yes,rules_in_force,4,1,0,0,0,3,0,wind,,0,0,0,0,3,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,59858,52.17
 42017,PA,Bucks,yes,moratorium_in_force,12,4,4,1,0,9,1,solar;wind,2026,0,0,0,0,10,,8,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,647461,1071.16
-42019,PA,Butler,yes,moratorium_in_force,10,1,1,1,0,10,1,solar,2026,0,0,0,0,10,,7,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,197254,249.85
+42019,PA,Butler,yes,restrictions_status_unknown,10,0,0,0,0,11,1,,2026,0,0,0,0,10,,7,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,197254,249.85
 42021,PA,Cambria,yes,severe_rules_in_force,8,3,2,0,0,5,0,wind,,0,0,0,0,5,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,131538,191.2
 42023,PA,Cameron,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,4427,11.17
 42025,PA,Carbon,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,2,2,0,0,3,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,65382,171.45
 42027,PA,Centre,yes,severe_rules_in_force,12,3,1,0,0,9,0,solar;wind,,0,0,0,0,12,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,158576,143.21
 42029,PA,Chester,yes,severe_rules_in_force,19,7,7,0,0,12,0,solar;wind,,0,0,0,0,15,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,547840,729.92
-42031,PA,Clarion,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,37179,61.88
+42031,PA,Clarion,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,37179,61.88
 42033,PA,Clearfield,yes,severe_rules_in_force,4,1,1,0,0,3,0,solar,,0,0,0,0,3,,8,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,78635,68.67
 42035,PA,Clinton,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,0,0,0,0,3,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,37798,42.49
 42037,PA,Columbia,yes,restrictions_status_unknown,6,0,0,0,0,6,0,,,0,0,0,0,6,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,65362,135.25
@@ -2281,13 +2281,13 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 42067,PA,Juniata,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,23379,59.73
 42069,PA,Lackawanna,yes,rules_in_force,21,1,0,0,0,20,0,solar,,3,2,0,1,21,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,216146,471.02
 42071,PA,Lancaster,yes,restrictions_status_unknown,25,0,0,0,0,25,0,,,2,2,0,0,27,,7,6,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,557931,591.08
-42073,PA,Lawrence,yes,severe_rules_in_force,5,1,1,0,0,4,0,solar,,1,0,0,1,4,,5,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,85024,237.9
+42073,PA,Lawrence,yes,severe_rules_in_force,5,1,1,0,0,4,0,solar,,1,0,0,1,4,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,85024,237.9
 42075,PA,Lebanon,yes,restrictions_status_unknown,11,0,0,0,0,11,0,,,1,1,0,0,11,,4,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,144186,398.49
 42077,PA,Lehigh,yes,severe_rules_in_force,9,4,4,0,0,5,0,solar;wind,,0,0,0,0,8,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,378792,1096.88
 42079,PA,Luzerne,yes,restrictions_status_unknown,24,0,0,0,0,24,0,,,1,1,0,0,25,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,327675,368.25
 42081,PA,Lycoming,yes,restrictions_status_unknown,9,0,0,0,0,9,0,,,1,0,1,0,9,,9,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,113489,92.35
-42083,PA,McKean,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,39904,40.73
-42085,PA,Mercer,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,,1,1,0,0,6,,6,5,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,109257,162.45
+42083,PA,McKean,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,39904,40.73
+42085,PA,Mercer,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,,1,1,0,0,6,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,109257,162.45
 42087,PA,Mifflin,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,46041,112.01
 42089,PA,Monroe,yes,restrictions_status_unknown,7,0,0,0,0,7,0,,,1,0,0,1,9,,8,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,167515,275.35
 42091,PA,Montgomery,yes,severe_rules_in_force,5,2,1,0,0,3,0,solar;wind,,0,0,0,0,7,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,867573,1796.46
@@ -2297,7 +2297,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 42099,PA,Perry,yes,severe_rules_in_force,4,2,2,0,0,2,0,wind,,0,0,0,0,2,,4,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,46239,83.85
 42101,PA,Philadelphia,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1579706,11760.33
 42103,PA,Pike,yes,restrictions_status_unknown,4,0,0,0,0,4,0,,,1,1,0,0,4,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,60621,111.25
-42105,PA,Potter,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16188,14.97
+42105,PA,Potter,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,16188,14.97
 42107,PA,Schuylkill,yes,moratorium_in_force,13,5,4,1,0,9,1,solar;wind,2026,0,0,0,0,11,,8,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,143558,184.38
 42109,PA,Snyder,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,0,0,0,0,3,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,39668,120.65
 42111,PA,Somerset,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,72799,67.72
@@ -2305,7 +2305,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 42115,PA,Susquehanna,yes,restrictions_status_unknown,4,0,0,0,0,4,0,,,0,0,0,0,6,,6,4,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,38219,46.41
 42117,PA,Tioga,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,5,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,40945,36.11
 42119,PA,Union,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,42456,134.37
-42121,PA,Venango,yes,severe_rules_in_force,5,2,1,0,0,3,0,solar,,0,0,0,0,3,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,49801,73.86
+42121,PA,Venango,yes,severe_rules_in_force,5,2,1,0,0,3,0,solar,,0,0,0,0,3,,6,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,49801,73.86
 42123,PA,Warren,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,37920,42.88
 42125,PA,Washington,yes,severe_rules_in_force,15,2,1,0,0,13,0,solar;battery_storage,,1,0,0,1,13,,9,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,210042,245.09
 42127,PA,Wayne,yes,restrictions_status_unknown,7,0,0,0,0,7,0,,,1,1,0,0,7,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,51262,70.63
@@ -2313,10 +2313,10 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 42131,PA,Wyoming,yes,restrictions_status_unknown,7,0,0,0,0,7,0,,,0,0,0,0,9,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,25967,65.37
 42133,PA,York,yes,severe_rules_in_force,21,1,1,0,0,20,0,wind,,2,0,1,1,23,,7,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,462924,511.88
 44001,RI,Bristol,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,2,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,50490,2092.24
-44003,RI,Kent,yes,moratorium_in_force,5,1,1,1,0,4,0,solar,,0,0,0,0,4,,3,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,171456,1017.13
+44003,RI,Kent,yes,restrictions_status_unknown,5,0,0,0,0,5,0,,,0,0,0,0,4,,3,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,171456,1017.13
 44005,RI,Newport,yes,restrictions_status_unknown,6,0,0,0,0,6,0,,,3,0,1,2,6,,1,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,84657,826.48
-44007,RI,Providence,yes,severe_rules_in_force,12,1,1,0,1,10,0,solar,,4,0,0,4,10,,6,5,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,664854,1623.64
-44009,RI,Washington,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,3,2,1,0,2,,3,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,130344,395.85
+44007,RI,Providence,yes,severe_rules_in_force,12,1,1,0,1,10,0,solar,,4,0,0,4,10,,6,4,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,664854,1623.64
+44009,RI,Washington,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,3,2,1,0,2,,3,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,130344,395.85
 45001,SC,Abbeville,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,24420,49.72
 45003,SC,Aiken,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,174160,162.66
 45005,SC,Allendale,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,7661,18.77
@@ -2325,7 +2325,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 45011,SC,Barnwell,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,20521,37.42
 45013,SC,Beaufort,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,195289,339.03
 45015,SC,Berkeley,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,246802,223.63
-45017,SC,Calhoun,yes,moratorium_in_force,3,2,1,1,0,1,0,solar,,0,0,0,0,1,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,14182,37.21
+45017,SC,Calhoun,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,1,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,14182,37.21
 45019,SC,Charleston,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,420264,457.72
 45021,SC,Cherokee,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,56647,144.15
 45023,SC,Chester,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,32182,55.4
@@ -2378,7 +2378,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 46027,SD,Clay,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,15219,36.94
 46029,SD,Codington,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,1,0,1,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,28767,41.84
 46031,SD,Corson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,3806,1.54
-46033,SD,Custer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8892,5.71
+46033,SD,Custer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,8892,5.71
 46035,SD,Davison,yes,contested_projects_only,0,0,0,0,0,0,0,,,2,2,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,19952,45.8
 46037,SD,Day,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,5437,5.29
 46039,SD,Deuel,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,7,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4328,6.95
@@ -2389,7 +2389,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 46049,SD,Faulk,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2126,2.17
 46051,SD,Grant,yes,restrictions_status_unknown,2,0,0,0,0,2,0,,,1,0,1,0,2,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,7563,11.1
 46053,SD,Gregory,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4016,3.96
-46055,SD,Haakon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1722,0.95
+46055,SD,Haakon,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1722,0.95
 46057,SD,Hamlin,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,6373,12.57
 46059,SD,Hand,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,3140,2.19
 46061,SD,Hanson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,3472,7.99
@@ -2397,24 +2397,24 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 46065,SD,Hughes,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,0,,4,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,17664,23.82
 46067,SD,Hutchinson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,7404,9.11
 46069,SD,Hyde,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1191,1.38
-46071,SD,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2802,1.5
+46071,SD,Jackson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2802,1.5
 46073,SD,Jerauld,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1772,3.37
 46075,SD,Jones,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1004,1.04
 46077,SD,Kingsbury,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,5244,6.3
 46079,SD,Lake,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,10972,19.49
-46081,SD,Lawrence,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,27233,34.04
+46081,SD,Lawrence,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,27233,34.04
 46083,SD,Lincoln,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,1,1,0,0,1,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,70638,122.36
 46085,SD,Lyman,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,9,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,3724,2.27
 46087,SD,McCook,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,1,0,0,1,1,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,5751,10.02
 46089,SD,McPherson,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2145,1.89
 46091,SD,Marshall,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,4344,5.18
-46093,SD,Meade,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,30546,8.8
+46093,SD,Meade,yes,siting_standards_only,0,0,0,0,0,0,0,,,0,0,0,0,1,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,30546,8.8
 46095,SD,Mellette,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,1943,1.49
 46097,SD,Miner,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2300,4.03
 46099,SD,Minnehaha,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,7,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,203289,251.95
 46101,SD,Moody,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,6397,12.32
-46102,SD,Oglala Lakota,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,13491,6.44
-46103,SD,Pennington,yes,moratorium_in_force,1,1,1,1,0,0,0,solar;wind,2024,0,0,0,0,2,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,113512,40.88
+46102,SD,Oglala Lakota,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,13491,6.44
+46103,SD,Pennington,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,2024,0,0,0,0,2,,7,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,113512,40.88
 46105,SD,Perkins,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,3001,1.05
 46107,SD,Potter,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,2388,2.77
 46109,SD,Roberts,yes,rules_in_force,3,1,0,0,0,2,0,solar,,0,0,0,0,2,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,10221,9.28
@@ -2531,7 +2531,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48009,TX,Archer,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,8867,9.82
 48011,TX,Armstrong,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,1822,2.0
 48013,TX,Atascosa,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,0,local_government,no,51008,41.83
-48015,TX,Austin,yes,moratorium_in_force,0,1,1,1,0,0,1,battery_storage,2026,0,0,0,0,0,,6,1,local_government,no,31170,48.21
+48015,TX,Austin,yes,restrictions_status_unknown,0,0,0,0,0,1,1,,2026,0,0,0,0,0,,6,1,local_government,no,31170,48.21
 48017,TX,Bailey,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,6913,8.36
 48019,TX,Bandera,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,6,0,local_government,no,22021,27.84
 48021,TX,Bastrop,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,5,0,local_government,no,106582,119.99
@@ -2568,7 +2568,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48083,TX,Coleman,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,7833,6.2
 48085,TX,Collin,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,6,2,local_government,no,1163337,1382.68
 48087,TX,Collingsworth,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,2588,2.82
-48089,TX,Colorado,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,21006,21.87
+48089,TX,Colorado,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,21006,21.87
 48091,TX,Comal,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,183826,328.53
 48093,TX,Comanche,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,13950,14.88
 48095,TX,Concho,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,3328,3.38
@@ -2598,11 +2598,11 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48143,TX,Erath,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,local_government,no,43794,40.43
 48145,TX,Falls,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,17291,22.59
 48147,TX,Fannin,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,6,2,local_government,no,37326,42.52
-48149,TX,Fayette,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,0,0,,8,1,local_government,no,25042,26.36
+48149,TX,Fayette,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,0,0,,8,0,local_government,no,25042,26.36
 48151,TX,Fisher,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,3655,4.07
 48153,TX,Floyd,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,local_government,no,5216,5.26
 48155,TX,Foard,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,991,1.41
-48157,TX,Fort Bend,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,3,local_government,no,893767,1037.11
+48157,TX,Fort Bend,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,local_government,no,893767,1037.11
 48159,TX,Franklin,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,0,1,0,,6,0,local_government,no,10632,37.39
 48161,TX,Freestone,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,20049,22.84
 48163,TX,Frio,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,18582,16.39
@@ -2760,11 +2760,11 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 48467,TX,Van Zandt,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,62649,74.35
 48469,TX,Victoria,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,91413,103.63
 48471,TX,Walker,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,80209,102.28
-48473,TX,Waller,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar;wind,,0,0,0,0,0,,6,2,local_government,no,61552,119.91
+48473,TX,Waller,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar;wind,,0,0,0,0,0,,6,1,local_government,no,61552,119.91
 48475,TX,Ward,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,11144,13.34
-48477,TX,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,local_government,no,36647,60.65
+48477,TX,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,local_government,no,36647,60.65
 48479,TX,Webb,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,local_government,no,269294,80.11
-48481,TX,Wharton,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,6,1,local_government,no,41794,38.48
+48481,TX,Wharton,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,0,1,0,0,,6,0,local_government,no,41794,38.48
 48483,TX,Wheeler,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,local_government,no,4862,5.32
 48485,TX,Wichita,yes,severe_rules_in_force,1,1,1,0,0,0,0,wind,,0,0,0,0,1,,5,0,local_government,no,129996,207.13
 48487,TX,Wilbarger,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,local_government,no,12616,12.99
@@ -2787,16 +2787,16 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 49013,UT,Duchesne,yes,rules_in_force,3,1,0,0,0,2,0,wind,,0,0,0,0,2,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,20185,6.24
 49015,UT,Emery,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,10046,2.25
 49017,UT,Garfield,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,5219,1.01
-49019,UT,Grand,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9754,2.66
+49019,UT,Grand,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,9754,2.66
 49021,UT,Iron,yes,moratorium_in_force,2,1,1,1,0,2,1,solar,2026,0,0,0,0,2,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,62252,18.89
 49023,UT,Juab,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,12586,3.71
-49025,UT,Kane,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,0,0,0,0,1,,6,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8170,2.05
+49025,UT,Kane,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,,0,0,0,0,1,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,8170,2.05
 49027,UT,Millard,yes,severe_rules_in_force,1,1,1,0,0,0,0,solar,2020,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,13315,1.96
 49029,UT,Morgan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,12802,21.01
 49031,UT,Piute,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1694,2.23
 49033,UT,Rich,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2631,2.56
 49035,UT,Salt Lake,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,1196523,1589.32
-49037,UT,San Juan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,11,7,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,14483,1.85
+49037,UT,San Juan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,11,6,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,14483,1.85
 49039,UT,Sanpete,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,29719,18.69
 49041,UT,Sevier,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,22085,11.56
 49043,UT,Summit,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,42970,22.97
@@ -2804,11 +2804,11 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 49047,UT,Uintah,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,37056,8.27
 49049,UT,Utah,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,7,1,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,705400,351.92
 49051,UT,Wasatch,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,36642,31.13
-49053,UT,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,3,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,196431,80.92
+49053,UT,Washington,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,2,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,196431,80.92
 49055,UT,Wayne,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,2584,1.05
 49057,UT,Weber,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,5,0,solar:local_government;wind:local_government,solar:no;wind:no;battery_storage:unknown,269648,441.31
 50001,VT,Addison,yes,severe_rules_in_force,10,1,1,0,0,9,0,wind,,2,0,0,2,10,,7,4,state_board,yes,37664,49.15
-50003,VT,Bennington,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,4,3,0,1,4,,7,4,state_board,yes,37269,55.28
+50003,VT,Bennington,yes,restrictions_status_unknown,3,0,0,0,0,3,0,,,4,3,0,1,4,,7,3,state_board,yes,37269,55.28
 50005,VT,Caledonia,yes,severe_rules_in_force,3,1,1,0,1,1,0,wind,,0,0,0,0,1,,6,3,state_board,yes,30475,46.94
 50007,VT,Chittenden,yes,severe_rules_in_force,4,2,1,0,0,2,0,solar;wind,,0,0,0,0,2,,7,2,state_board,yes,169758,316.21
 50009,VT,Essex,yes,severe_rules_in_force,3,1,1,0,1,1,0,wind,,0,0,0,0,1,,4,3,state_board,yes,5982,9.03
@@ -2966,7 +2966,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 53019,WA,Ferry,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,2,hybrid,yes,7387,3.35
 53021,WA,Franklin,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,3,hybrid,yes,98902,79.66
 53023,WA,Garfield,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,1,,4,2,hybrid,yes,2353,3.31
-53025,WA,Grant,yes,moratorium_in_force,3,2,2,2,0,1,0,solar;wind,,0,0,0,0,2,,8,4,hybrid,yes,101799,37.99
+53025,WA,Grant,yes,moratorium_in_force,3,1,1,1,0,2,0,wind,,0,0,0,0,2,,8,4,hybrid,yes,101799,37.99
 53027,WA,Grays Harbor,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,hybrid,yes,77053,40.52
 53029,WA,Island,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,1,0,hybrid,yes,86836,416.53
 53031,WA,Jefferson,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,hybrid,yes,33577,18.62
@@ -2980,7 +2980,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 53047,WA,Okanogan,yes,rules_in_force,2,1,0,0,0,1,0,wind,,0,0,0,0,2,,7,3,hybrid,yes,43425,8.25
 53049,WA,Pacific,yes,severe_rules_in_force,2,1,1,0,0,1,0,wind,,0,0,0,0,1,,3,0,hybrid,yes,23994,25.71
 53051,WA,Pend Oreille,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,hybrid,yes,14050,10.03
-53053,WA,Pierce,yes,moratorium_in_force,2,2,2,2,0,0,0,battery_storage,2026,0,0,0,0,0,,6,3,hybrid,yes,930319,557.74
+53053,WA,Pierce,yes,moratorium_in_force,2,1,1,1,0,1,0,battery_storage,2026,0,0,0,0,0,,6,3,hybrid,yes,930319,557.74
 53055,WA,San Juan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,0,0,hybrid,yes,18478,106.25
 53057,WA,Skagit,yes,moratorium_in_force,1,1,1,1,0,0,0,battery_storage,2025,2,0,0,2,0,,4,1,hybrid,yes,131328,75.9
 53059,WA,Skamania,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,hybrid,yes,12402,7.48
@@ -3105,7 +3105,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 55107,WI,Rusk,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,14179,15.52
 55109,WI,St. Croix,yes,contested_projects_only,0,0,0,0,0,0,0,,,1,1,0,0,0,,4,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,96033,132.98
 55111,WI,Sauk,yes,restrictions_status_unknown,1,0,0,0,0,1,0,,,0,0,0,0,2,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,66009,79.38
-55113,WI,Sawyer,yes,moratorium_in_force,3,2,2,1,0,1,0,solar;wind;battery_storage,,0,0,0,0,2,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,18476,14.69
+55113,WI,Sawyer,yes,severe_rules_in_force,3,1,1,0,0,2,0,wind,,0,0,0,0,2,,5,0,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,18476,14.69
 55115,WI,Shawano,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,41039,45.94
 55117,WI,Sheboygan,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,5,1,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,117991,230.67
 55119,WI,Taylor,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,2,solar:hybrid;wind:hybrid,solar:yes;wind:yes;battery_storage:unknown,20024,20.54
@@ -3142,7 +3142,7 @@ county_fips,state,county,in_coverage_universe,category,restrictions_renewables,i
 56039,WY,Teton,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,8,2,hybrid,solar:yes;wind:unknown;battery_storage:unknown,23396,5.85
 56041,WY,Uinta,yes,rules_in_force,1,1,0,0,0,0,0,wind,,0,0,0,0,1,,4,1,hybrid,solar:yes;wind:unknown;battery_storage:unknown,20644,9.92
 56043,WY,Washakie,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,1,hybrid,solar:yes;wind:unknown;battery_storage:unknown,7703,3.44
-56045,WY,Weston,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,3,hybrid,solar:yes;wind:unknown;battery_storage:unknown,6826,2.85
+56045,WY,Weston,yes,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,7,2,hybrid,solar:yes;wind:unknown;battery_storage:unknown,6826,2.85
 72001,,Adjuntas,no,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,6,0,,unknown,,
 72003,,Aguada,no,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,4,0,,unknown,,
 72005,,Aguadilla,no,not_examined,0,0,0,0,0,0,0,,,0,0,0,0,0,,3,0,,unknown,,

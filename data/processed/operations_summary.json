@@ -1,11 +1,11 @@
 {
- "generated": "2026-11-19",
+ "generated": "2026-11-20",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
   "restriction_instruments": 3264,
   "severe": 1289,
   "verified": 199,
-  "lapsed_unconfirmed": 1,
+  "lapsed_unconfirmed": 82,
   "severe_where_state_limits_local": 892,
   "projects": 579,
   "projects_confirmed": 189,
@@ -81,21 +81,21 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3140,
+   "rows": 3149,
    "by_tier": {
-    "primary_source": 2,
     "compiled_flagged": 2219,
     "compiled_record": 123,
-    "report_citation": 796
+    "report_citation": 796,
+    "primary_source": 11
    },
-   "lapsed": 2,
+   "lapsed": 88,
    "by_county_impact": {
-    "none": 2490,
-    "sole_severe": 292,
+    "none": 2498,
+    "sole_severe": 293,
     "sole_record": 358
    },
    "with_located_url": 6,
-   "flagged": 425
+   "flagged": 511
   },
   "negative_checks": {
    "rows": 8,
@@ -208,7 +208,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 206,
+  "snapshot_rows": 207,
   "snapshot_files": 5,
   "headline_history_rows": 25,
   "headline_first_change": "2026-09-29",
