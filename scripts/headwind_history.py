@@ -42,6 +42,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import county_labels  # noqa: E402
 import geo  # noqa: E402
+import headwind_inputs  # noqa: E402
 from common import PROCESSED_DIR, ROOT, read_csv, write_csv  # noqa: E402
 
 REGISTRATION_PATH = ROOT / "config" / "headwind_model_registration.json"
@@ -66,6 +67,8 @@ COUNTY_VARS = ["severe_before", "standards_before", "undated_rule", "neighbor_se
                # Amendment of 2026-11-20 (inputs): time-matched opposition and queue history.
                "log1p_contested_before", "log1p_dc_events_before", "state_prior_withdrawal_share",
                "neighbor_prior_withdrawal_share"]
+# Plug-in inputs (config/headwind_inputs.json) the registration lists, as in_<id>.
+COUNTY_VARS += headwind_inputs.names(reg=REG)
 ELECTION_YEARS = (2000, 2004, 2008, 2012, 2016, 2020, 2024)
 FIELDS = ["row_id", "source", "state", "county_fips", "region", "technology", "capacity_mw",
           "year", "start_date", "outcome", "outcome_date", "y", "in_fit", "y_3y", "in_fit_3y"] + COUNTY_VARS
@@ -326,7 +329,7 @@ def snapshot(rows: list[dict], restrictions: list[dict], queue: list[dict], faci
         r["log1p_dc_events_before"] = round(math.log1p(bisect.bisect_left(dc.get(f, []), year)), 4)
         r["state_prior_withdrawal_share"] = round(hist.pooled_share([f"state:{r['state']}"], r["start_date"]), 4)
         r["neighbor_prior_withdrawal_share"] = round(hist.pooled_share(nbr_cache.get(f, []), r["start_date"]), 4)
-    return rows
+    return headwind_inputs.apply(rows, headwind_inputs.load(reg=REG))
 
 
 def build() -> list[dict]:

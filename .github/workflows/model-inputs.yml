@@ -49,6 +49,10 @@ on:
       - 'scripts/headwind_compare.py'
       - 'config/headwind_model_registration.json'
       - 'tests/test_headwind_model.py'
+      - 'scripts/headwind_inputs.py'
+      - 'config/headwind_inputs.json'
+      - 'data/reference/headwind_inputs/**'
+      - 'tests/test_headwind_inputs.py'
       - 'tests/test_model_inputs.py'
       - 'data/reference/medsl/*'
       - '.github/workflows/model-inputs.yml'
@@ -84,7 +88,7 @@ jobs:
         run: uv pip install --system -c requirements/ci.txt -r requirements.txt
 
       - name: Tests for both scripts (fixtures; no network)
-        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py
+        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py
 
       - name: Fetch
         run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --skip-build --summary "$GITHUB_STEP_SUMMARY"

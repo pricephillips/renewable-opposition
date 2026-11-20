@@ -25,6 +25,12 @@ separate. Price set this on 2026-11-19.
   own paths, and records it in `config/adopted_tools.json`. The data center
   build run never builds these items, and this run never builds theirs.
 
+- **Model inputs.** `config/headwind_inputs.json` lists the inputs the
+  Renewable Headwind Model lacks (its `wanted` list). In the renewables lane
+  the scouts look for sources that fill it first. The integrator plugs an
+  approved one in by its "Headwind Model input" path, and the next refit
+  reports whether it helps (`docs/headwind_model.md`, section 6).
+
 Nothing here names a client: this repository is public, and the registry
 and the picks issue that might hold client context stay in the private
 repository.

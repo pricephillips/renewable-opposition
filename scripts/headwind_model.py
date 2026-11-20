@@ -44,6 +44,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import calibration_gate  # noqa: E402
 from common import ROOT, read_csv, write_csv  # noqa: E402
 from county_restriction_model import is_sign_stable, least_trustworthy, logit, model  # noqa: E402
+import headwind_inputs  # noqa: E402
 from headwind_history import COUNTY_VARS, OUT_PATH as HISTORY_PATH  # noqa: E402
 
 REGISTRATION_PATH = ROOT / "config" / "headwind_model_registration.json"
@@ -87,6 +88,8 @@ WORDS = {
     "state_prior_withdrawal_share": "the state's earlier requests: share withdrawn (smoothed)",
     "neighbor_prior_withdrawal_share": "neighbouring counties' earlier requests: share withdrawn (smoothed)",
 }
+# Plug-in inputs take their label from config/headwind_inputs.json.
+WORDS.update({headwind_inputs.name_of(e): e["label"] for e in headwind_inputs.config()["inputs"]})
 
 
 # ── Design matrix ───────────────────────────────────────────────────────────
