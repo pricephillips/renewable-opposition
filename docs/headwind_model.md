@@ -138,4 +138,4 @@ The first pass (November 20, 2026) found ten leads, now on the wanted list. A se
 
 ## 7. Where it is used
 
-Nowhere outside staff files yet. No page, county report, headline figure or client bundle reads `data/model/headwind_*`. Showing either part to a client is Price's decision, made with the report in hand (`docs/predictive_foundation_design.md`, section 6, decision 1). The client portal's refusal list in data-centers (`scripts/refused_columns.py`) already refuses the county restriction model.
+Nowhere outside staff files yet. No page, county report, headline figure or client bundle reads `data/model/headwind_*`. Showing either part to a client is Price's decision, made with the report in hand. `docs/headwind_strategy.md` sets the targets and stages for that decision (`docs/predictive_foundation_design.md`, section 6, decision 1). The client portal's refusal list in data-centers (`scripts/refused_columns.py`) already refuses the county restriction model.
