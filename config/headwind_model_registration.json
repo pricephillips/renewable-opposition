@@ -14,6 +14,12 @@
       "after_first_fit": true,
       "change": "Adds a learner race (scripts/headwind_compare.py) beside the registered logistic fit: logistic regression, gradient-boosted trees (scikit-learn HistGradientBoosting) and a neural net (scikit-learn MLPClassifier, hidden layers 32 and 16, weight decay 0.01, early stopping, mean of 5 seeds), each fit on the request alone and on the request plus the county snapshot, scored only on forward-in-time holdouts (withdrawn: train through 2014 and score 2015 to 2016, train through 2016 and score 2017 to 2019; withdrawn_3y: train through 2016 and score 2017 to 2018, train through 2018 and score 2019 to 2022). The winner is the best mean holdout AUC with the county snapshot; it ships only if it also passes the calibration gate on the pooled holdout requests and gains at least 0.01 AUC from the county snapshot on every holdout.",
       "reason": "Price, 2026-11-20: build the strongest predictor the data supports, ideally a neural net, and ship whichever actually wins. The race was added after the first logistic fit, so the report says so."
+    },
+    {
+      "date": "2026-11-20",
+      "after_first_fit": true,
+      "change": "Corrects the wording of margin and makes it time-matched, and adds four variables: log1p_contested_before, log1p_dc_events_before, state_prior_withdrawal_share and neighbor_prior_withdrawal_share. margin was registered as 'Republican minus Democratic, 2016'; the column read was margin_dr_2016, which is Democratic minus Republican, so every earlier report read its sign backwards. It is now the Democratic minus Republican margin in the last presidential election before the request year, read from the 2000 to 2024 margins that scripts/fetch_county_covariates.py now writes from the MEDSL file already in the repository.",
+      "reason": "Price, 2026-11-20: keep building out the data inputs. Each new input is dated before the request, so it adds a time-matched input in place of a static one. The wording error was found while doing this."
     }
   ],
   "frame": {
@@ -55,7 +61,11 @@
     "log_density": "log population density, ACS 2020-2024 (static; leakage class none)",
     "log_income": "log median household income, ACS 2020-2024 (static)",
     "pct_bachelors_plus": "share of adults with a bachelor's degree or more, ACS 2020-2024 (static)",
-    "margin": "Republican minus Democratic two-party margin, 2016 presidential (the earliest in the covariates)"
+    "margin": "Democratic minus Republican presidential margin as a share of all votes, in the last presidential election before the request year (2000 for a request made in 2000 or earlier), from data/reference/county_covariates.csv",
+    "log1p_contested_before": "log of 1 + the contested projects recorded in the county (data/processed/contested_projects.csv, any outcome) with a year before the request year; detection bias applies, since a fight is recorded only where a source looked",
+    "log1p_dc_events_before": "log of 1 + data center opposition events in the county (data/reference/data_center_events.csv) dated before the request year",
+    "state_prior_withdrawal_share": "the state's earlier requests: smoothed share withdrawn among those resolved before this request's date, as prior_withdrawal_share",
+    "neighbor_prior_withdrawal_share": "the adjacent counties' earlier requests, pooled: smoothed share withdrawn among those resolved before this request's date"
   },
   "method": {
     "model": "L2 logistic regression on standardized variables (scikit-learn), as scripts/county_restriction_model.py",

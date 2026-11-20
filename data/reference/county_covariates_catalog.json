@@ -55,6 +55,78 @@
       "unit": "percent",
       "leakage_class": "none"
     },
+    "dem_share_2p_2000": {
+      "description": "Democratic share of the two-party presidential vote, 2000",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2000": {
+      "description": "(Democratic - Republican) / total presidential votes, 2000; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2000": {
+      "description": "county: the county's own 2000 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_2004": {
+      "description": "Democratic share of the two-party presidential vote, 2004",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2004": {
+      "description": "(Democratic - Republican) / total presidential votes, 2004; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2004": {
+      "description": "county: the county's own 2004 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_2008": {
+      "description": "Democratic share of the two-party presidential vote, 2008",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2008": {
+      "description": "(Democratic - Republican) / total presidential votes, 2008; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2008": {
+      "description": "county: the county's own 2008 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_2012": {
+      "description": "Democratic share of the two-party presidential vote, 2012",
+      "source": "medsl",
+      "unit": "share 0 to 1",
+      "leakage_class": "none"
+    },
+    "margin_dr_2012": {
+      "description": "(Democratic - Republican) / total presidential votes, 2012; the sign convention of data-center-map's county_votes.json",
+      "source": "medsl",
+      "unit": "share -1 to 1",
+      "leakage_class": "none"
+    },
+    "geo_basis_2012": {
+      "description": "county: the county's own 2012 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
+      "source": "medsl",
+      "unit": "",
+      "leakage_class": "none"
+    },
     "dem_share_2p_2016": {
       "description": "Democratic share of the two-party presidential vote, 2016",
       "source": "medsl",
@@ -107,6 +179,30 @@
       "description": "county: the county's own 2024 returns; state: statewide values (Alaska and Connecticut); blank: no returns",
       "source": "medsl",
       "unit": "",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_chg_2000_2004": {
+      "description": "dem_share_2p_2004 - dem_share_2p_2000",
+      "source": "medsl",
+      "unit": "share points",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_chg_2004_2008": {
+      "description": "dem_share_2p_2008 - dem_share_2p_2004",
+      "source": "medsl",
+      "unit": "share points",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_chg_2008_2012": {
+      "description": "dem_share_2p_2012 - dem_share_2p_2008",
+      "source": "medsl",
+      "unit": "share points",
+      "leakage_class": "none"
+    },
+    "dem_share_2p_chg_2012_2016": {
+      "description": "dem_share_2p_2016 - dem_share_2p_2012",
+      "source": "medsl",
+      "unit": "share points",
       "leakage_class": "none"
     },
     "dem_share_2p_chg_2016_2020": {

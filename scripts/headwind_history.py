@@ -49,6 +49,7 @@ QUEUE_PATH = ROOT / "data" / "reference" / "queue_projects.csv"
 FACILITIES_PATH = ROOT / "data" / "reference" / "facilities.csv"
 COVARIATES_PATH = ROOT / "data" / "reference" / "county_covariates.csv"
 RESTRICTIONS_PATH = PROCESSED_DIR / "restrictions.csv"
+DC_EVENTS_PATH = ROOT / "data" / "reference" / "data_center_events.csv"
 CONTESTED_PATH = PROCESSED_DIR / "contested_projects.csv"
 OUT_PATH = ROOT / "data" / "model" / "headwind_history.csv"
 
@@ -61,7 +62,11 @@ PRIOR_WEIGHT, PRIOR_SHARE = 5.0, 0.8
 TECHS = ("solar", "wind", "battery_storage")
 COUNTY_VARS = ["severe_before", "standards_before", "undated_rule", "neighbor_severe_share",
                "prior_withdrawal_share", "log1p_prior_requests", "log1p_operating_mw",
-               "log_density", "log_income", "pct_bachelors_plus", "margin"]
+               "log_density", "log_income", "pct_bachelors_plus", "margin",
+               # Amendment of 2026-11-20 (inputs): time-matched opposition and queue history.
+               "log1p_contested_before", "log1p_dc_events_before", "state_prior_withdrawal_share",
+               "neighbor_prior_withdrawal_share"]
+ELECTION_YEARS = (2000, 2004, 2008, 2012, 2016, 2020, 2024)
 FIELDS = ["row_id", "source", "state", "county_fips", "region", "technology", "capacity_mw",
           "year", "start_date", "outcome", "outcome_date", "y", "in_fit", "y_3y", "in_fit_3y"] + COUNTY_VARS
 
@@ -124,8 +129,9 @@ def neighbor_share(fips: str, year: int, first_severe: dict[str, int], nbr_cache
 # ── The county's queue history ──────────────────────────────────────────────
 
 class QueueHistory:
-    """For each county, its requests' dates and the dates they resolved, so a
-    snapshot can count only what had happened before a given date."""
+    """For each county, and each state, its requests' dates and the dates they
+    resolved, so a snapshot can count only what had happened before a given
+    date. State keys are "state:<postal code>"."""
 
     def __init__(self, rows: list[dict]):
         self.requests: dict[str, list[str]] = defaultdict(list)
@@ -135,22 +141,54 @@ class QueueHistory:
             f, d = q.get("county_fips"), q.get("request_date")
             if not f or not d:
                 continue
-            self.requests[f].append(d)
-            if q["status"] == "withdrawn" and q.get("withdrawn_date"):
-                self.withdrawn[f].append(q["withdrawn_date"])
-                self.resolved[f].append(q["withdrawn_date"])
-            elif q["status"] == "operational" and q.get("operational_date"):
-                self.resolved[f].append(q["operational_date"])
+            for key in (f, f"state:{q.get('state', '')}"):
+                self.requests[key].append(d)
+                if q["status"] == "withdrawn" and q.get("withdrawn_date"):
+                    self.withdrawn[key].append(q["withdrawn_date"])
+                    self.resolved[key].append(q["withdrawn_date"])
+                elif q["status"] == "operational" and q.get("operational_date"):
+                    self.resolved[key].append(q["operational_date"])
         for d in (self.requests, self.withdrawn, self.resolved):
             for v in d.values():
                 v.sort()
 
+    def counts(self, key: str, day: str) -> tuple[int, int, int]:
+        """(requests made, withdrawals dated, resolutions dated) before day."""
+        return (bisect.bisect_left(self.requests.get(key, []), day),
+                bisect.bisect_left(self.withdrawn.get(key, []), day),
+                bisect.bisect_left(self.resolved.get(key, []), day))
+
+    @staticmethod
+    def share(n_wd: int, n_res: int) -> float:
+        return (n_wd + PRIOR_WEIGHT * PRIOR_SHARE) / (n_res + PRIOR_WEIGHT)
+
     def before(self, fips: str, day: str) -> dict[str, float]:
-        n_req = bisect.bisect_left(self.requests.get(fips, []), day)
-        n_wd = bisect.bisect_left(self.withdrawn.get(fips, []), day)
-        n_res = bisect.bisect_left(self.resolved.get(fips, []), day)
-        return {"prior_withdrawal_share": (n_wd + PRIOR_WEIGHT * PRIOR_SHARE) / (n_res + PRIOR_WEIGHT),
-                "log1p_prior_requests": math.log1p(n_req)}
+        n_req, n_wd, n_res = self.counts(fips, day)
+        return {"prior_withdrawal_share": self.share(n_wd, n_res), "log1p_prior_requests": math.log1p(n_req)}
+
+    def pooled_share(self, keys: list[str], day: str) -> float:
+        wd = res = 0
+        for k in keys:
+            _, w, r = self.counts(k, day)
+            wd, res = wd + w, res + r
+        return self.share(wd, res)
+
+
+def margin_before(cov: dict, year: int) -> float | None:
+    """D minus R margin in the last presidential election before the year
+    (the earliest on file for a year before 2001)."""
+    past = [y for y in ELECTION_YEARS if y < year] or [ELECTION_YEARS[0]]
+    return _f(cov.get(f"margin_dr_{past[-1]}"))
+
+
+def years_by_county(pairs) -> dict[str, list[int]]:
+    out: dict[str, list[int]] = defaultdict(list)
+    for f, y in pairs:
+        if f and y is not None:
+            out[f].append(y)
+    for v in out.values():
+        v.sort()
+    return out
 
 
 # ── Operating MW at the end of a year ───────────────────────────────────────
@@ -184,7 +222,7 @@ def static_covariates(rows: list[dict]) -> dict[str, dict[str, float | None]]:
         x = _f(v)
         return math.log(x) if x and x > 0 else None
     return {c["county_fips"]: {"log_density": log(c["pop_density_sqmi"]), "log_income": log(c["median_hh_income"]),
-                               "pct_bachelors_plus": _f(c["pct_bachelors_plus"]), "margin": _f(c["margin_dr_2016"]),
+                               "pct_bachelors_plus": _f(c["pct_bachelors_plus"]), "_cov": c,
                                "state": c["state"]}
             for c in rows}
 
@@ -261,12 +299,16 @@ def contested_rows(projects: list[dict]) -> list[dict]:
 
 
 def snapshot(rows: list[dict], restrictions: list[dict], queue: list[dict], facilities: list[dict],
-             covariates: list[dict]) -> list[dict]:
+             covariates: list[dict], contested: list[dict] = (), dc_events: list[dict] = ()) -> list[dict]:
     rules = rules_by_county(restrictions)
     first_sev = first_severe_year(rules)
     hist = QueueHistory(queue)
     plants = operating_by_year(facilities)
     static = static_covariates(covariates)
+    fights = years_by_county((f, contested_year(p)) for p in contested
+                             for f in county_labels.counties_of({"county_fips_all": p.get("county_fips", "")})[:1])
+    dc = years_by_county((e.get("county_fips"), int(e["date"][:4]) if (e.get("date") or "")[:4].isdigit() else None)
+                         for e in dc_events)
     nbr_cache: dict = {}
     for r in rows:
         f, year = r["county_fips"], int(r["year"])
@@ -275,9 +317,15 @@ def snapshot(rows: list[dict], restrictions: list[dict], queue: list[dict], faci
         r.update({k: round(v, 4) for k, v in hist.before(f, r["start_date"]).items()})
         r["log1p_operating_mw"] = round(math.log1p(operating_mw(plants.get(f, []), year - 1)), 4)
         s = static.get(f, {})
-        for k in ("log_density", "log_income", "pct_bachelors_plus", "margin"):
+        for k in ("log_density", "log_income", "pct_bachelors_plus"):
             v = s.get(k)
             r[k] = "" if v is None else round(v, 4)
+        m = margin_before(s.get("_cov", {}), year)
+        r["margin"] = "" if m is None else round(m, 4)
+        r["log1p_contested_before"] = round(math.log1p(bisect.bisect_left(fights.get(f, []), year)), 4)
+        r["log1p_dc_events_before"] = round(math.log1p(bisect.bisect_left(dc.get(f, []), year)), 4)
+        r["state_prior_withdrawal_share"] = round(hist.pooled_share([f"state:{r['state']}"], r["start_date"]), 4)
+        r["neighbor_prior_withdrawal_share"] = round(hist.pooled_share(nbr_cache.get(f, []), r["start_date"]), 4)
     return rows
 
 
@@ -285,7 +333,8 @@ def build() -> list[dict]:
     queue = read_csv(QUEUE_PATH)
     projects = read_csv(CONTESTED_PATH)
     rows = queue_rows(queue) + contested_rows(projects)
-    return snapshot(rows, read_csv(RESTRICTIONS_PATH), queue, read_csv(FACILITIES_PATH), read_csv(COVARIATES_PATH))
+    return snapshot(rows, read_csv(RESTRICTIONS_PATH), queue, read_csv(FACILITIES_PATH), read_csv(COVARIATES_PATH),
+                    projects, read_csv(DC_EVENTS_PATH))
 
 
 # ── Self-test ───────────────────────────────────────────────────────────────
@@ -345,6 +394,21 @@ def _selftest() -> int:
     assert late["in_fit"] == 0 and late["y"] == "" and late["y_3y"] == 0, \
         "a 2021 request is outside the primary frame; withdrawn after four years is 0 on the three-year label"
     assert contested_year({"resolution_date": "", "event_date_text": "Denied in March 2019"}) == 2019
+    cov = {f"margin_dr_{y}": str(y) for y in ELECTION_YEARS}
+    assert margin_before(cov, 2013) == 2012 and margin_before(cov, 2012) == 2008 and margin_before(cov, 1999) == 2000, \
+        "the margin is the last election before the request year"
+    h2 = QueueHistory([
+        {"county_fips": "01001", "state": "AL", "request_date": "2010-01-01", "status": "withdrawn",
+         "withdrawn_date": "2011-01-01"},
+        {"county_fips": "01003", "state": "AL", "request_date": "2010-01-01", "status": "operational",
+         "operational_date": "2011-06-01"},
+    ])
+    assert h2.counts("state:AL", "2012-01-01") == (2, 1, 2)
+    assert abs(h2.pooled_share(["01001", "01003"], "2011-03-01") - (1 + 4) / (1 + 5)) < 1e-9, \
+        "a neighbour's operation dated after the snapshot day is not counted"
+    fights = years_by_county([("01001", 2014), ("01001", 2012), ("01003", None)])
+    assert fights == {"01001": [2012, 2014]} and bisect.bisect_left(fights["01001"], 2014) == 1, \
+        "a fight in the request year itself is not before it"
     print("headwind_history selftest: ok")
     return 0
 

@@ -86,7 +86,7 @@ MEDSL_DOI = "doi:10.7910/DVN/VOQCHQ"
 MEDSL_FILE = "countypres_2000-2024"
 MEDSL_REQUIRED = ["year", "state_po", "county_fips", "office", "party", "candidatevotes",
                   "totalvotes", "mode"]
-YEARS = [2016, 2020, 2024]
+YEARS = [2000, 2004, 2008, 2012, 2016, 2020, 2024]
 STATE_FALLBACK = {"AK", "CT"}
 # Places MEDSL reports apart from (or under an old code for) a frame county,
 # as in data-center-map's fetch_county_features.py.
@@ -487,7 +487,13 @@ def unchanged(manifest: list[dict]) -> bool:
     if not (MANIFEST_PATH.exists() and COVARIATES_PATH.exists() and CATALOG_PATH.exists()):
         return False
     before = {(m["source"], m["sha256"]) for m in read_csv(MANIFEST_PATH)}
-    return before == {(m["source"], m["sha256"]) for m in manifest}
+    if before != {(m["source"], m["sha256"]) for m in manifest}:
+        return False
+    # Same inputs but a code change that adds or drops a column (for example a
+    # new election year) still rewrites the outputs.
+    with COVARIATES_PATH.open(encoding="utf-8") as fh:
+        header = fh.readline().strip().split(",")
+    return header == FIELDS
 
 
 if __name__ == "__main__":
