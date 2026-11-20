@@ -8,6 +8,12 @@
       "after_first_fit": true,
       "change": "Adds a second label, withdrawn_3y, fit and reported beside the registered label, which stays primary. Frame: requests made 2010 to 2022 in grid regions where at least 90% of withdrawn requests carry a withdrawal date (data through 2025, so every request has at least three years of follow-up). Positive: withdrawn within 1,096 days of the request. Every other request in the frame is 0, whether it is active, suspended, operational or withdrew later. Out of time: fit on requests made 2010 to 2018, scored on 2019 to 2022. Same variables, method and promotion rule.",
       "reason": "The first fit showed that only 134 of the 6,742 resolved requests made 2010 to 2019 sat in a county with a severe rule dated before the request, because most dated local rules come from 2020 on. The registered frame cannot test rules it barely contains. A fixed-horizon label reaches requests made through 2022 without dropping the ones still active. It was chosen after seeing the first result, so the report labels it as added after the first fit."
+    },
+    {
+      "date": "2026-11-20",
+      "after_first_fit": true,
+      "change": "Adds a learner race (scripts/headwind_compare.py) beside the registered logistic fit: logistic regression, gradient-boosted trees (scikit-learn HistGradientBoosting) and a neural net (scikit-learn MLPClassifier, hidden layers 32 and 16, weight decay 0.01, early stopping, mean of 5 seeds), each fit on the request alone and on the request plus the county snapshot, scored only on forward-in-time holdouts (withdrawn: train through 2014 and score 2015 to 2016, train through 2016 and score 2017 to 2019; withdrawn_3y: train through 2016 and score 2017 to 2018, train through 2018 and score 2019 to 2022). The winner is the best mean holdout AUC with the county snapshot; it ships only if it also passes the calibration gate on the pooled holdout requests and gains at least 0.01 AUC from the county snapshot on every holdout.",
+      "reason": "Price, 2026-11-20: build the strongest predictor the data supports, ideally a neural net, and ship whichever actually wins. The race was added after the first logistic fit, so the report says so."
     }
   ],
   "frame": {

@@ -58,6 +58,8 @@ REFRESH = [
      "dated project outcomes with pre-outcome county snapshots (data/model/headwind_history.csv)", True),
     ("headwind_model", ["scripts/headwind_model.py"],
      "the Renewable Headwind Model's project part (internal outputs in data/model/)", True),
+    ("headwind_compare", ["scripts/headwind_compare.py"],
+     "logistic, boosted trees and a neural net raced on forward holdouts (internal)", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
 ]

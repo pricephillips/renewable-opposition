@@ -46,6 +46,21 @@ The largest county coefficient on each label comes from the county's own earlier
 
 The `withdrawn_3y` label was added after the first fit, to reach requests made through 2022 without dropping the ones still active. The registration records it as a dated amendment, and the report marks it.
 
+### Which learner wins
+
+On November 20, 2026 Price asked for the strongest predictor the data supports, ideally a neural net. `scripts/headwind_compare.py` races three learners on the same rows: logistic regression, gradient-boosted trees and a small neural net (two hidden layers, averaged over five seeds). Each one is trained only on earlier requests and scored on later ones, and each is fit with and without the county snapshot. A learner ships only when it has the best mean holdout AUC, passes the calibration gate on the holdout requests, and gains at least 0.01 AUC from the county snapshot on every holdout (`data/model/headwind_compare.md`).
+
+| Label | Learner | Holdout AUC, request and county | Gain from the county | Gate |
+|---|---|---|---|---|
+| `withdrawn` | logistic regression | 0.592, 0.534 | 0.000, 0.005 | HOLD |
+| `withdrawn` | gradient-boosted trees | 0.642, 0.650 | 0.010, -0.059 | HOLD |
+| `withdrawn` | neural net | 0.666, 0.591 | 0.055, 0.012 | HOLD |
+| `withdrawn_3y` | logistic regression | 0.511, 0.546 | -0.004, 0.013 | HOLD |
+| `withdrawn_3y` | gradient-boosted trees | 0.542, 0.587 | -0.016, 0.034 | HOLD |
+| `withdrawn_3y` | neural net | 0.519, 0.579 | -0.003, 0.041 | HOLD |
+
+Each cell lists the two holdouts, the earlier one first. Gradient-boosted trees have the best mean holdout AUC on both labels, so they are the best learner, but none of the three ships. The trees and the neural net rank requests better than the logistic model does. However, the county snapshot's gain changes sign from one holdout to the next, and on the registered label's later holdout the trees do better on the request alone (0.709) than with the county added (0.650). No learner passes the calibration gate. On the holdout requests, each one's probabilities are less accurate than the holdout's own withdrawal share used as a constant (its Brier skill is below zero). One reason is that the share of requests that withdraw changes from one period to the next, so a model trained on earlier years is off for later ones. A neural net needs far more rows with a stable outcome than these labels hold, and it does not beat the trees here.
+
 ## 5. What would change the result
 
 - **Rule adoption dates.** Every local rule with a year enters the snapshot. The 1,064 rows with no year (1,019 of them NREL rows) are the largest gap. The instrument-reader agent in the daily routine drafts `date_enacted_iso` when it reads a rule, so each verified rule can add a date.

@@ -85,6 +85,11 @@
     },
     "data/model/headwind_metrics.json": {"layer": "derived", "writers": ["scripts/headwind_model.py"]},
     "data/model/headwind_report.md": {"layer": "derived", "writers": ["scripts/headwind_model.py"]},
+    "data/model/headwind_compare.json": {
+      "layer": "derived", "writers": ["scripts/headwind_compare.py"],
+      "reason": "Internal race of logistic regression, gradient-boosted trees and a neural net for the Renewable Headwind Model on forward-in-time holdouts (docs/headwind_model.md); no page, report or headline figure reads it."
+    },
+    "data/model/headwind_compare.md": {"layer": "derived", "writers": ["scripts/headwind_compare.py"]},
     "data/cost/cost_ledger.csv": {
       "layer": "derived", "writers": ["scripts/cost_ledger.py"],
       "reason": "Internal cost ledger (ported from data-center-map spec 025): each contested project's observed span priced at the published rates in config/cost_anchors.json, or the reason it is withheld. No page, report or headline figure reads it."

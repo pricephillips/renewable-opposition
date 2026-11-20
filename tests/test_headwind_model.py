@@ -1,6 +1,7 @@
 """Renewable Headwind Model, project part: the history builder and the model."""
 import json
 
+import headwind_compare as hc
 import headwind_history as hh
 import headwind_model as hm
 from common import ROOT
@@ -30,3 +31,14 @@ def test_nothing_dated_in_the_request_year_enters_its_snapshot():
     assert hh.local_flags(rules, {"solar"}, 2018)["severe_before"] == 0
     assert hh.local_flags(rules, {"solar"}, 2019)["severe_before"] == 1
     assert hh.local_flags(rules, {"wind"}, 2019)["severe_before"] == 0
+
+
+def test_compare_selftest():
+    assert hc._selftest() == 0
+
+
+def test_holdouts_only_look_forward():
+    for label, folds in hc.HOLDOUTS.items():
+        assert label in hm.LABELS
+        for train_to, (lo, hi) in folds:
+            assert train_to < lo <= hi
