@@ -374,6 +374,29 @@ def currency(row: dict, today: date | None = None) -> str:
     return "lapsed_unconfirmed"
 
 
+def term_lapse(row: dict, today: date | None = None) -> str:
+    """The currency again, once moratorium_terms has read an end date from the
+    instrument's own text or stated term ("a 6-month moratorium" enacted in
+    September 2023). A pause in force whose own text says it has ended reads
+    lapsed_unconfirmed, as one with a recorded end date does, until a status
+    reading on or after that date settles it (a reader's review of the pilot,
+    2026-11-19: 48 fixed-term moratoria from 2023 and 2024 still counted)."""
+    cur = _s(row.get("currency"))
+    if cur == "in_force" and _s(row.get("term")) == "temporary" and _s(row.get("drafting")) == "adopted" \
+            and not _ISO_DATE.fullmatch(_s(row.get("status_checked_on"))):
+        return "lapsed_unconfirmed"  # its own text says the rules it waited for were adopted
+    end = _s(row.get("ends_on"))
+    if cur != "in_force" or _s(row.get("ends_on_basis")) not in ("text", "term") or \
+            not re.fullmatch(r"\d{4}-\d{2}(-\d{2})?", end):
+        return cur
+    if end >= (today or date.today()).isoformat()[: len(end)]:
+        return cur
+    settled = _s(row.get("status_checked_on"))
+    if _ISO_DATE.fullmatch(settled) and settled[: len(end)] >= end:
+        return cur
+    return "lapsed_unconfirmed"
+
+
 def status_as_of(row: dict) -> str:
     """The latest date the record's status is known to have held, or ""."""
     dates = _AS_OF.findall(_text(row))
@@ -724,6 +747,7 @@ def stamp(entity: str, row: dict, today: date | None = None) -> dict:
         row["currency"] = currency(row, today)
         row["status_as_of"] = status_as_of(row)
         moratorium_terms.stamp(row, today)
+        row["currency"] = term_lapse(row, today)
     if entity == "contested_projects":
         row["concerns"] = concerns(row)
     row["evidence_level"] = evidence_level(entity, row)

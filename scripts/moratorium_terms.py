@@ -62,6 +62,8 @@ _DATE = (r"(\d{4}-\d{2}-\d{2}"
 _DATE_RE = re.compile(_DATE, re.I)
 _END_RE = re.compile(rf"\b(?:through|until|runs? (?:to|through|until)|expires?(?: on)?|expiring(?: on)?|"
                      rf"ends?(?: on)?|to approximately|to about)\s+(?:approximately\s+|about\s+)?{_DATE}", re.I)
+_END_MONTH_RE = re.compile(rf"\b(?:through|until|runs? (?:to|through|until)|expires?(?: in)?|expiring(?: in)?)\s+"
+                           rf"(?:the end of\s+)?(?:{_MONTH_RE})\.?\s+\d{{4}}\b(?!\s*-)", re.I)
 _NUM = {"one": 1, "two": 2, "three": 3, "four": 4, "six": 6, "nine": 9, "twelve": 12, "eighteen": 18,
         "twenty-four": 24}
 _TERM_RE = re.compile(r"\b(\d{1,2}|one|two|three|four|six|nine|twelve|eighteen|twenty-four)[- ](year|month)s?\b"
@@ -131,19 +133,42 @@ def _end(v: str) -> date | None:
     return date(y, mo, int(m.group(3) or calendar.monthrange(y, mo)[1]))
 
 
+_MONTH_YEAR = re.compile(rf"\b({_MONTH_RE})\.?\s+(\d{{4}})\b(?!\s*-)", re.I)
+
+
+def _text_start(text: str) -> str:
+    """The first month and year the text names ("In September 2023, the county
+    enacted a 6-month moratorium") as 'YYYY-MM', for a row with no enactment
+    date; '' when the text names none."""
+    m = _MONTH_YEAR.search(text)
+    if not m:
+        return ""
+    month = next((i + 1 for i, mm in enumerate(_MONTHS) if mm.startswith(m.group(1).lower()[:3])), 0)
+    return f"{int(m.group(2)):04d}-{month:02d}" if month else ""
+
+
 def _term_end(enacted: str, text: str) -> str:
     """A stated term ("a one-year moratorium", "a moratorium for 6 months")
-    counted from a full enactment date; '' without both. The date is
-    approximate (an ordinance may run from its effective date)."""
+    counted from the enactment date; '' without both. A full date gives a full
+    end date. With only a month (the enactment month, or the first month and
+    year the text names), the end is that many months on, as 'YYYY-MM', read
+    as the end of that month. The date is approximate (an ordinance may run
+    from its effective date)."""
     m = _TERM_RE.search(text)
-    if not m or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", enacted):
+    if not m:
         return ""
+    if not re.fullmatch(r"\d{4}-\d{2}(-\d{2})?", enacted):
+        enacted = _text_start(text)
+        if not enacted:
+            return ""
     n, unit = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
     n = int(n) if n.isdigit() else _NUM[n.lower()]
     months = n * 12 if unit.lower() == "year" else n
-    start = date.fromisoformat(enacted)
+    start = _start(enacted)
     y, mo = divmod(start.month - 1 + months, 12)
     y, mo = start.year + y, mo + 1
+    if len(enacted) == 7:
+        return f"{y:04d}-{mo:02d}"
     return date(y, mo, min(start.day, calendar.monthrange(y, mo)[1])).isoformat()
 
 
@@ -213,17 +238,25 @@ def derive(row: dict, today: date | None = None) -> dict:
         else:
             m = _END_RE.search(text)
             iso = _iso(m.group(1)) if m else ""
+            if not iso:
+                # "extended ... until September 2024": the latest month-precision
+                # end the text names, read as the end of that month.
+                ends = [_text_start(x.group(0)) for x in _END_MONTH_RE.finditer(text)]
+                iso = max((e for e in ends if e), default="")
             if iso:
                 out["ends_on"], out["ends_on_basis"] = iso, "text"
-            else:
-                iso = _term_end(_s(row.get("date_enacted_iso")), text)
-                if iso:
-                    out["ends_on"], out["ends_on_basis"] = iso, "term"
         n, last = extensions(row, text)
+        # A stated term says when the first pause ends; once it was extended,
+        # that date says nothing about today.
+        if not out["ends_on"] and not n and _s(row.get("status")) != "extended":
+            iso = _term_end(_s(row.get("date_enacted_iso")), text)
+            if iso:
+                out["ends_on"], out["ends_on_basis"] = iso, "term"
         out["extensions"] = str(n)
         out["last_extended_on"] = last
         out["drafting"], out["drafting_note"] = drafting(text)
-    start = _start(row.get("date_enacted_iso"))
+    start = _start(row.get("date_enacted_iso")) or (
+        _start(_text_start(text)) if out["ends_on_basis"] == "term" else None)
     if start and start <= today:
         stop = today
         end = _end(out["ends_on"])
@@ -261,6 +294,18 @@ def _selftest() -> None:
                                     "officially ending the moratorium."}, t)
     assert lapsed["extensions"] == "0" and lapsed["drafting"] == "adopted" and lapsed["months_in_force"] == "8.6", \
         lapsed
+    # A stated term counted from the month and year the text names, and an
+    # extension's month-precision end (a reader's review of the pilot, 2026-11-19).
+    sabin = derive({"restriction_type": "moratorium", "status": "active",
+                    "description": "In September 2023, the county enacted a 6-month moratorium on solar "
+                                   "applications."}, date(2026, 11, 19))
+    assert (sabin["ends_on"], sabin["ends_on_basis"], sabin["months_in_force"]) == ("2024-03", "term", "7.0"), sabin
+    ext = derive({"restriction_type": "moratorium", "status": "active",
+                  "description": "In September 2023, the county enacted a 6-month moratorium. In March 2024, the "
+                                 "commission extended the moratorium until September 2024. In August 2024, the "
+                                 "county adopted new regulations, officially ending the moratorium."},
+                 date(2026, 11, 19))
+    assert (ext["ends_on"], ext["ends_on_basis"], ext["drafting"]) == ("2024-09", "text", "adopted"), ext
     print("moratorium_terms selftest: ok")
 
 
