@@ -75,6 +75,21 @@
       "reason": "Internal check of whether the county record score's weights can be learned from decided projects (docs/county_record_score.md). Nothing reads it to set a weight; it reports the fit, its cross-validated AUC against the hand-set rubric, and what the record lacks."
     },
     "data/model/record_score_fit.md": {"layer": "derived", "writers": ["scripts/record_score_fit.py"]},
+    "data/model/headwind_history.csv": {
+      "layer": "derived", "writers": ["scripts/headwind_history.py"],
+      "reason": "Dated project outcomes (Queued Up requests that withdrew or reached operation, and contested projects with a confirmed outcome), each with its county as it stood before the request, under config/headwind_model_registration.json (docs/headwind_model.md). Internal; no page, report or headline figure reads it."
+    },
+    "data/model/headwind_scores.csv": {
+      "layer": "derived", "writers": ["scripts/headwind_model.py"],
+      "reason": "Internal output of the Renewable Headwind Model's project part (docs/headwind_model.md); no page, report or headline figure reads it."
+    },
+    "data/model/headwind_metrics.json": {"layer": "derived", "writers": ["scripts/headwind_model.py"]},
+    "data/model/headwind_report.md": {"layer": "derived", "writers": ["scripts/headwind_model.py"]},
+    "data/model/headwind_compare.json": {
+      "layer": "derived", "writers": ["scripts/headwind_compare.py"],
+      "reason": "Internal race of logistic regression, gradient-boosted trees and a neural net for the Renewable Headwind Model on forward-in-time holdouts (docs/headwind_model.md); no page, report or headline figure reads it."
+    },
+    "data/model/headwind_compare.md": {"layer": "derived", "writers": ["scripts/headwind_compare.py"]},
     "data/cost/cost_ledger.csv": {
       "layer": "derived", "writers": ["scripts/cost_ledger.py"],
       "reason": "Internal cost ledger (ported from data-center-map spec 025): each contested project's observed span priced at the published rates in config/cost_anchors.json, or the reason it is withheld. No page, report or headline figure reads it."
