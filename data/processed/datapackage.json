@@ -43,7 +43,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Local and state laws that constrain renewable deployment, one row per technology of one instrument.",
-      "rows": 3556,
+      "rows": 3544,
       "schema": {
         "fields": [
           {
@@ -357,16 +357,6 @@
             "description": "The date the reviewer checked the primary source."
           },
           {
-            "name": "placement_url",
-            "type": "string",
-            "description": "The document a reviewer's place override rests on (data/review/place_overrides.csv)."
-          },
-          {
-            "name": "placement_access",
-            "type": "string",
-            "description": "How that document was seen: opened, archived or snippet."
-          },
-          {
             "name": "status_checked_on",
             "type": "string",
             "description": "The date two reviewers settled the instrument's status from its code, the instrument or the minutes that acted on it (data/review/status_resolutions.csv); blank when no status reading has been made."
@@ -380,6 +370,16 @@
             "name": "status_note",
             "type": "string",
             "description": "The agreed status reading's note: what the code or minutes say about the instrument today."
+          },
+          {
+            "name": "placement_url",
+            "type": "string",
+            "description": "The document a reviewer's place override rests on (data/review/place_overrides.csv)."
+          },
+          {
+            "name": "placement_access",
+            "type": "string",
+            "description": "How that document was seen: opened, archived or snippet."
           }
         ]
       },
