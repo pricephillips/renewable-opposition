@@ -1,0 +1,267 @@
+{
+ "withdrawn": {
+  "C": 1.0,
+  "auc": {
+   "base": 0.6260837070254112,
+   "full": 0.642615410648084,
+   "full_p10": 0.6319151638792124,
+   "full_p90": 0.6548786543236013,
+   "gain": 0.016531703622672866,
+   "state_grouped_base": 0.5005294068428525,
+   "state_grouped_full": 0.5395981552893927
+  },
+  "base": [
+   "request_year",
+   "log_capacity_mw",
+   "tech_solar",
+   "tech_wind",
+   "tech_storage",
+   "region_ERCOT",
+   "region_ISO-NE",
+   "region_MISO",
+   "region_NYISO",
+   "region_PJM",
+   "region_SPP",
+   "region_Southeast",
+   "region_West"
+  ],
+  "coefficients": {
+   "log1p_operating_mw": {
+    "coef": -0.0534982956481768,
+    "fold_max": -0.019117623077432252,
+    "fold_min": -0.08841797013654076
+   },
+   "log_income": {
+    "coef": -0.1560517204636112,
+    "fold_max": -0.06985496956629558,
+    "fold_min": -0.2058649880097227
+   },
+   "margin": {
+    "coef": 0.076579606504951,
+    "fold_max": 0.11258257900253654,
+    "fold_min": 0.03172023987580982
+   },
+   "neighbor_severe_share": {
+    "coef": 0.06813415875003677,
+    "fold_max": 0.10357163754853392,
+    "fold_min": 0.01220656016537735
+   },
+   "pct_bachelors_plus": {
+    "coef": 0.09261778493643591,
+    "fold_max": 0.12603093004019417,
+    "fold_min": 0.04219211996593185
+   },
+   "prior_withdrawal_share": {
+    "coef": 0.21718893408836443,
+    "fold_max": 0.2507625064774889,
+    "fold_min": 0.18160744229062153
+   }
+  },
+  "contested_check": {
+   "auc": 0.5230352303523036,
+   "blocked": 81,
+   "cases": 163,
+   "variables": [
+    "neighbor_severe_share",
+    "prior_withdrawal_share",
+    "log1p_operating_mw",
+    "log_income",
+    "pct_bachelors_plus",
+    "margin"
+   ]
+  },
+  "county_variables_dropped": [
+   "severe_before",
+   "standards_before",
+   "undated_rule",
+   "log1p_prior_requests",
+   "log_density"
+  ],
+  "county_variables_kept": [
+   "neighbor_severe_share",
+   "prior_withdrawal_share",
+   "log1p_operating_mw",
+   "log_income",
+   "pct_bachelors_plus",
+   "margin"
+  ],
+  "flags": {
+   "severe_before": {
+    "with": 134,
+    "withdrawn_with": 0.8507462686567164,
+    "withdrawn_without": 0.8265738498789347
+   },
+   "standards_before": {
+    "with": 166,
+    "withdrawn_with": 0.8975903614457831,
+    "withdrawn_without": 0.8252737226277372
+   },
+   "undated_rule": {
+    "with": 1136,
+    "withdrawn_with": 0.8705985915492958,
+    "withdrawn_without": 0.8182304673564038
+   }
+  },
+  "frame": {
+   "negative": 1166,
+   "positive": 5576,
+   "requests": 6742
+  },
+  "gate": {
+   "base_rate": 0.8271,
+   "brier": 0.135,
+   "brier_baseline": 0.143,
+   "brier_skill_score": 0.056,
+   "ece": 0.011,
+   "n": 6742,
+   "positives": 5576,
+   "reasons": [],
+   "verdict": "PROMOTE"
+  },
+  "label": "withdrawn",
+  "out_of_time": {
+   "base": {
+    "auc": 0.5306920730273281,
+    "test": 3086,
+    "test_withdrawn_share": 0.8535320803629294,
+    "train": 3656
+   },
+   "full": {
+    "auc": 0.5374296134282125,
+    "test": 3086,
+    "test_withdrawn_share": 0.8535320803629294,
+    "train": 3656
+   },
+   "gain": 0.0067375404008843676
+  },
+  "registration": "2026-11-20",
+  "verdict": "HOLD"
+ },
+ "withdrawn_3y": {
+  "C": 0.01,
+  "auc": {
+   "base": 0.6704065613686604,
+   "full": 0.6773385021198433,
+   "full_p10": 0.664465058156301,
+   "full_p90": 0.6891301513353629,
+   "gain": 0.0069319407511828635,
+   "state_grouped_base": 0.6474432207718115,
+   "state_grouped_full": 0.6552285822975619
+  },
+  "base": [
+   "request_year",
+   "log_capacity_mw",
+   "tech_solar",
+   "tech_wind",
+   "tech_storage",
+   "region_ISO-NE",
+   "region_MISO",
+   "region_PJM"
+  ],
+  "coefficients": {
+   "log1p_operating_mw": {
+    "coef": -0.10232207146433855,
+    "fold_max": -0.07384432321448978,
+    "fold_min": -0.12024650983182904
+   },
+   "log1p_prior_requests": {
+    "coef": 0.13175600036081006,
+    "fold_max": 0.1597045681254236,
+    "fold_min": 0.09682037286430147
+   },
+   "log_income": {
+    "coef": -0.10318309625508607,
+    "fold_max": -0.07816506331211102,
+    "fold_min": -0.11963933878530175
+   },
+   "margin": {
+    "coef": 0.11818562498081656,
+    "fold_max": 0.13858894299776273,
+    "fold_min": 0.09524734552507563
+   },
+   "standards_before": {
+    "coef": -0.0699062773764041,
+    "fold_max": -0.051176386904270205,
+    "fold_min": -0.08933897353214201
+   }
+  },
+  "contested_check": {
+   "auc": 0.4697380307136404,
+   "blocked": 81,
+   "cases": 163,
+   "variables": [
+    "standards_before",
+    "log1p_prior_requests",
+    "log1p_operating_mw",
+    "log_income",
+    "margin"
+   ]
+  },
+  "county_variables_dropped": [
+   "severe_before",
+   "undated_rule",
+   "neighbor_severe_share",
+   "prior_withdrawal_share",
+   "log_density",
+   "pct_bachelors_plus"
+  ],
+  "county_variables_kept": [
+   "standards_before",
+   "log1p_prior_requests",
+   "log1p_operating_mw",
+   "log_income",
+   "margin"
+  ],
+  "flags": {
+   "severe_before": {
+    "with": 267,
+    "withdrawn_with": 0.4344569288389513,
+    "withdrawn_without": 0.47003288426859025
+   },
+   "standards_before": {
+    "with": 484,
+    "withdrawn_with": 0.3347107438016529,
+    "withdrawn_without": 0.4761129207383279
+   },
+   "undated_rule": {
+    "with": 1869,
+    "withdrawn_with": 0.4467629748528625,
+    "withdrawn_without": 0.4743769968051118
+   }
+  },
+  "frame": {
+   "negative": 5147,
+   "positive": 4547,
+   "requests": 9694
+  },
+  "gate": {
+   "base_rate": 0.4691,
+   "brier": 0.2275,
+   "brier_baseline": 0.249,
+   "brier_skill_score": 0.0866,
+   "ece": 0.0294,
+   "n": 9694,
+   "positives": 4547,
+   "reasons": [],
+   "verdict": "PROMOTE"
+  },
+  "label": "withdrawn_3y",
+  "out_of_time": {
+   "base": {
+    "auc": 0.5471253586072033,
+    "test": 5625,
+    "test_withdrawn_share": 0.3607111111111111,
+    "train": 4069
+   },
+   "full": {
+    "auc": 0.559031761921548,
+    "test": 5625,
+    "test_withdrawn_share": 0.3607111111111111,
+    "train": 4069
+   },
+   "gain": 0.011906403314344671
+  },
+  "registration": "2026-11-20",
+  "verdict": "HOLD"
+ }
+}
