@@ -137,7 +137,7 @@ def cases(projects: list[dict], restrictions: list[dict], cfg: dict) -> list[dic
                 feats["standards"] = 1
             live.append({**r, "months_in_force": str(max(months, 0)), "currency": "in_force"})
         insts = list(crs.instruments(live).values())
-        pts = crs.stack(sorted((crs.instrument_points(i, cfg) for i in insts), reverse=True), cfg) if insts else 0.0
+        pts = crs.stack([crs.instrument_points(i, cfg) for i in insts], cfg, [crs.is_county_wide(i, cfg) for i in insts]) if insts else 0.0
         out.append({"id": p.get("id"), "state": p.get("state"), "county_fips": fips, "resolution_date": when.isoformat(),
                     "y": int(p["outcome"] == "blocked_confirmed"), "rubric_points": round(pts, 2),
                     "county_has_instrument": any_inst, "instrument_undated": int(undated > 0), **feats})

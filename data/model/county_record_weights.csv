@@ -1,52 +1,53 @@
 part,factor,weight,unit,meaning,weights_as_of
-Restriction instruments,Severity 4 (explicit moratorium or ban),40,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-19
-Restriction instruments,Severity 3 (likely de facto ban),30,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-19
-Restriction instruments,Severity 2 (material burden),12,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-19
-Restriction instruments,Severity 1 (procedural friction),4,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-19
-Restriction instruments,Status: in force,1.0,share,Multiplier on the instrument's points.,2026-11-19
-Restriction instruments,Status: not yet settled,0.85,share,Multiplier on the instrument's points.,2026-11-19
-Restriction instruments,Status: pending,0.3,share,Multiplier on the instrument's points.,2026-11-19
-Restriction instruments,"Status: lapsed, not yet confirmed",0.0,share,Multiplier on the instrument's points.,2026-11-19
-Restriction instruments,Reach: county-wide,1.0,share,Multiplier for a county or parish instrument.,2026-11-19
-Restriction instruments,"Reach: a city, town, township or village",0.5,share,Multiplier for an instrument that governs part of the county.,2026-11-19
-Restriction instruments,Breadth: each technology beyond the first,0.1,share,"Added to a multiplier of 1 for each of solar, wind and storage the instrument also covers.",2026-11-19
-Restriction instruments,Each instrument after the largest,0.25,share,Share of its points that counts; the largest instrument counts in full.,2026-11-19
-Restriction instruments,Most instrument points,70,points,Cap on the sum.,2026-11-19
-Moratorium terms,A new moratorium (temporary pause),0.75,share,Share of a severity 3 or 4 pause's points that counts when it has just begun and was never extended. A ban counts in full.,2026-11-19
-Moratorium terms,Each extension on record,0.1,share,Added to that share.,2026-11-19
-Moratorium terms,Each year in force,0.1,share,Added to that share.,2026-11-19
-Moratorium terms,Most of a pause's points,1.0,share,Cap on that share.,2026-11-19
-Moratorium terms,Rules being drafted,0.85,share,Multiplier when the record says the government is drafting the rules the pause waits for.,2026-11-19
-Zoning transitions,Severity counted,3,severity,"A county moving from no zoning to zoning while projects are proposed counts as a county-wide instrument at this severity, in 19 states.",2026-11-19
-Zoning transitions,Years counted after adoption,3,years,It counts from when drafting began until this many years after the code is adopted.,2026-11-19
-Contested projects and plants,"Outcome: blocked, confirmed",10,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,"Outcome: blocked, unconfirmed",5,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,"Outcome: approved with restrictive conditions, confirmed",4,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,"Outcome: approved with restrictive conditions, unconfirmed",2,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,"Outcome: approved, confirmed",-10,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,"Outcome: approved, unconfirmed",-5,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,Outcome: pending,0,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,Outcome: outcome not yet reviewed,0,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,Outcome: plant built with no recorded fight,-3,points,Points per project; a negative number lowers the score.,2026-11-19
-Contested projects and plants,Most points from blocked projects,25,points,Cap on the sum.,2026-11-19
-Contested projects and plants,Most points taken off by approvals,25,points,Cap on the sum.,2026-11-19
-Contested projects and plants,Approvals: most of the instrument points taken off,0.5,share,Share; approvals never take the score below one county-wide moratorium in force.,2026-11-19
-Contested projects and plants,Plants counted: smallest size in MW,20,MW,"Solar, wind or storage plants from EIA-860M, operating or under construction.",2026-11-19
-Contested projects and plants,Plants counted: earliest year online,2020,year,And no earlier than the county's latest instrument in force.,2026-11-19
-State preemption,Ceiling where a state permit stands in for local approval,1,severity,Highest severity a local instrument the state law reaches can count at.,2026-11-19
-State preemption,Ceiling where statute caps local rules or bars local bans,2,severity,Highest severity a local instrument the state law reaches can count at.,2026-11-19
-State preemption,Ceiling where a state body may set a local rule aside,2,severity,Highest severity a local instrument the state law reaches can count at.,2026-11-19
-Evidence weight,County with a verified instrument or a confirmed outcome,1.0,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-19
-Evidence weight,County with a record not yet verified,0.75,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-19
-Evidence weight,County with a reviewed search that found no restriction,0.9,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-19
-Evidence weight,County with only plants built,0.6,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-19
-Evidence weight,"County with no record, in a state where counties cannot zone",0.6,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-19
-Evidence weight,County with no record,0.0,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-19
-Opposition organizing,A named opposition group on record,4,points,"Points added once per county when a contested project there names a group opposing it, with a source.",2026-11-19
-Opposition organizing,An organized action by opponents,3,points,"Points added once per county for a recorded petition or referendum drive, or a lawsuit on a project a named group opposes.",2026-11-19
-Opposition organizing,Most organizing points,7,points,Cap on the sum.,2026-11-19
-Tiers,Closed,40,points,Lowest combined score in the tier.,2026-11-19
-Tiers,Severe,25,points,Lowest combined score in the tier.,2026-11-19
-Tiers,Restrictive,12,points,Lowest combined score in the tier.,2026-11-19
-Tiers,Regulated but open,3,points,Lowest combined score in the tier.,2026-11-19
-Tiers,Open,0,points,Lowest combined score in the tier.,2026-11-19
+Restriction instruments,Severity 4 (explicit moratorium or ban),40,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-20
+Restriction instruments,Severity 3 (likely de facto ban),30,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-20
+Restriction instruments,Severity 2 (material burden),12,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-20
+Restriction instruments,Severity 1 (procedural friction),4,points,"Points for one instrument at this severity, before the multipliers below.",2026-11-20
+Restriction instruments,Status: in force,1.0,share,Multiplier on the instrument's points.,2026-11-20
+Restriction instruments,Status: not yet settled,0.85,share,Multiplier on the instrument's points.,2026-11-20
+Restriction instruments,Status: pending,0.3,share,Multiplier on the instrument's points.,2026-11-20
+Restriction instruments,"Status: lapsed, not yet confirmed",0.0,share,Multiplier on the instrument's points.,2026-11-20
+Restriction instruments,Reach: county-wide,1.0,share,Multiplier for a county or parish instrument.,2026-11-20
+Restriction instruments,"Reach: a city, town, township or village",0.5,share,Multiplier for an instrument that governs part of the county.,2026-11-20
+Restriction instruments,Breadth: each technology beyond the first,0.1,share,"Added to a multiplier of 1 for each of solar, wind and storage the instrument also covers.",2026-11-20
+Restriction instruments,Each instrument after the largest,0.25,share,Share of its points that counts; the largest instrument counts in full.,2026-11-20
+Restriction instruments,"Most points from city, town, township and village rules",30,points,"Cap on what those rules add together, equal to one county-wide moratorium in force at its first term.",2026-11-20
+Restriction instruments,Most instrument points,70,points,Cap on the sum.,2026-11-20
+Moratorium terms,A new moratorium (temporary pause),0.75,share,Share of a severity 3 or 4 pause's points that counts when it has just begun and was never extended. A ban counts in full.,2026-11-20
+Moratorium terms,Each extension on record,0.1,share,Added to that share.,2026-11-20
+Moratorium terms,Each year in force,0.1,share,Added to that share.,2026-11-20
+Moratorium terms,Most of a pause's points,1.0,share,Cap on that share.,2026-11-20
+Moratorium terms,Rules being drafted,0.85,share,Multiplier when the record says the government is drafting the rules the pause waits for.,2026-11-20
+Zoning transitions,Severity counted,3,severity,"A county moving from no zoning to zoning while projects are proposed counts as a county-wide instrument at this severity, in 19 states.",2026-11-20
+Zoning transitions,Years counted after adoption,3,years,It counts from when drafting began until this many years after the code is adopted.,2026-11-20
+Contested projects and plants,"Outcome: blocked, confirmed",10,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,"Outcome: blocked, unconfirmed",5,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,"Outcome: approved with restrictive conditions, confirmed",4,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,"Outcome: approved with restrictive conditions, unconfirmed",2,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,"Outcome: approved, confirmed",-10,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,"Outcome: approved, unconfirmed",-5,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,Outcome: pending,0,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,Outcome: outcome not yet reviewed,0,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,Outcome: plant built with no recorded fight,-3,points,Points per project; a negative number lowers the score.,2026-11-20
+Contested projects and plants,Most points from blocked projects,25,points,Cap on the sum.,2026-11-20
+Contested projects and plants,Most points taken off by approvals,25,points,Cap on the sum.,2026-11-20
+Contested projects and plants,Approvals: most of the instrument points taken off,0.5,share,Share; approvals never take the score below one county-wide moratorium in force.,2026-11-20
+Contested projects and plants,Plants counted: smallest size in MW,20,MW,"Solar, wind or storage plants from EIA-860M, operating or under construction.",2026-11-20
+Contested projects and plants,Plants counted: earliest year online,2020,year,And no earlier than the county's latest instrument in force.,2026-11-20
+State preemption,Ceiling where a state permit stands in for local approval,1,severity,Highest severity a local instrument the state law reaches can count at.,2026-11-20
+State preemption,Ceiling where statute caps local rules or bars local bans,2,severity,Highest severity a local instrument the state law reaches can count at.,2026-11-20
+State preemption,Ceiling where a state body may set a local rule aside,2,severity,Highest severity a local instrument the state law reaches can count at.,2026-11-20
+Evidence weight,County with a verified instrument or a confirmed outcome,1.0,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-20
+Evidence weight,County with a record not yet verified,0.75,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-20
+Evidence weight,County with a reviewed search that found no restriction,0.9,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-20
+Evidence weight,County with only plants built,0.6,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-20
+Evidence weight,"County with no record, in a state where counties cannot zone",0.6,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-20
+Evidence weight,County with no record,0.0,share,Share of the score taken from the county's own record; the rest comes from counties like it.,2026-11-20
+Opposition organizing,A named opposition group on record,4,points,"Points added once per county when a contested project there names a group opposing it, with a source.",2026-11-20
+Opposition organizing,An organized action by opponents,3,points,"Points added once per county for a recorded petition or referendum drive, or a lawsuit on a project a named group opposes.",2026-11-20
+Opposition organizing,Most organizing points,7,points,Cap on the sum.,2026-11-20
+Tiers,Closed,40,points,Lowest combined score in the tier.,2026-11-20
+Tiers,Severe,25,points,Lowest combined score in the tier.,2026-11-20
+Tiers,Restrictive,12,points,Lowest combined score in the tier.,2026-11-20
+Tiers,Regulated but open,3,points,Lowest combined score in the tier.,2026-11-20
+Tiers,Open,0,points,Lowest combined score in the tier.,2026-11-20

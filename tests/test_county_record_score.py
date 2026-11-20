@@ -473,3 +473,19 @@ def test_groups_and_petitions_kept_beside_the_records_count_once_read():
     assert got["1"]["organizing_points"] == co["organized_action_points"], "a read petition counts"
     assert got["2"]["organizing_points"] == min(co["cap"], co["group_points"] + co["organized_action_points"])
     assert got["3"]["organizing_points"] == 0, "an unread source does not count"
+
+
+def test_township_rules_never_stack_past_a_county_moratorium():
+    """Price, 2026-11-20: Lancaster County, PA ranked first on 25 township
+    rules. What local rules add together is capped at one county-wide
+    moratorium in force at its first term."""
+    ci = CFG["instruments"]
+    local_cap = ci["other_jurisdictions_cap"]
+    assert local_cap == ci["severity_points"]["4"] * ci["term"]["base"]
+    many = [_r(f"t{n}", "T", 3, jtype="Township") for n in range(25)]
+    out = _build(many + [_r("m", "M", 4, "moratorium")], summary=_summary("T", "M"))
+    assert out["T"]["instrument_points"] == local_cap
+    assert out["T"]["record_points"] <= out["M"]["record_points"]
+    # A county-wide rule still adds in full beside the capped local part.
+    both = _build(many + [_r("c", "T", 2)], summary=_summary("T"))
+    assert both["T"]["instrument_points"] == local_cap + 0.25 * 12
