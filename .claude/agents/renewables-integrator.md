@@ -66,11 +66,44 @@ existing ones of that kind were added; shared rules in one place).
 | A data layer | its entry in `config/layers.json` | `build-data.yml` on the branch, once |
 | A Python library that serves one named script | pin it in `requirements/ci.in`, recompile `requirements/ci.txt` with the command in its header, install it in a clean 3.11 virtual environment under `/tmp`, wire it into that script, add a test under `tests/` | `validate.yml` on the pull request |
 | A front-end library for the public pages | pin it by exact version in the page's script tag, as `national-dashboard.html` pins Leaflet | `validate.yml` and `pages.yml` on the pull request |
+| A new input for the Renewable Headwind Model (the registry entry names a `headwind_inputs` wanted id) | section 3a below: a fetcher `scripts/fetch_headwind_<id>.py` with `--selftest`, its entry in `config/headwind_inputs.json`, its `config/layers.json` declaration and a registration amendment | `model-inputs.yml` on the branch, once (its fetch job writes the data file and refits) |
 | A security tool or setting | the config file it reads, or the existing step it replaces; the session edits any workflow file, never you | `workflow-lint.yml` and `validate.yml` on the pull request |
+
+### 3a. A Headwind Model input
+
+The model reads plug-in inputs from `config/headwind_inputs.json` with no
+change to the model code (`scripts/headwind_inputs.py` says how). Its
+`wanted` list is the brief the scouts searched against.
+
+1. Write `scripts/fetch_headwind_<id>.py`, shaped like
+   `scripts/fetch_county_covariates.py`: it downloads the source, writes
+   `data/reference/headwind_inputs/<id>.csv` with a `county_fips` (five
+   digits) or `state` (two letters) column, a `year` column when the source
+   is dated, and one numeric value column, plus a `--selftest` on a small
+   saved fixture under `tests/fixtures/`. Do not run it to write the data
+   file yourself: the proof run does that.
+2. Declare the file in `config/layers.json` (`layer: raw`, the fetcher as
+   its writer), and add the fetcher's `--only` step and its path to
+   `.github/workflows/model-inputs.yml` in your report for the session to
+   make (you never edit a workflow).
+3. Add one entry to `inputs` in `config/headwind_inputs.json` (fields in its
+   `_comment`). Keep `lag_years` at 1 or more. Remove the matching item from
+   `wanted` only when the input fills all of it.
+4. Register it: add `in_<id>` to `variables` in
+   `config/headwind_model_registration.json`, last, with a one-line
+   definition, and append one amendment (`after_first_fit: true`, today's
+   date, a `change` naming the id, and a `reason` quoting Price's approval).
+   Never edit an earlier amendment or any other field.
+5. Run `python scripts/headwind_inputs.py --selftest`, the fetcher's
+   `--selftest` and `python -m pytest -q tests/test_headwind_inputs.py`.
+
+This is the one change to a model this agent may make, and only by this
+path. The input earns its place in the next fit's report, under the
+registered promotion rule; nothing else about the model changes.
 
 If the build needs more than this table allows (a new script over about 150
 lines, a new workflow or schedule, a change to a record table's columns, a
-change to severity scoring or to the county model), stop and report it as a
+change to severity scoring or to a model other than by section 3a), stop and report it as a
 candidate for a design note: the session tells Price.
 
 While building:

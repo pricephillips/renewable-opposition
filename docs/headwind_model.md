@@ -72,6 +72,15 @@ Each cell lists the two holdouts, the earlier one first. Gradient-boosted trees 
 - **A withdrawal reason.** Queued Up does not say why a request withdrew. Contested projects matched to their requests (`data/reference/queue_matches.csv`, 118 projects) are the only rows where opposition is known.
 - **Time.** Requests made 2020 to 2022 resolve over the next few years. Of the dated rows, 589 are dated 2020 to 2022 and 642 before 2020, so more rules can fall before these requests than before the registered label's. The monthly refit (`model-inputs.yml`) picks them up from each new Queued Up edition.
 
-## 6. Where it is used
+## 6. Adding an input
+
+New inputs plug in without a change to the model code. `config/headwind_inputs.json` holds two lists:
+
+- `wanted`: the inputs the model lacks, in priority order (grid cost, land use, the local economy by year, dated state policy, local attention, wildlife constraints). The shared Gov Data Scout and Repo Scout in data-centers read this list in their renewables lane and look for a source that fills the first open item.
+- `inputs`: data files the model reads. Each one is a county or state file with an optional year column. `scripts/headwind_inputs.py` adds it to every request's snapshot as `in_<id>`. A dated file is time-matched: a request made in a year reads the latest value from an earlier year.
+
+An input reaches the fit only when the registration lists it and records an amendment that names it, so a new data file never changes the model by itself. Once Price ticks a scout's pick, the `renewables-integrator` agent builds it by its "Headwind Model input" path: a fetcher, the config entry, the registration amendment and a layer declaration. The monthly refit then reports whether the input adds anything under the registered promotion rule.
+
+## 7. Where it is used
 
 Nowhere outside staff files yet. No page, county report, headline figure or client bundle reads `data/model/headwind_*`. Showing either part to a client is Price's decision, made with the report in hand (`docs/predictive_foundation_design.md`, section 6, decision 1). The client portal's refusal list in data-centers (`scripts/refused_columns.py`) already refuses the county restriction model.

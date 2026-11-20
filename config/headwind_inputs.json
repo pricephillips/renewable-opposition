@@ -1,0 +1,54 @@
+{
+  "_comment": [
+    "Plug-in inputs for the Renewable Headwind Model (docs/headwind_model.md, section 'Adding an input').",
+    "inputs[]: a county or state data file the model reads with no code change. scripts/headwind_inputs.py loads each one, and scripts/headwind_history.py adds it to every request's county snapshot as the variable in_<id>. Fields: id, file (under data/reference/headwind_inputs/), key ('county_fips' or 'state'), value_column, year_column (omit for a static value), lag_years (default 1: a request made in year Y reads the latest row from Y minus lag_years or earlier, so nothing from the request's own year enters), transform ('identity' or 'log1p'), label, source_url, license, added (YYYY-MM-DD), registry_id (the shared scouts' id).",
+    "An input enters the fit only when config/headwind_model_registration.json lists in_<id> under variables and records an amendment that names it. tests/test_headwind_inputs.py checks both.",
+    "wanted[]: the inputs the model lacks, in priority order. The shared scouts in pricephillips/data-centers (Gov Data Scout and Repo Scout, renewables lane) read this list and look for a source that fills the first open entry. renewables-integrator plugs a found source in here once Price ticks it.",
+    "This repository is public: name no client."
+  ],
+  "inputs": [],
+  "wanted": [
+    {
+      "id": "grid_cost",
+      "need": "How costly or crowded the grid near the county was before the request: interconnection cost estimates, network upgrade costs, or substation and transmission headroom, by county or by point of interconnection.",
+      "why": "Most withdrawals have grid or cost reasons. Today the model reaches them only through the share of earlier requests that withdrew nearby, which mixes grid cost with local opposition.",
+      "grain": "county, or points that map to a county",
+      "years": "dated, 2008 to 2022"
+    },
+    {
+      "id": "land_use",
+      "need": "Farmland and land value: share of land in farms, cropland share, and farm real estate value per acre (for example the USDA Census of Agriculture, 2007, 2012, 2017, 2022).",
+      "why": "Opposition to solar often turns on taking cropland, and land value sets how much a lease is worth to an owner.",
+      "grain": "county",
+      "years": "dated, at least every five years from 2007"
+    },
+    {
+      "id": "local_economy",
+      "need": "County unemployment rate and population change by year (for example BLS Local Area Unemployment Statistics and Census population estimates).",
+      "why": "The census inputs are 2020 to 2024 values for requests made from 2010. A yearly series gives the economy as it stood before each request.",
+      "grain": "county",
+      "years": "yearly, 2008 to 2022"
+    },
+    {
+      "id": "state_policy",
+      "need": "State energy policy by year: renewable portfolio standard targets, state siting authority over large projects, and state preemption of local rules, each with its effective year.",
+      "why": "The state's share of earlier withdrawals is the model's largest county input. Dated state policy would show how much of that is policy and how much is grid.",
+      "grain": "state",
+      "years": "yearly, 2008 to 2022"
+    },
+    {
+      "id": "local_attention",
+      "need": "How much local news or public comment a county drew on renewable projects before the request, counted by year (for example a news archive count, or public comment counts on state siting dockets).",
+      "why": "Organized opposition is recorded only where a source looked. A count from a source that covers every county the same way would test it without that bias.",
+      "grain": "county",
+      "years": "yearly, 2010 to 2022"
+    },
+    {
+      "id": "wildlife_constraints",
+      "need": "Share of the county's land under environmental or wildlife constraints that limit siting (protected areas, critical habitat, wetlands).",
+      "why": "Constraints narrow where projects can go, which may push them into contested sites. A static value is acceptable here if the layer changed little over 2010 to 2022.",
+      "grain": "county",
+      "years": "static or dated"
+    }
+  ]
+}
