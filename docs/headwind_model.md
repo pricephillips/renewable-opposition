@@ -64,6 +64,30 @@ On November 20, 2026 Price asked for the strongest predictor the data supports, 
 
 Each cell lists the two holdouts, the earlier one first. Gradient-boosted trees have the best mean holdout AUC on both labels, so they are the best learner, but none of the three ships. The trees and the neural net rank requests better than the logistic model does. However, the county snapshot's gain changes sign from one holdout to the next, and on the registered label's later holdout the trees do better on the request alone (0.709) than with the county added (0.628). The race fits every county input with a fixed penalty and without the sign-stability rule, so it does not confirm the registered fit's pass. No learner passes the calibration gate. On the pooled holdout requests, each learner's probabilities are less accurate than the holdout's own withdrawal share used as a constant (its Brier skill, the gain in accuracy over that constant, is below zero). One reason is that the share of requests that withdraw changes from one period to the next, so a model trained on earlier years is off for later ones. A neural net needs far more rows with a stable outcome than these labels hold, and it does not beat the trees here.
 
+### Wide search over variables and combinations
+
+On November 20, 2026 Price asked whether the model should test hundreds of variables against each other to find the combination that works best. `scripts/headwind_search.py` does this (`data/model/headwind_search.md`). It pools every county variable: the registered core and every configured input, registered or not, 24 in all. Two searches run over the pool. A sparse logistic regression (lasso) is given 396 candidates: the 24 variables, their squares, every pair multiplied together, and each variable times each technology. Its penalty keeps only the candidates that help. Gradient-boosted trees are given the 24 variables and find combinations and thresholds on their own.
+
+Four guards stop a lucky combination from passing:
+
+1. **Forward in time.** Each search trains on requests made up to a year and is scored on requests made later.
+2. **Nested choice.** Each search picks its penalty and its variables on the last two training years only. The later years it is scored on never touch a choice.
+3. **The same learner without the county.** The county pool counts only for the AUC it adds over the same learner given the request alone.
+4. **Shuffled data.** Each search is run again 99 times with the county rows shuffled, so the variables keep their joint pattern but lose any link to the outcome. The real search must beat nearly all of these runs: p must be 0.0125 or less (0.05 divided by the four searches run).
+
+A search holds up only if it adds at least 0.01 AUC on average, adds something in every later period and passes the shuffle test.
+
+| Label | Search | Gain, earlier then later period | p | Holds up |
+|---|---|---|---:|---|
+| `withdrawn` | sparse logistic | 0.041, 0.080 | 0.01 | yes |
+| `withdrawn` | boosted trees | -0.020, -0.103 | 0.36 | no |
+| `withdrawn_3y` | sparse logistic | -0.009, 0.030 | 0.16 | no |
+| `withdrawn_3y` | boosted trees | -0.025, 0.036 | 0.01 | no (loses in the earlier period) |
+
+One combination holds up, and it is small. Of the 396 candidates, the sparse logistic search on the registered label keeps the same two in both later periods: the share of the state's earlier requests that withdrew, and that share multiplied by the county's own share. The two together mean a request withdrew more often where both its state and its county had a record of withdrawals. None of the new economic inputs, no local rule variable and no other pair is kept in both periods. The trees do worse with the county pool than without it on the registered label. The gain also partly reflects how weak the request-only lasso is in later years (AUC 0.513 for requests made 2017 to 2019), so it is larger than the gain the registered model shows.
+
+The search does not change the registered model. It confirms what the registered fit found: the county signal that survives a wide, guarded search is queue withdrawal history, which mixes grid cost with local opposition. A source that measures grid cost directly would be needed to separate them.
+
 ## 5. What would change the result
 
 - **Census values as of the request.** The census inputs are 2020 to 2024 values. Earlier American Community Survey five-year releases (for example 2015 to 2019) would match requests made in the 2010s. `scripts/fetch_county_covariates.py` reads only the 2020 to 2024 release, so using an earlier release needs a change to that script.
@@ -88,8 +112,14 @@ An input reaches the fit only when the registration lists it and records an amen
 | `in_income_pc`: per capita personal income (log) | BEA CAINC1 (`scripts/fetch_headwind_bea_income.py`) | yearly, 2000 to 2024 | -0.001, -0.000 | no |
 | `in_pop_growth_5y`: population change over five years | BEA CAINC1 | yearly, 2000 to 2024 | -0.001, -0.000 | no |
 | `in_hpi_growth_5y`: house price change over five years | FHFA county house price index (`scripts/fetch_headwind_fhfa_hpi.py`) | yearly, 2000 to 2024 | -0.001, 0.003 | no |
+| `in_poverty_pct`: poverty rate | Census SAIPE (`scripts/fetch_headwind_saipe.py`) | yearly, 2005 to 2023 | 0.000, -0.000 | no |
+| `in_median_hh_income_yr`: median household income (log) | Census SAIPE | yearly, 2005 to 2023 | 0.001, 0.000 | no |
+| `in_employment`: employment (log) | County Business Patterns (`scripts/fetch_headwind_cbp.py`) | yearly, 2007 to 2022 | -0.002, -0.001 | no |
+| `in_construction_est_share`: share of establishments in construction | County Business Patterns | yearly, 2007 to 2022 | -0.000, 0.000 | no |
+| `in_utilities_est_share`: share of establishments in utilities | County Business Patterns | yearly, 2007 to 2022 | -0.000, -0.000 | no |
+| `in_ag_support_est_share`: share of establishments in agriculture support | County Business Patterns | yearly, 2007 to 2022 | 0.001, 0.001 | no |
 
-The three inputs were built on November 20, 2026, and none adds lift. The model already has the 2020 to 2024 census income and the county's queue history. Yearly income, population growth and house prices add nothing beyond them. The sources most likely to add lift are still grid cost and rule adoption dates, at the top of the wanted list.
+The nine inputs were built on November 20, 2026, and none adds lift on its own or in the wide search (section 4). The model already has the 2020 to 2024 census income and the county's queue history. Yearly income, poverty, population growth, house prices and the mix of local businesses add nothing beyond them. The sources most likely to add lift are still grid cost and rule adoption dates, at the top of the wanted list.
 
 ### How each source joins
 
@@ -101,7 +131,7 @@ The three inputs were built on November 20, 2026, and none adds lift. The model 
 
 The first pass (November 20, 2026) found ten leads, now on the wanted list. A second pass the same day found ten more. They are built in this order:
 
-1. **Keyless, yearly, county (next).** Census Small Area Income and Poverty Estimates (yearly median household income and poverty, so a request can read the income of its own time instead of the 2020 to 2024 census values); Census County Business Patterns (yearly employment in farming support, construction and utilities); IRS county-to-county migration (yearly inflow and outflow, from 2011); USDA NASS Census of Agriculture (land value per acre and cropland share, 2007 to 2022; the Gov Data Scout found a bulk file with no key); Census of Governments (how many townships and municipalities share land use authority in the county, 2007 to 2022); USDA ERS rural-urban continuum codes (2003, 2013 and 2023).
+1. **Keyless, yearly, county (next).** Census Small Area Income and Poverty Estimates and County Business Patterns are built. Next: IRS county-to-county migration (yearly inflow and outflow, from 2011); USDA NASS Census of Agriculture (land value per acre and cropland share, 2007 to 2022; the Gov Data Scout found a bulk file with no key); Census of Governments (how many townships and municipalities share land use authority in the county, 2007 to 2022); USDA ERS rural-urban continuum codes (2003, 2013 and 2023).
 2. **Blocked from a cloud session, to be fetched by the workflow.** BLS county unemployment (the site refuses requests without a contact address in the User-Agent); LBNL state renewable portfolio standard targets (the site refuses requests from the session).
 3. **Waiting on a license.** LBNL interconnection cost studies. The Gov Data Scout found no license and deferred it until LBNL answers.
 4. **Must be built from other records.** State siting law effective dates (LegiScan); county rule adoption dates (Lerner's wind ordinance data and the NREL ordinance editions); wind opposition coded from news (Stokes and others, 2023); protected land share (a PAD-US overlay); EIA-861 retail electricity prices by state; FEMA disaster declarations and the FEMA National Risk Index.

@@ -206,7 +206,9 @@ jobs:
         # Usually about 20 s; data-center-map saw a 413 s install succeed
         # and a 20-minute hang. On 2026-11-11 the runner could not resolve the
         # Ubuntu package mirrors, so each attempt gets 5 minutes and the step
-        # tries up to 3 times, 30 s apart.
+        # tries up to 3 times, 30 s apart. On 2026-11-20 a slow mirror ran an
+        # attempt past its 5 minutes, and its apt-get held the dpkg lock
+        # through both retries; each retry now waits for that apt-get first.
         timeout-minutes: 17
         run: |
           for attempt in 1 2 3; do
@@ -214,6 +216,10 @@ jobs:
               exit 0
             fi
             echo "::warning::Chromium install attempt $attempt failed"
+            # The timeout stops npx, not the apt-get it started, which keeps
+            # the dpkg lock while a slow mirror finishes. Let it finish (up
+            # to 5 minutes) so the retry does not fail on the lock at once.
+            for _ in $(seq 60); do { pgrep -x apt-get || pgrep -x dpkg; } >/dev/null || break; sleep 5; done
             [ "$attempt" -lt 3 ] && sleep 30
           done
           echo "::error::Chromium install failed after 3 attempts"

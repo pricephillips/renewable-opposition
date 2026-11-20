@@ -44,6 +44,8 @@
     },
     "data/reference/headwind_inputs/bea_cainc1.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_bea_income.py"], "reason": "Headwind Model plug-in input: county per capita income, population and five-year population change by year, from BEA CAINC1 (public domain)."},
     "data/reference/headwind_inputs/fhfa_hpi.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_fhfa_hpi.py"], "reason": "Headwind Model plug-in input: county house price index and its five-year change by year, from FHFA (public domain)."},
+    "data/reference/headwind_inputs/saipe.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_saipe.py"], "reason": "Headwind Model plug-in input: county poverty rate and median household income by year, from Census SAIPE (public domain)."},
+    "data/reference/headwind_inputs/cbp.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_cbp.py"], "reason": "Headwind Model plug-in input: county employment, establishments and sector shares by year, from Census County Business Patterns (public domain)."},
     "data/reference/county_covariates_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
     "data/reference/county_covariates_catalog.json": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
     "data/reference/medsl/countypres_2000-2024.csv": {
@@ -91,6 +93,8 @@
       "layer": "derived", "writers": ["scripts/headwind_compare.py"],
       "reason": "Internal race of logistic regression, gradient-boosted trees and a neural net for the Renewable Headwind Model on forward-in-time holdouts (docs/headwind_model.md); no page, report or headline figure reads it."
     },
+    "data/model/headwind_search.json": {"layer": "derived", "writers": ["scripts/headwind_search.py"], "reason": "Renewable Headwind Model: wide search over county variables and their combinations, chosen on earlier years and scored on later ones against shuffled-data runs (internal, staff only)."},
+    "data/model/headwind_search.md": {"layer": "derived", "writers": ["scripts/headwind_search.py"]},
     "data/model/headwind_compare.md": {"layer": "derived", "writers": ["scripts/headwind_compare.py"]},
     "data/cost/cost_ledger.csv": {
       "layer": "derived", "writers": ["scripts/cost_ledger.py"],

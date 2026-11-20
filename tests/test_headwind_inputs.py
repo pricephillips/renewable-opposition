@@ -32,9 +32,11 @@ def test_wanted_ids_are_unique():
 
 def test_fetcher_selftests():
     import fetch_headwind_bea_income
+    import fetch_headwind_cbp
     import fetch_headwind_fhfa_hpi
-    assert fetch_headwind_bea_income._selftest() == 0
-    assert fetch_headwind_fhfa_hpi._selftest() == 0
+    import fetch_headwind_saipe
+    for mod in (fetch_headwind_bea_income, fetch_headwind_fhfa_hpi, fetch_headwind_saipe, fetch_headwind_cbp):
+        assert mod._selftest() == 0
 
 
 def test_every_configured_input_names_its_fetcher():
