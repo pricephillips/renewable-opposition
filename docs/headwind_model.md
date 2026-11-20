@@ -79,7 +79,32 @@ New inputs plug in without a change to the model code. `config/headwind_inputs.j
 - `wanted`: the inputs the model lacks, in priority order (grid cost, land use, the local economy by year, dated state policy, local attention, wildlife constraints). The shared Gov Data Scout and Repo Scout in data-centers read this list in their renewables lane and look for a source that fills the first open item.
 - `inputs`: data files the model reads. Each one is a county or state file with an optional year column. `scripts/headwind_inputs.py` adds it to every request's snapshot as `in_<id>`. A dated file is time-matched: a request made in a year reads the latest value from an earlier year.
 
-An input reaches the fit only when the registration lists it and records an amendment that names it, so a new data file never changes the model by itself. Once Price ticks a scout's pick, the `renewables-integrator` agent builds it by its "Headwind Model input" path: a fetcher, the config entry, the registration amendment and a layer declaration. The monthly refit then reports whether the input adds anything under the registered promotion rule.
+An input reaches the fit only when the registration lists it and records an amendment that names it, so a new data file never changes the model by itself. Every configured input is still loaded into the history, and the report measures each one's lift on its own: the model selected from the core county variables, then the same model with that one input added, on the same folds and the same out-of-time split. An input is registered only when it keeps its sign on all 25 folds and adds at least 0.01 AUC, both in cross-validation and out of time. Once Price ticks a scout's pick, the `renewables-integrator` agent builds it by its "Headwind Model input" path: a fetcher, the config entry and a layer declaration. The monthly refit (`model-inputs.yml`) then refetches it and reports its lift.
+
+### Inputs built so far
+
+| Input | Source | Years | Lift on `withdrawn` (cross-validated, out of time) | Registered |
+|---|---|---|---|---|
+| `in_income_pc`: per capita personal income (log) | BEA CAINC1 (`scripts/fetch_headwind_bea_income.py`) | yearly, 2000 to 2024 | -0.001, -0.000 | no |
+| `in_pop_growth_5y`: population change over five years | BEA CAINC1 | yearly, 2000 to 2024 | -0.001, -0.000 | no |
+| `in_hpi_growth_5y`: house price change over five years | FHFA county house price index (`scripts/fetch_headwind_fhfa_hpi.py`) | yearly, 2000 to 2024 | -0.001, 0.003 | no |
+
+The three inputs were built on November 20, 2026, and none adds lift. The model already has the 2020 to 2024 census income and the county's queue history. Yearly income, population growth and house prices add nothing beyond them. The sources most likely to add lift are still grid cost and rule adoption dates, at the top of the wanted list.
+
+### How each source joins
+
+- **Join key.** County files join on the five-digit county FIPS code, and state files on the state's postal code. BEA folds 23 Virginia independent cities into a neighbouring county; the fetcher writes each combined row under every county it names. Connecticut stays on its eight old counties.
+- **Time lag.** A request made in year Y reads the latest row from year Y minus `lag_years` or earlier. The default is 1, so nothing from the request's own year enters. A source that is published late, such as the Census of Agriculture (released about two years after its reference year), should set `lag_years` to 2.
+- **Form.** An index with a different base in each county (the FHFA index) enters as a change over time, never as a level. Dollar amounts enter as logs.
+
+### Build order for the other sources
+
+The first pass (November 20, 2026) found ten leads, now on the wanted list. A second pass the same day found ten more. They are built in this order:
+
+1. **Keyless, yearly, county (next).** Census Small Area Income and Poverty Estimates (yearly median household income and poverty, so a request can read the income of its own time instead of the 2020 to 2024 census values); Census County Business Patterns (yearly employment in farming support, construction and utilities); IRS county-to-county migration (yearly inflow and outflow, from 2011); USDA NASS Census of Agriculture (land value per acre and cropland share, 2007 to 2022; the Gov Data Scout found a bulk file with no key); Census of Governments (how many townships and municipalities share land use authority in the county, 2007 to 2022); USDA ERS rural-urban continuum codes (2003, 2013 and 2023).
+2. **Blocked from a cloud session, to be fetched by the workflow.** BLS county unemployment (the site refuses requests without a contact address in the User-Agent); LBNL state renewable portfolio standard targets (the site refuses requests from the session).
+3. **Waiting on a license.** LBNL interconnection cost studies. The Gov Data Scout found no license and deferred it until LBNL answers.
+4. **Must be built from other records.** State siting law effective dates (LegiScan); county rule adoption dates (Lerner's wind ordinance data and the NREL ordinance editions); wind opposition coded from news (Stokes and others, 2023); protected land share (a PAD-US overlay); EIA-861 retail electricity prices by state; FEMA disaster declarations and the FEMA National Risk Index.
 
 ## 7. Where it is used
 

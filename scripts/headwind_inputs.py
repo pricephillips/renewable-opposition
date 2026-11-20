@@ -7,10 +7,12 @@ time-matched: a request made in year Y reads the latest row from year
 Y - lag_years or earlier (lag_years defaults to 1), so nothing from the
 request's own year enters. A file with no year column is a static value.
 
-An input reaches the fit only when the registration
-(config/headwind_model_registration.json) lists in_<id> under variables.
-Entries the registration does not list are loaded and checked but left out,
-so adding a data file never changes the model by itself.
+Every configured input is loaded and added to the history, and the model's
+report gives each one's lift on its own over the core model
+(scripts/headwind_model.py, input_lift). An input reaches the fit only when
+the registration (config/headwind_model_registration.json) lists in_<id>
+under variables, so adding a data file never changes the model by itself.
+Register an input once its lift passes the promotion rule.
 
 The wanted list in the same file is the shared scouts' brief: the inputs the
 model lacks. This script only reads it (--wanted prints it).
@@ -131,9 +133,18 @@ class Input:
         return math.log1p(max(v, 0.0)) if self.log else v
 
 
-def load(cfg: dict | None = None, reg: dict | None = None, input_dir: Path = INPUT_DIR) -> dict[str, Input]:
-    return {name_of(e): Input(e, read_csv(input_dir / e["file"]))
-            for e in active(cfg, reg)}
+def load(cfg: dict | None = None, reg: dict | None = None, input_dir: Path = INPUT_DIR,
+         every: bool = False) -> dict[str, Input]:
+    """The registered inputs, or with every=True all configured ones (the
+    history carries them all so the report can measure each one's lift)."""
+    cfg = cfg if cfg is not None else config()
+    entries = cfg.get("inputs", []) if every else active(cfg, reg)
+    return {name_of(e): Input(e, read_csv(input_dir / e["file"])) for e in entries}
+
+
+def configured(cfg: dict | None = None) -> list[str]:
+    cfg = cfg if cfg is not None else config()
+    return [name_of(e) for e in cfg.get("inputs", [])]
 
 
 def apply(rows: list[dict], loaded: dict[str, Input]) -> list[dict]:
@@ -164,6 +175,7 @@ def _selftest() -> int:
         assert any("duplicate" in x for x in p) and any("wanted w" in x for x in p), p
         reg = {"variables": {"in_demo": "demo"}}
         assert names(cfg, {"variables": {}}) == [], "an unregistered input stays out of the fit"
+        assert list(load(cfg, {"variables": {}}, root, every=True)) == ["in_demo"], "but is loaded for its lift"
         loaded = load(cfg, reg, root)
         inp = loaded["in_demo"]
         assert inp.value("01001", "AL", 2012) == 0.5, "the request's own year never enters"

@@ -28,3 +28,15 @@ def test_every_registered_input_is_configured_and_amended():
 def test_wanted_ids_are_unique():
     ids = [w["id"] for w in hi.config()["wanted"]]
     assert len(ids) == len(set(ids)) and ids
+
+
+def test_fetcher_selftests():
+    import fetch_headwind_bea_income
+    import fetch_headwind_fhfa_hpi
+    assert fetch_headwind_bea_income._selftest() == 0
+    assert fetch_headwind_fhfa_hpi._selftest() == 0
+
+
+def test_every_configured_input_names_its_fetcher():
+    for e in hi.config()["inputs"]:
+        assert (ROOT / e["fetcher"]).is_file(), f"{e['id']}: fetcher {e['fetcher']} not found"

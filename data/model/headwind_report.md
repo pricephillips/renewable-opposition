@@ -43,6 +43,14 @@ Dropped for changing sign across folds: siting standards (severity 1 or 2) on th
 
 Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.528.
 
+Plug-in inputs (config/headwind_inputs.json, every one configured, registered or not), each added on its own to the model selected from the core county variables without plug-ins (AUC 0.656 in cross-validation, 0.546 out of time; C = 0.01). An input counts only if it keeps its sign on all 25 folds and adds at least 0.01 AUC both ways.
+
+| Input | Requests with a value | Coefficient (median) | Same sign on every fold | Cross-validated AUC gain | Out-of-time AUC gain |
+|---|---:|---:|---|---:|---:|
+| log of per capita personal income in the county, the year before the request (BEA) | 100% | 0.019 | yes | -0.001 | -0.000 |
+| county population change over the five years before the year preceding the request (BEA) | 100% | -0.045 | no | -0.001 | -0.000 |
+| county house price change over five years, as of the year before the request (FHFA) | 94% | 0.026 | no | -0.001 | 0.003 |
+
 ## Label: withdrawn within three years, requests made 2010 to 2022 in CAISO, ISO-NE, MISO and PJM (added after the first fit)
 
 **Verdict: HOLD.** Requests: 9694 (4547 withdrew within three years, 5147 did not).
@@ -75,6 +83,14 @@ Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on
 | a local rule on the technology with no year | 1869 | 0.447 | 0.474 |
 
 Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.471.
+
+Plug-in inputs (config/headwind_inputs.json, every one configured, registered or not), each added on its own to the model selected from the core county variables without plug-ins (AUC 0.678 in cross-validation, 0.557 out of time; C = 0.01). An input counts only if it keeps its sign on all 25 folds and adds at least 0.01 AUC both ways.
+
+| Input | Requests with a value | Coefficient (median) | Same sign on every fold | Cross-validated AUC gain | Out-of-time AUC gain |
+|---|---:|---:|---|---:|---:|
+| log of per capita personal income in the county, the year before the request (BEA) | 100% | -0.025 | no | -0.001 | -0.001 |
+| county population change over the five years before the year preceding the request (BEA) | 100% | 0.030 | yes | -0.001 | -0.006 |
+| county house price change over five years, as of the year before the request (FHFA) | 98% | 0.009 | no | 0.000 | 0.000 |
 
 ## Limits
 

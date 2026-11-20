@@ -146,6 +146,55 @@
    "reasons": [],
    "verdict": "PROMOTE"
   },
+  "input_lift": {
+   "C": 0.01,
+   "core_auc": 0.656196231644181,
+   "core_oot_auc": 0.5456815570383212,
+   "core_variables": [
+    "severe_before",
+    "undated_rule",
+    "neighbor_severe_share",
+    "prior_withdrawal_share",
+    "log1p_operating_mw",
+    "log_income",
+    "pct_bachelors_plus",
+    "margin",
+    "state_prior_withdrawal_share",
+    "neighbor_prior_withdrawal_share"
+   ],
+   "inputs": [
+    {
+     "auc": 0.6552527691541145,
+     "coef_median": 0.019054381204140772,
+     "coverage": 0.9997033521210323,
+     "gain": -0.0009434624900664934,
+     "input": "in_income_pc",
+     "oot_auc": 0.5454136177018029,
+     "oot_gain": -0.00026793933651836355,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.6550956268445057,
+     "coef_median": -0.044626339454478164,
+     "coverage": 0.9997033521210323,
+     "gain": -0.00110060479967522,
+     "input": "in_pop_growth_5y",
+     "oot_auc": 0.5453607017826786,
+     "oot_gain": -0.00032085525564262696,
+     "sign_stable": false
+    },
+    {
+     "auc": 0.6552872638074432,
+     "coef_median": 0.02609451152315465,
+     "coverage": 0.9387422129931771,
+     "gain": -0.0009089678367377729,
+     "input": "in_hpi_growth_5y",
+     "oot_auc": 0.5486389689627136,
+     "oot_gain": 0.0029574119243923613,
+     "sign_stable": false
+    }
+   ]
+  },
   "label": "withdrawn",
   "out_of_time": {
    "base": {
@@ -282,6 +331,51 @@
    "positives": 4547,
    "reasons": [],
    "verdict": "PROMOTE"
+  },
+  "input_lift": {
+   "C": 0.01,
+   "core_auc": 0.6775460070278873,
+   "core_oot_auc": 0.5569964793037113,
+   "core_variables": [
+    "standards_before",
+    "log1p_prior_requests",
+    "log1p_operating_mw",
+    "log_income",
+    "margin",
+    "state_prior_withdrawal_share"
+   ],
+   "inputs": [
+    {
+     "auc": 0.6762782103453064,
+     "coef_median": -0.025418720214107775,
+     "coverage": 0.999484217041469,
+     "gain": -0.001267796682580813,
+     "input": "in_income_pc",
+     "oot_auc": 0.5563381990065079,
+     "oot_gain": -0.0006582802972033841,
+     "sign_stable": false
+    },
+    {
+     "auc": 0.6767964454365747,
+     "coef_median": 0.029741672372311696,
+     "coverage": 0.999484217041469,
+     "gain": -0.0007495615913125642,
+     "input": "in_pop_growth_5y",
+     "oot_auc": 0.5506411894054563,
+     "oot_gain": -0.006355289898255068,
+     "sign_stable": true
+    },
+    {
+     "auc": 0.6775727087271833,
+     "coef_median": 0.009433946130845902,
+     "coverage": 0.9823602228182381,
+     "gain": 2.6701699296083348e-05,
+     "input": "in_hpi_growth_5y",
+     "oot_auc": 0.5572378350404124,
+     "oot_gain": 0.00024135573670103216,
+     "sign_stable": false
+    }
+   ]
   },
   "label": "withdrawn_3y",
   "out_of_time": {

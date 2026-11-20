@@ -3,52 +3,202 @@
     "Plug-in inputs for the Renewable Headwind Model (docs/headwind_model.md, section 'Adding an input').",
     "inputs[]: a county or state data file the model reads with no code change. scripts/headwind_inputs.py loads each one, and scripts/headwind_history.py adds it to every request's county snapshot as the variable in_<id>. Fields: id, file (under data/reference/headwind_inputs/), key ('county_fips' or 'state'), value_column, year_column (omit for a static value), lag_years (default 1: a request made in year Y reads the latest row from Y minus lag_years or earlier, so nothing from the request's own year enters), transform ('identity' or 'log1p'), label, source_url, license, added (YYYY-MM-DD), registry_id (the shared scouts' id).",
     "An input enters the fit only when config/headwind_model_registration.json lists in_<id> under variables and records an amendment that names it. tests/test_headwind_inputs.py checks both.",
-    "wanted[]: the inputs the model lacks, in priority order. The shared scouts in pricephillips/data-centers (Gov Data Scout and Repo Scout, renewables lane) read this list and look for a source that fills the first open entry. renewables-integrator plugs a found source in here once Price ticks it.",
+    "wanted[]: the inputs the model lacks, in priority order, each with leads (candidate sources found by hand on 2026-11-20, to be screened before use). The shared scouts in pricephillips/data-centers (Gov Data Scout and Repo Scout, renewables lane) read this list and look for a source that fills the first open entry. renewables-integrator plugs a found source in here once Price ticks it.",
     "This repository is public: name no client."
   ],
-  "inputs": [],
+  "inputs": [
+    {
+      "id": "income_pc",
+      "file": "bea_cainc1.csv",
+      "key": "county_fips",
+      "year_column": "year",
+      "value_column": "income_pc",
+      "lag_years": 1,
+      "transform": "log1p",
+      "label": "log of per capita personal income in the county, the year before the request (BEA)",
+      "source_url": "https://apps.bea.gov/regional/zip/CAINC1.zip",
+      "license": "public domain (U.S. Bureau of Economic Analysis); cite BEA, CAINC1",
+      "added": "2026-11-20",
+      "registry_id": "bea-cainc1-county-income",
+      "fetcher": "scripts/fetch_headwind_bea_income.py",
+      "fills": "local_economy"
+    },
+    {
+      "id": "pop_growth_5y",
+      "file": "bea_cainc1.csv",
+      "key": "county_fips",
+      "year_column": "year",
+      "value_column": "pop_growth_5y",
+      "lag_years": 1,
+      "transform": "identity",
+      "label": "county population change over the five years before the year preceding the request (BEA)",
+      "source_url": "https://apps.bea.gov/regional/zip/CAINC1.zip",
+      "license": "public domain (U.S. Bureau of Economic Analysis); cite BEA, CAINC1",
+      "added": "2026-11-20",
+      "registry_id": "bea-cainc1-county-income",
+      "fetcher": "scripts/fetch_headwind_bea_income.py",
+      "fills": "local_economy"
+    },
+    {
+      "id": "hpi_growth_5y",
+      "file": "fhfa_hpi.csv",
+      "key": "county_fips",
+      "year_column": "year",
+      "value_column": "hpi_growth_5y",
+      "lag_years": 1,
+      "transform": "identity",
+      "label": "county house price change over five years, as of the year before the request (FHFA)",
+      "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.csv",
+      "license": "public domain (Federal Housing Finance Agency); cite FHFA, House Price Index",
+      "added": "2026-11-20",
+      "registry_id": "fhfa-hpi-county-annual",
+      "fetcher": "scripts/fetch_headwind_fhfa_hpi.py",
+      "fills": "land_use"
+    }
+  ],
   "wanted": [
     {
       "id": "grid_cost",
       "need": "How costly or crowded the grid near the county was before the request: interconnection cost estimates, network upgrade costs, or substation and transmission headroom, by county or by point of interconnection.",
       "why": "Most withdrawals have grid or cost reasons. Today the model reaches them only through the share of earlier requests that withdrew nearby, which mixes grid cost with local opposition.",
       "grain": "county, or points that map to a county",
-      "years": "dated, 2008 to 2022"
+      "years": "dated, 2008 to 2022",
+      "leads": [
+        {
+          "name": "LBNL generator interconnection cost studies (MISO, SPP, PJM, ISO-NE, NYISO, CAISO, non-ISO)",
+          "url": "https://emp.lbl.gov/interconnection_costs",
+          "note": "Project-level network upgrade and point-of-interconnection costs from utility studies, including withdrawn requests. Average the costs of a county's earlier studied requests by year. Public; check the license on the download page."
+        }
+      ]
     },
     {
       "id": "land_use",
       "need": "Farmland and land value: share of land in farms, cropland share, and farm real estate value per acre (for example the USDA Census of Agriculture, 2007, 2012, 2017, 2022).",
       "why": "Opposition to solar often turns on taking cropland, and land value sets how much a lease is worth to an owner.",
       "grain": "county",
-      "years": "dated, at least every five years from 2007"
+      "years": "dated, at least every five years from 2007",
+      "leads": [
+        {
+          "name": "USDA NASS Quick Stats, Census of Agriculture county tables",
+          "url": "https://quickstats.nass.usda.gov/api",
+          "note": "Land in farms, cropland and value of land and buildings per acre by county for 2007, 2012, 2017 and 2022. Free API key; public domain."
+        },
+        {
+          "name": "USDA NASS Quick Stats bulk file (qs.economics)",
+          "url": "https://www.nass.usda.gov/datasets",
+          "note": "The same Census of Agriculture county rows as the API, with no key (about 558 MB compressed). Census of Agriculture results come out about two years after the reference year, so set lag_years to 2."
+        }
+      ]
     },
     {
       "id": "local_economy",
       "need": "County unemployment rate and population change by year (for example BLS Local Area Unemployment Statistics and Census population estimates).",
       "why": "The census inputs are 2020 to 2024 values for requests made from 2010. A yearly series gives the economy as it stood before each request.",
       "grain": "county",
-      "years": "yearly, 2008 to 2022"
+      "years": "yearly, 2008 to 2022",
+      "leads": [
+        {
+          "name": "BLS Local Area Unemployment Statistics, county annual averages",
+          "url": "https://www.bls.gov/lau/",
+          "note": "Yearly county unemployment rate from 1990. Public domain."
+        },
+        {
+          "name": "Census Bureau Population Estimates Program, county totals",
+          "url": "https://www.census.gov/programs-surveys/popest.html",
+          "note": "Yearly county population, so change over the prior years. Public domain."
+        },
+        {
+          "name": "Census Small Area Income and Poverty Estimates (SAIPE)",
+          "url": "https://www.census.gov/programs-surveys/saipe.html",
+          "note": "Yearly county median household income and poverty rate from 1989, so income can be read as of the request. Keyless files; public domain. Found 2026-11-20 (second pass)."
+        },
+        {
+          "name": "Census County Business Patterns",
+          "url": "https://www.census.gov/programs-surveys/cbp.html",
+          "note": "Yearly county establishments and employment by industry (farm support, construction, utilities). Keyless files; public domain. Found 2026-11-20 (second pass)."
+        },
+        {
+          "name": "IRS SOI county-to-county migration",
+          "url": "https://www.irs.gov/statistics/soi-tax-stats-migration-data",
+          "note": "Yearly county inflow and outflow of households from 2011. Keyless files; public domain. Found 2026-11-20 (second pass)."
+        }
+      ]
     },
     {
       "id": "state_policy",
       "need": "State energy policy by year: renewable portfolio standard targets, state siting authority over large projects, and state preemption of local rules, each with its effective year.",
       "why": "The state's share of earlier withdrawals is the model's largest county input. Dated state policy would show how much of that is policy and how much is grid.",
       "grain": "state",
-      "years": "yearly, 2008 to 2022"
+      "years": "yearly, 2008 to 2022",
+      "leads": [
+        {
+          "name": "LBNL State Electricity Resource Standards, annual data update",
+          "url": "https://emp.lbl.gov/projects/renewables-portfolio",
+          "note": "Annual state RPS and clean electricity standard targets by year (XLSX, updated June 2026)."
+        },
+        {
+          "name": "Laws in Order: An Inventory of State Renewable Energy Siting Policies (RAP and CATF, for DOE, 2024)",
+          "url": "https://emp.lbl.gov/publications/laws-order-inventory-state-renewable",
+          "note": "Who sites large projects in each state and above what size. PDF profiles, compiled in 2023; effective years must be read from each state's statute (the LegiScan feed helps)."
+        },
+        {
+          "name": "EIA-861 annual electric power industry report",
+          "url": "https://www.eia.gov/electricity/data/eia861/",
+          "note": "Yearly retail electricity price and sales by utility, which sum to the state. Public domain. Found 2026-11-20 (second pass)."
+        }
+      ]
+    },
+    {
+      "id": "rule_dates",
+      "need": "Adoption years for county wind and solar rules, so more rules can be placed before or after a request.",
+      "why": "1,064 restriction rows have no year and cannot enter the snapshot. A source with adoption years would date them.",
+      "grain": "county",
+      "years": "dated, 2000 to 2022",
+      "leads": [
+        {
+          "name": "Lerner, 'Local power: understanding the adoption and design of county wind energy regulation' (Review of Policy Research, 2022), replication data",
+          "url": "https://doi.org/10.7910/DVN/ZXHGVG",
+          "note": "County wind ordinance adoption across 1,603 counties in 23 states. Harvard Dataverse; check its license and years."
+        },
+        {
+          "name": "NREL U.S. Wind and Solar Siting Regulation and Zoning Ordinances (2022 and 2025 editions)",
+          "url": "https://data.openei.org/submissions/1932",
+          "note": "Comparing editions shows which ordinances appeared between them. Already read for rules; the edition dates are the new part."
+        },
+        {
+          "name": "Census of Governments, individual government counts",
+          "url": "https://www.census.gov/programs-surveys/cog.html",
+          "note": "How many townships and municipalities in each county, 2007 to 2022. Not a rule date, but a count of the bodies that can each adopt a rule. Public domain. Found 2026-11-20 (second pass)."
+        }
+      ]
     },
     {
       "id": "local_attention",
       "need": "How much local news or public comment a county drew on renewable projects before the request, counted by year (for example a news archive count, or public comment counts on state siting dockets).",
       "why": "Organized opposition is recorded only where a source looked. A count from a source that covers every county the same way would test it without that bias.",
       "grain": "county",
-      "years": "yearly, 2010 to 2022"
+      "years": "yearly, 2010 to 2022",
+      "leads": [
+        {
+          "name": "Stokes, Franzblau, Lovering and Miljanich, 'Prevalence and predictors of wind energy opposition in North America', PNAS 2023",
+          "url": "https://doi.org/10.1073/pnas.2302313120",
+          "note": "1,415 wind projects, 2000 to 2016, coded for opposition from 35,000 news articles. Open access (CC BY 4.0); check its data availability section for the project file."
+        }
+      ]
     },
     {
       "id": "wildlife_constraints",
       "need": "Share of the county's land under environmental or wildlife constraints that limit siting (protected areas, critical habitat, wetlands).",
       "why": "Constraints narrow where projects can go, which may push them into contested sites. A static value is acceptable here if the layer changed little over 2010 to 2022.",
       "grain": "county",
-      "years": "static or dated"
+      "years": "static or dated",
+      "leads": [
+        {
+          "name": "USGS Protected Areas Database of the United States (PAD-US)",
+          "url": "https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview",
+          "note": "Protected land by type, which overlays to a share of each county. Public domain."
+        }
+      ]
     }
   ]
 }

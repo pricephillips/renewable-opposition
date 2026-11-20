@@ -210,6 +210,33 @@ def county_part(x, y, names, base, chosen, c, rows_c, base_c) -> dict:
     return {"cases": len(rows_c), "blocked": int(yc.sum()), "auc": auc, "variables": county}
 
 
+def input_lift(x, y, years, names, base, splits, lab, rows) -> dict:
+    """Each plug-in input's lift on its own: the model selected from the core
+    county variables (no plug-ins), then that model plus one input, on the
+    same folds and the same out-of-time split."""
+    plugins = [n for n in headwind_inputs.configured() if rows and n in rows[0]]
+    if not plugins:
+        return {}
+    extra = [n for n in plugins if n not in names]
+    if extra:  # configured but not registered: in the history, not in the fit
+        names = names + extra
+        x = np.hstack([x, matrix(rows, [], extra)])
+    core = select(x, y, names, base, [n for n in COUNTY_VARS if n not in plugins], splits)
+    c, cols = core["C"], core["variables"]
+    core_oot = out_of_time(x, y, years, names, cols, c, lab["train"], lab["test"])
+    out = []
+    for p in plugins:
+        res = evaluate(x, y, names, cols + [p], c, splits)
+        oot = out_of_time(x, y, years, names, cols + [p], c, lab["train"], lab["test"])
+        out.append({"input": p, "coverage": sum(1 for r in rows if r[p] != "") / len(rows),
+                    "auc": res["auc_median"], "gain": res["auc_median"] - core["auc_median"],
+                    "oot_auc": oot["auc"], "oot_gain": oot["auc"] - core_oot["auc"],
+                    "coef_median": float(np.median(res["coefs"][p])),
+                    "sign_stable": bool(is_sign_stable(res["coefs"][p]))})
+    return {"C": c, "core_variables": [n for n in cols if n not in base], "core_auc": core["auc_median"],
+            "core_oot_auc": core_oot["auc"], "inputs": out}
+
+
 def fit(rows: list[dict], label: str = "withdrawn") -> dict:
     lab = LABELS[label]
     q = [r for r in rows if r["source"] == "queue" and str(r[lab["in_fit"]]) == "1"]
@@ -259,6 +286,7 @@ def fit(rows: list[dict], label: str = "withdrawn") -> dict:
                              "fold_max": max(chosen["coefs"][n])} for n in county_vars},
         "flags": shares,
         "contested_check": county_part(x, y, names, base, chosen["variables"], c, rows_c, base),
+        "input_lift": input_lift(x, y, years, names, base, splits, lab, q),
         "_scores": [(label, r["row_id"], r["county_fips"], r["year"], round(float(p), 4)) for r, p in zip(q, cal)],
     }
 
@@ -313,6 +341,19 @@ def section(m: dict) -> list[str]:
     lines += ["", f"Check on contested projects: the county part of this score, applied to {cc['cases']} contested "
               f"projects with a confirmed outcome ({cc.get('blocked', 0)} blocked), ranks blocked above advanced "
               f"projects with AUC {_r(cc['auc'])}.", ""]
+    lift = m.get("input_lift") or {}
+    if lift:
+        lines += [f"Plug-in inputs (config/headwind_inputs.json, every one configured, registered or not), each added on its own to the model selected from "
+                  f"the core county variables without plug-ins (AUC {_r(lift['core_auc'])} in cross-validation, "
+                  f"{_r(lift['core_oot_auc'])} out of time; C = {lift['C']}). An input counts only if it keeps its "
+                  f"sign on all 25 folds and adds at least {MIN_GAIN} AUC both ways.", "",
+                  "| Input | Requests with a value | Coefficient (median) | Same sign on every fold | Cross-validated AUC "
+                  "gain | Out-of-time AUC gain |",
+                  "|---|---:|---:|---|---:|---:|"]
+        for i in lift["inputs"]:
+            lines.append(f"| {WORDS.get(i['input'], i['input'])} | {i['coverage']:.0%} | {_r(i['coef_median'])} | "
+                         f"{'yes' if i['sign_stable'] else 'no'} | {_r(i['gain'])} | {_r(i['oot_gain'])} |")
+        lines.append("")
     return lines
 
 
@@ -385,6 +426,13 @@ def _selftest() -> int:
     assert m["coefficients"]["prior_withdrawal_share"]["coef"] > 0
     assert m["auc"]["gain"] > 0, "a variable that drives the label must add AUC over the base"
     assert m["contested_check"]["auc"] == 1.0, "the county part ranks the synthetic blocked projects first"
+    plugins = headwind_inputs.configured()
+    if plugins:
+        for r in rows:
+            r.update({n: str(rng.normal()) for n in plugins})
+        lift = fit(rows)["input_lift"]
+        assert [i["input"] for i in lift["inputs"]] == plugins, "every configured input gets a lift row"
+        assert all(abs(i["gain"]) < 0.02 for i in lift["inputs"]), "a noise input adds no lift"
     assert "verdict" in m and "# Renewable Headwind Model" in report([m, fit(rows, "withdrawn_3y")])
     print("headwind_model selftest: ok")
     return 0

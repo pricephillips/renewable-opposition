@@ -5,6 +5,10 @@ name: Fetch model inputs
 #   scripts/fetch_county_covariates.py  ACS 5-year and Gazetteer (Census),
 #                                       MEDSL presidential returns
 #   scripts/fetch_queued_up.py          LBNL Queued Up interconnection queues
+#   scripts/fetch_headwind_*.py         the Headwind Model's plug-in inputs
+#                                       (config/headwind_inputs.json): BEA
+#                                       county income and population, FHFA
+#                                       county house prices
 #   scripts/queue_matches.py            contested projects matched to their
 #                                       requests (a build stage: every data
 #                                       build reruns it, so the committed
@@ -50,6 +54,8 @@ on:
       - 'config/headwind_model_registration.json'
       - 'tests/test_headwind_model.py'
       - 'scripts/headwind_inputs.py'
+      - 'scripts/fetch_headwind_*.py'
+      - 'tests/fixtures/headwind_inputs/**'
       - 'config/headwind_inputs.json'
       - 'data/reference/headwind_inputs/**'
       - 'tests/test_headwind_inputs.py'
@@ -91,7 +97,7 @@ jobs:
         run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py
 
       - name: Fetch
-        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --skip-build --summary "$GITHUB_STEP_SUMMARY"
+        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --skip-build --summary "$GITHUB_STEP_SUMMARY"
 
       - name: Branch run reproduces the committed files
         if: github.ref != 'refs/heads/main'
@@ -105,7 +111,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/reference/county_covariates.csv data/reference/county_covariates_manifest.csv data/reference/county_covariates_catalog.json data/reference/queue_projects.csv data/reference/queued_up_manifest.csv data/reference/queue_matches.csv data/reference/queue_matches_report.md data/model/
+          git add data/reference/county_covariates.csv data/reference/county_covariates_manifest.csv data/reference/county_covariates_catalog.json data/reference/queue_projects.csv data/reference/queued_up_manifest.csv data/reference/queue_matches.csv data/reference/queue_matches_report.md data/reference/headwind_inputs/ data/model/
           git diff --cached --quiet && exit 0
           git commit -m "Fetch model inputs"
           # Another workflow may have moved the branch since checkout. Rebase

@@ -329,7 +329,7 @@ def snapshot(rows: list[dict], restrictions: list[dict], queue: list[dict], faci
         r["log1p_dc_events_before"] = round(math.log1p(bisect.bisect_left(dc.get(f, []), year)), 4)
         r["state_prior_withdrawal_share"] = round(hist.pooled_share([f"state:{r['state']}"], r["start_date"]), 4)
         r["neighbor_prior_withdrawal_share"] = round(hist.pooled_share(nbr_cache.get(f, []), r["start_date"]), 4)
-    return headwind_inputs.apply(rows, headwind_inputs.load(reg=REG))
+    return headwind_inputs.apply(rows, headwind_inputs.load(reg=REG, every=True))
 
 
 def build() -> list[dict]:

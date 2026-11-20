@@ -20,6 +20,12 @@
       "after_first_fit": true,
       "change": "Corrects the wording of margin and makes it time-matched, and adds four variables: log1p_contested_before, log1p_dc_events_before, state_prior_withdrawal_share and neighbor_prior_withdrawal_share. margin was registered as 'Republican minus Democratic, 2016'; the column read was margin_dr_2016, which is Democratic minus Republican, so every earlier report read its sign backwards. It is now the Democratic minus Republican margin in the last presidential election before the request year, read from the 2000 to 2024 margins that scripts/fetch_county_covariates.py now writes from the MEDSL file already in the repository.",
       "reason": "Price, 2026-11-20: keep building out the data inputs. Each new input is dated before the request, so it adds a time-matched input in place of a static one. The wording error was found while doing this."
+    },
+    {
+      "date": "2026-11-20",
+      "after_first_fit": true,
+      "change": "Adds a lift table to the report: each input in config/headwind_inputs.json, registered or not, is added on its own to the model selected from the core county variables, on the same folds and the same out-of-time split. The first three inputs (income_pc and pop_growth_5y from BEA CAINC1, hpi_growth_5y from the FHFA county house price index, each read from the year before the request) are configured but not registered: none kept its sign on every fold and added 0.01 AUC both ways in the 2026-11-20 refit, so none enters the fit. An input is registered, by a further amendment that names it, only once its lift passes that rule.",
+      "reason": "Price, 2026-11-20: find more data sources and work out how to bring them all into the model. These are the first sources that are yearly, keyless and public domain; the others wait for a key, a license or a build (docs/headwind_model.md, section 6, lists them)."
     }
   ],
   "frame": {
