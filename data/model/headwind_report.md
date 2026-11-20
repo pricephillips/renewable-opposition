@@ -8,28 +8,32 @@ Written by `scripts/headwind_model.py` under `config/headwind_model_registration
 
 ## Label: withdrawn, among resolved requests made 2010 to 2019 (registered, primary)
 
-**Verdict: HOLD.** Requests: 6742 (5576 withdrew, 1166 reached operation).
+**Verdict: PROMOTE.** Requests: 6742 (5576 withdrew, 1166 reached operation).
 
 | Measure | Request only | Request and county | Gain |
 |---|---:|---:|---:|
-| Cross-validated AUC (median of 25 folds) | 0.626 | 0.643 (p10 0.632, p90 0.655) | 0.017 |
-| State-grouped AUC (5 folds by state) | 0.501 | 0.540 | 0.039 |
-| Out of time: fit 2010 to 2016 (3656 requests), score 2017 to 2019 (3086) | 0.531 | 0.537 | 0.007 |
+| Cross-validated AUC (median of 25 folds) | 0.627 | 0.656 (p10 0.644, p90 0.665) | 0.030 |
+| State-grouped AUC (5 folds by state) | 0.496 | 0.570 | 0.074 |
+| Out of time: fit 2010 to 2016 (3656 requests), score 2017 to 2019 (3086) | 0.522 | 0.546 | 0.023 |
 
-Calibration gate on the recalibrated score: PROMOTE. Brier skill 0.056, ECE 0.011. Regularization C = 1.0.
+Calibration gate on the recalibrated score: PROMOTE. Brier skill 0.074, ECE 0.009. Regularization C = 0.01.
 
 County variables kept (each keeps its sign on all 25 folds; standardized coefficients, positive means more often withdrew):
 
 | Variable | Coefficient | Fold min | Fold max |
 |---|---:|---:|---:|
-| the county's earlier requests: share withdrawn (smoothed) | 0.217 | 0.182 | 0.251 |
-| median household income (log) | -0.156 | -0.206 | -0.070 |
-| share with a bachelor's degree | 0.093 | 0.042 | 0.126 |
-| 2016 presidential margin (Republican minus Democratic) | 0.077 | 0.032 | 0.113 |
-| share of neighbouring counties with a dated severe rule | 0.068 | 0.012 | 0.104 |
-| solar and wind MW already operating (log) | -0.053 | -0.088 | -0.019 |
+| the state's earlier requests: share withdrawn (smoothed) | 0.235 | 0.201 | 0.266 |
+| neighbouring counties' earlier requests: share withdrawn (smoothed) | 0.175 | 0.152 | 0.206 |
+| median household income (log) | -0.116 | -0.141 | -0.056 |
+| the county's earlier requests: share withdrawn (smoothed) | 0.099 | 0.076 | 0.134 |
+| share of neighbouring counties with a dated severe rule | 0.079 | 0.041 | 0.107 |
+| share with a bachelor's degree | 0.079 | 0.050 | 0.099 |
+| presidential margin before the request (Democratic minus Republican) | 0.059 | 0.026 | 0.087 |
+| a local rule on the technology with no year | 0.047 | 0.017 | 0.081 |
+| solar and wind MW already operating (log) | -0.039 | -0.064 | -0.017 |
+| a severe local rule (severity 3 or 4) on the technology, dated before the request | -0.017 | -0.047 | -0.002 |
 
-Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on the technology, dated before the request; siting standards (severity 1 or 2) on the technology, dated before the request; a local rule on the technology with no year; the county's earlier requests: how many (log); population density (log).
+Dropped for changing sign across folds: siting standards (severity 1 or 2) on the technology, dated before the request; the county's earlier requests: how many (log); population density (log); contested renewables projects in the county before the request (log); data center opposition events in the county before the request (log).
 
 | Local rule in the county before the request | Requests with it | Share withdrew, with it | Share without it |
 |---|---:|---:|---:|
@@ -37,7 +41,7 @@ Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on
 | siting standards (severity 1 or 2) on the technology, dated before the request | 166 | 0.898 | 0.825 |
 | a local rule on the technology with no year | 1136 | 0.871 | 0.818 |
 
-Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.523.
+Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.528.
 
 ## Label: withdrawn within three years, requests made 2010 to 2022 in CAISO, ISO-NE, MISO and PJM (added after the first fit)
 
@@ -45,23 +49,24 @@ Check on contested projects: the county part of this score, applied to 163 conte
 
 | Measure | Request only | Request and county | Gain |
 |---|---:|---:|---:|
-| Cross-validated AUC (median of 25 folds) | 0.670 | 0.677 (p10 0.664, p90 0.689) | 0.007 |
-| State-grouped AUC (5 folds by state) | 0.647 | 0.655 | 0.008 |
-| Out of time: fit 2010 to 2018 (4069 requests), score 2019 to 2022 (5625) | 0.547 | 0.559 | 0.012 |
+| Cross-validated AUC (median of 25 folds) | 0.670 | 0.678 (p10 0.665, p90 0.689) | 0.007 |
+| State-grouped AUC (5 folds by state) | 0.647 | 0.654 | 0.006 |
+| Out of time: fit 2010 to 2018 (4069 requests), score 2019 to 2022 (5625) | 0.547 | 0.557 | 0.010 |
 
-Calibration gate on the recalibrated score: PROMOTE. Brier skill 0.087, ECE 0.029. Regularization C = 0.01.
+Calibration gate on the recalibrated score: PROMOTE. Brier skill 0.087, ECE 0.030. Regularization C = 0.01.
 
 County variables kept (each keeps its sign on all 25 folds; standardized coefficients, positive means more often withdrew within three years):
 
 | Variable | Coefficient | Fold min | Fold max |
 |---|---:|---:|---:|
-| the county's earlier requests: how many (log) | 0.132 | 0.097 | 0.160 |
-| 2016 presidential margin (Republican minus Democratic) | 0.118 | 0.095 | 0.139 |
-| median household income (log) | -0.103 | -0.120 | -0.078 |
-| solar and wind MW already operating (log) | -0.102 | -0.120 | -0.074 |
-| siting standards (severity 1 or 2) on the technology, dated before the request | -0.070 | -0.089 | -0.051 |
+| the county's earlier requests: how many (log) | 0.131 | 0.096 | 0.159 |
+| presidential margin before the request (Democratic minus Republican) | 0.127 | 0.107 | 0.147 |
+| median household income (log) | -0.101 | -0.115 | -0.077 |
+| solar and wind MW already operating (log) | -0.097 | -0.118 | -0.068 |
+| siting standards (severity 1 or 2) on the technology, dated before the request | -0.070 | -0.089 | -0.052 |
+| the state's earlier requests: share withdrawn (smoothed) | 0.028 | 0.012 | 0.050 |
 
-Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on the technology, dated before the request; a local rule on the technology with no year; share of neighbouring counties with a dated severe rule; the county's earlier requests: share withdrawn (smoothed); population density (log); share with a bachelor's degree.
+Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on the technology, dated before the request; a local rule on the technology with no year; share of neighbouring counties with a dated severe rule; the county's earlier requests: share withdrawn (smoothed); population density (log); share with a bachelor's degree; contested renewables projects in the county before the request (log); data center opposition events in the county before the request (log); neighbouring counties' earlier requests: share withdrawn (smoothed).
 
 | Local rule in the county before the request | Requests with it | Share withdrew within three years, with it | Share without it |
 |---|---:|---:|---:|
@@ -69,12 +74,12 @@ Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on
 | siting standards (severity 1 or 2) on the technology, dated before the request | 484 | 0.335 | 0.476 |
 | a local rule on the technology with no year | 1869 | 0.447 | 0.474 |
 
-Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.470.
+Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.471.
 
 ## Limits
 
 - Withdrawal is the outcome, and most withdrawals have market or grid reasons. The model cannot separate a withdrawal forced by local opposition from one forced by an interconnection cost.
 - A county's record is only as complete as its examination: most counties have not been examined, so "no rule before the request" can mean no source looked.
 - Many local rules have no year and cannot be placed before or after a request; they are flagged, not counted.
-- The census covariates are 2020 to 2024 values for requests made 2010 to 2022.
+- The census covariates are 2020 to 2024 values for requests made 2010 to 2022; the election margin is the one before each request.
 - The registered label leaves out requests still active, so it leans toward requests that resolved quickly. The three-year label keeps them, but only in the four regions that date their withdrawals.

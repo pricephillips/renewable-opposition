@@ -81,7 +81,11 @@ WORDS = {
     "log_density": "population density (log)",
     "log_income": "median household income (log)",
     "pct_bachelors_plus": "share with a bachelor's degree",
-    "margin": "2016 presidential margin (Republican minus Democratic)",
+    "margin": "presidential margin before the request (Democratic minus Republican)",
+    "log1p_contested_before": "contested renewables projects in the county before the request (log)",
+    "log1p_dc_events_before": "data center opposition events in the county before the request (log)",
+    "state_prior_withdrawal_share": "the state's earlier requests: share withdrawn (smoothed)",
+    "neighbor_prior_withdrawal_share": "neighbouring counties' earlier requests: share withdrawn (smoothed)",
 }
 
 
@@ -338,7 +342,7 @@ def report(results: list[dict]) -> str:
         "- A county's record is only as complete as its examination: most counties have not been examined, so "
         "\"no rule before the request\" can mean no source looked.",
         "- Many local rules have no year and cannot be placed before or after a request; they are flagged, not counted.",
-        "- The census covariates are 2020 to 2024 values for requests made 2010 to 2022.",
+        "- The census covariates are 2020 to 2024 values for requests made 2010 to 2022; the election margin is the one before each request.",
         "- The registered label leaves out requests still active, so it leans toward requests that resolved quickly. "
         "The three-year label keeps them, but only in the four regions that date their withdrawals.",
         "",

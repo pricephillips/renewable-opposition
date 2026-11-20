@@ -17,9 +17,9 @@ A learner ships only when it has the best mean holdout AUC, passes the calibrati
 
 | Learner | Holdout AUC, request and county | Request only | Gain from the county | Brier skill | Gate |
 |---|---|---|---|---|---|
-| logistic regression | 0.592, 0.534 | 0.592, 0.529 | 0.000, 0.005 | -0.005, -0.199 | HOLD |
-| gradient-boosted trees | 0.642, 0.650 | 0.632, 0.709 | 0.010, -0.059 | 0.013, -0.055 | HOLD |
-| neural net | 0.666, 0.591 | 0.611, 0.579 | 0.055, 0.012 | 0.068, -0.044 | HOLD |
+| logistic regression | 0.599, 0.543 | 0.592, 0.529 | 0.008, 0.014 | -0.001, -0.235 | HOLD |
+| gradient-boosted trees | 0.618, 0.628 | 0.632, 0.709 | -0.014, -0.081 | -0.012, -0.057 | HOLD |
+| neural net | 0.620, 0.580 | 0.611, 0.579 | 0.009, 0.001 | 0.047, -0.058 | HOLD |
 
 ## Label: withdrawn within three years, requests made 2010 to 2022 in CAISO, ISO-NE, MISO and PJM (added after the first fit)
 
@@ -32,8 +32,8 @@ A learner ships only when it has the best mean holdout AUC, passes the calibrati
 
 | Learner | Holdout AUC, request and county | Request only | Gain from the county | Brier skill | Gate |
 |---|---|---|---|---|---|
-| logistic regression | 0.511, 0.546 | 0.514, 0.533 | -0.004, 0.013 | -0.036, 0.132 | HOLD |
-| gradient-boosted trees | 0.542, 0.587 | 0.558, 0.553 | -0.016, 0.034 | -0.050, 0.069 | HOLD |
-| neural net | 0.519, 0.579 | 0.522, 0.537 | -0.003, 0.041 | -0.018, 0.094 | HOLD |
+| logistic regression | 0.511, 0.540 | 0.514, 0.533 | -0.003, 0.008 | -0.036, 0.131 | HOLD |
+| gradient-boosted trees | 0.532, 0.582 | 0.558, 0.553 | -0.026, 0.029 | -0.066, 0.057 | HOLD |
+| neural net | 0.515, 0.578 | 0.522, 0.537 | -0.007, 0.041 | -0.015, 0.123 | HOLD |
 
 Each cell lists the holdouts in the order of the first table.
