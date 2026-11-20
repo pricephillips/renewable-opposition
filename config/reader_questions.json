@@ -7,7 +7,7 @@
     "generic (no client, no county) and say which check, if any, answers it.",
     "Questions after 'record_behind_points' come from a staff audit of the pilot across many counties on 2026-11-19."
   ],
-  "version": "2026-11-19",
+  "version": "2026-11-20",
   "questions": [
     {"id": "headline_matches_rows", "ask": "Does the headline match the rules listed below it? A county with a moratorium or ban in force must not read as having no restrictions, and a ban or moratorium on another use (data centers) must not read as one on renewables.", "check": "HEADLINE_RECORD_MISMATCH"},
     {"id": "how_long", "ask": "How long has the moratorium been in force, and when does it end?", "check": "PAUSE_NO_END_DATE"},
@@ -54,6 +54,7 @@
     {"id": "case_dates", "ask": "When was a court case filed and decided, and is the case linked to the project?", "check": ""},
     {"id": "group_is_renewables", "ask": "Is a named opposition group about this renewables project, or about another use such as data centers?", "check": ""},
     {"id": "state_override_on_row", "ask": "Can state law override this local rule, and does the row say so?", "check": "STATE_RULES_NOT_SHOWN"},
-    {"id": "low_confidence_flag", "ask": "Is a low-confidence row flagged as such, and is any internal wording (reviewer notes, research budget) kept out of the text the reader sees?", "check": ""}
+    {"id": "low_confidence_flag", "ask": "Is a low-confidence row flagged as such, and is any internal wording (reviewer notes, research budget) kept out of the text the reader sees?", "check": ""},
+    {"id": "no_walls_of_text", "ask": "Can a reader take in each section at a glance? Table cells hold short labels (a kind of rule, a status with its end date, terms such as \"Pause, 11 months, extended once\"), and the detail (full terms, summaries, citations, dates last read) sits behind a row's expander or a Show all button. A cell or note that runs past about four lines, or repeats what the next column already says, is a finding (Price, 2026-11-20: keep the dashboard clean, no walls of text).", "check": ""}
   ]
 }
