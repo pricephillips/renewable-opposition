@@ -1,0 +1,57 @@
+{
+  "_comment": "Pre-registration for the Renewable Headwind Model's project part (docs/headwind_model.md). Committed before any fit; a change after the first fit is appended to amendments with its date and reason, never an edit in place. Only descriptive counts of data/reference/queue_projects.csv (requests by request year and status) had been looked at when this was written.",
+  "registered": "2026-11-20",
+  "requested_by": "Price, 2026-11-20: keep building the predictive model, named the Renewable Headwind Model.",
+  "amendments": [],
+  "frame": {
+    "source": "data/reference/queue_projects.csv (LBNL Queued Up, data through 2025)",
+    "rows": "requests whose technology includes solar, wind or battery_storage, not offshore, with a county_fips and a request_date in 2010 to 2019",
+    "resolved": "status withdrawn with a withdrawn_date, or status operational with an operational_date; active, suspended and unknown requests are left out of the fit and counted in the report",
+    "why_2010_2019": "requests made in 2020 or later are still mostly active, and the ones already resolved are mostly quick withdrawals, which would bias the label"
+  },
+  "label": {
+    "name": "withdrawn",
+    "positive": "status withdrawn (1); status operational is 0",
+    "caution": "A withdrawal is not opposition. Most withdrawals have market or grid reasons. The label is the outcome the county's record is set beside, not a measure of opposition."
+  },
+  "snapshot": {
+    "as_of": "1 January of the request year: only facts dated in earlier years enter a request's row",
+    "restriction_year": "year of date_enacted_iso, else the first four-digit year in date_text (scripts/county_labels.py year_of); an undated restriction never counts as before",
+    "technology_match": "a restriction counts for a request when they share a technology",
+    "touches": "every county in a restriction's county_fips_all"
+  },
+  "base": {
+    "_comment": "Always in the model. They describe the request and its market, not the county's record.",
+    "variables": ["request_year", "log_capacity_mw", "tech_solar", "tech_wind", "tech_storage", "region_*"]
+  },
+  "variables": {
+    "severe_before": "1 when the county has a severity 3 or 4 restriction on the request's technology dated before the request year",
+    "standards_before": "1 when the county has a severity 1 or 2 restriction on the request's technology dated before the request year",
+    "undated_rule": "1 when the county has a restriction on the request's technology with no year (it cannot be placed before or after the request)",
+    "neighbor_severe_share": "share of adjacent counties with a severity 3 or 4 restriction on any technology dated before the request year",
+    "prior_withdrawal_share": "smoothed share of the county's earlier requests that had withdrawn before this request's date, among those resolved before it: (withdrawn + 5 * 0.8) / (resolved + 5)",
+    "log1p_prior_requests": "log of 1 + the county's requests made before this request's date",
+    "log1p_operating_mw": "log of 1 + solar and wind MW operating in the county at the end of the year before the request year (data/reference/facilities.csv)",
+    "log_density": "log population density, ACS 2020-2024 (static; leakage class none)",
+    "log_income": "log median household income, ACS 2020-2024 (static)",
+    "pct_bachelors_plus": "share of adults with a bachelor's degree or more, ACS 2020-2024 (static)",
+    "margin": "Republican minus Democratic two-party margin, 2016 presidential (the earliest in the covariates)"
+  },
+  "method": {
+    "model": "L2 logistic regression on standardized variables (scikit-learn), as scripts/county_restriction_model.py",
+    "cv": {"folds": 5, "repeats": 5, "seed": 20261120},
+    "c_grid": [0.01, 0.1, 1.0],
+    "variable_rule": "the data center rule registered 2026-08-26: a county variable stays only if its coefficient keeps its sign on all 25 folds; the least stable is dropped one at a time; base variables are never dropped",
+    "comparison": "the base model alone, on the same folds; the headwind variables earn their place only by the gain in out-of-fold AUC over it",
+    "state_grouped": "five folds grouped by state, reported beside the stratified result",
+    "out_of_time": "fit on requests made 2010 to 2016, scored on requests made 2017 to 2019",
+    "gate": "scripts/calibration_gate.py on the cross-fitted recalibrated out-of-fold score",
+    "promote": "the gate says PROMOTE and the headwind variables add at least 0.01 AUC over the base model, both stratified and out of time"
+  },
+  "secondary": {
+    "name": "contested_blocked",
+    "frame": "contested projects in data/processed/contested_projects.csv with outcome blocked_confirmed or advanced_confirmed, a county and a year (resolution_date, else the first year in event_date_text)",
+    "positive": "blocked_confirmed",
+    "use": "scored with the primary model's county variables as of the project's year; reported as a check only, never fit on its own while it has under 200 cases"
+  }
+}
