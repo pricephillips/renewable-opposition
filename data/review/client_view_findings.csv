@@ -5,18 +5,14 @@ county_fips,state,county,check,route,instrument_id,detail
 04001,AZ,Apache,PAUSE_NO_START_DATE,restriction,sabin:S26R-6258,"Apache County (solar;wind): no enactment date, so its time in force is unknown"
 04001,AZ,Apache,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6258,Apache County (solar;wind): the source files it as 'ban or moratorium' without saying which
 04001,AZ,Apache,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6258,"Apache County (solar;wind): severity 4 in force, not yet read against its source"
-04005,AZ,Coconino,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.65, national rank 347 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-04015,AZ,Mohave,PAUSE_NO_END_DATE,status,sabin:REC-0010,Mohave County (solar): in force with no end date on record
-04015,AZ,Mohave,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0010,Mohave County (solar): the record does not say whether rules are being drafted
-04015,AZ,Mohave,PAUSE_NO_START_DATE,restriction,sabin:REC-0010,"Mohave County (solar): no enactment date, so its time in force is unknown"
-04015,AZ,Mohave,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0010,"Mohave County (solar): severity 4 in force, not yet read against its source"
+04005,AZ,Coconino,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.65, national rank 313 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+04015,AZ,Mohave,PAST_END_DATE,status,sabin:REC-0010,"Mohave County (solar): runs to 2024-02 (term); nothing on record says whether it was extended, replaced or lapsed"
 04017,AZ,Navajo,PAUSE_NO_START_DATE,restriction,sabin:S26R-6256,"Navajo County (solar;wind): no enactment date, so its time in force is unknown"
 04017,AZ,Navajo,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6256,Navajo County (solar;wind): the source files it as 'ban or moratorium' without saying which
 04017,AZ,Navajo,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6256,"Navajo County (solar;wind): severity 4 in force, not yet read against its source"
 04021,AZ,Pinal,PAUSE_NO_START_DATE,restriction,sabin:REC-0009,"Coolidge City (solar): no enactment date, so its time in force is unknown"
 04021,AZ,Pinal,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0009,Coolidge City (solar): the source files it as 'ban or moratorium' without saying which
 04021,AZ,Pinal,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0009,"Coolidge City (solar): severity 4 in force, not yet read against its source"
-05015,AR,Carroll,PAUSE_NO_END_DATE,status,sabin:S26R-6253,Carroll County (solar;wind): in force with no end date on record
 05015,AR,Carroll,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6253,Carroll County (solar;wind): the record does not say whether rules are being drafted
 05015,AR,Carroll,PAUSE_NO_START_DATE,restriction,sabin:S26R-6253,"Carroll County (solar;wind): no enactment date, so its time in force is unknown"
 05015,AR,Carroll,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6253,"Carroll County (solar;wind): severity 4 in force, not yet read against its source"
@@ -71,26 +67,18 @@ county_fips,state,county,check,route,instrument_id,detail
 08033,CO,Dolores,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6233,Dolores County (solar;wind): the source files it as 'ban or moratorium' without saying which
 08033,CO,Dolores,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6233,"Dolores County (solar;wind): severity 4 in force, not yet read against its source"
 08049,CO,Grand,PAUSE_DRAFTING_UNKNOWN,status,mn:co-grand-county-2025,Grand County (battery_storage;solar;wind): the record does not say whether rules are being drafted
-08073,CO,Lincoln,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 284 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-08077,CO,Mesa,PAUSE_NO_END_DATE,status,sabin:REC-0031,Mesa County (solar): in force with no end date on record
-08077,CO,Mesa,PAUSE_NO_START_DATE,restriction,sabin:REC-0031,"Mesa County (solar): no enactment date, so its time in force is unknown"
-08077,CO,Mesa,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0031,"Mesa County (solar): severity 4 in force, not yet read against its source"
+08073,CO,Lincoln,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 267 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+08077,CO,Mesa,PAST_END_DATE,status,sabin:REC-0031,"Mesa County (solar): runs to 2024-07 (term); nothing on record says whether it was extended, replaced or lapsed"
 08085,CO,Montrose,PAUSE_NO_END_DATE,status,sabin:REC-0032,Montrose County (solar;wind): in force with no end date on record
 08085,CO,Montrose,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0032,Montrose County (solar;wind): the record does not say whether rules are being drafted
 08085,CO,Montrose,PAUSE_NO_START_DATE,restriction,sabin:REC-0032,"Montrose County (solar;wind): no enactment date, so its time in force is unknown"
 08085,CO,Montrose,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0032,"Montrose County (solar;wind): severity 4 in force, not yet read against its source"
 08095,CO,Phillips,PAST_END_DATE,status,sabin:S26R-6225,"Phillips County (battery_storage;solar): runs to 2026-03-30 (text); nothing on record says whether it was extended, replaced or lapsed"
-08095,CO,Phillips,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6225,Phillips County (battery_storage;solar): the record does not say whether rules are being drafted
-08095,CO,Phillips,PAUSE_NO_START_DATE,restriction,sabin:S26R-6225,"Phillips County (battery_storage;solar): no enactment date, so its time in force is unknown"
-08095,CO,Phillips,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6225,"Phillips County (battery_storage;solar): severity 4 in force, not yet read against its source"
-08113,CO,San Miguel,PAUSE_NO_END_DATE,status,sabin:REC-0034,San Miguel County (solar): in force with no end date on record
-08113,CO,San Miguel,PAUSE_NO_START_DATE,restriction,sabin:REC-0034,"San Miguel County (solar): no enactment date, so its time in force is unknown"
-08113,CO,San Miguel,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0034,"San Miguel County (solar): severity 4 in force, not yet read against its source"
+08113,CO,San Miguel,PAST_END_DATE,status,sabin:REC-0034,"San Miguel County (solar): runs to 2024-11 (text); nothing on record says whether it was extended, replaced or lapsed"
 08123,CO,Weld,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6220,"Weld County (wind): severity 3 in force, not yet read against its source"
 09140,CT,Naugatuck Valley,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6218,"Waterbury (wind): severity 3 in force, not yet read against its source"
 09140,CT,Naugatuck Valley,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6217,"Wolcott (wind): severity 3 in force, not yet read against its source"
 09150,CT,Northeastern Connecticut,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6216,"Union (wind): severity 3 in force, not yet read against its source"
-09160,CT,Northwest Hills,PAUSE_NO_END_DATE,status,mn:ct-morris-2026,Morris (battery_storage): in force with no end date on record
 09160,CT,Northwest Hills,UNVERIFIED_IN_HEADLINE,restriction,mn:ct-morris-2026,"Morris (battery_storage): severity 4 in force, not yet read against its source"
 09160,CT,Northwest Hills,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6215,"Canaan (wind): severity 3 in force, not yet read against its source"
 09160,CT,Northwest Hills,PAUSE_NO_START_DATE,restriction,sabin:S26R-6213,"Goshen (wind): no enactment date, so its time in force is unknown"
@@ -116,7 +104,7 @@ county_fips,state,county,check,route,instrument_id,detail
 10005,DE,Sussex,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0043,Town of Bethany Beach (solar): the source files it as 'ban or moratorium' without saying which
 10005,DE,Sussex,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0043,"Town of Bethany Beach (solar): severity 4 in force, not yet read against its source"
 13035,GA,Butts,PAUSE_NO_START_DATE,restriction,nrel:wind:13035,"Butts County (wind): no enactment date, so its time in force is unknown"
-13035,GA,Butts,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.73, national rank 314 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+13035,GA,Butts,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.71, national rank 290 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 13081,GA,Crisp,PAUSE_NO_START_DATE,restriction,sabin:S26R-6199,"Crisp County (solar): no enactment date, so its time in force is unknown"
 13081,GA,Crisp,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6199,Crisp County (solar): the source files it as 'ban or moratorium' without saying which
 13081,GA,Crisp,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6199,"Crisp County (solar): severity 4 in force, not yet read against its source"
@@ -125,26 +113,20 @@ county_fips,state,county,check,route,instrument_id,detail
 13095,GA,Dougherty,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6197,"Dougherty County (wind): severity 4 in force, not yet read against its source"
 13119,GA,Franklin,PAUSE_NO_START_DATE,restriction,sabin:REC-0055,"Franklin County (solar;wind): no enactment date, so its time in force is unknown"
 13119,GA,Franklin,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0055,"Franklin County (solar;wind): severity 4 in force, not yet read against its source"
-13153,GA,Houston,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 27.2, national rank 299 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+13153,GA,Houston,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 27.2, national rank 280 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 13161,GA,Jeff Davis,PAUSE_NO_START_DATE,restriction,sabin:REC-0058,"Jeff Davis County (solar): no enactment date, so its time in force is unknown"
 13161,GA,Jeff Davis,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0058,"Jeff Davis County (solar): severity 4 in force, not yet read against its source"
 13173,GA,Lanier,PAUSE_NO_START_DATE,restriction,nrel:wind:13173,"Lanier County (wind): no enactment date, so its time in force is unknown"
-13173,GA,Lanier,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.95, national rank 343 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-13221,GA,Oglethorpe,PAUSE_NO_END_DATE,status,sabin:REC-0060,Oglethorpe County (solar): in force with no end date on record
-13221,GA,Oglethorpe,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0060,Oglethorpe County (solar): the record does not say whether rules are being drafted
-13221,GA,Oglethorpe,PAUSE_NO_START_DATE,restriction,sabin:REC-0060,"Oglethorpe County (solar): no enactment date, so its time in force is unknown"
-13221,GA,Oglethorpe,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0060,"Oglethorpe County (solar): severity 4 in force, not yet read against its source"
+13173,GA,Lanier,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.93, national rank 306 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+13221,GA,Oglethorpe,PAST_END_DATE,status,sabin:REC-0060,"Oglethorpe County (solar): runs to 2023-09 (text); nothing on record says whether it was extended, replaced or lapsed"
 13241,GA,Rabun,PAUSE_NO_START_DATE,restriction,sabin:S26R-6188,"Rabun County (solar): no enactment date, so its time in force is unknown"
 13241,GA,Rabun,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6188,Rabun County (solar): the source files it as 'ban or moratorium' without saying which
 13241,GA,Rabun,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6188,"Rabun County (solar): severity 4 in force, not yet read against its source"
 13247,GA,Rockdale,PAST_END_DATE,status,mn:ga-rockdale-county-undated,"Rockdale County (battery_storage): runs to 2026-10-01 (record); nothing on record says whether it was extended, replaced or lapsed"
-13275,GA,Thomas,PAUSE_NO_END_DATE,status,sabin:REC-0061,Thomas County (solar): in force with no end date on record
-13275,GA,Thomas,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0061,Thomas County (solar): the record does not say whether rules are being drafted
-13275,GA,Thomas,PAUSE_NO_START_DATE,restriction,sabin:REC-0061,"Thomas County (solar): no enactment date, so its time in force is unknown"
-13275,GA,Thomas,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0061,"Thomas County (solar): severity 4 in force, not yet read against its source"
+13275,GA,Thomas,PAST_END_DATE,status,sabin:REC-0061,"Thomas County (solar): runs to 2017-05 (text); nothing on record says whether it was extended, replaced or lapsed"
 15003,HI,Honolulu,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0066,"Honolulu City (wind): severity 3 in force, not yet read against its source"
 15003,HI,Honolulu,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6185,"Honolulu County (wind): severity 3 in force, not yet read against its source"
-16005,ID,Bannock,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.21, national rank 280 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+16005,ID,Bannock,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.16, national rank 264 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 16031,ID,Cassia,PAUSE_NO_START_DATE,restriction,sabin:S26R-6181,"Cassia County (solar): no enactment date, so its time in force is unknown"
 16031,ID,Cassia,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6181,Cassia County (solar): the source files it as 'ban or moratorium' without saying which
 16031,ID,Cassia,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6181,"Cassia County (solar): severity 4 in force, not yet read against its source"
@@ -156,7 +138,7 @@ county_fips,state,county,check,route,instrument_id,detail
 16047,ID,Gooding,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6178,"Gooding County (solar;wind): severity 4 in force, not yet read against its source"
 16063,ID,Lincoln,PAUSE_NO_START_DATE,restriction,nrel:solar:16063,"Lincoln County (solar): no enactment date, so its time in force is unknown"
 16063,ID,Lincoln,PAUSE_NO_START_DATE,restriction,nrel:wind:16063,"Lincoln County (wind): no enactment date, so its time in force is unknown"
-16063,ID,Lincoln,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 41.88, national rank 65 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+16063,ID,Lincoln,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 41.88, national rank 59 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 16081,ID,Teton,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6176,"Teton County (wind): severity 3 in force, not yet read against its source"
 16083,ID,Twin Falls,PAUSE_NO_END_DATE,status,sabin:REC-0073,Twin Falls County (solar;wind): in force with no end date on record
 16083,ID,Twin Falls,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0073,Twin Falls County (solar;wind): the record does not say whether rules are being drafted
@@ -202,10 +184,7 @@ county_fips,state,county,check,route,instrument_id,detail
 17139,IL,Moultrie,PAUSE_NO_START_DATE,restriction,sabin:S26R-6162,"Moultrie County (wind): no enactment date, so its time in force is unknown"
 17139,IL,Moultrie,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6162,Moultrie County (wind): the source files it as 'ban or moratorium' without saying which
 17139,IL,Moultrie,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6162,"Moultrie County (wind): severity 4 in force, not yet read against its source"
-17147,IL,Piatt,PAUSE_NO_END_DATE,status,sabin:REC-0081,Piatt County (wind): in force with no end date on record
-17147,IL,Piatt,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0081,Piatt County (wind): the record does not say whether rules are being drafted
-17147,IL,Piatt,PAUSE_NO_START_DATE,restriction,sabin:REC-0081,"Piatt County (wind): no enactment date, so its time in force is unknown"
-17147,IL,Piatt,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0081,"Piatt County (wind): severity 4 in force, not yet read against its source"
+17147,IL,Piatt,PAST_END_DATE,status,sabin:REC-0081,"Piatt County (wind): runs to 2023-09 (text); nothing on record says whether it was extended, replaced or lapsed"
 17167,IL,Sangamon,PAUSE_NO_START_DATE,restriction,sabin:S26R-6158,"Sangamon County (wind): no enactment date, so its time in force is unknown"
 17167,IL,Sangamon,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6158,Sangamon County (wind): the source files it as 'ban or moratorium' without saying which
 17167,IL,Sangamon,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6158,"Sangamon County (wind): severity 4 in force, not yet read against its source"
@@ -223,12 +202,9 @@ county_fips,state,county,check,route,instrument_id,detail
 18009,IN,Blackford,PAUSE_NO_START_DATE,restriction,sabin:S26R-6152,"Blackford County (solar;wind): no enactment date, so its time in force is unknown"
 18009,IN,Blackford,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6152,Blackford County (solar;wind): the source files it as 'ban or moratorium' without saying which
 18009,IN,Blackford,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6152,"Blackford County (solar;wind): severity 4 in force, not yet read against its source"
-18011,IN,Boone,PAUSE_NO_END_DATE,status,sabin:REC-0087,Boone County (battery_storage;solar;wind): in force with no end date on record
-18011,IN,Boone,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0087,Boone County (battery_storage;solar;wind): the record does not say whether rules are being drafted
-18011,IN,Boone,PAUSE_NO_START_DATE,restriction,sabin:REC-0087,"Boone County (battery_storage;solar;wind): no enactment date, so its time in force is unknown"
-18011,IN,Boone,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0087,"Boone County (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
+18011,IN,Boone,PAST_END_DATE,status,sabin:REC-0087,"Boone County (battery_storage;solar;wind): runs to 2026-04 (term); nothing on record says whether it was extended, replaced or lapsed"
 18011,IN,Boone,UNVERIFIED_IN_HEADLINE,restriction,nrel:solar:18011,"Boone County (solar): severity 3 in force, not yet read against its source"
-18015,IN,Carroll,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 284 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+18015,IN,Carroll,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 267 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18019,IN,Clark,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0088,"Clark County (solar): severity 3 in force, not yet read against its source"
 18023,IN,Clinton,PAUSE_NO_END_DATE,status,sabin:REC-0089,Clinton (wind): in force with no end date on record
 18023,IN,Clinton,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0089,Clinton (wind): the record does not say whether rules are being drafted
@@ -241,25 +217,25 @@ county_fips,state,county,check,route,instrument_id,detail
 18031,IN,Decatur,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6148,Decatur County (solar;wind): the record does not say whether rules are being drafted
 18031,IN,Decatur,PAUSE_NO_START_DATE,restriction,sabin:S26R-6148,"Decatur County (solar;wind): no enactment date, so its time in force is unknown"
 18031,IN,Decatur,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6148,"Decatur County (solar;wind): severity 4 in force, not yet read against its source"
-18033,IN,DeKalb,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.05, national rank 193 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+18033,IN,DeKalb,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.05, national rank 183 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18035,IN,Delaware,PAUSE_NO_END_DATE,status,sabin:REC-0090,Delaware County (solar): in force with no end date on record
 18035,IN,Delaware,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0090,Delaware County (solar): the record does not say whether rules are being drafted
 18035,IN,Delaware,PAUSE_NO_START_DATE,restriction,sabin:REC-0090,"Delaware County (solar): no enactment date, so its time in force is unknown"
 18035,IN,Delaware,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0090,"Delaware County (solar): severity 4 in force, not yet read against its source"
 18039,IN,Elkhart,UNVERIFIED_IN_HEADLINE,restriction,mn:in-elkhart-2026,"Elkhart (battery_storage): severity 4 in force, not yet read against its source"
-18041,IN,Fayette,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.46, national rank 250 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+18041,IN,Fayette,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.19, national rank 235 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18049,IN,Fulton,PAUSE_NO_START_DATE,restriction,sabin:REC-0091,"Fulton County (wind): no enactment date, so its time in force is unknown"
 18049,IN,Fulton,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0091,"Fulton County (wind): severity 4 in force, not yet read against its source"
 18057,IN,Hamilton,PAUSE_NO_START_DATE,restriction,sabin:S26R-6142,"Hamilton County (solar): no enactment date, so its time in force is unknown"
 18057,IN,Hamilton,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6142,"Hamilton County (solar): severity 4 in force, not yet read against its source"
 18057,IN,Hamilton,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0092,"Hamilton County (wind): severity 3 in force, not yet read against its source"
-18063,IN,Hendricks,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+18063,IN,Hendricks,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18065,IN,Henry,PAUSE_NO_START_DATE,restriction,sabin:REC-0093,"Henry County (wind): no enactment date, so its time in force is unknown"
 18065,IN,Henry,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0093,Henry County (wind): the source files it as 'ban or moratorium' without saying which
 18065,IN,Henry,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0093,"Henry County (wind): severity 4 in force, not yet read against its source"
 18065,IN,Henry,PAUSE_NO_START_DATE,restriction,nrel:solar:18065,"Henry County (solar): no enactment date, so its time in force is unknown"
-18069,IN,Huntington,PAUSE_NO_END_DATE,status,mn:in-huntington-county-2026,Huntington County (battery_storage): in force with no end date on record
-18069,IN,Huntington,UNVERIFIED_IN_HEADLINE,restriction,mn:in-huntington-county-2026,"Huntington County (battery_storage): severity 4 in force, not yet read against its source"
+18069,IN,Huntington,PAST_END_DATE,status,mn:in-huntington-county-2026,"Huntington County (battery_storage): runs to 2026-09 (text); nothing on record says whether it was extended, replaced or lapsed"
+18069,IN,Huntington,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18085,IN,Kosciusko,PAUSE_NO_END_DATE,status,sabin:REC-0096,Kosciusko County (solar;wind): in force with no end date on record
 18085,IN,Kosciusko,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0096,Kosciusko County (solar;wind): the record does not say whether rules are being drafted
 18085,IN,Kosciusko,PAUSE_NO_START_DATE,restriction,sabin:REC-0096,"Kosciusko County (solar;wind): no enactment date, so its time in force is unknown"
@@ -279,7 +255,7 @@ county_fips,state,county,check,route,instrument_id,detail
 18099,IN,Marshall,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0099,"Marshall County (wind): severity 4 in force, not yet read against its source"
 18103,IN,Miami,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0100,"Miami County (wind): severity 3 in force, not yet read against its source"
 18113,IN,Noble,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6130,"Noble County (wind): severity 3 in force, not yet read against its source"
-18127,IN,Porter,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.5, national rank 181 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+18127,IN,Porter,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.5, national rank 174 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18129,IN,Posey,PAUSE_NO_START_DATE,restriction,sabin:S26R-6129,"Posey County (solar;wind): no enactment date, so its time in force is unknown"
 18129,IN,Posey,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6129,"Posey County (solar;wind): severity 4 in force, not yet read against its source"
 18131,IN,Pulaski,PAUSE_NO_START_DATE,restriction,sabin:S26R-6128,"Pulaski County (wind): no enactment date, so its time in force is unknown"
@@ -288,7 +264,7 @@ county_fips,state,county,check,route,instrument_id,detail
 18133,IN,Putnam,PAUSE_DRAFTING_UNKNOWN,status,mn:in-putnam-county-2025,Putnam County (solar;wind): the record does not say whether rules are being drafted
 18133,IN,Putnam,UNVERIFIED_IN_HEADLINE,restriction,mn:in-putnam-county-2025,"Putnam County (solar;wind): severity 4 in force, not yet read against its source"
 18139,IN,Rush,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6127,"Rush County (wind): severity 3 in force, not yet read against its source"
-18147,IN,Spencer,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 284 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+18147,IN,Spencer,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 267 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 18157,IN,Tippecanoe,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6124,"Tippecanoe County (wind): severity 3 in force, not yet read against its source"
 18165,IN,Vermillion,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6122,"Vermillion County (wind): severity 3 in force, not yet read against its source"
 18169,IN,Wabash,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6121,"Wabash County (wind): severity 3 in force, not yet read against its source"
@@ -304,37 +280,24 @@ county_fips,state,county,check,route,instrument_id,detail
 19019,IA,Buchanan,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ia-buchanan-county-2026,"Buchanan County (battery_storage): marked extended, with no extension date on record"
 19019,IA,Buchanan,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-buchanan-county-2026,Buchanan County (battery_storage): the record does not say whether rules are being drafted
 19019,IA,Buchanan,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-buchanan-county-2026,"Buchanan County (battery_storage): severity 4 in force, not yet read against its source"
-19021,IA,Buena Vista,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-19023,IA,Butler,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 31.05, national rank 223 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-19025,IA,Calhoun,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-19033,IA,Cerro Gordo,PAUSE_NO_END_DATE,status,sabin:REC-0105,Cerro Gordo County (battery_storage;solar;wind): in force with no end date on record
-19033,IA,Cerro Gordo,PAUSE_NO_START_DATE,restriction,sabin:REC-0105,"Cerro Gordo County (battery_storage;solar;wind): no enactment date, so its time in force is unknown"
-19033,IA,Cerro Gordo,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0105,"Cerro Gordo County (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
+19021,IA,Buena Vista,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19023,IA,Butler,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 31.05, national rank 207 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19025,IA,Calhoun,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19033,IA,Cerro Gordo,PAST_END_DATE,status,sabin:REC-0105,"Cerro Gordo County (battery_storage;solar;wind): runs to 2024-08 (term); nothing on record says whether it was extended, replaced or lapsed"
 19039,IA,Clarke,PAUSE_NO_END_DATE,status,queue:q_4083158e5e,Clarke County (solar): in force with no end date on record
 19039,IA,Clarke,PAUSE_DRAFTING_UNKNOWN,status,queue:q_4083158e5e,Clarke County (solar): the record does not say whether rules are being drafted
-19045,IA,Clinton,PAUSE_NO_END_DATE,status,sabin:REC-0107,Clinton County (wind): in force with no end date on record
-19045,IA,Clinton,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0107,Clinton County (wind): the record does not say whether rules are being drafted
-19045,IA,Clinton,PAUSE_NO_START_DATE,restriction,sabin:REC-0107,"Clinton County (wind): no enactment date, so its time in force is unknown"
-19045,IA,Clinton,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0107,"Clinton County (wind): severity 4 in force, not yet read against its source"
+19045,IA,Clinton,PAST_END_DATE,status,sabin:REC-0107,"Clinton County (wind): runs to 2025-06 (text); nothing on record says whether it was extended, replaced or lapsed"
 19049,IA,Dallas,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0108,"Dallas County (wind): severity 3 in force, not yet read against its source"
 19053,IA,Decatur,PAST_END_DATE,status,sabin:S26R-6109,"Decatur County (solar;wind): runs to 2026-06-01 (text); nothing on record says whether it was extended, replaced or lapsed"
-19053,IA,Decatur,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6109,Decatur County (solar;wind): the record does not say whether rules are being drafted
-19053,IA,Decatur,PAUSE_NO_START_DATE,restriction,sabin:S26R-6109,"Decatur County (solar;wind): no enactment date, so its time in force is unknown"
-19053,IA,Decatur,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6109,"Decatur County (solar;wind): severity 4 in force, not yet read against its source"
 19059,IA,Dickinson,PAST_END_DATE,status,mn:ia-dickinson-county-2026,"Dickinson County (battery_storage;solar): runs to 2026-11-12 (text); nothing on record says whether it was extended, replaced or lapsed"
-19059,IA,Dickinson,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-dickinson-county-2026,Dickinson County (battery_storage;solar): the record does not say whether rules are being drafted
-19059,IA,Dickinson,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-dickinson-county-2026,"Dickinson County (battery_storage;solar): severity 4 in force, not yet read against its source"
 19063,IA,Emmet,PAUSE_NO_END_DATE,status,mn:ia-emmet-county-2025,Emmet County (battery_storage;solar): in force with no end date on record
 19063,IA,Emmet,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ia-emmet-county-2025,"Emmet County (battery_storage;solar): marked extended, with no extension date on record"
 19063,IA,Emmet,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-emmet-county-2025,"Emmet County (battery_storage;solar): severity 4 in force, not yet read against its source"
 19067,IA,Floyd,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-floyd-county-2023,Floyd County (battery_storage): the record does not say whether rules are being drafted
 19067,IA,Floyd,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-floyd-county-2023,"Floyd County (battery_storage): severity 4 in force, not yet read against its source"
 19067,IA,Floyd,PAST_END_DATE,status,sabin:S26R-6105,"Floyd County (solar): runs to 2024-05-20 (text); nothing on record says whether it was extended, replaced or lapsed"
-19067,IA,Floyd,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6105,Floyd County (solar): the record does not say whether rules are being drafted
-19067,IA,Floyd,PAUSE_NO_START_DATE,restriction,sabin:S26R-6105,"Floyd County (solar): no enactment date, so its time in force is unknown"
-19067,IA,Floyd,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6105,"Floyd County (solar): severity 4 in force, not yet read against its source"
 19067,IA,Floyd,PAUSE_NO_START_DATE,restriction,nrel:wind:19067,"Floyd County (wind): no enactment date, so its time in force is unknown"
-19071,IA,Fremont,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 31.05, national rank 223 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19071,IA,Fremont,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 31.05, national rank 207 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 19075,IA,Grundy,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0112,"Grundy County (wind): severity 3 in force, not yet read against its source"
 19083,IA,Hardin,PAUSE_NO_END_DATE,status,sabin:REC-0113,Hardin County (wind): in force with no end date on record
 19083,IA,Hardin,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0113,Hardin County (wind): the record does not say whether rules are being drafted
@@ -342,10 +305,7 @@ county_fips,state,county,check,route,instrument_id,detail
 19083,IA,Hardin,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0113,"Hardin County (wind): severity 4 in force, not yet read against its source"
 19087,IA,Henry,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-henry-county-2026,Henry County (battery_storage): the record does not say whether rules are being drafted
 19087,IA,Henry,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-henry-county-2026,"Henry County (battery_storage): severity 4 in force, not yet read against its source"
-19087,IA,Henry,PAUSE_NO_END_DATE,status,sabin:S26R-6099,Henry County (solar): in force with no end date on record
-19087,IA,Henry,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6099,Henry County (solar): the record does not say whether rules are being drafted
-19087,IA,Henry,PAUSE_NO_START_DATE,restriction,sabin:S26R-6099,"Henry County (solar): no enactment date, so its time in force is unknown"
-19087,IA,Henry,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6099,"Henry County (solar): severity 4 in force, not yet read against its source"
+19087,IA,Henry,PAST_END_DATE,status,sabin:S26R-6099,"Henry County (solar): runs to 2025-04 (term); nothing on record says whether it was extended, replaced or lapsed"
 19093,IA,Ida,PAUSE_NO_START_DATE,restriction,sabin:S26R-6096,"Ida County (wind): no enactment date, so its time in force is unknown"
 19093,IA,Ida,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6096,Ida County (wind): the source files it as 'ban or moratorium' without saying which
 19093,IA,Ida,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6096,"Ida County (wind): severity 4 in force, not yet read against its source"
@@ -353,15 +313,15 @@ county_fips,state,county,check,route,instrument_id,detail
 19097,IA,Jackson,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-jackson-county-2024-2,Jackson County (battery_storage): the record does not say whether rules are being drafted
 19097,IA,Jackson,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-jackson-county-2024-2,"Jackson County (battery_storage): severity 4 in force, not yet read against its source"
 19097,IA,Jackson,PAUSE_NO_START_DATE,restriction,nrel:solar:19097,"Jackson County (solar): no enactment date, so its time in force is unknown"
-19101,IA,Jefferson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19101,IA,Jefferson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 19109,IA,Kossuth,PAUSE_NO_END_DATE,status,sabin:REC-0117,Kossuth County (solar): in force with no end date on record
 19109,IA,Kossuth,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0117,Kossuth County (solar): the record does not say whether rules are being drafted
 19109,IA,Kossuth,PAUSE_NO_START_DATE,restriction,sabin:REC-0117,"Kossuth County (solar): no enactment date, so its time in force is unknown"
 19109,IA,Kossuth,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0117,"Kossuth County (solar): severity 4 in force, not yet read against its source"
-19119,IA,Lyon,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19119,IA,Lyon,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 19121,IA,Madison,PAUSE_NO_END_DATE,status,mn:ia-madison-county-2026,Madison County (battery_storage): in force with no end date on record
 19121,IA,Madison,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-madison-county-2026,"Madison County (battery_storage): severity 4 in force, not yet read against its source"
-19123,IA,Mahaska,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 270 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19123,IA,Mahaska,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 19131,IA,Mitchell,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6089,"Mitchell County (wind): severity 3 in force, not yet read against its source"
 19131,IA,Mitchell,PAUSE_NO_END_DATE,status,queue:q_36bf377222,Mitchell County (solar): in force with no end date on record
 19131,IA,Mitchell,PAUSE_DRAFTING_UNKNOWN,status,queue:q_36bf377222,Mitchell County (solar): the record does not say whether rules are being drafted
@@ -369,7 +329,7 @@ county_fips,state,county,check,route,instrument_id,detail
 19137,IA,Montgomery,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6087,Montgomery County (wind): the record does not say whether rules are being drafted
 19137,IA,Montgomery,PAUSE_NO_START_DATE,restriction,sabin:S26R-6087,"Montgomery County (wind): no enactment date, so its time in force is unknown"
 19137,IA,Montgomery,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6087,"Montgomery County (wind): severity 4 in force, not yet read against its source"
-19143,IA,Osceola,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19143,IA,Osceola,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 19145,IA,Page,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6085,"Page County (wind): severity 3 in force, not yet read against its source"
 19147,IA,Palo Alto,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-palo-alto-county-2025-2,"Palo Alto County (battery_storage): severity 4 in force, not yet read against its source"
 19147,IA,Palo Alto,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6083,"Palo Alto County (wind): severity 3 in force, not yet read against its source"
@@ -394,7 +354,6 @@ county_fips,state,county,check,route,instrument_id,detail
 19169,IA,Story,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-story-county-2025,Story County (battery_storage): the record does not say whether rules are being drafted
 19169,IA,Story,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-story-county-2025,"Story County (battery_storage): severity 4 in force, not yet read against its source"
 19171,IA,Tama,PAST_END_DATE,status,mn:ia-tama-county-2025-2,"Tama County (battery_storage): runs to 2026-08-24 (text); nothing on record says whether it was extended, replaced or lapsed"
-19171,IA,Tama,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-tama-county-2025-2,Tama County (battery_storage): the record does not say whether rules are being drafted
 19173,IA,Taylor,PAUSE_NO_END_DATE,status,mn:ia-taylor-county-2026,Taylor County (battery_storage;solar): in force with no end date on record
 19173,IA,Taylor,PAUSE_DRAFTING_UNKNOWN,status,mn:ia-taylor-county-2026,Taylor County (battery_storage;solar): the record does not say whether rules are being drafted
 19173,IA,Taylor,UNVERIFIED_IN_HEADLINE,restriction,mn:ia-taylor-county-2026,"Taylor County (battery_storage;solar): severity 4 in force, not yet read against its source"
@@ -406,7 +365,7 @@ county_fips,state,county,check,route,instrument_id,detail
 19193,IA,Woodbury,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6067,Woodbury County (solar): the source files it as 'ban or moratorium' without saying which
 19193,IA,Woodbury,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6067,"Woodbury County (solar): severity 4 in force, not yet read against its source"
 19193,IA,Woodbury,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6068,"Woodbury County (wind): severity 3 in force, not yet read against its source"
-19195,IA,Worth,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 270 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+19195,IA,Worth,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 20009,KS,Barton,PAUSE_NO_END_DATE,status,sabin:REC-0120,Barton County (solar): in force with no end date on record
 20009,KS,Barton,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0120,Barton County (solar): the record does not say whether rules are being drafted
 20009,KS,Barton,PAUSE_NO_START_DATE,restriction,sabin:REC-0120,"Barton County (solar): no enactment date, so its time in force is unknown"
@@ -425,20 +384,14 @@ county_fips,state,county,check,route,instrument_id,detail
 20059,KS,Franklin,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0124,Franklin County (wind): the record does not say whether rules are being drafted
 20059,KS,Franklin,PAUSE_NO_START_DATE,restriction,sabin:REC-0124,"Franklin County (wind): no enactment date, so its time in force is unknown"
 20059,KS,Franklin,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0124,"Franklin County (wind): severity 4 in force, not yet read against its source"
-20079,KS,Harvey,PAUSE_NO_END_DATE,status,sabin:REC-0125,Harvey County (solar;wind): in force with no end date on record
-20079,KS,Harvey,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0125,Harvey County (solar;wind): the record does not say whether rules are being drafted
-20079,KS,Harvey,PAUSE_NO_START_DATE,restriction,sabin:REC-0125,"Harvey County (solar;wind): no enactment date, so its time in force is unknown"
-20079,KS,Harvey,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0125,"Harvey County (solar;wind): severity 4 in force, not yet read against its source"
+20079,KS,Harvey,PAST_END_DATE,status,sabin:REC-0125,"Harvey County (solar;wind): runs to 2023-08 (term); nothing on record says whether it was extended, replaced or lapsed"
 20087,KS,Jefferson,PAUSE_NO_START_DATE,restriction,nrel:wind:20087,"Jefferson County (wind): no enactment date, so its time in force is unknown"
-20087,KS,Jefferson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+20087,KS,Jefferson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 20093,KS,Kearny,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0127,"Kearny County (wind): severity 3 in force, not yet read against its source"
-20097,KS,Kiowa,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.23, national rank 279 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-20099,KS,Labette,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 45.38, national rank 42 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+20097,KS,Kiowa,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.21, national rank 263 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+20099,KS,Labette,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 45.38, national rank 38 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 20103,KS,Leavenworth,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0129,"Leavenworth County (wind): severity 3 in force, not yet read against its source"
-20107,KS,Linn,PAUSE_NO_END_DATE,status,sabin:REC-0130,Linn County (wind): in force with no end date on record
-20107,KS,Linn,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0130,Linn County (wind): the record does not say whether rules are being drafted
-20107,KS,Linn,PAUSE_NO_START_DATE,restriction,sabin:REC-0130,"Linn County (wind): no enactment date, so its time in force is unknown"
-20107,KS,Linn,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0130,"Linn County (wind): severity 4 in force, not yet read against its source"
+20107,KS,Linn,PAST_END_DATE,status,sabin:REC-0130,"Linn County (wind): runs to 2021-12 (text); nothing on record says whether it was extended, replaced or lapsed"
 20111,KS,Lyon,PAUSE_NO_END_DATE,status,mn:ks-lyon-county-2026-2,Lyon County (solar): in force with no end date on record
 20111,KS,Lyon,PAUSE_DRAFTING_UNKNOWN,status,mn:ks-lyon-county-2026-2,Lyon County (solar): the record does not say whether rules are being drafted
 20111,KS,Lyon,UNVERIFIED_IN_HEADLINE,restriction,mn:ks-lyon-county-2026-2,"Lyon County (solar): severity 4 in force, not yet read against its source"
@@ -453,7 +406,7 @@ county_fips,state,county,check,route,instrument_id,detail
 20115,KS,Marion,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ks-marion-county-2026,"Marion County (battery_storage): marked extended, with no extension date on record"
 20115,KS,Marion,PAUSE_DRAFTING_UNKNOWN,status,mn:ks-marion-county-2026,Marion County (battery_storage): the record does not say whether rules are being drafted
 20115,KS,Marion,UNVERIFIED_IN_HEADLINE,restriction,mn:ks-marion-county-2026,"Marion County (battery_storage): severity 4 in force, not yet read against its source"
-20131,KS,Nemaha,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.0, national rank 195 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+20131,KS,Nemaha,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.0, national rank 185 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 20133,KS,Neosho,UNVERIFIED_IN_HEADLINE,restriction,mn:ks-neosho-county-2026,"Neosho County (battery_storage): severity 4 in force, not yet read against its source"
 20139,KS,Osage,PAUSE_NO_START_DATE,restriction,sabin:REC-0133,"Osage County (solar;wind): no enactment date, so its time in force is unknown"
 20139,KS,Osage,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0133,"Osage County (solar;wind): severity 4 in force, not yet read against its source"
@@ -461,54 +414,38 @@ county_fips,state,county,check,route,instrument_id,detail
 20145,KS,Pawnee,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0134,Pawnee (solar): the record does not say whether rules are being drafted
 20145,KS,Pawnee,PAUSE_NO_START_DATE,restriction,sabin:REC-0134,"Pawnee (solar): no enactment date, so its time in force is unknown"
 20145,KS,Pawnee,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0134,"Pawnee (solar): severity 4 in force, not yet read against its source"
-20149,KS,Pottawatomie,PAUSE_NO_END_DATE,status,sabin:S26R-6049,Pottawatomie County (solar): in force with no end date on record
-20149,KS,Pottawatomie,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6049,Pottawatomie County (solar): the record does not say whether rules are being drafted
-20149,KS,Pottawatomie,PAUSE_NO_START_DATE,restriction,sabin:S26R-6049,"Pottawatomie County (solar): no enactment date, so its time in force is unknown"
-20149,KS,Pottawatomie,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6049,"Pottawatomie County (solar): severity 4 in force, not yet read against its source"
+20149,KS,Pottawatomie,PAST_END_DATE,status,sabin:S26R-6049,"Pottawatomie County (solar): runs to 2024-11 (term); nothing on record says whether it was extended, replaced or lapsed"
 20149,KS,Pottawatomie,PAUSE_NO_START_DATE,restriction,nrel:wind:20149,"Pottawatomie County (wind): no enactment date, so its time in force is unknown"
+20149,KS,Pottawatomie,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.44, national rank 334 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 20155,KS,Reno,PAUSE_DRAFTING_UNKNOWN,status,mn:ks-south-hutchinson-2026,South Hutchinson (battery_storage): the record does not say whether rules are being drafted
 20155,KS,Reno,UNVERIFIED_IN_HEADLINE,restriction,mn:ks-south-hutchinson-2026,"South Hutchinson (battery_storage): severity 4 in force, not yet read against its source"
-20155,KS,Reno,PAUSE_NO_END_DATE,status,sabin:REC-0136,Reno County (wind): in force with no end date on record
-20155,KS,Reno,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0136,Reno County (wind): the record does not say whether rules are being drafted
-20155,KS,Reno,PAUSE_NO_START_DATE,restriction,sabin:REC-0136,"Reno County (wind): no enactment date, so its time in force is unknown"
-20155,KS,Reno,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0136,"Reno County (wind): severity 4 in force, not yet read against its source"
+20155,KS,Reno,PAST_END_DATE,status,sabin:REC-0136,"Reno County (wind): runs to 2022-03 (text); nothing on record says whether it was extended, replaced or lapsed"
 20161,KS,Riley,PAUSE_NO_END_DATE,status,mn:ks-riley-county-2026,Riley County (battery_storage): in force with no end date on record
 20161,KS,Riley,PAUSE_DRAFTING_UNKNOWN,status,mn:ks-riley-county-2026,Riley County (battery_storage): the record does not say whether rules are being drafted
 20173,KS,Sedgwick,PAUSE_DRAFTING_UNKNOWN,status,mn:ks-sedgwick-county-2026-2,Sedgwick County (battery_storage): the record does not say whether rules are being drafted
 20173,KS,Sedgwick,UNVERIFIED_IN_HEADLINE,restriction,mn:ks-sedgwick-county-2026-2,"Sedgwick County (battery_storage): severity 4 in force, not yet read against its source"
 20173,KS,Sedgwick,PAUSE_DRAFTING_UNKNOWN,status,mn:ks-sedgwick-county-2026-3,Sedgwick County (solar): the record does not say whether rules are being drafted
 20173,KS,Sedgwick,UNVERIFIED_IN_HEADLINE,restriction,mn:ks-sedgwick-county-2026-3,"Sedgwick County (solar): severity 4 in force, not yet read against its source"
-20173,KS,Sedgwick,PAUSE_NO_END_DATE,status,sabin:S26R-6046,Sedgwick County (solar;wind): in force with no end date on record
-20173,KS,Sedgwick,PAUSE_NO_START_DATE,restriction,sabin:S26R-6046,"Sedgwick County (solar;wind): no enactment date, so its time in force is unknown"
-20173,KS,Sedgwick,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6046,"Sedgwick County (solar;wind): severity 4 in force, not yet read against its source"
-20177,KS,Shawnee,PAUSE_NO_END_DATE,status,sabin:S26R-6045,Shawnee County (solar;wind): in force with no end date on record
-20177,KS,Shawnee,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6045,Shawnee County (solar;wind): the record does not say whether rules are being drafted
-20177,KS,Shawnee,PAUSE_NO_START_DATE,restriction,sabin:S26R-6045,"Shawnee County (solar;wind): no enactment date, so its time in force is unknown"
-20177,KS,Shawnee,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6045,"Shawnee County (solar;wind): severity 4 in force, not yet read against its source"
-20197,KS,Wabaunsee,PAUSE_NO_END_DATE,status,sabin:S26R-6044,Wabaunsee County (solar): in force with no end date on record
+20173,KS,Sedgwick,PAST_END_DATE,status,sabin:S26R-6046,"Sedgwick County (solar;wind): runs to 2024-09 (text); nothing on record says whether it was extended, replaced or lapsed"
+20177,KS,Shawnee,PAST_END_DATE,status,sabin:S26R-6045,"Shawnee County (solar;wind): runs to 2025-06 (term); nothing on record says whether it was extended, replaced or lapsed"
 20197,KS,Wabaunsee,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6044,Wabaunsee County (solar): the record does not say whether rules are being drafted
 20197,KS,Wabaunsee,PAUSE_NO_START_DATE,restriction,sabin:S26R-6044,"Wabaunsee County (solar): no enactment date, so its time in force is unknown"
 20197,KS,Wabaunsee,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6044,"Wabaunsee County (solar): severity 4 in force, not yet read against its source"
-20207,KS,Woodson,PAUSE_NO_END_DATE,status,sabin:S26R-6043,Woodson County (solar;wind): in force with no end date on record
-20207,KS,Woodson,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6043,Woodson County (solar;wind): the record does not say whether rules are being drafted
-20207,KS,Woodson,PAUSE_NO_START_DATE,restriction,sabin:S26R-6043,"Woodson County (solar;wind): no enactment date, so its time in force is unknown"
-20207,KS,Woodson,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6043,"Woodson County (solar;wind): severity 4 in force, not yet read against its source"
+20207,KS,Woodson,PAST_END_DATE,status,sabin:S26R-6043,"Woodson County (solar;wind): runs to 2026-02 (text); nothing on record says whether it was extended, replaced or lapsed"
 21021,KY,Boyle,PAUSE_NO_START_DATE,restriction,sabin:REC-0138,"Boyle County (solar): no enactment date, so its time in force is unknown"
 21021,KY,Boyle,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0138,"Boyle County (solar): severity 4 in force, not yet read against its source"
-21035,KY,Calloway,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 270 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21035,KY,Calloway,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 21047,KY,Christian,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0139,"City of Hopkinsville (solar): severity 3 in force, not yet read against its source"
-21049,KY,Clark,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 35.5, national rank 145 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21049,KY,Clark,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 35.5, national rank 137 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 21101,KY,Henderson,PAST_END_DATE,status,mn:ky-henderson-county-2025,"Henderson County (wind): runs to 2026-10-28 (term); nothing on record says whether it was extended, replaced or lapsed"
-21101,KY,Henderson,PAUSE_DRAFTING_UNKNOWN,status,mn:ky-henderson-county-2025,Henderson County (wind): the record does not say whether rules are being drafted
-21101,KY,Henderson,UNVERIFIED_IN_HEADLINE,restriction,mn:ky-henderson-county-2025,"Henderson County (wind): severity 4 in force, not yet read against its source"
 21145,KY,McCracken,PAUSE_NO_START_DATE,restriction,sabin:S26R-6035,"McCracken County (solar): no enactment date, so its time in force is unknown"
 21145,KY,McCracken,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6035,McCracken County (solar): the source files it as 'ban or moratorium' without saying which
 21145,KY,McCracken,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6035,"McCracken County (solar): severity 4 in force, not yet read against its source"
-21161,KY,Mason,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 51.05, national rank 27 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-21183,KY,Ohio,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 270 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-21215,KY,Spencer,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-21219,KY,Todd,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 270 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-21221,KY,Trigg,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 270 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21161,KY,Mason,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 51.05, national rank 25 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21183,KY,Ohio,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21215,KY,Spencer,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21219,KY,Todd,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+21221,KY,Trigg,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.5, national rank 251 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 22045,LA,Iberia,PAUSE_NO_START_DATE,restriction,sabin:S26R-6026,"Iberia Parish (solar): no enactment date, so its time in force is unknown"
 22045,LA,Iberia,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6026,Iberia Parish (solar): the source files it as 'ban or moratorium' without saying which
 22045,LA,Iberia,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6026,"Iberia Parish (solar): severity 4 in force, not yet read against its source"
@@ -516,21 +453,14 @@ county_fips,state,county,check,route,instrument_id,detail
 22053,LA,Jefferson Davis,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0151,"Jefferson Davis Parish (wind): severity 3 in force, not yet read against its source"
 23003,ME,Aroostook,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6017,"Town of Fort Fairfield (wind): severity 3 in force, not yet read against its source"
 23003,ME,Aroostook,PAUSE_NO_START_DATE,restriction,nrel:wind:2300301710,"Ashland Town (wind): no enactment date, so its time in force is unknown"
-23007,ME,Franklin,PAUSE_NO_END_DATE,status,sabin:S26R-6016,Town of Weld (solar): in force with no end date on record
-23007,ME,Franklin,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6016,Town of Weld (solar): the record does not say whether rules are being drafted
-23007,ME,Franklin,PAUSE_NO_START_DATE,restriction,sabin:S26R-6016,"Town of Weld (solar): no enactment date, so its time in force is unknown"
-23007,ME,Franklin,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6016,"Town of Weld (solar): severity 4 in force, not yet read against its source"
+23007,ME,Franklin,PAST_END_DATE,status,sabin:S26R-6016,"Town of Weld (solar): runs to 2023-12 (term); nothing on record says whether it was extended, replaced or lapsed"
 23009,ME,Hancock,PAUSE_NO_END_DATE,status,sabin:S26R-6014,Hancock County (solar): in force with no end date on record
 23009,ME,Hancock,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6014,Hancock County (solar): the record does not say whether rules are being drafted
 23009,ME,Hancock,PAUSE_NO_START_DATE,restriction,sabin:S26R-6014,"Hancock County (solar): no enactment date, so its time in force is unknown"
 23009,ME,Hancock,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6014,"Hancock County (solar): severity 4 in force, not yet read against its source"
-23011,ME,Kennebec,PAUSE_NO_END_DATE,status,mn:me-albion-2024,Albion (battery_storage;wind): in force with no end date on record
+23011,ME,Kennebec,PAST_END_DATE,status,mn:me-albion-2024,"Albion (battery_storage;wind): runs to 2026-06 (text); nothing on record says whether it was extended, replaced or lapsed"
 23011,ME,Kennebec,PAUSE_EXTENSIONS_UNKNOWN,status,mn:me-albion-2024,"Albion (battery_storage;wind): marked extended, with no extension date on record"
-23011,ME,Kennebec,UNVERIFIED_IN_HEADLINE,restriction,mn:me-albion-2024,"Albion (battery_storage;wind): severity 4 in force, not yet read against its source"
-23011,ME,Kennebec,PAUSE_NO_END_DATE,status,sabin:REC-0161,Albion (solar): in force with no end date on record
-23011,ME,Kennebec,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0161,Albion (solar): the record does not say whether rules are being drafted
-23011,ME,Kennebec,PAUSE_NO_START_DATE,restriction,sabin:REC-0161,"Albion (solar): no enactment date, so its time in force is unknown"
-23011,ME,Kennebec,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0161,"Albion (solar): severity 4 in force, not yet read against its source"
+23011,ME,Kennebec,PAST_END_DATE,status,sabin:REC-0161,"Albion (solar): runs to 2023-09 (term); nothing on record says whether it was extended, replaced or lapsed"
 23011,ME,Kennebec,PAUSE_NO_END_DATE,status,sabin:REC-0163,Town of Belgrade (solar): in force with no end date on record
 23011,ME,Kennebec,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0163,Town of Belgrade (solar): the record does not say whether rules are being drafted
 23011,ME,Kennebec,PAUSE_NO_START_DATE,restriction,sabin:REC-0163,"Town of Belgrade (solar): no enactment date, so its time in force is unknown"
@@ -548,32 +478,24 @@ county_fips,state,county,check,route,instrument_id,detail
 23017,ME,Oxford,PAUSE_NO_START_DATE,restriction,sabin:S26R-6007,"Town of Lovell (solar): no enactment date, so its time in force is unknown"
 23017,ME,Oxford,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6007,"Town of Lovell (solar): severity 4 in force, not yet read against its source"
 23017,ME,Oxford,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6004,"Town of Woodstock (wind): severity 3 in force, not yet read against its source"
-23019,ME,Penobscot,PAUSE_NO_END_DATE,status,sabin:REC-0159,City of Brewer (solar): in force with no end date on record
-23019,ME,Penobscot,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0159,City of Brewer (solar): the record does not say whether rules are being drafted
-23019,ME,Penobscot,PAUSE_NO_START_DATE,restriction,sabin:REC-0159,"City of Brewer (solar): no enactment date, so its time in force is unknown"
-23019,ME,Penobscot,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0159,"City of Brewer (solar): severity 4 in force, not yet read against its source"
+23019,ME,Penobscot,PAST_END_DATE,status,sabin:REC-0159,"City of Brewer (solar): runs to 2024-02 (term); nothing on record says whether it was extended, replaced or lapsed"
 23019,ME,Penobscot,PAUSE_NO_END_DATE,status,sabin:REC-0166,Dexter (solar): in force with no end date on record
 23019,ME,Penobscot,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0166,Dexter (solar): the record does not say whether rules are being drafted
 23019,ME,Penobscot,PAUSE_NO_START_DATE,restriction,sabin:REC-0166,"Dexter (solar): no enactment date, so its time in force is unknown"
 23019,ME,Penobscot,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0166,"Dexter (solar): severity 4 in force, not yet read against its source"
-23019,ME,Penobscot,PAUSE_NO_END_DATE,status,sabin:REC-0169,Town of Glenburn (solar): in force with no end date on record
-23019,ME,Penobscot,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0169,Town of Glenburn (solar): the record does not say whether rules are being drafted
-23019,ME,Penobscot,PAUSE_NO_START_DATE,restriction,sabin:REC-0169,"Town of Glenburn (solar): no enactment date, so its time in force is unknown"
-23019,ME,Penobscot,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0169,"Town of Glenburn (solar): severity 4 in force, not yet read against its source"
+23019,ME,Penobscot,PAST_END_DATE,status,sabin:REC-0169,"Town of Glenburn (solar): runs to 2021-06 (term); nothing on record says whether it was extended, replaced or lapsed"
 23019,ME,Penobscot,PAUSE_NO_START_DATE,restriction,nrel:wind:2301910670,"Carmel Town (wind): no enactment date, so its time in force is unknown"
 23025,ME,Somerset,PAUSE_NO_START_DATE,restriction,sabin:S26R-5997,"Town of Moscow (solar): no enactment date, so its time in force is unknown"
 23025,ME,Somerset,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5997,"Town of Moscow (solar): severity 4 in force, not yet read against its source"
 23027,ME,Waldo,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0168,"Town of Freedom (wind): severity 3 in force, not yet read against its source"
 23027,ME,Waldo,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5991,"Town of Montville (wind): severity 3 in force, not yet read against its source"
-23029,ME,Washington,PAUSE_NO_END_DATE,status,sabin:REC-0165,Town of Cutler (solar): in force with no end date on record
-23029,ME,Washington,PAUSE_NO_START_DATE,restriction,sabin:REC-0165,"Town of Cutler (solar): no enactment date, so its time in force is unknown"
-23029,ME,Washington,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0165,"Town of Cutler (solar): severity 4 in force, not yet read against its source"
+23029,ME,Washington,PAST_END_DATE,status,sabin:REC-0165,"Town of Cutler (solar): runs to 2025-08 (text); nothing on record says whether it was extended, replaced or lapsed"
 23029,ME,Washington,PAUSE_NO_START_DATE,restriction,nrel:wind:2302915920,"Cutler Town (wind): no enactment date, so its time in force is unknown"
 24001,MD,Allegany,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0172,"Allegany County (wind): severity 3 in force, not yet read against its source"
 24003,MD,Anne Arundel,PAUSE_NO_START_DATE,restriction,sabin:REC-0173,"Anne Arundel (solar;wind): no enactment date, so its time in force is unknown"
 24003,MD,Anne Arundel,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0173,"Anne Arundel (solar;wind): severity 4 in force, not yet read against its source"
 24009,MD,Calvert,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5987,"Calvert County (wind): severity 3 in force, not yet read against its source"
-24017,MD,Charles,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.5, national rank 234 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+24017,MD,Charles,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.5, national rank 218 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 24023,MD,Garrett,PAUSE_NO_START_DATE,restriction,sabin:S26R-5983,"Garrett County (solar): no enactment date, so its time in force is unknown"
 24023,MD,Garrett,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5983,Garrett County (solar): the source files it as 'ban or moratorium' without saying which
 24023,MD,Garrett,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5983,"Garrett County (solar): severity 4 in force, not yet read against its source"
@@ -589,7 +511,7 @@ county_fips,state,county,check,route,instrument_id,detail
 24047,MD,Worcester,PAUSE_NO_START_DATE,restriction,sabin:REC-0177,"Worcester County (solar;wind): no enactment date, so its time in force is unknown"
 24047,MD,Worcester,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0177,"Worcester County (solar;wind): severity 4 in force, not yet read against its source"
 24510,MD,Baltimore,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5978,"City of Baltimore (wind): severity 3 in force, not yet read against its source"
-25001,MA,Barnstable,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.49, national rank 249 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+25001,MA,Barnstable,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.49, national rank 232 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 25003,MA,Berkshire,PAUSE_NO_START_DATE,restriction,nrel:wind:2500353050,"Peru Town (wind): no enactment date, so its time in force is unknown"
 25005,MA,Bristol,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5977,"Fairhaven (wind): severity 3 in force, not yet read against its source"
 25005,MA,Bristol,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5974,"Rehoboth (wind): severity 3 in force, not yet read against its source"
@@ -608,10 +530,7 @@ county_fips,state,county,check,route,instrument_id,detail
 25009,MA,Essex,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5966,"Methuen Town (wind): severity 4 in force, not yet read against its source"
 25011,MA,Franklin,PAUSE_DRAFTING_UNKNOWN,status,mn:ma-gill-2026,Gill (battery_storage): the record does not say whether rules are being drafted
 25011,MA,Franklin,UNVERIFIED_IN_HEADLINE,restriction,mn:ma-gill-2026,"Gill (battery_storage): severity 4 in force, not yet read against its source"
-25011,MA,Franklin,PAUSE_NO_END_DATE,status,sabin:REC-0187,Town of Northfield (battery_storage;solar): in force with no end date on record
-25011,MA,Franklin,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0187,Town of Northfield (battery_storage;solar): the record does not say whether rules are being drafted
-25011,MA,Franklin,PAUSE_NO_START_DATE,restriction,sabin:REC-0187,"Town of Northfield (battery_storage;solar): no enactment date, so its time in force is unknown"
-25011,MA,Franklin,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0187,"Town of Northfield (battery_storage;solar): severity 4 in force, not yet read against its source"
+25011,MA,Franklin,PAST_END_DATE,status,sabin:REC-0187,"Town of Northfield (battery_storage;solar): runs to 2025-05 (term); nothing on record says whether it was extended, replaced or lapsed"
 25011,MA,Franklin,PAUSE_NO_START_DATE,restriction,sabin:REC-0189,"Town of Shutesbury (battery_storage;solar): no enactment date, so its time in force is unknown"
 25011,MA,Franklin,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0189,"Town of Shutesbury (battery_storage;solar): severity 4 in force, not yet read against its source"
 25011,MA,Franklin,PAUSE_NO_START_DATE,restriction,nrel:wind:2501114885,"Colrain Town (wind): no enactment date, so its time in force is unknown"
@@ -619,15 +538,10 @@ county_fips,state,county,check,route,instrument_id,detail
 25011,MA,Franklin,PAUSE_NO_START_DATE,restriction,nrel:wind:2501129650,"Heath Town (wind): no enactment date, so its time in force is unknown"
 25011,MA,Franklin,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:2501129650,"Heath Town (wind): severity 4 in force, not yet read against its source"
 25013,MA,Hampden,PAST_END_DATE,status,mn:ma-westfield-2026-2,"Westfield (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
-25013,MA,Hampden,PAUSE_DRAFTING_UNKNOWN,status,mn:ma-westfield-2026-2,Westfield (battery_storage): the record does not say whether rules are being drafted
-25013,MA,Hampden,UNVERIFIED_IN_HEADLINE,restriction,mn:ma-westfield-2026-2,"Westfield (battery_storage): severity 4 in force, not yet read against its source"
 25013,MA,Hampden,PAUSE_NO_START_DATE,restriction,sabin:S26R-5963,"Chicopee (wind): no enactment date, so its time in force is unknown"
 25013,MA,Hampden,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5963,Chicopee (wind): the source files it as 'ban or moratorium' without saying which
 25013,MA,Hampden,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5963,"Chicopee (wind): severity 4 in force, not yet read against its source"
 25013,MA,Hampden,PAST_END_DATE,status,sabin:S26R-6266,"Town of Blandford (battery_storage;solar): runs to 2026-05-31 (text); nothing on record says whether it was extended, replaced or lapsed"
-25013,MA,Hampden,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-6266,Town of Blandford (battery_storage;solar): the record does not say whether rules are being drafted
-25013,MA,Hampden,PAUSE_NO_START_DATE,restriction,sabin:S26R-6266,"Town of Blandford (battery_storage;solar): no enactment date, so its time in force is unknown"
-25013,MA,Hampden,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6266,"Town of Blandford (battery_storage;solar): severity 4 in force, not yet read against its source"
 25013,MA,Hampden,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5961,"Westfield (wind): severity 3 in force, not yet read against its source"
 25013,MA,Hampden,PAUSE_NO_START_DATE,restriction,sabin:S26R-5962,"Wilbraham (solar): no enactment date, so its time in force is unknown"
 25013,MA,Hampden,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5962,Wilbraham (solar): the source files it as 'ban or moratorium' without saying which
@@ -635,7 +549,6 @@ county_fips,state,county,check,route,instrument_id,detail
 25013,MA,Hampden,PAUSE_NO_START_DATE,restriction,nrel:wind:2501313660,"Chicopee City (wind): no enactment date, so its time in force is unknown"
 25013,MA,Hampden,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:2501358650,"Russell Town (wind): severity 3 in force, not yet read against its source"
 25015,MA,Hampshire,PAST_END_DATE,status,mn:ma-chesterfield-2026,"Chesterfield (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
-25015,MA,Hampshire,UNVERIFIED_IN_HEADLINE,restriction,mn:ma-chesterfield-2026,"Chesterfield (battery_storage): severity 4 in force, not yet read against its source"
 25015,MA,Hampshire,PAUSE_NO_START_DATE,restriction,sabin:REC-0188,"Town of Pelham (battery_storage;solar): no enactment date, so its time in force is unknown"
 25015,MA,Hampshire,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0188,"Town of Pelham (battery_storage;solar): severity 4 in force, not yet read against its source"
 25017,MA,Middlesex,PAUSE_NO_START_DATE,restriction,sabin:REC-0185,"City of Waltham (solar): no enactment date, so its time in force is unknown"
@@ -645,7 +558,6 @@ county_fips,state,county,check,route,instrument_id,detail
 25027,MA,Worcester,PAUSE_NO_START_DATE,restriction,sabin:REC-0186,"Town of Charlton (solar): no enactment date, so its time in force is unknown"
 25027,MA,Worcester,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0186,"Town of Charlton (solar): severity 4 in force, not yet read against its source"
 26005,MI,Allegan,PAST_END_DATE,status,mn:mi-casco-township-allegan-county-2026,"Casco Township (Allegan County) (battery_storage;solar): runs to 2026-10-20 (text); nothing on record says whether it was extended, replaced or lapsed"
-26005,MI,Allegan,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-casco-township-allegan-county-2026,"Casco Township (Allegan County) (battery_storage;solar): severity 4 in force, not yet read against its source"
 26005,MI,Allegan,PAUSE_DRAFTING_UNKNOWN,status,mn:mi-gun-plain-charter-township-2026,Gun Plain Charter Township (battery_storage): the record does not say whether rules are being drafted
 26005,MI,Allegan,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-gun-plain-charter-township-2026,"Gun Plain Charter Township (battery_storage): severity 4 in force, not yet read against its source"
 26005,MI,Allegan,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5954,"Allegan County (wind): severity 3 in force, not yet read against its source"
@@ -669,10 +581,7 @@ county_fips,state,county,check,route,instrument_id,detail
 26023,MI,Branch,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5941,"Matteson Township (wind): severity 3 in force, not yet read against its source"
 26023,MI,Branch,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5943,"Sherwood Township (wind): severity 3 in force, not yet read against its source"
 26025,MI,Calhoun,PAUSE_NO_START_DATE,restriction,nrel:wind:26025,"Calhoun County (wind): no enactment date, so its time in force is unknown"
-26037,MI,Clinton,PAUSE_NO_END_DATE,status,sabin:REC-0207,Clinton County (solar): in force with no end date on record
-26037,MI,Clinton,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0207,Clinton County (solar): the record does not say whether rules are being drafted
-26037,MI,Clinton,PAUSE_NO_START_DATE,restriction,sabin:REC-0207,"Clinton County (solar): no enactment date, so its time in force is unknown"
-26037,MI,Clinton,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0207,"Clinton County (solar): severity 4 in force, not yet read against its source"
+26037,MI,Clinton,PAST_END_DATE,status,sabin:REC-0207,"Clinton County (solar): runs to 2024-05 (term); nothing on record says whether it was extended, replaced or lapsed"
 26037,MI,Clinton,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5940,"Clinton County (wind): severity 3 in force, not yet read against its source"
 26037,MI,Clinton,PAUSE_NO_START_DATE,restriction,nrel:solar:2603719620,"Dallas Township (solar): no enactment date, so its time in force is unknown"
 26047,MI,Emmet,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5937,"Emmet County (wind): severity 3 in force, not yet read against its source"
@@ -689,10 +598,7 @@ county_fips,state,county,check,route,instrument_id,detail
 26059,MI,Hillsdale,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-hillsdale-township-hillsdale-county-2026,"Hillsdale Township (Hillsdale County) (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
 26063,MI,Huron,PAUSE_DRAFTING_UNKNOWN,status,mn:mi-huron-county-solar-and-battery-storage-2026,Huron County (solar and battery storage) (battery_storage;solar): the record does not say whether rules are being drafted
 26063,MI,Huron,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-huron-county-solar-and-battery-storage-2026,"Huron County (solar and battery storage) (battery_storage;solar): severity 4 in force, not yet read against its source"
-26063,MI,Huron,PAUSE_NO_END_DATE,status,sabin:S26R-5928,Huron County (wind): in force with no end date on record
-26063,MI,Huron,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5928,Huron County (wind): the record does not say whether rules are being drafted
-26063,MI,Huron,PAUSE_NO_START_DATE,restriction,sabin:S26R-5928,"Huron County (wind): no enactment date, so its time in force is unknown"
-26063,MI,Huron,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5928,"Huron County (wind): severity 4 in force, not yet read against its source"
+26063,MI,Huron,PAST_END_DATE,status,sabin:S26R-5928,"Huron County (wind): runs to 2016-11 (term); nothing on record says whether it was extended, replaced or lapsed"
 26063,MI,Huron,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5927,"Sand Beach Township (wind): severity 3 in force, not yet read against its source"
 26065,MI,Ingham,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5926,"Leroy Township (wind): severity 3 in force, not yet read against its source"
 26065,MI,Ingham,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5925,"Stockbridge Township (wind): severity 3 in force, not yet read against its source"
@@ -715,18 +621,9 @@ county_fips,state,county,check,route,instrument_id,detail
 26077,MI,Kalamazoo,PAUSE_DRAFTING_UNKNOWN,status,mn:mi-portage-2026,Portage (battery_storage): the record does not say whether rules are being drafted
 26077,MI,Kalamazoo,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-portage-2026,"Portage (battery_storage): severity 4 in force, not yet read against its source"
 26077,MI,Kalamazoo,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5921,"Kalamazoo County (wind): severity 3 in force, not yet read against its source"
-26089,MI,Leelanau,PAUSE_NO_END_DATE,status,sabin:S26R-5918,Elmwood Township (solar): in force with no end date on record
-26089,MI,Leelanau,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5918,Elmwood Township (solar): the record does not say whether rules are being drafted
-26089,MI,Leelanau,PAUSE_NO_START_DATE,restriction,sabin:S26R-5918,"Elmwood Township (solar): no enactment date, so its time in force is unknown"
-26089,MI,Leelanau,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5918,"Elmwood Township (solar): severity 4 in force, not yet read against its source"
-26093,MI,Livingston,PAUSE_NO_END_DATE,status,sabin:S26R-5911,Genoa Township (solar): in force with no end date on record
-26093,MI,Livingston,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5911,Genoa Township (solar): the record does not say whether rules are being drafted
-26093,MI,Livingston,PAUSE_NO_START_DATE,restriction,sabin:S26R-5911,"Genoa Township (solar): no enactment date, so its time in force is unknown"
-26093,MI,Livingston,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5911,"Genoa Township (solar): severity 4 in force, not yet read against its source"
-26093,MI,Livingston,PAUSE_NO_END_DATE,status,sabin:S26R-5912,Iosco Township (solar;wind): in force with no end date on record
-26093,MI,Livingston,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5912,Iosco Township (solar;wind): the record does not say whether rules are being drafted
-26093,MI,Livingston,PAUSE_NO_START_DATE,restriction,sabin:S26R-5912,"Iosco Township (solar;wind): no enactment date, so its time in force is unknown"
-26093,MI,Livingston,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5912,"Iosco Township (solar;wind): severity 4 in force, not yet read against its source"
+26089,MI,Leelanau,PAST_END_DATE,status,sabin:S26R-5918,"Elmwood Township (solar): runs to 2017-03 (term); nothing on record says whether it was extended, replaced or lapsed"
+26093,MI,Livingston,PAST_END_DATE,status,sabin:S26R-5911,"Genoa Township (solar): runs to 2023-09 (term); nothing on record says whether it was extended, replaced or lapsed"
+26093,MI,Livingston,PAST_END_DATE,status,sabin:S26R-5912,"Iosco Township (solar;wind): runs to 2023-08 (term); nothing on record says whether it was extended, replaced or lapsed"
 26093,MI,Livingston,PAUSE_NO_START_DATE,restriction,sabin:S26R-5914,"Tyrone Township (battery_storage;solar;wind): no enactment date, so its time in force is unknown"
 26093,MI,Livingston,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5914,Tyrone Township (battery_storage;solar;wind): the source files it as 'ban or moratorium' without saying which
 26093,MI,Livingston,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5914,"Tyrone Township (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
@@ -759,10 +656,7 @@ county_fips,state,county,check,route,instrument_id,detail
 26117,MI,Montcalm,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5894,"Douglass Township (wind): severity 3 in force, not yet read against its source"
 26117,MI,Montcalm,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5889,"Sidney Township (wind): severity 3 in force, not yet read against its source"
 26117,MI,Montcalm,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5893,"Winfield Township (wind): severity 3 in force, not yet read against its source"
-26121,MI,Muskegon,PAUSE_NO_END_DATE,status,sabin:S26R-5887,White River Township (solar;wind): in force with no end date on record
-26121,MI,Muskegon,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5887,White River Township (solar;wind): the record does not say whether rules are being drafted
-26121,MI,Muskegon,PAUSE_NO_START_DATE,restriction,sabin:S26R-5887,"White River Township (solar;wind): no enactment date, so its time in force is unknown"
-26121,MI,Muskegon,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5887,"White River Township (solar;wind): severity 4 in force, not yet read against its source"
+26121,MI,Muskegon,PAST_END_DATE,status,sabin:S26R-5887,"White River Township (solar;wind): runs to 2023-07 (term); nothing on record says whether it was extended, replaced or lapsed"
 26125,MI,Oakland,PAUSE_NO_START_DATE,restriction,sabin:S26R-5884,"Birmingham (solar): no enactment date, so its time in force is unknown"
 26125,MI,Oakland,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5884,Birmingham (solar): the source files it as 'ban or moratorium' without saying which
 26125,MI,Oakland,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5884,"Birmingham (solar): severity 4 in force, not yet read against its source"
@@ -792,10 +686,7 @@ county_fips,state,county,check,route,instrument_id,detail
 26157,MI,Tuscola,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5865,"Ellington Township (wind): severity 3 in force, not yet read against its source"
 26157,MI,Tuscola,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5862,"Novesta Township (wind): severity 3 in force, not yet read against its source"
 26161,MI,Washtenaw,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-webster-township-2026,"Webster Township (battery_storage): severity 4 in force, not yet read against its source"
-26161,MI,Washtenaw,PAUSE_NO_END_DATE,status,sabin:REC-0199,Augusta Township (solar): in force with no end date on record
-26161,MI,Washtenaw,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0199,Augusta Township (solar): the record does not say whether rules are being drafted
-26161,MI,Washtenaw,PAUSE_NO_START_DATE,restriction,sabin:REC-0199,"Augusta Township (solar): no enactment date, so its time in force is unknown"
-26161,MI,Washtenaw,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0199,"Augusta Township (solar): severity 4 in force, not yet read against its source"
+26161,MI,Washtenaw,PAST_END_DATE,status,sabin:REC-0199,"Augusta Township (solar): runs to 2022-09 (term); nothing on record says whether it was extended, replaced or lapsed"
 27001,MN,Aitkin,PAUSE_NO_START_DATE,restriction,sabin:S26R-5859,"Aitkin County (solar): no enactment date, so its time in force is unknown"
 27001,MN,Aitkin,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5859,Aitkin County (solar): the source files it as 'ban or moratorium' without saying which
 27001,MN,Aitkin,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5859,"Aitkin County (solar): severity 4 in force, not yet read against its source"
@@ -811,9 +702,7 @@ county_fips,state,county,check,route,instrument_id,detail
 27017,MN,Carlton,PAUSE_NO_START_DATE,restriction,sabin:S26R-5854,"Carlton County (wind): no enactment date, so its time in force is unknown"
 27017,MN,Carlton,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5854,Carlton County (wind): the source files it as 'ban or moratorium' without saying which
 27017,MN,Carlton,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5854,"Carlton County (wind): severity 4 in force, not yet read against its source"
-27023,MN,Chippewa,PAUSE_NO_END_DATE,status,sabin:REC-0213,Chippewa County (solar): in force with no end date on record
-27023,MN,Chippewa,PAUSE_NO_START_DATE,restriction,sabin:REC-0213,"Chippewa County (solar): no enactment date, so its time in force is unknown"
-27023,MN,Chippewa,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0213,"Chippewa County (solar): severity 4 in force, not yet read against its source"
+27023,MN,Chippewa,PAST_END_DATE,status,sabin:REC-0213,"Chippewa County (solar): runs to 2025-02 (term); nothing on record says whether it was extended, replaced or lapsed"
 27025,MN,Chisago,PAUSE_NO_START_DATE,restriction,sabin:S26R-5851,"Chisago County (solar;wind): no enactment date, so its time in force is unknown"
 27025,MN,Chisago,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5851,Chisago County (solar;wind): the source files it as 'ban or moratorium' without saying which
 27025,MN,Chisago,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5851,"Chisago County (solar;wind): severity 4 in force, not yet read against its source"
@@ -924,11 +813,8 @@ county_fips,state,county,check,route,instrument_id,detail
 31059,NE,Fillmore,UNVERIFIED_IN_HEADLINE,restriction,mn:ne-fillmore-county-2026,"Fillmore County (solar): severity 4 in force, not yet read against its source"
 31065,NE,Furnas,PAUSE_NO_END_DATE,status,mn:ne-furnas-county-2025,Furnas County (solar;wind): in force with no end date on record
 31065,NE,Furnas,PAUSE_DRAFTING_UNKNOWN,status,mn:ne-furnas-county-2025,Furnas County (solar;wind): the record does not say whether rules are being drafted
-31067,NE,Gage,PAUSE_NO_END_DATE,status,sabin:REC-0248,Gage County (solar;wind): in force with no end date on record
-31067,NE,Gage,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0248,Gage County (solar;wind): the record does not say whether rules are being drafted
-31067,NE,Gage,PAUSE_NO_START_DATE,restriction,sabin:REC-0248,"Gage County (solar;wind): no enactment date, so its time in force is unknown"
-31067,NE,Gage,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0248,"Gage County (solar;wind): severity 4 in force, not yet read against its source"
-31077,NE,Greeley,PAUSE_NO_END_DATE,status,sabin:REC-0249,Greeley County (solar;wind): in force with no end date on record
+31067,NE,Gage,PAST_END_DATE,status,sabin:REC-0248,"Gage County (solar;wind): runs to 2020-10 (term); nothing on record says whether it was extended, replaced or lapsed"
+31067,NE,Gage,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 27.28, national rank 278 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 31077,NE,Greeley,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0249,Greeley County (solar;wind): the record does not say whether rules are being drafted
 31077,NE,Greeley,PAUSE_NO_START_DATE,restriction,sabin:REC-0249,"Greeley County (solar;wind): no enactment date, so its time in force is unknown"
 31077,NE,Greeley,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0249,"Greeley County (solar;wind): severity 4 in force, not yet read against its source"
@@ -940,10 +826,7 @@ county_fips,state,county,check,route,instrument_id,detail
 31107,NE,Knox,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5782,"Knox County (solar;wind): severity 4 in force, not yet read against its source"
 31107,NE,Knox,PAUSE_NO_START_DATE,restriction,nrel:solar:31107,"Knox County (solar): no enactment date, so its time in force is unknown"
 31109,NE,Lancaster,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0253,"Lancaster County (wind): severity 3 in force, not yet read against its source"
-31111,NE,Lincoln,PAUSE_NO_END_DATE,status,sabin:S26R-5780,Lincoln County (solar;wind): in force with no end date on record
-31111,NE,Lincoln,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5780,Lincoln County (solar;wind): the record does not say whether rules are being drafted
-31111,NE,Lincoln,PAUSE_NO_START_DATE,restriction,sabin:S26R-5780,"Lincoln County (solar;wind): no enactment date, so its time in force is unknown"
-31111,NE,Lincoln,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5780,"Lincoln County (solar;wind): severity 4 in force, not yet read against its source"
+31111,NE,Lincoln,PAST_END_DATE,status,sabin:S26R-5780,"Lincoln County (solar;wind): runs to 2024-03 (term); nothing on record says whether it was extended, replaced or lapsed"
 31115,NE,Loup,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5779,"Loup County (wind): severity 3 in force, not yet read against its source"
 31117,NE,McPherson,PAUSE_DRAFTING_UNKNOWN,status,mn:ne-mcpherson-county-2026,McPherson County (battery_storage;solar;wind): the record does not say whether rules are being drafted
 31117,NE,McPherson,UNVERIFIED_IN_HEADLINE,restriction,mn:ne-mcpherson-county-2026,"McPherson County (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
@@ -958,19 +841,17 @@ county_fips,state,county,check,route,instrument_id,detail
 31157,NE,Scotts Bluff,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5768,"Scotts Bluff County (wind): severity 4 in force, not yet read against its source"
 31159,NE,Seward,PAUSE_DRAFTING_UNKNOWN,status,mn:ne-seward-county-2023,Seward County (battery_storage;solar;wind): the record does not say whether rules are being drafted
 31159,NE,Seward,UNVERIFIED_IN_HEADLINE,restriction,mn:ne-seward-county-2023,"Seward County (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
-31165,NE,Sioux,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+31165,NE,Sioux,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 31171,NE,Thomas,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5765,"Thomas County (wind): severity 3 in force, not yet read against its source"
 31183,NE,Wheeler,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5764,"Wheeler County (wind): severity 3 in force, not yet read against its source"
-32003,NV,Clark,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 32.0, national rank 209 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+32003,NV,Clark,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 32.0, national rank 197 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 32015,NV,Lander,PAUSE_NO_START_DATE,restriction,sabin:S26R-5763,"Lander County (solar;wind): no enactment date, so its time in force is unknown"
 32015,NV,Lander,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5763,Lander County (solar;wind): the source files it as 'ban or moratorium' without saying which
 32015,NV,Lander,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5763,"Lander County (solar;wind): severity 4 in force, not yet read against its source"
-32019,NV,Lyon,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.88, national rank 262 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-32023,NV,Nye,PAUSE_NO_END_DATE,status,sabin:REC-0254,Nye County (solar;wind): in force with no end date on record
-32023,NV,Nye,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0254,Nye County (solar;wind): the record does not say whether rules are being drafted
-32023,NV,Nye,PAUSE_NO_START_DATE,restriction,sabin:REC-0254,"Nye County (solar;wind): no enactment date, so its time in force is unknown"
-32023,NV,Nye,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0254,"Nye County (solar;wind): severity 4 in force, not yet read against its source"
-32031,NV,Washoe,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.75, national rank 244 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+32019,NV,Lyon,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.88, national rank 239 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+32023,NV,Nye,PAST_END_DATE,status,sabin:REC-0254,"Nye County (solar;wind): runs to 2023-05 (term); nothing on record says whether it was extended, replaced or lapsed"
+32023,NV,Nye,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.05, national rank 223 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+32031,NV,Washoe,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.75, national rank 226 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 33005,NH,Cheshire,PAUSE_NO_START_DATE,restriction,sabin:S26R-5759,"Town of Fitzwilliam (solar): no enactment date, so its time in force is unknown"
 33005,NH,Cheshire,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5759,Town of Fitzwilliam (solar): the source files it as 'ban or moratorium' without saying which
 33005,NH,Cheshire,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5759,"Town of Fitzwilliam (solar): severity 4 in force, not yet read against its source"
@@ -981,7 +862,7 @@ county_fips,state,county,check,route,instrument_id,detail
 33009,NH,Grafton,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:3300908980,"Canaan Town (wind): severity 3 in force, not yet read against its source"
 33011,NH,Hillsborough,PAUSE_NO_START_DATE,restriction,nrel:wind:3301151940,"New Ipswich Town (wind): no enactment date, so its time in force is unknown"
 33011,NH,Hillsborough,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:3301176260,"Temple Town (wind): severity 3 in force, not yet read against its source"
-33013,NH,Merrimack,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.38, national rank 322 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+33013,NH,Merrimack,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.38, national rank 299 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 34001,NJ,Atlantic,PAUSE_NO_END_DATE,status,sabin:REC-0274,Atlantic County (wind): in force with no end date on record
 34001,NJ,Atlantic,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0274,Atlantic County (wind): the record does not say whether rules are being drafted
 34001,NJ,Atlantic,PAUSE_NO_START_DATE,restriction,sabin:REC-0274,"Atlantic County (wind): no enactment date, so its time in force is unknown"
@@ -990,16 +871,12 @@ county_fips,state,county,check,route,instrument_id,detail
 34025,NJ,Monmouth,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0275,Middletown Township (wind): the record does not say whether rules are being drafted
 34025,NJ,Monmouth,PAUSE_NO_START_DATE,restriction,sabin:REC-0275,"Middletown Township (wind): no enactment date, so its time in force is unknown"
 34025,NJ,Monmouth,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0275,"Middletown Township (wind): severity 4 in force, not yet read against its source"
-35005,NM,Chaves,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.0, national rank 383 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+35005,NM,Chaves,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.0, national rank 354 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 36001,NY,Albany,PAUSE_NO_END_DATE,status,mn:ny-berne-2025,Berne (battery_storage;solar): in force with no end date on record
 36001,NY,Albany,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-berne-2025,Berne (battery_storage;solar): the record does not say whether rules are being drafted
 36001,NY,Albany,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-berne-2025,"Berne (battery_storage;solar): severity 4 in force, not yet read against its source"
 36001,NY,Albany,PAUSE_NO_START_DATE,restriction,nrel:wind:3600179851,"Westerlo Town (wind): no enactment date, so its time in force is unknown"
 36003,NY,Allegany,PAST_END_DATE,status,mn:ny-allen-allegany-county-undated,"Allen (Allegany County) (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
-36003,NY,Allegany,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-allen-allegany-county-undated,Allen (Allegany County) (battery_storage): the record does not say whether rules are being drafted
-36003,NY,Allegany,PAUSE_NO_START_DATE,restriction,mn:ny-allen-allegany-county-undated,"Allen (Allegany County) (battery_storage): no enactment date, so its time in force is unknown"
-36003,NY,Allegany,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-allen-allegany-county-undated,"Allen (Allegany County) (battery_storage): severity 4 in force, not yet read against its source"
-36007,NY,Broome,PAUSE_NO_END_DATE,status,sabin:S26R-5754,Broome County (battery_storage): in force with no end date on record
 36007,NY,Broome,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5754,Broome County (battery_storage): the record does not say whether rules are being drafted
 36007,NY,Broome,PAUSE_NO_START_DATE,restriction,sabin:S26R-5754,"Broome County (battery_storage): no enactment date, so its time in force is unknown"
 36007,NY,Broome,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5754,"Broome County (battery_storage): severity 4 in force, not yet read against its source"
@@ -1011,9 +888,7 @@ county_fips,state,county,check,route,instrument_id,detail
 36009,NY,Cattaraugus,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-freedom-cattaraugus-county-undated,Freedom (Cattaraugus County) (battery_storage): the record does not say whether rules are being drafted
 36009,NY,Cattaraugus,PAUSE_NO_START_DATE,restriction,mn:ny-freedom-cattaraugus-county-undated,"Freedom (Cattaraugus County) (battery_storage): no enactment date, so its time in force is unknown"
 36009,NY,Cattaraugus,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-freedom-cattaraugus-county-undated,"Freedom (Cattaraugus County) (battery_storage): severity 4 in force, not yet read against its source"
-36009,NY,Cattaraugus,PAUSE_NO_END_DATE,status,sabin:REC-0295,City of Olean (solar): in force with no end date on record
-36009,NY,Cattaraugus,PAUSE_NO_START_DATE,restriction,sabin:REC-0295,"City of Olean (solar): no enactment date, so its time in force is unknown"
-36009,NY,Cattaraugus,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0295,"City of Olean (solar): severity 4 in force, not yet read against its source"
+36009,NY,Cattaraugus,PAST_END_DATE,status,sabin:REC-0295,"City of Olean (solar): runs to 2024-05 (term); nothing on record says whether it was extended, replaced or lapsed"
 36009,NY,Cattaraugus,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0303,"Town of Farmersville (wind): severity 3 in force, not yet read against its source"
 36011,NY,Cayuga,PAUSE_NO_END_DATE,status,mn:ny-mentz-2025,Mentz (battery_storage): in force with no end date on record
 36011,NY,Cayuga,PAUSE_NO_START_DATE,restriction,nrel:wind:3601137660,"Ira Town (wind): no enactment date, so its time in force is unknown"
@@ -1023,9 +898,8 @@ county_fips,state,county,check,route,instrument_id,detail
 36013,NY,Chautauqua,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-clymer-2024,"Clymer (battery_storage): marked extended, with no extension date on record"
 36013,NY,Chautauqua,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-clymer-2024,Clymer (battery_storage): the record does not say whether rules are being drafted
 36013,NY,Chautauqua,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-clymer-2024,"Clymer (battery_storage): severity 4 in force, not yet read against its source"
-36013,NY,Chautauqua,PAUSE_NO_END_DATE,status,mn:ny-ellery-2026,Ellery (battery_storage;solar;wind): in force with no end date on record
 36013,NY,Chautauqua,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-ellery-2026,"Ellery (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
-36013,NY,Chautauqua,PAST_END_DATE,status,mn:ny-mina-2025,"Mina (battery_storage): runs to 2025-11-02 (term); nothing on record says whether it was extended, replaced or lapsed"
+36013,NY,Chautauqua,PAUSE_NO_END_DATE,status,mn:ny-mina-2025,Mina (battery_storage): in force with no end date on record
 36013,NY,Chautauqua,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-mina-2025,"Mina (battery_storage): marked extended, with no extension date on record"
 36013,NY,Chautauqua,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-mina-2025,"Mina (battery_storage): severity 4 in force, not yet read against its source"
 36013,NY,Chautauqua,PAUSE_NO_END_DATE,status,mn:ny-north-harmony-2025,North Harmony (battery_storage;solar): in force with no end date on record
@@ -1050,8 +924,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36013,NY,Chautauqua,PAUSE_NO_START_DATE,restriction,nrel:wind:3601379950,"Westfield Town (wind): no enactment date, so its time in force is unknown"
 36015,NY,Chemung,PAST_END_DATE,status,mn:ny-southport-2025,"Southport (battery_storage;solar): runs to 2026-04-14 (text); nothing on record says whether it was extended, replaced or lapsed"
 36015,NY,Chemung,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-southport-2025,"Southport (battery_storage;solar): marked extended, with no extension date on record"
-36015,NY,Chemung,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-southport-2025,Southport (battery_storage;solar): the record does not say whether rules are being drafted
-36015,NY,Chemung,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-southport-2025,"Southport (battery_storage;solar): severity 4 in force, not yet read against its source"
 36015,NY,Chemung,PAUSE_NO_START_DATE,restriction,sabin:S26R-5743,"Ashland (wind): no enactment date, so its time in force is unknown"
 36015,NY,Chemung,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5743,Ashland (wind): the source files it as 'ban or moratorium' without saying which
 36015,NY,Chemung,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5743,"Ashland (wind): severity 4 in force, not yet read against its source"
@@ -1061,7 +933,7 @@ county_fips,state,county,check,route,instrument_id,detail
 36015,NY,Chemung,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5745,"Catlin (wind): severity 4 in force, not yet read against its source"
 36015,NY,Chemung,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5746,"Southport (wind): severity 3 in force, not yet read against its source"
 36015,NY,Chemung,PAUSE_NO_START_DATE,restriction,nrel:wind:3601515077,"Chemung Town (wind): no enactment date, so its time in force is unknown"
-36017,NY,Chenango,PAST_END_DATE,status,mn:ny-town-of-sherburne-2026,"Town of Sherburne (battery_storage): runs to 2026-07-14 (term); nothing on record says whether it was extended, replaced or lapsed"
+36017,NY,Chenango,PAUSE_NO_END_DATE,status,mn:ny-town-of-sherburne-2026,Town of Sherburne (battery_storage): in force with no end date on record
 36017,NY,Chenango,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-town-of-sherburne-2026,Town of Sherburne (battery_storage): the record does not say whether rules are being drafted
 36017,NY,Chenango,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-town-of-sherburne-2026,"Town of Sherburne (battery_storage): severity 4 in force, not yet read against its source"
 36021,NY,Columbia,PAST_END_DATE,status,mn:ny-claverack-2024,"Claverack (battery_storage): runs to 2026-06-11 (text); nothing on record says whether it was extended, replaced or lapsed"
@@ -1073,39 +945,29 @@ county_fips,state,county,check,route,instrument_id,detail
 36021,NY,Columbia,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-stockport-2026,Stockport (battery_storage): the record does not say whether rules are being drafted
 36021,NY,Columbia,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-stockport-2026,"Stockport (battery_storage): severity 4 in force, not yet read against its source"
 36023,NY,Cortland,PAST_END_DATE,status,mn:ny-virgil-undated,"Virgil (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
-36023,NY,Cortland,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-virgil-undated,Virgil (battery_storage): the record does not say whether rules are being drafted
-36023,NY,Cortland,PAUSE_NO_START_DATE,restriction,mn:ny-virgil-undated,"Virgil (battery_storage): no enactment date, so its time in force is unknown"
-36023,NY,Cortland,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-virgil-undated,"Virgil (battery_storage): severity 4 in force, not yet read against its source"
 36023,NY,Cortland,PAUSE_NO_END_DATE,status,sabin:S26R-5742,Preble (wind): in force with no end date on record
 36023,NY,Cortland,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5742,Preble (wind): the record does not say whether rules are being drafted
 36023,NY,Cortland,PAUSE_NO_START_DATE,restriction,sabin:S26R-5742,"Preble (wind): no enactment date, so its time in force is unknown"
 36023,NY,Cortland,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5742,"Preble (wind): severity 4 in force, not yet read against its source"
-36027,NY,Dutchess,PAST_END_DATE,status,mn:ny-stanford-2024,"Stanford (battery_storage;wind): runs to 2025-11-14 (term); nothing on record says whether it was extended, replaced or lapsed"
+36027,NY,Dutchess,PAUSE_NO_END_DATE,status,mn:ny-stanford-2024,Stanford (battery_storage;wind): in force with no end date on record
 36027,NY,Dutchess,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-stanford-2024,"Stanford (battery_storage;wind): marked extended, with no extension date on record"
 36027,NY,Dutchess,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-stanford-2024,Stanford (battery_storage;wind): the record does not say whether rules are being drafted
 36029,NY,Erie,PAST_END_DATE,status,mn:ny-aurora-erie-county-2025,"Aurora (Erie County) (battery_storage): runs to 2026-06-09 (text); nothing on record says whether it was extended, replaced or lapsed"
-36029,NY,Erie,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-aurora-erie-county-2025,Aurora (Erie County) (battery_storage): the record does not say whether rules are being drafted
-36029,NY,Erie,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-aurora-erie-county-2025,"Aurora (Erie County) (battery_storage): severity 4 in force, not yet read against its source"
 36029,NY,Erie,PAUSE_NO_END_DATE,status,mn:ny-boston-erie-county-2024,Boston (Erie County) (battery_storage): in force with no end date on record
 36029,NY,Erie,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-boston-erie-county-2024,"Boston (Erie County) (battery_storage): severity 4 in force, not yet read against its source"
 36029,NY,Erie,PAST_END_DATE,status,mn:ny-collins-undated,"Collins (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
-36029,NY,Erie,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-collins-undated,Collins (battery_storage): the record does not say whether rules are being drafted
-36029,NY,Erie,PAUSE_NO_START_DATE,restriction,mn:ny-collins-undated,"Collins (battery_storage): no enactment date, so its time in force is unknown"
-36029,NY,Erie,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-collins-undated,"Collins (battery_storage): severity 4 in force, not yet read against its source"
 36029,NY,Erie,PAUSE_NO_END_DATE,status,mn:ny-concord-2024,Concord (battery_storage): in force with no end date on record
 36029,NY,Erie,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-concord-2024,Concord (battery_storage): the record does not say whether rules are being drafted
 36029,NY,Erie,PAUSE_NO_END_DATE,status,mn:ny-concord-2024-2,Concord (solar): in force with no end date on record
 36029,NY,Erie,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-concord-2024-2,Concord (solar): the record does not say whether rules are being drafted
 36029,NY,Erie,PAST_END_DATE,status,mn:ny-eden-2025,"Eden (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
 36029,NY,Erie,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-eden-2025,"Eden (battery_storage): marked extended, with no extension date on record"
-36029,NY,Erie,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-eden-2025,Eden (battery_storage): the record does not say whether rules are being drafted
 36029,NY,Erie,PAUSE_NO_START_DATE,restriction,nrel:wind:3602975000,"Tonawanda Town (wind): no enactment date, so its time in force is unknown"
 36029,NY,Erie,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:3602975000,"Tonawanda Town (wind): severity 4 in force, not yet read against its source"
 36031,NY,Essex,PAUSE_NO_END_DATE,status,mn:ny-essex-county-undated,Essex County (battery_storage): in force with no end date on record
 36031,NY,Essex,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-essex-county-undated,Essex County (battery_storage): the record does not say whether rules are being drafted
 36031,NY,Essex,PAUSE_NO_START_DATE,restriction,mn:ny-essex-county-undated,"Essex County (battery_storage): no enactment date, so its time in force is unknown"
 36031,NY,Essex,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-essex-county-undated,"Essex County (battery_storage): severity 4 in force, not yet read against its source"
-36031,NY,Essex,PAUSE_NO_END_DATE,status,mn:ny-ticonderoga-2026,Ticonderoga (battery_storage): in force with no end date on record
 36031,NY,Essex,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-ticonderoga-2026,Ticonderoga (battery_storage): the record does not say whether rules are being drafted
 36031,NY,Essex,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-ticonderoga-2026,"Ticonderoga (battery_storage): severity 4 in force, not yet read against its source"
 36031,NY,Essex,PAUSE_NO_START_DATE,restriction,sabin:S26R-5740,"Wilmington (wind): no enactment date, so its time in force is unknown"
@@ -1113,7 +975,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36031,NY,Essex,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5740,"Wilmington (wind): severity 4 in force, not yet read against its source"
 36035,NY,Fulton,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-perth-fulton-county-2024,Perth (Fulton County) (battery_storage;solar;wind): the record does not say whether rules are being drafted
 36035,NY,Fulton,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-perth-fulton-county-2024,"Perth (Fulton County) (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
-36035,NY,Fulton,PAUSE_NO_END_DATE,status,mn:ny-town-of-northampton-2026,Town of Northampton (battery_storage): in force with no end date on record
 36035,NY,Fulton,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-town-of-northampton-2026,Town of Northampton (battery_storage): the record does not say whether rules are being drafted
 36035,NY,Fulton,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-town-of-northampton-2026,"Town of Northampton (battery_storage): severity 4 in force, not yet read against its source"
 36035,NY,Fulton,PAUSE_NO_START_DATE,restriction,sabin:S26R-5738,"Fulton County (solar): no enactment date, so its time in force is unknown"
@@ -1141,18 +1002,11 @@ county_fips,state,county,check,route,instrument_id,detail
 36041,NY,Hamilton,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-arietta-2026,"Arietta (battery_storage): severity 4 in force, not yet read against its source"
 36041,NY,Hamilton,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-benson-2026,Benson (battery_storage): the record does not say whether rules are being drafted
 36041,NY,Hamilton,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-benson-2026,"Benson (battery_storage): severity 4 in force, not yet read against its source"
-36043,NY,Herkimer,PAUSE_NO_END_DATE,status,mn:ny-german-flatts-2025,German Flatts (solar;wind): in force with no end date on record
-36043,NY,Herkimer,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-german-flatts-2025,German Flatts (solar;wind): the record does not say whether rules are being drafted
-36043,NY,Herkimer,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-german-flatts-2025,"German Flatts (solar;wind): severity 4 in force, not yet read against its source"
+36043,NY,Herkimer,PAST_END_DATE,status,mn:ny-german-flatts-2025,"German Flatts (solar;wind): runs to 2026-05 (term); nothing on record says whether it was extended, replaced or lapsed"
 36043,NY,Herkimer,PAUSE_NO_START_DATE,restriction,nrel:wind:3604370794,"Stark Town (wind): no enactment date, so its time in force is unknown"
-36045,NY,Jefferson,PAUSE_NO_END_DATE,status,sabin:S26R-5734,Town of Clayton (wind): in force with no end date on record
-36045,NY,Jefferson,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5734,Town of Clayton (wind): the record does not say whether rules are being drafted
-36045,NY,Jefferson,PAUSE_NO_START_DATE,restriction,sabin:S26R-5734,"Town of Clayton (wind): no enactment date, so its time in force is unknown"
-36045,NY,Jefferson,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5734,"Town of Clayton (wind): severity 4 in force, not yet read against its source"
-36045,NY,Jefferson,PAUSE_NO_END_DATE,status,sabin:S26R-5735,Town of Lyme (battery_storage;solar): in force with no end date on record
-36045,NY,Jefferson,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5735,Town of Lyme (battery_storage;solar): the record does not say whether rules are being drafted
-36045,NY,Jefferson,PAUSE_NO_START_DATE,restriction,sabin:S26R-5735,"Town of Lyme (battery_storage;solar): no enactment date, so its time in force is unknown"
-36045,NY,Jefferson,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5735,"Town of Lyme (battery_storage;solar): severity 4 in force, not yet read against its source"
+36045,NY,Jefferson,PAST_END_DATE,status,sabin:S26R-5734,"Town of Clayton (wind): runs to 2016-10 (term); nothing on record says whether it was extended, replaced or lapsed"
+36045,NY,Jefferson,PAST_END_DATE,status,sabin:S26R-5735,"Town of Lyme (battery_storage;solar): runs to 2025-12 (term); nothing on record says whether it was extended, replaced or lapsed"
+36045,NY,Jefferson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 34.12, national rank 166 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 36049,NY,Lewis,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-denmark-lewis-county-2026,"Denmark (Lewis County) (battery_storage;solar): severity 4 in force, not yet read against its source"
 36049,NY,Lewis,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-greig-lewis-county-2026,Greig (Lewis County) (battery_storage;solar;wind): the record does not say whether rules are being drafted
 36049,NY,Lewis,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-greig-lewis-county-2026,"Greig (Lewis County) (battery_storage;solar;wind): severity 4 in force, not yet read against its source"
@@ -1177,10 +1031,7 @@ county_fips,state,county,check,route,instrument_id,detail
 36057,NY,Montgomery,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-amsterdam-undated,"Amsterdam (battery_storage;solar): severity 4 in force, not yet read against its source"
 36057,NY,Montgomery,PAUSE_NO_START_DATE,restriction,sabin:REC-0304,"Florida (solar;wind): no enactment date, so its time in force is unknown"
 36057,NY,Montgomery,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0304,"Florida (solar;wind): severity 4 in force, not yet read against its source"
-36057,NY,Montgomery,PAUSE_NO_END_DATE,status,sabin:S26R-5727,Town of Canajoharie (solar): in force with no end date on record
-36057,NY,Montgomery,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5727,Town of Canajoharie (solar): the record does not say whether rules are being drafted
-36057,NY,Montgomery,PAUSE_NO_START_DATE,restriction,sabin:S26R-5727,"Town of Canajoharie (solar): no enactment date, so its time in force is unknown"
-36057,NY,Montgomery,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5727,"Town of Canajoharie (solar): severity 4 in force, not yet read against its source"
+36057,NY,Montgomery,PAST_END_DATE,status,sabin:S26R-5727,"Town of Canajoharie (solar): runs to 2022-11 (term); nothing on record says whether it was extended, replaced or lapsed"
 36057,NY,Montgomery,PAUSE_NO_START_DATE,restriction,sabin:S26R-5726,"Town of Florida (battery_storage): no enactment date, so its time in force is unknown"
 36057,NY,Montgomery,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5726,"Town of Florida (battery_storage): severity 4 in force, not yet read against its source"
 36059,NY,Nassau,PAUSE_NO_END_DATE,status,mn:ny-glen-cove-2025,Glen Cove (battery_storage): in force with no end date on record
@@ -1192,7 +1043,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36059,NY,Nassau,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-hempstead-2025,"Hempstead (battery_storage): severity 4 in force, not yet read against its source"
 36059,NY,Nassau,PAST_END_DATE,status,mn:ny-north-hempstead-2024,"North Hempstead (battery_storage): runs to 2026-11-18 (text); nothing on record says whether it was extended, replaced or lapsed"
 36059,NY,Nassau,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-north-hempstead-2024,"North Hempstead (battery_storage): marked extended, with no extension date on record"
-36059,NY,Nassau,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-north-hempstead-2024,North Hempstead (battery_storage): the record does not say whether rules are being drafted
 36059,NY,Nassau,PAUSE_NO_END_DATE,status,mn:ny-oyster-bay-2024,Oyster Bay (battery_storage): in force with no end date on record
 36059,NY,Nassau,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-oyster-bay-2024,"Oyster Bay (battery_storage): marked extended, with no extension date on record"
 36059,NY,Nassau,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-oyster-bay-2024,Oyster Bay (battery_storage): the record does not say whether rules are being drafted
@@ -1202,7 +1052,7 @@ county_fips,state,county,check,route,instrument_id,detail
 36063,NY,Niagara,PAUSE_NO_START_DATE,restriction,nrel:solar:3606332490,"Hartland Town (solar): no enactment date, so its time in force is unknown"
 36063,NY,Niagara,PAUSE_NO_START_DATE,restriction,nrel:wind:3606350232,"Newfane Town (wind): no enactment date, so its time in force is unknown"
 36063,NY,Niagara,PAUSE_NO_START_DATE,restriction,nrel:wind:3606382370,"Wilson Town (wind): no enactment date, so its time in force is unknown"
-36065,NY,Oneida,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.28, national rank 373 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+36065,NY,Oneida,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.01, national rank 353 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 36067,NY,Onondaga,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-camillus-2026,Camillus (battery_storage): the record does not say whether rules are being drafted
 36067,NY,Onondaga,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-camillus-2026,"Camillus (battery_storage): severity 4 in force, not yet read against its source"
 36067,NY,Onondaga,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-lysander-onondaga-county-2023,"Lysander (Onondaga County) (battery_storage): marked extended, with no extension date on record"
@@ -1211,7 +1061,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36067,NY,Onondaga,PAUSE_NO_END_DATE,status,mn:ny-syracuse-2026,Syracuse (battery_storage): in force with no end date on record
 36067,NY,Onondaga,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-syracuse-2026,Syracuse (battery_storage): the record does not say whether rules are being drafted
 36067,NY,Onondaga,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-syracuse-2026,"Syracuse (battery_storage): severity 4 in force, not yet read against its source"
-36067,NY,Onondaga,PAUSE_NO_END_DATE,status,mn:ny-town-of-marcellus-2026,Town of Marcellus (battery_storage): in force with no end date on record
 36067,NY,Onondaga,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-town-of-marcellus-2026,Town of Marcellus (battery_storage): the record does not say whether rules are being drafted
 36067,NY,Onondaga,PAUSE_NO_START_DATE,restriction,sabin:S26R-5717,"Cicero (solar): no enactment date, so its time in force is unknown"
 36067,NY,Onondaga,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5717,Cicero (solar): the source files it as 'ban or moratorium' without saying which
@@ -1227,37 +1076,26 @@ county_fips,state,county,check,route,instrument_id,detail
 36067,NY,Onondaga,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5716,"Skaneateles (wind): severity 4 in force, not yet read against its source"
 36067,NY,Onondaga,PAUSE_NO_START_DATE,restriction,nrel:solar:3606720478,"De Witt Town (solar): no enactment date, so its time in force is unknown"
 36069,NY,Ontario,PAST_END_DATE,status,mn:ny-west-bloomfield-2024,"West Bloomfield (battery_storage;solar): runs to 2026-09-11 (text); nothing on record says whether it was extended, replaced or lapsed"
-36069,NY,Ontario,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-west-bloomfield-2024,West Bloomfield (battery_storage;solar): the record does not say whether rules are being drafted
-36069,NY,Ontario,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-west-bloomfield-2024,"West Bloomfield (battery_storage;solar): severity 4 in force, not yet read against its source"
 36069,NY,Ontario,PAUSE_NO_START_DATE,restriction,nrel:solar:3606921699,"East Bloomfield Town (solar): no enactment date, so its time in force is unknown"
 36071,NY,Orange,PAUSE_NO_END_DATE,status,mn:ny-chester-orange-county-2025,Chester (Orange County) (battery_storage): in force with no end date on record
 36071,NY,Orange,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-chester-orange-county-2025,Chester (Orange County) (battery_storage): the record does not say whether rules are being drafted
 36071,NY,Orange,PAUSE_NO_START_DATE,restriction,nrel:wind:3607129553,"Goshen Town (wind): no enactment date, so its time in force is unknown"
 36073,NY,Orleans,PAST_END_DATE,status,mn:ny-carlton-undated,"Carlton (battery_storage): runs to 2026-09-30 (text); nothing on record says whether it was extended, replaced or lapsed"
 36073,NY,Orleans,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-carlton-undated,"Carlton (battery_storage): marked extended, with no extension date on record"
-36073,NY,Orleans,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-carlton-undated,Carlton (battery_storage): the record does not say whether rules are being drafted
-36073,NY,Orleans,PAUSE_NO_START_DATE,restriction,mn:ny-carlton-undated,"Carlton (battery_storage): no enactment date, so its time in force is unknown"
 36073,NY,Orleans,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5711,"Town of Yates (wind): severity 3 in force, not yet read against its source"
 36075,NY,Oswego,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-oswego-city-2025,"Oswego City (battery_storage;solar;wind): marked extended, with no extension date on record"
 36075,NY,Oswego,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-oswego-city-2025,Oswego City (battery_storage;solar;wind): the record does not say whether rules are being drafted
 36075,NY,Oswego,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5710,"Town of Richland (wind): severity 3 in force, not yet read against its source"
 36077,NY,Otsego,PAST_END_DATE,status,mn:ny-hartwick-2026,"Hartwick (solar): runs to 2026-09-20 (text); nothing on record says whether it was extended, replaced or lapsed"
-36077,NY,Otsego,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-hartwick-2026,Hartwick (solar): the record does not say whether rules are being drafted
-36077,NY,Otsego,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-hartwick-2026,"Hartwick (solar): severity 4 in force, not yet read against its source"
 36079,NY,Putnam,PAST_END_DATE,status,mn:ny-kent-putnam-county-2024,"Kent (Putnam County) (battery_storage): runs to 2026-08-31 (text); nothing on record says whether it was extended, replaced or lapsed"
 36079,NY,Putnam,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-kent-putnam-county-2024,"Kent (Putnam County) (battery_storage): marked extended, with no extension date on record"
-36079,NY,Putnam,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-kent-putnam-county-2024,"Kent (Putnam County) (battery_storage): severity 4 in force, not yet read against its source"
 36079,NY,Putnam,PAUSE_NO_START_DATE,restriction,nrel:wind:3607960147,"Putnam Valley Town (wind): no enactment date, so its time in force is unknown"
-36083,NY,Rensselaer,PAUSE_NO_END_DATE,status,sabin:S26R-5709,Town of Hoosick (solar;wind): in force with no end date on record
-36083,NY,Rensselaer,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5709,Town of Hoosick (solar;wind): the record does not say whether rules are being drafted
-36083,NY,Rensselaer,PAUSE_NO_START_DATE,restriction,sabin:S26R-5709,"Town of Hoosick (solar;wind): no enactment date, so its time in force is unknown"
-36083,NY,Rensselaer,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5709,"Town of Hoosick (solar;wind): severity 4 in force, not yet read against its source"
+36083,NY,Rensselaer,PAST_END_DATE,status,sabin:S26R-5709,"Town of Hoosick (solar;wind): runs to 2025-03 (term); nothing on record says whether it was extended, replaced or lapsed"
 36087,NY,Rockland,PAUSE_NO_END_DATE,status,mn:ny-town-of-orangetown-2026,Town of Orangetown (battery_storage): in force with no end date on record
 36087,NY,Rockland,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-town-of-orangetown-2026,Town of Orangetown (battery_storage): the record does not say whether rules are being drafted
 36087,NY,Rockland,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-town-of-orangetown-2026,"Town of Orangetown (battery_storage): severity 4 in force, not yet read against its source"
 36089,NY,St. Lawrence,PAST_END_DATE,status,mn:ny-brasher-2024,"Brasher (battery_storage): runs to 2026-10-31 (text); nothing on record says whether it was extended, replaced or lapsed"
 36089,NY,St. Lawrence,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-brasher-2024,"Brasher (battery_storage): marked extended, with no extension date on record"
-36089,NY,St. Lawrence,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-brasher-2024,"Brasher (battery_storage): severity 4 in force, not yet read against its source"
 36089,NY,St. Lawrence,PAUSE_NO_END_DATE,status,mn:ny-norfolk-2025,Norfolk (battery_storage): in force with no end date on record
 36089,NY,St. Lawrence,PAUSE_NO_END_DATE,status,mn:ny-oswegatchie-2023,Oswegatchie (battery_storage): in force with no end date on record
 36089,NY,St. Lawrence,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-oswegatchie-2023,"Oswegatchie (battery_storage): marked extended, with no extension date on record"
@@ -1285,20 +1123,11 @@ county_fips,state,county,check,route,instrument_id,detail
 36091,NY,Saratoga,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5707,Town of Clifton Park (battery_storage): the record does not say whether rules are being drafted
 36091,NY,Saratoga,PAUSE_NO_START_DATE,restriction,sabin:S26R-5707,"Town of Clifton Park (battery_storage): no enactment date, so its time in force is unknown"
 36091,NY,Saratoga,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5707,"Town of Clifton Park (battery_storage): severity 4 in force, not yet read against its source"
-36091,NY,Saratoga,PAUSE_NO_END_DATE,status,sabin:REC-0297,Town of Clifton Park (solar): in force with no end date on record
-36091,NY,Saratoga,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0297,Town of Clifton Park (solar): the record does not say whether rules are being drafted
-36091,NY,Saratoga,PAUSE_NO_START_DATE,restriction,sabin:REC-0297,"Town of Clifton Park (solar): no enactment date, so its time in force is unknown"
-36091,NY,Saratoga,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0297,"Town of Clifton Park (solar): severity 4 in force, not yet read against its source"
+36091,NY,Saratoga,PAST_END_DATE,status,sabin:REC-0297,"Town of Clifton Park (solar): runs to 2021-07 (term); nothing on record says whether it was extended, replaced or lapsed"
 36093,NY,Schenectady,PAUSE_NO_START_DATE,restriction,sabin:S26R-5703,"Town of Duanesburg (battery_storage): no enactment date, so its time in force is unknown"
 36093,NY,Schenectady,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5703,"Town of Duanesburg (battery_storage): severity 4 in force, not yet read against its source"
-36093,NY,Schenectady,PAUSE_NO_END_DATE,status,sabin:REC-0301,Town of Duanesburg (solar): in force with no end date on record
-36093,NY,Schenectady,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0301,Town of Duanesburg (solar): the record does not say whether rules are being drafted
-36093,NY,Schenectady,PAUSE_NO_START_DATE,restriction,sabin:REC-0301,"Town of Duanesburg (solar): no enactment date, so its time in force is unknown"
-36093,NY,Schenectady,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0301,"Town of Duanesburg (solar): severity 4 in force, not yet read against its source"
-36093,NY,Schenectady,PAUSE_NO_END_DATE,status,sabin:S26R-5702,Town of Glenville (solar): in force with no end date on record
-36093,NY,Schenectady,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5702,Town of Glenville (solar): the record does not say whether rules are being drafted
-36093,NY,Schenectady,PAUSE_NO_START_DATE,restriction,sabin:S26R-5702,"Town of Glenville (solar): no enactment date, so its time in force is unknown"
-36093,NY,Schenectady,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5702,"Town of Glenville (solar): severity 4 in force, not yet read against its source"
+36093,NY,Schenectady,PAST_END_DATE,status,sabin:REC-0301,"Town of Duanesburg (solar): runs to 2020-07 (term); nothing on record says whether it was extended, replaced or lapsed"
+36093,NY,Schenectady,PAST_END_DATE,status,sabin:S26R-5702,"Town of Glenville (solar): runs to 2026-04 (term); nothing on record says whether it was extended, replaced or lapsed"
 36093,NY,Schenectady,PAUSE_NO_END_DATE,status,sabin:S26R-5704,Town of Rotterdam (battery_storage): in force with no end date on record
 36093,NY,Schenectady,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5704,Town of Rotterdam (battery_storage): the record does not say whether rules are being drafted
 36093,NY,Schenectady,PAUSE_NO_START_DATE,restriction,sabin:S26R-5704,"Town of Rotterdam (battery_storage): no enactment date, so its time in force is unknown"
@@ -1307,8 +1136,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36095,NY,Schoharie,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5700,"Town of Middleburgh (solar;wind): severity 4 in force, not yet read against its source"
 36097,NY,Schuyler,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5699,"Catharine (wind): severity 3 in force, not yet read against its source"
 36101,NY,Steuben,PAST_END_DATE,status,mn:ny-cameron-2024,"Cameron (battery_storage;solar): runs to 2026-08-31 (text); nothing on record says whether it was extended, replaced or lapsed"
-36101,NY,Steuben,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-cameron-2024,Cameron (battery_storage;solar): the record does not say whether rules are being drafted
-36101,NY,Steuben,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-cameron-2024,"Cameron (battery_storage;solar): severity 4 in force, not yet read against its source"
 36101,NY,Steuben,PAUSE_NO_END_DATE,status,mn:ny-campbell-undated,Campbell (battery_storage): in force with no end date on record
 36101,NY,Steuben,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-campbell-undated,Campbell (battery_storage): the record does not say whether rules are being drafted
 36101,NY,Steuben,PAUSE_NO_START_DATE,restriction,mn:ny-campbell-undated,"Campbell (battery_storage): no enactment date, so its time in force is unknown"
@@ -1322,9 +1149,7 @@ county_fips,state,county,check,route,instrument_id,detail
 36101,NY,Steuben,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-greenwood-undated,Greenwood (battery_storage): the record does not say whether rules are being drafted
 36101,NY,Steuben,PAUSE_NO_START_DATE,restriction,mn:ny-greenwood-undated,"Greenwood (battery_storage): no enactment date, so its time in force is unknown"
 36101,NY,Steuben,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-greenwood-undated,"Greenwood (battery_storage): severity 4 in force, not yet read against its source"
-36101,NY,Steuben,PAUSE_NO_END_DATE,status,mn:ny-prattsburgh-2024,Prattsburgh (battery_storage;solar): in force with no end date on record
-36101,NY,Steuben,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-prattsburgh-2024,Prattsburgh (battery_storage;solar): the record does not say whether rules are being drafted
-36101,NY,Steuben,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-prattsburgh-2024,"Prattsburgh (battery_storage;solar): severity 4 in force, not yet read against its source"
+36101,NY,Steuben,PAST_END_DATE,status,mn:ny-prattsburgh-2024,"Prattsburgh (battery_storage;solar): runs to 2025-04 (term); nothing on record says whether it was extended, replaced or lapsed"
 36101,NY,Steuben,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5693,"Caton (wind): severity 3 in force, not yet read against its source"
 36101,NY,Steuben,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5694,"Corning (wind): severity 3 in force, not yet read against its source"
 36101,NY,Steuben,PAUSE_NO_START_DATE,restriction,sabin:S26R-5697,"Fremont (wind): no enactment date, so its time in force is unknown"
@@ -1334,7 +1159,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36103,NY,Suffolk,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-babylon-2024,"Babylon (battery_storage): marked extended, with no extension date on record"
 36103,NY,Suffolk,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-babylon-2024,Babylon (battery_storage): the record does not say whether rules are being drafted
 36103,NY,Suffolk,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-babylon-2024,"Babylon (battery_storage): severity 4 in force, not yet read against its source"
-36103,NY,Suffolk,PAUSE_NO_END_DATE,status,mn:ny-huntington-2026,Huntington (battery_storage): in force with no end date on record
 36103,NY,Suffolk,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-huntington-2026,Huntington (battery_storage): the record does not say whether rules are being drafted
 36103,NY,Suffolk,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-huntington-2026,"Huntington (battery_storage): severity 4 in force, not yet read against its source"
 36103,NY,Suffolk,PAUSE_NO_END_DATE,status,mn:ny-islip-2024,Islip (battery_storage): in force with no end date on record
@@ -1342,7 +1166,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36103,NY,Suffolk,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-islip-2024,Islip (battery_storage): the record does not say whether rules are being drafted
 36103,NY,Suffolk,PAST_END_DATE,status,mn:ny-smithtown-2024,"Smithtown (battery_storage): runs to 2026-10-23 (text); nothing on record says whether it was extended, replaced or lapsed"
 36103,NY,Suffolk,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-smithtown-2024,"Smithtown (battery_storage): marked extended, with no extension date on record"
-36103,NY,Suffolk,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-smithtown-2024,Smithtown (battery_storage): the record does not say whether rules are being drafted
 36103,NY,Suffolk,PAUSE_NO_END_DATE,status,mn:ny-southold-2023,Southold (battery_storage): in force with no end date on record
 36103,NY,Suffolk,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-southold-2023,"Southold (battery_storage): marked extended, with no extension date on record"
 36103,NY,Suffolk,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-southold-2023,"Southold (battery_storage): severity 4 in force, not yet read against its source"
@@ -1355,14 +1178,8 @@ county_fips,state,county,check,route,instrument_id,detail
 36105,NY,Sullivan,PAUSE_NO_START_DATE,restriction,sabin:S26R-5686,"Cochecton (solar): no enactment date, so its time in force is unknown"
 36105,NY,Sullivan,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5686,Cochecton (solar): the source files it as 'ban or moratorium' without saying which
 36105,NY,Sullivan,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5686,"Cochecton (solar): severity 4 in force, not yet read against its source"
-36109,NY,Tompkins,PAUSE_NO_END_DATE,status,sabin:REC-0302,Enfield (solar;wind): in force with no end date on record
-36109,NY,Tompkins,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0302,Enfield (solar;wind): the record does not say whether rules are being drafted
-36109,NY,Tompkins,PAUSE_NO_START_DATE,restriction,sabin:REC-0302,"Enfield (solar;wind): no enactment date, so its time in force is unknown"
-36109,NY,Tompkins,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0302,"Enfield (solar;wind): severity 4 in force, not yet read against its source"
-36109,NY,Tompkins,PAUSE_NO_END_DATE,status,sabin:REC-0300,Town of Dryden (solar): in force with no end date on record
-36109,NY,Tompkins,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0300,Town of Dryden (solar): the record does not say whether rules are being drafted
-36109,NY,Tompkins,PAUSE_NO_START_DATE,restriction,sabin:REC-0300,"Town of Dryden (solar): no enactment date, so its time in force is unknown"
-36109,NY,Tompkins,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0300,"Town of Dryden (solar): severity 4 in force, not yet read against its source"
+36109,NY,Tompkins,PAST_END_DATE,status,sabin:REC-0302,"Enfield (solar;wind): runs to 2019-11 (text); nothing on record says whether it was extended, replaced or lapsed"
+36109,NY,Tompkins,PAST_END_DATE,status,sabin:REC-0300,"Town of Dryden (solar): runs to 2017-01 (term); nothing on record says whether it was extended, replaced or lapsed"
 36111,NY,Ulster,PAUSE_NO_END_DATE,status,mn:ny-gardiner-2025,Gardiner (battery_storage): in force with no end date on record
 36111,NY,Ulster,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-gardiner-2025,Gardiner (battery_storage): the record does not say whether rules are being drafted
 36111,NY,Ulster,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-gardiner-2025,"Gardiner (battery_storage): severity 4 in force, not yet read against its source"
@@ -1389,11 +1206,10 @@ county_fips,state,county,check,route,instrument_id,detail
 36119,NY,Westchester,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-bedford-2024,"Bedford (battery_storage): severity 4 in force, not yet read against its source"
 36119,NY,Westchester,PAUSE_NO_END_DATE,status,mn:ny-cortlandt-2024,Cortlandt (battery_storage): in force with no end date on record
 36119,NY,Westchester,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-cortlandt-2024,Cortlandt (battery_storage): the record does not say whether rules are being drafted
-36119,NY,Westchester,PAST_END_DATE,status,mn:ny-new-castle-2025,"New Castle (battery_storage): runs to 2025-08-11 (term); nothing on record says whether it was extended, replaced or lapsed"
+36119,NY,Westchester,PAST_END_DATE,status,mn:ny-new-castle-2025,"New Castle (battery_storage): runs to 2026-08 (text); nothing on record says whether it was extended, replaced or lapsed"
 36119,NY,Westchester,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-new-castle-2025,"New Castle (battery_storage): marked extended, with no extension date on record"
 36119,NY,Westchester,PAST_END_DATE,status,mn:ny-peekskill-2025,"Peekskill (battery_storage): runs to 2026-05-24 (text); nothing on record says whether it was extended, replaced or lapsed"
 36119,NY,Westchester,PAUSE_EXTENSIONS_UNKNOWN,status,mn:ny-peekskill-2025,"Peekskill (battery_storage): marked extended, with no extension date on record"
-36119,NY,Westchester,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-peekskill-2025,"Peekskill (battery_storage): severity 4 in force, not yet read against its source"
 36119,NY,Westchester,PAST_END_DATE,status,mn:ny-yonkers-2024,"Yonkers (battery_storage): runs to 2026-03-31 (text); nothing on record says whether it was extended, replaced or lapsed"
 36119,NY,Westchester,PAUSE_NO_START_DATE,restriction,sabin:S26R-6301,"Town of New Castle (solar): no enactment date, so its time in force is unknown"
 36119,NY,Westchester,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6301,Town of New Castle (solar): the source files it as 'ban or moratorium' without saying which
@@ -1403,9 +1219,6 @@ county_fips,state,county,check,route,instrument_id,detail
 36119,NY,Westchester,PAUSE_NO_START_DATE,restriction,sabin:S26R-5674,"Village of Mount Kisco (battery_storage): no enactment date, so its time in force is unknown"
 36119,NY,Westchester,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5674,"Village of Mount Kisco (battery_storage): severity 4 in force, not yet read against its source"
 36121,NY,Wyoming,PAST_END_DATE,status,mn:ny-gainesville-undated,"Gainesville (battery_storage): runs to 2026-10-20 (text); nothing on record says whether it was extended, replaced or lapsed"
-36121,NY,Wyoming,PAUSE_DRAFTING_UNKNOWN,status,mn:ny-gainesville-undated,Gainesville (battery_storage): the record does not say whether rules are being drafted
-36121,NY,Wyoming,PAUSE_NO_START_DATE,restriction,mn:ny-gainesville-undated,"Gainesville (battery_storage): no enactment date, so its time in force is unknown"
-36121,NY,Wyoming,UNVERIFIED_IN_HEADLINE,restriction,mn:ny-gainesville-undated,"Gainesville (battery_storage): severity 4 in force, not yet read against its source"
 36123,NY,Yates,PAUSE_NO_START_DATE,restriction,sabin:S26R-5672,"Benton (wind): no enactment date, so its time in force is unknown"
 36123,NY,Yates,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5672,Benton (wind): the source files it as 'ban or moratorium' without saying which
 36123,NY,Yates,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5672,"Benton (wind): severity 4 in force, not yet read against its source"
@@ -1427,7 +1240,6 @@ county_fips,state,county,check,route,instrument_id,detail
 37053,NC,Currituck,PAUSE_NO_START_DATE,restriction,sabin:REC-0310,"Currituck County (solar;wind): no enactment date, so its time in force is unknown"
 37053,NC,Currituck,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0310,Currituck County (solar;wind): the source files it as 'ban or moratorium' without saying which
 37053,NC,Currituck,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0310,"Currituck County (solar;wind): severity 4 in force, not yet read against its source"
-37055,NC,Dare,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.01, national rank 382 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 37073,NC,Gates,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5662,"Gates County (wind): severity 3 in force, not yet read against its source"
 37077,NC,Granville,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5661,"Granville County (wind): severity 3 in force, not yet read against its source"
 37085,NC,Harnett,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5660,"Harnett County (wind): severity 3 in force, not yet read against its source"
@@ -1442,7 +1254,7 @@ county_fips,state,county,check,route,instrument_id,detail
 37091,NC,Hertford,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5658,Hertford County (solar;wind): the source files it as 'ban or moratorium' without saying which
 37091,NC,Hertford,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5658,"Hertford County (solar;wind): severity 4 in force, not yet read against its source"
 37097,NC,Iredell,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0312,"Iredell County (wind): severity 3 in force, not yet read against its source"
-37099,NC,Jackson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+37099,NC,Jackson,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 37101,NC,Johnston,PAUSE_NO_START_DATE,restriction,sabin:S26R-5655,"Johnston County (wind): no enactment date, so its time in force is unknown"
 37101,NC,Johnston,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5655,Johnston County (wind): the source files it as 'ban or moratorium' without saying which
 37101,NC,Johnston,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5655,"Johnston County (wind): severity 4 in force, not yet read against its source"
@@ -1450,7 +1262,7 @@ county_fips,state,county,check,route,instrument_id,detail
 37133,NC,Onslow,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5653,Onslow County (solar;wind): the source files it as 'ban or moratorium' without saying which
 37133,NC,Onslow,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5653,"Onslow County (solar;wind): severity 4 in force, not yet read against its source"
 37133,NC,Onslow,PAUSE_NO_START_DATE,restriction,nrel:wind:37133,"Onslow County (wind): no enactment date, so its time in force is unknown"
-37137,NC,Pamlico,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 31.05, national rank 223 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+37137,NC,Pamlico,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 31.05, national rank 207 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 37139,NC,Pasquotank,PAUSE_DRAFTING_UNKNOWN,status,mn:nc-pasquotank-county-solar-2026,Pasquotank County (solar) (solar): the record does not say whether rules are being drafted
 37139,NC,Pasquotank,UNVERIFIED_IN_HEADLINE,restriction,mn:nc-pasquotank-county-solar-2026,"Pasquotank County (solar) (solar): severity 4 in force, not yet read against its source"
 37139,NC,Pasquotank,PAUSE_NO_START_DATE,restriction,sabin:S26R-5651,"Pasquotank County (solar): no enactment date, so its time in force is unknown"
@@ -1459,12 +1271,12 @@ county_fips,state,county,check,route,instrument_id,detail
 37143,NC,Perquimans,PAUSE_NO_START_DATE,restriction,sabin:S26R-5650,"Perquimans County (solar): no enactment date, so its time in force is unknown"
 37143,NC,Perquimans,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5650,Perquimans County (solar): the source files it as 'ban or moratorium' without saying which
 37143,NC,Perquimans,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5650,"Perquimans County (solar): severity 4 in force, not yet read against its source"
-37159,NC,Rowan,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.2, national rank 238 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+37159,NC,Rowan,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.2, national rank 222 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 37163,NC,Sampson,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5648,"Sampson County (wind): severity 3 in force, not yet read against its source"
 37185,NC,Warren,PAUSE_NO_START_DATE,restriction,nrel:wind:37185,"Warren County (wind): no enactment date, so its time in force is unknown"
 37195,NC,Wilson,PAUSE_DRAFTING_UNKNOWN,status,mn:nc-city-of-wilson-2026,City of Wilson (battery_storage): the record does not say whether rules are being drafted
 37195,NC,Wilson,UNVERIFIED_IN_HEADLINE,restriction,mn:nc-city-of-wilson-2026,"City of Wilson (battery_storage): severity 4 in force, not yet read against its source"
-38001,ND,Adams,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+38001,ND,Adams,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 38025,ND,Dunn,PAUSE_DRAFTING_UNKNOWN,status,mn:nd-dunn-county-2026,Dunn County (battery_storage;solar): the record does not say whether rules are being drafted
 38025,ND,Dunn,UNVERIFIED_IN_HEADLINE,restriction,mn:nd-dunn-county-2026,"Dunn County (battery_storage;solar): severity 4 in force, not yet read against its source"
 38035,ND,Grand Forks,PAUSE_NO_START_DATE,restriction,sabin:REC-0322,"City of Grand Forks (wind): no enactment date, so its time in force is unknown"
@@ -1473,17 +1285,14 @@ county_fips,state,county,check,route,instrument_id,detail
 38035,ND,Grand Forks,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0323,Grand Forks County (wind): the record does not say whether rules are being drafted
 38035,ND,Grand Forks,PAUSE_NO_START_DATE,restriction,sabin:REC-0323,"Grand Forks County (wind): no enactment date, so its time in force is unknown"
 38035,ND,Grand Forks,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0323,"Grand Forks County (wind): severity 4 in force, not yet read against its source"
-38055,ND,McLean,PAUSE_NO_END_DATE,status,sabin:REC-0325,McLean County (solar): in force with no end date on record
-38055,ND,McLean,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0325,McLean County (solar): the record does not say whether rules are being drafted
-38055,ND,McLean,PAUSE_NO_START_DATE,restriction,sabin:REC-0325,"McLean County (solar): no enactment date, so its time in force is unknown"
-38055,ND,McLean,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0325,"McLean County (solar): severity 4 in force, not yet read against its source"
+38055,ND,McLean,PAST_END_DATE,status,sabin:REC-0325,"McLean County (solar): runs to 2022-08 (term); nothing on record says whether it was extended, replaced or lapsed"
 38055,ND,McLean,PAUSE_NO_START_DATE,restriction,sabin:REC-0324,"McLean County (wind): no enactment date, so its time in force is unknown"
 38055,ND,McLean,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0324,"McLean County (wind): severity 4 in force, not yet read against its source"
-38057,ND,Mercer,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 38.05, national rank 103 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-38061,ND,Mountrail,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.58, national rank 352 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+38057,ND,Mercer,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 38.05, national rank 97 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+38061,ND,Mountrail,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.46, national rank 333 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 38085,ND,Sioux,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5636,"Sioux County (wind): severity 3 in force, not yet read against its source"
 38095,ND,Towner,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5634,"Towner County (wind): severity 3 in force, not yet read against its source"
-38103,ND,Wells,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+38103,ND,Wells,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 39001,OH,Adams,PAUSE_NO_START_DATE,restriction,sabin:REC-0339,"Adams County (solar): no enactment date, so its time in force is unknown"
 39001,OH,Adams,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0339,Adams County (solar): the source files it as 'ban or moratorium' without saying which
 39001,OH,Adams,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0339,"Adams County (solar): severity 4 in force, not yet read against its source"
@@ -1554,7 +1363,7 @@ county_fips,state,county,check,route,instrument_id,detail
 39155,OH,Trumbull,UNVERIFIED_IN_HEADLINE,restriction,mn:oh-village-of-lordstown-2026,"Village of Lordstown (battery_storage): severity 4 in force, not yet read against its source"
 39159,OH,Union,PAUSE_NO_START_DATE,restriction,sabin:S26R-5605,"Union County (solar): no enactment date, so its time in force is unknown"
 39159,OH,Union,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5605,"Union County (solar): severity 4 in force, not yet read against its source"
-39165,OH,Warren,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 284 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+39165,OH,Warren,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.05, national rank 267 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 39169,OH,Wayne,PAUSE_NO_START_DATE,restriction,sabin:S26R-5604,"Wayne County (solar): no enactment date, so its time in force is unknown"
 39169,OH,Wayne,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5604,"Wayne County (solar): severity 4 in force, not yet read against its source"
 39169,OH,Wayne,PAUSE_NO_START_DATE,restriction,nrel:wind:39169,"Wayne County (wind): no enactment date, so its time in force is unknown"
@@ -1562,7 +1371,7 @@ county_fips,state,county,check,route,instrument_id,detail
 39175,OH,Wyandot,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5603,"Wyandot County (solar;wind): severity 4 in force, not yet read against its source"
 40071,OK,Kay,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5601,"Ponca (wind): severity 3 in force, not yet read against its source"
 40143,OK,Tulsa,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0358,"Owasso (wind): severity 3 in force, not yet read against its source"
-41001,OR,Baker,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.88, national rank 262 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+41001,OR,Baker,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.88, national rank 239 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 41063,OR,Wallowa,PAUSE_NO_START_DATE,restriction,sabin:S26R-5595,"Wallowa County (wind): no enactment date, so its time in force is unknown"
 41063,OR,Wallowa,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5595,Wallowa County (wind): the source files it as 'ban or moratorium' without saying which
 41063,OR,Wallowa,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5595,"Wallowa County (wind): severity 4 in force, not yet read against its source"
@@ -1614,14 +1423,13 @@ county_fips,state,county,check,route,instrument_id,detail
 42017,PA,Bucks,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5570,Warrington (wind): the source files it as 'ban or moratorium' without saying which
 42017,PA,Bucks,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5570,"Warrington (wind): severity 4 in force, not yet read against its source"
 42019,PA,Butler,PAST_END_DATE,status,mn:pa-adams-township-butler-county-2026,"Adams Township (Butler County) (solar): runs to 2026-09-23 (text); nothing on record says whether it was extended, replaced or lapsed"
-42019,PA,Butler,UNVERIFIED_IN_HEADLINE,restriction,mn:pa-adams-township-butler-county-2026,"Adams Township (Butler County) (solar): severity 4 in force, not yet read against its source"
 42021,PA,Cambria,PAUSE_NO_START_DATE,restriction,sabin:S26R-5566,"Jackson (wind): no enactment date, so its time in force is unknown"
 42021,PA,Cambria,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5566,Jackson (wind): the source files it as 'ban or moratorium' without saying which
 42021,PA,Cambria,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5566,"Jackson (wind): severity 4 in force, not yet read against its source"
 42021,PA,Cambria,PAUSE_NO_START_DATE,restriction,sabin:S26R-5568,"Upper Yoder (wind): no enactment date, so its time in force is unknown"
 42021,PA,Cambria,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5568,Upper Yoder (wind): the source files it as 'ban or moratorium' without saying which
 42021,PA,Cambria,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5568,"Upper Yoder (wind): severity 4 in force, not yet read against its source"
-42025,PA,Carbon,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.3, national rank 237 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42025,PA,Carbon,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.3, national rank 221 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42027,PA,Centre,PAUSE_NO_START_DATE,restriction,sabin:S26R-5564,"Halfmoon (wind): no enactment date, so its time in force is unknown"
 42027,PA,Centre,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5564,Halfmoon (wind): the source files it as 'ban or moratorium' without saying which
 42027,PA,Centre,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5564,"Halfmoon (wind): severity 4 in force, not yet read against its source"
@@ -1642,7 +1450,7 @@ county_fips,state,county,check,route,instrument_id,detail
 42033,PA,Clearfield,PAUSE_NO_START_DATE,restriction,sabin:S26R-5555,"Curwensville (solar): no enactment date, so its time in force is unknown"
 42033,PA,Clearfield,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5555,Curwensville (solar): the source files it as 'ban or moratorium' without saying which
 42033,PA,Clearfield,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5555,"Curwensville (solar): severity 4 in force, not yet read against its source"
-42041,PA,Cumberland,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 41.01, national rank 75 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42041,PA,Cumberland,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 40.74, national rank 70 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42043,PA,Dauphin,PAUSE_NO_START_DATE,restriction,sabin:S26R-5553,"Conewago (solar): no enactment date, so its time in force is unknown"
 42043,PA,Dauphin,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5553,Conewago (solar): the source files it as 'ban or moratorium' without saying which
 42043,PA,Dauphin,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5553,"Conewago (solar): severity 4 in force, not yet read against its source"
@@ -1655,7 +1463,7 @@ county_fips,state,county,check,route,instrument_id,detail
 42043,PA,Dauphin,PAUSE_NO_START_DATE,restriction,sabin:S26R-5552,"Upper Paxton (wind): no enactment date, so its time in force is unknown"
 42043,PA,Dauphin,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5552,Upper Paxton (wind): the source files it as 'ban or moratorium' without saying which
 42043,PA,Dauphin,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5552,"Upper Paxton (wind): severity 4 in force, not yet read against its source"
-42049,PA,Erie,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 38.89, national rank 94 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42049,PA,Erie,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 38.89, national rank 88 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42069,PA,Lackawanna,PAUSE_NO_START_DATE,restriction,nrel:wind:4206971872,"South Abington Township (wind): no enactment date, so its time in force is unknown"
 42069,PA,Lackawanna,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 72.29, national rank 1 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42071,PA,Lancaster,PAUSE_NO_START_DATE,restriction,nrel:wind:4207121344,"East Lampeter Township (wind): no enactment date, so its time in force is unknown"
@@ -1663,18 +1471,18 @@ county_fips,state,county,check,route,instrument_id,detail
 42073,PA,Lawrence,PAUSE_NO_START_DATE,restriction,sabin:REC-0378,"North Beaver Township (solar): no enactment date, so its time in force is unknown"
 42073,PA,Lawrence,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0378,"North Beaver Township (solar): severity 4 in force, not yet read against its source"
 42075,PA,Lebanon,PAUSE_NO_START_DATE,restriction,nrel:wind:4207554928,"North Cornwall Township (wind): no enactment date, so its time in force is unknown"
-42075,PA,Lebanon,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 43.58, national rank 52 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42075,PA,Lebanon,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 43.58, national rank 46 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42077,PA,Lehigh,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5547,"Bethlehem (wind): severity 3 in force, not yet read against its source"
 42077,PA,Lehigh,PAUSE_NO_START_DATE,restriction,sabin:S26R-5548,"Coopersburg (solar;wind): no enactment date, so its time in force is unknown"
 42077,PA,Lehigh,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5548,Coopersburg (solar;wind): the source files it as 'ban or moratorium' without saying which
 42077,PA,Lehigh,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5548,"Coopersburg (solar;wind): severity 4 in force, not yet read against its source"
 42077,PA,Lehigh,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5546,"Macungie (wind): severity 3 in force, not yet read against its source"
 42077,PA,Lehigh,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5545,"Upper Saucon (wind): severity 3 in force, not yet read against its source"
-42079,PA,Luzerne,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 62.84, national rank 9 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42079,PA,Luzerne,TIER_WITHOUT_INSTRUMENT,issue,,"tier closed (score 62.56, national rank 8 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42081,PA,Lycoming,PAUSE_NO_START_DATE,restriction,nrel:wind:4208117696,"Cummings Township (wind): no enactment date, so its time in force is unknown"
-42081,PA,Lycoming,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.76, national rank 313 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42081,PA,Lycoming,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.76, national rank 289 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42091,PA,Montgomery,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:4209179008,"Upper Dublin Township (wind): severity 3 in force, not yet read against its source"
-42095,PA,Northampton,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.02, national rank 240 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42095,PA,Northampton,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.74, national rank 227 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42097,PA,Northumberland,PAUSE_NO_START_DATE,restriction,sabin:REC-0379,"Ralpho Township (solar): no enactment date, so its time in force is unknown"
 42097,PA,Northumberland,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0379,Ralpho Township (solar): the source files it as 'ban or moratorium' without saying which
 42097,PA,Northumberland,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0379,"Ralpho Township (solar): severity 4 in force, not yet read against its source"
@@ -1700,14 +1508,11 @@ county_fips,state,county,check,route,instrument_id,detail
 42125,PA,Washington,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5535,Washington County (battery_storage;solar): the source files it as 'ban or moratorium' without saying which
 42125,PA,Washington,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5535,"Washington County (battery_storage;solar): severity 4 in force, not yet read against its source"
 42125,PA,Washington,PAUSE_NO_START_DATE,restriction,nrel:wind:4212512704,"Charleroi Borough (wind): no enactment date, so its time in force is unknown"
-42127,PA,Wayne,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 27.07, national rank 301 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-42129,PA,Westmoreland,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 27.96, national rank 288 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42127,PA,Wayne,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.79, national rank 288 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+42129,PA,Westmoreland,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 27.69, national rank 275 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 42133,PA,York,PAUSE_NO_START_DATE,restriction,nrel:wind:4213337488,"Jackson Township (wind): no enactment date, so its time in force is unknown"
 42133,PA,York,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:4213350328,"Monaghan Township (wind): severity 3 in force, not yet read against its source"
-44003,RI,Kent,PAUSE_NO_END_DATE,status,sabin:REC-0390,City of Warwick (solar): in force with no end date on record
-44003,RI,Kent,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0390,City of Warwick (solar): the record does not say whether rules are being drafted
-44003,RI,Kent,PAUSE_NO_START_DATE,restriction,sabin:REC-0390,"City of Warwick (solar): no enactment date, so its time in force is unknown"
-44003,RI,Kent,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0390,"City of Warwick (solar): severity 4 in force, not yet read against its source"
+44003,RI,Kent,PAST_END_DATE,status,sabin:REC-0390,"City of Warwick (solar): runs to 2022-05 (term); nothing on record says whether it was extended, replaced or lapsed"
 44007,RI,Providence,PAUSE_NO_START_DATE,restriction,sabin:REC-0391,"City of Cranston (solar): no enactment date, so its time in force is unknown"
 44007,RI,Providence,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0391,City of Cranston (solar): the source files it as 'ban or moratorium' without saying which
 44007,RI,Providence,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0391,"City of Cranston (solar): severity 4 in force, not yet read against its source"
@@ -1716,10 +1521,7 @@ county_fips,state,county,check,route,instrument_id,detail
 44009,RI,Washington,PAUSE_NO_START_DATE,restriction,sabin:REC-0393,"Town of North Kingstown (wind): no enactment date, so its time in force is unknown"
 44009,RI,Washington,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0393,"Town of North Kingstown (wind): severity 4 in force, not yet read against its source"
 44009,RI,Washington,PAUSE_NO_START_DATE,restriction,nrel:wind:4400914500,"Charlestown Town (wind): no enactment date, so its time in force is unknown"
-45017,SC,Calhoun,PAUSE_NO_END_DATE,status,sabin:REC-0394,Calhoun County (solar): in force with no end date on record
-45017,SC,Calhoun,PAUSE_DRAFTING_UNKNOWN,status,sabin:REC-0394,Calhoun County (solar): the record does not say whether rules are being drafted
-45017,SC,Calhoun,PAUSE_NO_START_DATE,restriction,sabin:REC-0394,"Calhoun County (solar): no enactment date, so its time in force is unknown"
-45017,SC,Calhoun,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0394,"Calhoun County (solar): severity 4 in force, not yet read against its source"
+45017,SC,Calhoun,PAST_END_DATE,status,sabin:REC-0394,"Calhoun County (solar): runs to 2023-09 (term); nothing on record says whether it was extended, replaced or lapsed"
 45027,SC,Clarendon,PAUSE_NO_END_DATE,status,mn:sc-clarendon-county-2026,Clarendon County (battery_storage): in force with no end date on record
 45027,SC,Clarendon,PAUSE_DRAFTING_UNKNOWN,status,mn:sc-clarendon-county-2026,Clarendon County (battery_storage): the record does not say whether rules are being drafted
 45027,SC,Clarendon,UNVERIFIED_IN_HEADLINE,restriction,mn:sc-clarendon-county-2026,"Clarendon County (battery_storage): severity 4 in force, not yet read against its source"
@@ -1729,7 +1531,7 @@ county_fips,state,county,check,route,instrument_id,detail
 46083,SD,Lincoln,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0400,"Lincoln County (wind): severity 3 in force, not yet read against its source"
 46103,SD,Pennington,PAST_END_DATE,status,mn:sd-pennington-county-2024,"Pennington County (solar;wind): runs to 2026-11-18 (text); nothing on record says whether it was extended, replaced or lapsed"
 46111,SD,Sanborn,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0399,"Letcher Township (wind): severity 3 in force, not yet read against its source"
-46119,SD,Sully,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+46119,SD,Sully,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 46125,SD,Turner,PAUSE_DRAFTING_UNKNOWN,status,mn:sd-turner-county-2025,Turner County (solar;wind): the record does not say whether rules are being drafted
 46125,SD,Turner,UNVERIFIED_IN_HEADLINE,restriction,mn:sd-turner-county-2025,"Turner County (solar;wind): severity 4 in force, not yet read against its source"
 46129,SD,Walworth,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0402,"Walworth County (wind): severity 3 in force, not yet read against its source"
@@ -1740,8 +1542,6 @@ county_fips,state,county,check,route,instrument_id,detail
 47051,TN,Franklin,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0414,"Franklin County (solar;wind): severity 4 in force, not yet read against its source"
 47147,TN,Robertson,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5515,"Robertson County (wind): severity 3 in force, not yet read against its source"
 48015,TX,Austin,PAST_END_DATE,status,mn:tx-austin-county-2026,"Austin County (battery_storage): runs to 2026-09-23 (text); nothing on record says whether it was extended, replaced or lapsed"
-48015,TX,Austin,PAUSE_DRAFTING_UNKNOWN,status,mn:tx-austin-county-2026,Austin County (battery_storage): the record does not say whether rules are being drafted
-48015,TX,Austin,UNVERIFIED_IN_HEADLINE,restriction,mn:tx-austin-county-2026,"Austin County (battery_storage): severity 4 in force, not yet read against its source"
 48027,TX,Bell,PAUSE_NO_START_DATE,restriction,sabin:REC-0429,"City of Nolanville (wind): no enactment date, so its time in force is unknown"
 48027,TX,Bell,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0429,"City of Nolanville (wind): severity 4 in force, not yet read against its source"
 48027,TX,Bell,PAUSE_NO_START_DATE,restriction,nrel:wind:4802792030,"Killeen City (wind): no enactment date, so its time in force is unknown"
@@ -1782,11 +1582,11 @@ county_fips,state,county,check,route,instrument_id,detail
 49001,UT,Beaver,PAUSE_DRAFTING_UNKNOWN,status,mn:ut-milford-2026,Milford (solar): the record does not say whether rules are being drafted
 49001,UT,Beaver,UNVERIFIED_IN_HEADLINE,restriction,mn:ut-milford-2026,"Milford (solar): severity 4 in force, not yet read against its source"
 49001,UT,Beaver,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5483,"Beaver County (wind): severity 3 in force, not yet read against its source"
-49009,UT,Daggett,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 357 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+49009,UT,Daggett,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.5, national rank 318 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 49021,UT,Iron,PAUSE_NO_END_DATE,status,mn:ut-iron-county-2026,Iron County (solar): in force with no end date on record
 49021,UT,Iron,UNVERIFIED_IN_HEADLINE,restriction,mn:ut-iron-county-2026,"Iron County (solar): severity 4 in force, not yet read against its source"
 49025,UT,Kane,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0437,"Kane County (solar): severity 3 in force, not yet read against its source"
-49045,UT,Tooele,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.0, national rank 340 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+49045,UT,Tooele,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.72, national rank 312 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 49049,UT,Utah,PAUSE_NO_START_DATE,restriction,sabin:S26R-5480,"Utah County (wind): no enactment date, so its time in force is unknown"
 49049,UT,Utah,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5480,Utah County (wind): the source files it as 'ban or moratorium' without saying which
 49049,UT,Utah,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5480,"Utah County (wind): severity 4 in force, not yet read against its source"
@@ -1796,7 +1596,7 @@ county_fips,state,county,check,route,instrument_id,detail
 50001,VT,Addison,PAUSE_NO_START_DATE,restriction,nrel:wind:5000116000,"Cornwall Town (wind): no enactment date, so its time in force is unknown"
 50001,VT,Addison,PAUSE_NO_START_DATE,restriction,nrel:wind:5000162575,"Salisbury Town (wind): no enactment date, so its time in force is unknown"
 50001,VT,Addison,UNVERIFIED_IN_HEADLINE,restriction,nrel:wind:5000162575,"Salisbury Town (wind): severity 4 in force, not yet read against its source"
-50003,VT,Bennington,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.55, national rank 233 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+50003,VT,Bennington,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.55, national rank 216 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 50005,VT,Caledonia,PAUSE_NO_START_DATE,restriction,sabin:S26R-5478,"Caledonia County; Essex County; Orleans County (wind): no enactment date, so its time in force is unknown"
 50005,VT,Caledonia,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5478,Caledonia County; Essex County; Orleans County (wind): the source files it as 'ban or moratorium' without saying which
 50005,VT,Caledonia,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5478,"Caledonia County; Essex County; Orleans County (wind): severity 4 in force, not yet read against its source"
@@ -1828,8 +1628,7 @@ county_fips,state,county,check,route,instrument_id,detail
 51043,VA,Clarke,PAUSE_NO_START_DATE,restriction,sabin:REC-0453,"Clarke County (solar): no enactment date, so its time in force is unknown"
 51043,VA,Clarke,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:REC-0453,Clarke County (solar): the source files it as 'ban or moratorium' without saying which
 51043,VA,Clarke,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0453,"Clarke County (solar): severity 4 in force, not yet read against its source"
-51047,VA,Culpeper,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.58, national rank 352 of 3144) with no severe instrument in force; a reader will ask what puts it there"
-51061,VA,Fauquier,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.0, national rank 383 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+51047,VA,Culpeper,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.54, national rank 317 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 51071,VA,Giles,PAUSE_NO_START_DATE,restriction,sabin:S26R-5461,"Giles County (solar): no enactment date, so its time in force is unknown"
 51071,VA,Giles,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5461,Giles County (solar): the source files it as 'ban or moratorium' without saying which
 51071,VA,Giles,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5461,"Giles County (solar): severity 4 in force, not yet read against its source"
@@ -1855,7 +1654,7 @@ county_fips,state,county,check,route,instrument_id,detail
 51117,VA,Mecklenburg,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5447,"Mecklenburg County (solar): severity 4 in force, not yet read against its source"
 51143,VA,Pittsylvania,PAUSE_NO_START_DATE,restriction,sabin:S26R-5444,"Pittsylvania County (solar): no enactment date, so its time in force is unknown"
 51143,VA,Pittsylvania,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5444,"Pittsylvania County (solar): severity 4 in force, not yet read against its source"
-51171,VA,Shenandoah,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.7, national rank 316 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+51171,VA,Shenandoah,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 26.66, national rank 292 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 51173,VA,Smyth,PAUSE_NO_START_DATE,restriction,sabin:S26R-5440,"Smyth County (wind): no enactment date, so its time in force is unknown"
 51173,VA,Smyth,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5440,Smyth County (wind): the source files it as 'ban or moratorium' without saying which
 51173,VA,Smyth,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5440,"Smyth County (wind): severity 4 in force, not yet read against its source"
@@ -1864,13 +1663,10 @@ county_fips,state,county,check,route,instrument_id,detail
 51179,VA,Stafford,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5438,Stafford County (solar): the source files it as 'ban or moratorium' without saying which
 51179,VA,Stafford,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5438,"Stafford County (solar): severity 4 in force, not yet read against its source"
 51187,VA,Warren,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5437,"Warren County (wind): severity 3 in force, not yet read against its source"
-51191,VA,Washington,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.05, national rank 193 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+51191,VA,Washington,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 33.05, national rank 183 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 51770,VA,Roanoke,PAUSE_NO_START_DATE,restriction,sabin:S26R-5436,"City of Roanoke (wind): no enactment date, so its time in force is unknown"
 51770,VA,Roanoke,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5436,City of Roanoke (wind): the source files it as 'ban or moratorium' without saying which
 51770,VA,Roanoke,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5436,"City of Roanoke (wind): severity 4 in force, not yet read against its source"
-53025,WA,Grant,PAUSE_NO_END_DATE,status,sabin:REC-0462,Grant County (solar): in force with no end date on record
-53025,WA,Grant,PAUSE_NO_START_DATE,restriction,sabin:REC-0462,"Grant County (solar): no enactment date, so its time in force is unknown"
-53025,WA,Grant,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0462,"Grant County (solar): severity 4 in force, not yet read against its source"
 53025,WA,Grant,PAUSE_NO_END_DATE,status,sabin:S26R-5434,Grant County (wind): in force with no end date on record
 53025,WA,Grant,PAUSE_DRAFTING_UNKNOWN,status,sabin:S26R-5434,Grant County (wind): the record does not say whether rules are being drafted
 53025,WA,Grant,PAUSE_NO_START_DATE,restriction,sabin:S26R-5434,"Grant County (wind): no enactment date, so its time in force is unknown"
@@ -1898,8 +1694,6 @@ county_fips,state,county,check,route,instrument_id,detail
 53049,WA,Pacific,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5429,Pacific County (wind): the source files it as 'ban or moratorium' without saying which
 53049,WA,Pacific,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5429,"Pacific County (wind): severity 4 in force, not yet read against its source"
 53053,WA,Pierce,PAST_END_DATE,status,mn:wa-bonney-lake-2026,"Bonney Lake (battery_storage): runs to 2026-10-11 (text); nothing on record says whether it was extended, replaced or lapsed"
-53053,WA,Pierce,PAUSE_DRAFTING_UNKNOWN,status,mn:wa-bonney-lake-2026,Bonney Lake (battery_storage): the record does not say whether rules are being drafted
-53053,WA,Pierce,UNVERIFIED_IN_HEADLINE,restriction,mn:wa-bonney-lake-2026,"Bonney Lake (battery_storage): severity 4 in force, not yet read against its source"
 53053,WA,Pierce,PAUSE_DRAFTING_UNKNOWN,status,mn:wa-puyallup-2026,Puyallup (battery_storage): the record does not say whether rules are being drafted
 53053,WA,Pierce,UNVERIFIED_IN_HEADLINE,restriction,mn:wa-puyallup-2026,"Puyallup (battery_storage): severity 4 in force, not yet read against its source"
 53057,WA,Skagit,UNVERIFIED_IN_HEADLINE,restriction,mn:wa-mount-vernon-2025,"Mount Vernon (battery_storage): severity 4 in force, not yet read against its source"
@@ -1935,15 +1729,13 @@ county_fips,state,county,check,route,instrument_id,detail
 55081,WI,Monroe,PAUSE_DRAFTING_UNKNOWN,status,mn:wi-monroe-county-2026,Monroe County (battery_storage): the record does not say whether rules are being drafted
 55081,WI,Monroe,UNVERIFIED_IN_HEADLINE,restriction,mn:wi-monroe-county-2026,"Monroe County (battery_storage): severity 4 in force, not yet read against its source"
 55105,WI,Rock,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0490,"Town of Union (wind): severity 3 in force, not yet read against its source"
-55113,WI,Sawyer,PAUSE_NO_END_DATE,status,sabin:S26R-5408,Sawyer County (battery_storage;solar): in force with no end date on record
-55113,WI,Sawyer,PAUSE_NO_START_DATE,restriction,sabin:S26R-5408,"Sawyer County (battery_storage;solar): no enactment date, so its time in force is unknown"
-55113,WI,Sawyer,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5408,"Sawyer County (battery_storage;solar): severity 4 in force, not yet read against its source"
+55113,WI,Sawyer,PAST_END_DATE,status,sabin:S26R-5408,"Sawyer County (battery_storage;solar): runs to 2026-05 (term); nothing on record says whether it was extended, replaced or lapsed"
 55113,WI,Sawyer,PAUSE_NO_START_DATE,restriction,sabin:S26R-5409,"Sawyer County (wind): no enactment date, so its time in force is unknown"
 55113,WI,Sawyer,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5409,Sawyer County (wind): the source files it as 'ban or moratorium' without saying which
 55113,WI,Sawyer,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5409,"Sawyer County (wind): severity 4 in force, not yet read against its source"
 56011,WY,Crook,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0492,"Crook County (wind): severity 3 in force, not yet read against its source"
-56015,WY,Goshen,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.36, national rank 278 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+56015,WY,Goshen,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 28.31, national rank 262 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 56033,WY,Sheridan,PAUSE_NO_START_DATE,restriction,sabin:S26R-5402,"Sheridan County (solar): no enactment date, so its time in force is unknown"
 56033,WY,Sheridan,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5402,Sheridan County (solar): the source files it as 'ban or moratorium' without saying which
 56033,WY,Sheridan,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5402,"Sheridan County (solar): severity 4 in force, not yet read against its source"
-56037,WY,Sweetwater,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 34.88, national rank 154 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+56037,WY,Sweetwater,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 34.88, national rank 143 of 3144) with no severe instrument in force; a reader will ask what puts it there"
