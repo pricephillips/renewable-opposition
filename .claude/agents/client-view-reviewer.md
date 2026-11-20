@@ -50,7 +50,10 @@ client does.
    - a figure a reader could mistake for another (the resemblance score read
      as the record score);
    - wording that would mislead: "ban" for a pause, "in force" for a pending
-     proposal, a date with no year.
+     proposal, a date with no year;
+   - a wall of text: a table cell or note that runs past about four lines or
+     repeats the next column, where a short label with the detail behind the
+     row's expander would do (Price, 2026-11-20: keep the dashboard clean).
 3. Look only at what the profile prints and at the files it comes from
    (`data/processed/`, `data/model/county_record_scores.csv`,
    `config/county_record_score.json`, `docs/county_record_score.md`). You

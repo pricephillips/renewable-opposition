@@ -1,6 +1,6 @@
 {
   "_comment": "The county record score (scripts/county_record_score.py): how restrictive a county is for wind, solar and battery storage, read from its own published record rather than from its resemblance to other counties. Hand-edited; no process writes it. Added 2026-10-21 after the October 16 case studies scored Linn County, IA (two contested solar projects approved, rules in force no stricter than severity 2) above Nicholas County, KY and Cherokee County, KS (each with a moratorium in force). The resemblance score (config/county_model_registration.json) is kept, unchanged, as the profile prior for counties with no record. Like that score, this one is internal: nothing on a page or in a county report reads it without a separate decision by Price.",
-  "version": "2026-11-19",
+  "version": "2026-11-20",
 
   "instruments": {
     "_note": "Points for one restriction instrument (rows sharing an instrument_id are one instrument; its severity is the highest of its rows). Points = severity points x currency x jurisdiction x technology breadth.",
@@ -14,6 +14,8 @@
     "others_weight": 0.25,
     "_others_note": "A county's instrument points are its largest instrument's points plus others_weight times the sum of the rest, so a second and third instrument add to the score without a long list of minor rules outweighing one moratorium.",
     "cap": 70,
+    "other_jurisdictions_cap": 30,
+    "_other_jurisdictions_note": "Price, 2026-11-20 (pilot audit: Lancaster County, PA ranked 1st nationally on 25 township rules, none verified): what city, town, township and village instruments add together is capped at the points of one county-wide moratorium in force at its first term (severity 4 points 40 x term base 0.75 = 30), so local rules never stack past a county moratorium. County-wide instruments are not capped by it.",
     "term": {
       "_note": "Moratorium terms (Hawthorn's renewables pilot review, 2026-11-19): a moratorium is not a ban. A temporary instrument of this severity or higher counts at base + per_extension x extensions + per_year_in_force x years in force, up to max, times drafting_active when the record says the government is drafting the rules it waits for. Bans, and instruments the record does not show to be temporary, count in full. Fields from scripts/moratorium_terms.py. Set by hand; data/model/record_score_fit.md reports what the confirmed project outcomes say about them.",
       "from_severity": 3,

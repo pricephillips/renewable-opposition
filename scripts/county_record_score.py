@@ -482,11 +482,21 @@ def organizing_points(org: dict | None, cfg: dict) -> float:
     return float(min(co["cap"], pts))
 
 
-def stack(points: list[float], cfg: dict) -> float:
-    """The largest in full, the rest at others_weight, capped."""
+def stack(points: list[float], cfg: dict, wide: list[bool] | None = None) -> float:
+    """The largest in full, the rest at others_weight, capped. wide marks
+    each point as a county-wide instrument's (all are when it is None); the
+    part that city, town, township and village instruments add together is
+    capped at other_jurisdictions_cap, so many local rules never outscore
+    one county-wide moratorium."""
     ci = cfg["instruments"]
-    pts = sorted(points, reverse=True)
-    return min(ci["cap"], pts[0] + ci["others_weight"] * sum(pts[1:])) if pts else 0.0
+    if not points:
+        return 0.0
+    pairs = sorted(zip(points, wide if wide is not None else [True] * len(points)), key=lambda t: -t[0])
+    shares = [p * (1.0 if n == 0 else ci["others_weight"]) for n, (p, _) in enumerate(pairs)]
+    county = sum(sh for sh, (_, w) in zip(shares, pairs) if w)
+    local = sum(sh for sh, (_, w) in zip(shares, pairs) if not w)
+    local = min(local, ci.get("other_jurisdictions_cap", local))
+    return min(ci["cap"], county + local)
 
 
 def record(insts: list[dict], zoning: dict | None, outcomes: list[str], cfg: dict, rules: list[dict] = (),
@@ -509,8 +519,9 @@ def _record(insts: list[dict], zoning: list[dict], outcomes: list[str], cfg: dic
     cp = cfg["projects"]
     scored = sorted(((instrument_points(i, cfg), i) for i in insts + zoning),
                     key=lambda t: (-t[0], t[1]["id"]))
-    base = stack([p for p, _ in scored], cfg)
-    inst_pts = stack([p for p, i in scored if i["restriction_type"] != "zoning_transition"], cfg)
+    base = stack([p for p, _ in scored], cfg, [is_county_wide(i, cfg) for _, i in scored])
+    inst = [(p, i) for p, i in scored if i["restriction_type"] != "zoning_transition"]
+    inst_pts = stack([p for p, _ in inst], cfg, [is_county_wide(i, cfg) for _, i in inst])
     blocked = min(cp["blocked_cap"], sum(max(0, cp["points"].get(o, 0)) for o in outcomes))
     credit = min(cp["approval_cap"], -sum(min(0, cp["points"].get(o, 0)) for o in outcomes),
                  cp["approval_max_share_of_instruments"] * base)
@@ -828,6 +839,9 @@ def weights(cfg: dict) -> list[dict]:
         "Added to a multiplier of 1 for each of solar, wind and storage the instrument also covers.", "share")
     add(part, "Each instrument after the largest", ins["others_weight"],
         "Share of its points that counts; the largest instrument counts in full.", "share")
+    if "other_jurisdictions_cap" in ins:
+        add(part, "Most points from city, town, township and village rules", ins["other_jurisdictions_cap"],
+            "Cap on what those rules add together, equal to one county-wide moratorium in force at its first term.")
     add(part, "Most instrument points", ins["cap"], "Cap on the sum.")
     tm = ins.get("term")
     if tm:
