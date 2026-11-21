@@ -11,7 +11,10 @@ decides is in that file; read it first. In short:
   variables  population, density, income and education (ACS), presidential
              margin (MEDSL), operating solar and wind MW (federal plant
              inventories), the share of neighbouring counties with a severe
-             restriction, and, in the "queue" run only, MW requested in
+             restriction, the share of the other counties in the state with
+             one, the yearly plug-in inputs of config/headwind_inputs.json
+             (in_<id>, read for 2021 or their latest year; amendment of
+             2026-11-20), and, in the "queue" run only, MW requested in
              interconnection queues (LBNL Queued Up).
   selection  L2 logistic regression; at each C, backward elimination of the
              least sign-stable variable; admissible only when every
@@ -59,6 +62,7 @@ from sklearn.preprocessing import StandardScaler
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import calibration_gate  # noqa: E402
 import geo  # noqa: E402
+import headwind_inputs  # noqa: E402
 from common import ROOT, read_csv, write_csv  # noqa: E402
 
 REGISTRATION_PATH = ROOT / "config" / "county_model_registration.json"
@@ -180,6 +184,13 @@ def variables(covariates: list[dict], as_of: int | None) -> dict[str, dict[str, 
     exp = exposure(as_of)
     severe = severe_by_county(CUT_YEAR if as_of is not None else None)
     margin_col = "margin_dr_2020" if as_of is not None else "margin_dr_2024"
+    # Pool variables named in_<id> are plug-in inputs (config/headwind_inputs.json),
+    # read as of the year before the cut (primary) or their latest year (snapshot).
+    loaded = {n: i for n, i in headwind_inputs.load(every=True).items() if n in POOL}
+    read_year = CUT_YEAR if as_of is not None else 10**4
+    by_state: dict[str, list[str]] = {}
+    for c in covariates:
+        by_state.setdefault(c.get("state", ""), []).append(c["county_fips"])
     out = {}
     for c in covariates:
         f = c["county_fips"]
@@ -196,6 +207,10 @@ def variables(covariates: list[dict], as_of: int | None) -> dict[str, dict[str, 
             "neighbor_severe_share": (sum(1 for n in nbrs if n in severe) / len(nbrs)) if nbrs else 0.0,
             "log1p_queue_mw": math.log1p(e.get("queue", 0.0)),
         }
+        others = [g for g in by_state[c.get("state", "")] if g != f]
+        out[f]["state_severe_share"] = (sum(1 for g in others if g in severe) / len(others)) if others else 0.0
+        for n, inp in loaded.items():
+            out[f][n] = inp.value(f, c.get("state", ""), read_year)
     return out
 
 

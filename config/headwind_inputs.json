@@ -150,6 +150,19 @@
       "registry_id": "census-cbp-county",
       "fetcher": "scripts/fetch_headwind_cbp.py",
       "fills": "land_use"
+    },
+    {
+      "id": "local_govts",
+      "file": "local_govts.csv",
+      "key": "county_fips",
+      "value_column": "local_govts",
+      "transform": "log1p",
+      "label": "log of the local governments in the county (incorporated places and town or township governments, 2024)",
+      "source_url": "https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.html",
+      "license": "public domain (U.S. Census Bureau); cite Census, Gazetteer Files",
+      "added": "2026-11-21",
+      "registry_id": "census-gazetteer-governments",
+      "fetcher": "scripts/build_headwind_local_govts.py"
     }
   ],
   "wanted": [

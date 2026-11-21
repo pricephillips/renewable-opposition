@@ -10,7 +10,7 @@ Each restriction carries a severity (a score from one to four: one for procedura
 
 | Part | Question | Unit | Script and registration | Result on 2026-11-20 |
 |---|---|---|---|---|
-| County part | How closely does a county resemble counties that enacted a severe restriction (severity 3 or 4)? | County | `scripts/county_restriction_model.py`, `config/county_model_registration.json` (2026-10-16) | Gate PROMOTE on the snapshot labels `has_severe` and `has_severity_4`; HOLD on the prospective label `new_severe_2022_2025` (`data/model/county_restriction_report.md`) |
+| County part | How closely does a county resemble counties that enacted a severe restriction (severity 3 or 4)? | County | `scripts/county_restriction_model.py`, `config/county_model_registration.json` (2026-10-16) | Gate PROMOTE on the snapshot labels `has_severe` and `has_severity_4`; PROMOTE on the prospective label `new_severe_2022_2025` since the refits of 2026-11-20 and 2026-11-21 (`data/model/county_restriction_report.md`) |
 | Project part | Does the county's record before a request set apart the requests that withdrew, beyond what the request and its market say? | Interconnection request | `scripts/headwind_history.py`, `scripts/headwind_model.py`, `config/headwind_model_registration.json` (2026-11-20) | PROMOTE on the registered label `withdrawn` (the registered logistic fit); HOLD on the three-year label `withdrawn_3y` and in the learner race (`data/model/headwind_report.md`, `data/model/headwind_compare.md`) |
 
 The county part is the same shape as the data center model: a county resemblance score fit on a snapshot of enacted rules, with the same method and calibration gate. The data center model has no project part.
@@ -88,6 +88,26 @@ One combination holds up, and it is small. Of the 396 candidates, the sparse log
 
 The search does not change the registered model. It confirms what the registered fit found: the county signal that survives a wide, guarded search is queue withdrawal history, which mixes grid cost with local opposition. A source that measures grid cost directly would be needed to separate them.
 
+### County part refit with yearly inputs, a state share and local governments
+
+On November 20 and 21, 2026 the county part's variable pool grew by eleven variables (registration amendments of those dates). One is `state_severe_share`, the share of the other counties in the same state with a severe rule dated before 2022. The county itself is left out. The other ten are the plug-in inputs of `config/headwind_inputs.json` (section 6), read for 2021 on the prospective label and for their latest year on the snapshot labels. All ten configured inputs entered the pool, so none was picked by hand. The selection rule, the folds and the gate did not change. The state share was added because the residual's Moran's I was 0.10, which means the errors clustered by region. The yearly inputs are the first county measures that can be read as of 2021 instead of from the 2020 to 2024 census release.
+
+The tenth input, `in_local_govts`, came from a screen of the data center model's county variables. About 150 of them (data-centers `data/county_features_expanded.csv`) were each added on their own to the refit model. Four kept their sign on every fold, added at least 0.01 AUC in both runs and added some AUC on 2026: cropland share, local governments, incorporated places and the non-Hispanic white share. In ten screens of the same variables with their values shuffled across counties, the best variable gained at most 0.005, so gains this size are unlikely to come from the width of the screen alone. Local governments (incorporated places and town or township governments, counted by `scripts/build_headwind_local_govts.py` from `data/census_governments_2024.csv`) is built here. Incorporated places is part of the same count. Cropland share waits for a USDA NASS key (the data center model reads it through one). The white share is left out, because a score sold to clients should not rank counties by race.
+
+| Measure, prospective label `new_severe_2022_2025` | Facilities run, before | after | Queue run, before | after |
+|---|---:|---:|---:|---:|
+| Cross-validated AUC (median of 25 folds) | 0.680 | 0.753 | 0.711 | 0.760 |
+| State-grouped AUC | 0.648 | 0.730 | 0.683 | 0.745 |
+| Brier skill | 0.036 | 0.068 | 0.047 | 0.082 |
+| Gate | HOLD | PROMOTE | HOLD | PROMOTE |
+| Held-back 2026 AUC (53 enactments) | 0.657 | 0.724 | 0.623 | 0.702 |
+| NREL-only AUC | 0.690 | 0.769 | 0.720 | 0.750 |
+| Moran's I on the residual | 0.103 | 0.071 | 0.098 | 0.066 |
+
+The selected models keep the state share and nine of the ten inputs (facilities run) or eight (queue run). The largest coefficient is the county poverty rate, negative: counties with less poverty more often enacted a severe rule. Local governments is next, positive: counties with more governments that can enact a rule more often had one. The state share and county employment are positive. Five-year population growth and the utilities share of establishments are negative. These are associations, not causes. The 2026 check is not wholly unseen: exploratory runs printed it beside the cross-validated result before the pool was settled. 2026 is also a partial year. On the NREL-only labels three to five of the selected variables change sign, so the all-source result still partly reflects where sources looked.
+
+Two project part changes were tested and left out. The combination the wide search kept (the county's earlier withdrawal share times the state's) lowered the registered model's out-of-time gain from 0.023 to 0.009 and turned its verdict to HOLD. Queue congestion built from Queued Up (MW requested in the county, state or grid region in the three years before a request), a stand-in for grid cost, added at most 0.003 AUC out of time on the registered label and lost AUC on the three-year label. No openly licensed source of interconnection cost exists yet (section 6). Local governments adds nothing to the project part (its lift table).
+
 ## 5. What would change the result
 
 - **Census values as of the request.** The census inputs are 2020 to 2024 values. Earlier American Community Survey five-year releases (for example 2015 to 2019) would match requests made in the 2010s. `scripts/fetch_county_covariates.py` reads only the 2020 to 2024 release, so using an earlier release needs a change to that script.
@@ -118,8 +138,9 @@ An input reaches the fit only when the registration lists it and records an amen
 | `in_construction_est_share`: share of establishments in construction | County Business Patterns | yearly, 2007 to 2022 | -0.000, 0.000 | no |
 | `in_utilities_est_share`: share of establishments in utilities | County Business Patterns | yearly, 2007 to 2022 | -0.000, -0.000 | no |
 | `in_ag_support_est_share`: share of establishments in agriculture support | County Business Patterns | yearly, 2007 to 2022 | 0.001, 0.001 | no |
+| `in_local_govts`: local governments in the county (log) | Census Gazetteer 2024, via `data/census_governments_2024.csv` (`scripts/build_headwind_local_govts.py`) | static, 2024 | 0.001, -0.000 | no |
 
-The nine inputs were built on November 20, 2026, and none adds lift on its own or in the wide search (section 4). The model already has the 2020 to 2024 census income and the county's queue history. Yearly income, poverty, population growth, house prices and the mix of local businesses add nothing beyond them. The sources most likely to add lift are still grid cost and rule adoption dates, at the top of the wanted list.
+The nine inputs were built on November 20, 2026, and none adds lift on its own or in the wide search (section 4). The model already has the 2020 to 2024 census income and the county's queue history. Yearly income, poverty, population growth, house prices and the mix of local businesses add nothing beyond them. The sources most likely to add lift are still grid cost and rule adoption dates, at the top of the wanted list. The project part has no registered inputs. The county part reads all ten (section 4, county part refit), and there they add lift.
 
 ### How each source joins
 

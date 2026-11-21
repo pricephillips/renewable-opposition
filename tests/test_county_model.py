@@ -126,7 +126,8 @@ def test_exposure_counts_plants_operating_at_the_cut(monkeypatch):
 
 def test_pool_and_runs_are_the_registered_ones():
     pool = ["log_population", "log_density", "log_income", "pct_bachelors_plus", "margin",
-            "log1p_solar_mw", "log1p_wind_mw", "neighbor_severe_share", "log1p_queue_mw"]
+            "log1p_solar_mw", "log1p_wind_mw", "neighbor_severe_share", "log1p_queue_mw",
+            "state_severe_share"] + crm.headwind_inputs.configured()
     assert crm.POOL == pool
     assert crm.RUNS == {"facilities": [v for v in pool if v != "log1p_queue_mw"], "queue": pool}
 
@@ -151,3 +152,18 @@ def test_runs_read_the_registration_wording_and_refuse_anything_else():
     with pytest.raises(ValueError, match="not in the pool"):
         crm.runs_from({"runs": [{"name": "x", "variables": "every pool variable except e"}]}, pool)
     assert crm.pool_from({"variables": {"_note": "", "b": {}, "a": {}}}) == ["b", "a"]
+
+
+def test_state_severe_share_leaves_the_county_out(monkeypatch):
+    base = {"population": "1000", "pop_density_sqmi": "10", "median_hh_income": "50000",
+            "pct_bachelors_plus": "0.2", "margin_dr_2020": "0.1", "margin_dr_2024": "0.1"}
+    covariates = [dict(base, county_fips=f, state=s) for f, s in
+                  (("90001", "ZZ"), ("90003", "ZZ"), ("90005", "ZZ"), ("91001", "YY"))]
+    monkeypatch.setattr(crm, "exposure", lambda as_of: {})
+    monkeypatch.setattr(crm, "severe_by_county", lambda before: {"90001", "91001"})
+    monkeypatch.setattr(crm.geo, "neighbors", lambda f: [])
+    v = crm.variables(covariates, 2021)
+    assert v["90001"]["state_severe_share"] == 0.0, "the county's own restriction never counts"
+    assert v["90003"]["state_severe_share"] == 0.5
+    assert v["91001"]["state_severe_share"] == 0.0, "a county alone in its state has no others"
+    assert all(v["90001"][n] is None for n in crm.headwind_inputs.configured()), "unknown counties have no input"
