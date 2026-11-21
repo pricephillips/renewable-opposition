@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-20",
+ "generated": "2026-11-21",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
   "restriction_instruments": 3255,
@@ -208,7 +208,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 211,
+  "snapshot_rows": 212,
   "snapshot_files": 5,
   "headline_history_rows": 26,
   "headline_first_change": "2026-09-29",

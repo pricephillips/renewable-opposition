@@ -147,7 +147,7 @@
         "code": "END_DATE_PASSED",
         "severity": "MEDIUM",
         "field": "current_end_date_iso",
-        "detail": "end date 2026-11-12 is before 2026-11-20 and nothing confirms an extension; the source's status may be out of date"
+        "detail": "end date 2026-11-12 is before 2026-11-21 and nothing confirms an extension; the source's status may be out of date"
       }
     ]
   },
@@ -226,7 +226,7 @@
         "code": "END_DATE_PASSED",
         "severity": "MEDIUM",
         "field": "current_end_date_iso",
-        "detail": "end date 2026-11-12 is before 2026-11-20 and nothing confirms an extension; the source's status may be out of date"
+        "detail": "end date 2026-11-12 is before 2026-11-21 and nothing confirms an extension; the source's status may be out of date"
       }
     ]
   },
@@ -305,7 +305,7 @@
         "code": "END_DATE_PASSED",
         "severity": "MEDIUM",
         "field": "current_end_date_iso",
-        "detail": "end date 2026-11-18 is before 2026-11-20 and nothing confirms an extension; the source's status may be out of date"
+        "detail": "end date 2026-11-18 is before 2026-11-21 and nothing confirms an extension; the source's status may be out of date"
       }
     ]
   },
@@ -384,7 +384,7 @@
         "code": "END_DATE_PASSED",
         "severity": "MEDIUM",
         "field": "current_end_date_iso",
-        "detail": "end date 2026-11-18 is before 2026-11-20 and nothing confirms an extension; the source's status may be out of date"
+        "detail": "end date 2026-11-18 is before 2026-11-21 and nothing confirms an extension; the source's status may be out of date"
       }
     ]
   },
@@ -511,7 +511,7 @@
     "ends_on_basis": "",
     "extensions": "0",
     "last_extended_on": "",
-    "months_in_force": "8.6",
+    "months_in_force": "8.7",
     "drafting": "",
     "drafting_note": "",
     "evidence_level": "compiled_flagged",
@@ -583,7 +583,7 @@
     "ends_on_basis": "",
     "extensions": "0",
     "last_extended_on": "",
-    "months_in_force": "8.6",
+    "months_in_force": "8.7",
     "drafting": "",
     "drafting_note": "",
     "evidence_level": "compiled_flagged",
@@ -655,7 +655,7 @@
     "ends_on_basis": "",
     "extensions": "0",
     "last_extended_on": "",
-    "months_in_force": "8.6",
+    "months_in_force": "8.7",
     "drafting": "",
     "drafting_note": "",
     "evidence_level": "compiled_flagged",
@@ -1258,7 +1258,7 @@
         "code": "END_DATE_PASSED",
         "severity": "MEDIUM",
         "field": "current_end_date_iso",
-        "detail": "end date 2026-07-31 is before 2026-11-20 and nothing confirms an extension; the source's status may be out of date"
+        "detail": "end date 2026-07-31 is before 2026-11-21 and nothing confirms an extension; the source's status may be out of date"
       }
     ]
   },
@@ -1605,7 +1605,7 @@
     "ends_on_basis": "",
     "extensions": "1",
     "last_extended_on": "2026-06-01",
-    "months_in_force": "16.6",
+    "months_in_force": "16.7",
     "drafting": "",
     "drafting_note": "",
     "evidence_level": "compiled_flagged",
@@ -1678,7 +1678,7 @@
     "ends_on_basis": "",
     "extensions": "1",
     "last_extended_on": "2026-06-01",
-    "months_in_force": "16.6",
+    "months_in_force": "16.7",
     "drafting": "",
     "drafting_note": "",
     "evidence_level": "compiled_flagged",
@@ -1775,7 +1775,7 @@
         "code": "END_DATE_PASSED",
         "severity": "MEDIUM",
         "field": "current_end_date_iso",
-        "detail": "end date 2026-11-05 is before 2026-11-20 and nothing confirms an extension; the source's status may be out of date"
+        "detail": "end date 2026-11-05 is before 2026-11-21 and nothing confirms an extension; the source's status may be out of date"
       }
     ]
   },

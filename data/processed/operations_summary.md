@@ -1,6 +1,6 @@
 # Operations summary
 
-Generated 2026-11-20 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-11-21 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
@@ -78,4 +78,4 @@ Last error by source: gdelt_renewable_news (2026-11-17: 429 Client Error: Too Ma
 
 ## History and archive
 
-211 snapshot rows over 5 published files; 26 headline changes recorded (2026-09-29 to 2026-11-20). Sources: 87, of which 44 have an Internet Archive snapshot.
+212 snapshot rows over 5 published files; 26 headline changes recorded (2026-09-29 to 2026-11-20). Sources: 87, of which 44 have an Internet Archive snapshot.
