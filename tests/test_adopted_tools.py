@@ -7,7 +7,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = ROOT / "config" / "adopted_tools.json"
 REQUIRED = ("id", "name", "kind", "license", "version", "source_url", "target", "approved", "built_on", "proof")
-KINDS = {"dataset", "python", "npm", "cli", "action", "service"}
+KINDS = {"dataset", "python", "npm", "cli", "action", "service", "paper"}
+OUTCOMES = {"kept", "tested, not kept"}
 COPYLEFT = re.compile(r"\b(A?GPL|SSPL)", re.I)
 
 
@@ -27,6 +28,10 @@ def problems(reg):
             out.append(f"{tid}: built_on is not YYYY-MM-DD")
         if not str(t.get("source_url", "")).startswith(("https://", "http://")):
             out.append(f"{tid}: source_url is not a link")
+        if "outcome" in t and t["outcome"] not in OUTCOMES:
+            out.append(f"{tid}: outcome {t['outcome']!r} not in {sorted(OUTCOMES)}")
+        if t.get("kind") == "paper" and "outcome" not in t:
+            out.append(f"{tid}: a paper's trial records its outcome")
         if not isinstance(t.get("target"), list):
             out.append(f"{tid}: target lists the files changed")
     return out
@@ -46,3 +51,7 @@ def test_a_bad_entry_is_caught():
     assert any("copyleft" in p for p in problems({"tools": [dict(good, license="GPL-3.0")]}))
     assert problems({"tools": [dict(good, license="GPL-3.0", kind="cli")]}) == []
     assert any("built_on" in p for p in problems({"tools": [dict(good, built_on="Nov 24")]}))
+    paper = dict(good, kind="paper", license="method only", outcome="tested, not kept")
+    assert problems({"tools": [paper]}) == []
+    assert any("outcome" in p for p in problems({"tools": [dict(paper, outcome="maybe")]}))
+    assert any("outcome" in p for p in problems({"tools": [{k: v for k, v in paper.items() if k != "outcome"}]}))
