@@ -31,6 +31,17 @@ separate. Price set this on 2026-11-19.
   approved one in by its "Headwind Model input" path, and the next refit
   reports whether it helps (`docs/headwind_model.md`, section 6).
 
+- **Research papers.** Since 2026-11-21 three paper scouts in
+  data-centers (`docs/paper_scout_routine.md` there) look each week for new
+  research that could help the Headwind Model forecast better. Each reads
+  one kind of source with the tools made for it: academic research (arXiv,
+  Semantic Scholar and OpenAlex), national laboratory and industry reports
+  (OSTI.gov), and methods that publish code (Hugging Face Papers). A paper
+  Price ticks reaches this run like any other pick. The integrator trials
+  its method by the "Headwind Model method" path. The method is kept only
+  if the proof run shows that it passes the model's forward test on later
+  years.
+
 Nothing here names a client: this repository is public, and the registry
 and the picks issue that might hold client context stay in the private
 repository.
@@ -93,6 +104,13 @@ Stop with one line, and open nothing, when:
    `build-data.yml` on the branch commits its outputs to the branch. That is
    expected, and main rebuilds them after the merge. If the new item makes a
    run fail, revert that item's commit, say so, and keep the others.
+   For a paper, read the refit's race or search report from the run
+   (`data/model/headwind_compare.md` or `headwind_search.md`). When the
+   method did not pass, revert its code commit, keep its
+   `config/adopted_tools.json` entry with `outcome: "tested, not kept"`, and
+   say what it scored. When it passed, set `outcome: "kept"`. Either way,
+   the pull request body gives its forward AUC and calibration beside the
+   current model's.
 
 ## 4. Pull request
 

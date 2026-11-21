@@ -3,7 +3,7 @@
     "Open-source tools, libraries and open datasets this repository adopted after Price approved them in his weekly tool picks issue (docs/SCOUT_BUILDS.md).",
     "The shared scouts in pricephillips/data-centers find and screen candidates and keep every verdict in that repository's registry; this file records only what was built here, by renewables-integrator.",
     "tools[]: id (the scouts' registry id), name, kind (dataset, python, npm, cli, action, service), license, version (the pin), source_url, target (files changed), approved (the picks issue number, or 'Price, in a session, YYYY-MM-DD'), built_on (YYYY-MM-DD), proof (the workflow that proved it live).",
-    "tests/test_adopted_tools.py checks the shape. Name no client here: this repository is public."
+    "A research paper's method (kind paper, license 'method only' or the reused code's license) is a trial, kept only if it passes the Headwind Model's forward test: it also carries outcome ('kept' or 'tested, not kept'). tests/test_adopted_tools.py checks the shape. Name no client here: this repository is public."
   ],
   "tools": []
 }

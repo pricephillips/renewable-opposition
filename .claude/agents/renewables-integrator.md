@@ -67,6 +67,7 @@ existing ones of that kind were added; shared rules in one place).
 | A Python library that serves one named script | pin it in `requirements/ci.in`, recompile `requirements/ci.txt` with the command in its header, install it in a clean 3.11 virtual environment under `/tmp`, wire it into that script, add a test under `tests/` | `validate.yml` on the pull request |
 | A front-end library for the public pages | pin it by exact version in the page's script tag, as `national-dashboard.html` pins Leaflet | `validate.yml` and `pages.yml` on the pull request |
 | A new input for the Renewable Headwind Model (the registry entry names a `headwind_inputs` wanted id) | section 3a below: a fetcher `scripts/fetch_headwind_<id>.py` with `--selftest`, its entry in `config/headwind_inputs.json`, its `config/layers.json` declaration and a registration amendment | `model-inputs.yml` on the branch, once (its fetch job writes the data file and refits) |
+| A method from a research paper for the Headwind Model (registry `kind: "paper"`, `reason` names a `headwind_method`) | section 3b below: the method as one more challenger in the forward race it fits, with a `--selftest` case | `model-inputs.yml` on the branch, once (it refits and reruns the race) |
 | A security tool or setting | the config file it reads, or the existing step it replaces; the session edits any workflow file, never you | `workflow-lint.yml` and `validate.yml` on the pull request |
 
 ### 3a. A Headwind Model input
@@ -97,9 +98,39 @@ change to the model code (`scripts/headwind_inputs.py` says how). Its
 5. Run `python scripts/headwind_inputs.py --selftest`, the fetcher's
    `--selftest` and `python -m pytest -q tests/test_headwind_inputs.py`.
 
-This is the one change to a model this agent may make, and only by this
-path. The input earns its place in the next fit's report, under the
+Together with section 3b, this is the only change to a model this agent
+may make. The input earns its place in the next fit's report, under the
 registered promotion rule; nothing else about the model changes.
+
+### 3b. A Headwind Model method from a paper
+
+The paper scouts in data-centers (`docs/paper_scout_routine.md` there) find
+methods in new research. A method is an idea, so the build is a trial, not
+an adoption: it is kept only if it passes the model's forward test on later
+years it never saw.
+
+1. Read the paper's method section (WebFetch on the entry's `source_url`
+   only). Write the method in-house in the fewest lines that do it. When the
+   paper links code, take it as a pinned dependency only by the "Python
+   library" path, and only under a license the gates allow.
+2. Put it where it races:
+   - a learner or a calibration step for the project part: one more entry in
+     `LEARNERS` and `make()` in `scripts/headwind_compare.py`, so it races on
+     the same requests and the same forward holdouts as the others;
+   - a variable, a combination or a dated county measure: section 3a, or one
+     more candidate family in `scripts/headwind_search.py`, which keeps its
+     four guards (forward in time, nested choice, the request-only baseline
+     and the shuffle test);
+   - anything else, such as a change to the county part's fit: stop and
+     report it as a candidate for a design note.
+3. Add a `--selftest` case for the new code and run the touched script's
+   `--selftest` and `python -m pytest -q tests/test_headwind_search.py
+   tests/test_headwind_model.py`.
+4. Never change the registered model, its registration or its promotion
+   rule. The race's own rule decides: the method is kept only if it has the
+   best mean forward AUC, passes the calibration gate on the holdout
+   requests and gains at least 0.01 AUC over its request-only version on
+   every holdout (or, in the wide search, holds up under all four guards).
 
 If the build needs more than this table allows (a new script over about 150
 lines, a new workflow or schedule, a change to a record table's columns, a
@@ -126,7 +157,10 @@ Add one entry to `config/adopted_tools.json` (shape in its `_comment`): the
 `id` (the registry id), `name`, `kind`, `license`, `version` (the pin),
 `source_url`, `target` (the files you changed), `approved` (the picks issue
 number, or "Price, in a session, <date>"), `built_on` (today) and `proof`
-(the workflow the session runs). `python -m pytest -q tests/test_adopted_tools.py`
+(the workflow the session runs). For a paper, `kind` is `paper`, `version` is the
+paper's version (its arXiv version or its DOI), `license` is the reused
+code's license or `method only`, and the session adds
+`outcome` (`kept` or `tested, not kept`) once the proof run has scored it. `python -m pytest -q tests/test_adopted_tools.py`
 checks its shape.
 
 ## 5. Check locally
