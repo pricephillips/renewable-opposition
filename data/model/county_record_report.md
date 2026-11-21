@@ -8,20 +8,20 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 | Tier | Counties | Meaning |
 |---|---:|---|
-| closed | 58 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
+| closed | 56 | Closed: a moratorium or ban in force, or rules that act as one, county-wide |
 | severe | 271 | Severe: rules likely to block most projects |
-| restrictive | 335 | Restrictive: material rules, or blocked projects |
-| regulated | 745 | Regulated but open: rules in force, projects approved under them |
-| open | 482 | Open: nothing restrictive on record |
-| no_record | 1253 | No record and no negative check: scored on the profile prior alone |
+| restrictive | 337 | Restrictive: material rules, or blocked projects |
+| regulated | 744 | Regulated but open: rules in force, projects approved under them |
+| open | 480 | Open: nothing restrictive on record |
+| no_record | 1256 | No record and no negative check: scored on the profile prior alone |
 
 ## Reference counties
 
 | County | Tier | Combined (U.S. percentile) | Record points | Instruments | Zoning | Blocked | Approval credit | Resemblance score (decile) | Top instrument |
 |---|---|---|---:|---:|---:|---:|---:|---|---|
-| Nicholas, KY | closed | 43.13 (99.0) | 43.13 | 43.13 | 0.0 | 0 | 0.0 | 0.033 (1) | queue:q_ef439d5e2f (setback, severity 3, in_force, Nicholas County) |
+| Nicholas, KY | closed | 43.13 (99.1) | 43.13 | 43.13 | 0.0 | 0 | 0.0 | 0.033 (1) | queue:q_ef439d5e2f (setback, severity 3, in_force, Nicholas County) |
 | Cherokee, KS | closed | 57.3 (100.0) | 57.3 | 48.3 | 9.0 | 0 | 0.0 | 0.2505 (7) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
-| Harris, TX | restrictive | 16.5 (83.7) | 16.5 | 15.0 | 0.0 | 5 | 7.5 | 0.2187 (7) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
+| Harris, TX | restrictive | 16.5 (83.6) | 16.5 | 15.0 | 0.0 | 5 | 7.5 | 0.2187 (7) | queue:q_bbb012a590-2 (setback, severity 3, in_force, Pasadena) |
 | Linn, IA | restrictive | 14.88 (82.2) | 14.88 | 15.75 | 0.0 | 0 | 7.88 | 0.6005 (10) | queue:q_82dfad9133 (setback, severity 2, in_force, Linn County) |
 
 ## State preemption
@@ -56,16 +56,16 @@ Each rule in `state_preemption` caps the severity a local instrument counts at (
 | SC-local_preemption-1 | discretionary_override | 2 | all_local | solar: 75 MW, 74.95 MW; wind: 75 MW, 100 (fallback) MW | 3 | 48.6 |
 | OR-local_preemption-1 | replaces_local | 1 | all_local | wind: 300 MW, 100 (fallback) MW | 0 | 0 |
 
-346 counties have record points removed and 72 without a record have their prior lowered by the cap; 268 change tier.
+346 counties have record points removed and 68 without a record have their prior lowered by the cap; 270 change tier.
 
 | Tier with no cap | closed | severe | restrictive | regulated | open | no_record |
 |---|---:|---:|---:|---:|---:|---:|
-| closed | 58 | 10 | 9 | 16 | 2 | 0 |
-| severe | 0 | 261 | 41 | 71 | 3 | 0 |
-| restrictive | 0 | 0 | 285 | 63 | 14 | 0 |
-| regulated | 0 | 0 | 0 | 595 | 39 | 0 |
-| open | 0 | 0 | 0 | 0 | 424 | 0 |
-| no_record | 0 | 0 | 0 | 0 | 0 | 1253 |
+| closed | 56 | 10 | 9 | 16 | 2 | 0 |
+| severe | 0 | 261 | 43 | 70 | 3 | 0 |
+| restrictive | 0 | 0 | 285 | 64 | 14 | 0 |
+| regulated | 0 | 0 | 0 | 594 | 39 | 0 |
+| open | 0 | 0 | 0 | 0 | 422 | 0 |
+| no_record | 0 | 0 | 0 | 0 | 0 | 1256 |
 
 Rows are the tier with no cap, columns the tier scored.
 
@@ -80,18 +80,18 @@ Rows are the tier with no cap, columns the tier scored.
 | Freeborn, MN | closed to regulated | 45.55 to 4.5 | 50.27 | MN-local_preemption-1 |
 | Kalamazoo, MI | closed to regulated | 44.5 to 4.22 | 47.48 | MI-local_preemption-1 |
 | Berrien, MI | closed to regulated | 46.38 to 6.7 | 39.68 | MI-local_preemption-1 |
-| Pope, MN | closed to regulated | 44.17 to 4.5 | 49.65 | MN-local_preemption-1 |
+| Pope, MN | closed to regulated | 44.13 to 4.5 | 49.65 | MN-local_preemption-1 |
 | Genesee, MI | closed to regulated | 47.42 to 7.92 | 39.5 | MI-local_preemption-1 |
 | Chisago, MN | closed to open | 41.98 to 2.85 | 47.72 | MN-local_preemption-1 |
-| Marathon, WI | closed to regulated | 48.64 to 10.01 | 51.5 | WI-local_preemption-1 |
-| Wabasha, MN | closed to regulated | 42.58 to 4.5 | 47.52 | MN-local_preemption-1 |
+| Marathon, WI | closed to regulated | 48.59 to 9.97 | 51.5 | WI-local_preemption-1 |
+| Wabasha, MN | closed to regulated | 42.53 to 4.5 | 47.52 | MN-local_preemption-1 |
 | Mower, MN | closed to open | 40.08 to 2.85 | 45.18 | MN-local_preemption-1 |
 | Chautauqua, NY | closed to severe | 65.0 to 28.0 | 37.0 | NY-local_preemption-1 |
 | Orleans, VT | closed to restrictive | 59.4 to 22.43 | 36.97 | VT-local_preemption-1 |
 | Carlton, MN | closed to regulated | 41.23 to 4.5 | 44.52 | MN-local_preemption-1 |
 | Huron, MI | closed to restrictive | 53.54 to 17.06 | 42.41 | MI-local_preemption-1 |
 | Allegan, MI | closed to regulated | 42.62 to 6.6 | 41.8 | MI-local_preemption-1 |
-| Stevens, MN | closed to regulated | 40.46 to 4.5 | 44.7 | MN-local_preemption-1 |
+| Stevens, MN | closed to regulated | 40.42 to 4.5 | 44.7 | MN-local_preemption-1 |
 | St. Clair, MI | closed to regulated | 43.1 to 7.61 | 41.1 | MI-local_preemption-1 |
 
 ### Partial exemptions
@@ -122,23 +122,21 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | 2 | 314 | 0.99 to 2.2 | -1.279 to -0.842 |
 | 3 | 315 | 2.2 to 3.0 | -0.841 to -0.524 |
 | 4 | 314 | 3.0 to 3.98 | -0.523 to -0.253 |
-| 5 | 314 | 3.98 to 5.82 | -0.253 to 0.0 |
-| 6 | 315 | 5.82 to 7.56 | 0.0 to 0.253 |
+| 5 | 314 | 3.98 to 5.75 | -0.253 to 0.0 |
+| 6 | 315 | 5.75 to 7.56 | 0.0 to 0.253 |
 | 7 | 314 | 7.56 to 9.96 | 0.254 to 0.524 |
-| 8 | 315 | 9.96 to 14.47 | 0.525 to 0.842 |
-| 9 | 314 | 14.47 to 25.5 | 0.843 to 1.281 |
-| 10 | 314 | 25.5 to 58.55 | 1.283 to 3.542 |
+| 8 | 315 | 9.96 to 14.37 | 0.525 to 0.842 |
+| 9 | 314 | 14.37 to 25.5 | 0.843 to 1.281 |
+| 10 | 314 | 25.5 to 57.3 | 1.283 to 3.542 |
 
 ## Highest combined scores
 
 | County | Tier | Combined | Top instrument |
 |---|---|---:|---|
-| Mecklenburg, VA | closed | 58.55 | sabin:S26R-5447 (ban, severity 4, in_force, Mecklenburg County) |
 | Cherokee, KS | closed | 57.3 | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
 | Allen, OH | closed | 54.0 | sabin:REC-0340 (ban, severity 4, in_force, Allen County) |
 | Auglaize, OH | closed | 54.0 | sabin:REC-0341 (ban_or_moratorium, severity 4, in_force, Auglaize County) |
 | Logan, OH | closed | 54.0 | sabin:REC-0355 (ban, severity 4, in_force, Logan County) |
-| Navajo, AZ | closed | 53.92 | sabin:S26R-6256 (ban_or_moratorium, severity 4, in_force, Navajo County) |
 | Crawford, KS | closed | 53.24 | queue:q_c0783bb26d (moratorium, severity 4, in_force, Crawford County) |
 | Lancaster, PA | closed | 53.0 | nrel:wind:4207121344 (moratorium, severity 4, unknown, East Lampeter Township) |
 | Henry, IN | closed | 51.65 | sabin:REC-0093 (ban_or_moratorium, severity 4, in_force, Henry County) |
@@ -148,6 +146,8 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 | Fulton, NY | closed | 48.13 | sabin:S26R-5738 (ban, severity 4, in_force, Fulton County) |
 | Miami, IN | closed | 48.1 | sabin:REC-0100 (setback, severity 3, in_force, Miami County) |
 | Hertford, NC | closed | 47.2 | sabin:S26R-5658 (ban_or_moratorium, severity 4, in_force, Hertford County) |
+| Knox, NE | closed | 47.03 | sabin:S26R-5782 (ban, severity 4, in_force, Knox County) |
+| Madison, IN | closed | 46.38 | sabin:S26R-6134 (setback, severity 3, in_force, Madison County) |
 ## Build-out
 
 755 counties have at least one uncontested plant counted as an approval (1760 plants); for 375 of them it is the only evidence on record.
@@ -155,5 +155,5 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 
 ## Record against resemblance
 
-1368 counties have a record. Of those in the top three resemblance deciles, 310 are open or regulated on their record; of those in the bottom three, 21 are closed or severe. These are the counties where the two scores disagree most.
+1365 counties have a record. Of those in the top three resemblance deciles, 309 are open or regulated on their record; of those in the bottom three, 21 are closed or severe. These are the counties where the two scores disagree most.
 

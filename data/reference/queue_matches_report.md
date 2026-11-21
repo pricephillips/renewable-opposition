@@ -13,8 +13,8 @@ Written by `scripts/queue_matches.py`. Do not edit by hand.
 |---|---:|---:|---:|---:|
 | advanced_confirmed | 33 | 33 | 5 | 12 |
 | advanced_unverified | 8 | 8 | 2 | 3 |
-| blocked_confirmed | 16 | 16 | 12 | 0 |
-| blocked_unverified | 26 | 26 | 13 | 0 |
+| blocked_confirmed | 17 | 17 | 13 | 0 |
+| blocked_unverified | 25 | 25 | 12 | 0 |
 | pending | 35 | 35 | 4 | 1 |
 
 A match never changes an outcome; a conflict is a prompt to review the project, not a correction.

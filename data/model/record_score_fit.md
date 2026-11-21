@@ -2,22 +2,22 @@
 
 Internal, staff only. Built by `scripts/record_score_fit.py`; read `docs/county_record_score.md` first.
 
-Cases: 157 contested projects with a confirmed outcome, a county and a resolution date (75 blocked, 82 advanced). Each feature is read from the county's own instruments on the project's technology as of the project's resolution date.
+Cases: 158 contested projects with a confirmed outcome, a county and a resolution date (76 blocked, 82 advanced). Each feature is read from the county's own instruments on the project's technology as of the project's resolution date.
 
-Learned model (L2 logistic regression, 5 folds x 5 repeats): out-of-fold AUC 0.502 (p10 0.463, p90 0.509). The hand rubric's instrument points on the same cases: AUC 0.501. AUC is the chance that a blocked project, picked at random, scores above an advanced one; 0.5 is a coin toss.
+Learned model (L2 logistic regression, 5 folds x 5 repeats): out-of-fold AUC 0.489 (p10 0.458, p90 0.501). The hand rubric's instrument points on the same cases: AUC 0.501. AUC is the chance that a blocked project, picked at random, scores above an advanced one; 0.5 is a coin toss.
 
-Coverage: 96 of the 157 projects are in a county with an instrument on their technology in the record, and for 92 of them at least one such instrument has no enactment date, so it cannot be placed before or after the decision and is left out. Dated instruments and decision dates are what the fit needs most.
+Coverage: 97 of the 158 projects are in a county with an instrument on their technology in the record, and for 93 of them at least one such instrument has no enactment date, so it cannot be placed before or after the decision and is left out. Dated instruments and decision dates are what the fit needs most.
 
-Calibration gate: HOLD (NO_SKILL: Brier skill -0.000 < 0.05).
+Calibration gate: HOLD (NO_SKILL: Brier skill -0.002 < 0.05).
 
 | Feature | Cases with it | Share blocked | Coefficient | Fold range | Same sign in every fold |
 |---|---:|---:|---:|---|---|
-| a new moratorium (under a year, never extended) | 1 | 1.0 | 0.407 | 0.0 to 0.422 | no |
-| a long-running or extended moratorium | 1 | 1.0 | 0.407 | 0.0 to 0.422 | no |
+| a new moratorium (under a year, never extended) | 1 | 1.0 | 0.405 | 0.0 to 0.422 | no |
+| a long-running or extended moratorium | 1 | 1.0 | 0.405 | 0.0 to 0.422 | no |
 | a moratorium while rules are being drafted | 0 | 0.0 | 0.0 | 0.0 to 0.0 | no |
 | a ban (no pause described) | 0 | 0.0 | 0.0 | 0.0 to 0.0 | no |
-| siting standards only (severity 1 or 2) | 2 | 0.0 | -0.664 | -0.667 to 0.0 | no |
-| a named opposition group | 13 | 0.385 | -0.31 | -0.56 to 0.075 | no |
+| siting standards only (severity 1 or 2) | 2 | 0.0 | -0.668 | -0.676 to 0.0 | no |
+| a named opposition group | 13 | 0.385 | -0.32 | -0.684 to 0.075 | no |
 
 ## How this bears on the hand weights
 

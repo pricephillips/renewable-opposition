@@ -6,114 +6,59 @@ What the last build changed in `data/processed/`, compared with the previous com
 
 | Entity | Added | Removed | Modified |
 |---|---|---|---|
-| restrictions | 0 | 0 | 96 |
-| contested_projects | 0 | 0 | 0 |
+| restrictions | 0 | 11 | 8 |
+| contested_projects | 0 | 0 | 8 |
 | cases | 0 | 0 | 0 |
 | state_policies | 0 | 0 | 0 |
 
 ## Tracked field changes
 
-No changes to outcome, status, case_status, finality_evidence, severity_score.
+| Entity | Row | Column | Before | After |
+|---|---|---|---|---|
+| contested_projects | con_a1a6ea95bb (Granite Mountain Wind Energy Project, CA) | outcome | blocked_unverified | blocked_confirmed |
+| contested_projects | con_a1a6ea95bb (Granite Mountain Wind Energy Project, CA) | finality_evidence | outcome_label_only | resolution: https://www.pbssocal.org/redefine/another-california-wind-energy-project-canceled |
+| contested_projects | con_0c57b822fa (Silurian Valley Solar Development, CA) | outcome | blocked_unverified | pending |
+| contested_projects | con_0c57b822fa (Silurian Valley Solar Development, CA) | finality_evidence | outcome_label_only | resolution: https://www.pbssocal.org/redefine/firm-appeals-feds-no-go-of-silurian-valley-solar |
+| contested_projects | con_0c57b822fa (Silurian Valley Solar Development, CA) | severity_score | 4 | 2 |
+| contested_projects | con_2e46813b3e (Beautiful Hill Wind Farm, WI) | outcome | blocked_unverified | pending |
+| contested_projects | con_2e46813b3e (Beautiful Hill Wind Farm, WI) | finality_evidence | outcome_label_only | resolution: https://manitowoccountywi.gov/wp-content/uploads/2021/03/planning-2013.pdf |
+| contested_projects | con_2e46813b3e (Beautiful Hill Wind Farm, WI) | severity_score | 4 | 2 |
 
 ## Detail
 
 ### restrictions
 
-| @@ | id | state | jurisdiction | months_in_force |
-|---|---|---|---|---|
-| -> | res_38e1be9a2f | AL | Fort Payne | 5.1->5.2 |
-| -> | res_773d6222c2 | CA | Morro Bay | 21.7->21.8 |
-| -> | res_695eb1b7c2 | CT | Morris | 6.6->6.7 |
-| -> | res_c0d909e774 | IL | Lee County | 8.6->8.7 |
-| -> | res_95e862cde6 | IA | Buchanan County | 10.6->10.7 |
-| -> | res_04f17fbf13 | IA | Emmet County | 21.7->21.8 |
-| -> | res_dbb0169a99 | IA | Emmet County | 21.7->21.8 |
-| -> | res_8760f2ed84 | IA | Floyd County | 36.6->36.7 |
-| -> | res_724be7d2ef | IA | Palo Alto County | 18.2->18.3 |
-| -> | res_1549faef18 | IA | Plymouth County | 5.1->5.2 |
-| -> | res_d81d000eb7 | IA | Sioux County | 5.1->5.2 |
-| -> | res_da8d7392d2 | IA | Taylor County | 6.4->6.5 |
-| -> | res_ab4f6055cb | IA | Taylor County | 6.4->6.5 |
-| -> | res_2e8dc51d4b | KS | El Dorado | 4.2->4.3 |
-| -> | res_80626f807b | KS | Neosho County | 6.0->6.1 |
-| -> | res_53467fb306 | MA | Gill | 6.5->6.6 |
-| -> | res_18eeb625cc | MI | Comstock Charter Township | 8.1->8.2 |
-| -> | res_13b2c28c4d | MI | Comstock Charter Township | 8.1->8.2 |
-| -> | res_0a3624cb01 | MI | Fayette Township (Hillsdale County) | 4.6->4.7 |
-| -> | res_eabd8ef980 | MI | Fayette Township (Hillsdale County) | 4.6->4.7 |
-| -> | res_5006f40b4e | MI | Oshtemo Charter Township | 11.8->11.9 |
-| -> | res_c4c80a20c4 | MI | Zeeland Charter Township | 2.6->2.7 |
-| -> | res_66ae09c41d | MI | Zeeland Charter Township | 2.6->2.7 |
-| -> | res_b32fa63fd5 | MI | Zeeland Charter Township | 2.6->2.7 |
-| -> | res_f5525d524f | MN | Freeborn County | 15.0->15.1 |
-| -> | res_1ac7711660 | MO | Jackson County | 4.9->5.0 |
-| -> | res_c0e713e505 | MO | Stone County | 5.5->5.6 |
-| -> | res_06095f1a6a | MO | Stone County | 5.5->5.6 |
-| -> | res_fb095cb6d9 | MO | Stone County | 5.5->5.6 |
-| -> | res_1464729221 | MO | Webster County | 5.1->5.2 |
-| -> | res_f7ec40763c | MO | Webster County | 5.1->5.2 |
-| -> | res_90075f68f1 | MO | Webster County | 5.1->5.2 |
-| -> | res_c559f680e0 | NE | Butler County | 8.1->8.2 |
-| -> | res_cb62666be7 | NE | Butler County | 8.1->8.2 |
-| -> | res_da68be2daf | NE | Butler County | 8.1->8.2 |
-| -> | res_d94d5862e5 | NE | McPherson County | 5.3->5.4 |
-| -> | res_67731ac7c4 | NE | McPherson County | 5.3->5.4 |
-| -> | res_844a301e31 | NE | McPherson County | 5.3->5.4 |
-| -> | res_fdd5a827a8 | NE | Seward County | 39.6->39.7 |
-| -> | res_4ede468ab4 | NE | Seward County | 39.6->39.7 |
-| -> | res_a1cc1c1c0d | NE | Seward County | 39.6->39.7 |
-| -> | res_4f04d73fe8 | NY | Athens | 8.6->8.7 |
-| -> | res_25f533c224 | NY | Bedford | 27.2->27.3 |
-| -> | res_ac4e90f582 | NY | Benson | 6.6->6.7 |
-| -> | res_4dceb69d13 | NY | Camillus | 8.3->8.4 |
-| -> | res_37c3bfed00 | NY | Concord | 27.9->28.0 |
-| -> | res_f1e86e0b1b | NY | Ellery | 5.6->5.7 |
-| -> | res_1ab1233ef7 | NY | Ellery | 5.6->5.7 |
-| -> | res_fdc0bd59fd | NY | Ellery | 5.6->5.7 |
-| -> | res_810c008942 | NY | Glen Cove | 18.2->18.3 |
-| -> | res_65076926b6 | NY | Greig (Lewis County) | 10.6->10.7 |
-| -> | res_a74cf4bff7 | NY | Greig (Lewis County) | 10.6->10.7 |
-| -> | res_250a8b4c8d | NY | Greig (Lewis County) | 10.6->10.7 |
-| -> | res_c44a2c3b91 | NY | Hempstead | 20.6->20.7 |
-| -> | res_052a61f368 | NY | Huntington | 5.6->5.7 |
-| -> | res_89a27e52ab | NY | Islip | 32.0->32.1 |
-| -> | res_8a9ca78001 | NY | Mentz | 17.6->17.7 |
-| -> | res_d2f7cc44db | NY | Milton (Saratoga County) | 23.6->23.7 |
-| -> | res_9ef0c42509 | NY | Milton (Saratoga County) | 23.6->23.7 |
-| -> | res_739028e13e | NY | Norfolk | 17.6->17.7 |
-| -> | res_8d6bce7db5 | NY | Oyster Bay | 31.6->31.7 |
-| -> | res_3592f44a5f | NY | Schroeppel | 9.3->9.4 |
-| -> | res_7c75cd47b3 | NY | Southold | 45.6->45.7 |
-| -> | res_688f0e010e | NY | Stockport | 5.6->5.7 |
-| -> | res_32ee6ac456 | NY | Syracuse | 9.6->9.7 |
-| -> | res_7a7feac939 | NY | Ticonderoga | 6.6->6.7 |
-| -> | res_53ad076814 | NY | Town of Dunkirk (Chautauqua County) | 14.6->14.7 |
-| -> | res_af396eff30 | NY | Town of Lewis (Lewis County) | 8.1->8.2 |
-| -> | res_1a18216e69 | NY | Town of Lewis (Lewis County) | 8.1->8.2 |
-| -> | res_9f3308cab1 | NY | Town of Lewis (Lewis County) | 8.1->8.2 |
-| -> | res_35efeb1fb2 | NY | Town of Northampton | 8.6->8.7 |
-| -> | res_98610a30d4 | NY | Town of Orangetown | 2.8->2.9 |
-| -> | res_215875f89d | NY | Village of Mayville | 17.6->17.7 |
-| -> | res_430b703492 | NY | Wilton | 5.6->5.7 |
-| -> | res_a7fa2b30f4 | OH | Shawnee Township | 7.2->7.3 |
-| -> | res_a4760c6fff | OH | Shawnee Township | 7.2->7.3 |
-| -> | res_02f577b0a1 | UT | Milford | 5.1->5.2 |
-| -> | res_93ca4a5f53 | WA | Lincoln County | 2.6->2.7 |
-| -> | res_16e52010b0 | WA | Mount Vernon | 17.7->17.8 |
-| -> | res_8a23ab8b48 | WA | North Bend | 6.0->6.1 |
-| -> | res_5c7bab9e31 | WA | Puyallup | 5.6->5.7 |
-| -> | res_b87383a66e | KS | Cherokee County | 10.9->11.0 |
-| -> | res_87d3ae709d | KS | Cherokee County | 10.9->11.0 |
-| -> | res_ef13884340 | KS | Cherokee County | 10.9->11.0 |
-| -> | res_06983fc527 | IA | Clarke County | 23.1->23.2 |
-| -> | res_bdff8bd6ce | AR | Carroll County | 18.6->18.7 |
-| -> | res_83371d0298 | AR | Carroll County | 18.6->18.7 |
-| -> | res_fef7abd18a | KS | Wabaunsee County | 42.6->42.7 |
-| -> | res_978e990261 | NE | Greeley County | 31.6->31.7 |
-| -> | res_21b64ad370 | NE | Greeley County | 31.6->31.7 |
-| -> | res_00d7467877 | NY | Broome County | 11.6->11.7 |
-| -> | res_b79a811f9e | UT | Delta | 71.1->71.2 |
-| -> | res_514a7eba39 | KS | Crawford County | 4.3->4.4 |
-| -> | res_c30c5a7b7d | IL | Shelby County | 19.3->19.4 |
-| -> | res_e8848a908a | IL | Shelby County | 19.3->19.4 |
-| -> | res_5fa622c192 | IL | Assumption | 31.5->31.6 |
+| @@ | id | state | jurisdiction | primary_source_verdict | primary_source_access | primary_source_url | status_as_of | evidence_level | verification | primary_source_checked_on |
+|---|---|---|---|---|---|---|---|---|---|---|
+| -> | res_7b36d14b7f | IN | Huntington County | ->confirmed | ->opened | ->https://www.huntington.in.us/egov/documents/1774460864_7215.pdf | 2026-09-23->2026-11-21 | compiled_record->primary_source | unverified->verified | ->2026-11-21 |
+| --- | res_6658d3c6e4 | MI | Casco Township (Allegan County) |  |  |  | 2026-09-23 | compiled_record | unverified |  |
+| --- | res_379a7bcdd7 | MI | Casco Township (Allegan County) |  |  |  | 2026-09-23 | compiled_record | unverified |  |
+| -> | res_b9948e27eb | PA | Adams Township (Butler County) | ->confirmed | ->opened | ->https://adamstwp.org/wp-content/uploads/2026/07/07-13-26-Supervisors.pdf | 2026-09-23->2026-11-21 | compiled_record->primary_source | unverified->verified | ->2026-11-21 |
+| -> | res_b3fc1c63e7 | TX | Austin County | ->confirmed | ->opened | ->https://www.austincounty.com/upload/page/0154/BESS%20and%20DATA%20Center%20Moratorium%20Executed.pdf | 2026-09-23->2026-11-21 | compiled_record->primary_source | unverified->verified | ->2026-11-21 |
+| --- | res_1149ba2f34 | AZ | Navajo County |  |  |  |  | report_citation | unverified |  |
+| --- | res_ba24fce48f | AZ | Navajo County |  |  |  |  | report_citation | unverified |  |
+| --- | res_3083700b99 | CO | Mesa County |  |  |  |  | report_citation | unverified |  |
+| --- | res_04e99ce656 | CO | San Miguel County |  |  |  |  | report_citation | unverified |  |
+| -> | res_f58ec65c21 | GA | Oglethorpe County | ->confirmed | ->opened | ->https://www.oglethorpecountyga.gov/_files/ugd/82255b_3f99d8c1d8874242818c0c06bebc413f.pdf | ->2026-11-21 | report_citation->primary_source | unverified->verified | ->2026-11-21 |
+| --- | res_2a494842cd | GA | Thomas County |  |  |  |  | report_citation | unverified |  |
+| --- | res_931cdd87e1 | IA | Clinton County |  |  |  |  | report_citation | unverified |  |
+| --- | res_b1a701e7bc | KS | Shawnee County |  |  |  |  | report_citation | unverified |  |
+| --- | res_ae47ea2963 | KS | Shawnee County |  |  |  |  | report_citation | unverified |  |
+| -> | res_71a0eb71ef | OH | Allen County | ->confirmed | ->opened | ->http://commissioners.allencountyohio.com/wp-content/uploads/2022/04/M040422-Special.pdf | ->2026-11-21 | report_citation->primary_source | unverified->verified | ->2026-11-21 |
+| -> | res_70a9395801 | OH | Allen County | ->confirmed | ->opened | ->http://commissioners.allencountyohio.com/wp-content/uploads/2022/04/M040422-Special.pdf | ->2026-11-21 | report_citation->primary_source | unverified->verified | ->2026-11-21 |
+| -> | res_46a2e0ecd6 | OH | Auglaize County | ->confirmed | ->opened | ->https://www2.auglaizecounty.org/sites/default/files/documents/April%2026%2C%202022.pdf | ->2026-11-21 | report_citation->primary_source | unverified->verified | ->2026-11-21 |
+| -> | res_31b2a2e1c4 | OH | Auglaize County | ->confirmed | ->opened | ->https://www2.auglaizecounty.org/sites/default/files/documents/April%2026%2C%202022.pdf | ->2026-11-21 | report_citation->primary_source | unverified->verified | ->2026-11-21 |
+| --- | res_6340504872 | VA | Mecklenburg County |  |  |  |  | report_citation | unverified |  |
+
+### contested_projects
+
+| @@ | id | state | project_name | severity_score | outcome | finality_evidence | evidence_level | verification | county_severe_restriction_ids | resolution_url | resolution_access | resolution_date |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| -> | con_a1a6ea95bb | CA | Granite Mountain Wind Energy Project | 4 | blocked_unverified->blocked_confirmed | outcome_label_only->resolution: https://www.pbssocal.org/redefine/another-california-wind-energy-project-canceled | report_citation->confirmed | unverified->verified | nrel:wind:06071;sabin:REC-0021 | ->https://www.pbssocal.org/redefine/another-california-wind-energy-project-canceled | ->opened | ->2013-08 |
+| -> | con_0c57b822fa | CA | Silurian Valley Solar Development | 4->2 | blocked_unverified->pending | outcome_label_only->resolution: https://www.pbssocal.org/redefine/firm-appeals-feds-no-go-of-silurian-valley-solar | report_citation | unverified->verified | sabin:REC-0021 | ->https://www.pbssocal.org/redefine/firm-appeals-feds-no-go-of-silurian-valley-solar | ->opened | ->2014-12 |
+| -> | con_532051ea65 | CO | Wright’s Mesa Solar Project | 2 | needs_review | none | report_citation | unverified | sabin:REC-0034-> |  |  |  |
+| -> | con_dd617d6622 | VA | 7 Bridges Solar Project | 4 | blocked_unverified | outcome_label_only | report_citation | unverified | sabin:S26R-5447-> |  |  |  |
+| -> | con_71ee16e8ff | VA | Antlers Road Solar Farm | 4 | blocked_confirmed | resolution: https://www.mecklenburgva.com/AgendaCenter/ViewFile/Minutes/_06092025-189 | confirmed | verified | sabin:S26R-5447-> | https://www.mecklenburgva.com/AgendaCenter/ViewFile/Minutes/_06092025-189 | opened | 2025-06-09 |
+| -> | con_e261469cb2 | VA | Lone Oak Agrisolar Project | 4 | blocked_unverified | outcome_label_only | report_citation | unverified | sabin:S26R-5447-> |  |  |  |
+| -> | con_86fcc0dbaf | VA | New Hope Agrisolar Project | 4 | blocked_unverified | outcome_label_only | report_citation | unverified | sabin:S26R-5447-> |  |  |  |
+| -> | con_2e46813b3e | WI | Beautiful Hill Wind Farm | 4->2 | blocked_unverified->pending | outcome_label_only->resolution: https://manitowoccountywi.gov/wp-content/uploads/2021/03/planning-2013.pdf | report_citation | unverified->verified | sabin:REC-0476 | ->https://manitowoccountywi.gov/wp-content/uploads/2021/03/planning-2013.pdf | ->opened | ->2013-02-25 |

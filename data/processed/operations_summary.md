@@ -4,20 +4,20 @@ Generated 2026-11-21 by `scripts/operations_summary.py`. Every number counts row
 
 ## Published
 
-3255 renewables-only restriction instruments (1280 severe, 203 verified, 76 past their end date with no confirmed extension, 884 severe ones in states whose siting law limits local reach); 579 contested projects (190 confirmed); 39 cases.
+3248 renewables-only restriction instruments (1273 severe, 206 verified, 71 past their end date with no confirmed extension, 880 severe ones in states whose siting law limits local reach); 579 contested projects (191 confirmed); 39 cases.
 
-Decided projects (events older than 90 days): 356, of which 235 blocked; confirmed outcomes only: 189, 94 blocked. Conditional on opposition being tracked; see headline_metrics.md.
+Decided projects (events older than 90 days): 354, of which 233 blocked; confirmed outcomes only: 190, 95 blocked. Conditional on opposition being tracked; see headline_metrics.md.
 
 ## Held back
 
-127 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 119 PRIMARY_SOURCE_CONTRADICTS, 8 SCOPE_DATA_CENTER_ONLY.
+138 rows quarantined by the QC gate (`data/processed/qc_report.md` lists each with what releases it): 130 PRIMARY_SOURCE_CONTRADICTS, 8 SCOPE_DATA_CENTER_ONLY.
 
 ## Worklists
 
 | Worklist | Rows | Notes |
 |---|---:|---|
-| outcome_worklist.csv | 374 | 123 overdue, 10 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3140 | 82 lapsed, 294 sole severe in a county, 6 with a located source |
+| outcome_worklist.csv | 371 | 123 overdue, 10 with decision language in their text, 0 with a located source |
+| restriction_worklist.csv | 3130 | 76 lapsed, 287 sole severe in a county, 6 with a located source |
 | negative_check_worklist.csv | 8 | 8 no check on record |
 | adjacency_worklist.csv | 251 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
@@ -45,12 +45,12 @@ Reviewers' verdicts on primary sources, by the source family of the instrument c
 
 | Source family | Instruments checked | Confirmed | Contradicted | Opened | Archived | Snippet |
 |---|---:|---:|---:|---:|---:|---:|
-| Moratorium Nation | 60 | 47 | 13 | 55 | 5 | 0 |
+| Moratorium Nation | 64 | 50 | 14 | 59 | 5 | 0 |
 | NREL | 201 | 104 | 97 | 199 | 2 | 0 |
-| Sabin | 22 | 17 | 5 | 22 | 0 | 0 |
+| Sabin | 32 | 20 | 12 | 32 | 0 | 0 |
 | review queue | 1 | 0 | 1 | 1 | 0 | 0 |
 
-Outcome resolutions: 194 (93 advanced_confirmed, 90 blocked_confirmed, 9 pending, 2 restricted_conditional; by access 7 archived, 187 opened).
+Outcome resolutions: 197 (93 advanced_confirmed, 91 blocked_confirmed, 11 pending, 2 restricted_conditional; by access 7 archived, 190 opened).
 
 ## Live intake and fetched sources
 
@@ -78,4 +78,4 @@ Last error by source: gdelt_renewable_news (2026-11-17: 429 Client Error: Too Ma
 
 ## History and archive
 
-212 snapshot rows over 5 published files; 26 headline changes recorded (2026-09-29 to 2026-11-20). Sources: 87, of which 44 have an Internet Archive snapshot.
+216 snapshot rows over 5 published files; 27 headline changes recorded (2026-09-29 to 2026-11-21). Sources: 87, of which 44 have an Internet Archive snapshot.
