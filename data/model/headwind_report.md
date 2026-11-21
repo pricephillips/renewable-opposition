@@ -12,25 +12,25 @@ Written by `scripts/headwind_model.py` under `config/headwind_model_registration
 
 | Measure | Request only | Request and county | Gain |
 |---|---:|---:|---:|
-| Cross-validated AUC (median of 25 folds) | 0.627 | 0.656 (p10 0.644, p90 0.665) | 0.030 |
+| Cross-validated AUC (median of 25 folds) | 0.627 | 0.656 (p10 0.644, p90 0.665) | 0.029 |
 | State-grouped AUC (5 folds by state) | 0.496 | 0.570 | 0.074 |
-| Out of time: fit 2010 to 2016 (3656 requests), score 2017 to 2019 (3086) | 0.522 | 0.546 | 0.023 |
+| Out of time: fit 2010 to 2016 (3656 requests), score 2017 to 2019 (3086) | 0.522 | 0.546 | 0.024 |
 
-Calibration gate on the recalibrated score: PROMOTE. Brier skill 0.074, ECE 0.009. Regularization C = 0.01.
+Calibration gate on the recalibrated score: PROMOTE. Brier skill 0.074, ECE 0.008. Regularization C = 0.01.
 
 County variables kept (each keeps its sign on all 25 folds; standardized coefficients, positive means more often withdrew):
 
 | Variable | Coefficient | Fold min | Fold max |
 |---|---:|---:|---:|
-| the state's earlier requests: share withdrawn (smoothed) | 0.235 | 0.201 | 0.266 |
+| the state's earlier requests: share withdrawn (smoothed) | 0.236 | 0.201 | 0.266 |
 | neighbouring counties' earlier requests: share withdrawn (smoothed) | 0.175 | 0.152 | 0.206 |
 | median household income (log) | -0.116 | -0.141 | -0.056 |
 | the county's earlier requests: share withdrawn (smoothed) | 0.099 | 0.076 | 0.134 |
-| share of neighbouring counties with a dated severe rule | 0.079 | 0.041 | 0.107 |
+| share of neighbouring counties with a dated severe rule | 0.079 | 0.041 | 0.106 |
 | share with a bachelor's degree | 0.079 | 0.050 | 0.099 |
 | presidential margin before the request (Democratic minus Republican) | 0.059 | 0.026 | 0.087 |
-| a local rule on the technology with no year | 0.047 | 0.017 | 0.081 |
-| solar and wind MW already operating (log) | -0.039 | -0.064 | -0.017 |
+| a local rule on the technology with no year | 0.050 | 0.021 | 0.085 |
+| solar and wind MW already operating (log) | -0.039 | -0.063 | -0.017 |
 | a severe local rule (severity 3 or 4) on the technology, dated before the request | -0.017 | -0.047 | -0.002 |
 
 Dropped for changing sign across folds: siting standards (severity 1 or 2) on the technology, dated before the request; the county's earlier requests: how many (log); population density (log); contested renewables projects in the county before the request (log); data center opposition events in the county before the request (log).
@@ -39,9 +39,9 @@ Dropped for changing sign across folds: siting standards (severity 1 or 2) on th
 |---|---:|---:|---:|
 | a severe local rule (severity 3 or 4) on the technology, dated before the request | 134 | 0.851 | 0.827 |
 | siting standards (severity 1 or 2) on the technology, dated before the request | 166 | 0.898 | 0.825 |
-| a local rule on the technology with no year | 1136 | 0.871 | 0.818 |
+| a local rule on the technology with no year | 1134 | 0.871 | 0.818 |
 
-Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.528.
+Check on contested projects: the county part of this score, applied to 164 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.530.
 
 Plug-in inputs (config/headwind_inputs.json, every one configured, registered or not), each added on its own to the model selected from the core county variables without plug-ins (AUC 0.656 in cross-validation, 0.546 out of time; C = 0.01). An input counts only if it keeps its sign on all 25 folds and adds at least 0.01 AUC both ways.
 
@@ -51,11 +51,12 @@ Plug-in inputs (config/headwind_inputs.json, every one configured, registered or
 | county population change over the five years before the year preceding the request (BEA) | 100% | -0.045 | no | -0.001 | -0.000 |
 | county house price change over five years, as of the year before the request (FHFA) | 94% | 0.026 | no | -0.001 | 0.003 |
 | county poverty rate, the year before the request (SAIPE) | 100% | 0.012 | no | 0.000 | -0.000 |
-| log of county median household income, the year before the request (SAIPE) | 100% | 0.078 | yes | 0.001 | 0.000 |
-| log of county employment, the year before the request (County Business Patterns) | 100% | -0.034 | yes | -0.002 | -0.001 |
-| share of county establishments in construction, the year before the request (County Business Patterns) | 100% | -0.051 | yes | -0.000 | 0.000 |
+| log of county median household income, the year before the request (SAIPE) | 100% | 0.078 | yes | 0.000 | 0.000 |
+| log of county employment, the year before the request (County Business Patterns) | 100% | -0.034 | yes | -0.001 | -0.001 |
+| share of county establishments in construction, the year before the request (County Business Patterns) | 100% | -0.051 | yes | 0.000 | 0.000 |
 | share of county establishments in utilities, the year before the request (County Business Patterns) | 100% | 0.012 | no | -0.000 | -0.000 |
 | share of county establishments in agriculture support, the year before the request (County Business Patterns) | 100% | 0.086 | yes | 0.001 | 0.001 |
+| log of the local governments in the county (incorporated places and town or township governments, 2024) | 100% | 0.046 | no | 0.001 | -0.000 |
 
 ## Label: withdrawn within three years, requests made 2010 to 2022 in CAISO, ISO-NE, MISO and PJM (added after the first fit)
 
@@ -84,11 +85,11 @@ Dropped for changing sign across folds: a severe local rule (severity 3 or 4) on
 
 | Local rule in the county before the request | Requests with it | Share withdrew within three years, with it | Share without it |
 |---|---:|---:|---:|
-| a severe local rule (severity 3 or 4) on the technology, dated before the request | 267 | 0.434 | 0.470 |
+| a severe local rule (severity 3 or 4) on the technology, dated before the request | 266 | 0.436 | 0.470 |
 | siting standards (severity 1 or 2) on the technology, dated before the request | 484 | 0.335 | 0.476 |
 | a local rule on the technology with no year | 1869 | 0.447 | 0.474 |
 
-Check on contested projects: the county part of this score, applied to 163 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.471.
+Check on contested projects: the county part of this score, applied to 164 contested projects with a confirmed outcome (81 blocked), ranks blocked above advanced projects with AUC 0.469.
 
 Plug-in inputs (config/headwind_inputs.json, every one configured, registered or not), each added on its own to the model selected from the core county variables without plug-ins (AUC 0.678 in cross-validation, 0.557 out of time; C = 0.01). An input counts only if it keeps its sign on all 25 folds and adds at least 0.01 AUC both ways.
 
@@ -103,6 +104,7 @@ Plug-in inputs (config/headwind_inputs.json, every one configured, registered or
 | share of county establishments in construction, the year before the request (County Business Patterns) | 100% | -0.009 | no | -0.000 | -0.000 |
 | share of county establishments in utilities, the year before the request (County Business Patterns) | 100% | 0.031 | yes | 0.000 | -0.000 |
 | share of county establishments in agriculture support, the year before the request (County Business Patterns) | 100% | 0.108 | yes | 0.003 | 0.006 |
+| log of the local governments in the county (incorporated places and town or township governments, 2024) | 100% | -0.054 | yes | -0.001 | -0.000 |
 
 ## Limits
 

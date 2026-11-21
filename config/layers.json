@@ -46,6 +46,7 @@
     "data/reference/headwind_inputs/fhfa_hpi.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_fhfa_hpi.py"], "reason": "Headwind Model plug-in input: county house price index and its five-year change by year, from FHFA (public domain)."},
     "data/reference/headwind_inputs/saipe.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_saipe.py"], "reason": "Headwind Model plug-in input: county poverty rate and median household income by year, from Census SAIPE (public domain)."},
     "data/reference/headwind_inputs/cbp.csv": {"layer": "raw", "writers": ["scripts/fetch_headwind_cbp.py"], "reason": "Headwind Model plug-in input: county employment, establishments and sector shares by year, from Census County Business Patterns (public domain)."},
+    "data/reference/headwind_inputs/local_govts.csv": {"layer": "raw", "writers": ["scripts/build_headwind_local_govts.py"], "reason": "Headwind Model plug-in input: local governments per county, counted from data/census_governments_2024.csv (Census Gazetteer, public domain)."},
     "data/reference/county_covariates_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
     "data/reference/county_covariates_catalog.json": {"layer": "raw", "writers": ["scripts/fetch_county_covariates.py"]},
     "data/reference/medsl/countypres_2000-2024.csv": {

@@ -58,6 +58,8 @@ REFRESH = [
      "Census SAIPE county poverty and income into data/reference/headwind_inputs/", True),
     ("fetch_headwind_cbp", ["scripts/fetch_headwind_cbp.py"],
      "Census County Business Patterns into data/reference/headwind_inputs/", True),
+    ("build_headwind_local_govts", ["scripts/build_headwind_local_govts.py"],
+     "local governments per county into data/reference/headwind_inputs/", True),
     ("county_labels", ["scripts/county_labels.py"],
      "county restriction model labels into data/model/county_labels.csv", True),
     ("county_restriction_model", ["scripts/county_restriction_model.py"],

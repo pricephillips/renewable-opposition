@@ -2,7 +2,7 @@
 
 **Status:** November 20, 2026. A plan, not a result. Price asked for a long-term goal set for the Headwind Score built around an AUC and a calibration that can be sold. The working copy for discussion is a Claude Doc; this page is the record the routines read.
 
-The Headwind Score becomes sellable when it ranks counties at a forward AUC of at least 0.70 and its stated chances are calibrated within 5 points, on two later periods in a row. Today it does not meet that bar. The county part (`scripts/county_restriction_model.py`) comes close on its prospective label `new_severe_2022_2025` (AUC 0.68 to 0.71 in cross-validation), but its scores barely beat the base rate (Brier skill 0.036 to 0.047, under the gate's 0.05). The project part (`scripts/headwind_model.py`) ranks later requests at 0.546, close to a coin toss.
+The Headwind Score becomes sellable when it ranks counties at a forward AUC of at least 0.70 and its stated chances are calibrated within 5 points, on two later periods in a row. Today it does not meet that bar. The county part (`scripts/county_restriction_model.py`) reached the pilot levels on its prospective label `new_severe_2022_2025` in the refits of 2026-11-20 and 2026-11-21 (AUC 0.75 to 0.76 in cross-validation, 0.70 to 0.72 on 2026 enactments, Brier skill 0.068 to 0.082), but only on one partial year and with its Brier skill measured in cross-validation, not forward. The project part (`scripts/headwind_model.py`) ranks later requests at 0.546, close to a coin toss.
 
 ## 1. Targets
 
@@ -10,9 +10,9 @@ Every target is measured forward in time: the model is fit on earlier years and 
 
 | Measure | Today (county part, prospective label) | Today (project part) | Pilot | Sellable | Premium | Why this level |
 |---|---|---|---|---|---|---|
-| Forward AUC | 0.62 to 0.66 on 2026 enactments | 0.546 | 0.65 | 0.70 | 0.75 | 0.70 is the usual line for acceptable discrimination in risk scoring; below 0.65 a ranked list barely beats a careful analyst's guess |
-| Brier skill (accuracy gain over the base rate) | 0.036 to 0.047 | 0.074 (cross-validated) | 0.05 | 0.10 | 0.15 | Below 0.05 the score adds little to the base rate alone |
-| Calibration error (ECE) | 0.003 to 0.008 | 0.009 | 0.10 | 0.05 | 0.03 | A client reads "30 percent" as 3 in 10; 5 points is the widest gap that survives that reading |
+| Forward AUC | 0.70 to 0.72 on 2026 enactments | 0.546 | 0.65 | 0.70 | 0.75 | 0.70 is the usual line for acceptable discrimination in risk scoring; below 0.65 a ranked list barely beats a careful analyst's guess |
+| Brier skill (accuracy gain over the base rate) | 0.068 to 0.082 (cross-validated) | 0.074 (cross-validated) | 0.05 | 0.10 | 0.15 | Below 0.05 the score adds little to the base rate alone |
+| Calibration error (ECE) | 0.006 to 0.007 | 0.009 | 0.10 | 0.05 | 0.03 | A client reads "30 percent" as 3 in 10; 5 points is the widest gap that survives that reading |
 | Gain over the attributes-only or request-only model | not measured yet | 0.014 forward | 0.01 | 0.02 | 0.03 | The county record must earn its place over what a client already knows |
 | Periods passed in a row | 0 | 0 | 1 | 2 | 3 yearly | One good year can be luck |
 

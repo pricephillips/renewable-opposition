@@ -35,7 +35,9 @@ def test_fetcher_selftests():
     import fetch_headwind_cbp
     import fetch_headwind_fhfa_hpi
     import fetch_headwind_saipe
-    for mod in (fetch_headwind_bea_income, fetch_headwind_fhfa_hpi, fetch_headwind_saipe, fetch_headwind_cbp):
+    import build_headwind_local_govts
+    for mod in (fetch_headwind_bea_income, fetch_headwind_fhfa_hpi, fetch_headwind_saipe, fetch_headwind_cbp,
+                build_headwind_local_govts):
         assert mod._selftest() == 0
 
 

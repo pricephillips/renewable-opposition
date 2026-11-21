@@ -60,6 +60,7 @@ on:
       - 'tests/test_headwind_model.py'
       - 'scripts/headwind_inputs.py'
       - 'scripts/fetch_headwind_*.py'
+      - 'scripts/build_headwind_local_govts.py'
       - 'tests/fixtures/headwind_inputs/**'
       - 'config/headwind_inputs.json'
       - 'data/reference/headwind_inputs/**'
@@ -102,7 +103,7 @@ jobs:
         run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py tests/test_headwind_search.py
 
       - name: Fetch
-        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only fetch_headwind_saipe --only fetch_headwind_cbp --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --only headwind_search --skip-build --summary "$GITHUB_STEP_SUMMARY"
+        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only fetch_headwind_saipe --only fetch_headwind_cbp --only build_headwind_local_govts --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --only headwind_search --skip-build --summary "$GITHUB_STEP_SUMMARY"
 
       - name: Branch run reproduces the committed files
         if: github.ref != 'refs/heads/main'
