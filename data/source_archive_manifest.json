@@ -1,26 +1,27 @@
 {
-  "run_at": "2026-11-16T19:50:26Z",
+  "run_at": "2026-11-23T21:36:08Z",
   "credentials": "anonymous",
   "cited_urls": 87,
-  "lookups": 28,
-  "saves": 20,
-  "stop_reason": "time_budget",
-  "stop_at_url": "https://www.courtlistener.com/docket/69494045/albany-county-conservancy-v-western-area-power-administration/",
+  "lookups": 41,
+  "saves": 35,
+  "stop_reason": "complete",
+  "stop_at_url": "",
   "counts_by_status": {
-    "archived": 47,
-    "requested": 4,
-    "not_archived": 39,
+    "archived": 53,
+    "requested": 9,
+    "not_archived": 28,
     "unresolved_redirect": 0,
     "failed": 0
   },
   "errors": {
-    "save 520": 3,
-    "save 523": 2,
-    "save no response": 35
+    "save 404": 1,
+    "save 520": 8,
+    "save 523": 3,
+    "save no response": 17
   },
   "resolvable": 87,
-  "archived": 46,
-  "coverage": 0.5287,
+  "archived": 52,
+  "coverage": 0.5977,
   "history": [
     {
       "run_at": "2026-09-29T17:00:18Z",
@@ -63,6 +64,13 @@
       "resolvable": 87,
       "coverage": 0.5287,
       "stop_reason": "time_budget"
+    },
+    {
+      "run_at": "2026-11-23T21:36:08Z",
+      "archived": 52,
+      "resolvable": 87,
+      "coverage": 0.5977,
+      "stop_reason": "complete"
     }
   ]
 }
