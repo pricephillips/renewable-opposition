@@ -90,6 +90,11 @@
     },
     "data/model/headwind_metrics.json": {"layer": "derived", "writers": ["scripts/headwind_model.py"]},
     "data/model/headwind_report.md": {"layer": "derived", "writers": ["scripts/headwind_model.py"]},
+    "data/model/bill_outlook.json": {
+      "layer": "derived", "writers": ["scripts/bill_outlook.py"],
+      "reason": "Internal output of the bill outcome model (config/bill_outlook.json, shared core scripts/policy_outlook_core.py): what followed past state laws of the kind a tracked bill would make, against comparison states. It describes resemblance to past records; no page, report or headline figure reads it."
+    },
+    "data/model/bill_outlook_report.md": {"layer": "derived", "writers": ["scripts/bill_outlook.py"]},
     "data/model/headwind_compare.json": {
       "layer": "derived", "writers": ["scripts/headwind_compare.py"],
       "reason": "Internal race of logistic regression, gradient-boosted trees and a neural net for the Renewable Headwind Model on forward-in-time holdouts (docs/headwind_model.md); no page, report or headline figure reads it."

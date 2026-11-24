@@ -1,0 +1,12 @@
+{
+  "_comment": [
+    "Pins the bill outcome model's shared core. policy_outlook_core.py in data-centers and",
+    "scripts/policy_outlook_core.py in renewable-opposition are the same bytes, and each repository's",
+    "policy outlook format lock carries the same format_version and core_sha256. Each repository's tests",
+    "fail when its local core differs from its lock. A change to the core bumps the lock here and there",
+    "in the same week. Other repository: pricephillips/data-centers (configs/policy_outlook_format.lock)."
+  ],
+  "format_version": 1,
+  "core_sha256": "0b3cebce3785ae40a9648412941dd60eac87cc4a7fa9a89975583e10551e255e",
+  "updated": "2026-11-24"
+}
