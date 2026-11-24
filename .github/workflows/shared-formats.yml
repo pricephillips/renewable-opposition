@@ -1,0 +1,103 @@
+name: Shared formats
+
+# Keeps the formats shared with pricephillips/data-centers in step. One weekly
+# run checks both pins, since both read the same sibling with the same token
+# (2026-11-24; this replaced variable-format.yml and brief-format.yml, which ran
+# six minutes apart every Monday):
+#
+#   variable format  scripts/variable_core.py and
+#                    config/variable_manifest.schema.json are copies of
+#                    data-centers' variable_core.py and
+#                    configs/variable_manifest.schema.json, pinned by
+#                    config/variable_format.lock in both (spec 033 there,
+#                    research R2).
+#   brief format     scripts/brief_core.py is a copy of data-centers'
+#                    brief_core.py, pinned by config/brief_format.lock here
+#                    and configs/brief_format.lock there.
+#
+# Weekly, and on a change to any pinned file, this compares each lock here with
+# the one on data-centers' main and fails when the format version or a hash
+# differs.
+#
+# data-centers is private, so the read needs a token that can see it: the
+# secret VARIABLE_FORMAT_SIBLING_TOKEN (a fine-grained token with Contents:
+# read on that one repository). Without it, or when a read fails, the job
+# prints the warning "sibling not readable" and checks only this repository's
+# own locks.
+
+on:
+  schedule:
+    - cron: "41 10 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "config/variable_format.lock"
+      - "config/variable_manifest.schema.json"
+      - "scripts/variable_core.py"
+      - "config/brief_format.lock"
+      - "scripts/brief_core.py"
+      - ".github/workflows/shared-formats.yml"
+  pull_request:
+    paths:
+      - "config/variable_format.lock"
+      - "config/variable_manifest.schema.json"
+      - "scripts/variable_core.py"
+      - "config/brief_format.lock"
+      - "scripts/brief_core.py"
+      - ".github/workflows/shared-formats.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.11"
+      - name: Fetch the sibling's locks
+        id: sibling
+        env:
+          GH_TOKEN: ${{ secrets.VARIABLE_FORMAT_SIBLING_TOKEN || github.token }}
+        run: |
+          fetch() {  # fetch <path on data-centers> <file> <output name>
+            if gh api -H "Accept: application/vnd.github.raw" \
+                 "repos/pricephillips/data-centers/contents/$1?ref=main" \
+                 > "$RUNNER_TEMP/$2" 2> "$RUNNER_TEMP/$2.err"; then
+              echo "$3=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "::warning::sibling not readable ($1): $(head -c 200 "$RUNNER_TEMP/$2.err")"
+              echo "$3=false" >> "$GITHUB_OUTPUT"
+            fi
+          }
+          fetch configs/variable_format.lock variable.lock variable
+          fetch configs/brief_format.lock brief.lock brief
+
+      # Variable format.
+      - name: Compare the variable format locks
+        if: steps.sibling.outputs.variable == 'true'
+        run: python scripts/variable_registry.py --compare-lock "$RUNNER_TEMP/variable.lock"
+      - name: Check this repository's own variable format lock
+        if: steps.sibling.outputs.variable != 'true'
+        # Compared with itself, the lock is checked against the files here only.
+        run: |
+          python scripts/variable_core.py --selftest
+          python scripts/variable_registry.py --compare-lock config/variable_format.lock
+
+      # Brief format. Runs even when the variable format step fails, so one
+      # run reports both.
+      - name: Check the brief format's own tests
+        if: ${{ !cancelled() }}
+        run: python scripts/brief_core.py --selftest
+      - name: Compare the brief format locks
+        if: ${{ !cancelled() && steps.sibling.outputs.brief == 'true' }}
+        run: python scripts/county_briefs.py compare-lock --lock "$RUNNER_TEMP/brief.lock"
+      - name: Check this repository's own brief format lock
+        if: ${{ !cancelled() && steps.sibling.outputs.brief != 'true' }}
+        run: python scripts/county_briefs.py compare-lock --lock config/brief_format.lock

@@ -273,7 +273,7 @@ def accept(draft: dict, review: dict, sheet: dict, cfg: dict) -> tuple[dict, lis
 
 def compare_lock(other: Path, lock: Path = LOCK, core: Path = CORE) -> list[str]:
     """Every way this repository's brief format differs from its lock or from
-    the sibling repository's lock (brief-format.yml)."""
+    the sibling repository's lock (shared-formats.yml)."""
     import hashlib
     mine = json.loads(lock.read_text(encoding="utf-8"))
     theirs = json.loads(other.read_text(encoding="utf-8"))

@@ -43,7 +43,7 @@ Usage
   python scripts/variable_registry.py --check [--id ID]
   python scripts/variable_registry.py --draft ID
   python scripts/variable_registry.py --new ID --grain county|state
-  python scripts/variable_registry.py --compare-lock PATH   the sibling's lock (variable-format.yml)
+  python scripts/variable_registry.py --compare-lock PATH   the sibling's lock (shared-formats.yml)
   python scripts/variable_registry.py --selftest
 """
 
@@ -200,7 +200,7 @@ LOCK_KEYS = ("format_version", "schema_sha256", "core_sha256")
 
 def compare_lock(root: Path, other: Path) -> list[str]:
     """Differences between this repository's lock and pricephillips/data-centers'
-    (variable-format.yml fetches it), plus this repository's own lock problems."""
+    (shared-formats.yml fetches it), plus this repository's own lock problems."""
     probs = lock_problems(root)
     try:
         theirs = _read_json(other)

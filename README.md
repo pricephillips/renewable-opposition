@@ -392,7 +392,7 @@ in the format `pricephillips/data-centers` uses (its spec 033 and
 `docs/adding_a_variable.md`). `scripts/variable_core.py` and
 `config/variable_manifest.schema.json` are byte-for-byte copies of that
 repository's files, and `config/variable_format.lock` pins their hashes in
-both. The weekly Variable format workflow (`variable-format.yml`) compares
+both. The weekly Shared formats workflow (`shared-formats.yml`) compares
 the two locks.
 
 `python scripts/variable_registry.py --check` validates every manifest: the

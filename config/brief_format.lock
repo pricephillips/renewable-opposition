@@ -4,7 +4,7 @@
     "pricephillips/data-centers (brief_core.py) and renewable-opposition (scripts/brief_core.py),",
     "whose brief_format.lock (configs/ there, config/ here) carries the same values.",
     "tests/test_county_briefs.py fails when the local file's SHA-256 differs from this lock, and",
-    "brief-format.yml compares this lock with the one on data-centers' main, so a change to the",
+    "shared-formats.yml compares this lock with the one on data-centers' main, so a change to the",
     "format bumps the lock in both repositories in the same week."
   ],
   "format_version": 1,
