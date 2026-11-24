@@ -164,3 +164,78 @@ def test_no_key_skips_quietly(monkeypatch, capsys):
     monkeypatch.delenv(fl.KEY_ENV, raising=False)
     assert fl.main([]) == 0
     assert "not set" in capsys.readouterr().out
+
+
+LIMIT_ALERT = ("API key has exceeded maximum query count for November 2026 (10,111 of 10,000); "
+               "limit resets December 1st")
+
+
+class RefusingClient(FakeClient):
+    """Answers like LegiScan once the month's allowance is used up, from the
+    call numbered refuse_from (1 is the first call)."""
+
+    def __init__(self, refuse_from, **kw):
+        super().__init__(**kw)
+        self.refuse_from = refuse_from
+
+    def call(self, op, **params):
+        if self.queries + 1 >= self.refuse_from:
+            self.calls.append((op, params))
+            self.queries += 1
+            raise fl.LegiScanLimitReached(f"{op}: LegiScan's monthly query limit is reached: {LIMIT_ALERT}")
+        return super().call(op, **params)
+
+
+def test_the_client_turns_the_limit_answer_into_a_stop(monkeypatch):
+    class Resp:
+        status_code = 200
+
+        def json(self):
+            return {"status": "ERROR", "alert": {"message": LIMIT_ALERT}}
+
+    client = fl.Client("SECRETKEY", "https://api.legiscan.com/", delay_s=0)
+    monkeypatch.setattr(client.session, "get", lambda *a, **k: Resp())
+    with pytest.raises(fl.LegiScanLimitReached):
+        client.call("getBill", id=1)
+    assert client.queries == 1
+
+
+def test_the_run_cap_stops_the_client_before_the_next_call(monkeypatch):
+    client = fl.Client("SECRETKEY", "https://api.legiscan.com/", delay_s=0, max_queries=0)
+    monkeypatch.setattr(client.session, "get", lambda *a, **k: pytest.fail("no call past the cap"))
+    with pytest.raises(fl.LegiScanLimitReached):
+        client.call("getDatasetList")
+    assert client.queries == 0
+
+
+def test_a_limit_answer_stops_the_run_at_once_and_keeps_what_was_read(tmp_path):
+    # Calls: 1 getDatasetList, 2 getMasterList, 3 the first getBill (refused).
+    client = RefusingClient(refuse_from=3)
+    stats = _run(tmp_path, client)
+    assert [op for op, _ in client.calls] == ["getDatasetList", "getMasterList", "getBill"]
+    assert "monthly query limit" in stats["stopped"]
+    assert stats["bills_looked_up"] == 0 and stats["lookups_deferred"] == 2
+    # The session that was read keeps its hash; its two leads wait for detail.
+    assert [r["session_id"] for r in read_csv(fl.SESSIONS_PATH)] == ["2101"]
+    assert sorted(r["bill_id"] for r in read_csv(fl.LEADS_PATH) if not r["change_hash"]) == ["501", "503"]
+    # The next week, with queries again, only the bill lookups are left.
+    client = FakeClient()
+    stats = _run(tmp_path, client)
+    assert [op for op, _ in client.calls] == ["getDatasetList", "getBill", "getBill"]
+    assert not stats["stopped"]
+
+
+def test_a_refused_first_call_exits_cleanly(monkeypatch, capsys):
+    monkeypatch.setenv(fl.KEY_ENV, "SECRETKEY")
+
+    def refused(self, op, **params):
+        raise fl.LegiScanLimitReached(f"{op}: LegiScan's monthly query limit is reached")
+
+    monkeypatch.setattr(fl.Client, "call", refused)
+    assert fl.main([]) == 0
+    assert "Skipped" in capsys.readouterr().out
+    assert not fl.LEADS_PATH.exists()
+
+
+def test_the_run_cap_is_set_in_the_config():
+    assert 0 < CFG["run_query_cap"] < 1000

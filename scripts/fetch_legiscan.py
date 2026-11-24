@@ -23,6 +23,13 @@ How it keeps the work small (three steps, cheapest first):
 A quiet week costs one query. No Claude run is started: the leads wait for a
 reviewer like any other intake lead.
 
+The key's monthly allowance is shared with pricephillips/data-centers, whose
+weekly bill sync uses the same LegiScan account. Two guards keep this feed from
+wasting it: a run stops at run_query_cap queries (config/legiscan.json), and
+the first time LegiScan answers that the monthly limit is reached, the run
+stops calling at once (LegiScan counts refused calls too) and keeps what it
+already read. Neither is an error: the run exits 0 and the next run picks up.
+
 The API key comes from the LEGISCAN_API_KEY environment variable (a
 repository secret). Without it the script says so and exits 0. The key is
 sent as a query parameter, as LegiScan requires, so no URL that carries it is
@@ -86,6 +93,13 @@ class LegiScanError(RuntimeError):
     pass
 
 
+class LegiScanLimitReached(LegiScanError):
+    """The month's query allowance or this run's cap is used up: stop calling."""
+
+
+_LIMIT_MESSAGE = re.compile(r"exceeded maximum query count", re.I)
+
+
 def load_config(path: Path = CONFIG_PATH) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -124,8 +138,9 @@ class Matcher:
 
 
 class Client:
-    def __init__(self, key: str, api_url: str, delay_s: float = 0.2):
+    def __init__(self, key: str, api_url: str, delay_s: float = 0.2, max_queries: int | None = None):
         self.key, self.api_url, self.delay_s = key, api_url, delay_s
+        self.max_queries = max_queries
         self.session = requests.Session()
         self.session.headers["User-Agent"] = USER_AGENT
         self.queries = 0
@@ -136,6 +151,8 @@ class Client:
     def call(self, op: str, **params) -> dict:
         query = {"key": self.key, "op": op, **params}
         for attempt in range(len(BACKOFF_S) + 1):
+            if self.max_queries is not None and self.queries >= self.max_queries:
+                raise LegiScanLimitReached(f"{op}: this run's cap of {self.max_queries} queries is reached")
             if self.queries:
                 time.sleep(self.delay_s)
             self.queries += 1
@@ -158,6 +175,9 @@ class Client:
                 raise LegiScanError(f"{op}: the response is not JSON") from None
             if body.get("status") != "OK":
                 msg = (body.get("alert") or {}).get("message", "no message")
+                if _LIMIT_MESSAGE.search(str(msg)):
+                    raise LegiScanLimitReached(f"{op}: LegiScan's monthly query limit is reached: "
+                                               f"{self._clean(str(msg))}")
                 raise LegiScanError(f"{op}: LegiScan answered {body.get('status')}: {self._clean(str(msg))}")
             return body
         raise LegiScanError(f"{op}: gave up after retries")
@@ -242,6 +262,8 @@ def run(client, cfg: dict, today: date, states: set[str] | None = None, max_bill
     max_bills = cfg.get("max_bill_lookups_per_run", 400) if max_bills is None else max_bills
 
     datasets = []
+    # getDatasetList is not caught: when even that is refused, nothing was
+    # read and main() reports the stop.
     for st in sorted(states) if states else [None]:
         body = client.call("getDatasetList", **({"state": st} if st else {}))
         for d in body.get("datasetlist") or []:
@@ -250,8 +272,34 @@ def run(client, cfg: dict, today: date, states: set[str] | None = None, max_bill
     sessions = current_sessions(datasets, today, cfg)
     stats = {"sessions_current": len(sessions), "sessions_checked": 0, "sessions_unchanged": 0,
              "bills_listed": 0, "bills_kept": 0, "new_leads": 0, "bills_looked_up": 0,
-             "lookups_deferred": 0, "errors": []}
+             "lookups_deferred": 0, "errors": [], "stopped": ""}
+    try:
+        _read_sessions(client, cfg, sessions, states, force, matcher, known_sessions, leads, stamp, stats)
+    except LegiScanLimitReached as e:
+        # Sessions read before the stop keep their new hashes; the rest are
+        # read next run.
+        stats["stopped"] = str(e)
+    pending = [bid for bid, lead in leads.items() if not lead.get("change_hash")
+               and wanted_state(lead.get("state", ""), states, cfg)]
+    if not stats["stopped"]:
+        try:
+            _look_up_bills(client, matcher, pending[:max_bills], leads, stats)
+        except LegiScanLimitReached as e:
+            stats["stopped"] = str(e)
+    stats["lookups_deferred"] = max(0, len(pending) - stats["bills_looked_up"])
 
+    rows = sorted(leads.values(), key=lambda r: (r.get("state", ""), r.get("session", ""),
+                                                 r.get("bill_number", "")))
+    write_csv(LEADS_PATH, rows, LEAD_FIELDS)
+    write_csv(SESSIONS_PATH, sorted(known_sessions.values(), key=lambda r: (r.get("state", ""),
+                                                                              r.get("session_id", ""))),
+              SESSION_FIELDS)
+    stats["queries"] = client.queries
+    stats["leads_total"] = len(rows)
+    return stats
+
+
+def _read_sessions(client, cfg, sessions, states, force, matcher, known_sessions, leads, stamp, stats):
     for d in sessions:
         sid = _s(d.get("session_id"))
         prev = known_sessions.get(sid)
@@ -263,6 +311,8 @@ def run(client, cfg: dict, today: date, states: set[str] | None = None, max_bill
             continue
         try:
             ml = client.call("getMasterList", id=sid).get("masterlist") or {}
+        except LegiScanLimitReached:
+            raise
         except LegiScanError as e:
             stats["errors"].append(str(e))
             continue
@@ -300,13 +350,13 @@ def run(client, cfg: dict, today: date, states: set[str] | None = None, max_bill
             "bills_listed": len(entries), "bills_kept": kept,
         }
 
-    # Every lead with a blank change hash: new or changed this run, or left
-    # over from a run that hit the cap or an error.
-    pending = [bid for bid, lead in leads.items() if not lead.get("change_hash")
-               and wanted_state(lead.get("state", ""), states, cfg)]
-    for bill_id in pending[:max_bills]:
+
+def _look_up_bills(client, matcher, bill_ids, leads, stats):
+    for bill_id in bill_ids:
         try:
             bill = client.call("getBill", id=bill_id).get("bill") or {}
+        except LegiScanLimitReached:
+            raise
         except LegiScanError as e:
             stats["errors"].append(str(e))
             continue
@@ -317,17 +367,6 @@ def run(client, cfg: dict, today: date, states: set[str] | None = None, max_bill
         if hit:
             lead["technology"] = ";".join(hit[0])
             lead["matched_terms"] = ";".join(hit[1])
-    stats["lookups_deferred"] = max(0, len(pending) - max_bills)
-
-    rows = sorted(leads.values(), key=lambda r: (r.get("state", ""), r.get("session", ""),
-                                                 r.get("bill_number", "")))
-    write_csv(LEADS_PATH, rows, LEAD_FIELDS)
-    write_csv(SESSIONS_PATH, sorted(known_sessions.values(), key=lambda r: (r.get("state", ""),
-                                                                              r.get("session_id", ""))),
-              SESSION_FIELDS)
-    stats["queries"] = client.queries
-    stats["leads_total"] = len(rows)
-    return stats
 
 
 def summary_text(stats: dict) -> str:
@@ -342,6 +381,8 @@ def summary_text(stats: dict) -> str:
         f"- Bill details looked up: {stats['bills_looked_up']} (deferred to next run: {stats['lookups_deferred']})",
         f"- Leads in data/review/state_bill_leads.csv: {stats['leads_total']}",
     ]
+    if stats.get("stopped"):
+        lines.append(f"- Stopped early, to be continued next run: {stats['stopped']}")
     for e in stats["errors"][:20]:
         lines.append(f"- Error: {e}")
     return "\n".join(lines) + "\n"
@@ -363,9 +404,14 @@ def main(argv: list[str] | None = None) -> int:
     if states and (bad := sorted(s for s in states if s not in STATE_CODES | {"US"})):
         print(f"Unknown state code(s): {', '.join(bad)}", file=sys.stderr)
         return 2
-    client = Client(key, cfg["api_url"])
+    client = Client(key, cfg["api_url"], max_queries=cfg.get("run_query_cap"))
     try:
         stats = run(client, cfg, date.today(), states, args.max_bills, args.force)
+    except LegiScanLimitReached as e:
+        # Nothing was read. Not a failure of this feed: the next run retries,
+        # and the other intake stages keep their results.
+        print(f"## LegiScan state bill feed\n\n- Skipped: {e}\n")
+        return 0
     except LegiScanError as e:
         print(f"LegiScan feed failed: {e}", file=sys.stderr)
         return 1

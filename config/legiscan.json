@@ -1,10 +1,11 @@
 {
-  "_about": "Settings for scripts/fetch_legiscan.py, the weekly LegiScan state bill feed. A bill is kept when its title, description or LegiScan subjects contain at least one technology term and at least one siting term. Terms match at the start of a word, case-insensitive, so 'moratori' matches moratorium and moratoria. Change the terms here, never in the script.",
+  "_about": "Settings for scripts/fetch_legiscan.py, the weekly LegiScan state bill feed. A bill is kept when its title, description or LegiScan subjects contain at least one technology term and at least one siting term. Terms match at the start of a word, case-insensitive, so 'moratori' matches moratorium and moratoria. Change the terms here, never in the script. The key's monthly allowance (10,000 queries) is shared with pricephillips/data-centers' bill sync; run_query_cap stops one run of this feed at that many queries (a first full run takes about 250, a quiet week 1), and a run also stops at LegiScan's first 'limit reached' answer.",
   "api_url": "https://api.legiscan.com/",
   "states": "ALL",
   "include_federal": false,
   "current_sessions_only": true,
   "max_bill_lookups_per_run": 150,
+  "run_query_cap": 400,
   "technology_terms": {
     "solar": ["solar", "photovoltaic"],
     "wind": ["wind energy", "wind turbine", "wind farm", "wind facility", "wind facilities", "wind power", "wind project", "wind generat", "offshore wind", "onshore wind"],
