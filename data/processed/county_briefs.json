@@ -3,7 +3,7 @@
  "format": "county_brief",
  "format_version": 1,
  "product": "renewables",
- "as_of": "2026-11-23",
+ "as_of": "2026-11-24",
  "sections": [
   "renewables",
   "state_rules",
@@ -12,7 +12,7 @@
  ],
  "briefs": [
   {
-   "as_of": "2026-11-23",
+   "as_of": "2026-11-24",
    "facts_digest": "2f7b1f28d5e6cb91200d8f522931073e68a456d52de235a7ff5723d1b53812aa",
    "fips": "17173",
    "format": "county_brief",
@@ -35,7 +35,7 @@
      "facts": [
       "con_3b25daf340"
      ],
-     "text": "Grain Belt Express, a high-voltage direct current power line of which Clean Line Energy proposed in 2015 to build 207 miles between the Mississippi River and the Indiana border, is pending. This record is not yet checked against the instrument itself."
+     "text": "Grain Belt Express (Unverified lead), a high-voltage direct current power line of which Clean Line Energy proposed in 2015 to build 207 miles between the Mississippi River and the Indiana border, is pending."
     },
     {
      "facts": [
@@ -45,12 +45,12 @@
     }
    ],
    "made_by": {
-    "commit": "5a7210e",
+    "commit": "0f1b13a",
     "config_version": "2026-11-24",
     "drafted_on": "2026-11-24",
-    "drafter": "agent:brief-drafter-2 (Claude Code, 2026-11-24)",
+    "drafter": "agent:brief-drafter-3 (Claude Code, 2026-11-24)",
     "reviewed_on": "2026-11-24",
-    "reviewer": "agent:blind-reviewer-5 (Claude Code, 2026-11-24)"
+    "reviewer": "agent:blind-reviewer-8 (Claude Code, 2026-11-24)"
    },
    "product": "renewables",
    "sections": {
@@ -58,7 +58,7 @@
      "facts": [
       "con_3b25daf340"
      ],
-     "text": "One contested project is on record: Grain Belt Express, a high-voltage direct current power line with 207 miles proposed in 2015 between the Mississippi River and the Indiana border, is pending. This record is not yet checked against the instrument itself."
+     "text": "One contested project is on record: Grain Belt Express (Unverified lead), a high-voltage direct current power line with 207 miles proposed in 2015 between the Mississippi River and the Indiana border, is pending."
     },
     "renewables": {
      "facts": [
@@ -66,7 +66,7 @@
       "nrel:wind:17173",
       "queue:q_961a84dda5"
      ],
-     "text": "Three county rules are on record: the zoning ordinance's solar, wind and storage standards, amended May 14, 2026 and in force; NREL's compilation of the wind ordinance (a setback of 2.1 times tip height and a 30-hour yearly shadow flicker limit), with no currency on record; and an April 10, 2025 moratorium, which is pending and not in force."
+     "text": "Three county rules are on record: the zoning ordinance's solar, wind and storage standards, amended May 14, 2026 and in force; NREL's compilation of the wind ordinance (a setback of 2.1 times tip height), whose record does not say whether it is in force; and an April 10, 2025 moratorium, which is pending and not in force."
     },
     "state_rules": {
      "facts": [
@@ -80,7 +80,7 @@
    }
   },
   {
-   "as_of": "2026-11-23",
+   "as_of": "2026-11-24",
    "facts_digest": "d5f2c4d964fc7c0b1ebd4f53e965aec32a488a6980e3bfd96dc268f48d10a64a",
    "fips": "19113",
    "format": "county_brief",
@@ -121,12 +121,12 @@
     }
    ],
    "made_by": {
-    "commit": "5a7210e",
+    "commit": "0f1b13a",
     "config_version": "2026-11-24",
     "drafted_on": "2026-11-24",
-    "drafter": "agent:brief-drafter-2 (Claude Code, 2026-11-24)",
+    "drafter": "agent:brief-drafter-3 (Claude Code, 2026-11-24)",
     "reviewed_on": "2026-11-24",
-    "reviewer": "agent:blind-reviewer-4 (Claude Code, 2026-11-24)"
+    "reviewer": "agent:blind-reviewer-9 (Claude Code, 2026-11-24)"
    },
    "product": "renewables",
    "sections": {
@@ -141,14 +141,14 @@
       "con_9df550d5b2",
       "con_e2cc59f0e7"
      ],
-     "text": "Two contested solar projects are on record, both advanced: Coggon Solar (100 MW, 640 acres), under construction, and the Duane Arnold Solar Projects, operating. Palo-area residents filed a lawsuit in 2022 opposing the rezoning of land for the Duane Arnold projects."
+     "text": "Coggon Solar and the Duane Arnold Solar Projects are on record as contested, and both advanced: Coggon Solar (100 MW, 640 acres) is under construction, and the Duane Arnold Solar Projects are operating. Palo-area residents filed a lawsuit in 2022 opposing the rezoning of land for the Duane Arnold projects."
     },
     "renewables": {
      "facts": [
       "queue:q_82dfad9133",
       "nrel:wind:19113"
      ],
-     "text": "Townships in Iowa do not zone, so rules for unincorporated land come from the county. The 2023 solar and battery storage siting rules are in force, and NREL's compilation of the wind ordinance (a 55 dBA noise limit) has no currency on record and is not yet checked against the instrument itself."
+     "text": "Townships in Iowa do not zone, so rules for unincorporated land come from the county. The 2023 solar and battery storage siting rules are in force, and NREL's compilation of the wind ordinance (Unverified lead), with a 55 dBA noise limit, is on record without saying whether it is in force."
     },
     "state_rules": {
      "facts": [
@@ -306,7 +306,7 @@
    }
   },
   {
-   "as_of": "2026-11-23",
+   "as_of": "2026-11-24",
    "facts_digest": "a570c5ce5e281b758b13c8c19da591362ca06ce7a17904079ba0f4002b7a33f7",
    "fips": "36029",
    "format": "county_brief",
@@ -332,7 +332,7 @@
       "mn:ny-aurora-erie-county-2025",
       "mn:ny-eden-2025"
      ],
-     "text": "Boston's town board extended its battery storage moratorium on December 3, 2025. In Aurora and Eden, the record's end dates for their battery storage moratoria (June 9, 2026 and September 30, 2026) have passed, and no later extension is on record. The Boston and Aurora records are not yet checked against the instruments themselves."
+     "text": "Boston's town board extended its battery storage moratorium (Unverified lead) on December 3, 2025. The record's end dates for the Aurora battery storage moratorium (Unverified lead) and the Eden one (June 9, 2026 and September 30, 2026) have passed, and no later extension is on record."
     },
     {
      "facts": [
@@ -340,16 +340,16 @@
       "nrel:solar:3602955277",
       "nrel:wind:3602903199"
      ],
-     "text": "As compiled by NREL, the Town of Tonawanda's wind ordinance includes a ban, and Orchard Park's solar ordinance and Aurora's wind ordinance include a zoning prohibition. These records apply in those towns only and are not yet checked against the instruments themselves."
+     "text": "As compiled by NREL, the Town of Tonawanda's wind ordinance (Unverified lead) includes a ban, and Orchard Park's solar ordinance (Unverified lead) and Aurora's wind ordinance (Unverified lead) include a zoning prohibition. These records apply in those towns only."
     }
    ],
    "made_by": {
-    "commit": "3bf1ef2",
+    "commit": "0f1b13a",
     "config_version": "2026-11-24",
     "drafted_on": "2026-11-24",
-    "drafter": "agent:brief-drafter-1 (Claude Code, 2026-11-24)",
+    "drafter": "agent:brief-drafter-3 (Claude Code, 2026-11-24)",
     "reviewed_on": "2026-11-24",
-    "reviewer": "agent:blind-reviewer-3 (Claude Code, 2026-11-24)"
+    "reviewer": "agent:blind-reviewer-6 (Claude Code, 2026-11-24)"
    },
    "product": "renewables",
    "sections": {
@@ -383,7 +383,7 @@
       "nrel:wind:3602951803",
       "nrel:wind:3602975000"
      ],
-     "text": "Two Concord moratoria are in force in that town, Boston extended its storage moratorium on December 3, 2025, and the Aurora and Eden end dates have passed with no later extension on record. NREL compiled solar or wind ordinances for many towns and Buffalo, and these and the Boston and Aurora records are not yet checked against the instruments."
+     "text": "Two Concord moratoria are in force in that town, Boston extended its storage moratorium (Unverified lead) on December 3, 2025, and the Aurora (Unverified lead) and Eden end dates have passed with no later extension on record. NREL compiled solar or wind ordinances (Unverified lead) for many towns and Buffalo."
     },
     "state_rules": {
      "facts": [

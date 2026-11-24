@@ -41,7 +41,9 @@ and source; nothing else is.
 - Follow `style`. Plain third person; name Hawthorn only as Hawthorn. Say what
   public bodies did and when. Use outcome words from the ladder only
   (blocked, restricted, advanced, pending). A fact whose `verification` is not
-  `verified` is described as not yet checked against the instrument itself.
+  `verified` carries the label (Unverified lead) after its name, and is never
+  called not yet checked, not yet reviewed or not confirmed (the portal's copy
+  standard states the record plainly).
 - Never explain why something happened or say what will happen. No word in
   `refused` (the scores, severity and tiers stay internal). No em dash or en
   dash. No first person.
