@@ -21,7 +21,7 @@
     "Plain third person. Name Hawthorn only as Hawthorn, never as we or our.",
     "Say what public bodies did, with the date and the body: adopted, extended, repealed, approved, denied, withdrew, filed.",
     "Use the record's own words for the instrument: moratorium, ban, setback, height limit, noise limit, zoning amendment, siting ordinance.",
-    "Say 'on record' for what the published tables hold, and 'in force' only when currency is in_force. When currency is lapsed_unconfirmed, say the record's end date has passed and no later extension is on record; when it is pending, say the rule is proposed and not adopted.",
+    "Say 'on record' for what the published tables hold, and 'in force' only when currency is in_force. When currency is lapsed_unconfirmed, say the record's end date has passed and no later extension is on record; when it is pending, say the rule is proposed and not adopted, unless the record says the body adopted it and it has not taken effect: then say it was adopted and is not in force.",
     "A record whose verification is not 'verified' is described as not yet checked against the instrument itself.",
     "Outcomes of contested projects use the ladder's display words only: blocked, restricted, advanced, pending.",
     "Dates as Month D, YYYY. Sizes as 45 MW, distances as 2,000 feet.",

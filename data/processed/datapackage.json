@@ -1309,7 +1309,7 @@
       "mediatype": "text/csv",
       "encoding": "utf-8",
       "description": "Plain-English county briefs: one row per headline bullet or section line, each citing the published records it rests on (scripts/county_briefs.py).",
-      "rows": 22,
+      "rows": 38,
       "schema": {
         "fields": [
           {
