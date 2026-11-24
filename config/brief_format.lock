@@ -1,0 +1,13 @@
+{
+  "_comment": [
+    "Pins the shared county brief format. brief_core.py is copied byte for byte between",
+    "pricephillips/data-centers (brief_core.py) and renewable-opposition (scripts/brief_core.py),",
+    "whose brief_format.lock (configs/ there, config/ here) carries the same values.",
+    "tests/test_county_briefs.py fails when the local file's SHA-256 differs from this lock, and",
+    "brief-format.yml compares this lock with the one on data-centers' main, so a change to the",
+    "format bumps the lock in both repositories in the same week."
+  ],
+  "format_version": 1,
+  "core_sha256": "64e4fdf45d68897408252e8fc20f0c4d080160f2149a6cbee6c552b568cff259",
+  "updated": "2026-11-24"
+}

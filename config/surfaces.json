@@ -40,6 +40,8 @@
     "data/processed/state_policies.json": "the same, as JSON",
     "data/processed/county_summary.csv": "one row per county; the dashboard reads data/db/county_summary.json instead",
     "data/processed/county_summary.json": "the same, one record per line",
+    "data/processed/county_briefs.csv": "plain-English county briefs, one row per bullet or section line (scripts/county_briefs.py publish); the client builder reads it",
+    "data/processed/county_briefs.json": "the same, one brief per county, with the briefs held back and why",
     "data/processed/sources.csv": "one row per source document with its archive snapshot",
     "data/processed/sources.json": "the same, one record per line",
     "data/processed/group_registry.csv": "opposition groups with their sources",

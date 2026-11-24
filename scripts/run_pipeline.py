@@ -87,6 +87,8 @@ BUILD = [
     # every outcome a review changes, not only the monthly fetch.
     ("queue_matches", ["scripts/queue_matches.py"],
      "contested projects matched to their Queued Up requests", True),
+    ("county_briefs", ["scripts/county_briefs.py", "publish"],
+     "reviewed county briefs that still match their records into data/processed/county_briefs.json", True),
     ("codebook", ["scripts/codebook.py"], "docs/codebook.md from the rules' own constants", False),
     ("verification_worklist", ["scripts/verification_worklist.py"], "rank what to verify next", False),
     ("client_view_audit", ["scripts/client_view_audit.py"],

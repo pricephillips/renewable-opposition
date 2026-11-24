@@ -153,6 +153,40 @@ When a client or Price asks a question the bank does not cover, add it to
 `config/reader_questions.json` in the same pull request, worded so it names
 no client and no county, with the check that answers it if one exists.
 
+## 5b. County briefs
+
+A county brief is the short plain-English summary at the top of a county page
+(3 to 5 bullets) and the one or two sentences that open each section, which a
+reader folds open or closed. `scripts/county_briefs.py` builds each county's
+fact sheet from the published tables, and `scripts/brief_core.py` (shared with
+data-centers, pinned by `config/brief_format.lock`) holds the format and the
+check. A brief is shown only while the records it describes are unchanged, so
+this section redrafts the counties whose records changed.
+
+1. List the counties: `python scripts/county_briefs.py worklist` (at most
+   `worklist.per_run` in `config/county_brief.json`). Skip this section when it
+   prints nothing.
+2. For each county, write its card: `python scripts/county_briefs.py card
+   --fips <fips> > .packets/<run>/brief/<fips>.card.json`. Start one
+   `brief-drafter` per county, in parallel, with the card and the signature
+   `agent:brief-drafter-N`. Each writes `.packets/<run>/brief/<fips>.draft.json`.
+3. Run the humanizer pass (CLAUDE.md, Written text) on each draft's `text`
+   fields, keeping every number, name and fact id, and save the draft.
+4. Write the blind card: `python scripts/county_briefs.py blind --draft
+   .packets/<run>/brief/<fips>.draft.json`. Start a `blind-reviewer` on it with
+   the signature `agent:blind-reviewer-N` (a different number from the
+   drafter's). It writes `<fips>.review.json`.
+5. A confirmed review: `python scripts/county_briefs.py accept --draft
+   <draft> --review <review>`. It checks both packets and the brief against
+   the county's current fact sheet (`brief_core.check`), then appends the
+   brief to `data/review/county_briefs.jsonl`. A review that contradicts goes
+   back to the drafter once with the reviewer's problems; a second
+   contradiction leaves the county for the next run, noted in the pull
+   request body.
+6. `python scripts/county_briefs.py publish` writes
+   `data/processed/county_briefs.json`, which the build also runs. The
+   client builder reads it as the `county_briefs` layer.
+
 ## 6. Validate and open the pull request
 
 ```
