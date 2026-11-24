@@ -1,0 +1,7415 @@
+{
+ "bills": [],
+ "groups": {
+  "expands_local": {
+   "contested_blocked_share": {
+    "effects": [
+     {
+      "after": [
+       "2021-10-11",
+       "2022-10-11"
+      ],
+      "before": [
+       "2020-10-11",
+       "2021-10-11"
+      ],
+      "comparison_states": 50,
+      "delta": null,
+      "direction": null,
+      "effective": "2021-10-11",
+      "precedent": "OH-2021-SB-52",
+      "refs_after": [
+       "con_ef4c554165"
+      ],
+      "refs_before": [],
+      "state": "OH",
+      "state_after": 1,
+      "state_after_den": 1,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 1,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "local_restrictions": {
+    "effects": [
+     {
+      "after": [
+       "2021-10-11",
+       "2022-10-11"
+      ],
+      "before": [
+       "2020-10-11",
+       "2021-10-11"
+      ],
+      "comparison_states": 50,
+      "delta": null,
+      "direction": null,
+      "effective": "2021-10-11",
+      "precedent": "OH-2021-SB-52",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "OH",
+      "state_after": 0,
+      "state_before": 0,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 1,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "queue_withdrawn_share": {
+    "effects": [
+     {
+      "after": [
+       "2021-10-11",
+       "2022-10-11"
+      ],
+      "before": [
+       "2020-10-11",
+       "2021-10-11"
+      ],
+      "comparison_after_share": 0.8249,
+      "comparison_before_share": 0.8599,
+      "comparison_states": 50,
+      "delta": 0.1889,
+      "direction": 1,
+      "effective": "2021-10-11",
+      "precedent": "OH-2021-SB-52",
+      "refs_after": [
+       "pjm:ad1-015",
+       "pjm:ad1-103",
+       "pjm:ae2-278",
+       "pjm:ae2-324",
+       "pjm:ag1-358",
+       "pjm:ag2-135",
+       "pjm:ag2-663",
+       "pjm:ah1-195",
+       "pjm:ah1-485",
+       "pjm:ah1-519",
+       "pjm:ah1-551",
+       "pjm:ah1-555",
+       "pjm:ah1-581",
+       "pjm:ah1-603",
+       "pjm:ah1-604",
+       "pjm:ah1-608",
+       "pjm:ah1-635",
+       "pjm:ah1-636",
+       "pjm:ah2-214",
+       "pjm:ah2-216",
+       "pjm:ah2-219",
+       "pjm:ah2-221",
+       "pjm:ah2-283"
+      ],
+      "refs_before": [
+       "pjm:ab1-014",
+       "pjm:ab2-083",
+       "pjm:ab2-170",
+       "pjm:ac1-051",
+       "pjm:ac1-212",
+       "pjm:ac2-055",
+       "pjm:ac2-066",
+       "pjm:ae1-007",
+       "pjm:af2-033",
+       "pjm:af2-103",
+       "pjm:af2-210",
+       "pjm:af2-386",
+       "pjm:ag1-042",
+       "pjm:ag1-056",
+       "pjm:ag1-068",
+       "pjm:ag1-122",
+       "pjm:ag1-161",
+       "pjm:ag1-249",
+       "pjm:ag1-328",
+       "pjm:ag1-380",
+       "pjm:ag1-408",
+       "pjm:ag1-530",
+       "pjm:ag2-018",
+       "pjm:ag2-075",
+       "pjm:ag2-494",
+       "pjm:ag2-496"
+      ],
+      "state": "OH",
+      "state_after": 23,
+      "state_after_den": 23,
+      "state_before": 22,
+      "state_before_den": 26,
+      "status": "ok"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 1,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 1
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   }
+  },
+  "limits_local": {
+   "contested_blocked_share": {
+    "effects": [
+     {
+      "after": [
+       "2024-11-29",
+       "2025-11-29"
+      ],
+      "before": [
+       "2023-11-29",
+       "2024-11-29"
+      ],
+      "comparison_states": 48,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-11-29",
+      "precedent": "MI-2023-PA-233",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "MI",
+      "state_after": 0,
+      "state_after_den": 0,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "before": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "comparison_states": 45,
+      "delta": null,
+      "direction": null,
+      "effective": "2025-07-01",
+      "precedent": "IN-2025-SEA-425",
+      "refs_after": [
+       "con_a01883c584"
+      ],
+      "refs_before": [
+       "con_c6ead5bc53",
+       "con_f38d052d45"
+      ],
+      "state": "IN",
+      "state_after": 0,
+      "state_after_den": 1,
+      "state_before": 1,
+      "state_before_den": 2,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "before": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "comparison_states": 45,
+      "delta": null,
+      "direction": null,
+      "effective": "2025-07-01",
+      "precedent": "MD-2025-SB-931",
+      "refs_after": [
+       "con_cf1a7831d9"
+      ],
+      "refs_before": [
+       "con_07787373eb",
+       "con_3dc865afe3"
+      ],
+      "state": "MD",
+      "state_after": 0,
+      "state_after_den": 1,
+      "state_before": 0,
+      "state_before_den": 2,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2026-03-01",
+       "2027-03-01"
+      ],
+      "before": [
+       "2025-03-01",
+       "2026-03-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-03-01",
+      "precedent": "MA-2024-c239-69T",
+      "state": "MA",
+      "status": "too_recent"
+     },
+     {
+      "after": [
+       "2026-06-01",
+       "2027-06-01"
+      ],
+      "before": [
+       "2025-06-01",
+       "2026-06-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-06-01",
+      "precedent": "IL-PA-104-458",
+      "state": "IL",
+      "status": "too_recent"
+     },
+     {
+      "after": [
+       "2026-07-01",
+       "2027-07-01"
+      ],
+      "before": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-07-01",
+      "precedent": "MS-2026-SB-2527",
+      "state": "MS",
+      "status": "too_recent"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 6,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "local_restrictions": {
+    "effects": [
+     {
+      "after": [
+       "2024-11-29",
+       "2025-11-29"
+      ],
+      "before": [
+       "2023-11-29",
+       "2024-11-29"
+      ],
+      "comparison_states": 48,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-11-29",
+      "precedent": "MI-2023-PA-233",
+      "refs_after": [
+       "res_5006f40b4e"
+      ],
+      "refs_before": [],
+      "state": "MI",
+      "state_after": 1,
+      "state_before": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "before": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "comparison_after_mean": 2.511,
+      "comparison_before_mean": 0.956,
+      "comparison_states": 45,
+      "delta": 2.1063,
+      "direction": 1,
+      "effective": "2025-07-01",
+      "precedent": "IN-2025-SEA-425",
+      "refs_after": [
+       "res_3b1b9e57c3",
+       "res_7f59df981c",
+       "res_7b36d14b7f",
+       "res_474c83417c",
+       "res_c1fc1fefb8",
+       "res_1e8c482aac",
+       "res_00c3574156",
+       "res_502ffdbf02"
+      ],
+      "refs_before": [],
+      "state": "IN",
+      "state_after": 8,
+      "state_before": 0,
+      "status": "ok"
+     },
+     {
+      "after": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "before": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "comparison_states": 45,
+      "delta": null,
+      "direction": null,
+      "effective": "2025-07-01",
+      "precedent": "MD-2025-SB-931",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "MD",
+      "state_after": 0,
+      "state_before": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2026-03-01",
+       "2027-03-01"
+      ],
+      "before": [
+       "2025-03-01",
+       "2026-03-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-03-01",
+      "precedent": "MA-2024-c239-69T",
+      "state": "MA",
+      "status": "too_recent"
+     },
+     {
+      "after": [
+       "2026-06-01",
+       "2027-06-01"
+      ],
+      "before": [
+       "2025-06-01",
+       "2026-06-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-06-01",
+      "precedent": "IL-PA-104-458",
+      "state": "IL",
+      "status": "too_recent"
+     },
+     {
+      "after": [
+       "2026-07-01",
+       "2027-07-01"
+      ],
+      "before": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-07-01",
+      "precedent": "MS-2026-SB-2527",
+      "state": "MS",
+      "status": "too_recent"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 6,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 1
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "queue_withdrawn_share": {
+    "effects": [
+     {
+      "after": [
+       "2024-11-29",
+       "2025-11-29"
+      ],
+      "before": [
+       "2023-11-29",
+       "2024-11-29"
+      ],
+      "comparison_after_share": 0.9155,
+      "comparison_before_share": 0.7666,
+      "comparison_states": 48,
+      "delta": 0.1011,
+      "direction": 1,
+      "effective": "2024-11-29",
+      "precedent": "MI-2023-PA-233",
+      "refs_after": [
+       "miso:j1516",
+       "miso:j1860",
+       "miso:j1862",
+       "miso:j1980",
+       "miso:j2056",
+       "miso:j2119",
+       "miso:j2279",
+       "miso:j2347",
+       "miso:j2471",
+       "miso:j2491",
+       "miso:j2493",
+       "miso:j2534",
+       "miso:j2583",
+       "miso:j2592",
+       "miso:j2617",
+       "miso:j2671",
+       "miso:j2674",
+       "miso:j2710",
+       "miso:j2719",
+       "miso:j2725",
+       "miso:j2732",
+       "miso:j2788",
+       "miso:j2934",
+       "miso:j2935",
+       "miso:j3100",
+       "miso:j3227",
+       "miso:j3228",
+       "pjm:af2-389",
+       "pjm:ag2-130",
+       "pjm:ag2-131",
+       "pjm:ag2-132",
+       "pjm:ag2-473",
+       "pjm:ag2-474",
+       "pjm:ah1-310",
+       "pjm:ai1-141"
+      ],
+      "refs_before": [
+       "miso:j1401",
+       "miso:j1526",
+       "miso:j1527",
+       "miso:s1007"
+      ],
+      "state": "MI",
+      "state_after": 35,
+      "state_after_den": 35,
+      "state_before": 3,
+      "state_before_den": 4,
+      "status": "ok"
+     },
+     {
+      "after": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "before": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "comparison_after_share": 0.9114,
+      "comparison_before_share": 0.8748,
+      "comparison_states": 45,
+      "delta": -0.0041,
+      "direction": 0,
+      "effective": "2025-07-01",
+      "precedent": "IN-2025-SEA-425",
+      "refs_after": [
+       "miso:j1578",
+       "miso:j1876",
+       "miso:j1947",
+       "miso:j1966",
+       "miso:j2004",
+       "miso:j2032",
+       "miso:j2038",
+       "miso:j2060",
+       "miso:j2063",
+       "miso:j2123",
+       "miso:j2160",
+       "miso:j2164",
+       "miso:j2201",
+       "miso:j2212",
+       "miso:j2216",
+       "miso:j2226",
+       "miso:j2254",
+       "miso:j2308",
+       "miso:j2329",
+       "miso:j2340",
+       "miso:j2360",
+       "miso:j2362",
+       "miso:j2407",
+       "miso:j2418",
+       "miso:j2421",
+       "miso:j2442",
+       "miso:j2443",
+       "miso:j2507",
+       "miso:j2512",
+       "miso:j2513",
+       "miso:j2514",
+       "miso:j2530",
+       "miso:j2539",
+       "miso:j2564",
+       "miso:j2573",
+       "miso:j2582",
+       "miso:j2615",
+       "miso:j2664",
+       "miso:j2687",
+       "miso:j2695",
+       "miso:j2711",
+       "miso:j2712",
+       "miso:j2722",
+       "miso:j2723",
+       "miso:j2775",
+       "miso:j2778",
+       "miso:j2779",
+       "miso:j2781",
+       "miso:j2782",
+       "miso:j2783",
+       "miso:j2805",
+       "miso:j2823",
+       "miso:j2829",
+       "miso:j2830",
+       "miso:j2835",
+       "miso:j2837",
+       "miso:j2843",
+       "miso:j2855",
+       "miso:j2894",
+       "miso:j2895",
+       "miso:j2919",
+       "miso:j2959",
+       "miso:j2960",
+       "miso:j2961",
+       "miso:j3000",
+       "miso:j3010",
+       "miso:j3016",
+       "miso:j3094",
+       "miso:j3103",
+       "miso:j3136",
+       "miso:j3142",
+       "miso:j3143",
+       "miso:j3146",
+       "miso:j3147",
+       "miso:j3226",
+       "pjm:af1-118",
+       "pjm:af1-158",
+       "pjm:af2-407",
+       "pjm:ag2-116",
+       "pjm:ah1-041",
+       "pjm:ah1-152",
+       "pjm:ah1-154",
+       "pjm:ah1-291",
+       "pjm:ah1-307",
+       "pjm:ah1-432",
+       "pjm:ah1-549",
+       "pjm:ai1-078"
+      ],
+      "refs_before": [
+       "miso:j1396",
+       "miso:j1491",
+       "miso:j1563",
+       "miso:j1591",
+       "miso:j1593",
+       "miso:j1624",
+       "miso:j1625",
+       "miso:j1637",
+       "miso:j1678",
+       "miso:j1680",
+       "miso:j1687",
+       "miso:j1697",
+       "miso:j1726",
+       "miso:j1815",
+       "miso:j1835",
+       "miso:j1877",
+       "miso:j1960",
+       "miso:j1976",
+       "miso:j2000",
+       "miso:j2046",
+       "miso:j2130",
+       "miso:j2132",
+       "miso:j2150",
+       "miso:j2221",
+       "miso:j2229",
+       "miso:j2236",
+       "miso:j2241",
+       "miso:j2251",
+       "miso:j2255",
+       "miso:j2259",
+       "miso:j2263",
+       "miso:j2269",
+       "miso:j2318",
+       "pjm:ac2-090",
+       "pjm:ad1-043",
+       "pjm:af1-141",
+       "pjm:af1-148",
+       "pjm:af1-215",
+       "pjm:af1-221",
+       "pjm:af2-094",
+       "pjm:af2-125",
+       "pjm:af2-134",
+       "pjm:af2-191",
+       "pjm:af2-204",
+       "pjm:ag1-222",
+       "pjm:ag1-417",
+       "pjm:ag1-418",
+       "pjm:ag1-522",
+       "pjm:ag1-523",
+       "pjm:ag1-524",
+       "pjm:ag1-525",
+       "pjm:ag2-083",
+       "pjm:ag2-084",
+       "pjm:ag2-117",
+       "pjm:ag2-170",
+       "pjm:ag2-173",
+       "pjm:ag2-222",
+       "pjm:ag2-407",
+       "pjm:ag2-454",
+       "pjm:ag2-455",
+       "pjm:ag2-546",
+       "pjm:ag2-576",
+       "pjm:ag2-577",
+       "pjm:ag2-578",
+       "pjm:ag2-638",
+       "pjm:ag2-683",
+       "pjm:ag2-690",
+       "pjm:ah1-014",
+       "pjm:ah1-289",
+       "pjm:ah1-300",
+       "pjm:ah1-301",
+       "pjm:ah1-303",
+       "pjm:ah1-400",
+       "pjm:ah1-413",
+       "pjm:ah1-453",
+       "pjm:ah1-477",
+       "pjm:ah1-479",
+       "pjm:ah1-481",
+       "pjm:ah1-484",
+       "pjm:ah1-502",
+       "pjm:ah1-548",
+       "pjm:ah1-595",
+       "pjm:ah1-596",
+       "pjm:ah1-653",
+       "pjm:ah2-210",
+       "pjm:ah2-211",
+       "pjm:ah2-213",
+       "pjm:ah2-237",
+       "pjm:ah2-243",
+       "pjm:ai1-140",
+       "pjm:ai2-023"
+      ],
+      "state": "IN",
+      "state_after": 86,
+      "state_after_den": 87,
+      "state_before": 87,
+      "state_before_den": 91,
+      "status": "ok"
+     },
+     {
+      "after": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "before": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "comparison_after_share": 0.9114,
+      "comparison_before_share": 0.8748,
+      "comparison_states": 45,
+      "delta": -0.0571,
+      "direction": 0,
+      "effective": "2025-07-01",
+      "precedent": "MD-2025-SB-931",
+      "refs_after": [
+       "pjm:ab1-124",
+       "pjm:ab1-125",
+       "pjm:af2-358",
+       "pjm:ag1-104",
+       "pjm:ag1-397",
+       "pjm:ag1-450",
+       "pjm:ag2-092",
+       "pjm:ag2-379",
+       "pjm:ag2-587",
+       "pjm:ah1-316",
+       "pjm:ah2-162"
+      ],
+      "refs_before": [
+       "pjm:ab2-135",
+       "pjm:ae2-093",
+       "pjm:af1-001",
+       "pjm:af1-015",
+       "pjm:af1-299",
+       "pjm:af1-300",
+       "pjm:af2-249",
+       "pjm:ag1-063",
+       "pjm:ag1-099",
+       "pjm:ag1-318",
+       "pjm:ag1-360",
+       "pjm:ag2-078",
+       "pjm:ag2-101",
+       "pjm:ag2-115",
+       "pjm:ag2-207",
+       "pjm:ag2-225",
+       "pjm:ag2-301",
+       "pjm:ag2-302",
+       "pjm:ag2-308",
+       "pjm:ag2-319",
+       "pjm:ag2-381",
+       "pjm:ag2-419",
+       "pjm:ag2-520",
+       "pjm:ag2-592",
+       "pjm:ag2-647",
+       "pjm:ag2-673",
+       "pjm:ah1-253",
+       "pjm:ah1-351",
+       "pjm:ah1-356",
+       "pjm:ah1-620",
+       "pjm:ah1-621"
+      ],
+      "state": "MD",
+      "state_after": 9,
+      "state_after_den": 11,
+      "state_before": 26,
+      "state_before_den": 31,
+      "status": "ok"
+     },
+     {
+      "after": [
+       "2026-03-01",
+       "2027-03-01"
+      ],
+      "before": [
+       "2025-03-01",
+       "2026-03-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-03-01",
+      "precedent": "MA-2024-c239-69T",
+      "state": "MA",
+      "status": "too_recent"
+     },
+     {
+      "after": [
+       "2026-06-01",
+       "2027-06-01"
+      ],
+      "before": [
+       "2025-06-01",
+       "2026-06-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-06-01",
+      "precedent": "IL-PA-104-458",
+      "state": "IL",
+      "status": "too_recent"
+     },
+     {
+      "after": [
+       "2026-07-01",
+       "2027-07-01"
+      ],
+      "before": [
+       "2025-07-01",
+       "2026-07-01"
+      ],
+      "comparison_states": 46,
+      "delta": null,
+      "direction": null,
+      "effective": "2026-07-01",
+      "precedent": "MS-2026-SB-2527",
+      "state": "MS",
+      "status": "too_recent"
+     }
+    ],
+    "pooled": {
+     "agree": 2,
+     "precedents": 6,
+     "score": 0,
+     "status": "mixed",
+     "usable": 3
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   }
+  },
+  "state_ban": {
+   "contested_blocked_share": {
+    "effects": [
+     {
+      "after": [
+       "2021-07-06",
+       "2022-07-06"
+      ],
+      "before": [
+       "2020-07-06",
+       "2021-07-06"
+      ],
+      "comparison_states": 50,
+      "delta": null,
+      "direction": null,
+      "effective": "2021-07-06",
+      "precedent": "ME-PL-2021-c407",
+      "refs_after": [
+       "con_8c2479c496"
+      ],
+      "refs_before": [],
+      "state": "ME",
+      "state_after": 0,
+      "state_after_den": 1,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "before": [
+       "2023-07-01",
+       "2024-07-01"
+      ],
+      "comparison_states": 50,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-07-01",
+      "precedent": "FL-2024-HB-1645",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "FL",
+      "state_after": 0,
+      "state_after_den": 0,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 2,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "local_restrictions": {
+    "effects": [
+     {
+      "after": [
+       "2021-07-06",
+       "2022-07-06"
+      ],
+      "before": [
+       "2020-07-06",
+       "2021-07-06"
+      ],
+      "comparison_states": 50,
+      "delta": null,
+      "direction": null,
+      "effective": "2021-07-06",
+      "precedent": "ME-PL-2021-c407",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "ME",
+      "state_after": 0,
+      "state_before": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "before": [
+       "2023-07-01",
+       "2024-07-01"
+      ],
+      "comparison_states": 50,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-07-01",
+      "precedent": "FL-2024-HB-1645",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "FL",
+      "state_after": 0,
+      "state_before": 0,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 2,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "queue_withdrawn_share": {
+    "effects": [
+     {
+      "after": [
+       "2021-07-06",
+       "2022-07-06"
+      ],
+      "before": [
+       "2020-07-06",
+       "2021-07-06"
+      ],
+      "comparison_after_share": 0.8351,
+      "comparison_before_share": 0.8651,
+      "comparison_states": 50,
+      "delta": 0.03,
+      "direction": 0,
+      "effective": "2021-07-06",
+      "precedent": "ME-PL-2021-c407",
+      "refs_after": [
+       "iso-ne:623",
+       "iso-ne:803",
+       "iso-ne:911",
+       "iso-ne:943",
+       "iso-ne:985"
+      ],
+      "refs_before": [
+       "iso-ne:1025",
+       "iso-ne:1064",
+       "iso-ne:1065",
+       "iso-ne:1081",
+       "iso-ne:1084",
+       "iso-ne:1085",
+       "iso-ne:1114",
+       "iso-ne:620",
+       "iso-ne:729",
+       "iso-ne:730",
+       "iso-ne:731",
+       "iso-ne:732",
+       "iso-ne:733",
+       "iso-ne:756",
+       "iso-ne:757",
+       "iso-ne:775"
+      ],
+      "state": "ME",
+      "state_after": 5,
+      "state_after_den": 5,
+      "state_before": 16,
+      "state_before_den": 16,
+      "status": "ok"
+     },
+     {
+      "after": [
+       "2024-07-01",
+       "2025-07-01"
+      ],
+      "before": [
+       "2023-07-01",
+       "2024-07-01"
+      ],
+      "comparison_after_share": 0.9117,
+      "comparison_before_share": 0.8276,
+      "comparison_states": 50,
+      "delta": -0.1531,
+      "direction": -1,
+      "effective": "2024-07-01",
+      "precedent": "FL-2024-HB-1645",
+      "refs_after": [
+       "duke:235",
+       "duke:295",
+       "duke:318",
+       "fpl:263",
+       "fpl:265",
+       "fpl:273",
+       "fpl:293",
+       "fpl:303",
+       "fpl:338",
+       "fpl:351",
+       "fpl:356",
+       "fpl:366a",
+       "fpl:370",
+       "fpl:375",
+       "fpl:378",
+       "fpl:380a",
+       "fpl:380b",
+       "fpl:400",
+       "fpl:401",
+       "fpl:402",
+       "fpl:403",
+       "fpl:409",
+       "fpl:422",
+       "fpl:424c",
+       "fpl:426",
+       "fpl:467"
+      ],
+      "refs_before": [
+       "duke:154",
+       "duke:169",
+       "duke:174",
+       "duke:195",
+       "duke:285",
+       "duke:288",
+       "fpl:267",
+       "fpl:270",
+       "fpl:278",
+       "fpl:279",
+       "fpl:294",
+       "fpl:297",
+       "fpl:316",
+       "fpl:328a",
+       "fpl:336a",
+       "fpl:337",
+       "fpl:355",
+       "fpl:362",
+       "fpl:365",
+       "fpl:369",
+       "fpl:369c",
+       "fpl:374",
+       "fpl:377",
+       "fpl:378d",
+       "fpl:378g",
+       "fpl:381",
+       "fpl:399",
+       "ouc:201701",
+       "ouc:201702"
+      ],
+      "state": "FL",
+      "state_after": 0,
+      "state_after_den": 26,
+      "state_before": 2,
+      "state_before_den": 29,
+      "status": "ok"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 2,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 2
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   }
+  },
+  "state_standards": {
+   "contested_blocked_share": {
+    "effects": [
+     {
+      "after": [
+       "2024-10-01",
+       "2025-10-01"
+      ],
+      "before": [
+       "2023-10-01",
+       "2024-10-01"
+      ],
+      "comparison_states": 49,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-10-01",
+      "precedent": "CT-PA-24-144",
+      "refs_after": [
+       "con_061f1152b8",
+       "con_b4dc027582",
+       "con_f1fc80a098"
+      ],
+      "refs_before": [],
+      "state": "CT",
+      "state_after": 2,
+      "state_after_den": 3,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2025-08-01",
+       "2026-08-01"
+      ],
+      "before": [
+       "2024-08-01",
+       "2025-08-01"
+      ],
+      "comparison_states": 49,
+      "delta": null,
+      "direction": null,
+      "effective": "2025-08-01",
+      "precedent": "LA-2025-HB-459",
+      "refs_after": [
+       "con_7249412564",
+       "con_a27dc93458"
+      ],
+      "refs_before": [],
+      "state": "LA",
+      "state_after": 2,
+      "state_after_den": 2,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 2,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "local_restrictions": {
+    "effects": [
+     {
+      "after": [
+       "2024-10-01",
+       "2025-10-01"
+      ],
+      "before": [
+       "2023-10-01",
+       "2024-10-01"
+      ],
+      "comparison_states": 49,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-10-01",
+      "precedent": "CT-PA-24-144",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "CT",
+      "state_after": 0,
+      "state_before": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2025-08-01",
+       "2026-08-01"
+      ],
+      "before": [
+       "2024-08-01",
+       "2025-08-01"
+      ],
+      "comparison_states": 49,
+      "delta": null,
+      "direction": null,
+      "effective": "2025-08-01",
+      "precedent": "LA-2025-HB-459",
+      "refs_after": [
+       "res_83d055e0a7"
+      ],
+      "refs_before": [],
+      "state": "LA",
+      "state_after": 1,
+      "state_before": 0,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 2,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   },
+   "queue_withdrawn_share": {
+    "effects": [
+     {
+      "after": [
+       "2024-10-01",
+       "2025-10-01"
+      ],
+      "before": [
+       "2023-10-01",
+       "2024-10-01"
+      ],
+      "comparison_states": 49,
+      "delta": null,
+      "direction": null,
+      "effective": "2024-10-01",
+      "precedent": "CT-PA-24-144",
+      "refs_after": [],
+      "refs_before": [],
+      "state": "CT",
+      "state_after": 0,
+      "state_after_den": 0,
+      "state_before": 0,
+      "state_before_den": 0,
+      "status": "thin"
+     },
+     {
+      "after": [
+       "2025-08-01",
+       "2026-08-01"
+      ],
+      "before": [
+       "2024-08-01",
+       "2025-08-01"
+      ],
+      "comparison_states": 49,
+      "delta": null,
+      "direction": null,
+      "effective": "2025-08-01",
+      "precedent": "LA-2025-HB-459",
+      "refs_after": [
+       "miso:j1560"
+      ],
+      "refs_before": [
+       "miso:j1850",
+       "miso:j1871",
+       "miso:j1883",
+       "miso:j1906",
+       "miso:j1908",
+       "miso:j1995",
+       "miso:j1997",
+       "miso:j1999",
+       "miso:j2082",
+       "miso:j2135",
+       "miso:j2154",
+       "miso:j2163",
+       "miso:j2169",
+       "miso:j2214",
+       "miso:j2220",
+       "miso:j2257",
+       "miso:j2336",
+       "miso:j2339",
+       "miso:j2348",
+       "miso:j2357",
+       "miso:j2381",
+       "miso:j2385",
+       "miso:j2400",
+       "miso:j2405",
+       "miso:j2411",
+       "miso:j2415",
+       "miso:j2424",
+       "miso:j2441",
+       "miso:j2448",
+       "miso:j2467",
+       "miso:j2470",
+       "miso:j2500",
+       "miso:j2505",
+       "miso:j2508",
+       "miso:j2529",
+       "miso:j2533",
+       "miso:j2535",
+       "miso:j2543",
+       "miso:j2570",
+       "miso:j2580",
+       "miso:j2616",
+       "miso:j2632",
+       "miso:j2642",
+       "miso:j2646",
+       "miso:j2699",
+       "miso:j2700",
+       "miso:j2705",
+       "miso:j2706",
+       "miso:j2707",
+       "miso:j2743",
+       "miso:j2765",
+       "miso:j2769",
+       "miso:j2795",
+       "miso:j2804",
+       "miso:j2832",
+       "miso:j2839",
+       "miso:j2858",
+       "miso:j2860",
+       "miso:j2882",
+       "miso:j2884",
+       "miso:j2888",
+       "miso:j2890",
+       "miso:j2904",
+       "miso:j2911",
+       "miso:j2916",
+       "miso:j2942",
+       "miso:j2958",
+       "miso:j2968",
+       "miso:j3019",
+       "miso:j3026",
+       "miso:j3032",
+       "miso:j3055",
+       "miso:j3056",
+       "miso:j3057",
+       "miso:j3067",
+       "miso:j3068",
+       "miso:j3083",
+       "miso:j3098",
+       "miso:j3138",
+       "miso:j3180",
+       "miso:j3210",
+       "miso:j3211",
+       "miso:j3221"
+      ],
+      "state": "LA",
+      "state_after": 1,
+      "state_after_den": 1,
+      "state_before": 83,
+      "state_before_den": 83,
+      "status": "thin"
+     }
+    ],
+    "pooled": {
+     "agree": 0,
+     "precedents": 2,
+     "score": null,
+     "status": "too_few_precedents",
+     "usable": 0
+    },
+    "validation": {
+     "matched": 0,
+     "naive_matched": 0,
+     "tested": 0,
+     "verdict": "not_testable"
+    }
+   }
+  }
+ },
+ "recent_record": [
+  {
+   "bill": "recent:AK",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "AK",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "AK",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "AK",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "AK"
+  },
+  {
+   "bill": "recent:AL",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "AL",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_38e1be9a2f"
+     ],
+     "refs_before": [],
+     "state": "AL",
+     "state_after": 1,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "soco:ic-1076",
+      "soco:ic-928"
+     ],
+     "refs_before": [
+      "soco:ic-1080",
+      "soco:ic-1081",
+      "soco:ic-767",
+      "soco:ic-863",
+      "soco:ic-885",
+      "soco:ic-886",
+      "soco:ic-897",
+      "soco:ic-915",
+      "soco:ic-924",
+      "soco:ic-929",
+      "soco:ic-937"
+     ],
+     "state": "AL",
+     "state_after": 2,
+     "state_after_den": 2,
+     "state_before": 11,
+     "state_before_den": 11,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "AL"
+  },
+  {
+   "bill": "recent:AR",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_21e7d9c759"
+     ],
+     "refs_before": [],
+     "state": "AR",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "AR",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "miso:j1857",
+      "miso:j1874",
+      "miso:j1875",
+      "miso:j1991",
+      "miso:j2028",
+      "miso:j2072",
+      "miso:j2093",
+      "miso:j2184",
+      "miso:j2231",
+      "miso:j2240",
+      "miso:j2300",
+      "miso:j2328",
+      "miso:j2341",
+      "miso:j2386",
+      "miso:j2409",
+      "miso:j2431",
+      "miso:j2449",
+      "miso:j2451",
+      "miso:j2452",
+      "miso:j2458",
+      "miso:j2459",
+      "miso:j2460",
+      "miso:j2510",
+      "miso:j2511",
+      "miso:j2515",
+      "miso:j2516",
+      "miso:j2562",
+      "miso:j2574",
+      "miso:j2620",
+      "miso:j2622",
+      "miso:j2623",
+      "miso:j2630",
+      "miso:j2631",
+      "miso:j2640",
+      "miso:j2644",
+      "miso:j2755",
+      "miso:j2785",
+      "miso:j2796",
+      "miso:j2800",
+      "miso:j2828",
+      "miso:j2850",
+      "miso:j2854",
+      "miso:j2859",
+      "miso:j2923",
+      "miso:j2984",
+      "miso:j2996",
+      "miso:j3001",
+      "miso:j3034",
+      "miso:j3036",
+      "miso:j3037",
+      "miso:j3038",
+      "miso:j3048",
+      "miso:j3061",
+      "miso:j3071",
+      "miso:j3110",
+      "miso:j3116",
+      "miso:j3117",
+      "miso:j3132",
+      "miso:j3164",
+      "miso:j3171",
+      "miso:j3173",
+      "miso:j3191",
+      "miso:j3193",
+      "miso:j3218",
+      "spp:gen-2022-058",
+      "spp:gen-2022-088",
+      "spp:gen-2022-089",
+      "spp:gen-2022-093"
+     ],
+     "state": "AR",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 68,
+     "state_before_den": 68,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "AR"
+  },
+  {
+   "bill": "recent:AZ",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_f4d1eeaf2d"
+     ],
+     "refs_before": [],
+     "state": "AZ",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_21c213ec3a"
+     ],
+     "refs_before": [],
+     "state": "AZ",
+     "state_after": 1,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "caiso:1171",
+      "caiso:2172"
+     ],
+     "state": "AZ",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 2,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "AZ"
+  },
+  {
+   "bill": "recent:CA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_27bceb8c04",
+      "con_7c516340ae",
+      "con_90fe7f3f2a",
+      "con_92e4cd9736"
+     ],
+     "refs_before": [],
+     "state": "CA",
+     "state_after": 1,
+     "state_after_den": 4,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.24,
+     "comparison_before_mean": 0.98,
+     "comparison_states": 50,
+     "delta": -0.927,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_683dbf36c2",
+      "res_d800b671a0"
+     ],
+     "refs_before": [
+      "res_773d6222c2",
+      "res_d15e0601e4"
+     ],
+     "state": "CA",
+     "state_after": 2,
+     "state_before": 2,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "caiso:1821",
+      "caiso:1871"
+     ],
+     "refs_before": [
+      "caiso:1170",
+      "caiso:1198",
+      "caiso:1211",
+      "caiso:1215",
+      "caiso:1259",
+      "caiso:1312",
+      "caiso:1319",
+      "caiso:1327",
+      "caiso:1470",
+      "caiso:1516",
+      "caiso:1526",
+      "caiso:1528",
+      "caiso:1531",
+      "caiso:1586",
+      "caiso:1669",
+      "caiso:1670",
+      "caiso:1671",
+      "caiso:1683",
+      "caiso:1691",
+      "caiso:1739",
+      "caiso:1749",
+      "caiso:1763",
+      "caiso:1776",
+      "caiso:1814",
+      "caiso:1828",
+      "caiso:1831",
+      "caiso:1837",
+      "caiso:1838",
+      "caiso:1840",
+      "caiso:1844",
+      "caiso:1847",
+      "caiso:1857",
+      "caiso:1858",
+      "caiso:1863",
+      "caiso:1867",
+      "caiso:1874",
+      "caiso:1877",
+      "caiso:1929",
+      "caiso:1940",
+      "caiso:1960",
+      "caiso:1992",
+      "caiso:1998",
+      "caiso:2006",
+      "caiso:2008",
+      "caiso:2010",
+      "caiso:2013",
+      "caiso:2031",
+      "caiso:2034",
+      "caiso:2037",
+      "caiso:2043",
+      "caiso:2049",
+      "caiso:2050",
+      "caiso:2051",
+      "caiso:2056",
+      "caiso:2058",
+      "caiso:2080",
+      "caiso:2090",
+      "caiso:2091",
+      "caiso:2098",
+      "caiso:2109",
+      "caiso:2127",
+      "caiso:2134",
+      "caiso:2165",
+      "caiso:2182",
+      "caiso:2184",
+      "caiso:653f",
+      "caiso:789",
+      "caiso:897",
+      "caiso:946",
+      "ladwp:q74"
+     ],
+     "state": "CA",
+     "state_after": 2,
+     "state_after_den": 2,
+     "state_before": 55,
+     "state_before_den": 70,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "CA"
+  },
+  {
+   "bill": "recent:CO",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_77246a00ff"
+     ],
+     "state": "CO",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.22,
+     "comparison_before_mean": 0.96,
+     "comparison_states": 50,
+     "delta": -0.9353,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_ab633f3aaa",
+      "res_fc94a36d62",
+      "res_4432a39d52"
+     ],
+     "refs_before": [
+      "res_e9f1af5f5d",
+      "res_1ba648b44c",
+      "res_b0a803b9a1"
+     ],
+     "state": "CO",
+     "state_after": 3,
+     "state_before": 3,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "CO",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "CO"
+  },
+  {
+   "bill": "recent:CT",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_6ed1a05d09",
+      "con_c53c33eb15"
+     ],
+     "refs_before": [
+      "con_061f1152b8",
+      "con_b4dc027582"
+     ],
+     "state": "CT",
+     "state_after": 1,
+     "state_after_den": 2,
+     "state_before": 1,
+     "state_before_den": 2,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_695eb1b7c2"
+     ],
+     "refs_before": [],
+     "state": "CT",
+     "state_after": 1,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "CT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "CT"
+  },
+  {
+   "bill": "recent:DE",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_96ea3bcabe"
+     ],
+     "state": "DE",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "DE",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "pjm:ag1-497",
+      "pjm:ag2-271",
+      "pjm:ah1-574",
+      "pjm:ah1-575",
+      "pjm:ah1-576"
+     ],
+     "state": "DE",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 5,
+     "state_before_den": 5,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "DE"
+  },
+  {
+   "bill": "recent:FL",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "FL",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "FL",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "duke:321"
+     ],
+     "refs_before": [
+      "duke:173",
+      "duke:235",
+      "duke:306",
+      "duke:318",
+      "fpl:263",
+      "fpl:273",
+      "fpl:293",
+      "fpl:303",
+      "fpl:338",
+      "fpl:351",
+      "fpl:356",
+      "fpl:366a",
+      "fpl:370",
+      "fpl:375",
+      "fpl:378",
+      "fpl:380a",
+      "fpl:380b",
+      "fpl:400",
+      "fpl:401",
+      "fpl:402",
+      "fpl:403",
+      "fpl:409",
+      "fpl:422",
+      "fpl:424c",
+      "fpl:426",
+      "fpl:467"
+     ],
+     "state": "FL",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 26,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "FL"
+  },
+  {
+   "bill": "recent:GA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_8e748ebb88"
+     ],
+     "state": "GA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_04ff62e88b"
+     ],
+     "refs_before": [],
+     "state": "GA",
+     "state_after": 1,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "soco:ic-798",
+      "soco:ic-862",
+      "soco:ic-901",
+      "soco:ic-902",
+      "soco:ic-910",
+      "soco:ic-911",
+      "soco:ic-944",
+      "soco:ic-952",
+      "soco:ic-996"
+     ],
+     "state": "GA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 9,
+     "state_before_den": 9,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "GA"
+  },
+  {
+   "bill": "recent:HI",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "HI",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "HI",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "HI",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "HI"
+  },
+  {
+   "bill": "recent:IA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_8b55fa65cb"
+     ],
+     "refs_before": [
+      "con_e2cc59f0e7"
+     ],
+     "state": "IA",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.0,
+     "comparison_before_mean": 0.88,
+     "comparison_states": 50,
+     "delta": -0.2714,
+     "direction": 0,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_5ed8f61ebb",
+      "res_95e862cde6",
+      "res_5b5ac548d9",
+      "res_43e92f14af",
+      "res_55a77dd03c",
+      "res_f2c9ca8cc1",
+      "res_1549faef18",
+      "res_2e86541afe",
+      "res_652e45dcbf",
+      "res_2ba4ec788f",
+      "res_d81d000eb7",
+      "res_da8d7392d2",
+      "res_ab4f6055cb",
+      "res_72ef3a10d7"
+     ],
+     "refs_before": [
+      "res_eb3be1294e",
+      "res_04f17fbf13",
+      "res_dbb0169a99",
+      "res_724be7d2ef",
+      "res_527a1dc866",
+      "res_a3d035aa67",
+      "res_06983fc527"
+     ],
+     "state": "IA",
+     "state_after": 14,
+     "state_before": 7,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "miso:j1903",
+      "miso:j1952",
+      "miso:j1978",
+      "miso:j1979",
+      "miso:j2040",
+      "miso:j2079",
+      "miso:j2106",
+      "miso:j2323",
+      "miso:j2352",
+      "miso:j2363",
+      "miso:j2410",
+      "miso:j2435",
+      "miso:j2462",
+      "miso:j2464",
+      "miso:j2466",
+      "miso:j2481",
+      "miso:j2892",
+      "miso:j2950",
+      "miso:j3088",
+      "miso:j3148",
+      "miso:j3149",
+      "miso:j3206",
+      "miso:j3212",
+      "miso:j3214",
+      "miso:r1042"
+     ],
+     "state": "IA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 25,
+     "state_before_den": 25,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "IA"
+  },
+  {
+   "bill": "recent:ID",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_78c16d08e1"
+     ],
+     "state": "ID",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "ID",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "ip:567",
+      "ip:629",
+      "ip:657"
+     ],
+     "state": "ID",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 3,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "ID"
+  },
+  {
+   "bill": "recent:IL",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_6a4ce30639",
+      "con_c4ae6b93fe"
+     ],
+     "refs_before": [],
+     "state": "IL",
+     "state_after": 0,
+     "state_after_den": 2,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.12,
+     "comparison_before_mean": 0.98,
+     "comparison_states": 50,
+     "delta": 0.3293,
+     "direction": 0,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_5003f748a1",
+      "res_c0d909e774",
+      "res_c71cadf8a3",
+      "res_aa0244cd30",
+      "res_2e44b5dd8f",
+      "res_ea95bd0d5a",
+      "res_d66ae705ae",
+      "res_ffef79cf15"
+     ],
+     "refs_before": [
+      "res_c30c5a7b7d",
+      "res_e8848a908a"
+     ],
+     "state": "IL",
+     "state_after": 8,
+     "state_before": 2,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.7955,
+     "comparison_before_share": 0.9181,
+     "comparison_states": 50,
+     "delta": 0.1317,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "miso:j1970",
+      "miso:j1973",
+      "miso:j1974",
+      "miso:j1975",
+      "miso:j2115",
+      "miso:j2158",
+      "miso:j2161",
+      "miso:j2172",
+      "miso:j2192",
+      "miso:j2196",
+      "miso:j991"
+     ],
+     "refs_before": [
+      "miso:j1408",
+      "miso:j1656",
+      "miso:j2324",
+      "miso:j2349",
+      "miso:j2355",
+      "miso:j2413",
+      "miso:j2414",
+      "miso:j2426",
+      "miso:j2427",
+      "miso:j2434",
+      "miso:j2453",
+      "miso:j2463",
+      "miso:j2465",
+      "miso:j2476",
+      "miso:j2497",
+      "miso:j2536",
+      "miso:j2604",
+      "miso:j2610",
+      "miso:j2626",
+      "miso:j2645",
+      "miso:j2661",
+      "miso:j2697",
+      "miso:j2702",
+      "miso:j2703",
+      "miso:j2713",
+      "miso:j2724",
+      "miso:j2784",
+      "miso:j2853",
+      "miso:j2925",
+      "miso:j2926",
+      "miso:j2927",
+      "miso:j2962",
+      "miso:j2979",
+      "miso:j3005",
+      "miso:j3011",
+      "miso:j3013",
+      "miso:j3043",
+      "miso:j3044",
+      "miso:j3060",
+      "miso:j3069",
+      "miso:j3135",
+      "miso:j3174",
+      "miso:j3187",
+      "miso:j3189",
+      "miso:j3200",
+      "miso:j3222",
+      "miso:j974",
+      "pjm:ac1-053",
+      "pjm:ad1-031",
+      "pjm:ae2-173",
+      "pjm:ae2-321",
+      "pjm:af1-048",
+      "pjm:af1-314",
+      "pjm:af1-330",
+      "pjm:af2-034",
+      "pjm:af2-069",
+      "pjm:af2-070",
+      "pjm:af2-096",
+      "pjm:af2-201",
+      "pjm:af2-329",
+      "pjm:af2-363",
+      "pjm:af2-392",
+      "pjm:af2-393",
+      "pjm:af2-394",
+      "pjm:ag1-005",
+      "pjm:ag1-120",
+      "pjm:ag1-236",
+      "pjm:ag1-298",
+      "pjm:ag1-403",
+      "pjm:ag1-434",
+      "pjm:ag1-435",
+      "pjm:ag1-512",
+      "pjm:ag2-147",
+      "pjm:ag2-197",
+      "pjm:ag2-357",
+      "pjm:ag2-467",
+      "pjm:ag2-517",
+      "pjm:ag2-527",
+      "pjm:ag2-674",
+      "pjm:ah1-003",
+      "pjm:ah1-045",
+      "pjm:ah1-148",
+      "pjm:ah1-190",
+      "pjm:ah1-191",
+      "pjm:ah1-199",
+      "pjm:ah1-232",
+      "pjm:ah1-294",
+      "pjm:ah1-295",
+      "pjm:ah1-296",
+      "pjm:ah1-297",
+      "pjm:ah1-353",
+      "pjm:ah1-354",
+      "pjm:ah1-361",
+      "pjm:ah1-540",
+      "pjm:ah1-544",
+      "pjm:ah1-560",
+      "pjm:ah1-633",
+      "pjm:ah1-654",
+      "pjm:ah1-657",
+      "pjm:ah1-659",
+      "pjm:ah1-663",
+      "pjm:ah2-170",
+      "pjm:ah2-171",
+      "pjm:ah2-172",
+      "pjm:ah2-173",
+      "pjm:ah2-234",
+      "pjm:ah2-294",
+      "pjm:ah2-380",
+      "pjm:ai1-157",
+      "pjm:ai1-158"
+     ],
+     "state": "IL",
+     "state_after": 11,
+     "state_after_den": 11,
+     "state_before": 109,
+     "state_before_den": 110,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "IL"
+  },
+  {
+   "bill": "recent:IN",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_a01883c584"
+     ],
+     "refs_before": [
+      "con_c6ead5bc53"
+     ],
+     "state": "IN",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.14,
+     "comparison_before_mean": 0.98,
+     "comparison_states": 50,
+     "delta": 0.1987,
+     "direction": 0,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_3b1b9e57c3",
+      "res_7f59df981c",
+      "res_fb7e366860",
+      "res_7b36d14b7f",
+      "res_1e8c482aac",
+      "res_00c3574156",
+      "res_502ffdbf02"
+     ],
+     "refs_before": [
+      "res_474c83417c",
+      "res_c1fc1fefb8"
+     ],
+     "state": "IN",
+     "state_after": 7,
+     "state_before": 2,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.775,
+     "comparison_before_share": 0.9185,
+     "comparison_states": 50,
+     "delta": 0.1608,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "miso:j1876",
+      "miso:j1947",
+      "miso:j1966",
+      "miso:j2004",
+      "miso:j2032",
+      "miso:j2038",
+      "miso:j2060",
+      "miso:j2063",
+      "miso:j2123",
+      "miso:j2160",
+      "miso:j2164",
+      "miso:j2201",
+      "miso:j2212",
+      "miso:j2216",
+      "miso:j2226",
+      "miso:j2254",
+      "miso:j2308",
+      "pjm:af1-118",
+      "pjm:af2-407"
+     ],
+     "refs_before": [
+      "miso:j1578",
+      "miso:j2329",
+      "miso:j2340",
+      "miso:j2360",
+      "miso:j2362",
+      "miso:j2407",
+      "miso:j2418",
+      "miso:j2421",
+      "miso:j2442",
+      "miso:j2443",
+      "miso:j2507",
+      "miso:j2512",
+      "miso:j2513",
+      "miso:j2514",
+      "miso:j2530",
+      "miso:j2539",
+      "miso:j2564",
+      "miso:j2573",
+      "miso:j2582",
+      "miso:j2615",
+      "miso:j2664",
+      "miso:j2687",
+      "miso:j2695",
+      "miso:j2711",
+      "miso:j2712",
+      "miso:j2722",
+      "miso:j2723",
+      "miso:j2775",
+      "miso:j2778",
+      "miso:j2779",
+      "miso:j2781",
+      "miso:j2782",
+      "miso:j2783",
+      "miso:j2805",
+      "miso:j2823",
+      "miso:j2829",
+      "miso:j2830",
+      "miso:j2835",
+      "miso:j2837",
+      "miso:j2843",
+      "miso:j2855",
+      "miso:j2894",
+      "miso:j2895",
+      "miso:j2919",
+      "miso:j2959",
+      "miso:j2960",
+      "miso:j2961",
+      "miso:j3000",
+      "miso:j3010",
+      "miso:j3016",
+      "miso:j3094",
+      "miso:j3103",
+      "miso:j3136",
+      "miso:j3142",
+      "miso:j3143",
+      "miso:j3146",
+      "miso:j3147",
+      "miso:j3226",
+      "pjm:ac2-090",
+      "pjm:ad1-043",
+      "pjm:af1-158",
+      "pjm:af1-221",
+      "pjm:af2-094",
+      "pjm:af2-204",
+      "pjm:ag1-222",
+      "pjm:ag1-522",
+      "pjm:ag1-523",
+      "pjm:ag1-524",
+      "pjm:ag1-525",
+      "pjm:ag2-083",
+      "pjm:ag2-084",
+      "pjm:ag2-116",
+      "pjm:ag2-117",
+      "pjm:ag2-170",
+      "pjm:ag2-173",
+      "pjm:ag2-222",
+      "pjm:ag2-407",
+      "pjm:ag2-454",
+      "pjm:ag2-455",
+      "pjm:ag2-546",
+      "pjm:ag2-576",
+      "pjm:ag2-577",
+      "pjm:ag2-578",
+      "pjm:ag2-638",
+      "pjm:ag2-683",
+      "pjm:ag2-690",
+      "pjm:ah1-014",
+      "pjm:ah1-041",
+      "pjm:ah1-152",
+      "pjm:ah1-154",
+      "pjm:ah1-289",
+      "pjm:ah1-291",
+      "pjm:ah1-300",
+      "pjm:ah1-301",
+      "pjm:ah1-303",
+      "pjm:ah1-307",
+      "pjm:ah1-400",
+      "pjm:ah1-432",
+      "pjm:ah1-453",
+      "pjm:ah1-477",
+      "pjm:ah1-479",
+      "pjm:ah1-481",
+      "pjm:ah1-484",
+      "pjm:ah1-502",
+      "pjm:ah1-548",
+      "pjm:ah1-549",
+      "pjm:ah1-595",
+      "pjm:ah1-596",
+      "pjm:ah2-210",
+      "pjm:ah2-211",
+      "pjm:ah2-213",
+      "pjm:ah2-237",
+      "pjm:ai1-078",
+      "pjm:ai1-140",
+      "pjm:ai2-023"
+     ],
+     "state": "IN",
+     "state_after": 19,
+     "state_after_den": 19,
+     "state_before": 113,
+     "state_before_den": 115,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "IN"
+  },
+  {
+   "bill": "recent:KS",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "KS",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 2.86,
+     "comparison_before_mean": 1.02,
+     "comparison_states": 50,
+     "delta": 2.968,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_af963b1c8d",
+      "res_0d2122ecfe",
+      "res_4386dd0d91",
+      "res_faab116695",
+      "res_e4af898e31",
+      "res_2e8dc51d4b",
+      "res_0110318ca3",
+      "res_ac1d7084ff",
+      "res_80626f807b",
+      "res_5c78669185",
+      "res_6a34b6143a",
+      "res_8b4294e62e",
+      "res_f9da48d14b",
+      "res_b87383a66e",
+      "res_87d3ae709d",
+      "res_ef13884340",
+      "res_41dacebc09",
+      "res_fdbf3b9e3d",
+      "res_ea5a10d01b",
+      "res_bcee17309a",
+      "res_514a7eba39"
+     ],
+     "refs_before": [],
+     "state": "KS",
+     "state_after": 21,
+     "state_before": 0,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "spp:gen-2015-052",
+      "spp:gen-2016-153",
+      "spp:gen-2017-131",
+      "spp:gen-2018-116",
+      "spp:gen-2019-051",
+      "spp:gen-2022-005",
+      "spp:gen-2022-025",
+      "spp:gen-2022-026",
+      "spp:gen-2022-041",
+      "spp:gen-2022-062",
+      "spp:gen-2022-076",
+      "spp:gen-2022-081",
+      "spp:gen-2022-094"
+     ],
+     "state": "KS",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 11,
+     "state_before_den": 13,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "KS"
+  },
+  {
+   "bill": "recent:KY",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "KY",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.24,
+     "comparison_before_mean": 0.98,
+     "comparison_states": 50,
+     "delta": -0.927,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_96ea8a1174",
+      "res_6c30dff453"
+     ],
+     "refs_before": [
+      "res_357bbf6c40",
+      "res_2f30d590f5"
+     ],
+     "state": "KY",
+     "state_after": 2,
+     "state_before": 2,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.8085,
+     "comparison_before_share": 0.9206,
+     "comparison_states": 50,
+     "delta": 0.1411,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "miso:j1901",
+      "miso:j2073",
+      "miso:j2113",
+      "miso:j2145",
+      "miso:j2146"
+     ],
+     "refs_before": [
+      "miso:j1231",
+      "miso:j2380",
+      "miso:j2480",
+      "miso:j2547",
+      "miso:j2548",
+      "miso:j2820",
+      "miso:j2821",
+      "miso:j2836",
+      "miso:j3033",
+      "miso:j3096",
+      "miso:j753",
+      "pjm:ac1-074",
+      "pjm:ac2-075",
+      "pjm:ae1-246",
+      "pjm:ae2-138",
+      "pjm:ae2-210",
+      "pjm:ae2-275",
+      "pjm:af1-116",
+      "pjm:af2-090",
+      "pjm:af2-260",
+      "pjm:af2-306",
+      "pjm:af2-307",
+      "pjm:af2-348",
+      "pjm:af2-355",
+      "pjm:af2-365",
+      "pjm:af2-391",
+      "pjm:ag1-067",
+      "pjm:ag1-070",
+      "pjm:ag1-071",
+      "pjm:ag1-353",
+      "pjm:ag1-405",
+      "pjm:ag1-406",
+      "pjm:ag1-526",
+      "pjm:ag2-094",
+      "pjm:ag2-153",
+      "pjm:ag2-317",
+      "pjm:ag2-512",
+      "pjm:ag2-513",
+      "pjm:ag2-549",
+      "pjm:ag2-552",
+      "pjm:ag2-596",
+      "pjm:ag2-666",
+      "pjm:ag2-676",
+      "pjm:ag2-677",
+      "pjm:ag2-678",
+      "pjm:ag2-679",
+      "pjm:ag2-681",
+      "pjm:ag2-682",
+      "pjm:ag2-684",
+      "pjm:ag2-685",
+      "pjm:ag2-687",
+      "pjm:ah1-081",
+      "pjm:ah1-082",
+      "pjm:ah1-083",
+      "pjm:ah1-156",
+      "pjm:ah1-240",
+      "pjm:ah1-382",
+      "pjm:ah1-410",
+      "pjm:ah1-418",
+      "pjm:ah1-428",
+      "pjm:ah1-429",
+      "pjm:ah1-463",
+      "pjm:ah1-466",
+      "pjm:ah1-467",
+      "pjm:ah1-529",
+      "pjm:ah1-532",
+      "pjm:ah2-249",
+      "pjm:ah2-276",
+      "pjm:ai1-084"
+     ],
+     "state": "KY",
+     "state_after": 5,
+     "state_after_den": 5,
+     "state_before": 67,
+     "state_before_den": 69,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "KY"
+  },
+  {
+   "bill": "recent:LA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_a27dc93458"
+     ],
+     "refs_before": [
+      "con_7249412564"
+     ],
+     "state": "LA",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_83d055e0a7"
+     ],
+     "refs_before": [],
+     "state": "LA",
+     "state_after": 1,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "miso:j1560",
+      "miso:j1850",
+      "miso:j1871",
+      "miso:j1883",
+      "miso:j1906",
+      "miso:j1908",
+      "miso:j1995",
+      "miso:j1997",
+      "miso:j1999",
+      "miso:j2082",
+      "miso:j2135",
+      "miso:j2154",
+      "miso:j2163",
+      "miso:j2169",
+      "miso:j2214",
+      "miso:j2220",
+      "miso:j2257",
+      "miso:j2336",
+      "miso:j2339",
+      "miso:j2348",
+      "miso:j2357",
+      "miso:j2381",
+      "miso:j2385",
+      "miso:j2400",
+      "miso:j2405",
+      "miso:j2411",
+      "miso:j2415",
+      "miso:j2424",
+      "miso:j2441",
+      "miso:j2448",
+      "miso:j2467",
+      "miso:j2470",
+      "miso:j2500",
+      "miso:j2505",
+      "miso:j2508",
+      "miso:j2529",
+      "miso:j2533",
+      "miso:j2535",
+      "miso:j2543",
+      "miso:j2570",
+      "miso:j2580",
+      "miso:j2616",
+      "miso:j2632",
+      "miso:j2642",
+      "miso:j2646",
+      "miso:j2699",
+      "miso:j2700",
+      "miso:j2705",
+      "miso:j2706",
+      "miso:j2707",
+      "miso:j2743",
+      "miso:j2765",
+      "miso:j2769",
+      "miso:j2795",
+      "miso:j2804",
+      "miso:j2832",
+      "miso:j2839",
+      "miso:j2858",
+      "miso:j2860",
+      "miso:j2882",
+      "miso:j2884",
+      "miso:j2888",
+      "miso:j2890",
+      "miso:j2904",
+      "miso:j2911",
+      "miso:j2916",
+      "miso:j2942",
+      "miso:j2958",
+      "miso:j2968",
+      "miso:j3019",
+      "miso:j3026",
+      "miso:j3032",
+      "miso:j3055",
+      "miso:j3056",
+      "miso:j3057",
+      "miso:j3067",
+      "miso:j3068",
+      "miso:j3083",
+      "miso:j3098",
+      "miso:j3138",
+      "miso:j3180",
+      "miso:j3210",
+      "miso:j3211",
+      "miso:j3221"
+     ],
+     "state": "LA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 84,
+     "state_before_den": 84,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "LA"
+  },
+  {
+   "bill": "recent:MA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_935ea2a72c",
+      "res_53467fb306"
+     ],
+     "refs_before": [],
+     "state": "MA",
+     "state_after": 2,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "iso-ne:1252"
+     ],
+     "refs_before": [
+      "iso-ne:1000",
+      "iso-ne:1001",
+      "iso-ne:1002",
+      "iso-ne:1003",
+      "iso-ne:1004",
+      "iso-ne:1005",
+      "iso-ne:1006",
+      "iso-ne:1007",
+      "iso-ne:1008",
+      "iso-ne:1009",
+      "iso-ne:1032",
+      "iso-ne:1107",
+      "iso-ne:1117",
+      "iso-ne:1173",
+      "iso-ne:1174",
+      "iso-ne:1175",
+      "iso-ne:1176",
+      "iso-ne:1177",
+      "iso-ne:1178",
+      "iso-ne:1179",
+      "iso-ne:1180",
+      "iso-ne:1181",
+      "iso-ne:1182",
+      "iso-ne:1183",
+      "iso-ne:1184",
+      "iso-ne:1185",
+      "iso-ne:1186",
+      "iso-ne:1187",
+      "iso-ne:1188",
+      "iso-ne:1189",
+      "iso-ne:1197",
+      "iso-ne:1198",
+      "iso-ne:1213",
+      "iso-ne:1214",
+      "iso-ne:1215",
+      "iso-ne:1216",
+      "iso-ne:1217",
+      "iso-ne:1218",
+      "iso-ne:1219",
+      "iso-ne:1220",
+      "iso-ne:1221",
+      "iso-ne:1222",
+      "iso-ne:1248",
+      "iso-ne:1259",
+      "iso-ne:1273",
+      "iso-ne:1274",
+      "iso-ne:1275",
+      "iso-ne:1276",
+      "iso-ne:1277",
+      "iso-ne:1278",
+      "iso-ne:1279",
+      "iso-ne:1280",
+      "iso-ne:1281",
+      "iso-ne:1282",
+      "iso-ne:1283",
+      "iso-ne:1284",
+      "iso-ne:1285",
+      "iso-ne:1286",
+      "iso-ne:1287",
+      "iso-ne:1288",
+      "iso-ne:1289",
+      "iso-ne:1290",
+      "iso-ne:1304",
+      "iso-ne:1305",
+      "iso-ne:1306",
+      "iso-ne:1307",
+      "iso-ne:1308",
+      "iso-ne:780",
+      "iso-ne:797",
+      "iso-ne:808",
+      "iso-ne:812",
+      "iso-ne:813",
+      "iso-ne:815",
+      "iso-ne:817",
+      "iso-ne:818",
+      "iso-ne:820",
+      "iso-ne:823",
+      "iso-ne:824",
+      "iso-ne:835",
+      "iso-ne:848",
+      "iso-ne:849",
+      "iso-ne:852",
+      "iso-ne:853",
+      "iso-ne:855",
+      "iso-ne:860",
+      "iso-ne:861",
+      "iso-ne:864",
+      "iso-ne:865",
+      "iso-ne:973",
+      "iso-ne:974",
+      "iso-ne:975",
+      "iso-ne:976",
+      "iso-ne:977",
+      "iso-ne:978",
+      "iso-ne:989",
+      "iso-ne:990",
+      "iso-ne:991",
+      "iso-ne:992",
+      "iso-ne:993",
+      "iso-ne:994",
+      "iso-ne:995",
+      "iso-ne:996",
+      "iso-ne:997",
+      "iso-ne:998",
+      "iso-ne:999"
+     ],
+     "state": "MA",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 105,
+     "state_before_den": 105,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "MA"
+  },
+  {
+   "bill": "recent:MD",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_cf1a7831d9"
+     ],
+     "refs_before": [
+      "con_07787373eb"
+     ],
+     "state": "MD",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MD",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "pjm:ab1-124",
+      "pjm:ab1-125",
+      "pjm:ab2-135",
+      "pjm:ae2-093",
+      "pjm:af1-015",
+      "pjm:af1-299",
+      "pjm:af1-300",
+      "pjm:af2-358",
+      "pjm:ag1-104",
+      "pjm:ag1-318",
+      "pjm:ag1-397",
+      "pjm:ag1-450",
+      "pjm:ag2-078",
+      "pjm:ag2-092",
+      "pjm:ag2-101",
+      "pjm:ag2-115",
+      "pjm:ag2-207",
+      "pjm:ag2-225",
+      "pjm:ag2-301",
+      "pjm:ag2-302",
+      "pjm:ag2-308",
+      "pjm:ag2-319",
+      "pjm:ag2-379",
+      "pjm:ag2-381",
+      "pjm:ag2-419",
+      "pjm:ag2-520",
+      "pjm:ag2-587",
+      "pjm:ag2-592",
+      "pjm:ag2-647",
+      "pjm:ag2-673",
+      "pjm:ah1-253",
+      "pjm:ah1-316",
+      "pjm:ah1-351",
+      "pjm:ah1-356",
+      "pjm:ah1-620",
+      "pjm:ah1-621",
+      "pjm:ah2-162"
+     ],
+     "state": "MD",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 32,
+     "state_before_den": 37,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "MD"
+  },
+  {
+   "bill": "recent:ME",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "ME",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.26,
+     "comparison_before_mean": 0.98,
+     "comparison_states": 50,
+     "delta": -1.4432,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_8c04d9587b"
+     ],
+     "refs_before": [
+      "res_f4d4403e34",
+      "res_1531765a2c"
+     ],
+     "state": "ME",
+     "state_after": 1,
+     "state_before": 2,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "iso-ne:896"
+     ],
+     "refs_before": [
+      "iso-ne:1013",
+      "iso-ne:1066",
+      "iso-ne:1068",
+      "iso-ne:1072",
+      "iso-ne:1075",
+      "iso-ne:1076",
+      "iso-ne:1077",
+      "iso-ne:1078",
+      "iso-ne:1079",
+      "iso-ne:1094",
+      "iso-ne:1095",
+      "iso-ne:1096",
+      "iso-ne:1145",
+      "iso-ne:1165",
+      "iso-ne:1210",
+      "iso-ne:1211",
+      "iso-ne:1239",
+      "iso-ne:1241",
+      "iso-ne:1242",
+      "iso-ne:1243",
+      "iso-ne:1254",
+      "iso-ne:1255",
+      "iso-ne:1256",
+      "iso-ne:1257",
+      "iso-ne:1299",
+      "iso-ne:786",
+      "iso-ne:904",
+      "iso-ne:905",
+      "iso-ne:986"
+     ],
+     "state": "ME",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 29,
+     "state_before_den": 29,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "ME"
+  },
+  {
+   "bill": "recent:MI",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MI",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 2.88,
+     "comparison_before_mean": 1.02,
+     "comparison_states": 50,
+     "delta": 2.9144,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_4a0069a5be",
+      "res_a83d69672e",
+      "res_27db754062",
+      "res_18eeb625cc",
+      "res_13b2c28c4d",
+      "res_afc4608b28",
+      "res_c2a43ef06b",
+      "res_17332b412a",
+      "res_47f6518d82",
+      "res_56fcf2fc81",
+      "res_2a180b4ea5",
+      "res_daead303c0",
+      "res_20b5316c49",
+      "res_5006f40b4e",
+      "res_78310c4fca",
+      "res_bc38ac7804",
+      "res_7c97b89755",
+      "res_c4c80a20c4",
+      "res_66ae09c41d",
+      "res_b32fa63fd5"
+     ],
+     "refs_before": [],
+     "state": "MI",
+     "state_after": 20,
+     "state_before": 0,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "pjm:ae2-325"
+     ],
+     "refs_before": [
+      "miso:j1516",
+      "miso:j1860",
+      "miso:j1862",
+      "miso:j1980",
+      "miso:j2056",
+      "miso:j2119",
+      "miso:j2279",
+      "miso:j2347",
+      "miso:j2471",
+      "miso:j2491",
+      "miso:j2493",
+      "miso:j2534",
+      "miso:j2583",
+      "miso:j2592",
+      "miso:j2617",
+      "miso:j2671",
+      "miso:j2674",
+      "miso:j2710",
+      "miso:j2719",
+      "miso:j2725",
+      "miso:j2732",
+      "miso:j2788",
+      "miso:j2934",
+      "miso:j2935",
+      "miso:j3100",
+      "miso:j3227",
+      "miso:j3228",
+      "pjm:af2-389",
+      "pjm:ag2-130",
+      "pjm:ag2-131",
+      "pjm:ag2-132",
+      "pjm:ag2-473",
+      "pjm:ag2-474",
+      "pjm:ah1-310",
+      "pjm:ai1-141"
+     ],
+     "state": "MI",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 35,
+     "state_before_den": 35,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "MI"
+  },
+  {
+   "bill": "recent:MN",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MN",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "res_f5525d524f"
+     ],
+     "state": "MN",
+     "state_after": 0,
+     "state_before": 1,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "miso:j3029"
+     ],
+     "refs_before": [
+      "miso:j1847",
+      "miso:j2022",
+      "miso:j2030",
+      "miso:j2054",
+      "miso:j2065",
+      "miso:j2199",
+      "miso:j2419",
+      "miso:j2420",
+      "miso:j2492",
+      "miso:j2569",
+      "miso:j2598",
+      "miso:j2600",
+      "miso:j2652",
+      "miso:j2748",
+      "miso:j2760",
+      "miso:j2863",
+      "miso:j2872",
+      "miso:j3020",
+      "miso:j3025",
+      "miso:j3125"
+     ],
+     "state": "MN",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 20,
+     "state_before_den": 20,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "MN"
+  },
+  {
+   "bill": "recent:MO",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MO",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.06,
+     "comparison_before_mean": 1.02,
+     "comparison_states": 50,
+     "delta": 2.2844,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_937d40a25c",
+      "res_a986d9d2c2",
+      "res_79b5d401a8",
+      "res_d9e7cf22f1",
+      "res_1ac7711660",
+      "res_c0e713e505",
+      "res_06095f1a6a",
+      "res_fb095cb6d9",
+      "res_1464729221",
+      "res_f7ec40763c",
+      "res_90075f68f1"
+     ],
+     "refs_before": [],
+     "state": "MO",
+     "state_after": 11,
+     "state_before": 0,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.8043,
+     "comparison_before_share": 0.9216,
+     "comparison_states": 50,
+     "delta": 0.1173,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "miso:j1965",
+      "miso:j1986",
+      "miso:j2008",
+      "miso:j2043",
+      "miso:j2198",
+      "miso:j2209",
+      "miso:j2274"
+     ],
+     "refs_before": [
+      "miso:j1191",
+      "miso:j2337",
+      "miso:j2387",
+      "miso:j2425",
+      "miso:j2506",
+      "miso:j2625",
+      "miso:j2718",
+      "miso:j2726",
+      "miso:j2915",
+      "miso:j2981",
+      "miso:j3085",
+      "miso:j3190",
+      "miso:j3202",
+      "miso:j987",
+      "miso:j994",
+      "spp:gen-2017-115",
+      "spp:gen-2018-063",
+      "spp:gen-2019-035",
+      "spp:gen-2019-048",
+      "spp:gen-2021-051",
+      "spp:gen-2022-079",
+      "spp:gen-2022-080"
+     ],
+     "state": "MO",
+     "state_after": 7,
+     "state_after_den": 7,
+     "state_before": 22,
+     "state_before_den": 22,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "MO"
+  },
+  {
+   "bill": "recent:MS",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MS",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MS",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "miso:j2162",
+      "miso:j2174",
+      "miso:j2313",
+      "miso:j2358",
+      "miso:j2359",
+      "miso:j2370",
+      "miso:j2391",
+      "miso:j2406",
+      "miso:j2432",
+      "miso:j2560",
+      "miso:j2591",
+      "miso:j2594",
+      "miso:j2692",
+      "miso:j2698",
+      "miso:j2727",
+      "miso:j2736",
+      "miso:j2741",
+      "miso:j2744",
+      "miso:j2745",
+      "miso:j2768",
+      "miso:j2771",
+      "miso:j2803",
+      "miso:j2824",
+      "miso:j2825",
+      "miso:j2827",
+      "miso:j2856",
+      "miso:j2857",
+      "miso:j2887",
+      "miso:j2898",
+      "miso:j2900",
+      "miso:j2903",
+      "miso:j2905",
+      "miso:j2939",
+      "miso:j2964",
+      "miso:j2980",
+      "miso:j2992",
+      "miso:j3062",
+      "miso:j3092",
+      "miso:j3097",
+      "miso:j3104",
+      "miso:j3105",
+      "miso:j3108",
+      "miso:j3115",
+      "miso:j3126",
+      "miso:j3150",
+      "miso:j3201",
+      "miso:j3205",
+      "soco:ic-1022",
+      "soco:ic-1029",
+      "soco:ic-1031",
+      "soco:ic-1089",
+      "soco:ic-899",
+      "soco:ic-922",
+      "soco:ic-941"
+     ],
+     "state": "MS",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 54,
+     "state_before_den": 54,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "MS"
+  },
+  {
+   "bill": "recent:MT",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MT",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "MT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "MT"
+  },
+  {
+   "bill": "recent:NC",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_adf142430e"
+     ],
+     "refs_before": [],
+     "state": "NC",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_75251bd006",
+      "res_121f280a3c"
+     ],
+     "refs_before": [],
+     "state": "NC",
+     "state_after": 2,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.8421,
+     "comparison_before_share": 0.9223,
+     "comparison_states": 50,
+     "delta": -0.6199,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "pjm:ac1-098",
+      "pjm:ac1-099",
+      "pjm:ac2-084",
+      "pjm:ag1-106"
+     ],
+     "refs_before": [
+      "pjm:ae2-147",
+      "pjm:af1-152",
+      "pjm:af2-046",
+      "pjm:af2-324",
+      "pjm:ag1-008",
+      "pjm:ag1-082",
+      "pjm:ag1-083",
+      "pjm:ag1-437",
+      "pjm:ag1-438",
+      "pjm:ag1-439",
+      "pjm:ag1-442",
+      "pjm:ag1-443",
+      "pjm:ag1-444",
+      "pjm:ag1-551",
+      "pjm:ag1-552",
+      "pjm:ah1-312",
+      "pjm:ah1-434",
+      "pjm:ai1-135",
+      "pjm:ai1-169",
+      "pjm:z1-036"
+     ],
+     "state": "NC",
+     "state_after": 1,
+     "state_after_den": 4,
+     "state_before": 19,
+     "state_before_den": 20,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "NC"
+  },
+  {
+   "bill": "recent:ND",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_e5e9792f4b"
+     ],
+     "state": "ND",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_a75112e36b",
+      "res_f75f6d74fe"
+     ],
+     "refs_before": [],
+     "state": "ND",
+     "state_after": 2,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.8229,
+     "comparison_before_share": 0.9222,
+     "comparison_states": 50,
+     "delta": -0.1886,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "spp:gen-2017-010",
+      "spp:gen-2020-021",
+      "spp:gen-2021-008"
+     ],
+     "refs_before": [
+      "miso:j1888",
+      "miso:j1893",
+      "miso:j1961",
+      "miso:j1990",
+      "miso:j2084",
+      "miso:j2085",
+      "miso:j2086",
+      "miso:j2101",
+      "miso:j2327",
+      "miso:j2344",
+      "miso:j2367",
+      "miso:j2368",
+      "miso:j2518",
+      "miso:j2605",
+      "miso:j2606",
+      "miso:j2665",
+      "miso:j2772",
+      "miso:j2883",
+      "miso:j2912",
+      "spp:gen-2016-130",
+      "spp:gen-2017-048",
+      "spp:gen-2018-010"
+     ],
+     "state": "ND",
+     "state_after": 2,
+     "state_after_den": 3,
+     "state_before": 21,
+     "state_before_den": 22,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "ND"
+  },
+  {
+   "bill": "recent:NE",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NE",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.14,
+     "comparison_before_mean": 0.98,
+     "comparison_states": 50,
+     "delta": 0.1987,
+     "direction": 0,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_c559f680e0",
+      "res_cb62666be7",
+      "res_da68be2daf",
+      "res_e843ecae6e",
+      "res_d94d5862e5",
+      "res_67731ac7c4",
+      "res_844a301e31"
+     ],
+     "refs_before": [
+      "res_d6473e9e31",
+      "res_522547f218"
+     ],
+     "state": "NE",
+     "state_after": 7,
+     "state_before": 2,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "spp:gen-2018-065",
+      "spp:gen-2018-068",
+      "spp:gen-2019-069",
+      "spp:gen-2019-070",
+      "spp:gen-2019-073",
+      "spp:gen-2022-077"
+     ],
+     "state": "NE",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 6,
+     "state_before_den": 6,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "NE"
+  },
+  {
+   "bill": "recent:NH",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NH",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NH",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "iso-ne:1038",
+      "iso-ne:727",
+      "iso-ne:785",
+      "iso-ne:934"
+     ],
+     "state": "NH",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 4,
+     "state_before_den": 4,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "NH"
+  },
+  {
+   "bill": "recent:NJ",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_1a4c5a893c"
+     ],
+     "state": "NJ",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NJ",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "pjm:ae1-156",
+      "pjm:ae1-179",
+      "pjm:ae1-218",
+      "pjm:ae1-240",
+      "pjm:ae2-334",
+      "pjm:af1-019",
+      "pjm:af1-208",
+      "pjm:af2-020",
+      "pjm:af2-024",
+      "pjm:af2-416",
+      "pjm:ag1-001",
+      "pjm:ag1-348",
+      "pjm:ag1-487",
+      "pjm:ag1-511",
+      "pjm:ag2-032",
+      "pjm:ag2-035",
+      "pjm:ag2-036",
+      "pjm:ag2-177",
+      "pjm:ag2-189",
+      "pjm:ag2-204",
+      "pjm:ag2-228",
+      "pjm:ag2-241",
+      "pjm:ag2-254",
+      "pjm:ag2-255",
+      "pjm:ag2-421",
+      "pjm:ag2-530",
+      "pjm:ag2-531",
+      "pjm:ag2-536",
+      "pjm:ag2-537",
+      "pjm:ag2-588",
+      "pjm:ag2-599",
+      "pjm:ag2-600",
+      "pjm:ag2-624",
+      "pjm:ah1-043",
+      "pjm:ah1-067",
+      "pjm:ah1-068",
+      "pjm:ah1-077",
+      "pjm:ah1-290",
+      "pjm:ah1-335"
+     ],
+     "state": "NJ",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 36,
+     "state_before_den": 39,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "NJ"
+  },
+  {
+   "bill": "recent:NM",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_3e21ac9450"
+     ],
+     "state": "NM",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NM",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "spp:gen-2020-059",
+      "spp:gen-2020-062"
+     ],
+     "state": "NM",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 2,
+     "state_before_den": 2,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "NM"
+  },
+  {
+   "bill": "recent:NV",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_2d35230faf"
+     ],
+     "refs_before": [],
+     "state": "NV",
+     "state_after": 1,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NV",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NV",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "NV"
+  },
+  {
+   "bill": "recent:NY",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_18be77447d",
+      "con_7d3c01bcd8",
+      "con_d6604dd7ee"
+     ],
+     "refs_before": [
+      "con_39786b2a0b",
+      "con_fd8ac5329d"
+     ],
+     "state": "NY",
+     "state_after": 1,
+     "state_after_den": 3,
+     "state_before": 2,
+     "state_before_den": 2,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 2.68,
+     "comparison_before_mean": 0.58,
+     "comparison_states": 50,
+     "delta": -0.7757,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_f0138898e6",
+      "res_cdad6a0cc5",
+      "res_f2fbb7f97d",
+      "res_4f04d73fe8",
+      "res_ac4e90f582",
+      "res_2c3ebcd3e6",
+      "res_b0e70bce37",
+      "res_4dceb69d13",
+      "res_018eb34b3d",
+      "res_cb60d4b791",
+      "res_f1e86e0b1b",
+      "res_1ab1233ef7",
+      "res_fdc0bd59fd",
+      "res_65076926b6",
+      "res_a74cf4bff7",
+      "res_250a8b4c8d",
+      "res_052a61f368",
+      "res_3592f44a5f",
+      "res_df5a8f6e89",
+      "res_688f0e010e",
+      "res_32ee6ac456",
+      "res_7a7feac939",
+      "res_af396eff30",
+      "res_1a18216e69",
+      "res_9f3308cab1",
+      "res_253610cf32",
+      "res_35efeb1fb2",
+      "res_98610a30d4",
+      "res_13585c4d9b",
+      "res_430b703492"
+     ],
+     "refs_before": [
+      "res_e3701fdf17",
+      "res_337e1aa287",
+      "res_db4c9ecfa0",
+      "res_810c008942",
+      "res_c44a2c3b91",
+      "res_beaaa41e63",
+      "res_8a9ca78001",
+      "res_d2f7cc44db",
+      "res_9ef0c42509",
+      "res_415c0abafe",
+      "res_6af7cf0cf0",
+      "res_739028e13e",
+      "res_108995efdf",
+      "res_ec8c140b2a",
+      "res_c7a491e45b",
+      "res_2048a509c2",
+      "res_0bb5121b24",
+      "res_6d03ba619a",
+      "res_d6a569c01f",
+      "res_468d6495cc",
+      "res_53ad076814",
+      "res_215875f89d"
+     ],
+     "state": "NY",
+     "state_after": 30,
+     "state_before": 22,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "NY",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "NY"
+  },
+  {
+   "bill": "recent:OH",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_9220d499e5",
+      "con_ddc69b564b"
+     ],
+     "refs_before": [
+      "con_2c16b74f26",
+      "con_5b86fd1934"
+     ],
+     "state": "OH",
+     "state_after": 0,
+     "state_after_den": 2,
+     "state_before": 2,
+     "state_before_den": 2,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.18,
+     "comparison_before_mean": 1.02,
+     "comparison_states": 50,
+     "delta": 1.5137,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_a7fa2b30f4",
+      "res_a4760c6fff",
+      "res_f56ae22ddd",
+      "res_f166b01b85",
+      "res_a9b410ffbf"
+     ],
+     "refs_before": [],
+     "state": "OH",
+     "state_after": 5,
+     "state_before": 0,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "pjm:ae2-181",
+      "pjm:ah2-148"
+     ],
+     "refs_before": [
+      "pjm:ab2-085",
+      "pjm:ac1-068",
+      "pjm:ac1-069",
+      "pjm:ac1-165",
+      "pjm:ac1-166",
+      "pjm:ac2-060",
+      "pjm:ac2-061",
+      "pjm:ad1-073",
+      "pjm:ad1-130",
+      "pjm:ad2-031",
+      "pjm:ad2-086",
+      "pjm:ad2-092",
+      "pjm:ae1-040",
+      "pjm:ae1-090",
+      "pjm:ae2-072",
+      "pjm:ae2-176",
+      "pjm:ae2-204",
+      "pjm:ae2-206",
+      "pjm:ae2-218",
+      "pjm:af1-078",
+      "pjm:af1-164",
+      "pjm:af1-249",
+      "pjm:af2-124",
+      "pjm:af2-137",
+      "pjm:af2-209",
+      "pjm:af2-321",
+      "pjm:ag1-003",
+      "pjm:ag1-004",
+      "pjm:ag1-163",
+      "pjm:ag1-218",
+      "pjm:ag1-231",
+      "pjm:ag1-239",
+      "pjm:ag1-319",
+      "pjm:ag1-323",
+      "pjm:ag1-562",
+      "pjm:ag2-002",
+      "pjm:ag2-003",
+      "pjm:ag2-004",
+      "pjm:ag2-006",
+      "pjm:ag2-013",
+      "pjm:ag2-053",
+      "pjm:ag2-054",
+      "pjm:ag2-105",
+      "pjm:ag2-110",
+      "pjm:ag2-118",
+      "pjm:ag2-175",
+      "pjm:ag2-194",
+      "pjm:ag2-195",
+      "pjm:ag2-218",
+      "pjm:ag2-223",
+      "pjm:ag2-235",
+      "pjm:ag2-243",
+      "pjm:ag2-244",
+      "pjm:ag2-251",
+      "pjm:ag2-252",
+      "pjm:ag2-253",
+      "pjm:ag2-263",
+      "pjm:ag2-264",
+      "pjm:ag2-265",
+      "pjm:ag2-277",
+      "pjm:ag2-278",
+      "pjm:ag2-282",
+      "pjm:ag2-296",
+      "pjm:ag2-333",
+      "pjm:ag2-336",
+      "pjm:ag2-337",
+      "pjm:ag2-355",
+      "pjm:ag2-358",
+      "pjm:ag2-359",
+      "pjm:ag2-375",
+      "pjm:ag2-376",
+      "pjm:ag2-377",
+      "pjm:ag2-443",
+      "pjm:ag2-445",
+      "pjm:ag2-452",
+      "pjm:ag2-465",
+      "pjm:ag2-470",
+      "pjm:ag2-471",
+      "pjm:ag2-497",
+      "pjm:ag2-498",
+      "pjm:ag2-499",
+      "pjm:ag2-514",
+      "pjm:ag2-539",
+      "pjm:ag2-547",
+      "pjm:ag2-591",
+      "pjm:ag2-595",
+      "pjm:ag2-628",
+      "pjm:ah1-015",
+      "pjm:ah1-032",
+      "pjm:ah1-036",
+      "pjm:ah1-058",
+      "pjm:ah1-062",
+      "pjm:ah1-074",
+      "pjm:ah1-094",
+      "pjm:ah1-095",
+      "pjm:ah1-096",
+      "pjm:ah1-113",
+      "pjm:ah1-114",
+      "pjm:ah1-122",
+      "pjm:ah1-198",
+      "pjm:ah1-225",
+      "pjm:ah1-235",
+      "pjm:ah1-236",
+      "pjm:ah1-270",
+      "pjm:ah1-273",
+      "pjm:ah1-287",
+      "pjm:ah1-317",
+      "pjm:ah1-318",
+      "pjm:ah1-319",
+      "pjm:ah1-320",
+      "pjm:ah1-321",
+      "pjm:ah1-322",
+      "pjm:ah1-325",
+      "pjm:ah1-329",
+      "pjm:ah1-333",
+      "pjm:ah1-389",
+      "pjm:ah1-404",
+      "pjm:ah1-421",
+      "pjm:ah1-422",
+      "pjm:ah1-423",
+      "pjm:ah1-424",
+      "pjm:ah1-425",
+      "pjm:ah1-449",
+      "pjm:ah1-480",
+      "pjm:ah1-483",
+      "pjm:ah1-516",
+      "pjm:ah1-520",
+      "pjm:ah1-521",
+      "pjm:ah1-522",
+      "pjm:ah1-526",
+      "pjm:ah1-530",
+      "pjm:ah1-531",
+      "pjm:ah1-538",
+      "pjm:ah1-550",
+      "pjm:ah1-554",
+      "pjm:ah1-565",
+      "pjm:ah1-569",
+      "pjm:ah1-572",
+      "pjm:ah1-573",
+      "pjm:ah1-579",
+      "pjm:ah1-597",
+      "pjm:ah1-598",
+      "pjm:ah1-609",
+      "pjm:ah1-639",
+      "pjm:ah2-073",
+      "pjm:ah2-074",
+      "pjm:ah2-212",
+      "pjm:ah2-215",
+      "pjm:ah2-218",
+      "pjm:ah2-220",
+      "pjm:ah2-273",
+      "pjm:ah2-274",
+      "pjm:ah2-275",
+      "pjm:ah2-284",
+      "pjm:ah2-331",
+      "pjm:ai1-104",
+      "pjm:ai1-177"
+     ],
+     "state": "OH",
+     "state_after": 1,
+     "state_after_den": 2,
+     "state_before": 140,
+     "state_before_den": 157,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "OH"
+  },
+  {
+   "bill": "recent:OK",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_cc2b298081"
+     ],
+     "refs_before": [
+      "con_7166906c9b"
+     ],
+     "state": "OK",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "OK",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "spp:gen-2017-036",
+      "spp:gen-2017-047",
+      "spp:gen-2018-021",
+      "spp:gen-2019-013",
+      "spp:gen-2020-009",
+      "spp:gen-2020-074",
+      "spp:gen-2020-075",
+      "spp:gen-2020-085",
+      "spp:gen-2021-010",
+      "spp:gen-2021-012",
+      "spp:gen-2021-014",
+      "spp:gen-2021-015",
+      "spp:gen-2021-098",
+      "spp:gen-2022-001",
+      "spp:gen-2022-011",
+      "spp:gen-2022-019",
+      "spp:gen-2022-021",
+      "spp:gen-2022-042",
+      "spp:gen-2022-048",
+      "spp:gen-2022-072",
+      "spp:gen-2022-074",
+      "spp:gen-2022-085",
+      "spp:gen-2022-090",
+      "spp:gen-2022-091",
+      "spp:gen-2022-092"
+     ],
+     "state": "OK",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 23,
+     "state_before_den": 25,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "OK"
+  },
+  {
+   "bill": "recent:OR",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "OR",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_cf0a4c6640"
+     ],
+     "refs_before": [],
+     "state": "OR",
+     "state_after": 1,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "OR",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "OR"
+  },
+  {
+   "bill": "recent:PA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "con_40687005b9"
+     ],
+     "state": "PA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.2,
+     "comparison_before_mean": 1.02,
+     "comparison_states": 50,
+     "delta": 1.3076,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_b9948e27eb",
+      "res_243cf763f3",
+      "res_91dd06320d",
+      "res_dfb0e7fab7"
+     ],
+     "refs_before": [],
+     "state": "PA",
+     "state_after": 4,
+     "state_before": 0,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.7857,
+     "comparison_before_share": 0.9196,
+     "comparison_states": 50,
+     "delta": 0.1865,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "pjm:af1-287",
+      "pjm:af2-010",
+      "pjm:af2-092",
+      "pjm:ag1-193",
+      "pjm:ag1-301",
+      "pjm:ah2-318",
+      "pjm:ai1-144",
+      "pjm:ai1-193",
+      "pjm:ai1-194",
+      "pjm:ai1-195",
+      "pjm:ai1-196",
+      "pjm:ai1-197",
+      "pjm:ai1-198",
+      "pjm:ai1-199",
+      "pjm:ai1-200"
+     ],
+     "refs_before": [
+      "pjm:ae1-071",
+      "pjm:ae1-225",
+      "pjm:ae1-226",
+      "pjm:ae2-042",
+      "pjm:ae2-054",
+      "pjm:ae2-084",
+      "pjm:ae2-125",
+      "pjm:ae2-256",
+      "pjm:ae2-271",
+      "pjm:af1-006",
+      "pjm:af1-022",
+      "pjm:af1-039",
+      "pjm:af1-099",
+      "pjm:af1-106",
+      "pjm:af1-142",
+      "pjm:af1-146",
+      "pjm:af1-155",
+      "pjm:af1-165",
+      "pjm:af1-170",
+      "pjm:af1-211",
+      "pjm:af1-212",
+      "pjm:af1-217",
+      "pjm:af1-240",
+      "pjm:af2-056",
+      "pjm:af2-082",
+      "pjm:af2-117",
+      "pjm:af2-130",
+      "pjm:af2-165",
+      "pjm:af2-166",
+      "pjm:af2-235",
+      "pjm:af2-243",
+      "pjm:af2-295",
+      "pjm:af2-322",
+      "pjm:af2-331",
+      "pjm:af2-332",
+      "pjm:af2-333",
+      "pjm:af2-334",
+      "pjm:af2-380",
+      "pjm:af2-383",
+      "pjm:af2-384",
+      "pjm:af2-405",
+      "pjm:af2-412",
+      "pjm:af2-444",
+      "pjm:ag1-041",
+      "pjm:ag1-052",
+      "pjm:ag1-053",
+      "pjm:ag1-059",
+      "pjm:ag1-086",
+      "pjm:ag1-277",
+      "pjm:ag1-278",
+      "pjm:ag1-279",
+      "pjm:ag1-303",
+      "pjm:ag1-386",
+      "pjm:ag1-392",
+      "pjm:ag1-392a",
+      "pjm:ag1-392b",
+      "pjm:ag1-392c",
+      "pjm:ag1-455",
+      "pjm:ag1-473",
+      "pjm:ag1-480",
+      "pjm:ag1-482",
+      "pjm:ag1-485",
+      "pjm:ag1-486",
+      "pjm:ag1-514",
+      "pjm:ag1-515",
+      "pjm:ag1-527",
+      "pjm:ag1-549",
+      "pjm:ag2-008",
+      "pjm:ag2-009",
+      "pjm:ag2-038",
+      "pjm:ag2-039",
+      "pjm:ag2-040",
+      "pjm:ag2-041",
+      "pjm:ag2-060",
+      "pjm:ag2-079",
+      "pjm:ag2-089",
+      "pjm:ag2-143",
+      "pjm:ag2-154",
+      "pjm:ag2-155",
+      "pjm:ag2-156",
+      "pjm:ag2-157",
+      "pjm:ag2-167",
+      "pjm:ag2-174",
+      "pjm:ag2-247",
+      "pjm:ag2-334",
+      "pjm:ag2-372",
+      "pjm:ag2-386",
+      "pjm:ag2-413",
+      "pjm:ag2-415",
+      "pjm:ag2-416",
+      "pjm:ag2-417",
+      "pjm:ag2-425",
+      "pjm:ag2-433",
+      "pjm:ag2-463",
+      "pjm:ag2-538",
+      "pjm:ag2-557",
+      "pjm:ag2-558",
+      "pjm:ag2-559",
+      "pjm:ag2-560",
+      "pjm:ag2-590",
+      "pjm:ag2-593",
+      "pjm:ag2-594",
+      "pjm:ag2-606",
+      "pjm:ag2-610",
+      "pjm:ag2-611",
+      "pjm:ag2-612",
+      "pjm:ag2-614",
+      "pjm:ag2-652",
+      "pjm:ag2-653",
+      "pjm:ag2-668",
+      "pjm:ag2-688",
+      "pjm:ah1-002",
+      "pjm:ah1-017",
+      "pjm:ah1-046",
+      "pjm:ah1-049",
+      "pjm:ah1-061",
+      "pjm:ah1-076",
+      "pjm:ah1-139",
+      "pjm:ah1-149",
+      "pjm:ah1-159",
+      "pjm:ah1-160",
+      "pjm:ah1-161",
+      "pjm:ah1-162",
+      "pjm:ah1-202",
+      "pjm:ah1-204",
+      "pjm:ah1-207",
+      "pjm:ah1-208",
+      "pjm:ah1-209",
+      "pjm:ah1-210",
+      "pjm:ah1-211",
+      "pjm:ah1-230",
+      "pjm:ah1-242",
+      "pjm:ah1-243",
+      "pjm:ah1-244",
+      "pjm:ah1-245",
+      "pjm:ah1-246",
+      "pjm:ah1-284",
+      "pjm:ah1-331",
+      "pjm:ah1-332",
+      "pjm:ah1-366",
+      "pjm:ah1-367",
+      "pjm:ah1-370",
+      "pjm:ah1-372",
+      "pjm:ah1-373",
+      "pjm:ah1-390",
+      "pjm:ah1-395",
+      "pjm:ah1-405",
+      "pjm:ah1-406",
+      "pjm:ah1-407",
+      "pjm:ah1-419",
+      "pjm:ah1-462",
+      "pjm:ah1-469",
+      "pjm:ah1-470",
+      "pjm:ah1-471",
+      "pjm:ah1-472",
+      "pjm:ah1-474",
+      "pjm:ah1-475",
+      "pjm:ah1-476",
+      "pjm:ah1-478",
+      "pjm:ah1-486",
+      "pjm:ah1-488",
+      "pjm:ah1-489",
+      "pjm:ah1-492",
+      "pjm:ah1-493",
+      "pjm:ah1-514",
+      "pjm:ah1-515",
+      "pjm:ah1-518",
+      "pjm:ah1-523",
+      "pjm:ah1-533",
+      "pjm:ah1-561",
+      "pjm:ah1-562",
+      "pjm:ah1-566",
+      "pjm:ah1-615",
+      "pjm:ah1-622",
+      "pjm:ah1-624",
+      "pjm:ah1-630",
+      "pjm:ah1-631",
+      "pjm:ah1-632",
+      "pjm:ah1-668",
+      "pjm:ah2-229",
+      "pjm:ah2-230",
+      "pjm:ah2-235",
+      "pjm:ah2-236",
+      "pjm:ah2-279",
+      "pjm:ah2-387",
+      "pjm:ah2-391",
+      "pjm:ah2-393",
+      "pjm:ai1-093",
+      "pjm:ai1-094",
+      "pjm:ai1-162"
+     ],
+     "state": "PA",
+     "state_after": 15,
+     "state_after_den": 15,
+     "state_before": 180,
+     "state_before_den": 190,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "PA"
+  },
+  {
+   "bill": "recent:PR",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "PR",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "PR",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "PR",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "PR"
+  },
+  {
+   "bill": "recent:RI",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "RI",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "RI",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "iso-ne:1039",
+      "iso-ne:1040",
+      "iso-ne:1041",
+      "iso-ne:1044",
+      "iso-ne:1045",
+      "iso-ne:1046",
+      "iso-ne:1047",
+      "iso-ne:1050",
+      "iso-ne:1137",
+      "iso-ne:766",
+      "iso-ne:774",
+      "iso-ne:793",
+      "iso-ne:794",
+      "iso-ne:805",
+      "iso-ne:836",
+      "iso-ne:838",
+      "iso-ne:869",
+      "iso-ne:870",
+      "iso-ne:957",
+      "iso-ne:958",
+      "iso-ne:960",
+      "iso-ne:961",
+      "iso-ne:962",
+      "iso-ne:963",
+      "iso-ne:964",
+      "iso-ne:965",
+      "iso-ne:966",
+      "iso-ne:967",
+      "iso-ne:968",
+      "iso-ne:969",
+      "iso-ne:970"
+     ],
+     "state": "RI",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 31,
+     "state_before_den": 31,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "RI"
+  },
+  {
+   "bill": "recent:SC",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "SC",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.22,
+     "comparison_before_mean": 1.02,
+     "comparison_states": 50,
+     "delta": 1.0509,
+     "direction": 1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_5e4ee7185f",
+      "res_efd77e0084",
+      "res_a433db3007"
+     ],
+     "refs_before": [],
+     "state": "SC",
+     "state_after": 3,
+     "state_before": 0,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "SC",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "SC"
+  },
+  {
+   "bill": "recent:SD",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "SD",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "res_feb8d9a2ca",
+      "res_c54aa497ff"
+     ],
+     "state": "SD",
+     "state_after": 0,
+     "state_before": 2,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "miso:j1989",
+      "miso:j2333",
+      "miso:j2338",
+      "miso:j2546",
+      "miso:j3017",
+      "miso:j3183",
+      "spp:gen-2022-068"
+     ],
+     "state": "SD",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 7,
+     "state_before_den": 7,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "SD"
+  },
+  {
+   "bill": "recent:TN",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_37479ca0c8"
+     ],
+     "refs_before": [],
+     "state": "TN",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_ffe719f142",
+      "res_fbd8b99662"
+     ],
+     "refs_before": [],
+     "state": "TN",
+     "state_after": 2,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "pjm:ah1-534"
+     ],
+     "state": "TN",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "TN"
+  },
+  {
+   "bill": "recent:TX",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_19743b49ea"
+     ],
+     "refs_before": [
+      "con_84e14a7d48",
+      "con_e7913e7fe3",
+      "con_f8379528ac"
+     ],
+     "state": "TX",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 3,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_b3fc1c63e7"
+     ],
+     "refs_before": [
+      "res_da02d1765a"
+     ],
+     "state": "TX",
+     "state_after": 1,
+     "state_before": 1,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.8987,
+     "comparison_before_share": 0.9404,
+     "comparison_states": 50,
+     "delta": -0.0125,
+     "direction": 0,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "ercot:12inr0059b",
+      "ercot:17inr0061",
+      "ercot:19inr0155",
+      "ercot:21inr0343",
+      "ercot:21inr0443",
+      "ercot:22inr0608",
+      "ercot:23inr0030",
+      "ercot:23inr0044",
+      "ercot:23inr0119",
+      "ercot:23inr0266",
+      "ercot:23inr0343",
+      "ercot:23inr0414",
+      "ercot:24inr0295",
+      "ercot:24inr0304",
+      "ercot:24inr0315",
+      "ercot:24inr0329",
+      "ercot:24inr0330",
+      "ercot:25inr0068",
+      "ercot:25inr0072",
+      "ercot:25inr0141"
+     ],
+     "refs_before": [
+      "ercot:20inr0040",
+      "ercot:20inr0130",
+      "ercot:20inr0208",
+      "ercot:21inr0254",
+      "ercot:21inr0351",
+      "ercot:21inr0353",
+      "ercot:21inr0354",
+      "ercot:21inr0379",
+      "ercot:21inr0393",
+      "ercot:21inr0424",
+      "ercot:21inr0442",
+      "ercot:21inr0450",
+      "ercot:21inr0458",
+      "ercot:21inr0517",
+      "ercot:22inr0211",
+      "ercot:22inr0329",
+      "ercot:22inr0335",
+      "ercot:22inr0349",
+      "ercot:22inr0353",
+      "ercot:22inr0354",
+      "ercot:22inr0356",
+      "ercot:22inr0368",
+      "ercot:22inr0388",
+      "ercot:22inr0404",
+      "ercot:22inr0409",
+      "ercot:22inr0494",
+      "ercot:22inr0511",
+      "ercot:22inr0525",
+      "ercot:22inr0549",
+      "ercot:23inr0065",
+      "ercot:23inr0079",
+      "ercot:23inr0100",
+      "ercot:23inr0114",
+      "ercot:23inr0166",
+      "ercot:23inr0190",
+      "ercot:23inr0195",
+      "ercot:23inr0219",
+      "ercot:23inr0299",
+      "ercot:23inr0352",
+      "ercot:23inr0366",
+      "ercot:23inr0372",
+      "ercot:23inr0373",
+      "ercot:23inr0374",
+      "ercot:23inr0387",
+      "ercot:24inr0057",
+      "ercot:24inr0088",
+      "ercot:24inr0116",
+      "ercot:24inr0132",
+      "ercot:24inr0166",
+      "ercot:24inr0179",
+      "ercot:24inr0252",
+      "ercot:24inr0257",
+      "ercot:24inr0263",
+      "ercot:24inr0266",
+      "ercot:24inr0401",
+      "ercot:24inr0403",
+      "ercot:24inr0408",
+      "ercot:24inr0421",
+      "ercot:24inr0635",
+      "ercot:25inr0024",
+      "ercot:25inr0070",
+      "ercot:25inr0098",
+      "miso:j1907",
+      "miso:j2041",
+      "miso:j2112",
+      "miso:j2114",
+      "miso:j2235",
+      "miso:j2242",
+      "miso:j2253",
+      "miso:j2683",
+      "miso:j2688",
+      "miso:j2767",
+      "miso:j2817",
+      "miso:j2953",
+      "miso:j2975",
+      "miso:j2976",
+      "miso:j3079",
+      "spp:gen-2017-033",
+      "spp:gen-2018-088",
+      "spp:gen-2020-017",
+      "spp:gen-2020-068",
+      "spp:gen-2021-075",
+      "spp:gen-2022-082"
+     ],
+     "state": "TX",
+     "state_after": 10,
+     "state_after_den": 20,
+     "state_before": 46,
+     "state_before_den": 83,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "TX"
+  },
+  {
+   "bill": "recent:UT",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "UT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_feaccae59d",
+      "res_02f577b0a1"
+     ],
+     "refs_before": [],
+     "state": "UT",
+     "state_after": 2,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "UT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "UT"
+  },
+  {
+   "bill": "recent:VA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_77cf655ca9"
+     ],
+     "refs_before": [
+      "con_71ee16e8ff"
+     ],
+     "state": "VA",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 1,
+     "state_before_den": 1,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "VA",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_share": 0.8316,
+     "comparison_before_share": 0.9175,
+     "comparison_states": 50,
+     "delta": -0.3688,
+     "direction": -1,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "pjm:ac1-143",
+      "pjm:ae1-190",
+      "pjm:ae1-191",
+      "pjm:ag1-282"
+     ],
+     "refs_before": [
+      "pjm:ab2-040",
+      "pjm:ac1-161",
+      "pjm:ac1-221",
+      "pjm:ac2-123",
+      "pjm:ad1-058",
+      "pjm:ae1-044",
+      "pjm:ae1-056",
+      "pjm:ae1-075",
+      "pjm:ae1-148",
+      "pjm:ae1-155",
+      "pjm:ae2-187",
+      "pjm:ae2-190",
+      "pjm:ae2-230",
+      "pjm:ae2-231",
+      "pjm:ae2-250",
+      "pjm:ae2-313",
+      "pjm:af1-075",
+      "pjm:af1-291a",
+      "pjm:af1-323",
+      "pjm:af2-035",
+      "pjm:af2-037",
+      "pjm:af2-054",
+      "pjm:af2-063",
+      "pjm:af2-075",
+      "pjm:af2-171",
+      "pjm:af2-297",
+      "pjm:af2-300",
+      "pjm:af2-302",
+      "pjm:af2-403",
+      "pjm:ag1-022",
+      "pjm:ag1-031",
+      "pjm:ag1-075",
+      "pjm:ag1-098",
+      "pjm:ag1-136",
+      "pjm:ag1-146",
+      "pjm:ag1-147",
+      "pjm:ag1-154",
+      "pjm:ag1-166",
+      "pjm:ag1-167",
+      "pjm:ag1-168",
+      "pjm:ag1-169",
+      "pjm:ag1-170",
+      "pjm:ag1-171",
+      "pjm:ag1-172",
+      "pjm:ag1-173",
+      "pjm:ag1-210",
+      "pjm:ag1-213",
+      "pjm:ag1-272",
+      "pjm:ag1-273",
+      "pjm:ag1-274",
+      "pjm:ag1-305",
+      "pjm:ag1-343",
+      "pjm:ag1-346",
+      "pjm:ag1-384",
+      "pjm:ag1-393",
+      "pjm:ag1-394",
+      "pjm:ag1-412",
+      "pjm:ag1-427",
+      "pjm:ag1-428",
+      "pjm:ag1-449",
+      "pjm:ag1-451",
+      "pjm:ag1-494",
+      "pjm:ag1-502",
+      "pjm:ag1-503",
+      "pjm:ag1-537",
+      "pjm:ag2-001",
+      "pjm:ag2-019",
+      "pjm:ag2-020",
+      "pjm:ag2-034",
+      "pjm:ag2-051",
+      "pjm:ag2-058",
+      "pjm:ag2-059",
+      "pjm:ag2-064",
+      "pjm:ag2-067",
+      "pjm:ag2-070",
+      "pjm:ag2-080",
+      "pjm:ag2-102",
+      "pjm:ag2-103",
+      "pjm:ag2-113",
+      "pjm:ag2-137",
+      "pjm:ag2-168",
+      "pjm:ag2-169",
+      "pjm:ag2-178",
+      "pjm:ag2-187",
+      "pjm:ag2-199",
+      "pjm:ag2-202",
+      "pjm:ag2-203",
+      "pjm:ag2-214",
+      "pjm:ag2-229",
+      "pjm:ag2-258",
+      "pjm:ag2-259",
+      "pjm:ag2-260",
+      "pjm:ag2-261",
+      "pjm:ag2-268",
+      "pjm:ag2-269",
+      "pjm:ag2-275",
+      "pjm:ag2-276",
+      "pjm:ag2-283",
+      "pjm:ag2-284",
+      "pjm:ag2-285",
+      "pjm:ag2-286",
+      "pjm:ag2-287",
+      "pjm:ag2-303",
+      "pjm:ag2-305",
+      "pjm:ag2-306",
+      "pjm:ag2-307",
+      "pjm:ag2-309",
+      "pjm:ag2-312",
+      "pjm:ag2-318",
+      "pjm:ag2-321",
+      "pjm:ag2-322",
+      "pjm:ag2-323",
+      "pjm:ag2-324",
+      "pjm:ag2-325",
+      "pjm:ag2-326",
+      "pjm:ag2-361",
+      "pjm:ag2-367",
+      "pjm:ag2-368",
+      "pjm:ag2-414",
+      "pjm:ag2-431",
+      "pjm:ag2-432",
+      "pjm:ag2-437",
+      "pjm:ag2-461",
+      "pjm:ag2-462",
+      "pjm:ag2-475",
+      "pjm:ag2-506",
+      "pjm:ag2-507",
+      "pjm:ag2-508",
+      "pjm:ag2-521",
+      "pjm:ag2-526",
+      "pjm:ag2-528",
+      "pjm:ag2-529",
+      "pjm:ag2-540",
+      "pjm:ag2-542",
+      "pjm:ag2-543",
+      "pjm:ag2-563",
+      "pjm:ag2-565",
+      "pjm:ag2-569",
+      "pjm:ag2-580",
+      "pjm:ag2-584",
+      "pjm:ag2-597",
+      "pjm:ag2-603",
+      "pjm:ag2-604",
+      "pjm:ag2-607",
+      "pjm:ag2-631",
+      "pjm:ag2-633",
+      "pjm:ag2-635",
+      "pjm:ag2-639",
+      "pjm:ag2-640",
+      "pjm:ag2-641",
+      "pjm:ag2-680",
+      "pjm:ah1-001",
+      "pjm:ah1-018",
+      "pjm:ah1-019",
+      "pjm:ah1-020",
+      "pjm:ah1-048",
+      "pjm:ah1-052",
+      "pjm:ah1-063",
+      "pjm:ah1-064",
+      "pjm:ah1-079",
+      "pjm:ah1-080",
+      "pjm:ah1-090",
+      "pjm:ah1-092",
+      "pjm:ah1-093",
+      "pjm:ah1-097",
+      "pjm:ah1-119",
+      "pjm:ah1-129",
+      "pjm:ah1-130",
+      "pjm:ah1-131",
+      "pjm:ah1-141",
+      "pjm:ah1-142",
+      "pjm:ah1-143",
+      "pjm:ah1-167",
+      "pjm:ah1-168",
+      "pjm:ah1-169",
+      "pjm:ah1-171",
+      "pjm:ah1-172",
+      "pjm:ah1-174",
+      "pjm:ah1-175",
+      "pjm:ah1-176",
+      "pjm:ah1-178",
+      "pjm:ah1-179",
+      "pjm:ah1-180",
+      "pjm:ah1-182",
+      "pjm:ah1-184",
+      "pjm:ah1-185",
+      "pjm:ah1-222",
+      "pjm:ah1-226",
+      "pjm:ah1-231",
+      "pjm:ah1-237",
+      "pjm:ah1-238",
+      "pjm:ah1-259",
+      "pjm:ah1-264",
+      "pjm:ah1-266",
+      "pjm:ah1-267",
+      "pjm:ah1-279",
+      "pjm:ah1-288",
+      "pjm:ah1-336",
+      "pjm:ah1-352",
+      "pjm:ah1-355",
+      "pjm:ah1-362",
+      "pjm:ah1-363",
+      "pjm:ah1-364",
+      "pjm:ah1-365",
+      "pjm:ah1-368",
+      "pjm:ah1-378",
+      "pjm:ah1-379",
+      "pjm:ah1-381",
+      "pjm:ah1-383",
+      "pjm:ah1-385",
+      "pjm:ah1-386",
+      "pjm:ah1-388",
+      "pjm:ah1-398",
+      "pjm:ah1-420",
+      "pjm:ah1-437",
+      "pjm:ah1-440",
+      "pjm:ah1-446",
+      "pjm:ah1-447",
+      "pjm:ah1-450",
+      "pjm:ah1-454",
+      "pjm:ah1-456",
+      "pjm:ah1-457",
+      "pjm:ah1-465",
+      "pjm:ah1-503",
+      "pjm:ah1-527",
+      "pjm:ah1-558",
+      "pjm:ah1-568",
+      "pjm:ah1-623",
+      "pjm:ah1-626",
+      "pjm:ah1-627",
+      "pjm:ah1-640",
+      "pjm:ah2-136",
+      "pjm:ah2-138",
+      "pjm:ah2-226",
+      "pjm:ah2-238",
+      "pjm:ah2-271",
+      "pjm:ah2-272",
+      "pjm:ah2-277",
+      "pjm:ah2-281",
+      "pjm:ah2-398",
+      "pjm:ai1-108",
+      "pjm:ai1-125",
+      "pjm:ai2-027"
+     ],
+     "state": "VA",
+     "state_after": 2,
+     "state_after_den": 4,
+     "state_before": 232,
+     "state_before_den": 243,
+     "status": "ok"
+    }
+   },
+   "group": "",
+   "state": "VA"
+  },
+  {
+   "bill": "recent:VT",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "VT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "VT",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "VT",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "VT"
+  },
+  {
+   "bill": "recent:WA",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_26c5acfcd9"
+     ],
+     "refs_before": [],
+     "state": "WA",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_after_mean": 3.14,
+     "comparison_before_mean": 0.96,
+     "comparison_states": 50,
+     "delta": -0.1514,
+     "direction": 0,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_238bbaf8f5",
+      "res_d768a363b3",
+      "res_31ac77819c",
+      "res_93ca4a5f53",
+      "res_8a23ab8b48",
+      "res_5c7bab9e31",
+      "res_ea436715ca"
+     ],
+     "refs_before": [
+      "res_2b9a846f42",
+      "res_faf4dafac9",
+      "res_16e52010b0"
+     ],
+     "state": "WA",
+     "state_after": 7,
+     "state_before": 3,
+     "status": "ok"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "WA",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "WA"
+  },
+  {
+   "bill": "recent:WI",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "con_c2f8d6f1c8"
+     ],
+     "refs_before": [],
+     "state": "WI",
+     "state_after": 0,
+     "state_after_den": 1,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [
+      "res_fbc32b9a1a",
+      "res_14d759540f"
+     ],
+     "refs_before": [],
+     "state": "WI",
+     "state_after": 2,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "miso:j1101",
+      "miso:j2021",
+      "miso:j2070",
+      "miso:j2102",
+      "miso:j2148",
+      "miso:j2335",
+      "miso:j2345",
+      "miso:j2354",
+      "miso:j2365",
+      "miso:j2366",
+      "miso:j2416",
+      "miso:j2417",
+      "miso:j2439",
+      "miso:j2537",
+      "miso:j2544",
+      "miso:j2557",
+      "miso:j2621",
+      "miso:j2833",
+      "miso:j2834",
+      "miso:j3161"
+     ],
+     "state": "WI",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 20,
+     "state_before_den": 20,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "WI"
+  },
+  {
+   "bill": "recent:WV",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "WV",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "WV",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [
+      "pjm:ag1-194",
+      "pjm:ag1-233",
+      "pjm:ag1-311",
+      "pjm:ag1-416",
+      "pjm:ag2-011",
+      "pjm:ag2-314",
+      "pjm:ag2-354",
+      "pjm:ag2-464",
+      "pjm:ag2-472",
+      "pjm:ag2-655",
+      "pjm:ag2-656",
+      "pjm:ag2-686",
+      "pjm:ah1-010",
+      "pjm:ah1-011",
+      "pjm:ah1-118",
+      "pjm:ah1-252",
+      "pjm:ah1-255",
+      "pjm:ah1-256",
+      "pjm:ah1-286",
+      "pjm:ah1-376",
+      "pjm:ah1-458",
+      "pjm:ah1-459",
+      "pjm:ah1-590",
+      "pjm:ah1-591",
+      "pjm:ah1-592",
+      "pjm:ah1-593",
+      "pjm:ah1-594",
+      "pjm:ah1-625",
+      "pjm:ah2-209",
+      "pjm:ah2-260",
+      "pjm:ah2-261",
+      "pjm:ah2-278",
+      "pjm:ai1-202"
+     ],
+     "state": "WV",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 33,
+     "state_before_den": 33,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "WV"
+  },
+  {
+   "bill": "recent:WY",
+   "fails": {
+    "contested_blocked_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "WY",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    },
+    "local_restrictions": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "WY",
+     "state_after": 0,
+     "state_before": 0,
+     "status": "thin"
+    },
+    "queue_withdrawn_share": {
+     "after": [
+      "2025-11-24",
+      "2026-11-24"
+     ],
+     "before": [
+      "2024-11-24",
+      "2025-11-24"
+     ],
+     "comparison_states": 50,
+     "delta": null,
+     "direction": null,
+     "effective": "2025-11-24",
+     "refs_after": [],
+     "refs_before": [],
+     "state": "WY",
+     "state_after": 0,
+     "state_after_den": 0,
+     "state_before": 0,
+     "state_before_den": 0,
+     "status": "thin"
+    }
+   },
+   "group": "",
+   "state": "WY"
+  }
+ ],
+ "stamp": {
+  "as_of": "2026-11-24",
+  "commit": "3bf1ef2",
+  "config": "config/bill_outlook.json",
+  "core_format": 1,
+  "events": 13636,
+  "events_by_kind": {
+   "local_restriction": 2471,
+   "project_advanced": 121,
+   "project_blocked": 234,
+   "queue_operating": 1292,
+   "queue_withdrawn": 9518
+  }
+ }
+}

@@ -1,0 +1,86 @@
+{
+  "_about": [
+    "Settings for scripts/bill_outlook.py, the bill outcome model (shared core: scripts/policy_outlook_core.py).",
+    "For a tracked bill, the model describes what followed past state laws of the same kind (the passes branch)",
+    "and the state's own recent record without the law (the fails branch), each against comparison states over",
+    "the same months. It describes resemblance to past records. It is not a probability and claims no cause.",
+    "A new bill is one entry under bills. A new precedent is one entry under precedents: it must name the",
+    "state_policies rows it rests on, and its date_quote must appear word for word in one of those rows'",
+    "summary or amendments_note, so every effective date traces to a source that was read."
+  ],
+  "rules": {
+    "window_months": 12,
+    "min_events": 3,
+    "min_precedents": 3,
+    "agreement": 0.67,
+    "smoothing": 0.5
+  },
+  "metrics": {
+    "local_restrictions": {
+      "label": "Local restrictions adopted",
+      "type": "count",
+      "kind": "local_restriction",
+      "threshold": 0.405
+    },
+    "contested_blocked_share": {
+      "label": "Share of decided contested projects that were blocked",
+      "type": "share",
+      "num": "project_blocked",
+      "den": ["project_blocked", "project_advanced"],
+      "threshold": 0.1
+    },
+    "queue_withdrawn_share": {
+      "label": "Share of interconnection requests closed by withdrawal rather than operation",
+      "type": "share",
+      "num": "queue_withdrawn",
+      "den": ["queue_withdrawn", "queue_operating"],
+      "threshold": 0.1
+    }
+  },
+  "groups": {
+    "limits_local": "A state law that limits what local governments may do to solar, wind or storage siting (preemption of local rules, caps on local moratoria, state approval in place of local approval).",
+    "state_standards": "A state law that sets siting standards (setbacks, height, noise) that apply in place of or beside local ones.",
+    "expands_local": "A state law that gives local governments new power to bar or restrict projects (opt-out or restricted-area laws).",
+    "state_ban": "A state law that itself bars a technology in some places."
+  },
+  "precedents": [
+    {"id": "MI-2023-PA-233", "state": "MI", "group": "limits_local", "effective": "2024-11-29",
+     "state_policy_ids": ["MI-local_preemption-1", "MI-state_setback_standard-1"],
+     "date_quote": "Added by 2023 PA 233, effective Nov. 29, 2024."},
+    {"id": "IN-2025-SEA-425", "state": "IN", "group": "limits_local", "effective": "2025-07-01",
+     "state_policy_ids": ["IN-local_preemption-1"],
+     "date_quote": "added by 2025 SEA 425 (P.L.202-2025), SECTION 21, effective July 1, 2025"},
+    {"id": "MD-2025-SB-931", "state": "MD", "group": "limits_local", "effective": "2025-07-01",
+     "state_policy_ids": ["MD-local_preemption-1", "MD-local_preemption-2"],
+     "date_quote": "Enacted by 2025 Md. Laws ch. 623 (SB 931, Renewable Energy Certainty Act, eff. 2025-07-01"},
+    {"id": "MA-2024-c239-69T", "state": "MA", "group": "limits_local", "effective": "2026-03-01",
+     "state_policy_ids": ["MA-local_preemption-2"],
+     "date_quote": "St. 2024, c. 239 section 74 (69T, effective March 1, 2026)"},
+    {"id": "IL-PA-104-458", "state": "IL", "group": "limits_local", "effective": "2026-06-01",
+     "state_policy_ids": ["IL-local_preemption-2", "IL-local_preemption-3"],
+     "date_quote": "New section added by P.A. 104-458 (SB 25, eff. 2026-06-01)"},
+    {"id": "MS-2026-SB-2527", "state": "MS", "group": "limits_local", "effective": "2026-07-01",
+     "state_policy_ids": ["MS-local_preemption-1"],
+     "date_quote": "Laws 2026 ch. 420, effective 2026-07-01"},
+    {"id": "CT-PA-24-144", "state": "CT", "group": "state_standards", "effective": "2024-10-01",
+     "state_policy_ids": ["CT-state_setback_standard-2"],
+     "date_quote": "Added by P.A. 24-144 (Substitute HB 5507, approved 2024-06-06) sec. 5, eff. 2024-10-01"},
+    {"id": "LA-2025-HB-459", "state": "LA", "group": "state_standards", "effective": "2025-08-01",
+     "state_policy_ids": ["LA-state_setback_standard-1"],
+     "date_quote": "Enacted by 2025 La. Acts No. 279 (HB 459, eff. 2025-08-01)"},
+    {"id": "OH-2021-SB-52", "state": "OH", "group": "expands_local", "effective": "2021-10-11",
+     "state_policy_ids": ["OH-local_opt_out-1"],
+     "date_quote": "show only the SB 52 enactment (eff. 2021-10-11)"},
+    {"id": "ME-PL-2021-c407", "state": "ME", "group": "state_ban", "effective": "2021-07-06",
+     "state_policy_ids": ["ME-state_moratorium-1"],
+     "date_quote": "Enacted by PL 2021, c. 407 (emergency, signed 2021-07-06)"},
+    {"id": "FL-2024-HB-1645", "state": "FL", "group": "state_ban", "effective": "2024-07-01",
+     "state_policy_ids": ["FL-state_moratorium-1"],
+     "date_quote": "Created by s. 12, ch. 2024-186 (CS/HB 1645), eff. 2024-07-01"}
+  ],
+  "_precedents_left_out": [
+    "Laws already in the record but not listed, because the dated change is not a new law of the kind: MN-local_preemption-1 (2025 renumbering of an older preemption), CA-local_preemption-1 (2025 amendment of the 2022 opt-in process), OH-local_preemption-1 (2019 amendment), NY-state_setback_standard-1 (2024 and 2026 rules replacing earlier ones). IL-local_preemption-1 (P.A. 102-1123, 2023) is left out because the record gives no effective date, only the filing cutoff for exempt projects."
+  ],
+  "bills": [],
+  "recent_record_all_states": true
+}
