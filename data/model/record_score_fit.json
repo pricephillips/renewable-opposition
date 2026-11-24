@@ -1,26 +1,26 @@
 {
-  "cases": 158,
-  "county_has_instrument": 97,
-  "instrument_undated": 93,
-  "auc_p10": 0.458,
-  "auc_p50": 0.489,
-  "auc_p90": 0.501,
+  "cases": 161,
+  "county_has_instrument": 99,
+  "instrument_undated": 95,
+  "auc_p10": 0.49,
+  "auc_p50": 0.5,
+  "auc_p90": 0.509,
   "rubric_auc": 0.501,
   "features": {
     "pause_new": {
-      "coef": 0.405,
+      "coef": 0.399,
       "min": 0.0,
-      "median": 0.406,
-      "max": 0.422,
+      "median": 0.399,
+      "max": 0.409,
       "sign_stable": false,
       "cases_with": 1,
       "blocked_share_with": 1.0
     },
     "pause_long": {
-      "coef": 0.405,
+      "coef": 0.399,
       "min": 0.0,
-      "median": 0.406,
-      "max": 0.422,
+      "median": 0.4,
+      "max": 0.409,
       "sign_stable": false,
       "cases_with": 1,
       "blocked_share_with": 1.0
@@ -44,51 +44,51 @@
       "blocked_share_with": 0.0
     },
     "standards": {
-      "coef": -0.668,
-      "min": -0.676,
-      "median": -0.66,
+      "coef": -0.677,
+      "min": -0.686,
+      "median": -0.673,
       "max": 0.0,
       "sign_stable": false,
       "cases_with": 2,
       "blocked_share_with": 0.0
     },
     "organized": {
-      "coef": -0.32,
-      "min": -0.684,
-      "median": -0.336,
-      "max": 0.075,
+      "coef": -0.351,
+      "min": -0.579,
+      "median": -0.322,
+      "max": 0.026,
       "sign_stable": false,
       "cases_with": 13,
       "blocked_share_with": 0.385
     }
   },
   "gate": {
-    "n": 158,
-    "positives": 76,
-    "base_rate": 0.481,
-    "brier": 0.2502,
-    "brier_baseline": 0.2496,
-    "brier_skill_score": -0.0024,
-    "ece": 0.0239,
+    "n": 161,
+    "positives": 79,
+    "base_rate": 0.4907,
+    "brier": 0.2495,
+    "brier_baseline": 0.2499,
+    "brier_skill_score": 0.0017,
+    "ece": 0.018,
     "reliability": [
       {
         "lo": 0.2,
         "hi": 0.4,
-        "count": 3,
-        "mean_pred": 0.3793,
-        "observed": 1.0
+        "count": 4,
+        "mean_pred": 0.387,
+        "observed": 0.75
       },
       {
         "lo": 0.4,
         "hi": 0.6,
-        "count": 155,
-        "mean_pred": 0.4833,
-        "observed": 0.471
+        "count": 157,
+        "mean_pred": 0.4933,
+        "observed": 0.4841
       }
     ],
     "verdict": "HOLD",
     "reasons": [
-      "NO_SKILL: Brier skill -0.002 < 0.05"
+      "NO_SKILL: Brier skill 0.002 < 0.05"
     ]
   }
 }

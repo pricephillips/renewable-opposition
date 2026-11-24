@@ -2,11 +2,11 @@
 ["adjacency_worklist","Counties next to a recent restriction that nobody has checked",251],
 ["cases_candidates","Litigated projects waiting for a court record",190],
 ["coverage_gaps","Moratoria found in only one of the two compiled sources",177],
-["examination_worklist","Counties to examine, check again, or whose drafted check awaits review",1729],
+["examination_worklist","Counties to examine, check again, or whose drafted check awaits review",1730],
 ["geoid_worklist","Named jurisdictions no single Census government fits",28],
 ["group_review","Opposition groups held back until a source names them",7],
 ["negative_check_worklist","Profiled counties with no restriction and no documented check",8],
-["outcome_worklist","Contested-project outcomes not yet confirmed by a source someone read",371],
+["outcome_worklist","Contested-project outcomes not yet confirmed by a source someone read",367],
 ["queue","Candidate records waiting for a reviewer",2],
-["restriction_worklist","Restrictions whose instrument or adopting minutes nobody has read yet",3130]
+["restriction_worklist","Restrictions whose instrument or adopting minutes nobody has read yet",3116]
 ]}

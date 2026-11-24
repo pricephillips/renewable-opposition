@@ -1,26 +1,26 @@
 {
- "generated": "2026-11-21",
+ "generated": "2026-11-24",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
-  "restriction_instruments": 3248,
-  "severe": 1273,
+  "restriction_instruments": 3234,
+  "severe": 1259,
   "verified": 206,
-  "lapsed_unconfirmed": 71,
-  "severe_where_state_limits_local": 880,
+  "lapsed_unconfirmed": 58,
+  "severe_where_state_limits_local": 871,
   "projects": 579,
-  "projects_confirmed": 191,
+  "projects_confirmed": 194,
   "decided": {
    "guard_days": 90,
    "young_excluded": 3,
    "all": {
-    "projects": 354,
-    "blocked": 233,
-    "blocked_share": 0.658
+    "projects": 353,
+    "blocked": 232,
+    "blocked_share": 0.657
    },
    "confirmed_only": {
-    "projects": 190,
-    "blocked": 95,
-    "blocked_share": 0.5
+    "projects": 193,
+    "blocked": 98,
+    "blocked_share": 0.508
    },
    "by_technology": {
     "battery_storage": {
@@ -39,39 +39,39 @@
      "blocked_share": 0.375
     },
     "wind": {
-     "projects": 154,
-     "blocked": 86,
-     "blocked_share": 0.558
+     "projects": 153,
+     "blocked": 85,
+     "blocked_share": 0.556
     }
    }
   },
   "cases": 39,
   "county_coverage": {
    "counties": 3144,
-   "with_any_record": 1414,
-   "with_restriction": 1227,
+   "with_any_record": 1413,
+   "with_restriction": 1226,
    "with_contested_project": 458,
    "with_siting_standard": 1158,
    "with_negative_check": 1,
    "with_negative_check_and_no_record": 1,
-   "with_neither": 1729
+   "with_neither": 1730
   }
  },
  "quarantine": {
-  "rows": 138,
+  "rows": 156,
   "by_entity": {
-   "restrictions": 138
+   "restrictions": 156
   },
   "by_blocking_code": {
-   "PRIMARY_SOURCE_CONTRADICTS": 130,
+   "PRIMARY_SOURCE_CONTRADICTS": 148,
    "SCOPE_DATA_CENTER_ONLY": 8
   }
  },
  "worklists": {
   "outcomes": {
-   "rows": 371,
+   "rows": 367,
    "by_tier": {
-    "blocked_unverified": 138,
+    "blocked_unverified": 134,
     "advanced_unverified": 23,
     "needs_review": 24,
     "pending": 186
@@ -81,21 +81,21 @@
    "with_located_url": 0
   },
   "restrictions": {
-   "rows": 3130,
+   "rows": 3116,
    "by_tier": {
     "compiled_flagged": 2213,
     "compiled_record": 115,
-    "report_citation": 783,
+    "report_citation": 769,
     "primary_source": 19
    },
-   "lapsed": 76,
+   "lapsed": 63,
    "by_county_impact": {
-    "none": 2484,
+    "none": 2470,
     "sole_severe": 287,
     "sole_record": 359
    },
    "with_located_url": 6,
-   "flagged": 499
+   "flagged": 486
   },
   "negative_checks": {
    "rows": 8,
@@ -208,30 +208,30 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 216,
+  "snapshot_rows": 222,
   "snapshot_files": 5,
-  "headline_history_rows": 27,
+  "headline_history_rows": 28,
   "headline_first_change": "2026-09-29",
-  "headline_last_change": "2026-11-21",
+  "headline_last_change": "2026-11-24",
   "latest": {
-   "restrictions": "3248",
-   "severe_restrictions": "1273",
+   "restrictions": "3234",
+   "severe_restrictions": "1259",
    "verified_restrictions": "206",
    "multi_sector_restrictions": "81",
    "contested_projects": "579",
-   "confirmed_outcomes": "191",
-   "verified_projects": "209",
+   "confirmed_outcomes": "194",
+   "verified_projects": "213",
    "cases": "39",
    "siting_standard_rows": "23778",
    "state_policies": "123",
-   "counties_with_records": "1414",
-   "counties_not_examined": "1729"
+   "counties_with_records": "1413",
+   "counties_not_examined": "1730"
   }
  },
  "source_archive": {
   "sources": 87,
-  "archived": 44,
-  "archived_share": 0.506
+  "archived": 50,
+  "archived_share": 0.575
  },
  "evidence_checks": {
   "restriction_sources": {
@@ -250,10 +250,10 @@
     "contradicts": 97
    },
    "Sabin": {
-    "access_opened": 32,
-    "checked": 32,
+    "access_opened": 46,
+    "checked": 46,
     "confirmed": 20,
-    "contradicts": 12
+    "contradicts": 26
    },
    "review queue": {
     "access_opened": 1,
@@ -262,16 +262,16 @@
    }
   },
   "outcome_resolutions": {
-   "rows": 197,
+   "rows": 201,
    "by_outcome": {
+    "blocked_confirmed": 94,
     "advanced_confirmed": 93,
-    "blocked_confirmed": 91,
-    "pending": 11,
+    "pending": 12,
     "restricted_conditional": 2
    },
    "by_access": {
     "archived": 7,
-    "opened": 190
+    "opened": 194
    }
   }
  },
