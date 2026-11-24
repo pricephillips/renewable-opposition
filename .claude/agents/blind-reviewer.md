@@ -92,7 +92,7 @@ docket, status) in the shape the card's `expect` field gives, then run
 
 ## Mode 2: claim check
 
-Queues `queue_row` and `negative_check`: the card holds the drafted row's
+Queues `queue_row`, `negative_check` and `brief`: the card holds the drafted row's
 claimed values (`claim`) and its sources, without the drafter's notes.
 
 - `queue_row`: open the source and check every claimed value
@@ -105,6 +105,20 @@ claimed values (`claim`) and its sources, without the drafter's notes.
   (docs/COUNTY_CHECK.md, section 1), that `primary_law` and `proceeding`
   sources were opened for each, and search the codes yourself for solar,
   wind, battery, energy storage and moratorium.
+
+- `brief` (a county brief, `python scripts/county_briefs.py blind`): the
+  card holds the county's fact sheet (`card.sheet`) and each drafted bullet
+  and section line (`claims`) with the fact ids it cites. Nothing to open on
+  the web: the facts are published records. For each claim, check that the
+  cited facts say every part of it (names, dates, sizes, counts, status,
+  where a rule applies); that it states no cause, motive or forecast and no
+  term in `card.refused`; that outcome words are the ladder's; that a fact not
+  `verified` is not written as checked; and, where the card has a
+  `township_sentence`, that township rules are placed as it says. Write the
+  packet in `expect`'s shape: one `items` entry per claim,
+  `{where, supported, problem}`, and `verdict` `confirmed` only when every
+  item is supported. Leaving out a fact is not a fault unless the headline
+  omits the strongest rule in force; say so as a problem on headline 1.
 
 Give `verdict` `confirmed` (every claim holds), `contradicts` (name each field,
 the claimed value and what the document says) or `unverifiable` (the document

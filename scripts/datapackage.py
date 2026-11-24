@@ -51,12 +51,26 @@ RESOURCES = {
     "county_summary": ("One row per county: published records counted by instrument, and how the "
                        "county stands (record, negative check or none).",
                        ["sabin", "moratorium_nation", "nrel", "review", "census"]),
+    "county_briefs": ("Plain-English county briefs: one row per headline bullet or section line, each "
+                      "citing the published records it rests on (scripts/county_briefs.py).", ["review"]),
     "sources": ("One row per cited source document, with its Internet Archive snapshot.", ["review"]),
     "group_registry": ("Opposition groups named in the records, with the sources that name them.",
                        ["sabin", "review"]),
 }
 
 DESCRIPTIONS = {
+    "brief_row_id": "<fips>:<part>:<position>; one county brief bullet or section line.",
+    "part": "headline for a top-of-page bullet, else the page section the line opens.",
+    "position": "The bullet's order in the headline; 1 for a section line.",
+    "text": "The plain-English bullet or line, drafted from the records in facts and checked by a second agent.",
+    "facts": "The published record ids the text rests on, semicolon-separated.",
+    "facts_digest": "SHA-256 of the county's fact sheet when the brief was drafted; a brief whose records "
+                    "have changed since is held back.",
+    "drafter": "The agent that drafted the brief.",
+    "reviewer": "The agent that checked every item against its facts.",
+    "drafted_on": "Date drafted.",
+    "reviewed_on": "Date reviewed.",
+    "product": "renewables (the format is shared with the data center platform).",
     "id": "Stable record id; never renumbered between builds.",
     "instrument_id": "One ordinance, moratorium, project or case. Count these, not rows.",
     "source_id": "Hash of the normalized source URL; joins sources.csv.",

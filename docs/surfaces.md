@@ -18,6 +18,7 @@ published as a download, or internal with a reason.
 | `data/db/parquet/county.parquet` | national-dashboard.js |
 | `data/db/parquet/county_adjacency.parquet` | national-dashboard.js |
 | `data/db/parquet/county_pending_review.parquet` | national-dashboard.js |
+| `data/db/parquet/county_variable.parquet` | national-dashboard.js |
 | `data/db/parquet/data_center_event.parquet` | national-dashboard.js |
 | `data/db/parquet/evidence_link.parquet` | national-dashboard.js |
 | `data/db/parquet/government.parquet` | national-dashboard.js |
@@ -37,12 +38,14 @@ published as a download, or internal with a reason.
 | `data/db/parquet/state_policy.parquet` | national-dashboard.js |
 | `data/db/parquet/v_county_coverage_totals.parquet` | national-dashboard.js |
 | `data/db/parquet/v_county_summary.parquet` | national-dashboard.js |
+| `data/db/parquet/v_county_variables.parquet` | national-dashboard.js |
 | `data/db/parquet/v_geoid_coverage.parquet` | national-dashboard.js |
 | `data/db/parquet/v_headline_by_source.parquet` | national-dashboard.js |
 | `data/db/parquet/v_headline_restrictions.parquet` | national-dashboard.js |
 | `data/db/parquet/v_restrictions_by_month.parquet` | national-dashboard.js |
 | `data/db/parquet/v_restrictions_by_year.parquet` | national-dashboard.js |
 | `data/db/parquet/v_state_summary.parquet` | national-dashboard.js |
+| `data/db/parquet/variable.parquet` | national-dashboard.js |
 | `data/db/parquet/worklist_size.parquet` | national-dashboard.js |
 | `data/db/record_index.json` | national-dashboard.js |
 | `data/db/state/AK.json` | national-dashboard.js |
@@ -130,4 +133,6 @@ published as a download, or internal with a reason.
 | `data/snapshots/headline_history.csv` | downloads: the headline figures by day; the dashboard reads data/db/history.json, built from it |
 | `data/snapshots/manifest.csv` | national-dashboard.js |
 
-120 outputs; 0 finding(s).
+123 outputs; 1 finding(s).
+
+- stale entry: downloads lists data/processed/county_briefs.json, which is not in the repository

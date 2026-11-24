@@ -1,0 +1,400 @@
+{
+ "_comment": "Written by scripts/county_briefs.py publish; do not edit. Briefs that pass brief_core.check against the county's current fact sheet, one per county.",
+ "format": "county_brief",
+ "format_version": 1,
+ "product": "renewables",
+ "as_of": "2026-11-23",
+ "sections": [
+  "renewables",
+  "state_rules",
+  "renewable_projects",
+  "renewable_cases"
+ ],
+ "briefs": [
+  {
+   "as_of": "2026-11-23",
+   "facts_digest": "2f7b1f28d5e6cb91200d8f522931073e68a456d52de235a7ff5723d1b53812aa",
+   "fips": "17173",
+   "format": "county_brief",
+   "format_version": 1,
+   "headline": [
+    {
+     "facts": [
+      "queue:q_93d5a7953c"
+     ],
+     "text": "Shelby County's solar, wind and energy storage standards are in force: the County Board amended them by Resolution 2026-15 on May 14, 2026 (13 ayes, 3 nays). Commercial solar, wind and storage need a special use permit from the County Board on the Zoning Board of Appeals' recommendation."
+    },
+    {
+     "facts": [
+      "IL-siting_authority-1",
+      "IL-local_preemption-1"
+     ],
+     "text": "Under Illinois law, counties grant siting approval within state limits and must approve compliant applications. Since June 1, 2026 the Illinois Commerce Commission may issue a siting certificate for a facility of 50 MW or more in unincorporated areas when a county denies or fails to act in violation of the state siting law."
+    },
+    {
+     "facts": [
+      "con_3b25daf340"
+     ],
+     "text": "Grain Belt Express, a high-voltage direct current power line of which Clean Line Energy proposed in 2015 to build 207 miles between the Mississippi River and the Indiana border, is pending. This record is not yet checked against the instrument itself."
+    },
+    {
+     "facts": [
+      "queue:q_961a84dda5"
+     ],
+     "text": "A self-executing moratorium on solar and wind, which the County Board added to the zoning ordinance by Resolution 2025-19 on April 10, 2025 (21 yes, 0 no), is pending and not in force. The record shows it not in effect as of October 29, 2026."
+    }
+   ],
+   "made_by": {
+    "commit": "5a7210e",
+    "config_version": "2026-11-24",
+    "drafted_on": "2026-11-24",
+    "drafter": "agent:brief-drafter-2 (Claude Code, 2026-11-24)",
+    "reviewed_on": "2026-11-24",
+    "reviewer": "agent:blind-reviewer-5 (Claude Code, 2026-11-24)"
+   },
+   "product": "renewables",
+   "sections": {
+    "renewable_projects": {
+     "facts": [
+      "con_3b25daf340"
+     ],
+     "text": "One contested project is on record: Grain Belt Express, a high-voltage direct current power line with 207 miles proposed in 2015 between the Mississippi River and the Indiana border, is pending. This record is not yet checked against the instrument itself."
+    },
+    "renewables": {
+     "facts": [
+      "queue:q_93d5a7953c",
+      "nrel:wind:17173",
+      "queue:q_961a84dda5"
+     ],
+     "text": "Three county rules are on record: the zoning ordinance's solar, wind and storage standards, amended May 14, 2026 and in force; NREL's compilation of the wind ordinance (a setback of 2.1 times tip height and a 30-hour yearly shadow flicker limit), with no currency on record; and an April 10, 2025 moratorium, which is pending and not in force."
+    },
+    "state_rules": {
+     "facts": [
+      "IL-siting_authority-1",
+      "IL-local_preemption-1",
+      "IL-state_setback_standard-1",
+      "IL-local_preemption-3"
+     ],
+     "text": "Illinois counties approve wind, solar and storage projects within state limits, with setbacks of at most 2.1 times blade-tip height from nonparticipating homes for wind and 150 feet for solar. Since June 1, 2026 the Illinois Commerce Commission may certify a facility of 50 MW or more in unincorporated areas when a county violates the state siting law."
+    }
+   }
+  },
+  {
+   "as_of": "2026-11-23",
+   "facts_digest": "d5f2c4d964fc7c0b1ebd4f53e965aec32a488a6980e3bfd96dc268f48d10a64a",
+   "fips": "19113",
+   "format": "county_brief",
+   "format_version": 1,
+   "headline": [
+    {
+     "facts": [
+      "queue:q_82dfad9133"
+     ],
+     "text": "Linn County's siting rules for utility-scale solar and battery storage, adopted September 20, 2023 in its Unified Development Code, are in force. They set solar equipment 300 feet from dwellings and battery storage 500 feet from off-site occupied structures unless waived, and require rezoning to the Renewable Energy overlay district."
+    },
+    {
+     "facts": [
+      "IA-siting_authority-1",
+      "IA-local_preemption-1"
+     ],
+     "text": "Under Iowa law, a plant of 25 MW or more, or storage of 25 MWh or more, needs a certificate from the Iowa Utilities Commission, and once it issues no county may require any further approval for construction. Smaller facilities are left to county and city zoning."
+    },
+    {
+     "facts": [
+      "con_9df550d5b2",
+      "case_15bb824675"
+     ],
+     "text": "Coggon Solar, a 100 MW, 640-acre solar project, advanced and is under construction. In Robinson v. Linn County Board of Supervisors (No. 23-0705), the Iowa Court of Appeals ruled for the developer."
+    },
+    {
+     "facts": [
+      "con_e2cc59f0e7"
+     ],
+     "text": "The Duane Arnold Solar Projects, near the decommissioned Duane Arnold nuclear plant, advanced and are operating. Palo-area residents filed a lawsuit in 2022 opposing the rezoning of land for them."
+    },
+    {
+     "facts": [
+      "con_9df550d5b2",
+      "con_e2cc59f0e7"
+     ],
+     "text": "The record gives June 5, 2024 as the resolution date for Coggon Solar and December 2024 for the Duane Arnold Solar Projects."
+    }
+   ],
+   "made_by": {
+    "commit": "5a7210e",
+    "config_version": "2026-11-24",
+    "drafted_on": "2026-11-24",
+    "drafter": "agent:brief-drafter-2 (Claude Code, 2026-11-24)",
+    "reviewed_on": "2026-11-24",
+    "reviewer": "agent:blind-reviewer-4 (Claude Code, 2026-11-24)"
+   },
+   "product": "renewables",
+   "sections": {
+    "renewable_cases": {
+     "facts": [
+      "case_15bb824675"
+     ],
+     "text": "One case is on record: in Robinson v. Linn County Board of Supervisors (No. 23-0705), over Coggon Solar, the Iowa Court of Appeals ruled for the developer."
+    },
+    "renewable_projects": {
+     "facts": [
+      "con_9df550d5b2",
+      "con_e2cc59f0e7"
+     ],
+     "text": "Two contested solar projects are on record, both advanced: Coggon Solar (100 MW, 640 acres), under construction, and the Duane Arnold Solar Projects, operating. Palo-area residents filed a lawsuit in 2022 opposing the rezoning of land for the Duane Arnold projects."
+    },
+    "renewables": {
+     "facts": [
+      "queue:q_82dfad9133",
+      "nrel:wind:19113"
+     ],
+     "text": "Townships in Iowa do not zone, so rules for unincorporated land come from the county. The 2023 solar and battery storage siting rules are in force, and NREL's compilation of the wind ordinance (a 55 dBA noise limit) has no currency on record and is not yet checked against the instrument itself."
+    },
+    "state_rules": {
+     "facts": [
+      "IA-siting_authority-1",
+      "IA-local_preemption-1"
+     ],
+     "text": "A plant of 25 MW or more, or storage of 25 MWh or more, needs a certificate from the Iowa Utilities Commission, and once it issues no city or county may require further approval for construction. Smaller facilities are left to county and city zoning."
+    }
+   }
+  },
+  {
+   "as_of": "2026-11-23",
+   "facts_digest": "fe0ebb86f47f9a33130e5f36f7b8f1b637e748c9d8e471f0950137592e7e680a",
+   "fips": "20021",
+   "format": "county_brief",
+   "format_version": 1,
+   "headline": [
+    {
+     "facts": [
+      "queue:q_011039b3ee"
+     ],
+     "text": "Cherokee County has a moratorium in force on approving the use of county roads, resources or infrastructure for commercial wind, solar and battery storage projects, among other uses, with a ban on building them in the unincorporated county during its term. The county adopted it on December 22, 2025 and re-adopted it on June 8, 2026."
+    },
+    {
+     "facts": [
+      "sabin:REC-0122"
+     ],
+     "text": "A county resolution adopted October 3, 2022 regulates industrial-scale wind turbines with a 5,250-foot setback from the nearest property line, a 440-foot height limit and a 39 dBA noise limit from 10 p.m. to 7 a.m."
+    },
+    {
+     "facts": [
+      "KS-siting_authority-1",
+      "KS-other-1"
+     ],
+     "text": "Kansas leaves wind and solar siting to cities and counties through planning and zoning, and no state body sites these projects. Neither utilities nor developers may condemn land for these facilities."
+    },
+    {
+     "facts": [
+      "con_b6d7252c8a"
+     ],
+     "text": "Clearway Energy's proposed Rainbow Springs Solar project is on record as pending since December 2025."
+    },
+    {
+     "facts": [
+      "queue:q_011039b3ee"
+     ],
+     "text": "The moratorium runs through March 31, 2027."
+    }
+   ],
+   "made_by": {
+    "commit": "3bf1ef2",
+    "config_version": "2026-11-24",
+    "drafted_on": "2026-11-24",
+    "drafter": "agent:brief-drafter-1 (Claude Code, 2026-11-24)",
+    "reviewed_on": "2026-11-24",
+    "reviewer": "agent:blind-reviewer-3 (Claude Code, 2026-11-24)"
+   },
+   "product": "renewables",
+   "sections": {
+    "renewable_projects": {
+     "facts": [
+      "con_b6d7252c8a"
+     ],
+     "text": "One contested project is on record: Clearway Energy's proposed Rainbow Springs Solar project, pending since December 2025."
+    },
+    "renewables": {
+     "facts": [
+      "queue:q_011039b3ee",
+      "sabin:REC-0122"
+     ],
+     "text": "Two county rules are on record and in force, both checked against the instruments themselves: a moratorium on commercial renewable energy, battery storage and other uses, through March 31, 2027, and an October 3, 2022 wind resolution with a 5,250-foot setback, a 440-foot height limit and an overnight 39 dBA noise limit."
+    },
+    "state_rules": {
+     "facts": [
+      "KS-siting_authority-1",
+      "KS-other-1"
+     ],
+     "text": "Kansas leaves wind and solar siting to cities and counties through planning and zoning, and no state body sites these projects. State law also bars utilities and developers from condemning land for them."
+    }
+   }
+  },
+  {
+   "as_of": "2026-11-23",
+   "facts_digest": "89761b342ebec144b26de14433d1906ddc470bb94ab8cb007be30351b7bafbab",
+   "fips": "21181",
+   "format": "county_brief",
+   "format_version": 1,
+   "headline": [
+    {
+     "facts": [
+      "queue:q_f97e808073",
+      "queue:q_ef439d5e2f-2"
+     ],
+     "text": "Two one-year moratoria are in force in Nicholas County: the fiscal court adopted one on wind energy projects of any size on August 14, 2026, and one on the solar systems its 2024 solar ordinance covers on September 18, 2026."
+    },
+    {
+     "facts": [
+      "queue:q_ef439d5e2f"
+     ],
+     "text": "The county's solar ordinance, passed 6-0 on June 14, 2024, requires a county license for intermediate-scale and large-scale ground-mounted solar and sets the solar footprint at least 2,000 feet from any non-participating property line and any public road or rail right-of-way."
+    },
+    {
+     "facts": [
+      "KY-siting_authority-1",
+      "KY-local_preemption-1"
+     ],
+     "text": "Under Kentucky law, a merchant plant of 10 MW or more needs a certificate from the state siting board, and local planning and zoning setbacks prevail over a conflicting board order. On May 29, 2026 the Kentucky Court of Appeals held that only a planning and zoning commission may adopt such rules, and that ruling is not final."
+    },
+    {
+     "facts": [
+      "con_b85e18adfa"
+     ],
+     "text": "South Fork Solar, Heelstone Energy's large-scale solar project on Carpenter Pike, is pending. The fiscal court voted unanimously to uphold its 2024 ordinance against Heelstone's request for an amendment, and passed the solar moratorium 5-1 on September 18, 2026."
+    },
+    {
+     "facts": [
+      "queue:q_f97e808073",
+      "queue:q_ef439d5e2f-2"
+     ],
+     "text": "The wind moratorium runs to August 14, 2027, and the solar moratorium runs to September 18, 2027."
+    }
+   ],
+   "made_by": {
+    "commit": "3bf1ef2",
+    "config_version": "2026-11-24",
+    "drafted_on": "2026-11-24",
+    "drafter": "agent:brief-drafter-1 (Claude Code, 2026-11-24)",
+    "reviewed_on": "2026-11-24",
+    "reviewer": "agent:blind-reviewer-3 (Claude Code, 2026-11-24)"
+   },
+   "product": "renewables",
+   "sections": {
+    "renewable_projects": {
+     "facts": [
+      "con_b85e18adfa"
+     ],
+     "text": "One contested project is on record: South Fork Solar, a large-scale solar project on Carpenter Pike, is pending. The fiscal court upheld its 2024 solar ordinance against the developer's amendment request and adopted a one-year solar moratorium 5-1 on September 18, 2026."
+    },
+    "renewables": {
+     "facts": [
+      "queue:q_ef439d5e2f",
+      "queue:q_ef439d5e2f-2",
+      "queue:q_f97e808073"
+     ],
+     "text": "Three county rules are on record and in force, all checked against the instruments themselves: the June 2024 solar ordinance with its 2,000-foot setback, and one-year moratoria on wind (August 14, 2026) and on solar (September 18, 2026)."
+    },
+    "state_rules": {
+     "facts": [
+      "KY-siting_authority-1",
+      "KY-state_setback_standard-1",
+      "KY-local_preemption-1"
+     ],
+     "text": "The state siting board certifies merchant plants of 10 MW or more, with wind turbines at least 1,000 feet from property lines and all plants 2,000 feet from residential neighborhoods, schools, hospitals and nursing homes. Local zoning setbacks prevail where adopted, and a May 29, 2026 Court of Appeals ruling, not yet final, limits them to planning and zoning commissions."
+    }
+   }
+  },
+  {
+   "as_of": "2026-11-23",
+   "facts_digest": "a570c5ce5e281b758b13c8c19da591362ca06ce7a17904079ba0f4002b7a33f7",
+   "fips": "36029",
+   "format": "county_brief",
+   "format_version": 1,
+   "headline": [
+    {
+     "facts": [
+      "mn:ny-concord-2024",
+      "mn:ny-concord-2024-2"
+     ],
+     "text": "Two Town of Concord moratoria are in force, one on battery energy storage and one on solar, and they apply only in Concord. The town board extended both for six months on June 11, 2026, the storage moratorium to about December 2026."
+    },
+    {
+     "facts": [
+      "NY-siting_authority-1",
+      "NY-local_preemption-1"
+     ],
+     "text": "New York's Office of Renewable Energy Siting and Electric Transmission (ORES) permits renewable facilities of 25 MW or more and may decline to apply a local law it finds unreasonably burdensome. Smaller facilities stay under municipal land use control, and stand-alone battery storage is outside the ORES rules."
+    },
+    {
+     "facts": [
+      "mn:ny-boston-erie-county-2024",
+      "mn:ny-aurora-erie-county-2025",
+      "mn:ny-eden-2025"
+     ],
+     "text": "Boston's town board extended its battery storage moratorium on December 3, 2025. In Aurora and Eden, the record's end dates for their battery storage moratoria (June 9, 2026 and September 30, 2026) have passed, and no later extension is on record. The Boston and Aurora records are not yet checked against the instruments themselves."
+    },
+    {
+     "facts": [
+      "nrel:wind:3602975000",
+      "nrel:solar:3602955277",
+      "nrel:wind:3602903199"
+     ],
+     "text": "As compiled by NREL, the Town of Tonawanda's wind ordinance includes a ban, and Orchard Park's solar ordinance and Aurora's wind ordinance include a zoning prohibition. These records apply in those towns only and are not yet checked against the instruments themselves."
+    }
+   ],
+   "made_by": {
+    "commit": "3bf1ef2",
+    "config_version": "2026-11-24",
+    "drafted_on": "2026-11-24",
+    "drafter": "agent:brief-drafter-1 (Claude Code, 2026-11-24)",
+    "reviewed_on": "2026-11-24",
+    "reviewer": "agent:blind-reviewer-3 (Claude Code, 2026-11-24)"
+   },
+   "product": "renewables",
+   "sections": {
+    "renewables": {
+     "facts": [
+      "mn:ny-aurora-erie-county-2025",
+      "mn:ny-boston-erie-county-2024",
+      "mn:ny-concord-2024",
+      "mn:ny-concord-2024-2",
+      "mn:ny-eden-2025",
+      "nrel:solar:3602901099",
+      "nrel:solar:3602902000",
+      "nrel:solar:3602903199",
+      "nrel:solar:3602907454",
+      "nrel:solar:3602917200",
+      "nrel:solar:3602923415",
+      "nrel:solar:3602924130",
+      "nrel:solar:3602924801",
+      "nrel:solar:3602929828",
+      "nrel:solar:3602935122",
+      "nrel:solar:3602941146",
+      "nrel:solar:3602951803",
+      "nrel:solar:3602955277",
+      "nrel:solar:3602965277",
+      "nrel:wind:3602903199",
+      "nrel:wind:3602907894",
+      "nrel:wind:3602911000",
+      "nrel:wind:3602923415",
+      "nrel:wind:3602935122",
+      "nrel:wind:3602945601",
+      "nrel:wind:3602951803",
+      "nrel:wind:3602975000"
+     ],
+     "text": "Two Concord moratoria are in force in that town, Boston extended its storage moratorium on December 3, 2025, and the Aurora and Eden end dates have passed with no later extension on record. NREL compiled solar or wind ordinances for many towns and Buffalo, and these and the Boston and Aurora records are not yet checked against the instruments."
+    },
+    "state_rules": {
+     "facts": [
+      "NY-siting_authority-1",
+      "NY-state_setback_standard-1",
+      "NY-local_preemption-1"
+     ],
+     "text": "The state siting office (ORES) permits renewable facilities of 25 MW or more under uniform state setbacks, such as 250 feet from non-participating homes for solar, and may set aside local laws it finds unreasonably burdensome. Smaller facilities stay under municipal land use control, and stand-alone battery storage is outside the ORES rules."
+    }
+   }
+  }
+ ],
+ "held": {}
+}

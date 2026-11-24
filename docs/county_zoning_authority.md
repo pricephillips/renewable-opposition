@@ -85,6 +85,16 @@ The zoning transition rule applies where three things hold: counties may stay un
 - **Kentucky.** Counties zone only through a planning unit, formed alone or jointly with their cities (KRS 100.113, 100.117). Under KRS 278.704(3) only counties with planning and zoning may set their own setbacks for merchant plants that need a Siting Board certificate; elsewhere the statutory setbacks apply. Fiscal courts can still adopt ordinances outside zoning (KRS 67.083(3)). Nicholas County adopted a solar licensing ordinance in 2024 and moratoriums on wind and on solar in 2026; its county check did not establish whether the county has planning and zoning (`docs/county_checks/2026-10-13_nicholas_ky.md`).
 - **Illinois, Wyoming and Colorado.** Counties may stay unzoned, but the transition rule does not apply, because an unzoned county can still act on wind or solar: an Illinois county may regulate wind farm siting without zoning (55 ILCS 5/5-12020, read in its version before 2023), every Wyoming county must permit wind and solar facilities (W.S. 18-5-502), and a Colorado county may require its own permit for power plants under its 1041 powers (C.R.S. 24-65.1-203).
 - **Township and town states.** In Michigan, Minnesota, North Dakota, Ohio, Pennsylvania and Wisconsin, towns or townships zone unincorporated land alone or alongside the county; in Connecticut, Maine, Massachusetts, Rhode Island, Vermont, New Jersey and New York counties have no land use role; New Hampshire counties zone only unincorporated places. A transition there would happen at the township or town level, which the rule does not model.
+- **Township rule for county briefs.** `township_land_use` records which body decides siting on unincorporated land where townships exist. The county briefs read it (`config/county_brief.json`, `township`). On 2026-11-24 one reading drafted nine states and a blind second reading checked them. Four states agree and are recorded:
+  - Iowa (`no_zoning_power`): townships do not zone, and county zoning covers land outside city limits (Iowa Code 335.3(1), chapter 359).
+  - Michigan (`own_rules_else_county`): a township with its own zoning ordinance is not subject to county zoning (MCL 125.3209).
+  - Pennsylvania (`own_rules_else_county`): county zoning applies only in municipalities, townships included, that have no zoning ordinance (MPC 602).
+  - Ohio (`own_rules_else_county`, medium confidence): township zoning approved before county rural zoning takes precedence (ORC 519.02, 303.22). Under ORC 303.58 the county commissioners, not the township, may bar large wind and solar.
+
+  Five states are left out for now:
+  - Illinois, Wisconsin and Indiana: the second reading could not open the state statute sites, so the first reading is unchecked. The first reading found that an Illinois township may zone only where the county has no zoning (60 ILCS 1/110-5).
+  - Minnesota: towns may zone, but once a county adopts controls a town may only be stricter, so none of the four roles fits.
+  - North Dakota: the statute that set the township and county order (NDCC 11-33-20) was repealed in 2015, and no current statute replaces it.
 
 ## Leads found during the survey
 

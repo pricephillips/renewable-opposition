@@ -346,7 +346,33 @@
           "url": "https://www.legis.iowa.gov/docs/code/331.301.pdf",
           "opened": true
         }
-      ]
+      ],
+      "township_land_use": {
+        "role": "no_zoning_power",
+        "basis": "statute",
+        "confidence": "high",
+        "statement": "Iowa county zoning covers all land in the county outside city limits. The township chapter of the Iowa Code gives townships no zoning power, so the county decides in unincorporated areas.",
+        "state_siting_override": "",
+        "citations": [
+          {
+            "cite": "Iowa Code 335.3(1)",
+            "url": "https://www.legis.iowa.gov/docs/code/335.3.pdf",
+            "opened": true
+          },
+          {
+            "cite": "Iowa Code chapter 359 (Townships and Township Officers)",
+            "url": "https://www.legis.iowa.gov/docs/code/359.pdf",
+            "opened": true
+          },
+          {
+            "cite": "Iowa Code 335.2 (farms exempt)",
+            "url": "https://www.legis.iowa.gov/docs/code/335.2.pdf",
+            "opened": true
+          }
+        ],
+        "as_of": "2026-11-24",
+        "checked_by": "agent:township-drafter-1 and agent:blind-reviewer-2 (Claude Code, 2026-11-24)"
+      }
     },
     "ID": {
       "county_zoning_power": "general",
@@ -644,7 +670,38 @@
           "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1223",
           "opened": true
         }
-      ]
+      ],
+      "township_land_use": {
+        "role": "own_rules_else_county",
+        "basis": "statute",
+        "confidence": "high",
+        "statement": "Michigan townships may zone the land outside cities and villages. A township that has its own zoning ordinance is not subject to county zoning; in a township without one, county zoning (if any) applies.",
+        "state_siting_override": "PA 233 of 2023 (MCL 460.1221 et seq., effective Nov. 29, 2024) lets developers of solar of 50 MW or more, wind of 100 MW or more, and storage of 50 MW and 200 MWh or more seek a siting certificate from the Public Service Commission instead of local approval.",
+        "citations": [
+          {
+            "cite": "MCL 125.3201(1)",
+            "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-3201",
+            "opened": true
+          },
+          {
+            "cite": "MCL 125.3102(o), (x)",
+            "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-3102",
+            "opened": true
+          },
+          {
+            "cite": "MCL 125.3209",
+            "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-3209",
+            "opened": true
+          },
+          {
+            "cite": "MCL 460.1222",
+            "url": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1222",
+            "opened": true
+          }
+        ],
+        "as_of": "2026-11-24",
+        "checked_by": "agent:township-drafter-1 and agent:blind-reviewer-2 (Claude Code, 2026-11-24)"
+      }
     },
     "MN": {
       "county_zoning_power": "optional",
@@ -1023,7 +1080,48 @@
           "url": "https://codes.ohio.gov/ohio-revised-code/section-303.58",
           "opened": true
         }
-      ]
+      ],
+      "township_land_use": {
+        "role": "own_rules_else_county",
+        "basis": "statute",
+        "confidence": "medium",
+        "statement": "Ohio township trustees may adopt zoning for the township's unincorporated territory. Where township zoning was approved before county rural zoning, the township resolution takes precedence unless the township's voters choose county zoning instead.",
+        "state_siting_override": "Wind farms of 5 MW or more and large solar facilities are certified by the Power Siting Board, and no political subdivision may require its own approval for a certificated facility (ORC 4906.13); under SB 52 (ORC 303.58) the board of county commissioners, not the township, may designate restricted areas that bar large wind and solar.",
+        "citations": [
+          {
+            "cite": "ORC 519.02(A)",
+            "url": "https://codes.ohio.gov/ohio-revised-code/section-519.02",
+            "opened": true
+          },
+          {
+            "cite": "ORC 303.22",
+            "url": "https://codes.ohio.gov/ohio-revised-code/section-303.22",
+            "opened": true
+          },
+          {
+            "cite": "ORC 519.211(A)",
+            "url": "https://codes.ohio.gov/ohio-revised-code/section-519.211",
+            "opened": true
+          },
+          {
+            "cite": "ORC 303.58(A) (SB 52 of 2021, amended HB 497 of 2024)",
+            "url": "https://codes.ohio.gov/ohio-revised-code/section-303.58",
+            "opened": true
+          },
+          {
+            "cite": "ORC 4906.13(A), (B)",
+            "url": "https://codes.ohio.gov/ohio-revised-code/section-4906.13",
+            "opened": true
+          },
+          {
+            "cite": "ORC 303.57(B)",
+            "url": "https://codes.ohio.gov/ohio-revised-code/section-303.57",
+            "opened": true
+          }
+        ],
+        "as_of": "2026-11-24",
+        "checked_by": "agent:township-drafter-1 and agent:blind-reviewer-2 (Claude Code, 2026-11-24)"
+      }
     },
     "OK": {
       "county_zoning_power": "limited",
@@ -1116,7 +1214,28 @@
           "url": "https://indianlakepa.gov/FILES/REFERENCE/PLANNING/DCED%20Planning%20Series/04%20Zoning.pdf",
           "opened": true
         }
-      ]
+      ],
+      "township_land_use": {
+        "role": "own_rules_else_county",
+        "basis": "statute",
+        "confidence": "high",
+        "statement": "Pennsylvania townships are municipalities under the Municipalities Planning Code and may adopt zoning. County zoning reaches only municipalities with no zoning ordinance, and a municipal ordinance repeals the county ordinance within that municipality.",
+        "state_siting_override": "",
+        "citations": [
+          {
+            "cite": "53 P.S. 10601 (MPC Section 601)",
+            "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1968/0/0247..HTM",
+            "opened": true
+          },
+          {
+            "cite": "53 P.S. 10602 (MPC Section 602)",
+            "url": "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1968/0/0247..HTM",
+            "opened": true
+          }
+        ],
+        "as_of": "2026-11-24",
+        "checked_by": "agent:township-drafter-1 and agent:blind-reviewer-2 (Claude Code, 2026-11-24)"
+      }
     },
     "RI": {
       "county_zoning_power": "no_county_land_use",

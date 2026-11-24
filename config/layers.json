@@ -270,6 +270,11 @@
     "data/processed/operations_summary.json": {"layer": "derived", "writers": ["scripts/operations_summary.py"]},
     "data/processed/operations_summary.md": {"layer": "derived", "writers": ["scripts/operations_summary.py"]},
     "data/processed/county_typology.csv": {"layer": "derived", "writers": ["scripts/county_typology.py"]},
+    "data/processed/county_briefs.json": {"layer": "derived", "writers": ["scripts/county_briefs.py"]},
+    "data/processed/county_briefs.csv": {"layer": "derived", "writers": ["scripts/county_briefs.py"]},
+    "data/processed/datapackage.json": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py", "scripts/county_briefs.py"], "reason": "build_seed_outputs.py writes it with the other outputs; county_briefs.py publish, which runs after, rebuilds it with the same datapackage.build so its row counts include the briefs."},
+    "data/review/county_briefs.jsonl": {"layer": "review", "writers": ["scripts/county_briefs.py"], "reason": "county_briefs.py accept appends a brief only after its blind review confirms it and brief_core.check passes (docs/VERIFICATION_ROUTINE.md, section 5b)."},
+    ".packets/*": {"layer": "review", "writers": ["scripts/county_briefs.py"], "reason": "Gitignored working folder of one run. county_briefs.py blind writes the blind reviewer's card next to the draft."},
     "data/processed/*": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/db/parquet/*": {"layer": "derived", "writers": ["scripts/build_database.py"]},
     "data/db/state_summary.json": {"layer": "derived", "writers": ["scripts/build_database.py"]},
@@ -292,6 +297,7 @@
     "docs/surfaces.md": {"layer": "derived", "writers": ["scripts/surface_audit.py"]}
   },
   "crossings": {
+    "scripts/county_briefs.py": "Appends a confirmed brief (review) and publishes the briefs that still match their records (derived).",
     "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",
     "scripts/fetch_legiscan.py": "Records the LegiScan session hashes it saw (raw) and lists the bills it kept as leads (review).",
     "scripts/build_sabin_seeds.py": "Rebuilds Sabin seed rows and holds back the rows that need a reviewer.",
@@ -301,6 +307,10 @@
     "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row and records its decisions (derived)."
   },
   "dynamic": {
+    "scripts/county_briefs.py": {
+      "files": ["data/processed/county_briefs.json", "data/processed/county_briefs.csv", "data/processed/datapackage.json", ".packets/*"],
+      "reason": "publish(path) writes the JSON at path, the CSV beside it and, when path is PUBLISHED, the datapackage; tests pass a temp path. blind writes its card next to the draft it was given."
+    },
     "scripts/review_merge.py": {
       "files": ["data/review/verification_log.csv", "data/review/examination_log.csv", "data/review/restriction_sources.csv", "data/review/outcome_resolutions.csv", "data/review/status_resolutions.csv", "data/review/place_overrides.csv", "data/review/negative_checks.csv"],
       "reason": "Merges two branches' versions of the hand-kept review files by key during a git merge (docs/VERIFICATION_ROUTINE.md, 'When batches wait unmerged'). It copies rows a reviewer wrote byte for byte; the one line it writes itself is a disputed line in verification_log.csv when two branches' rows for one item disagree."

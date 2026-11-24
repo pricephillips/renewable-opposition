@@ -1303,6 +1303,87 @@
       "json_path": "county_summary.json"
     },
     {
+      "name": "county-briefs",
+      "path": "county_briefs.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "utf-8",
+      "description": "Plain-English county briefs: one row per headline bullet or section line, each citing the published records it rests on (scripts/county_briefs.py).",
+      "rows": 38,
+      "schema": {
+        "fields": [
+          {
+            "name": "brief_row_id",
+            "type": "string",
+            "description": "<fips>:<part>:<position>; one county brief bullet or section line."
+          },
+          {
+            "name": "county_fips",
+            "type": "integer",
+            "description": "The one county a county-level record covers; the county the map paints."
+          },
+          {
+            "name": "product",
+            "type": "string",
+            "description": "renewables (the format is shared with the data center platform)."
+          },
+          {
+            "name": "part",
+            "type": "string",
+            "description": "headline for a top-of-page bullet, else the page section the line opens."
+          },
+          {
+            "name": "position",
+            "type": "integer",
+            "description": "The bullet's order in the headline; 1 for a section line."
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "description": "The plain-English bullet or line, drafted from the records in facts and checked by a second agent."
+          },
+          {
+            "name": "facts",
+            "type": "string",
+            "description": "The published record ids the text rests on, semicolon-separated."
+          },
+          {
+            "name": "facts_digest",
+            "type": "string",
+            "description": "SHA-256 of the county's fact sheet when the brief was drafted; a brief whose records have changed since is held back."
+          },
+          {
+            "name": "drafter",
+            "type": "string",
+            "description": "The agent that drafted the brief."
+          },
+          {
+            "name": "reviewer",
+            "type": "string",
+            "description": "Who reviewed the row against the statute (docs/AGENT_REVIEW.md)."
+          },
+          {
+            "name": "drafted_on",
+            "type": "string",
+            "description": "Date drafted."
+          },
+          {
+            "name": "reviewed_on",
+            "type": "string",
+            "description": "The review date."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "This repository's reviewed rows (data/review/), each with its own evidence URL",
+          "path": "https://github.com/pricephillips/renewable-opposition",
+          "license": "see each evidence URL"
+        }
+      ],
+      "json_path": "county_briefs.json"
+    },
+    {
       "name": "sources",
       "path": "sources.csv",
       "format": "csv",

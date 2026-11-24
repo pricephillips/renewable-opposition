@@ -360,7 +360,7 @@ def blind_row(kind: str, key: str, queue_rows: list[dict], candidate_rows: list[
 # Queues that reconcile does not compare: the blind-row queues (cards and
 # EXPECT shapes above) and the county-examiner's `county` drafts, whose rows
 # the record-editor writes once a second reader has checked them.
-ROW_QUEUES = ("lead", "queue_row", "negative_check", "case", "county")
+ROW_QUEUES = ("lead", "queue_row", "negative_check", "case", "county", "brief")
 _FIPS = re.compile(r"^\d{5}$")
 _END = re.compile(r"^\d{4}-\d{2}(-\d{2})?$")
 CLAIM_VERDICTS = ("confirmed", "contradicts", "unverifiable")
@@ -505,6 +505,42 @@ def _check_case(p: dict) -> list[str]:
     return errors
 
 
+def _check_brief(p: dict) -> list[str]:
+    """A county brief's draft (brief-drafter) or its claim check
+    (blind-reviewer). The text itself is checked against the county's fact
+    sheet by scripts/county_briefs.py accept (brief_core.check)."""
+    errors = _note_errors(p)
+    if not re.fullmatch(r"[0-9a-f]{64}", _s(p.get("facts_digest"))):
+        errors.append("facts_digest is required: the digest on the card the brief was drafted from")
+    if _s(p.get("packet")) == "draft":
+        head = p.get("headline")
+        if not isinstance(head, list) or not head or any(
+                not isinstance(b, dict) or not _s(b.get("text")) or not b.get("facts") for b in head):
+            errors.append("headline must list bullets, each {text, facts: [fact ids]}")
+        secs = p.get("sections")
+        if not isinstance(secs, dict) or any(
+                not isinstance(v, dict) or not _s(v.get("text")) or not v.get("facts") for v in secs.values()):
+            errors.append("sections must map each section id to {text, facts: [fact ids]}")
+        return errors
+    verdict = _s(p.get("verdict"))
+    if verdict not in ("confirmed", "contradicts"):
+        return errors + [f"verdict {verdict!r} must be confirmed or contradicts"]
+    items = p.get("items") or []
+    if not isinstance(items, list) or not items or any(
+            not isinstance(i, dict) or not _s(i.get("where")) or not isinstance(i.get("supported"), bool)
+            for i in items):
+        return errors + ["items must list each bullet and section line: {where, supported (true or false), problem}"]
+    bad = [_s(i["where"]) for i in items if i["supported"] is False]
+    for i in items:
+        if i["supported"] is False and not _s(i.get("problem")):
+            errors.append(f"{_s(i['where'])}: unsupported needs a problem: what the cited facts do not say")
+    if verdict == "confirmed" and bad:
+        errors.append(f"verdict confirmed but items are unsupported ({', '.join(bad)}): that is contradicts")
+    elif verdict == "contradicts" and not bad:
+        errors.append("verdict contradicts names no unsupported item")
+    return errors
+
+
 def _check_county(p: dict) -> tuple[list[str], list[str]]:
     """A county-examiner draft (docs/COUNTY_CHECK.md): restriction rows from an
     instrument that was read, a negative check only when every government was
@@ -625,6 +661,8 @@ def check_packet(p: dict, today: date | None = None) -> tuple[list[str], list[st
             errors += _check_lead(p)
         elif queue == "case":
             errors += _check_case(p)
+        elif queue == "brief":
+            errors += _check_brief(p)
         elif queue == "county":
             errs, warns = _check_county(p)
             errors += errs
