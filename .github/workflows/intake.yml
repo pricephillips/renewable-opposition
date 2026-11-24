@@ -105,7 +105,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/raw/ data/review/queue.csv data/review/state_bill_leads.csv data/reference/legiscan_sessions.csv
+          # Add only the files that exist: the two LegiScan files do not
+          # exist until the feed's first successful run, and a missing path
+          # would stop git add before the other leads are committed.
+          for f in data/raw/ data/review/queue.csv data/review/state_bill_leads.csv data/reference/legiscan_sessions.csv; do
+            [ -e "$f" ] && git add "$f"
+          done
           git diff --cached --quiet && exit 0
           git commit -m "Live intake: raw copies, review-queue leads and state bill leads"
           # Another workflow may have moved the branch since checkout. Rebase
