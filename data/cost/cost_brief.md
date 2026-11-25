@@ -1,6 +1,6 @@
 # Cost of a siting slip: solar, wind and storage
 
-Generated November 18, 2026 by `scripts/cost_cfo.py`. **Internal, not for client delivery.** No
+Generated November 25, 2026 by `scripts/cost_cfo.py`. **Internal, not for client delivery.** No
 decision has been made about quoting these figures outside the company. (Price decided on
 October 27, 2026 how the data center rate card may be quoted.) Until Price decides for this brief,
 every section stays internal.
@@ -131,8 +131,8 @@ contested projects have no dated first request and are not in it.
 
 | Technology | Projects | First quartile | Median | Third quartile |
 |---|---|---|---|---|
-| Solar PV | 19 | 4.3 years | 6.3 years | 7.5 years |
-| Land-based wind | 19 | 4.9 years | 8.2 years | 9.8 years |
+| Solar PV | 21 | 4.5 years | 6.0 years | 7.3 years |
+| Land-based wind | 22 | 5.4 years | 8.1 years | 9.9 years |
 | Battery storage | 2 (few projects) | 5.0 years | 5.3 years | 5.6 years |
 
 ## Assumptions and sources
@@ -162,7 +162,7 @@ contested projects have no dated first request and are not in it.
 
 Hawthorn's assumptions, not published figures, each with its basis in the methodology: `capacity_price_kw_month_battery_storage`, `carrying_rate`, `construction_escalation_battery_storage`, `construction_escalation_wind`, `predevelopment_share`. Sources and what each figure includes: `data/cost/cost_methodology.md`.
 
-No anchor was past its re-verify date on November 18, 2026. The next one due is `capex_per_mw_wind`, on December 31, 2026.
+No anchor was past its re-verify date on November 25, 2026. The next one due is `capex_per_mw_wind`, on December 31, 2026.
 
 ## Applying these to a site
 
