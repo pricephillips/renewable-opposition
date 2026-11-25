@@ -121,7 +121,7 @@ county_fips,state,county,check,route,instrument_id,detail
 13247,GA,Rockdale,PAST_END_DATE,status,mn:ga-rockdale-county-undated,"Rockdale County (battery_storage): runs to 2026-10-01 (record); nothing on record says whether it was extended, replaced or lapsed"
 15003,HI,Honolulu,UNVERIFIED_IN_HEADLINE,restriction,sabin:REC-0066,"Honolulu City (wind): severity 3 in force, not yet read against its source"
 15003,HI,Honolulu,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6185,"Honolulu County (wind): severity 3 in force, not yet read against its source"
-16005,ID,Bannock,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.15, national rank 214 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+16005,ID,Bannock,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 29.14, national rank 214 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 16031,ID,Cassia,PAUSE_NO_START_DATE,restriction,sabin:S26R-6181,"Cassia County (solar): no enactment date, so its time in force is unknown"
 16031,ID,Cassia,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-6181,Cassia County (solar): the source files it as 'ban or moratorium' without saying which
 16031,ID,Cassia,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-6181,"Cassia County (solar): severity 4 in force, not yet read against its source"
@@ -1335,7 +1335,7 @@ county_fips,state,county,check,route,instrument_id,detail
 41063,OR,Wallowa,PAUSE_NO_START_DATE,restriction,sabin:S26R-5595,"Wallowa County (wind): no enactment date, so its time in force is unknown"
 41063,OR,Wallowa,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5595,Wallowa County (wind): the source files it as 'ban or moratorium' without saying which
 41063,OR,Wallowa,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5595,"Wallowa County (wind): severity 4 in force, not yet read against its source"
-41067,OR,Washington,UNVERIFIED_IN_HEADLINE,restriction,mn:or-city-of-hillsboro-2026,"City of Hillsboro (battery_storage): severity 4 in force, not yet read against its source"
+41067,OR,Washington,PAST_END_DATE,status,mn:or-city-of-hillsboro-2026,"City of Hillsboro (battery_storage): runs to 2026-11-24 (text); nothing on record says whether it was extended, replaced or lapsed"
 42003,PA,Allegheny,PAUSE_NO_START_DATE,restriction,sabin:S26R-5592,"Findlay (solar): no enactment date, so its time in force is unknown"
 42003,PA,Allegheny,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5592,Findlay (solar): the source files it as 'ban or moratorium' without saying which
 42003,PA,Allegheny,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5592,"Findlay (solar): severity 4 in force, not yet read against its source"
@@ -1611,7 +1611,7 @@ county_fips,state,county,check,route,instrument_id,detail
 51117,VA,Mecklenburg,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 30.1, national rank 188 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 51143,VA,Pittsylvania,PAUSE_NO_START_DATE,restriction,sabin:S26R-5444,"Pittsylvania County (solar): no enactment date, so its time in force is unknown"
 51143,VA,Pittsylvania,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5444,"Pittsylvania County (solar): severity 4 in force, not yet read against its source"
-51171,VA,Shenandoah,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.78, national rank 296 of 3144) with no severe instrument in force; a reader will ask what puts it there"
+51171,VA,Shenandoah,TIER_WITHOUT_INSTRUMENT,issue,,"tier severe (score 25.77, national rank 296 of 3144) with no severe instrument in force; a reader will ask what puts it there"
 51173,VA,Smyth,PAUSE_NO_START_DATE,restriction,sabin:S26R-5440,"Smyth County (wind): no enactment date, so its time in force is unknown"
 51173,VA,Smyth,BAN_OR_PAUSE_UNCLEAR,restriction,sabin:S26R-5440,Smyth County (wind): the source files it as 'ban or moratorium' without saying which
 51173,VA,Smyth,UNVERIFIED_IN_HEADLINE,restriction,sabin:S26R-5440,"Smyth County (wind): severity 4 in force, not yet read against its source"

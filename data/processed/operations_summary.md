@@ -1,6 +1,6 @@
 # Operations summary
 
-Generated 2026-11-24 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
+Generated 2026-11-25 by `scripts/operations_summary.py`. Every number counts rows another module wrote; check it against the file named in the key.
 
 ## Published
 
@@ -17,7 +17,7 @@ Decided projects (events older than 90 days): 353, of which 232 blocked; confirm
 | Worklist | Rows | Notes |
 |---|---:|---|
 | outcome_worklist.csv | 367 | 123 overdue, 10 with decision language in their text, 0 with a located source |
-| restriction_worklist.csv | 3116 | 63 lapsed, 287 sole severe in a county, 6 with a located source |
+| restriction_worklist.csv | 3116 | 64 lapsed, 287 sole severe in a county, 6 with a located source |
 | negative_check_worklist.csv | 8 | 8 no check on record |
 | adjacency_worklist.csv | 251 | neighbours of blocked projects not yet examined |
 | fips_misses.csv | 63 | 50 several_counties, 9 not_a_2024_county, 4 not_in_lookup |
@@ -78,4 +78,4 @@ Last error by source: gdelt_renewable_news (2026-11-17: 429 Client Error: Too Ma
 
 ## History and archive
 
-222 snapshot rows over 5 published files; 28 headline changes recorded (2026-09-29 to 2026-11-24). Sources: 87, of which 50 have an Internet Archive snapshot.
+223 snapshot rows over 5 published files; 28 headline changes recorded (2026-09-29 to 2026-11-24). Sources: 87, of which 50 have an Internet Archive snapshot.
