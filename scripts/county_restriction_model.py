@@ -1,4 +1,4 @@
-"""County restriction model (predictive foundation, step 2).
+"""Renewable Headwind Model, county part (predictive foundation, step 2).
 
 Fits the model config/county_model_registration.json registered on 2026-10-16,
 before any fit: which counties resemble those that enacted a severe
@@ -444,7 +444,7 @@ def fmt_vars(vs: list[str]) -> str:
 
 
 def report(results: list[dict], sens: dict) -> str:
-    L = ["# County restriction model", "",
+    L = ["# Renewable Headwind Model: county part", "",
          "Written by `scripts/county_restriction_model.py` under `config/county_model_registration.json` "
          f"(registered {REG['registered']}). Do not edit by hand.", "",
          "**What the scores are.** A resemblance to counties that enacted a severe restriction on renewable "

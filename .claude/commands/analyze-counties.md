@@ -9,7 +9,7 @@ Before starting, read `scripts/county_typology.py` (the categories and every col
 
 ## Rules
 
-- A brief describes the published record. It never explains why something happened, never predicts, and never cites the county restriction model's scores (`config/county_model_registration.json`: no score reaches a page or brief without a separate decision by Price).
+- A brief describes the published record. It never explains why something happened, never predicts, and never cites the Renewable Headwind Model's scores (`config/county_model_registration.json`: no score reaches a page or brief without a separate decision by Price).
 - Every number traces to a file under `data/processed/`. Counts are by instrument.
 - This is a prose branch: it commits only the briefs. Never commit `data/processed/`, `data/db/`, `data/snapshots/` or a worklist.
 - No em dashes in anything written.

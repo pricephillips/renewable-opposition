@@ -1,4 +1,4 @@
-# County restriction model
+# Renewable Headwind Model: county part
 
 Written by `scripts/county_restriction_model.py` under `config/county_model_registration.json` (registered 2026-10-16). Do not edit by hand.
 

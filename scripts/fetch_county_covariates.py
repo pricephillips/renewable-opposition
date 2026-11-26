@@ -1,4 +1,4 @@
-"""County covariates for the county restriction model (predictive foundation, step 1).
+"""County covariates for the Renewable Headwind Model's county part (predictive foundation, step 1).
 
 One row per 2024 county in the 50 states and DC (3,144 counties; Connecticut
 as its nine planning regions), in data/reference/county_covariates.csv:

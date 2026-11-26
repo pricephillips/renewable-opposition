@@ -39,7 +39,7 @@ Only published, generated files, all under `data/processed/`:
 - `headline_metrics.json`: the national figures to compare against.
 
 Compute with `python3 -c` and the standard library or pandas, reading these
-files. Never read `data/model/` (the county restriction scores: no score
+files. Never read `data/model/` (the Renewable Headwind Scores: no score
 reaches a page or brief without a separate decision by Price, per
 `config/county_model_registration.json`), never `data/review/`, and never any
 local knowledge file or local contact's report.

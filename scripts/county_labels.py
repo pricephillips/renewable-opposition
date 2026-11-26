@@ -1,4 +1,4 @@
-"""County labels for the county restriction model (predictive foundation, step 2).
+"""County labels for the Renewable Headwind Model's county part (predictive foundation, step 2).
 
 One row per 2024 county in the 50 states and DC (the frame of
 data/reference/county_covariates.csv), in data/model/county_labels.csv. The

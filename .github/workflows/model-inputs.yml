@@ -1,6 +1,6 @@
 name: Fetch model inputs
 
-# The inputs to the county restriction model and the project universe
+# The inputs to the Renewable Headwind Model (county part) and the project universe
 # (docs/predictive_foundation_design.md, steps 1 and 3):
 #   scripts/fetch_county_covariates.py  ACS 5-year and Gazetteer (Census),
 #                                       MEDSL presidential returns

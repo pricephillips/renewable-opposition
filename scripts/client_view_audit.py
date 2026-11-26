@@ -139,7 +139,7 @@ def profile(fips: str, rows: list[dict], score: dict | None, state_rows: list[di
     lines = [f"County {fips}: {_s(s.get('county'))}, {_s(s.get('state'))}",
              f"Renewables Record Score {s.get('combined', '?')} ({s.get('tier', 'no record')}); "
              f"state rank {s.get('state_rank', '?')} of {s.get('state_n', '?')}, national rank "
-             f"{s.get('us_rank', '?')} of {s.get('us_n', '?')}; resemblance score {s.get('profile_score', '?')}",
+             f"{s.get('us_rank', '?')} of {s.get('us_n', '?')}; Renewable Headwind Score {s.get('profile_score', '?')}",
              f"Parts: instruments {s.get('instrument_points')}, zoning {s.get('zoning_points')}, blocked "
              f"{s.get('blocked_points')}, organizing {s.get('organizing_points')}, approvals -{s.get('approval_credit')}",
              "", "Local rules:"]

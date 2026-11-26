@@ -2,7 +2,7 @@
 
 Written by `scripts/county_record_score.py` from `config/county_record_score.json` (version 2026-11-20). Do not edit by hand.
 
-**What the score is.** How restrictive a county is for wind, solar and battery storage, on one rubric, read from its own record: the restriction instruments placed in it, a listed move from no zoning to zoning, and the outcomes of its contested projects. A county with no record is scored on its resemblance score (`data/model/county_restriction_scores.csv`) as a prior. Internal: no page, county report or headline figure reads it.
+**What the score is.** How restrictive a county is for wind, solar and battery storage, on one rubric, read from its own record: the restriction instruments placed in it, a listed move from no zoning to zoning, and the outcomes of its contested projects. A county with no record is scored on its Renewable Headwind Score (`data/model/county_restriction_scores.csv`) as a prior. Internal: no page, county report or headline figure reads it.
 
 ## Counties by tier
 
@@ -17,7 +17,7 @@ Written by `scripts/county_record_score.py` from `config/county_record_score.jso
 
 ## Reference counties
 
-| County | Tier | Combined (U.S. percentile) | Record points | Instruments | Zoning | Blocked | Approval credit | Resemblance score (decile) | Top instrument |
+| County | Tier | Combined (U.S. percentile) | Record points | Instruments | Zoning | Blocked | Approval credit | Headwind score (decile) | Top instrument |
 |---|---|---|---:|---:|---:|---:|---:|---|---|
 | Nicholas, KY | closed | 43.15 (99.1) | 43.15 | 43.15 | 0.0 | 0 | 0.0 | 0.033 (1) | queue:q_ef439d5e2f (setback, severity 3, in_force, Nicholas County) |
 | Cherokee, KS | closed | 57.3 (100.0) | 57.3 | 48.3 | 9.0 | 0 | 0.0 | 0.2505 (7) | queue:q_011039b3ee (moratorium, severity 4, in_force, Cherokee County) |
@@ -114,7 +114,7 @@ The cap still applies in these counties; a site inside the exempt area is not co
 
 ## Combined score by decile
 
-Deciles of U.S. counties ranked by combined score, ties broken by resemblance score. `combined_normal` is the same rank as a standard normal score.
+Deciles of U.S. counties ranked by combined score, ties broken by Headwind score. `combined_normal` is the same rank as a standard normal score.
 
 | Decile | Counties | Combined score (lowest to highest) | Normal score (lowest to highest) |
 |---:|---:|---|---|
@@ -153,7 +153,7 @@ Deciles of U.S. counties ranked by combined score, ties broken by resemblance sc
 756 counties have at least one uncontested plant counted as an approval (1761 plants); for 375 of them it is the only evidence on record.
 
 
-## Record against resemblance
+## Record against Headwind score
 
-1364 counties have a record. Of those in the top three resemblance deciles, 309 are open or regulated on their record; of those in the bottom three, 21 are closed or severe. These are the counties where the two scores disagree most.
+1364 counties have a record. Of those in the top three Headwind deciles, 309 are open or regulated on their record; of those in the bottom three, 21 are closed or severe. These are the counties where the two scores disagree most.
 
