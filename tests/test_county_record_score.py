@@ -489,3 +489,13 @@ def test_township_rules_never_stack_past_a_county_moratorium():
     # A county-wide rule still adds in full beside the capped local part.
     both = _build(many + [_r("c", "T", 2)], summary=_summary("T"))
     assert both["T"]["instrument_points"] == local_cap + 0.25 * 12
+
+
+def test_headwind_band_maps_deciles_to_words():
+    headwind_band = rs.headwind_band
+    cfg = json.loads(rs.BAND_PATH.read_text(encoding="utf-8"))
+    got = [headwind_band(d, cfg) for d in range(1, 11)]
+    assert got == ["lower"] * 3 + ["typical"] * 4 + ["higher"] * 3
+    assert headwind_band("", cfg) == "" and headwind_band(None, cfg) == ""
+    covered = sorted(d for b in cfg["bands"] for d in b["deciles"])
+    assert covered == list(range(1, 11))

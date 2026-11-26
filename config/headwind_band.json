@@ -1,0 +1,9 @@
+{
+  "_comment": "The Renewable Headwind Score as a word for the staff pilot (Price, 2026-11-26): the county's decile of the score (profile_decile in data/model/county_record_scores.csv, deciles of all U.S. counties, 1 the lowest) mapped to a band. scripts/county_record_score.py writes the band as headwind_band. A band says how closely a county's profile resembles counties with a severe restriction on record compared with other counties. It is not a probability, a forecast or a cause, and no number travels with it (docs/headwind_strategy.md, section 2: tiers, no percentages).",
+  "version": "2026-11-26",
+  "bands": [
+    {"band": "lower", "deciles": [1, 2, 3]},
+    {"band": "typical", "deciles": [4, 5, 6, 7]},
+    {"band": "higher", "deciles": [8, 9, 10]}
+  ]
+}

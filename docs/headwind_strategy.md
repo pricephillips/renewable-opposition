@@ -27,7 +27,7 @@ The shared calibration gate (`scripts/calibration_gate.py`: ECE 0.15 or less, Br
 | Sellable | 2028 | a calibrated track record | 12 months of prospective outcomes; state siting law dates; grid cost for the project part | sellable targets met on two periods in a row |
 | Premium | 2030 | calibrated by region, with the county facts that moved the score | withdrawal reasons for contested projects; local attention counts by year | premium targets met on three yearly vintages |
 
-The county part leads, because it does not wait on grid cost. The earliest sellable date is set by time, not work: a vintage frozen in early 2027 can be scored only after 12 months of outcomes.
+The county part leads, because it does not wait on grid cost. On November 26, 2026 Price put the county part's band (lower, typical or higher, no percentages) into the staff-only renewables pilot ahead of this schedule. Clients outside Hawthorn still see nothing until the pilot targets are met. The earliest sellable date is set by time, not work: a vintage frozen in early 2027 can be scored only after 12 months of outcomes.
 
 ## 3. Data
 
