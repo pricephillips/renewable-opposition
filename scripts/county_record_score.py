@@ -697,7 +697,7 @@ def report(rows: list[dict], cfg: dict, sizes: dict | None = None) -> str:
          "**What the score is.** How restrictive a county is for wind, solar and battery storage, on one "
          "rubric, read from its own record: the restriction instruments placed in it, a listed move from no "
          "zoning to zoning, and the outcomes of its contested projects. A county with no record is scored on "
-         "its resemblance score (`data/model/county_restriction_scores.csv`) as a prior. Internal: no page, "
+         "its Renewable Headwind Score (`data/model/county_restriction_scores.csv`) as a prior. Internal: no page, "
          "county report or headline figure reads it.", "",
          "## Counties by tier", "", "| Tier | Counties | Meaning |", "|---|---:|---|"]
     labels = {t["name"]: t["label"] for t in cfg["tiers"]}
@@ -706,7 +706,7 @@ def report(rows: list[dict], cfg: dict, sizes: dict | None = None) -> str:
         L.append(f"| {t} | {sum(1 for r in rows if r['tier'] == t)} | {labels[t]} |")
     L += ["", "## Reference counties", "",
           "| County | Tier | Combined (U.S. percentile) | Record points | Instruments | Zoning | Blocked | "
-          "Approval credit | Resemblance score (decile) | Top instrument |",
+          "Approval credit | Headwind score (decile) | Top instrument |",
           "|---|---|---|---:|---:|---:|---:|---:|---|---|"]
     for f in cfg["reference_counties"]["fips"]:
         r = by.get(f)
@@ -717,7 +717,7 @@ def report(rows: list[dict], cfg: dict, sizes: dict | None = None) -> str:
                  f"| {r['approval_credit']} | {r['profile_score']} ({r['profile_decile']}) | {r['top_instrument']} |")
     L += preemption_report(rows, cfg, sizes or {})
     L += ["", "## Combined score by decile", "",
-          "Deciles of U.S. counties ranked by combined score, ties broken by resemblance score. "
+          "Deciles of U.S. counties ranked by combined score, ties broken by Headwind score. "
           "`combined_normal` is the same rank as a standard normal score.", "",
           "| Decile | Counties | Combined score (lowest to highest) | Normal score (lowest to highest) |",
           "|---:|---:|---|---|"]
@@ -734,8 +734,8 @@ def report(rows: list[dict], cfg: dict, sizes: dict | None = None) -> str:
           f"approval ({sum(r['plants_built'] for r in rows)} plants); for "
           f"{sum(1 for r in rows if r['basis'] == 'build_out')} of them it is the only evidence on record.", ""]
     rec = [r for r in rows if r["basis"] == "record"]
-    L += ["", "## Record against resemblance", "",
-          f"{len(rec)} counties have a record. Of those in the top three resemblance deciles, "
+    L += ["", "## Record against Headwind score", "",
+          f"{len(rec)} counties have a record. Of those in the top three Headwind deciles, "
           f"{sum(1 for r in rec if r['profile_decile'] != '' and r['profile_decile'] >= 8 and r['tier'] in ('open', 'regulated'))} "
           "are open or regulated on their record; of those in the bottom three, "
           f"{sum(1 for r in rec if r['profile_decile'] != '' and r['profile_decile'] <= 3 and r['tier'] in ('closed', 'severe'))} "

@@ -47,7 +47,7 @@ client does.
      runs past a date the row does not show;
    - state law or a court ruling that limits the local rules and that the
      profile does not mention next to them;
-   - a figure a reader could mistake for another (the resemblance score read
+   - a figure a reader could mistake for another (the Renewable Headwind Score read
      as the record score);
    - wording that would mislead: "ban" for a pause, "in force" for a pending
      proposal, a date with no year;

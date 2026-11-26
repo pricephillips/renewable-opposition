@@ -1,6 +1,6 @@
 # Renewable Headwind Model
 
-**Status:** November 20, 2026. Built and internal. Price named it on November 20, 2026. It is the renewables counterpart of the Data Center Headwind Model in data-centers (`county_policy_model.py`, shown to clients there as the Headwind Score). It has a county part and a project part. Build-Out goals R3 and R4.
+**Status:** November 20, 2026. Built and internal. Price named it on November 20, 2026. It is the renewables counterpart of the Data Center Headwind Model in data-centers (`county_policy_model.py`, shown to clients there as the Headwind Score). It has a county part and a project part. The county part's score is the Renewable Headwind Score (Headwind score for short). It replaces the older names "predictive score", "predictive model" and "county restriction model" (Price, 2026-11-25); file names such as `scripts/county_restriction_model.py` keep their old names. Build-Out goals R3 and R4.
 
 The Renewables Record Score (`docs/county_record_score.md`) is a different thing and keeps its name. The record score is a rubric with hand-set weights that reads the county's own record. The Headwind Model is fitted to outcomes and gives a resemblance, never a probability or a cause.
 
@@ -159,4 +159,4 @@ The first pass (November 20, 2026) found ten leads, now on the wanted list. A se
 
 ## 7. Where it is used
 
-Nowhere outside staff files yet. No page, county report, headline figure or client bundle reads `data/model/headwind_*`. Showing either part to a client is Price's decision, made with the report in hand. `docs/headwind_strategy.md` sets the targets and stages for that decision (`docs/predictive_foundation_design.md`, section 6, decision 1). The client portal's refusal list in data-centers (`scripts/refused_columns.py`) already refuses the county restriction model.
+Nowhere outside staff files yet. No page, county report, headline figure or client bundle reads `data/model/headwind_*`. Showing either part to a client is Price's decision, made with the report in hand. `docs/headwind_strategy.md` sets the targets and stages for that decision (`docs/predictive_foundation_design.md`, section 6, decision 1). The client portal's refusal list in data-centers (`scripts/refused_columns.py`) already refuses the county part's scores.
