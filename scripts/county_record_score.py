@@ -86,6 +86,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import PROCESSED_DIR, REVIEW_DIR, ROOT, read_csv, write_csv  # noqa: E402
 
 CONFIG_PATH = ROOT / "config" / "county_record_score.json"
+BAND_PATH = ROOT / "config" / "headwind_band.json"
 RESTRICTIONS_PATH = PROCESSED_DIR / "restrictions.csv"
 PROJECTS_PATH = PROCESSED_DIR / "contested_projects.csv"
 SUMMARY_PATH = PROCESSED_DIR / "county_summary.csv"
@@ -111,7 +112,18 @@ FIELDS = [
     "organized_action",
     "approval_credit", "top_instrument", "instruments", "verified_instruments", "projects_blocked",
     "projects_advanced", "plants_built", "profile_score", "profile_decile", "profile_points", "profile_cap",
+    "headwind_band",
 ]
+
+
+def headwind_band(decile, cfg: dict) -> str:
+    """The Renewable Headwind Score's band (config/headwind_band.json) for a
+    profile decile, or blank when the county has no decile."""
+    try:
+        d = int(decile)
+    except (TypeError, ValueError):
+        return ""
+    return next((b["band"] for b in cfg["bands"] if d in b["deciles"]), "")
 
 
 def _s(v) -> str:
@@ -902,6 +914,9 @@ def main() -> int:
     rows = build(read_csv(RESTRICTIONS_PATH), read_csv(PROJECTS_PATH), read_csv(SUMMARY_PATH),
                  read_csv(PROFILE_PATH), cfg, dt.date.today().isoformat(), read_csv(FACILITIES_PATH),
                  read_csv(GROUP_CANDIDATES_PATH), read_csv(ORGANIZING_ACTIONS_PATH))
+    band_cfg = json.loads(BAND_PATH.read_text(encoding="utf-8"))
+    for r in rows:
+        r["headwind_band"] = headwind_band(r.get("profile_decile"), band_cfg)
     write_csv(SCORES_PATH, rows, FIELDS)
     REPORT_PATH.write_text(report(rows, cfg, reference_sizes(read_csv(FACILITIES_PATH), cfg)), encoding="utf-8")
     write_csv(WEIGHTS_PATH, weights(cfg), WEIGHT_FIELDS)
