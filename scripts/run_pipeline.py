@@ -76,6 +76,8 @@ REFRESH = [
      "freeze this month's model scores, never edited later (data/model/vintages/, internal)", True),
     ("model_scorecard", ["scripts/model_scorecard.py"],
      "score every frozen vintage forward and open or close each stage (internal)", True),
+    ("improvement_scorecard", ["scripts/improvement_scorecard.py"],
+     "grade the pipeline depth and algorithm breadth measures against their targets (internal)", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
     ("development_scout", ["scripts/development_scout.py"],

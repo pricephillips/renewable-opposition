@@ -1,0 +1,65 @@
+{
+  "_comment": [
+    "The standing improvement structure (docs/model_program.md, section 7). Two tracks, each a list of measures with a target and a date:",
+    "depth: how complete and well sourced the record is (the pipeline: sources, extractors, county checks, verification, dates).",
+    "breadth: how widely the models are tested and how far they have reached (the Headwind Model's inputs, challengers and stages; the cost model's parity).",
+    "scripts/improvement_scorecard.py grades every measure once a month (met, on pace or behind), adds one row per measure to data/model/improvement_history.csv, and lists the measures that are behind with the routine that moves each one. A measure behind on two grades in a row opens an issue. No step waits on a person.",
+    "A measure is one entry with a kind the script knows: csv_share, csv_count, csv_distinct_share, json_value, json_fills_share, file_exists. A new measure, place or technology is configuration; the stage targets of each model stay in config/model_program.json.",
+    "Pace: a milestone (a yes or no measure) is due on its date and is behind only after it. Any other measure is on pace when its value is at least where a straight line from its first graded value to its target on its target date would put it today. lower_is_better turns every comparison around."
+  ],
+  "version": "2026-11-26",
+  "tracks": {
+    "depth": {
+      "label": "Pipeline depth: a complete, sourced and dated record",
+      "measures": [
+        {"id": "severe_verified_share", "goal": "R1", "label": "Severe restrictions (severity 3 or 4) checked against a document read",
+         "kind": "csv_share", "file": "data/processed/restrictions.csv",
+         "denominator": {"severity_score": ["3", "4"]},
+         "numerator": {"severity_score": ["3", "4"], "verification": ["verified"]},
+         "target": 0.5, "by": "2027-06-30", "moved_by": "Renewable Daily Check (docs/VERIFICATION_ROUTINE.md); /verify-evidence"},
+        {"id": "counties_with_record", "goal": "R2", "label": "Counties with a record or a negative check",
+         "kind": "csv_share", "file": "data/processed/county_summary.csv",
+         "denominator": {},
+         "numerator": {"coverage": ["record", "negative_check"]},
+         "target": 0.75, "by": "2027-12-31", "moved_by": "/sweep-counties (county-examiner, docs/COUNTY_CHECK.md)"},
+        {"id": "counties_examined", "goal": "R2", "label": "Counties in the county check log",
+         "kind": "csv_distinct_share", "file": "data/review/examination_log.csv", "column": "county_fips",
+         "denominator_file": "data/processed/county_summary.csv",
+         "target": 0.25, "by": "2027-12-31", "moved_by": "/sweep-counties (county-examiner, docs/COUNTY_CHECK.md)"},
+        {"id": "severe_dated_share", "goal": "R3", "label": "Severe restrictions with an enactment year",
+         "kind": "csv_share", "file": "data/processed/restrictions.csv",
+         "denominator": {"severity_score": ["3", "4"]},
+         "numerator": {"severity_score": ["3", "4"], "_has_year": ["date_enacted_iso", "date_text"]},
+         "target": 0.95, "by": "2027-06-30", "moved_by": "instrument-reader and status-checker readings (/verify-evidence, /check-status)"},
+        {"id": "sources_archived_share", "goal": "R1", "label": "Sources with an archived copy",
+         "kind": "json_value", "file": "data/processed/operations_summary.json", "path": "source_archive.archived_share",
+         "target": 0.9, "by": "2027-03-31", "moved_by": "source-archive.yml"},
+        {"id": "outcomes_overdue", "goal": "R3", "label": "Contested project outcomes overdue for a reading",
+         "kind": "json_value", "file": "data/processed/operations_summary.json", "path": "worklists.outcomes.overdue",
+         "lower_is_better": true,
+         "target": 20, "by": "2027-06-30", "moved_by": "Renewable Daily Check, outcome half (outcome-reader)"},
+        {"id": "development_resolved", "goal": "R3", "label": "Development scout candidates resolved by a reading",
+         "kind": "csv_count", "file": "data/review/development_resolutions.csv",
+         "target": 300, "by": "2027-06-30", "moved_by": "Renewable Daily Check, development candidates (docs/development_scout.md)"}
+      ]
+    },
+    "breadth": {
+      "label": "Algorithm breadth: models tested widely and promoted only by rule",
+      "measures": [
+        {"id": "headwind_wanted_filled", "goal": "R4", "label": "Wanted Headwind input themes with at least one input built",
+         "kind": "json_fills_share", "file": "config/headwind_inputs.json",
+         "target": 0.6, "by": "2027-06-30", "moved_by": "shared scouts in data-centers, then the renewables integrator (docs/SCOUT_BUILDS.md)"},
+        {"id": "challengers_trialled", "goal": "R4", "label": "Papers, methods or tools trialled with a recorded outcome",
+         "kind": "json_value", "file": "config/adopted_tools.json", "path": "tools", "count_field": "outcome",
+         "target": 6, "by": "2027-06-30", "moved_by": "the weekly renewables build session (docs/SCOUT_BUILDS.md, path 3b)"},
+        {"id": "headwind_pilot_open", "goal": "R4", "label": "Renewable Headwind Model pilot stage open (1 open, 0 closed)",
+         "kind": "json_value", "file": "data/model/model_scorecard.json", "path": "models.headwind_county.stages.pilot.state",
+         "equals": "open", "milestone": true,
+         "target": 1, "by": "2027-12-31", "moved_by": "docs/model_program.md, stages two to four"},
+        {"id": "cost_core_pinned", "goal": "D16", "label": "Cost model runs on the shared cost core (lock present)",
+         "kind": "file_exists", "file": "config/cost_format.lock", "milestone": true,
+         "target": 1, "by": "2027-03-31", "moved_by": "docs/model_program.md, stage C1"}
+      ]
+    }
+  }
+}

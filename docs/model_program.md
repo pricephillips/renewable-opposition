@@ -1,6 +1,6 @@
 # Model improvement program: Renewable Headwind Model, then the cost model
 
-**Status:** November 26, 2026. Stage one of the Headwind program is built (frozen monthly vintages, each a month's county scores saved and never edited, and a forward scorecard, a script that scores each vintage against the outcomes recorded after it). Everything else here is a plan. Build-Out goals R4 and D16.
+**Status:** November 26, 2026. Stage one of the Headwind program is built (frozen monthly vintages, each a month's county scores saved and never edited, and a forward scorecard, a script that scores each vintage against the outcomes recorded after it). The monthly grading of the two improvement tracks (section 7) is also built. Everything else here is a plan. The program serves Build-Out goals R1 to R5 and D16.
 
 Price asked for a program that takes the renewables models to a final state, where they need little oversight, give high output and carry low risk and cost. The Renewable Headwind Model comes first and the cost model second. This page says what "final" means for each model in measurable terms, the stages that get there, the automatic steps that replace a person's review, and what each run costs. It mirrors the data center model work in data-centers (research scouts, challengers that report and never ship, a boosted challenger behind the calibration gate) and shares formats with it rather than copying code.
 
@@ -91,3 +91,29 @@ Three calls in spec 039 belong to Price and shape C2 and C3: which anchors take 
 ## 6. Sharing with data-centers
 
 `config/model_program.json`, the vintage files and `data/model/vintages/manifest.csv` make up a shared format (no script is shared). The data center models can adopt the same entries and pin the format, as `variable_core.py` is pinned, without either repository copying the other's scripts.
+
+## 7. Standing improvement: pipeline depth and algorithm breadth
+
+Price asked on November 26, 2026 for a structure that keeps improving the renewables pipeline (depth) and the algorithm (breadth). This page reads the two words as two tracks. Depth is how complete, sourced and dated the record is: the sources, extractors, county checks, verification and rule dates the models learn from. Breadth is how widely the models are tested and how far they have reached: the Headwind Model's inputs, the challengers tried, its stages, and the cost model's parity.
+
+Each track is a list of measures in `config/improvement_program.json`. A measure names the file it is read from, a target and a date, and the routine that moves it. `scripts/improvement_scorecard.py` grades every measure once a month in the model inputs job, after the model scorecard. Each grade is met, on pace or behind, or missing when the measure's file cannot be read. On pace means the value is at least where a straight line from its first grade to its target date would put it today (at most, for a measure where lower is better, such as overdue outcomes). A milestone (a yes or no measure, such as the cost core pin) is on pace until its date. The grades go to `data/model/improvement_history.csv`, one row per measure per month.
+
+A measure graded behind two months in a row opens one issue that month. The issue lists each such measure with the routine that moves it (such as the Renewable Daily Check, a county sweep, the scouts or the build session). The grading costs no Claude usage and under a minute of Actions time. It changes no schedule: the routines it names keep their own prompts and pace.
+
+The first grade (November 26, 2026) set each measure's starting point. A negative check is a reviewed record that someone searched the county's codes, minutes and news for a restriction and found none. A county counts as examined by a county check when `data/review/examination_log.csv` lists it.
+
+| Track | Measure | Value | Target |
+|---|---|---:|---:|
+| Depth | Severe restrictions checked against a document read | 0.108 | 0.5 by 2027-06-30 |
+| Depth | Counties with a record or a negative check | 0.439 | 0.75 by 2027-12-31 |
+| Depth | Counties in the county check log | 0.005 | 0.25 by 2027-12-31 |
+| Depth | Severe restrictions with an enactment year | 0.814 | 0.95 by 2027-06-30 |
+| Depth | Sources with an archived copy | 0.575 | 0.9 by 2027-03-31 |
+| Depth | Contested project outcomes overdue for a reading | 123 | 20 by 2027-06-30 |
+| Depth | Development scout candidates resolved | 0 | 300 by 2027-06-30 |
+| Breadth | Wanted Headwind input themes with an input built | 0.429 | 0.6 by 2027-06-30 |
+| Breadth | Papers, methods or tools trialled with an outcome | 0 | 6 by 2027-06-30 |
+| Breadth | Headwind pilot stage open | not graded yet | open by 2027-12-31 |
+| Breadth | Cost model on the shared cost core | 0 | 1 by 2027-03-31 |
+
+The targets are a first setting. A target changes in the config, with the reason in the pull request. A new measure (a source family, a state, another technology) is one more entry of a kind the script already knows.
