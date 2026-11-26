@@ -41,7 +41,7 @@ No step waits on a person.
 2. **A scorecard.** A script scores every frozen vintage against the outcomes recorded since, once 12 months have passed, and writes each measure in section 1 with its value, its target and pass or miss for each stage.
 3. **Promotion by rule.** A stage opens when the scorecard shows its targets met for the required run of periods, and closes again after two scorecards in a row miss. The scorecard opens an issue when a stage opens or closes.
 
-The scorecard is the only source for any accuracy figure a client sees. Backtests stay in the internal reports and are labelled as backtests. The vintages and the scorecard are the first things to build.
+The scorecard is the only source for any accuracy figure a client sees. Backtests stay in the internal reports and are labelled as backtests. The vintages (`scripts/model_vintage.py`) and the scorecard (`scripts/model_scorecard.py`) were built on November 26, 2026, as stage one of the model improvement program (`docs/model_program.md`). The AUC, Brier skill, calibration and periods targets in section 1 are kept in `config/model_program.json`, which the scorecard reads; the gain target is not.
 
 ## 5. How it is framed
 

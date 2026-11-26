@@ -1,0 +1,55 @@
+{
+  "_comment": [
+    "The model improvement program (docs/model_program.md): for each model, the score that is frozen each month, the outcome it is scored against, and the targets of each stage.",
+    "This file is the one place the targets live. docs/headwind_strategy.md section 1 explains them; scripts/model_scorecard.py reads them here.",
+    "scripts/model_vintage.py freezes a model's scores into data/model/vintages/<model>/ and never edits a frozen file. scripts/model_scorecard.py scores every frozen vintage against the outcomes recorded since and opens or closes each stage by the rule below. No step waits on a person.",
+    "A new model is one more entry here with a kind the two scripts know. A new place or technology needs no code: the frame and the outcome come from the published record."
+  ],
+  "version": "2026-11-26",
+  "models": {
+    "headwind_county": {
+      "name": "Renewable Headwind Model, county part",
+      "kind": "county_forward",
+      "registration": "config/county_model_registration.json",
+      "scores": {
+        "file": "data/model/county_restriction_scores.csv",
+        "rank_column": "has_severe__queue",
+        "rank_note": "The score the staff pilot's Headwind band is cut from (scripts/county_record_score.py PROFILE_COLUMN).",
+        "chance_column": "forward__queue",
+        "chance_window_years": 4,
+        "chance_note": "The held-back model's score, fit to first severe restrictions over a four-year window. It is turned into a chance over the scorecard horizon as 1 - (1 - p) ^ (horizon / window). Only the scorecard measures whether that chance holds."
+      },
+      "band": {
+        "file": "data/model/county_record_scores.csv",
+        "columns": ["profile_decile", "headwind_band"]
+      },
+      "frame": {
+        "file": "data/model/county_labels.csv",
+        "at_risk": "has_severe == 0: no severe restriction on record when the vintage is frozen"
+      },
+      "outcome": {
+        "file": "data/processed/restrictions.csv",
+        "event": "the county's first severe restriction (severity 3 or 4, in county_fips_all) enacted after the vintage date and on or before the end of the horizon",
+        "excluded": "a county whose severe rule is undated, enacted on or before the vintage date but recorded later, or dated too loosely (a year or a month) to fall wholly on one side of the vintage date or the horizon end"
+      },
+      "horizon_months": 12,
+      "backtest": {
+        "as_of": "2025-12-31",
+        "note": "Frozen once, from the first refit that writes the chance column: the held-back model scores the counties with no severe restriction through 2025, and 2026 is its horizon. It is labelled a backtest, it was not frozen on its date, and it never opens a stage."
+      },
+      "min_sample": 60,
+      "min_positives": 20,
+      "stages": [
+        {"stage": "pilot", "shown_as": "bands (lower, typical, higher), no percentages",
+         "auc_min": 0.65, "brier_skill_min": 0.05, "ece_max": 0.10, "periods": 1},
+        {"stage": "sellable", "shown_as": "a calibrated track record",
+         "auc_min": 0.70, "brier_skill_min": 0.10, "ece_max": 0.05, "periods": 2},
+        {"stage": "premium", "shown_as": "calibrated by region, with the county facts that moved the score",
+         "auc_min": 0.75, "brier_skill_min": 0.15, "ece_max": 0.03, "periods": 3}
+      ],
+      "close_after_misses": 2,
+      "stop_rule": {"stage": "pilot", "by": "2027-12-31",
+                    "then": "the score stays internal and the product sells the record itself (rules, dates, outcomes) without a score"}
+    }
+  }
+}

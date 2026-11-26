@@ -32,7 +32,12 @@ decides is in that file; read it first. In short:
 
 Writes, all internal (no page, report or headline figure reads them):
   data/model/county_restriction_scores.csv   calibrated out-of-fold score per
-                                             county, label and run
+                                             county, label and run; and
+                                             forward__<run>, the held-back
+                                             2026 model's score for each
+                                             county with no severe
+                                             restriction through 2025, which
+                                             scripts/model_vintage.py freezes
   data/model/county_restriction_metrics.json everything measured
   data/model/county_restriction_report.md    the report
 
@@ -434,6 +439,11 @@ def sensitivity(res: dict, labels: list[dict], values: dict) -> dict:
     out["holdout_2026"] = {"n": len(still), "positives": int(h.sum()),
                            "auc": round(float(roc_auc_score(h, s)), 4) if 0 < h.sum() < len(h) else None,
                            "note": "2026 is a partial year; restrictions enacted in it are still being recorded."}
+    # The same scores, kept as the forward score (forward__<run>). It is fit to
+    # first severe restrictions over a four-year window. It is read as a
+    # frequency only through scripts/model_scorecard.py, which scores each
+    # frozen vintage (scripts/model_vintage.py) against what happened later.
+    out["_forward"] = {res["_rows"][i]["county_fips"]: float(v) for i, v in zip(still, s)}
     return out
 
 
@@ -538,6 +548,10 @@ def main() -> int:
         if not res["stopped"]:
             for f, v in zip(res["fips"], res["_cal"]):
                 scores[f][col] = round(float(v), 4)
+    for run in RUNS:
+        fwd = sens.get(run, {}).pop("_forward", {})
+        for f, c in scores.items():
+            c[f"forward__{run}"] = round(fwd[f], 4) if f in fwd else ""
     lab = {r["county_fips"]: r for r in labels}
     for f, c in scores.items():
         for k in (PRIMARY, "at_risk_2022", "has_severe", "has_severity_4"):
