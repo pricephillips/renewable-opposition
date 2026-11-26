@@ -1,0 +1,76 @@
+{
+  "_comment": [
+    "The development scout (scripts/development_scout.py, docs/development_scout.md).",
+    "It finds solar, wind and battery storage developments in open map and",
+    "federal filing data, places each in its county by its coordinates, and",
+    "sorts out the ones the federal inventories and Queued Up already hold.",
+    "A new source is a new entry under sources plus one reader function; a new",
+    "technology is a new entry under technologies. Nothing here names a place."
+  ],
+  "since": "2024-01-01",
+  "per_run": 3,
+  "skip_days": 14,
+  "technologies": ["solar", "wind", "battery_storage"],
+  "sources": {
+    "faa_oeaaa": {
+      "label": "FAA OE/AAA obstruction evaluation filings (wind turbine regions)",
+      "publisher": "Federal Aviation Administration",
+      "license": "U.S. government work (public domain)",
+      "landing_url": "https://oeaaa.faa.gov/oeaaa/oe3a/main/#/download",
+      "url_template": "https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77{region}{year}List.gzip",
+      "case_url_template": "https://oeaaa.faa.gov/oeaaa/services/case/{asn}",
+      "regions": ["WTE", "WTW"],
+      "technology": "wind",
+      "cluster_km": 4.0,
+      "structure_types": {
+        "WINDMILL": "turbine",
+        "CRANE$WINDMILL": "crane",
+        "WINDMILL$ADLS": "turbine",
+        "WINDMILL_FARMS$MET": "met_tower"
+      },
+      "skip_notice": ["Existing"],
+      "stage_by_status": {
+        "Studying": "filed",
+        "Evaluating": "filed",
+        "Reevaluating": "filed",
+        "Pending": "filed",
+        "Public Comment": "filed",
+        "Determined - No Hazard": "determined",
+        "Determined - Hazard": "determined_hazard",
+        "Terminated": "terminated",
+        "Withdrawn": "withdrawn"
+      }
+    },
+    "osm_overpass": {
+      "label": "OpenStreetMap power plants tagged under construction or proposed (Overpass API)",
+      "publisher": "OpenStreetMap contributors",
+      "license": "ODbL 1.0 (https://opendatacommons.org/licenses/odbl/1-0/); attribution: (c) OpenStreetMap contributors",
+      "landing_url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "api_url": "https://overpass-api.de/api/interpreter",
+      "object_url_template": "https://www.openstreetmap.org/{osm_type}/{osm_id}",
+      "pause_s": 2.0,
+      "timeout_s": 180,
+      "selectors": [
+        {"tags": {"construction:power": "plant"}, "stage": "under_construction"},
+        {"tags": {"power": "construction", "construction": "plant"}, "stage": "under_construction"},
+        {"tags": {"proposed:power": "plant"}, "stage": "proposed"},
+        {"tags": {"power": "proposed", "proposed": "plant"}, "stage": "proposed"}
+      ],
+      "source_keys": [
+        "plant:source", "construction:plant:source", "proposed:plant:source",
+        "generator:source", "construction:generator:source"
+      ],
+      "technology_by_source": {
+        "solar": "solar",
+        "wind": "wind",
+        "battery": "battery_storage"
+      }
+    }
+  },
+  "matching": {
+    "facility_km": {"solar": 2.0, "wind": 5.0, "battery_storage": 1.0},
+    "queue_statuses": ["active", "suspended"]
+  },
+  "verdicts": ["new_development", "same_as_facility", "same_as_queue", "not_a_development", "duplicate_signal"],
+  "stages": ["prospecting", "filed", "determined", "determined_hazard", "under_construction", "proposed", "terminated", "withdrawn", "operating", "cancelled"]
+}

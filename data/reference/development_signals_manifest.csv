@@ -1,0 +1,7 @@
+source,url,sha256,bytes,fetched_at,data_as_of,rows_read,rows_kept,result
+faa_oeaaa,https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77WTE2024List.gzip,3505905daf4015f1584fdc01c04f233e9dc45e3550c6e5e0ae2853fa3ed3c88a,3301691,2026-11-26T05:13:38+00:00,11/21/2026 04:35 AM,7648,7624,read
+faa_oeaaa,https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77WTE2025List.gzip,0840f63851e13b14b631322dda6f78a8a91650ccfed80cb005efefa24187672c,2970324,2026-11-26T05:13:38+00:00,11/21/2026 04:35 AM,7092,6957,read
+faa_oeaaa,https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77WTE2026List.gzip,a969f13b9e6e1bd1c731adce7267099217a4e62598cd401245d65b27e56c1bb5,2155717,2026-11-26T05:13:38+00:00,11/21/2026 04:34 AM,5503,5216,read
+faa_oeaaa,https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77WTW2024List.gzip,5d116d23d2aee5f990ddcd37b2a19c7cb322d4958f7fcdc878af876b2a7b805f,4378245,2026-11-26T05:13:38+00:00,11/21/2026 04:47 AM,11636,11523,read
+faa_oeaaa,https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77WTW2025List.gzip,1874fcbeb73e06acd2f2c0d44e9c3975ad660b80abbae4ed0c64c1c653f3828d,5266612,2026-11-26T05:13:38+00:00,11/21/2026 04:46 AM,13705,13577,read
+faa_oeaaa,https://oeaaa.faa.gov/oeaaa/oe3a-external-api/downloadArchives.do?fname=Part77WTW2026List.gzip,053b96612afc29af658a34fff1f050b5a93de4b48be64db50b052790e1a71766,4487997,2026-11-26T05:13:38+00:00,11/21/2026 04:45 AM,11878,11866,read

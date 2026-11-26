@@ -61,7 +61,9 @@ def test_runner_build_stages_match_the_workflow_order():
     names = [s[0] for s in run_pipeline.BUILD]
     assert names[:2] == ["promote_reviewed", "build_seed_outputs"]
     assert names.index("coverage_delta") < names.index("snapshot_manifest")
-    assert [s[0] for s in run_pipeline.REFRESH][-1] == "fetch_facilities"
+    # The plant inventories come last, then the development scout, which
+    # sorts its candidates against the inventories just fetched.
+    assert [s[0] for s in run_pipeline.REFRESH][-2:] == ["fetch_facilities", "development_scout"]
     for _, cmd, _, _ in run_pipeline.REFRESH + run_pipeline.BUILD:
         assert (run_pipeline.ROOT / cmd[0]).exists(), cmd
 
