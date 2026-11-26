@@ -101,6 +101,8 @@
     },
     "data/model/headwind_search.json": {"layer": "derived", "writers": ["scripts/headwind_search.py"], "reason": "Renewable Headwind Model: wide search over county variables and their combinations, chosen on earlier years and scored on later ones against shuffled-data runs (internal, staff only)."},
     "data/model/headwind_search.md": {"layer": "derived", "writers": ["scripts/headwind_search.py"]},
+    "data/model/model_scorecard.json": {"layer": "derived", "writers": ["scripts/model_scorecard.py"], "reason": "Model improvement program (docs/model_program.md): every frozen vintage scored forward on the rules enacted since, and each stage's state by rule (internal, staff only)."},
+    "data/model/model_scorecard.md": {"layer": "derived", "writers": ["scripts/model_scorecard.py"]},
     "data/model/headwind_compare.md": {"layer": "derived", "writers": ["scripts/headwind_compare.py"]},
     "data/cost/cost_ledger.csv": {
       "layer": "derived", "writers": ["scripts/cost_ledger.py"],
@@ -307,6 +309,14 @@
     "scripts/promote_reviewed.py": "The gated step from review to seed; marks each promoted row and records its decisions (derived)."
   },
   "dynamic": {
+    "scripts/model_vintage.py": {
+      "files": ["data/model/vintages/manifest.csv", "data/model/vintages/*/*.csv"],
+      "reason": "Freezes each model's scores into data/model/vintages/<model>/<vintage_id>.csv, named by the model in config/model_program.json and the date, and appends to the manifest. A frozen file is never rewritten. Tests write to a temp dir."
+    },
+    "scripts/model_scorecard.py": {
+      "files": ["$GITHUB_OUTPUT"],
+      "reason": "--github-output appends stage_changed and a message to the path the workflow passes."
+    },
     "scripts/county_briefs.py": {
       "files": ["data/processed/county_briefs.json", "data/processed/county_briefs.csv", "data/processed/datapackage.json", ".packets/*"],
       "reason": "publish(path) writes the JSON at path, the CSV beside it and, when path is PUBLISHED, the datapackage; tests pass a temp path. blind writes its card next to the draft it was given."
