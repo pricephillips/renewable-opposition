@@ -84,6 +84,15 @@ module docstring), with `"packet": "review"`:
 
 Run `python scripts/review_packets.py check <packet>` and fix every error.
 
+Queue `development` (a card from `python scripts/development_scout.py card
+<signal_id>`; it holds only what the open sources say about the candidate):
+find and read a document that names the project yourself, and write a packet
+in the card's `expect` shape, with your own `verdict`, `technology`, `stage`,
+`county_fips` and `matched_id` under the rules in
+`.claude/agents/development-reader.md`, sections "Verdicts" and "Finding and
+reading it". Run `python scripts/development_scout.py check <packet>` and fix
+every error.
+
 Queues `lead` and `case`: the card holds the lead's or candidate's own columns
 and the source URL. Write your own triage (on topic, placed, the values the
 source states) or your own court-record reading (case name, court, level,

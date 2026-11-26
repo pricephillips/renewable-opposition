@@ -73,6 +73,8 @@ FILES: dict[str, dict] = {
                                             "queue": "outcome", "date": "reviewer"},
     "data/review/status_resolutions.csv": {"key": ["instrument_id"], "decides": ["status", "end_date"],
                                            "queue": "status", "date": "checked_on"},
+    "data/review/development_resolutions.csv": {"key": ["signal_id"], "decides": ["verdict", "matched_id"],
+                                                "queue": "development", "date": "checked_on"},
     "data/review/place_overrides.csv": {"key": ["instrument_id"]},
     "data/review/negative_checks.csv": {"key": ["county_fips", "scope"]},
 }

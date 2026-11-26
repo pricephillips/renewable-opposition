@@ -21,7 +21,7 @@ The hand-kept review files under `data/review/`: `restriction_sources.csv`,
 `cases_candidates.csv`, `negative_checks.csv`, `place_overrides.csv`,
 `group_candidates.csv`, `state_policies_candidates.csv`,
 `state_bill_leads.csv` (its review columns only),
-`nrel_sample_review.csv`, and packets under `.packets/`. Never a worklist,
+`nrel_sample_review.csv`, `development_resolutions.csv`, and packets under `.packets/`. Never a worklist,
 `data/processed/`, a seed, code, config or docs (the lane hook refuses them).
 Never stage, commit or push: the session that started you does.
 
@@ -68,6 +68,20 @@ the new one.
 the row and the log line. `disputed`, `not_read`, `nothing_found`: append the
 log line only. The row's `reviewer` is "<drafter> + <reviewer>", as
 `reconcile` prints it.
+
+**Development readings** (development-reader packet and a blind review):
+run `python3 scripts/development_scout.py reconcile <draft> <review>`. When
+it prints a row, append that row to `data/review/development_resolutions.csv`
+and the log line `<date>,development,<signal_id>,written,"<verdict>: <evidence_url>
+(<access>); signed <drafter> + <reviewer>."` to `verification_log.csv`. When it
+prints `disputed`, append the log line only, with outcome `disputed` and both
+readings' differences. When the agreed row has an `opposition_url`, also add a
+`queue.csv` lead for it: `source_id` `development_scout_<date>`,
+`extracted_at` the date, `review_status` `lead`, `entity_type`
+`contested_project`, the state, county and project name from the row,
+`source_url` the opposition URL, and `reviewer_notes` "Found <date> by
+<drafter signature> while reading <signal_id>." The lead-triager reads it
+like any other lead.
 
 **Triage decisions** (lead-triager packet, plus a blind review where one was
 done): for each lead, append to `reviewer_notes`

@@ -74,6 +74,8 @@ REFRESH = [
      "wide search over county variables and pairs, scored forward against shuffled data (internal)", True),
     ("fetch_facilities", ["scripts/fetch_facilities.py"],
      "EIA-860M, USWTDB and USPVDB into data/reference/facilities.csv", True),
+    ("development_scout", ["scripts/development_scout.py"],
+     "FAA turbine filings and OSM construction tags into development candidates (after the inventories)", True),
 ]
 BUILD = [
     ("promote_reviewed", ["scripts/promote_reviewed.py"], "complete review rows into the seeds", True),

@@ -187,6 +187,29 @@ this section redrafts the counties whose records changed.
    `data/processed/county_briefs.json`, which the build also runs. The
    client builder reads it as the `county_briefs` layer.
 
+## 5c. Development candidates
+
+The development scout (`docs/development_scout.md`) lists candidate solar,
+wind and battery storage projects, found in FAA filings and OpenStreetMap,
+that no plant inventory holds. This section reads a few of them each day.
+
+1. List the candidates: `python scripts/development_scout.py batch` (at most
+   `per_run` in `config/development_scout.json`, skipping any candidate
+   logged in the last `skip_days`). Skip this section when it prints
+   nothing.
+2. For each candidate, write its card: `python scripts/development_scout.py
+   card <signal_id> > .packets/<run>/development/<slug>.card.json`. Start a
+   `development-reader` with the card and the signature
+   `agent:development-reader-N`. It writes `<slug>.draft.json`.
+3. When the draft read a document, start a `blind-reviewer` on the same card
+   with the signature `agent:blind-reviewer-N` (a different number from the
+   drafter's). It writes `<slug>.review.json`.
+4. The `record-editor` runs `python scripts/development_scout.py reconcile
+   <draft> <review>`. It appends an agreed row to
+   `data/review/development_resolutions.csv`, and a log line for every
+   candidate (written, disputed, not_read or nothing_found) to
+   `data/review/verification_log.csv`, as its instructions say.
+
 ## 6. Validate and open the pull request
 
 ```

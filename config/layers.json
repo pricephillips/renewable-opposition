@@ -37,6 +37,8 @@
       "reason": "Solar, wind, storage and geothermal plants from EIA-860M, USWTDB and USPVDB (public domain), one row per plant and status. The source files are not committed (the EIA workbook is about 14 MB a month); facilities_manifest.csv records each one's URL, release and SHA-256. Read by build_seed_outputs.py through scripts/facility_matches.py."
     },
     "data/reference/facilities_manifest.csv": {"layer": "raw", "writers": ["scripts/fetch_facilities.py"]},
+    "data/reference/development_signals.csv": {"layer": "raw", "writers": ["scripts/development_scout.py"], "reason": "Candidate solar, wind and storage developments from FAA wind turbine filings (public domain) and OpenStreetMap construction tags (ODbL 1.0, attribution (c) OpenStreetMap contributors), placed by coordinates and sorted against facilities.csv and queue_projects.csv. Leads, never records (docs/development_scout.md). A resolved candidate carries the verdict from data/review/development_resolutions.csv."},
+    "data/reference/development_signals_manifest.csv": {"layer": "raw", "writers": ["scripts/development_scout.py"]},
 
     "data/reference/county_covariates.csv": {
       "layer": "raw", "writers": ["scripts/fetch_county_covariates.py"],
@@ -263,6 +265,8 @@
     "data/review/outcome_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
     "data/review/fips_misses.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/facility_matches.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
+    "data/review/development_worklist.csv": {"layer": "derived", "writers": ["scripts/development_scout.py"], "reason": "Development candidates no inventory or queue placed and nobody has resolved, ranked for the development-reader (docs/development_scout.md)."},
+    "data/review/development_resolutions.csv": {"layer": "review", "writers": [], "hand_edited": true, "reason": "Agreed development readings (development-reader plus blind-reviewer, written by the record-editor): whether a candidate is a new development, a plant or queue request already known, or not a development."},
     "data/review/adjacency_worklist.csv": {"layer": "derived", "writers": ["scripts/adjacency_worklist.py"]},
     "data/review/negative_check_worklist.csv": {"layer": "derived", "writers": ["scripts/build_seed_outputs.py"]},
     "data/review/restriction_worklist.csv": {"layer": "derived", "writers": ["scripts/verification_worklist.py"]},
@@ -299,6 +303,7 @@
   "crossings": {
     "scripts/county_briefs.py": "Appends a confirmed brief (review) and publishes the briefs that still match their records (derived).",
     "scripts/parse.py": "Records what it parsed (raw) and queues what it found (review).",
+    "scripts/development_scout.py": "Stores the development candidates it fetched (raw) and ranks the unresolved ones for a reader (derived worklist).",
     "scripts/fetch_legiscan.py": "Records the LegiScan session hashes it saw (raw) and lists the bills it kept as leads (review).",
     "scripts/build_sabin_seeds.py": "Rebuilds Sabin seed rows and holds back the rows that need a reviewer.",
     "scripts/extract_sabin_edition.py": "Writes the edition's extraction (seed) and its count reconciliation (derived).",
