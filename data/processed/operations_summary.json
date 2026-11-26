@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25",
+ "generated": "2026-11-26",
  "note": "Every number counts rows another module wrote; check it against the file named in the key.",
  "headline": {
   "restriction_instruments": 3234,
@@ -88,14 +88,14 @@
     "report_citation": 769,
     "primary_source": 19
    },
-   "lapsed": 64,
+   "lapsed": 65,
    "by_county_impact": {
     "none": 2470,
     "sole_severe": 287,
     "sole_record": 359
    },
    "with_located_url": 6,
-   "flagged": 487
+   "flagged": 488
   },
   "negative_checks": {
    "rows": 8,
@@ -208,7 +208,7 @@
   "case_candidates_promoted": 40
  },
  "history": {
-  "snapshot_rows": 223,
+  "snapshot_rows": 224,
   "snapshot_files": 5,
   "headline_history_rows": 28,
   "headline_first_change": "2026-09-29",

@@ -590,7 +590,7 @@ county_fips,state,county,check,route,instrument_id,detail
 26077,MI,Kalamazoo,PAUSE_NO_END_DATE,status,mn:mi-kalamazoo-township-2026-2,Kalamazoo Township (battery_storage): in force with no end date on record
 26077,MI,Kalamazoo,PAUSE_DRAFTING_UNKNOWN,status,mn:mi-kalamazoo-township-2026-2,Kalamazoo Township (battery_storage): the record does not say whether rules are being drafted
 26077,MI,Kalamazoo,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-kalamazoo-township-2026-2,"Kalamazoo Township (battery_storage): severity 4 in force, not yet read against its source"
-26077,MI,Kalamazoo,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-oshtemo-charter-township-2025,"Oshtemo Charter Township (battery_storage): severity 4 in force, not yet read against its source"
+26077,MI,Kalamazoo,PAST_END_DATE,status,mn:mi-oshtemo-charter-township-2025,"Oshtemo Charter Township (battery_storage): runs to 2026-11-25 (record); nothing on record says whether it was extended, replaced or lapsed"
 26077,MI,Kalamazoo,PAUSE_DRAFTING_UNKNOWN,status,mn:mi-oshtemo-charter-township-2026-2,Oshtemo Charter Township (solar): the record does not say whether rules are being drafted
 26077,MI,Kalamazoo,UNVERIFIED_IN_HEADLINE,restriction,mn:mi-oshtemo-charter-township-2026-2,"Oshtemo Charter Township (solar): severity 4 in force, not yet read against its source"
 26077,MI,Kalamazoo,PAUSE_DRAFTING_UNKNOWN,status,mn:mi-portage-2026,Portage (battery_storage): the record does not say whether rules are being drafted

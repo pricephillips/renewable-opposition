@@ -43,13 +43,13 @@ Each rule in `state_preemption` caps the severity a local instrument counts at (
 | FL-local_preemption-1 | replaces_local | 1 | all_local | solar: 75 MW, 74.5 MW | 0 | 0 |
 | FL-local_preemption-2 | statutory_ceiling | 2 | county | solar: any size, 74.5 MW | 0 | 0 |
 | MN-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 50.0 MW; wind: 5 MW, 155.0 MW; battery_storage: 10 MW, 100 (fallback) MW | 57 | 1291.9 |
-| IA-local_preemption-1 | discretionary_override | 2 | all_local | solar: 25 MW, 100.0 MW; battery_storage: 25 MWh, 100 (fallback) MW | 27 | 384.24 |
-| MI-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 100.0 MW; wind: 100 MW, 159.3 MW; battery_storage: 50 MW, 100 (fallback) MW | 65 | 1203.15 |
+| IA-local_preemption-1 | discretionary_override | 2 | all_local | solar: 25 MW, 100.0 MW; battery_storage: 25 MWh, 100 (fallback) MW | 27 | 384.31 |
+| MI-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 100.0 MW; wind: 100 MW, 159.3 MW; battery_storage: 50 MW, 100 (fallback) MW | 65 | 1199.61 |
 | OH-local_preemption-1 | replaces_local | 1 | non_county | solar: 50 MW, 120.0 MW; wind: 5 MW, 100 (fallback) MW | 2 | 21.26 |
 | RI-local_preemption-1 | replaces_local | 1 | all_local | solar: 40 MW, 100 (fallback) MW; wind: 40 MW, 100 (fallback) MW | 4 | 51.82 |
 | CT-local_preemption-1 | replaces_local | 1 | all_local | solar: 1 MW, 100 (fallback) MW; wind: 1 MW, 100 (fallback) MW; battery_storage: any size, 100 (fallback) MW | 6 | 101.62 |
 | VT-local_preemption-1 | replaces_local | 1 | all_local | solar: any size, 100 (fallback) MW; wind: any size, 100 (fallback) MW; battery_storage: any size, 100 (fallback) MW | 12 | 291.0 |
-| CA-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 153.5 MW; wind: 50 MW, 58.85 MW; battery_storage: 200 MWh, 115.8 MW | 30 | 606.43 |
+| CA-local_preemption-1 | replaces_local | 1 | all_local | solar: 50 MW, 153.5 MW; wind: 50 MW, 58.85 MW; battery_storage: 200 MWh, 115.8 MW | 30 | 606.44 |
 | WA-local_preemption-1 | discretionary_override | 2 | all_local | solar: any size, 100 (fallback) MW; wind: any size, 100 (fallback) MW; battery_storage: any size, 100 (fallback) MW | 9 | 181.12 |
 | NY-local_preemption-1 | discretionary_override | 2 | all_local | solar: 25 MW, 20.0 MW; wind: 25 MW, 118.6 MW | 47 | 252.48 |
 | NM-local_preemption-1 | discretionary_override | 2 | all_local | solar: 300 MW, 170.0 MW; wind: 300 MW, 315.6 MW | 2 | 19.8 |
@@ -78,18 +78,18 @@ Rows are the tier with no cap, columns the tier scored.
 | Aitkin, MN | closed to regulated | 48.74 to 4.5 | 54.52 | MN-local_preemption-1 |
 | Yolo, CA | closed to regulated | 46.67 to 4.5 | 54.52 | CA-local_preemption-1 |
 | Freeborn, MN | closed to regulated | 45.56 to 4.5 | 50.28 | MN-local_preemption-1 |
-| Kalamazoo, MI | closed to regulated | 44.51 to 4.22 | 47.51 | MI-local_preemption-1 |
 | Berrien, MI | closed to regulated | 46.38 to 6.7 | 39.68 | MI-local_preemption-1 |
 | Pope, MN | closed to regulated | 44.12 to 4.5 | 49.65 | MN-local_preemption-1 |
 | Genesee, MI | closed to regulated | 47.42 to 7.92 | 39.5 | MI-local_preemption-1 |
 | Chisago, MN | closed to open | 41.99 to 2.85 | 47.72 | MN-local_preemption-1 |
 | Marathon, WI | closed to regulated | 48.59 to 9.96 | 51.5 | WI-local_preemption-1 |
 | Wabasha, MN | closed to regulated | 42.53 to 4.5 | 47.52 | MN-local_preemption-1 |
+| Kalamazoo, MI | closed to regulated | 41.8 to 4.22 | 43.9 | MI-local_preemption-1 |
 | Mower, MN | closed to open | 40.09 to 2.85 | 45.18 | MN-local_preemption-1 |
 | Chautauqua, NY | closed to severe | 65.0 to 28.0 | 37.0 | NY-local_preemption-1 |
 | Orleans, VT | closed to restrictive | 59.4 to 22.43 | 36.97 | VT-local_preemption-1 |
 | Carlton, MN | closed to regulated | 41.24 to 4.5 | 44.52 | MN-local_preemption-1 |
-| Huron, MI | closed to restrictive | 53.55 to 17.06 | 42.45 | MI-local_preemption-1 |
+| Huron, MI | closed to restrictive | 53.57 to 17.06 | 42.48 | MI-local_preemption-1 |
 | Allegan, MI | closed to regulated | 42.6 to 6.6 | 41.8 | MI-local_preemption-1 |
 | Stevens, MN | closed to regulated | 40.41 to 4.5 | 44.7 | MN-local_preemption-1 |
 | St. Clair, MI | closed to regulated | 43.09 to 7.61 | 41.1 | MI-local_preemption-1 |
@@ -144,7 +144,7 @@ Deciles of U.S. counties ranked by combined score, ties broken by Headwind score
 | Fulton, NY | closed | 48.13 | sabin:S26R-5738 (ban, severity 4, in_force, Fulton County) |
 | Miami, IN | closed | 48.1 | sabin:REC-0100 (setback, severity 3, in_force, Miami County) |
 | Hertford, NC | closed | 47.2 | sabin:S26R-5658 (ban_or_moratorium, severity 4, in_force, Hertford County) |
-| Crawford, KS | closed | 47.04 | queue:q_c0783bb26d (moratorium, severity 4, in_force, Crawford County) |
+| Crawford, KS | closed | 47.08 | queue:q_c0783bb26d (moratorium, severity 4, in_force, Crawford County) |
 | Knox, NE | closed | 47.03 | sabin:S26R-5782 (ban, severity 4, in_force, Knox County) |
 | Madison, IN | closed | 46.38 | sabin:S26R-6134 (setback, severity 3, in_force, Madison County) |
 | Greene, OH | closed | 45.54 | sabin:REC-0350 (ban, severity 4, in_force, Greene County) |

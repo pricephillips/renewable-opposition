@@ -18,8 +18,8 @@ however many technologies it covers. Quote these, not row counts.
 | Verification: verified | 206 | 12 |
 | Verification: located | 0 | 0 |
 | Verification: unverified | 3028 | 69 |
-| Currency: in_force | 926 | 67 |
-| Currency: lapsed_unconfirmed | 58 | 6 |
+| Currency: in_force | 926 | 66 |
+| Currency: lapsed_unconfirmed | 58 | 7 |
 | Currency: pending | 7 | 8 |
 | Currency: unknown | 2243 | 0 |
 
