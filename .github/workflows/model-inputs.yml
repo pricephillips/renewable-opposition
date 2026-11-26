@@ -66,6 +66,9 @@ on:
       - 'scripts/model_scorecard.py'
       - 'config/model_program.json'
       - 'tests/test_model_program.py'
+      - 'scripts/improvement_scorecard.py'
+      - 'config/improvement_program.json'
+      - 'tests/test_improvement_scorecard.py'
       - 'tests/test_headwind_model.py'
       - 'scripts/headwind_inputs.py'
       - 'scripts/fetch_headwind_*.py'
@@ -109,10 +112,10 @@ jobs:
         run: uv pip install --system -c requirements/ci.txt -r requirements.txt
 
       - name: Tests for both scripts (fixtures; no network)
-        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py tests/test_headwind_search.py tests/test_model_program.py
+        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py tests/test_headwind_search.py tests/test_model_program.py tests/test_improvement_scorecard.py
 
       - name: Fetch
-        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only fetch_headwind_saipe --only fetch_headwind_cbp --only build_headwind_local_govts --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --only headwind_search --only model_vintage --only model_scorecard --skip-build --summary "$GITHUB_STEP_SUMMARY"
+        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only fetch_headwind_saipe --only fetch_headwind_cbp --only build_headwind_local_govts --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --only headwind_search --only model_vintage --only model_scorecard --only improvement_scorecard --skip-build --summary "$GITHUB_STEP_SUMMARY"
 
       - name: Branch run reproduces the committed files
         if: github.ref != 'refs/heads/main'
@@ -153,6 +156,25 @@ jobs:
               repo: context.repo.repo,
               title: `Model stage changed: ${card.changed.join('; ')}`.slice(0, 250),
               body: `The monthly scorecard (data/model/model_scorecard.md) changed a stage on ${card.as_of}:\n\n${card.changed.map(c => '- ' + c).join('\n')}\n\nThe rule is in docs/model_program.md. A stage that opens allows its client form (config/model_program.json, shown_as) to be proposed; nothing reaches a client without that change.`,
+            });
+
+      - name: Open an issue for measures behind two months in a row (main only)
+        if: github.ref == 'refs/heads/main'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const card = JSON.parse(fs.readFileSync('data/model/improvement_scorecard.json', 'utf8'));
+            if (!card.needs_action || card.needs_action.length === 0) return;
+            const title = `Improvement measures behind: ${card.as_of.slice(0, 7)}`;
+            const open = await github.paginate(github.rest.issues.listForRepo,
+              { owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100 });
+            if (open.some(i => i.title === title)) return;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body: `These measures in config/improvement_program.json were graded behind in two monthly grades in a row (data/model/improvement_scorecard.md):\n\n${card.needs_action.map(n => '- ' + n).join('\n')}\n\nEach line names the routine that moves the measure. The structure is in docs/model_program.md, section 7.`,
             });
 
       - name: Open an issue on failure (main only)

@@ -1,0 +1,138 @@
+{
+  "as_of": "2026-11-26",
+  "program_version": "2026-11-26",
+  "tracks": {
+    "depth": {
+      "label": "Pipeline depth: a complete, sourced and dated record",
+      "measures": [
+        {
+          "id": "severe_verified_share",
+          "goal": "R1",
+          "label": "Severe restrictions (severity 3 or 4) checked against a document read",
+          "value": 0.1079,
+          "target": 0.5,
+          "by": "2027-06-30",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "Renewable Daily Check (docs/VERIFICATION_ROUTINE.md); /verify-evidence"
+        },
+        {
+          "id": "counties_with_record",
+          "goal": "R2",
+          "label": "Counties with a record or a negative check",
+          "value": 0.4389,
+          "target": 0.75,
+          "by": "2027-12-31",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "/sweep-counties (county-examiner, docs/COUNTY_CHECK.md)"
+        },
+        {
+          "id": "counties_examined",
+          "goal": "R2",
+          "label": "Counties in the county check log",
+          "value": 0.005,
+          "target": 0.25,
+          "by": "2027-12-31",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "/sweep-counties (county-examiner, docs/COUNTY_CHECK.md)"
+        },
+        {
+          "id": "severe_dated_share",
+          "goal": "R3",
+          "label": "Severe restrictions with an enactment year",
+          "value": 0.8137,
+          "target": 0.95,
+          "by": "2027-06-30",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "instrument-reader and status-checker readings (/verify-evidence, /check-status)"
+        },
+        {
+          "id": "sources_archived_share",
+          "goal": "R1",
+          "label": "Sources with an archived copy",
+          "value": 0.575,
+          "target": 0.9,
+          "by": "2027-03-31",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "source-archive.yml"
+        },
+        {
+          "id": "outcomes_overdue",
+          "goal": "R3",
+          "label": "Contested project outcomes overdue for a reading",
+          "value": 123.0,
+          "target": 20,
+          "by": "2027-06-30",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "Renewable Daily Check, outcome half (outcome-reader)"
+        },
+        {
+          "id": "development_resolved",
+          "goal": "R3",
+          "label": "Development scout candidates resolved by a reading",
+          "value": 0.0,
+          "target": 300,
+          "by": "2027-06-30",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "Renewable Daily Check, development candidates (docs/development_scout.md)"
+        }
+      ]
+    },
+    "breadth": {
+      "label": "Algorithm breadth: models tested widely and promoted only by rule",
+      "measures": [
+        {
+          "id": "headwind_wanted_filled",
+          "goal": "R4",
+          "label": "Wanted Headwind input themes with at least one input built",
+          "value": 0.4286,
+          "target": 0.6,
+          "by": "2027-06-30",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "shared scouts in data-centers, then the renewables integrator (docs/SCOUT_BUILDS.md)"
+        },
+        {
+          "id": "challengers_trialled",
+          "goal": "R4",
+          "label": "Papers, methods or tools trialled with a recorded outcome",
+          "value": 0.0,
+          "target": 6,
+          "by": "2027-06-30",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "the weekly renewables build session (docs/SCOUT_BUILDS.md, path 3b)"
+        },
+        {
+          "id": "headwind_pilot_open",
+          "goal": "R4",
+          "label": "Renewable Headwind Model pilot stage open (1 open, 0 closed)",
+          "value": null,
+          "target": 1,
+          "by": "2027-12-31",
+          "status": "missing",
+          "previous": "",
+          "moved_by": "docs/model_program.md, stages two to four"
+        },
+        {
+          "id": "cost_core_pinned",
+          "goal": "D16",
+          "label": "Cost model runs on the shared cost core (lock present)",
+          "value": 0.0,
+          "target": 1,
+          "by": "2027-03-31",
+          "status": "on_pace",
+          "previous": "",
+          "moved_by": "docs/model_program.md, stage C1"
+        }
+      ]
+    }
+  },
+  "needs_action": []
+}
