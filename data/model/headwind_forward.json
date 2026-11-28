@@ -1,0 +1,240 @@
+{
+  "test_years": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "gate": {
+    "brier_skill_min": 0.05,
+    "years_needed": 3,
+    "auc_reference": "window_annualized",
+    "auc_tolerance": 0.0
+  },
+  "reference_median_auc": 0.7546,
+  "results": {
+    "window_annualized": {
+      "2022": {
+        "n": 2759,
+        "events": 65,
+        "auc": 0.7629,
+        "brier_skill": 0.0069,
+        "ece": 0.0142,
+        "mean_chance": 0.0098,
+        "brier_skill_ceiling": 0.0337
+      },
+      "2023": {
+        "n": 2694,
+        "events": 60,
+        "auc": 0.7233,
+        "brier_skill": -0.0136,
+        "ece": 0.0064,
+        "mean_chance": 0.0189,
+        "brier_skill_ceiling": 0.0217
+      },
+      "2024": {
+        "n": 2634,
+        "events": 54,
+        "auc": 0.7638,
+        "brier_skill": -0.0142,
+        "ece": 0.0077,
+        "mean_chance": 0.0282,
+        "brier_skill_ceiling": 0.033
+      },
+      "2025": {
+        "n": 2580,
+        "events": 47,
+        "auc": 0.7462,
+        "brier_skill": -0.081,
+        "ece": 0.0189,
+        "mean_chance": 0.0371,
+        "brier_skill_ceiling": 0.0226
+      }
+    },
+    "yearly": {
+      "2022": {
+        "n": 2759,
+        "events": 65,
+        "auc": 0.768,
+        "brier_skill": 0.0082,
+        "ece": 0.0143,
+        "mean_chance": 0.0098,
+        "brier_skill_ceiling": 0.0372
+      },
+      "2023": {
+        "n": 2694,
+        "events": 60,
+        "auc": 0.7225,
+        "brier_skill": -0.021,
+        "ece": 0.0041,
+        "mean_chance": 0.0222,
+        "brier_skill_ceiling": 0.023
+      },
+      "2024": {
+        "n": 2634,
+        "events": 54,
+        "auc": 0.7512,
+        "brier_skill": -0.0097,
+        "ece": 0.0062,
+        "mean_chance": 0.0267,
+        "brier_skill_ceiling": 0.0327
+      },
+      "2025": {
+        "n": 2580,
+        "events": 47,
+        "auc": 0.7464,
+        "brier_skill": -0.021,
+        "ece": 0.0083,
+        "mean_chance": 0.0265,
+        "brier_skill_ceiling": 0.0255
+      }
+    },
+    "yearly_recal": {
+      "2022": {
+        "n": 2759,
+        "events": 65,
+        "auc": 0.768,
+        "brier_skill": 0.016,
+        "ece": 0.0093,
+        "mean_chance": 0.0147,
+        "brier_skill_ceiling": 0.0372
+      },
+      "2023": {
+        "n": 2694,
+        "events": 60,
+        "auc": 0.7225,
+        "brier_skill": -0.0804,
+        "ece": 0.0234,
+        "mean_chance": 0.0456,
+        "brier_skill_ceiling": 0.023
+      },
+      "2024": {
+        "n": 2634,
+        "events": 54,
+        "auc": 0.7512,
+        "brier_skill": 0.0171,
+        "ece": 0.0049,
+        "mean_chance": 0.0254,
+        "brier_skill_ceiling": 0.0327
+      },
+      "2025": {
+        "n": 2580,
+        "events": 47,
+        "auc": 0.7464,
+        "brier_skill": 0.0098,
+        "ece": 0.0022,
+        "mean_chance": 0.0204,
+        "brier_skill_ceiling": 0.0255
+      }
+    },
+    "yearly_level": {
+      "2022": {
+        "n": 2759,
+        "events": 65,
+        "auc": 0.768,
+        "brier_skill": 0.0113,
+        "ece": 0.0122,
+        "mean_chance": 0.0118,
+        "brier_skill_ceiling": 0.0372
+      },
+      "2023": {
+        "n": 2694,
+        "events": 60,
+        "auc": 0.7225,
+        "brier_skill": -0.0246,
+        "ece": 0.0026,
+        "mean_chance": 0.0236,
+        "brier_skill_ceiling": 0.023
+      },
+      "2024": {
+        "n": 2634,
+        "events": 54,
+        "auc": 0.7512,
+        "brier_skill": 0.0006,
+        "ece": 0.0018,
+        "mean_chance": 0.0223,
+        "brier_skill_ceiling": 0.0327
+      },
+      "2025": {
+        "n": 2580,
+        "events": 47,
+        "auc": 0.7464,
+        "brier_skill": -0.0037,
+        "ece": 0.0023,
+        "mean_chance": 0.0205,
+        "brier_skill_ceiling": 0.0255
+      }
+    },
+    "yearly_recent": {
+      "2022": {
+        "n": 2759,
+        "events": 65,
+        "auc": 0.7666,
+        "brier_skill": 0.0086,
+        "ece": 0.0143,
+        "mean_chance": 0.0098,
+        "brier_skill_ceiling": 0.0381
+      },
+      "2023": {
+        "n": 2694,
+        "events": 60,
+        "auc": 0.7208,
+        "brier_skill": -0.0158,
+        "ece": 0.0041,
+        "mean_chance": 0.0264,
+        "brier_skill_ceiling": 0.0233
+      },
+      "2024": {
+        "n": 2634,
+        "events": 54,
+        "auc": 0.7572,
+        "brier_skill": 0.0157,
+        "ece": 0.0067,
+        "mean_chance": 0.0272,
+        "brier_skill_ceiling": 0.035
+      },
+      "2025": {
+        "n": 2580,
+        "events": 47,
+        "auc": 0.7406,
+        "brier_skill": -0.0002,
+        "ece": 0.0059,
+        "mean_chance": 0.0241,
+        "brier_skill_ceiling": 0.0217
+      }
+    }
+  },
+  "verdicts": {
+    "window_annualized": {
+      "years_at_target": 0,
+      "median_auc": 0.7546,
+      "median_brier_skill": -0.0139,
+      "passes": false
+    },
+    "yearly": {
+      "years_at_target": 0,
+      "median_auc": 0.7488,
+      "median_brier_skill": -0.0154,
+      "passes": false
+    },
+    "yearly_recal": {
+      "years_at_target": 0,
+      "median_auc": 0.7488,
+      "median_brier_skill": 0.0129,
+      "passes": false
+    },
+    "yearly_level": {
+      "years_at_target": 0,
+      "median_auc": 0.7488,
+      "median_brier_skill": -0.0016,
+      "passes": false
+    },
+    "yearly_recent": {
+      "years_at_target": 0,
+      "median_auc": 0.7489,
+      "median_brier_skill": 0.0042,
+      "passes": false
+    }
+  },
+  "chosen": null
+}

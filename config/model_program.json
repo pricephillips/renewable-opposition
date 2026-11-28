@@ -37,11 +37,19 @@
         "as_of": "2025-12-31",
         "note": "Frozen once, from the first refit that writes the chance column: the held-back model scores the counties with no severe restriction through 2025, and 2026 is its horizon. It is labelled a backtest, it was not frozen on its date, and it never opens a stage."
       },
+      "stage_two": {
+        "note": "Rolling-origin yearly backtests (scripts/headwind_forward.py, docs/model_program.md stage two): each challenger is fit on years before the test year and scored on it. They choose the method; only frozen vintages open a stage.",
+        "first_train_year": 2012,
+        "test_years": [2022, 2023, 2024, 2025],
+        "C": 0.1,
+        "gate": {"brier_skill_min": 0.05, "years_needed": 3, "auc_reference": "window_annualized", "auc_tolerance": 0.0}
+      },
       "min_sample": 60,
       "min_positives": 20,
       "stages": [
         {"stage": "pilot", "shown_as": "bands (lower, typical, higher), no percentages",
-         "auc_min": 0.65, "brier_skill_min": 0.05, "ece_max": 0.10, "periods": 1},
+         "auc_min": 0.65, "brier_skill_min": null, "ece_max": 0.10, "periods": 1,
+         "brier_skill_note": "Not set for the pilot (2026-11-28, pending Price's call): the band shows no chance, and the stage two backtests (data/model/headwind_forward.md) found that a perfectly calibrated version of today's ranking reaches a 12-month Brier skill of only about 0.02 to 0.04. Sellable and premium, which show a chance, keep their Brier skill targets."},
         {"stage": "sellable", "shown_as": "a calibrated track record",
          "auc_min": 0.70, "brier_skill_min": 0.10, "ece_max": 0.05, "periods": 2},
         {"stage": "premium", "shown_as": "calibrated by region, with the county facts that moved the score",
