@@ -169,8 +169,10 @@ def passes(m: dict, stage: dict, spec: dict) -> tuple[bool, list[str]]:
         why.append(f"n {m['n']} < {spec['min_sample']}")
     if m["positives"] < spec["min_positives"]:
         why.append(f"positives {m['positives']} < {spec['min_positives']}")
-    for key, op, target in (("auc", ">=", stage["auc_min"]), ("brier_skill", ">=", stage["brier_skill_min"]),
-                            ("ece", "<=", stage["ece_max"])):
+    for key, op, target in (("auc", ">=", stage.get("auc_min")), ("brier_skill", ">=", stage.get("brier_skill_min")),
+                            ("ece", "<=", stage.get("ece_max"))):
+        if target is None:  # a stage that sets no target for this measure
+            continue
         v = m.get(key)
         if v is None:
             why.append(f"{key} not measured")
@@ -280,7 +282,7 @@ def report(card: dict, program: dict) -> str:
                   "|---|---|---:|---|---:|"]
         for st in spec["stages"]:
             s = m["stages"][st["stage"]]
-            lines.append(f"| {st['stage']} | {st['auc_min']}, {st['brier_skill_min']}, {st['ece_max']} "
+            lines.append(f"| {st['stage']} | {st.get('auc_min')}, {st.get('brier_skill_min') if st.get('brier_skill_min') is not None else 'not set'}, {st.get('ece_max')} "
                          f"| {st['periods']} | {s['state']} | {s['passes_in_a_row']} |")
         lines += ["", f"Periods scored: {len(m['periods'])}. "
                   + ("The stop rule has been reached." if m["stop_rule_reached"] else

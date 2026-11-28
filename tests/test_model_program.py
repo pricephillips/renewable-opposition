@@ -133,6 +133,13 @@ def test_stage_rule_opens_after_its_periods_and_closes_after_two_misses():
     assert sc.stage_states(chain(0.7, 0.5, 0.5), spec)["pilot"]["state"] == "closed"
 
 
+def test_a_stage_without_a_brier_target_skips_it():
+    spec = program()["models"]["m"]
+    stage = {"stage": "pilot", "auc_min": 0.6, "brier_skill_min": None, "ece_max": 0.1, "periods": 1}
+    ok, why = sc.passes({"n": 5, "positives": 2, "auc": 0.7, "brier_skill": -0.5, "ece": 0.01}, stage, spec)
+    assert ok and why == []
+
+
 def test_periods_are_one_horizon_apart_chained_from_the_latest():
     vs = [{"vintage_id": d, "as_of": d} for d in ("2026-12-06", "2027-01-06", "2027-06-06", "2027-12-06", "2028-01-06")]
     assert [v["vintage_id"] for v in sc.periods(vs, 12)] == ["2027-01-06", "2028-01-06"]
@@ -163,7 +170,9 @@ def test_the_real_program_config_is_consistent():
         stages = spec["stages"]
         # Each stage is stricter than the one before it.
         for a, b in zip(stages, stages[1:]):
-            assert b["auc_min"] >= a["auc_min"] and b["brier_skill_min"] >= a["brier_skill_min"]
+            assert b["auc_min"] >= a["auc_min"]
+            if a["brier_skill_min"] is not None:
+                assert b["brier_skill_min"] >= a["brier_skill_min"]
             assert b["ece_max"] <= a["ece_max"] and b["periods"] >= a["periods"]
     # The pilot band is cut from the score the scorecard ranks.
     import county_record_score

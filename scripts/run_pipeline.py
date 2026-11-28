@@ -72,6 +72,8 @@ REFRESH = [
      "logistic, boosted trees and a neural net raced on forward holdouts (internal)", True),
     ("headwind_search", ["scripts/headwind_search.py"],
      "wide search over county variables and pairs, scored forward against shuffled data (internal)", True),
+    ("headwind_forward", ["scripts/headwind_forward.py"],
+     "rolling-origin yearly backtests of the Headwind 12-month chance (internal)", True),
     ("model_vintage", ["scripts/model_vintage.py"],
      "freeze this month's model scores, never edited later (data/model/vintages/, internal)", True),
     ("model_scorecard", ["scripts/model_scorecard.py"],

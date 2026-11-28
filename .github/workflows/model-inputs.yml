@@ -67,6 +67,8 @@ on:
       - 'config/model_program.json'
       - 'tests/test_model_program.py'
       - 'scripts/improvement_scorecard.py'
+      - 'scripts/headwind_forward.py'
+      - 'tests/test_headwind_forward.py'
       - 'config/improvement_program.json'
       - 'tests/test_improvement_scorecard.py'
       - 'tests/test_headwind_model.py'
@@ -112,10 +114,10 @@ jobs:
         run: uv pip install --system -c requirements/ci.txt -r requirements.txt
 
       - name: Tests for both scripts (fixtures; no network)
-        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py tests/test_headwind_search.py tests/test_model_program.py tests/test_improvement_scorecard.py
+        run: python -m pytest -q tests/test_model_inputs.py tests/test_county_model.py tests/test_headwind_model.py tests/test_headwind_inputs.py tests/test_headwind_search.py tests/test_model_program.py tests/test_improvement_scorecard.py tests/test_headwind_forward.py
 
       - name: Fetch
-        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only fetch_headwind_saipe --only fetch_headwind_cbp --only build_headwind_local_govts --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --only headwind_search --only model_vintage --only model_scorecard --only improvement_scorecard --skip-build --summary "$GITHUB_STEP_SUMMARY"
+        run: python scripts/run_pipeline.py refresh --only fetch_county_covariates --only fetch_queued_up --only fetch_headwind_bea_income --only fetch_headwind_fhfa_hpi --only fetch_headwind_saipe --only fetch_headwind_cbp --only build_headwind_local_govts --only queue_matches --only county_labels --only county_restriction_model --only headwind_history --only headwind_model --only headwind_compare --only headwind_search --only headwind_forward --only model_vintage --only model_scorecard --only improvement_scorecard --skip-build --summary "$GITHUB_STEP_SUMMARY"
 
       - name: Branch run reproduces the committed files
         if: github.ref != 'refs/heads/main'

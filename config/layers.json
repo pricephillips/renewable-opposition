@@ -105,6 +105,8 @@
     "data/model/headwind_search.md": {"layer": "derived", "writers": ["scripts/headwind_search.py"]},
     "data/model/model_scorecard.json": {"layer": "derived", "writers": ["scripts/model_scorecard.py"], "reason": "Model improvement program (docs/model_program.md): every frozen vintage scored forward on the rules enacted since, and each stage's state by rule (internal, staff only)."},
     "data/model/model_scorecard.md": {"layer": "derived", "writers": ["scripts/model_scorecard.py"]},
+    "data/model/headwind_forward.json": {"layer": "derived", "writers": ["scripts/headwind_forward.py"], "reason": "Model program stage two: rolling-origin yearly backtests of the Headwind 12-month chance, each challenger fit on earlier years and scored on the test year (internal, staff only)."},
+    "data/model/headwind_forward.md": {"layer": "derived", "writers": ["scripts/headwind_forward.py"]},
     "data/model/improvement_history.csv": {"layer": "derived", "writers": ["scripts/improvement_scorecard.py"], "reason": "Standing improvement structure (docs/model_program.md, section 7): one graded row per pipeline depth or algorithm breadth measure per month (internal, staff only)."},
     "data/model/improvement_scorecard.json": {"layer": "derived", "writers": ["scripts/improvement_scorecard.py"]},
     "data/model/improvement_scorecard.md": {"layer": "derived", "writers": ["scripts/improvement_scorecard.py"]},
